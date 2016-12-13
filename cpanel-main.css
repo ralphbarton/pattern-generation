@@ -1,0 +1,89 @@
+#cpanel-main{
+    background: #DBD1AB;
+    width: 700px;
+    height: 450px;
+    box-shadow: 0px 0px 3px 3px #000;
+    border-radius: 10px;
+}
+
+
+#cpanel-title-strip{
+    border-bottom: 3px solid #404040;
+    background: -moz-linear-gradient(left,  #4b9bd8 0%, #a6c8f4 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #4b9bd8 0%,#a6c8f4 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #4b9bd8 0%,#a6c8f4 100%); /* W3C, IE10+, etc...*/
+    border-radius: 10px 10px 0px 0px;
+    height: 65px;
+}
+
+.cpanel-title{
+    position: absolute;
+    left: 20px;
+    cursor:crosshair;
+}
+
+#cpanel-title-1{
+    top: 4px;
+    color: #7211A1;
+    font-size: 34px;
+    font-family: sans;
+}
+
+#cpanel-title-2{
+    top: 41px;
+    color: #C03609;
+}
+
+.badge{
+    position: absolute;
+    top: 7px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    border: 1px solid #3300A0;
+    text-align: center;
+    background: #F4C33F;
+    color: #3300A0;
+    cursor:crosshair;
+}
+
+.badge:hover {
+    text-decoration: underline;
+    background: #FD913E;
+}
+
+.badge-content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+#cpanel-title-drag{
+    right: 7px;
+}
+
+#cpanel-title-hide{
+    right: 68px;
+}
+
+#cpanel-main-tabs .ui-tabs-tab{
+    display: inline-block;
+        border-radius: 10px 10px 0px 0px;
+    padding: 4px;
+    border: 1px solid black;  
+}
+
+#cpanel-main-tabs .ui-state-active{
+    background: rgba(0,0,0,0.2);
+}
+
+#cpanel-main-tabs a{
+    color:black;
+    text-decoration: none;    
+}
+
+#cpanel-main-tabs ul{
+    margin: 0px;
+    padding: 3px;
+}

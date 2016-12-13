@@ -4,12 +4,55 @@
     <title>Patterns</title>
 
     <!-- Include jQuery... -->
+
+    <!-- old jquery....
     <script src="http://127.0.0.1:3012/jquery-1.11.1.js"></script>
+    -->
+
+    <!-- Include jColor is this colour picker... -->
+    <!-- should be purchased from envatomarket -->
+    <!-- see https://0.s3.envato.com/files/144700183/index.html for usage documentation -->
+    <!-- also, https://codecanyon.net/item/jcolor-a-jquery-color-picker/10688026 -->
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:3011/include/jcolor.min.css">
+    <script src="http://127.0.0.1:3011/include/jquery2.1.1.js"></script>
+    <script src="http://127.0.0.1:3011/include/jcolor.min.js"></script>
+
+    <!-- https://bgrins.github.io/spectrum/ -->
+    <script src="http://127.0.0.1:3011/include/bgrins-spectrum-98454b5/spectrum.js"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:3011/include/bgrins-spectrum-98454b5/spectrum.css" />
+
 
   </head>
 
   <body>
-    Page code
+
+
+    Test space for widgets etc...
+
+    <br>
+
+    <div class="my-color-picker">huh</div>
+    
+    <script type="text/javascript">
+      $('.my-color-picker').colorpicker();
+      console.log("hmm");
+    </script>
+
+
+    <input id='colorpicker' />
+
+    <script>
+      $("#colorpicker").spectrum({
+      color: "#f00"
+      });
+    </script>
+
+    <input type='color' name='color' />
+
+    <br>
+
+    <a href="/index2.html">Next page...</a>
+
   </body>
 </html>
 
