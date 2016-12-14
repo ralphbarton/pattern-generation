@@ -54,7 +54,10 @@ cpanel = {
 		});
 	    }
 	    if (keyPressed == 'A'){
-		cpanel.add_colour_pot_row();
+		cpanel.add_colour_pot_row({
+		    number: "xx",
+		    description: "dummy row descr."
+		});
 	    }
 	    
 
@@ -62,22 +65,38 @@ cpanel = {
 
 	//initiate tabs...
 	$("#cpanel-main-tabs").tabs();
-
-	//initial scroll table
-	this.scrolling_table_init();
 	
+	//add initial data for colour pot rows...
+	this.add_colour_pot_row({
+	    number: 1,
+	    description: "Reddish"
+	});
+	this.add_colour_pot_row({
+	    number: 2,
+	    description: "Autumn Leaves"
+	});
+
+	//initial scroll table - needs data in rows to work...
+	this.scrolling_table_init();
+
+
     },
 
-    add_colour_pot_row: function(){
-	$("#cpanel-table-colour-pots-list").append(
+    add_colour_pot_row: function(row_data){
+	$("#cpanel-table-colour-pots-list tbody").append(
 	    $('<tr/>').append(
-		$('<td/>').text("A"),
-		$('<td/>').text("B"),
-		$('<td/>').text("C"),
-		$('<td/>').text("D")
-	    ).click(function(){
+		$('<td/>').text(row_data.number),
+		$('<td/>').text(row_data.description).click(function(){// clicked on DESCRIPTION cell
+		    console.log("description clicked");
+		    //replace cell contents with an INPUT element
+		}),
+
+		$('<td/>').text("<prev here>"), // preview won't be text
+		$('<td/>').text("Edit") // (edit delete duplicate)
+
+	    ).click(function(){ // this is the callback for clicking on the whole ROW
+		$("#cpanel-table-colour-pots-list tr").removeClass("selected");
 		$(this).addClass("selected");
-		//also need to de-select all previous...
 	    })
 	)
     },
