@@ -76,10 +76,8 @@ cpanel = {
 		$('<td/>').text("C"),
 		$('<td/>').text("D")
 	    ).click(function(){
-
-		console.log($(this));
-		//console.log(target.parent());
 		$(this).addClass("selected");
+		//also need to de-select all previous...
 	    })
 	)
     },
