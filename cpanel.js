@@ -79,7 +79,18 @@ cpanel = {
 	//initial scroll table - needs data in rows to work...
 	this.scrolling_table_init();
 
+	//add many cells into main preview
+	$("#colour-pots-sample-container").append(
+	    this.$div_array(169, "preview-cell-big")
+	);
+    },
 
+    $div_array:function(qty, my_class){//function to generate many mini DIVs
+	var tinies = [];
+	for(var i=0; i<qty; i++){
+	    tinies.push($('<div/>').addClass(my_class));
+	}
+	return tinies;
     },
 
     add_colour_pot_row: function(row_data){
@@ -93,15 +104,7 @@ cpanel = {
 
 		//Create the Pr cell...
 		$('<td/>').addClass("preview-column").append(
-		    $('<div/>').addClass("preview-container").append(
-			(function(){//function to generate many mini DIVs
-			    var tinies = [];
-			    for(var i=0; i<16; i++){
-				tinies.push($('<div/>').addClass("preview-cell"));
-			    }
-			    return tinies;
-			})()
-		    )
+		    $('<div/>').addClass("preview-container").append(this.$div_array(16, "preview-cell"))
 		),
 
 		//Create the EDIT-DELETE-DUPLICATE cell...

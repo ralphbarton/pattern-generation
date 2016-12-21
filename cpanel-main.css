@@ -178,22 +178,45 @@ span.action:hover {
 }
 
 .cpanel-table td.preview-column{
-    padding: 2px;
-    height: 100px;
+    padding: 1px;
 }
 
 .preview-container{
-    width: 80px;
-    height: 20px;
-    background: black;
-    padding: 0px;
-    
+    font-size: 0;
+    width: 82px;
+    border: 1px solid black;
+    padding: 0px
 }
 
 .preview-cell{
     display: inline-block;
-    background: red;
-    margin: 1px;
+    background: yellow;
+    margin: 0px;
+    border: 1px solid black;
+    padding: 0px;
     width: 8px;
     height: 8px;
+}
+
+#colour-pots-sample-container{
+    font-size: 0;
+    width: 276.5px;
+    height: 276px;
+    border: 1px solid black;
+    padding: 0px;
+    background:grey;
+    margin: 5px;
+    position: absolute;
+    top: 102px;
+    right: 14px;
+}
+
+.preview-cell-big{
+    display: inline-block;
+    background: yellow;
+    margin: 0px;
+    border: 1px solid black;
+    padding: 0px;
+    width: 19px;
+    height: 19px;
 }
