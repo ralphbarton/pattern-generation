@@ -92,7 +92,33 @@ cpanel = {
 		}),
 
 		$('<td/>').text("<prev here>"), // preview won't be text
-		$('<td/>').text("Edit") // (edit delete duplicate)
+		$('<td/>').addClass("action-column").append(//this is the cell containing edit delete duplicate
+		    $('<span/>').addClass("action edit").text("Edit").show().click(function(){
+			//Response to clicking Edit
+			console.log("Edit button click");
+		    }),
+		    $('<span/>').addClass("action dupl").text("Duplic.").hide().click(function(){
+			console.log("Duplicate button click");
+		    }),
+		    $('<span/>').addClass("action dele").text("Delete").hide().click(function(){
+			console.log("Delete button click");
+		    }),
+		    $('<img/>').attr("src","/icons/sort.svg")
+			.attr("class","img-recycle")
+			.data({cycler:1})
+			.click(function(){//code to implement the swap-contents functionality...
+			    var x = $(this).data("cycler");//read
+			    x++;
+			    if (x>3){x=1;}
+			    var $edit = $(this).parent().find(".edit");
+			    var $dupl = $(this).parent().find(".dupl");
+			    var $dele = $(this).parent().find(".dele");
+			    if(x==1){$edit.show(); $dupl.hide(); $dele.hide();}
+			    if(x==2){$edit.hide(); $dupl.show(); $dele.hide();}
+			    if(x==3){$edit.hide(); $dupl.hide(); $dele.show();}
+			    $(this).data({cycler:x});
+			})
+		)
 
 	    ).click(function(){ // this is the callback for clicking on the whole ROW
 		$("#cpanel-table-colour-pots-list tr").removeClass("selected");
