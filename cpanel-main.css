@@ -110,6 +110,10 @@
     border-spacing: 0px;
 }
 
+#cpanel-table-colour-pots-list{
+    width: 385px;
+}
+
 
 /* http://jsfiddle.net/hashem/CrSpu/555/ */
 .cpanel-table tbody,

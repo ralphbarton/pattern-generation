@@ -1,4 +1,4 @@
-cpanel = {
+var cpanel = {
 
     init_cpanel: function(){
 	
@@ -67,14 +67,7 @@ cpanel = {
 	$("#cpanel-main-tabs").tabs();
 	
 	//add initial data for colour pot rows...
-	this.add_colour_pot_row({
-	    number: 1,
-	    description: "Reddish"
-	});
-	this.add_colour_pot_row({
-	    number: 2,
-	    description: "Autumn Leaves"
-	});
+	this.refresh_colour_pot_table();
 
 	//initial scroll table - needs data in rows to work...
 	this.scrolling_table_init();
@@ -85,26 +78,38 @@ cpanel = {
 	);
     },
 
-    $div_array:function(qty, my_class){//function to generate many mini DIVs
+    $div_array:function(qty, my_class, ColourPot){//function to generate many mini DIVs
 	var tinies = [];
 	for(var i=0; i<qty; i++){
-	    tinies.push($('<div/>').addClass(my_class));
+	    var cell_colour = ColourPot ? logic.DrawFromColourPot(ColourPot) : "white";
+	    tinies.push(
+		$('<div/>').addClass(my_class).css("background",cell_colour)
+	    );
 	}
 	return tinies;
     },
 
-    add_colour_pot_row: function(row_data){
+    refresh_colour_pot_table: function(){
+	$("#cpanel-table-colour-pots-list tbody").empty();//clear content
+	var List = DM.ColourPotArray;
+	for (var i=0; i < List.length; i++){
+	    this.add_colour_pot_row(List[i]);  
+	}
+    },
+
+    add_colour_pot_row: function(ColourPot){
 	$("#cpanel-table-colour-pots-list tbody").append(
-	    $('<tr/>').append(
-		$('<td/>').text(row_data.number),
-		$('<td/>').text(row_data.description).click(function(){// clicked on DESCRIPTION cell
+	    $('<tr/>').data({index: ColourPot.index})
+		.append(
+		$('<td/>').text(ColourPot.index+1),//I prefer 1-index values for the user...
+		$('<td/>').text(ColourPot.description).click(function(){// clicked on DESCRIPTION cell
 		    console.log("description clicked");
 		    //replace cell contents with an INPUT element
 		}),
 
 		//Create the Pr cell...
 		$('<td/>').addClass("preview-column").append(
-		    $('<div/>').addClass("preview-container").append(this.$div_array(16, "preview-cell"))
+		    $('<div/>').addClass("preview-container").append(this.$div_array(16, "preview-cell", ColourPot))
 		),
 
 		//Create the EDIT-DELETE-DUPLICATE cell...
@@ -114,7 +119,9 @@ cpanel = {
 			console.log("Edit button click");
 		    }),
 		    $('<span/>').addClass("action dupl").text("Duplic.").hide().click(function(){
-			console.log("Duplicate button click");
+			var index = $(this).parent().parent().data("index");
+			DM.duplicate_ColourPot(index);
+			cpanel.refresh_colour_pot_table();
 		    }),
 		    $('<span/>').addClass("action dele").text("Delete").hide().click(function(){
 			console.log("Delete button click");
@@ -139,6 +146,11 @@ cpanel = {
 	    ).click(function(){ // this is the callback for clicking on the whole ROW
 		$("#cpanel-table-colour-pots-list tr").removeClass("selected");
 		$(this).addClass("selected");
+		var pot_index = $(this).data("index");
+		var ColourPot = DM.ColourPotArray[pot_index];
+		$("#colour-pots-sample-container").children().each(function(){
+		    $(this).css("background",logic.DrawFromColourPot(ColourPot))
+		});
 	    })
 	)
     },
