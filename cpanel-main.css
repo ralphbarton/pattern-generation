@@ -176,3 +176,24 @@ span.action{
 span.action:hover {
     color: blue;
 }
+
+.cpanel-table td.preview-column{
+    padding: 2px;
+    height: 100px;
+}
+
+.preview-container{
+    width: 80px;
+    height: 20px;
+    background: black;
+    padding: 0px;
+    
+}
+
+.preview-cell{
+    display: inline-block;
+    background: red;
+    margin: 1px;
+    width: 8px;
+    height: 8px;
+}

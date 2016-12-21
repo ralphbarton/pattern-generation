@@ -91,8 +91,21 @@ cpanel = {
 		    //replace cell contents with an INPUT element
 		}),
 
-		$('<td/>').text("<prev here>"), // preview won't be text
-		$('<td/>').addClass("action-column").append(//this is the cell containing edit delete duplicate
+		//Create the Pr cell...
+		$('<td/>').addClass("preview-column").append(
+		    $('<div/>').addClass("preview-container").append(
+			(function(){//function to generate many mini DIVs
+			    var tinies = [];
+			    for(var i=0; i<16; i++){
+				tinies.push($('<div/>').addClass("preview-cell"));
+			    }
+			    return tinies;
+			})()
+		    )
+		),
+
+		//Create the EDIT-DELETE-DUPLICATE cell...
+		$('<td/>').addClass("action-column").append(
 		    $('<span/>').addClass("action edit").text("Edit").show().click(function(){
 			//Response to clicking Edit
 			console.log("Edit button click");
