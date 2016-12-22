@@ -114,10 +114,7 @@ var cpanel = {
 
 		//Create the EDIT-DELETE-DUPLICATE cell...
 		$('<td/>').addClass("action-column").append(
-		    $('<span/>').addClass("action edit").text("Edit").show().click(function(){
-			//Response to clicking Edit
-			console.log("Edit button click");
-		    }),
+		    $('<span/>').addClass("action edit").text("Edit").show().click(function(){edit_cp.show();}),
 		    $('<span/>').addClass("action dupl").text("Duplic.").hide().click(function(){
 			var index = $(this).parent().parent().data("index");
 			DM.duplicate_ColourPot(index);

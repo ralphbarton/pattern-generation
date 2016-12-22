@@ -25,6 +25,7 @@
     <script src="cpanel.js"></script>
     <script src="datamodel.js"></script>
     <script src="logic.js"></script>
+    <script src="edit-colour-pot.js"></script>
 
   </head>
 
@@ -32,7 +33,7 @@
     This is the page body...
 
     <!-- ITEM 1 - the cpanel -->
-    <div id="cpanel-main">
+    <div id="cpanel-main" class="cpanel-main-size1">
 
       <!-- 1.1 cpanel title bar -->
       <div id="cpanel-title-strip">
@@ -63,29 +64,75 @@
 	  <ul>
 	    <li><a href="#tabs-1">Colour Pots</a></li>
 	    <li><a href="#tabs-2">Layers</a></li>
-	    <li><a href="#tabs-3">Distribution Gradients</a></li>
+	    <li><a href="#tabs-3">Probability Distributions</a></li>
 	    <li><a href="#tabs-4">Motifs</a></li>
 	    <li><a href="#tabs-5">JSON</a></li>
 	    <li><a href="#tabs-6">Randomization</a></li>
+	    <li><a href="#tabs-7">Export</a></li>
 	  </ul>
 
 	  <!-- 1.2.1 Tab 1 -->	  
 	  <div id="tabs-1">
-	    <table class="cpanel-table" id="cpanel-table-colour-pots-list">
-	      <thead>
-		<tr>
-		  <th>#</th>
-		  <th>Description</th>
-		  <th>Preview</th>
-		  <th>Action</th>
-		</tr>
-	      </thead>
-	      <tbody>
-		<!-- rows populated using JS -->
-	      </tbody>
-	    </table>
+	    <div id="colour-pots-view">
+	      <table class="cpanel-table" id="cpanel-table-colour-pots-list">
+		<thead>
+		  <tr>
+		    <th>#</th>
+		    <th>Description</th>
+		    <th>Preview</th>
+		    <th>Action</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <!-- rows populated using JS -->
+		</tbody>
+	      </table>
 
-	    <div id="colour-pots-sample-container"></div>
+	      <div id="colour-pots-sample-container"></div>
+	    </div>
+
+	    <div id="colour-pots-edit" style="display: none;">
+
+	      <div id="title-bar">
+		<span class="TL-1">Pot Contents: </span>
+		<span class="TL-2">1. </span>
+		<span class="TL-3">City Colours</span>
+	      </div>
+
+	      <table class="cpanel-table" id="cpanel-table-colour-pot-contents">
+		<thead>
+		  <tr>
+		    <th>#</th>
+		    <th>Prob</th>
+		    <th>Item</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <!-- rows populated using JS -->
+		</tbody>
+	      </table>
+
+	      <div id="cp-edit-tabs">
+		<ul>
+		  <li><a href="#tabs-e1">Range-based</a></li>
+		  <li><a href="#tabs-e2">Limits</a></li>
+		</ul>
+
+		<!-- Tab E1 -->	  
+		<div id="tabs-e1">
+		  the range based options here...
+		</div>
+
+		<!-- Tab E2 -->	  
+		<div id="tabs-e2">
+		  the limit based options here...
+		</div>
+
+	      </div>
+
+
+	      I'm the edit tab...
+	    </div>
 
 	  </div>
 
@@ -117,6 +164,11 @@
 	  <!-- 1.2.6 Tab 6 -->	  
 	  <div id="tabs-6">
 	    yy
+	  </div>
+
+	  <!-- 1.2.7 Tab 7 -->	  
+	  <div id="tabs-7">
+	    Export options here...
 	  </div>
 
 	</div>
