@@ -1,4 +1,4 @@
-b#cpanel-main{
+#cpanel-main{
     position: absolute;
     background: #DBD1AB;
     top: 160px;
@@ -79,4 +79,22 @@ b#cpanel-main{
 
 #cpanel-title-hide{
     right: 68px;
+}
+
+#colour-pots-edit #title-bar{
+    background: rgba(255,255,255,0.7);
+    margin: 10px 10px;
+    padding: 3px 15px;
+    border: 1px solid black;
+    border-radius: 3px;
+    font-size: 24px;
+    font-family: sans;
+    font-weight: bold;
+    color: rgba(0,0,0,0.6);
+}
+
+#colour-pots-edit span.TL-1{
+    color: rgba(0,0,0,0.4);
+    font-size: 16px;
+    font-weight: normal;
 }

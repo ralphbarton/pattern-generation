@@ -1,9 +1,13 @@
-#cpanel-main-tabs ul{
-    border-bottom: 3px solid #404040;
+/* 01 GENERIC TO ALL TABS SYSTEMS*/
+
+/*#cpanel-main-tabs > ul - too specific*/
+ul{
+    margin: 0px;
+    padding: 0px;
 }
 
-
-#cpanel-main-tabs .ui-tabs-tab{
+/*#cpanel-main-tabs > ul > .ui-tabs-tab too specific*/
+.ui-tabs-tab {
     display: inline-block;
     border-radius: 10px 10px 0px 0px;
     padding: 1px 5px;
@@ -12,19 +16,50 @@
     margin-bottom: 0px;
     border: 2px solid rgba(0,30,70,0.4);
     border-bottom-width: 0px;
+    transition: background 0.2s;
     background: rgba(0,30,70,0.1);
 }
 
-#cpanel-main-tabs .ui-state-active{
+.ui-tabs-tab:hover {
+    transition: background 0.2s;
+    background: rgba(0,70,180,0.3);
+    text-decoration: underline;
+    color: #004370;
+}
+
+ul > .ui-state-active{
     background: rgba(0,30,70,0.25);
 }
 
-#cpanel-main-tabs a{
+.ui-tabs-tab > a{
     color:black;
     text-decoration: none;    
 }
 
-#cpanel-main-tabs ul{
-    margin: 0px;
+/* 02 SPECIFIC TO MAIN TABS*/
+#cpanel-main-tabs > ul{
+    border-bottom: 3px solid #404040;
+}
+
+/* 03 SPECIFIC TO CENTRAL vs. EDGES TABS*/
+
+#cp-edit-tabs {
+    position: absolute;
+    top: 177px;
+    right: 12px;
+    width: 200px;
     padding: 0px;
+    margin: 0px;
+}
+
+#cp-edit-tabs > ul{
+    padding-left: 10px;
+
+}
+
+/*box around content*/
+#cp-edit-tabs > div {
+    border: 2px solid rgba(0,0,0,0.5);
+    border-radius: 4px;
+    padding: 3px;
 }

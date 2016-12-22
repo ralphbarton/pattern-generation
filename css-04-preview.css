@@ -17,15 +17,14 @@
 
 #colour-pots-sample-container{
     font-size: 0;
-    width: 276.5px;
-    height: 276px;
+    width: 263.5px;
+    height: 263px;
+    top: 127px;
+    right: 14px;
     border: 1px solid black;
     padding: 0px;
     background:grey;
-    margin: 5px;
     position: absolute;
-    top: 102px;
-    right: 14px;
 }
 
 .preview-cell-big{
@@ -34,6 +33,6 @@
     margin: 0px;
     border: 1px solid black;
     padding: 0px;
-    width: 19px;
-    height: 19px;
+    width: 18px;
+    height: 18px;
 }

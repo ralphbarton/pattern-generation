@@ -7,6 +7,10 @@ var edit_cp = {
 	//initiate tabs...
 	$("#cp-edit-tabs").tabs();
 
+	//add action for cancel button
+	$("#cp-edit-buttons #cancel").click(function(){edit_cp.hide()});
+	$("#cp-edit-buttons #done").click(function(){edit_cp.hide()});
+
 	this.not_yet_initialised = false;
     },
 
@@ -21,6 +25,15 @@ var edit_cp = {
 	$("#colour-pots-view").hide();
 	$("#colour-pots-edit").show();
 	$("#cpanel-main-tabs").tabs("option", "disabled", true);
+
+    },
+
+    hide: function(){
+	//Response to closing Edit
+	$("#cpanel-main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
+	$("#colour-pots-view").show();
+	$("#colour-pots-edit").hide();
+	$("#cpanel-main-tabs").tabs("option", "disabled", false);
 
     }
 

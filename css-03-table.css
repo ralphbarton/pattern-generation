@@ -1,12 +1,13 @@
 .cpanel-table{
-    margin: 3px;
+    margin: 6px;
     border: 3px inset #DBD1AB;
     background: white;
     border-spacing: 0px;
 }
 
 #cpanel-table-colour-pots-list{
-    width: 385px;
+    width: 405px;
+    height: 225px;
 }
 
 
@@ -78,4 +79,19 @@ span.action:hover {
 
 .cpanel-table td.preview-column{
     padding: 1px;
+}
+
+#cpanel-table-colour-pot-contents{
+    margin-left: 6px
+}
+
+#cpanel-table-colour-pot-contents th:nth-of-type(1){
+    width: 12px;
+}
+
+#cpanel-table-colour-pot-contents th:nth-of-type(2){
+    width: 40px;
+}
+#cpanel-table-colour-pot-contents th:nth-of-type(3){
+    width: 162px;
 }
