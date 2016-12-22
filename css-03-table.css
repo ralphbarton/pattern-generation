@@ -10,6 +10,10 @@
     height: 225px;
 }
 
+#cpanel-table-colour-pot-contents{
+    height: 350px;
+}
+
 
 /* http://jsfiddle.net/hashem/CrSpu/555/ */
 .cpanel-table tbody,
@@ -37,10 +41,6 @@
 .cpanel-table td:last-child {
     border-right: none;
     padding-right: 20px; /*scroll bar*/
-}
-
-.cpanel-table tr:last-child td{
-    border-bottom: none;
 }
 
 .cpanel-table tr:hover{

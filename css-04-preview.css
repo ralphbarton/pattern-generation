@@ -36,3 +36,7 @@
     width: 18px;
     height: 18px;
 }
+
+.gradient-cell {
+    border: 1px solid black;
+}

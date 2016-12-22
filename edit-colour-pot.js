@@ -14,7 +14,7 @@ var edit_cp = {
 	this.not_yet_initialised = false;
     },
 
-    show: function(){
+    show: function(edit_me_index){
 
 	if(this.not_yet_initialised){
 	    this.init();
@@ -25,6 +25,11 @@ var edit_cp = {
 	$("#colour-pots-view").hide();
 	$("#colour-pots-edit").show();
 	$("#cpanel-main-tabs").tabs("option", "disabled", true);
+
+	//set up the window visuals...
+	$("#colour-pots-edit .TL-3").val("Hob Goblin");
+
+	$("#colour-pots-edit").append(gradient_cell.make(20))
 
     },
 
