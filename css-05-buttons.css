@@ -2,7 +2,7 @@
 .button{
     transition: all 0.2s;
     display: inline-block;
-    border: 2px solid rgba(0,30,70,0.4);
+    border: 1px solid rgba(0,30,70,0.4);
     border-radius: 4px;
     background: rgba(0,30,70,0.1);
     padding: 3px 14px;

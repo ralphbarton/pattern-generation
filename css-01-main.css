@@ -22,7 +22,7 @@
 }
 
 #cpanel-title-strip{
-    border-bottom: 3px solid #404040;
+    border-bottom: 2px solid #404040;
     background: -moz-linear-gradient(left,  #4b9bd8 0%, #a6c8f4 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(left,  #4b9bd8 0%,#a6c8f4 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right,  #4b9bd8 0%,#a6c8f4 100%); /* W3C, IE10+, etc...*/
