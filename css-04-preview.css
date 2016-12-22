@@ -1,0 +1,39 @@
+.preview-container{
+    font-size: 0;
+    width: 82px;
+    border: 1px solid black;
+    padding: 0px
+}
+
+.preview-cell{
+    display: inline-block;
+    background: yellow;
+    margin: 0px;
+    border: 1px solid black;
+    padding: 0px;
+    width: 8px;
+    height: 8px;
+}
+
+#colour-pots-sample-container{
+    font-size: 0;
+    width: 276.5px;
+    height: 276px;
+    border: 1px solid black;
+    padding: 0px;
+    background:grey;
+    margin: 5px;
+    position: absolute;
+    top: 102px;
+    right: 14px;
+}
+
+.preview-cell-big{
+    display: inline-block;
+    background: yellow;
+    margin: 0px;
+    border: 1px solid black;
+    padding: 0px;
+    width: 19px;
+    height: 19px;
+}

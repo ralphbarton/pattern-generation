@@ -1,0 +1,30 @@
+#cpanel-main-tabs ul{
+    border-bottom: 3px solid #404040;
+}
+
+
+#cpanel-main-tabs .ui-tabs-tab{
+    display: inline-block;
+    border-radius: 10px 10px 0px 0px;
+    padding: 1px 5px;
+    margin: 1px;
+    margin-top: 2px;
+    margin-bottom: 0px;
+    border: 2px solid rgba(0,30,70,0.4);
+    border-bottom-width: 0px;
+    background: rgba(0,30,70,0.1);
+}
+
+#cpanel-main-tabs .ui-state-active{
+    background: rgba(0,30,70,0.25);
+}
+
+#cpanel-main-tabs a{
+    color:black;
+    text-decoration: none;    
+}
+
+#cpanel-main-tabs ul{
+    margin: 0px;
+    padding: 0px;
+}

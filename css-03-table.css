@@ -1,0 +1,81 @@
+.cpanel-table{
+    margin: 3px;
+    border: 3px inset #DBD1AB;
+    background: white;
+    border-spacing: 0px;
+}
+
+#cpanel-table-colour-pots-list{
+    width: 385px;
+}
+
+
+/* http://jsfiddle.net/hashem/CrSpu/555/ */
+.cpanel-table tbody,
+.cpanel-table thead { display: block; }
+
+.cpanel-table tbody{
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 260px;
+}
+
+.cpanel-table th,
+.cpanel-table td{
+    border-bottom: 1px dotted black;
+    border-right: 1px dotted black;
+    padding: 2px 6px;
+}
+
+.cpanel-table th {
+    background: #CCC;
+}
+
+
+.cpanel-table th:last-child, 
+.cpanel-table td:last-child {
+    border-right: none;
+    padding-right: 20px; /*scroll bar*/
+}
+
+.cpanel-table tr:last-child td{
+    border-bottom: none;
+}
+
+.cpanel-table tr:hover{
+    background: #E1EFF5;
+}
+
+.cpanel-table tr.selected{
+    background: #7DC8EC;
+}
+
+.cpanel-table-edit-cell{
+    background: yellow;
+    border: none;
+    width: 120px;
+}
+
+.img-recycle{
+    width: 20px;
+    height: 20px;
+    float: right;
+}
+
+.cpanel-table .action-column {
+    width: 90px;
+    height: 22px;
+}
+
+span.action{
+    text-decoration: underline;
+    cursor:default;
+}
+
+span.action:hover {
+    color: blue;
+}
+
+.cpanel-table td.preview-column{
+    padding: 1px;
+}
