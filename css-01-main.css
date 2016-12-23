@@ -123,3 +123,19 @@
     box-shadow: 0px 0px 5px 1px rgba(36,166,191,0.42);
 }
 
+#slider{
+    height: 30px;
+    width: 480px;
+    margin: 5px;
+    border: 1px solid yellow;
+}
+
+.ui-slider{
+    background:green;
+}
+
+.ui-slider-handle{
+    width: 5px;
+    height: 10px;
+    background:red;
+}

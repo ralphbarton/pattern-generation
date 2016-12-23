@@ -11,6 +11,8 @@ var edit_cp = {
 	$("#cp-edit-buttons #cancel").click(function(){edit_cp.hide()});
 	$("#cp-edit-buttons #done").click(function(){edit_cp.hide()});
 
+	//$("#cp-edit-slider").slider();
+
 	this.not_yet_initialised = false;
     },
 
