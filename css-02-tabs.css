@@ -18,21 +18,34 @@ ul{
     border-bottom-width: 0px;
     transition: background 0.2s;
     background: rgba(0,30,70,0.1);
+    color: rgba(0,30,70,1);
 }
 
-.ui-tabs-tab:hover {
+.ui-state-hover {
     transition: background 0.2s;
     background: rgba(0,70,180,0.3);
     text-decoration: underline;
     color: #004370;
 }
 
-ul > .ui-state-active{
+.ui-state-disabled {
+    transition: background 0.2s;
+    background: rgba(210,210,210,0.4);
+    color: rgba(0,30,70,0.4);
+    border-color: rgba(0,30,70,0.3);
+}
+
+.ui-state-active{
     background: rgba(0,30,70,0.25);
 }
 
+.ui-state-active.ui-state-disabled{
+text-decoration: underline;
+    text-decoration-style: double;
+}
+
 .ui-tabs-tab > a{
-    color:black;
+    color:inherit;
     text-decoration: none;    
 }
 
