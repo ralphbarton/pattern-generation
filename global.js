@@ -63,7 +63,49 @@ var global = {
 	}, false);
 
 	//initiate tabs...
-	$("#cpanel-main-tabs").tabs();
+	$("#cpanel-main-tabs").tabs()
+	$("body").append("<br>");
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:1, S:"y", L:"x"}));
+
+	$("body").append("<br>");
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:"x", S:0, L:"y"}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:"x", S:1, L:"y"}));
+
+	$("body").append("<br>");
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:"y", S:"x", L:0}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:"y", S:"x", L:1}));
+
+	$("body").append("<br>");
+	$("body").append("<br>");
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:0.5, S:"y", L:"x"}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:"x", S:0.5, L:"y"}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:"y", S:"x", L:0.5}));
+
+
+
+
+
+
+	$("body").append("<br>");
+	$("body").append("<br>");
+	$("body").append("<br>");
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:0, S:"y", L:"x"}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:1, S:"y", L:"x"}));
+
+	$("body").append("<br>");
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:"x", S:0, L:"y"}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:"x", S:1, L:"y"}));
+
+	$("body").append("<br>");
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:"y", S:"x", L:0}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:"y", S:"x", L:1}));
+
+	$("body").append("<br>");
+	$("body").append("<br>");
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:0.5, S:"y", L:"x"}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:"x", S:0.5, L:"y"}));
+	$("body").append(gradient_cell.make(40, "#A9A8B8", "#CC6800", {H:"y", S:"x", L:0.5}));
 
     },
 

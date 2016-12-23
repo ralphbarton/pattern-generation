@@ -31,8 +31,6 @@ var edit_cp = {
 	//set up the window visuals...
 	$("#colour-pots-edit .TL-3").val("Hob Goblin");
 
-	$("#colour-pots-edit").append(gradient_cell.make(20))
-
     },
 
     hide: function(){
