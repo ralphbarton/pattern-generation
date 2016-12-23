@@ -14,9 +14,51 @@ var logic = {
 		break;
 	    }
 	}
+	
+	if (items[i].type== "solid"){
+	    return items[i].value;
+	}
+	else if (items[i].type== "range"){
+	    var rand_col = this.draw_continuous_colour(items[i].value[0], items[i].value[1], false)
+	    return rand_col;
+	}
 
-	return items[i].value;
+    },
 
+
+    colour_pair_to_hsl: function(colour_1, colour_2){
+	var A1 = hexToRgb(colour_1);//{}
+	var B1 = rgbToHsl(A1.r,A1.g,A1.b);//[]
+	var C1 = {H: B1[0], S: B1[1], L: B1[2]}
+
+	var A2 = hexToRgb(colour_2);//{}
+	var B2 = rgbToHsl(A2.r,A2.g,A2.b);//[]
+	var C2 = {H: B2[0], S: B2[1], L: B2[2]}
+
+	var Cdiff = {H: C2.H - C1.H,
+		     S: C2.S - C1.S,
+		     L: C2.L - C1.L
+		    };
+
+	return {
+	    C1: C1,
+	    C2: C2,
+	    Cdiff: Cdiff	
+	}
+    },
+
+    draw_continuous_colour: function(colour_1, colour_2, D){//final parameter - line or volume connecting two points?
+
+	var hslp = this.colour_pair_to_hsl(colour_1, colour_2); // HSL pair
+
+	var fix_rand = Math.random();
+
+	var Hx = hslp.C1.H + (D ? fix_rand : Math.random()) * hslp.Cdiff.H;
+	var Sx = hslp.C1.S + (D ? fix_rand : Math.random()) * hslp.Cdiff.S;
+	var Lx = hslp.C1.L + (D ? fix_rand : Math.random()) * hslp.Cdiff.L;
+	var mix = hslToRgb(Hx, Sx, Lx);
+
+	return "rgb("+mix[0]+","+mix[1]+","+mix[2]+")";
     }
 
 }

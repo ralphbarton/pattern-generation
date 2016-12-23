@@ -7,19 +7,8 @@ var gradient_cell = {
 	    .attr("height", size)
 	    .addClass("gradient-cell");
 	var ctx = $grad[0].getContext('2d');
-
-	var A1 = hexToRgb(colour_1);//{}
-	var B1 = rgbToHsl(A1.r,A1.g,A1.b);//[]
-	var C1 = {H: B1[0], S: B1[1], L: B1[2]}
-
-	var A2 = hexToRgb(colour_2);//{}
-	var B2 = rgbToHsl(A2.r,A2.g,A2.b);//[]
-	var C2 = {H: B2[0], S: B2[1], L: B2[2]}
-
-	var Cdiff = {H: C2.H - C1.H,
-		     S: C2.S - C1.S,
-		     L: C2.L - C1.L
-		    };
+	
+	var hslp = logic.colour_pair_to_hsl(colour_1, colour_2); // HSL pair
 
 	if (ctx) {
 	    for (var x = 0; x < size; x++){
@@ -32,9 +21,9 @@ var gradient_cell = {
 		    var S_frac = conf.S=="x" ? x_frac : (conf.S=="y" ? y_frac : conf.S);
 		    var L_frac = conf.L=="x" ? x_frac : (conf.L=="y" ? y_frac : conf.L);
 
-		    var Hx = C1.H + H_frac * Cdiff.H;
-		    var Sx = C1.S + S_frac * Cdiff.S;
-		    var Lx = C1.L + L_frac * Cdiff.L;
+		    var Hx = hslp.C1.H + H_frac * hslp.Cdiff.H;
+		    var Sx = hslp.C1.S + S_frac * hslp.Cdiff.S;
+		    var Lx = hslp.C1.L + L_frac * hslp.Cdiff.L;
 		    
 		    var mix = hslToRgb(Hx, Sx, Lx);
 		    

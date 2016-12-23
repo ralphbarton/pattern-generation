@@ -25,15 +25,42 @@ var DM = {
 	},
 	{
 	    index: 1,
-	    description: "Apricot",
+	    description: "Lush Woods",
 	    contents: [
 		{
-		    prob: 100,
-		    type: "solid",
-		    value: "#FF00FF"
+		    prob: 85,
+		    type: "range",
+		    value: ["#A9CF89","#79901A"]
 		},
+		{
+		    prob: 5,
+		    type: "range",
+		    value: ["#0B17E6","#66A781"]
+		},
+		{
+		    prob: 10,
+		    type: "solid",
+		    value: "#CF7713"
+		}
 	    ]
-	}
+	},
+	{
+	    index: 2,
+	    description: "Chequer",
+	    contents: [
+		{
+		    prob: 50,
+		    type: "solid",
+		    value: "cyan"
+		},
+		{
+		    prob: 50,
+		    type: "solid",
+		    value: "red"
+		}
+	    ]
+	},
+
     ],
 
     duplicate_ColourPot: function(index_dupl){
