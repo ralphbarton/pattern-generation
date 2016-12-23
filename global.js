@@ -109,27 +109,6 @@ var global = {
 
     },
 
-    //adds call-back logic to adjust table columns...
-    scrolling_table_init: function(){
-	// Change the selector if needed
-	var $table = $('table.cpanel-table'),
-	$bodyCells = $table.find('tbody tr:first').children(),
-	colWidth;
-
-	// Adjust the width of thead cells when window resizes
-	$(window).resize(function() {
-	    // Get the tbody columns width array
-	    colWidth = $bodyCells.map(function() {
-		return $(this).width();
-	    }).get();
-	    
-	    // Set the width of thead columns
-	    $table.find('thead tr').children().each(function(i, v) {
-		$(v).width(colWidth[i]);
-	    });    
-	}).resize(); // Trigger resize handler
-    },
-
     $div_array:function(qty, my_class, ColourPot){//function to generate many mini DIVs
 	var tinies = [];
 	for(var i=0; i<qty; i++){
