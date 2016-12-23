@@ -1,19 +1,23 @@
+/* Properties of my generic table */
+
 .cpanel-table{
     margin: 6px;
     border: 3px inset #DBD1AB;
     background: white;
     border-spacing: 0px;
+    text-align: center;
 }
 
-#cpanel-table-colour-pots-list{
-    width: 405px;
-    height: 225px;
+.cpanel-table th,
+.cpanel-table td{
+    border-bottom: 1px dotted black;
+    border-right: 1px dotted black;
+    padding: 2px;
 }
 
-#cpanel-table-colour-pot-contents{
-    height: 350px;
+.cpanel-table th {
+    background: #CCC;
 }
-
 
 /* http://jsfiddle.net/hashem/CrSpu/555/ */
 .cpanel-table tbody,
@@ -22,25 +26,13 @@
 .cpanel-table tbody{
     overflow-x: hidden;
     overflow-y: auto;
-    max-height: 260px;
-}
 
-.cpanel-table th,
-.cpanel-table td{
-    border-bottom: 1px dotted black;
-    border-right: 1px dotted black;
-    padding: 2px 6px;
 }
-
-.cpanel-table th {
-    background: #CCC;
-}
-
 
 .cpanel-table th:last-child, 
 .cpanel-table td:last-child {
     border-right: none;
-    padding-right: 20px; /*scroll bar*/
+    padding-right: 29px; /*allow for scroll bar*/
 }
 
 .cpanel-table tr:hover{
@@ -51,34 +43,38 @@
     background: #7DC8EC;
 }
 
-.cpanel-table-edit-cell{
-    background: yellow;
-    border: none;
-    width: 120px;
-}
 
-.img-recycle{
-    width: 20px;
-    height: 20px;
-    float: right;
-}
-
-.cpanel-table .action-column {
-    width: 90px;
-    height: 22px;
-}
-
-span.action{
-    text-decoration: underline;
-    cursor:default;
-}
-
-span.action:hover {
-    color: blue;
-}
-
+/* Specific to Colour Pots VIEW table */
 .cpanel-table td.preview-column{
     padding: 1px;
+}
+
+#cpanel-table-colour-pots-list th:nth-of-type(1),
+#cpanel-table-colour-pots-list td:nth-of-type(1)
+{
+    width: 20px;
+}
+
+#cpanel-table-colour-pots-list th:nth-of-type(2),
+#cpanel-table-colour-pots-list td:nth-of-type(2)
+{
+    width: 270px;
+}
+
+#cpanel-table-colour-pots-list td:nth-of-type(2)
+{
+    text-align: left;
+}
+
+
+#cpanel-table-colour-pots-list tbody{
+     height: 205px;
+}
+    
+
+/* Specific to Colour pot EDIT table */
+#cpanel-table-colour-pot-contents{
+    height: 350px;
 }
 
 #cpanel-table-colour-pot-contents{
