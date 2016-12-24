@@ -76,5 +76,20 @@ var DM = {
 	for (var i= index_dupl+1; i < this.ColourPotArray.length; i++){
 	    this.ColourPotArray[i].index = i;
 	}
+    },
+
+    delete_ColourPot: function(index){
+	this.ColourPotArray.splice(index, 1);
+	//also shuffle down indeces
+	for (var i= index; i < this.ColourPotArray.length; i++){
+	    this.ColourPotArray[i].index = i;
+	}
+
+    },
+
+    editing_ColourPot: undefined,
+    edit_ColourPot: function(index){
+	this.editing_ColourPot = jQuery.extend(true, {}, this.ColourPotArray[index]);
     }
+    
 };

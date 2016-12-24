@@ -16,7 +16,7 @@ var edit_cp = {
 	this.not_yet_initialised = false;
     },
 
-    show: function(edit_me_index){
+    show: function(index){
 
 	if(this.not_yet_initialised){
 	    this.init();
@@ -28,9 +28,31 @@ var edit_cp = {
 	$("#colour-pots-edit").show();
 	$("#cpanel-main-tabs").tabs("option", "disabled", true);
 
-	//set up the window visuals...
-	$("#colour-pots-edit .TL-3").val("Hob Goblin");
+	//create backup in data model - to be done before accessing the copy created...
+	DM.edit_ColourPot(index);
+	var POT = DM.editing_ColourPot;
 
+	//set up the window visuals...
+	$("#colour-pots-edit .TL-2").text(POT.index+1+". ");
+	$("#colour-pots-edit .TL-3").val(POT.description);
+
+	POT.contents.forEach(function(element,i){
+	    edit_cp.table_row(element,i);
+	})
+
+    },
+
+    table_row: function(row_data, i){
+    	$("#cpanel-table-colour-pot-contents tbody").append(
+	    $('<tr/>').data({index: i})
+		.append(
+		    $('<td/>').text(i+1),
+		    $('<td/>').append(
+			$('<input/>').addClass("prob-cell")
+		    ),
+		    $('<td/>').text("fancy content...")
+		)
+	);
     },
 
     hide: function(){

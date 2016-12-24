@@ -81,13 +81,23 @@
     margin-left: 6px
 }
 
-#cpanel-table-colour-pot-contents th:nth-of-type(1){
-    width: 12px;
+#cpanel-table-colour-pot-contents th:nth-of-type(1),
+#cpanel-table-colour-pot-contents td:nth-of-type(1){
+    width: 14px;
 }
 
-#cpanel-table-colour-pot-contents th:nth-of-type(2){
-    width: 40px;
+#cpanel-table-colour-pot-contents th:nth-of-type(2),
+#cpanel-table-colour-pot-contents td:nth-of-type(2){
+    width: 43px;
 }
+
 #cpanel-table-colour-pot-contents th:nth-of-type(3){
-    width: 162px;
+    width: 172px;
+}
+
+.prob-cell{
+    width: 20px;
+    height: 15px;
+    border: none;
+    background: #FFC;
 }
