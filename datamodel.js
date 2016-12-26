@@ -49,14 +49,29 @@ var DM = {
 	    description: "Chequer",
 	    contents: [
 		{
-		    prob: 50,
+		    prob: 25,
 		    type: "solid",
-		    value: "cyan"
+		    value: "yellow"
 		},
 		{
-		    prob: 50,
+		    prob: 25,
 		    type: "solid",
-		    value: "red"
+		    value: "orange"
+		},
+		{
+		    prob: 25,
+		    type: "solid",
+		    value: "green"
+		},
+		{
+		    prob: 25,
+		    type: "solid",
+		    value: "purple"
+		},
+		{
+		    prob: 0,
+		    type: "solid",
+		    value: "black"
 		}
 	    ]
 	},

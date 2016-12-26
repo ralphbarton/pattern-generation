@@ -139,3 +139,8 @@
     height: 10px;
     background:red;
 }
+
+body {
+    background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyIiBoZWlnaHQ9IjIiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHg9IjAiIHk9IjAiIHN0eWxlPSJmaWxsOiNjYWNhY2EiIC8+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgeD0iMSIgeT0iMSIgc3R5bGU9ImZpbGw6I2NhY2FjYSIgLz48L3N2Zz4=);
+    background-size:auto 5%;
+}
