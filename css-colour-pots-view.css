@@ -1,30 +1,30 @@
 /* Specific to Colour Pots VIEW table */
-.cpanel-table td.preview-column{
-    padding: 1px;
-}
 
-#cpanel-table-colour-pots-list th:nth-of-type(1),
-#cpanel-table-colour-pots-list td:nth-of-type(1)
+#c-pots-view-table th:nth-of-type(1),
+#c-pots-view-table td:nth-of-type(1)
 {
     width: 20px;
 }
 
-#cpanel-table-colour-pots-list th:nth-of-type(2),
-#cpanel-table-colour-pots-list td:nth-of-type(2)
+#c-pots-view-table th:nth-of-type(2),
+#c-pots-view-table td:nth-of-type(2)
 {
     width: 270px;
 }
 
-#cpanel-table-colour-pots-list td:nth-of-type(2)
+#c-pots-view-table td:nth-of-type(2)
 {
     text-align: left;
 }
 
 
-#cpanel-table-colour-pots-list tbody{
+#c-pots-view-table tbody{
      height: 205px;
 }
 
+#c-pots-view-table td.preview-column{
+    padding: 1px;
+}
 
 /* Define styles for both types of colour-pot preview areas on the "view" page*/
 .preview-container{

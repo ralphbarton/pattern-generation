@@ -1,6 +1,6 @@
 /* 01 styling for a generic TABLE */
 
-.cpanel-table{
+.user-data-table{
     margin: 6px;
     border: 3px inset #DBD1AB;
     background: white;
@@ -8,38 +8,38 @@
     text-align: center;
 }
 
-.cpanel-table th,
-.cpanel-table td{
+.user-data-table th,
+.user-data-table td{
     border-bottom: 1px dotted black;
     border-right: 1px dotted black;
     padding: 2px;
 }
 
-.cpanel-table th {
+.user-data-table th {
     background: #CCC;
 }
 
 /* http://jsfiddle.net/hashem/CrSpu/555/ */
-.cpanel-table tbody,
-.cpanel-table thead { display: block; }
+.user-data-table tbody,
+.user-data-table thead { display: block; }
 
-.cpanel-table tbody{
+.user-data-table tbody{
     overflow-x: hidden;
     overflow-y: auto;
 
 }
 
-.cpanel-table th:last-child, 
-.cpanel-table td:last-child {
+.user-data-table th:last-child, 
+.user-data-table td:last-child {
     border-right: none;
     padding-right: 29px; /*allow for scroll bar*/
 }
 
-.cpanel-table tr:hover{
+.user-data-table tr:hover{
     background: #E1EFF5;
 }
 
-.cpanel-table tr.selected{
+.user-data-table tr.selected{
     background: #7DC8EC;
 }
 

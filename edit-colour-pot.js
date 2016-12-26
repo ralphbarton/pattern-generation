@@ -43,7 +43,7 @@ var edit_cp = {
     },
 
     table_row: function(row_data, i){
-    	$("#cpanel-table-colour-pot-contents tbody").append(
+    	$("#c-pot-edit-table tbody").append(
 	    $('<tr/>').data({index: i})
 		.append(
 		    $('<td/>').text(i+1),

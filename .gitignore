@@ -1,0 +1,14 @@
+
+# Things not to list as untracked files, since I will never plan to commit to the
+# snatch-it source code repository
+
+TAGS
+icons/
+include/
+pattern-generation-launch.sh
+deploy.sh
+*.js~
+
+public/include/jquery-1.11.1.js
+public/include/socket.io-1.2.0.js
+public/sandbox/

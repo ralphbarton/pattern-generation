@@ -40,7 +40,7 @@ var view_cp = {
 
     selected_cp_index: undefined,
     refresh_colour_pot_table: function(select_index){
-	$("#cpanel-table-colour-pots-list tbody").empty();//clear content
+	$("#c-pots-view-table tbody").empty();//clear content
 	var List = DM.ColourPotArray;
 	for (var i=0; i < List.length; i++){
 	    this.add_colour_pot_row(List[i]);  
@@ -49,7 +49,7 @@ var view_cp = {
 	this.selected_cp_index = undefined;// re-initialise. Code below may set it.
 	if(select_index !== undefined){
 	    //This now selects an item in the new list generated
-	    $("#cpanel-table-colour-pots-list tbody tr").each(function() {
+	    $("#c-pots-view-table tbody tr").each(function() {
 		if($(this).data("index") == select_index){
 		    $(this).click();
 		}
@@ -59,7 +59,7 @@ var view_cp = {
     },
 
     add_colour_pot_row: function(ColourPot){
-	$("#cpanel-table-colour-pots-list tbody").append(
+	$("#c-pots-view-table tbody").append(
 	    $('<tr/>').data({index: ColourPot.index})
 		.append(
 		$('<td/>').text(ColourPot.index+1),//I prefer 1-index values for the user...
@@ -73,7 +73,7 @@ var view_cp = {
 		    $('<div/>').addClass("preview-container").append(global.$div_array(16, "preview-cell", ColourPot))
 		)
 	    ).click(function(){ // this is the callback for clicking on the whole ROW
-		$("#cpanel-table-colour-pots-list tr").removeClass("selected");
+		$("#c-pots-view-table tr").removeClass("selected");
 		$(this).addClass("selected");
 		var pot_index = $(this).data("index");
 		var ColourPot = DM.ColourPotArray[pot_index];
