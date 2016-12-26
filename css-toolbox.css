@@ -1,3 +1,4 @@
+/* Defining the style of the toolbox itself */
 #cpanel-main{
     position: absolute;
     background: #DBD1AB;
@@ -48,6 +49,7 @@
     color: #C03609;
 }
 
+/* Defining the style of Badges shown on toolbox header... */
 .badge{
     position: absolute;
     top: 7px;
@@ -81,66 +83,8 @@
     right: 68px;
 }
 
-#colour-pots-edit #title-bar{
-    background: rgba(255,255,255,0.7);
-    margin: 10px 10px;
-    padding: 3px 6px;
-    border: 1px solid black;
-    border-radius: 3px;
-    font-size: 24px;
-    font-family: sans;
-    font-weight: bold;
-    color: rgba(0,0,0,0.6);
-}
 
-#colour-pots-edit span.TL-1{
-    color: rgba(0,0,0,0.4);
-    font-size: 16px;
-    font-weight: normal;
-}
-
-#colour-pots-edit input.TL-3{
-    transition: all 0.2s;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(0,0,0,0.1);
-    color: rgba(0,0,0,0.6);
-    font-size: 24px;
-    font-family: sans;
-    width: 310px;
-}
-
-#colour-pots-edit input.TL-3:hover{
-    transition: all 0.2s;
-    border-color: rgba(0,70,180,0.5);
-    background: rgba(255,255,255,0.4);
-    color: rgba(0,0,0,0.7);
-}
-
-#colour-pots-edit input.TL-3:focus{
-    border-color: rgba(0,70,180,0.8);;
-    background: rgba(255,255,255,0.8);
-    color: black;
-    box-shadow: 0px 0px 5px 1px rgba(36,166,191,0.42);
-}
-
-#slider{
-    height: 30px;
-    width: 480px;
-    margin: 5px;
-    border: 1px solid yellow;
-}
-
-.ui-slider{
-    background:green;
-}
-
-.ui-slider-handle{
-    width: 5px;
-    height: 10px;
-    background:red;
-}
-
-body {
-    background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyIiBoZWlnaHQ9IjIiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHg9IjAiIHk9IjAiIHN0eWxlPSJmaWxsOiNjYWNhY2EiIC8+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgeD0iMSIgeT0iMSIgc3R5bGU9ImZpbGw6I2NhY2FjYSIgLz48L3N2Zz4=);
-    background-size:auto 5%;
+/* TOOLBOX main tabs - (this is the line underneath them) */
+#cpanel-main-tabs > ul{
+    border-bottom: 1px solid #404040;
 }

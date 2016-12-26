@@ -1,0 +1,101 @@
+#colour-pots-edit #title-bar{
+    background: rgba(255,255,255,0.7);
+    margin: 10px 10px;
+    padding: 3px 6px;
+    border: 1px solid black;
+    border-radius: 3px;
+    font-size: 24px;
+    font-family: sans;
+    font-weight: bold;
+    color: rgba(0,0,0,0.6);
+}
+
+#colour-pots-edit span.TL-1{
+    color: rgba(0,0,0,0.4);
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#colour-pots-edit input.TL-3{
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.6);
+    font-size: 24px;
+    font-family: sans;
+    width: 310px;
+}
+
+#colour-pots-edit input.TL-3:hover{
+    transition: all 0.2s;
+    border-color: rgba(0,70,180,0.5);
+    background: rgba(255,255,255,0.4);
+    color: rgba(0,0,0,0.7);
+}
+
+#colour-pots-edit input.TL-3:focus{
+    border-color: rgba(0,70,180,0.8);;
+    background: rgba(255,255,255,0.8);
+    color: black;
+    box-shadow: 0px 0px 5px 1px rgba(36,166,191,0.42);
+}
+
+/* Specific to Colour pot EDIT table */
+#cpanel-table-colour-pot-contents{
+    height: 350px;
+}
+
+#cpanel-table-colour-pot-contents{
+    margin-left: 6px
+}
+
+#cpanel-table-colour-pot-contents th:nth-of-type(1),
+#cpanel-table-colour-pot-contents td:nth-of-type(1){
+    width: 14px;
+}
+
+#cpanel-table-colour-pot-contents th:nth-of-type(2),
+#cpanel-table-colour-pot-contents td:nth-of-type(2){
+    width: 43px;
+}
+
+#cpanel-table-colour-pot-contents th:nth-of-type(3){
+    width: 172px;
+}
+
+.prob-cell{
+    width: 20px;
+    height: 15px;
+    border: none;
+    background: #FFC;
+}
+
+/* for RANGE mode - position the CENTRAL vs. EDGES TABS*/
+
+#cp-edit-tabs {
+    position: absolute;
+    top: 177px;
+    right: 12px;
+    width: 200px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#cp-edit-tabs > ul{
+    padding-left: 10px;
+
+}
+
+/* range mode - box around content*/
+#cp-edit-tabs > div {
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 4px;
+    padding: 3px;
+}
+
+/* BUTTONS - positioning - within "Edit Colour Pot" */
+#cp-edit-buttons{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}

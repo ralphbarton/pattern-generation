@@ -1,0 +1,11 @@
+#json-text{
+    display: block;
+    margin: 5px;
+    width: 90px;
+    min-width: 683px;
+    max-width: 683px;
+    height: 220px;
+    min-height: 100px;
+    max-height: 220px;
+    border-radius: 6px;
+}

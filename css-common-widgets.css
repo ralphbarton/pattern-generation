@@ -1,0 +1,118 @@
+/* 01 styling for a generic TABLE */
+
+.cpanel-table{
+    margin: 6px;
+    border: 3px inset #DBD1AB;
+    background: white;
+    border-spacing: 0px;
+    text-align: center;
+}
+
+.cpanel-table th,
+.cpanel-table td{
+    border-bottom: 1px dotted black;
+    border-right: 1px dotted black;
+    padding: 2px;
+}
+
+.cpanel-table th {
+    background: #CCC;
+}
+
+/* http://jsfiddle.net/hashem/CrSpu/555/ */
+.cpanel-table tbody,
+.cpanel-table thead { display: block; }
+
+.cpanel-table tbody{
+    overflow-x: hidden;
+    overflow-y: auto;
+
+}
+
+.cpanel-table th:last-child, 
+.cpanel-table td:last-child {
+    border-right: none;
+    padding-right: 29px; /*allow for scroll bar*/
+}
+
+.cpanel-table tr:hover{
+    background: #E1EFF5;
+}
+
+.cpanel-table tr.selected{
+    background: #7DC8EC;
+}
+
+
+
+
+/* 02 styling for a generic TAB SYSTEM */
+
+ul{
+    margin: 0px;
+    padding: 0px;
+}
+
+.ui-tabs-tab {
+    display: inline-block;
+    border-radius: 10px 10px 0px 0px;
+    padding: 1px 5px;
+    margin: 1px;
+    margin-top: 2px;
+    margin-bottom: 0px;
+    border: 1px solid rgba(0,30,70,0.4);
+    border-bottom-width: 0px;
+    transition: background 0.2s;
+    background: rgba(0,30,70,0.1);
+    color: rgba(0,30,70,1);
+}
+
+.ui-state-hover {
+    transition: background 0.2s;
+    background: rgba(0,70,180,0.3);
+    text-decoration: underline;
+    color: #004370;
+}
+
+.ui-state-disabled {
+    transition: background 0.2s;
+    background: rgba(210,210,210,0.4);
+    color: rgba(0,30,70,0.4);
+    border-color: rgba(0,30,70,0.3);
+}
+
+.ui-state-active{
+    background: rgba(0,30,70,0.25);
+}
+
+.ui-state-active.ui-state-disabled{
+text-decoration: underline;
+    text-decoration-style: double;
+}
+
+.ui-tabs-tab > a{
+    color:inherit;
+    text-decoration: none;    
+}
+
+
+/* 03 styling for a generic Buttons */
+
+.button{
+    transition: all 0.2s;
+    display: inline-block;
+    border: 1px solid rgba(0,30,70,0.4);
+    border-radius: 4px;
+    background: rgba(0,30,70,0.1);
+    padding: 3px 14px;
+    margin: 0px 5px;
+    cursor:pointer;
+}
+
+.button:hover{
+    transition: background 0.2s;
+    background: rgba(0,70,180,0.3);
+    text-decoration: underline;
+    color: #004370;
+    border-color: #004370;
+}
