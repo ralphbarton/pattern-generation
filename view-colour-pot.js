@@ -1,3 +1,11 @@
+function table_cell_edit(input_elem, enable){
+    if(enable){
+	$(input_elem).attr('readonly', false).addClass("ui-enabled");
+    }else{
+	$(input_elem).attr('readonly', true).removeClass("ui-enabled");
+    }
+};
+
 var view_cp = {
 
     selected_cp_index: undefined,
@@ -8,22 +16,18 @@ var view_cp = {
 		$('<td/>').text(ColourPot.index+1),
 		$('<td/>').addClass("description-column").append(
 		    $('<input/>')
-			.attr('type', 'text')
-			.addClass("input-view-cp")
-			.attr('readonly', true)
 			.val(ColourPot.description)
+			.attr('type', 'text')
+			.addClass("table-input-cell")
+			.attr('readonly', true)
 			.on("focusout", function(){
 			    var d3_index = $(this).parent().parent()[0].__data__.index;
 			    DM.ColourPotArray[d3_index].description = $(this).val();
-			    $(this)
-				.attr('readonly', true)
-				.removeClass("ui-enabled")
+			    table_cell_edit(this,false);
 			})
 			.click(function(){
 			    if(view_cp.selected_cp_index == ColourPot.index){
-				$(this)
-				    .attr('readonly', false)
-				    .addClass("ui-enabled");
+				table_cell_edit(this,true);
 			    }
 			})
 		),

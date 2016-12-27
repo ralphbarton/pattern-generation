@@ -58,7 +58,22 @@ var edit_cp = {
 		.append(
 		    $('<td/>').text(i+1),
 		    $('<td/>').append(
-			$('<input/>').addClass("prob-cell")
+			$('<input/>')
+			    .val("5%")
+			    .attr('type', 'text')
+			    .addClass("table-input-cell")
+			    .attr('readonly', true)
+			    .on("focusout", function(){
+				// add logic to write underlying data
+//				var d3_index = $(this).parent().parent()[0].__data__.index;
+//				DM.ColourPotArray[d3_index].description = $(this).val();
+				table_cell_edit(this,false);
+			    })
+			    .click(function(){
+//				if(view_cp.selected_cp_index == ColourPot.index){ // add logic to calculate row selection
+				    table_cell_edit(this,true);
+//				}
+			    })
 		    ),
 		    $('<td/>').text("fancy content...")
 		)

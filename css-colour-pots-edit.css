@@ -63,11 +63,9 @@
     width: 172px;
 }
 
-.prob-cell{
-    width: 20px;
-    height: 15px;
-    border: none;
-    background: #FFC;
+/* width of the edit cell*/
+#c-pot-edit-table .table-input-cell{
+    width: 30px;
 }
 
 /* for RANGE mode - position the CENTRAL vs. EDGES TABS*/
