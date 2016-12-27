@@ -70,5 +70,12 @@
 #color-pot-array-options{
     position: absolute;
     bottom: 10px;
-    right: 300px;
+    right: 365px;
+}
+
+/* action link positioning... */
+#c-pot-view-rerandomise{
+    position: absolute;
+    width: 80px;
+    right: 280px;
 }
