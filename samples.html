@@ -1,7 +1,8 @@
 <!doctype html>
+<meta charset="UTF-8"> 
 <html>
   <head>
-    <title>Patterns</title>
+    <title>Sandbox page</title>
 
     <!-- Include jQuery... -->
 
@@ -13,26 +14,69 @@
     <!-- should be purchased from envatomarket -->
     <!-- see https://0.s3.envato.com/files/144700183/index.html for usage documentation -->
     <!-- also, https://codecanyon.net/item/jcolor-a-jquery-color-picker/10688026 -->
-    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:3011/include/jcolor.min.css">
-    <script src="http://127.0.0.1:3011/include/jquery2.1.1.js"></script>
-    <script src="http://127.0.0.1:3011/include/jcolor.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="include/jcolor.min.css">
+    <script src="include/jquery2.1.1.js"></script>
+    <script src="include/jcolor.min.js"></script>
+
+    <!-- Herewith include the great *D3* library -->
+    <script src="include/d3/d3.min.js"></script>
 
     <!-- https://bgrins.github.io/spectrum/ -->
-    <script src="http://127.0.0.1:3011/include/bgrins-spectrum-98454b5/spectrum.js"></script>
-    <link rel="stylesheet" href="http://127.0.0.1:3011/include/bgrins-spectrum-98454b5/spectrum.css" />
+    <script src="include/bgrins-spectrum-98454b5/spectrum.js"></script>
+    <link rel="stylesheet" href="include/bgrins-spectrum-98454b5/spectrum.css" />
 
+
+    <!-- CODE for the D3 bar-chart -->
+    <!-- CODE for the D3 bar-chart -->
+    <style type="text/css">
+      
+      div.bar {
+      display: inline-block;
+      width: 20px;
+      height: 75px;/* Gets overriden by D3-assigned height below */
+      margin-right: 2px;
+      background-color: teal;
+      }
+      
+    </style>
+    <!-- CODE for the D3 bar-chart -->
 
   </head>
 
   <body>
 
+    <div id="d3-demo-area">
+      D3 demonstration area...
+      <div style="border: 1px solid red;">lala</div>
+    </div>
+    <!-- CODE for the D3 bar-chart -->
+    <!-- CODE for the D3 bar-chart -->
+    <script type="text/javascript">
+      
+      var dataset = [ 5, 10, 15, 20, 25 ];
+      
+      function do_d3(){
+      d3.select("#d3-demo-area").selectAll("div")
+      .data(dataset)
+      .enter()
+      .append("div")
+      .attr("class", "bar")
+      .style("height", function(d) {
+      var barHeight = d * 5;
+      return barHeight + "px";
+      });
+      }
+      
+    </script>
+    <!-- CODE for the D3 bar-chart -->
 
-    Test space for widgets etc...
+
+    Test space for widgets etc...2
 
     <br>
 
     <div class="my-color-picker">huh</div>
-    
+
     <script type="text/javascript">
       $('.my-color-picker').colorpicker();
       console.log("hmm");
@@ -51,9 +95,7 @@
 
     <br>
 
-    <a href="/index2.html">Next page...</a>
+    <a href="/index.html">Link to Main Page</a>
 
   </body>
 </html>
-
-

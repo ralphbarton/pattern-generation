@@ -53,10 +53,7 @@ var global = {
 		});
 	    }
 	    if (keyPressed == 'A'){
-		view_cp.add_colour_pot_row({
-		    number: "xx",
-		    description: "dummy row descr."
-		});
+		//Action for 'A' pressed
 	    }
 	    
 
@@ -126,5 +123,8 @@ var global = {
 // executive code...
 $(document).ready(function() {
     global.init();
+
     view_cp.init();
+
+    export_pat.init();
 });
