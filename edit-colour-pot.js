@@ -8,8 +8,16 @@ var edit_cp = {
 	$("#cp-edit-tabs").tabs();
 
 	//add action for cancel button
-	$("#cp-edit-buttons #cancel").click(function(){edit_cp.hide()});
-	$("#cp-edit-buttons #done").click(function(){edit_cp.hide()});
+	$("#cp-edit-buttons #cancel").click(function(){edit_cp.hide();});
+	$("#cp-edit-buttons #done").click(function(){
+	    //first save data...
+	    DM.save_editing_ColourPot();
+	    edit_cp.hide();
+
+	    //this redraws the list with the latest data...
+	    view_cp.table_update_d3();
+
+	});
 
 	//$("#cp-edit-slider").slider();
 
@@ -34,7 +42,9 @@ var edit_cp = {
 
 	//set up the window visuals...
 	$("#colour-pots-edit .TL-2").text(POT.index+1+". ");
-	$("#colour-pots-edit .TL-3").val(POT.description);
+	$("#colour-pots-edit .TL-3").val(POT.description).on( "focusout", function(){
+	    POT.description = $(this).val();
+	});
 
 	POT.contents.forEach(function(element,i){
 	    edit_cp.table_row(element,i);
@@ -61,7 +71,6 @@ var edit_cp = {
 	$("#colour-pots-view").show();
 	$("#colour-pots-edit").hide();
 	$("#cpanel-main-tabs").tabs("option", "disabled", false);
-
     }
 
 };

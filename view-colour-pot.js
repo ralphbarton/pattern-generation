@@ -29,10 +29,8 @@ var view_cp = {
 	var TR_click_listener = function(d,i){
 	    $("#c-pots-view-table tr.selected").removeClass("selected");
 	    $(this).addClass("selected");
-	    //here, we use "i" rather than "d.index".
-	    // there is some kind of probem with the "d" supplied via the update selection (fine for enter selection)
-	    if(view_cp.selected_cp_index != i){
-		view_cp.selected_cp_index = i;
+	    if(view_cp.selected_cp_index != d.index){
+		view_cp.selected_cp_index = d.index;
 		view_cp.fill_preview();
 	    }
 	};
@@ -74,6 +72,8 @@ var view_cp = {
 		if(d.index == select_index){
 		    $(this).click();
 		}
+		//line below v.important to prevent detachment of data
+		return d;
 	    });
 
 /*	    $("#c-pots-view-table tbody tr").each(function() {

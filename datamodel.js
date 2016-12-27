@@ -105,6 +105,12 @@ var DM = {
     editing_ColourPot: undefined,
     edit_ColourPot: function(index){
 	this.editing_ColourPot = jQuery.extend(true, {}, this.ColourPotArray[index]);
+    },
+
+    save_editing_ColourPot: function(){
+	var save_index = this.editing_ColourPot.index;
+	this.ColourPotArray[save_index] = this.editing_ColourPot;
+	this.editing_ColourPot = null;
     }
     
 };
