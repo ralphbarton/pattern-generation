@@ -26,6 +26,11 @@
     padding: 1px;
 }
 
+
+#c-pots-view-table .description-column{
+    padding: 0px;
+}
+
 /* Define styles for both types of colour-pot preview areas on the "view" page*/
 .preview-container{
     font-size: 0;
@@ -78,4 +83,24 @@
     position: absolute;
     width: 80px;
     right: 280px;
+}
+
+.input-view-cp{
+    border: 2px solid rgba(0,0,0,0);
+    font: inherit;
+    background: none;
+    margin: 0px;
+    width: 264px;
+}
+
+.selected .input-view-cp:hover{
+    border: 2px solid rgba(2,143,237,0.9);
+    background: rgba(255,255,255,0.4);
+}
+
+.input-view-cp.ui-enabled,
+.input-view-cp.ui-enabled:hover{
+    font-family: sans;
+    border: 2px solid rgba(2,143,237,1);
+    background: rgba(255,255,255,1);
 }

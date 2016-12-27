@@ -3,21 +3,29 @@ var view_cp = {
     selected_cp_index: undefined,
     table_update_d3: function(select_index){
 
-	var description_focusOut = function(){
-	    // fortunately, "focusout" is triggered by change of tab, visibility etc.
-	    var d3_index = $(this).parent().parent()[0].__data__.index;
-	    DM.ColourPotArray[d3_index].description = $(this).val();
-	};
-
 	var TR_with_innerElements = function(ColourPot,i){
 	    return $('<tr/>').append(
 		$('<td/>').text(ColourPot.index+1),
-		$('<td/>').append(
+		$('<td/>').addClass("description-column").append(
 		    $('<input/>')
 			.attr('type', 'text')
 			.addClass("input-view-cp")
+			.attr('readonly', true)
 			.val(ColourPot.description)
-			.on( "focusout", description_focusOut )
+			.on("focusout", function(){
+			    var d3_index = $(this).parent().parent()[0].__data__.index;
+			    DM.ColourPotArray[d3_index].description = $(this).val();
+			    $(this)
+				.attr('readonly', true)
+				.removeClass("ui-enabled")
+			})
+			.click(function(){
+			    if(view_cp.selected_cp_index == ColourPot.index){
+				$(this)
+				    .attr('readonly', false)
+				    .addClass("ui-enabled");
+			    }
+			})
 		),
 		$('<td/>').addClass("preview-column").append(
 		    $('<div/>').addClass("preview-container")
@@ -65,6 +73,7 @@ var view_cp = {
 
 	// 4. this ineligant code will "click" one of the rows of the table for you
 	this.selected_cp_index = undefined;// re-initialise. Code below may set it.
+	$("#c-pots-view-table tr.selected").removeClass("selected");//keep view sync'ed with data!!!
 	if(select_index !== undefined){
 	    //This now selects an item in the new list generated
 
@@ -123,8 +132,8 @@ var view_cp = {
 	$("#color-pot-array-options #delete").click(function(){
 	    var index = view_cp.selected_cp_index;
 	    if(index !== undefined){
-		DM.delete_ColourPot(index);
-		view_cp.table_update_d3(index);//we now select the next one down...
+		var lowest_row = DM.delete_ColourPot(index);
+		view_cp.table_update_d3(index - (lowest_row?1:0));//we now select the next one down...
 	    }
 	});
 

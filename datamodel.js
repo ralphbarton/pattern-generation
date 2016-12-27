@@ -99,6 +99,7 @@ var DM = {
 	for (var i= index; i < this.ColourPotArray.length; i++){
 	    this.ColourPotArray[i].index = i;
 	}
+	return index == this.ColourPotArray.length;//true if "index" now refers to a row that doesn't exist 
 
     },
 
@@ -111,6 +112,7 @@ var DM = {
 	var save_index = this.editing_ColourPot.index;
 	this.ColourPotArray[save_index] = this.editing_ColourPot;
 	this.editing_ColourPot = null;
+	return save_index;
     }
     
 };

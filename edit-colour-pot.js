@@ -11,11 +11,11 @@ var edit_cp = {
 	$("#cp-edit-buttons #cancel").click(function(){edit_cp.hide();});
 	$("#cp-edit-buttons #done").click(function(){
 	    //first save data...
-	    DM.save_editing_ColourPot();
+	    var save_i = DM.save_editing_ColourPot();//return value is the index of the colour-pot just saved
 	    edit_cp.hide();
 
 	    //this redraws the list with the latest data...
-	    view_cp.table_update_d3();
+	    view_cp.table_update_d3(save_i);
 
 	});
 
