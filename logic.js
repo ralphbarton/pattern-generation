@@ -35,6 +35,11 @@ var logic = {
 	var B2 = rgbToHsl(A2.r,A2.g,A2.b);//[]
 	var C2 = {H: B2[0], S: B2[1], L: B2[2]}
 
+	var C_av = {H: (C2.H + C1.H)/2,
+		    S: (C2.S + C1.S)/2,
+		    L: (C2.L + C1.L)/2
+		   };
+
 	var Cdiff = {H: C2.H - C1.H,
 		     S: C2.S - C1.S,
 		     L: C2.L - C1.L
@@ -43,6 +48,7 @@ var logic = {
 	return {
 	    C1: C1,
 	    C2: C2,
+	    C_av: C_av,
 	    Cdiff: Cdiff	
 	}
     },
@@ -56,9 +62,8 @@ var logic = {
 	var Hx = hslp.C1.H + (D ? fix_rand : Math.random()) * hslp.Cdiff.H;
 	var Sx = hslp.C1.S + (D ? fix_rand : Math.random()) * hslp.Cdiff.S;
 	var Lx = hslp.C1.L + (D ? fix_rand : Math.random()) * hslp.Cdiff.L;
-	var mix = hslToRgb(Hx, Sx, Lx);
 
-	return "rgb("+mix[0]+","+mix[1]+","+mix[2]+")";
+	return hslToHex(Hx, Sx, Lx);
     }
 
 }
@@ -79,6 +84,11 @@ function download(filename, text) {
 }
 
 
+///// my custom colour manipulation functions...s
+function hslToHex(h, s, l) {
+    var arr = hslToRgb(h, s, l);
+    return rgbToHex(arr[0], arr[1], arr[2]);
+}
 
 /*
 http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb

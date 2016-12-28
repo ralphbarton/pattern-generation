@@ -19,7 +19,7 @@
 }
 
 #c-pot-edit-table th:nth-of-type(3){
-    width: 172px;
+    width: 157px;
 }
 
 /* width of the edit cell*/
@@ -80,8 +80,8 @@
 #cp-edit-tabs {
     position: absolute;
     top: 177px;
-    right: 12px;
-    width: 200px;
+    right: 10px;
+    width: 245px;
     padding: 0px;
     margin: 0px;
 }
@@ -106,34 +106,105 @@
 }
 
 
-/* rename these classes to something clearer. this is the color-pot preview*/
-.ss{
-    position: absolute;
-    top: 25px;
-    left: 6px;
-    width: 66px;
-    height: 15px;
-    border-radius: 10px;
-    border: 3px solid red;   
-    background: yellow;
+/* This large chunk below is CSS for the ITEM column*/
+
+.mini-title{
+    text-align: left;
+    font-size: 9px;
+    font-family: sans;
 }
 
-.sj{
+.cp-item-container{
     position:relative;
-    width: 110px;
+    width: 140px;  
+}
+
+.cp-item-container.range{
     height: 68px;
-    border: 1px solid blue;   
 }
 
-.sk{
+.cp-item-container.solid{
+    height: 25px;
+}
+
+.cp-item-container .gradient-cell{
+    margin: 0px 1px;
+}
+
+.cp-item-container .threeCells{
     position: absolute;
-    border: 1px solid green;
 }
 
-.sk2{
+.cp-item-container .low{
     top:39px;
 }
 
-.sk .gradient-cell{
-    margin: 0px 1px;
+.cp-item-container .oblong{
+    position: absolute;
+    height: 15px;
+    border-radius: 10px;
+    border: 2px solid black;   
+    background: yellow;
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,1);
+}
+
+.cp-item-container.range .oblong{
+    top: 23px;
+    left: 6px;
+    width: 69px;
+}
+
+.cp-item-container.solid .oblong{
+    top: 3px;
+    left: 6px;
+    width: 69px;
+}
+
+.cp-item-container .blank{
+    position: absolute;
+    right: 4px;
+    width: 48px;
+    background: white;
+}
+
+.cp-item-container.range .blank{
+    top: 6px;
+    height: 57px;
+}
+
+.cp-item-container.solid .blank{
+    top: 2px;
+    height: 20px;
+}
+
+.cp-item-container .chequer{
+    position: absolute;
+    background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyIiBoZWlnaHQ9IjIiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHg9IjAiIHk9IjAiIHN0eWxlPSJmaWxsOiNjYWNhY2EiIC8+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgeD0iMSIgeT0iMSIgc3R5bGU9ImZpbGw6I2NhY2FjYSIgLz48L3N2Zz4=);
+    background-size:auto 10px;
+    width:25px;
+    height: 96%;
+    right: 0px;
+    border: 1px solid black;
+
+}
+
+.cp-item-container .alpha{
+    position: absolute;
+    background: red;
+    width: 34px;
+    height: 15px;
+    right: 12px;
+    opacity: 0.5;
+}
+
+.cp-item-container .A-c1{
+    top: 10px;
+}
+
+.cp-item-container .A-c2{
+    bottom: 10px;
+}
+
+.cp-item-container .A-c3{
+    top: 3px;
 }

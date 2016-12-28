@@ -12,6 +12,11 @@
     width: 270px;
 }
 
+#c-pots-view-table th:nth-of-type(3)
+{
+    width: 97px;
+}
+
 #c-pots-view-table td:nth-of-type(2)
 {
     text-align: left;

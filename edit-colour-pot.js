@@ -52,14 +52,14 @@ var edit_cp = {
 
     },
 
-    table_row: function(row_data, i){
+    table_row: function(pot_elem, i){
     	$("#c-pot-edit-table tbody").append(
 	    $('<tr/>').data({index: i})
 		.append(
 		    $('<td/>').text(i+1),
 		    $('<td/>').addClass("prob-col").append(
 			$('<input/>')
-			    .val("5%")
+			    .val(pot_elem.prob+"%")
 			    .attr('type', 'text')
 			    .addClass("table-input-cell")
 			    .attr('readonly', true)
@@ -76,32 +76,69 @@ var edit_cp = {
 			    })
 		    ),
 		    $('<td/>').append(
-			this.gen_row_preview_contents()
+			this.gen_row_preview_contents(pot_elem)
 		    )
 		)
 	);
     },
 
-    gen_row_preview_contents: function(){
+    gen_row_preview_contents: function(pot_elem){
+	console.log(pot_elem);
+
+	var $contents = [];
+	if(pot_elem.type=="range"){//HTML for 'range'
+
+	    // object contains two levels of lookup key:
+	    // [C1, C2, C_av, Cdiff].[H, S, L]
+	    var bits = logic.colour_pair_to_hsl(pot_elem.value[0], pot_elem.value[1]);
+	    console.log(bits.C_av.H, bits.C_av.S, bits.C_av.L);
+	    var av_colour = hslToHex(bits.C_av.H, bits.C_av.S, bits.C_av.L);
+	    console.log(av_colour);
+
+	    $contents = [
+		$("<div\>").addClass("threeCells").append(
+		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:0, S:"y", L:"x"}),
+		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:"x", S:0, L:"y"}),
+		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:"x", S:"y", L:0})
+		),
+		$("<div\>").addClass("threeCells low").append(
+		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:1, S:"y", L:"x"}),
+		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:"x", S:1, L:"y"}),
+		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:"x", S:"y", L:1})
+		),
+		$("<div\>").addClass("oblong")//append order to make sure it's on top...
+		    .css("background", av_colour),
+		$("<div\>").addClass("blank").append(
+		    $("<div\>").addClass("chequer"),
+		    $("<div\>").addClass("alpha A-c1")
+			.css("background", av_colour),
+		    $("<div\>").addClass("alpha A-c2")
+			.css("background", av_colour)
+		)
+	    ];
+
+	}else{//HTML for 'solid'
+	    $contents = [
+		$("<div\>").addClass("oblong")
+		    .css("background",pot_elem.value),
+		$("<div\>").addClass("blank").append(
+		    $("<div\>").addClass("chequer"),
+		    $("<div\>").addClass("alpha A-c3")
+			.css("background", pot_elem.value)
+		)
+	    ];
+	}
+
 	return $("<div\>").append(
-	    $("<div\>").addClass("sj").append(
-		$("<div\>").addClass("sk").append(
-		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}),
-		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}),
-		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"})
-		),
-		$("<div\>").addClass("sk sk2").append(
-		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}),
-		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}),
-		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"})
-		),
-		$("<div\>").text("a").addClass("ss")//final so it is on top...
-	    )
+	    $("<div\>").addClass("mini-title").text(pot_elem.type),
+	    $("<div\>").addClass("cp-item-container").addClass(pot_elem.type).append($contents)
 	);
+
     },
 
     hide: function(){
 	//Response to closing Edit
+	$("#c-pot-edit-table tbody").html("");//wipe table contents...
 	$("#cpanel-main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
 	$("#colour-pots-view").show();
 	$("#colour-pots-edit").hide();
@@ -109,3 +146,4 @@ var edit_cp = {
     }
 
 };
+

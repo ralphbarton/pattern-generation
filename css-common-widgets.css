@@ -34,7 +34,6 @@
 .user-data-table th:last-child, 
 .user-data-table td:last-child {
     border-right: none;
-    padding-right: 29px; /*allow for scroll bar*/
 }
 
 .user-data-table tr:hover{
