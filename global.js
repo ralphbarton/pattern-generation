@@ -61,6 +61,9 @@ var global = {
 
 	//initiate tabs...
 	$("#cpanel-main-tabs").tabs()
+
+
+
 	$("body").append("<br>");
 	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}));
 	$("body").append(gradient_cell.make(40, "#A9A8B8", "#8B149A", {H:1, S:"y", L:"x"}));
@@ -127,4 +130,10 @@ $(document).ready(function() {
     view_cp.init();
 
     export_pat.init();
+
+    //code to auto enter CP edit and speed up testing...
+    $("#c-pots-view-table tbody tr").first().click();
+    $("#color-pot-array-options #edit").click();
+
 });
+

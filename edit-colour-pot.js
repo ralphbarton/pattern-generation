@@ -57,7 +57,7 @@ var edit_cp = {
 	    $('<tr/>').data({index: i})
 		.append(
 		    $('<td/>').text(i+1),
-		    $('<td/>').append(
+		    $('<td/>').addClass("prob-col").append(
 			$('<input/>')
 			    .val("5%")
 			    .attr('type', 'text')
@@ -65,18 +65,38 @@ var edit_cp = {
 			    .attr('readonly', true)
 			    .on("focusout", function(){
 				// add logic to write underlying data
-//				var d3_index = $(this).parent().parent()[0].__data__.index;
-//				DM.ColourPotArray[d3_index].description = $(this).val();
+				//				var d3_index = $(this).parent().parent()[0].__data__.index;
+				//				DM.ColourPotArray[d3_index].description = $(this).val();
 				table_cell_edit(this,false);
 			    })
 			    .click(function(){
-//				if(view_cp.selected_cp_index == ColourPot.index){ // add logic to calculate row selection
-				    table_cell_edit(this,true);
-//				}
+				//				if(view_cp.selected_cp_index == ColourPot.index){ // add logic to calculate row selection
+				table_cell_edit(this,true);
+				//				}
 			    })
 		    ),
-		    $('<td/>').text("fancy content...")
+		    $('<td/>').append(
+			this.gen_row_preview_contents()
+		    )
 		)
+	);
+    },
+
+    gen_row_preview_contents: function(){
+	return $("<div\>").append(
+	    $("<div\>").addClass("sj").append(
+		$("<div\>").addClass("sk").append(
+		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}),
+		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}),
+		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"})
+		),
+		$("<div\>").addClass("sk sk2").append(
+		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}),
+		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"}),
+		    gradient_cell.make(25, "#A9A8B8", "#8B149A", {H:0, S:"y", L:"x"})
+		),
+		$("<div\>").text("a").addClass("ss")//final so it is on top...
+	    )
 	);
     },
 
