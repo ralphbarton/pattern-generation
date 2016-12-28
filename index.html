@@ -107,9 +107,9 @@
 		</tbody>
 	      </table>
 
-	      <div id="colour-pots-sample-container"></div>
+	      <div class="preview-container" id="main-cp-view"></div>
 
-	      <div id="color-pot-array-options">
+	      <div id="cp-view-table-buttons">
 		<div class="button" id="edit">Edit</div>
 		<div class="button" id="duplicate">Duplicate</div>
 		<div class="button" id="delete">Delete</div>
@@ -121,12 +121,14 @@
 
 	    <div id="colour-pots-edit" style="display: none;">
 
+	      <!-- 1. [cp-edit] Title Bar -->
 	      <div id="title-bar">
 		<span class="TL-1">Pot Contents: </span>
 		<span class="TL-2">n. </span>
 		<input class="TL-3" type="text">
 	      </div>
 
+	      <!-- 2. [cp-edit] Table Bar -->
 	      <table class="user-data-table" id="c-pot-edit-table">
 		<thead>
 		  <tr>
@@ -136,10 +138,16 @@
 		  </tr>
 		</thead>
 		<tbody>
-		  <!-- rows populated using JS -->
 		</tbody>
 	      </table>
 
+	      <!-- 3. [cp-edit] Table Buttons -->
+	      <div id="cp-edit-table-buttons">
+		<div class="button s" id="new">New</div>
+		<div class="button s" id="delete">Delete</div>
+	      </div>
+
+	      <!-- 4. [cp-edit] Tabs for Range. -->
 	      <div id="cp-edit-tabs">
 		<ul>
 		  <li><a href="#tabs-e1">Central</a></li>
@@ -158,9 +166,13 @@
 
 	      </div>
 
+	      <!-- 5. [cp-edit] Pot preview -->
+	      <div class="preview-container" id="main-cp-edit"></div>
+
+	      <!-- 6. [cp-edit] Slider (it doen't work!) -->
 	      <div id="slider"></div>
 
-	      <!-- Cancel, Done -->	  
+	      <!-- 7. [cp-edit] Cancel/Done Buttons -->
 	      <div id="cp-edit-buttons">
 		<div class="button" id="cancel">Cancel</div>
 		<div class="button" id="done">Done</div>

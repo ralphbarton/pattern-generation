@@ -40,48 +40,17 @@
     width: 264px;
 }
 
-/* Define styles for both types of colour-pot preview areas on the "view" page*/
-.preview-container{
-    font-size: 0;
-    width: 80px;
-    border: 1px solid black;
-    padding: 0px
-}
-
-.preview-cell{
-    display: inline-block;
-    background: yellow;
-    margin: 0px;
-    border: 1px solid black;
-    padding: 0px;
-    width: 8px;
-    height: 8px;
-}
-
-#colour-pots-sample-container{
-    font-size: 0;
+/* Preview - set position of this specific preview*/
+.preview-container#main-cp-view{
+    position: absolute;
     width: 260px;
     height: 260px;
     top: 129px;
     right: 14px;
-    border: 1px solid black;
-    padding: 0px;
-    background:grey;
-    position: absolute;
-}
-
-.preview-cell-big{
-    display: inline-block;
-    background: yellow;
-    margin: 0px;
-    border: 1px solid black;
-    padding: 0px;
-    width: 18px;
-    height: 18px;
 }
 
 /* BUTTONS - positioning - within "View Colour Pot" */
-#color-pot-array-options{
+#cp-view-table-buttons{
     position: absolute;
     bottom: 10px;
     right: 365px;

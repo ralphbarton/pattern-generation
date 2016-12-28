@@ -130,6 +130,12 @@ text-decoration: underline;
     cursor:pointer;
 }
 
+.button.s{
+    font-size: 75%;
+      padding: 2px 9px;
+    margin: 0px 1px;  
+}
+
 .button:hover{
     transition: background 0.2s;
     background: rgba(0,70,180,0.3);
@@ -162,4 +168,31 @@ text-decoration: underline;
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                           not supported by any browser */
+}
+
+/* Styles for colourpot preview zones*/
+.preview-container{
+    font-size: 0;
+    border: 1px solid black;
+    padding: 0px
+}
+.preview-container.tiny{
+    width: 80px;
+}
+
+.preview-cell{
+    display: inline-block;
+    border: 1px solid black;
+    margin: 0px;
+    padding: 0px;
+}
+
+.preview-cell.small{
+    width: 8px;
+    height: 8px;
+}
+
+.preview-cell.big{
+    width: 18px;
+    height: 18px;
 }

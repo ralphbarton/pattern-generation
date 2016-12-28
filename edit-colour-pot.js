@@ -19,7 +19,12 @@ var edit_cp = {
 
 	});
 
-	//$("#cp-edit-slider").slider();
+	$(".preview-container#main-cp-edit").append(
+	    global.$div_array(152, "preview-cell small")
+	);
+
+	//doesn't work
+	$("#cp-edit-slider").slider();
 
 	this.not_yet_initialised = false;
     },
@@ -46,54 +51,64 @@ var edit_cp = {
 	    POT.description = $(this).val();
 	});
 
-	POT.contents.forEach(function(element,i){
-	    edit_cp.table_row(element,i);
-	})
+	
+	var TR_edit_click_listener = function(d,i){
+	    $("#c-pot-edit-table tr.selected").removeClass("selected");
+	    $(this).addClass("selected");
+	    /* test if this represents a selection change...
+	    if(view_cp.selected_cp_index != d.index){
+		view_cp.selected_cp_index = d.index;
+		view_cp.fill_preview();
+	    }*/
+	};
+
+
+	POT.contents.forEach(function(element, i){
+	    edit_cp.table_row(element, i, TR_edit_click_listener);
+	});
+
+	// this is going to need work so that it updates when necessary
+	view_cp.fill_preview(".preview-container#main-cp-edit");
 
     },
 
-    table_row: function(pot_elem, i){
+    table_row: function(pot_elem, i, fn_click){
     	$("#c-pot-edit-table tbody").append(
-	    $('<tr/>').data({index: i})
-		.append(
-		    $('<td/>').text(i+1),
-		    $('<td/>').addClass("prob-col").append(
-			$('<input/>')
-			    .val(pot_elem.prob+"%")
-			    .attr('type', 'text')
-			    .addClass("table-input-cell")
-			    .attr('readonly', true)
-			    .on("focusout", function(){
-				// add logic to write underlying data
-				//				var d3_index = $(this).parent().parent()[0].__data__.index;
-				//				DM.ColourPotArray[d3_index].description = $(this).val();
-				table_cell_edit(this,false);
-			    })
-			    .click(function(){
-				//				if(view_cp.selected_cp_index == ColourPot.index){ // add logic to calculate row selection
-				table_cell_edit(this,true);
-				//				}
-			    })
-		    ),
-		    $('<td/>').append(
-			this.gen_row_preview_contents(pot_elem)
-		    )
+	    $('<tr/>').append(
+		$('<td/>').text(i+1),
+		$('<td/>').addClass("prob-col").append(
+		    $('<input/>')
+			.val(pot_elem.prob+"%")
+			.attr('type', 'text')
+			.addClass("table-input-cell")
+			.attr('readonly', true)
+			.on("focusout", function(){
+			    // add logic to write underlying data
+			    //				var d3_index = $(this).parent().parent()[0].__data__.index;
+			    //				DM.ColourPotArray[d3_index].description = $(this).val();
+			    table_cell_edit(this,false);
+			})
+			.click(function(){
+			    //				if(view_cp.selected_cp_index == ColourPot.index){ // add logic to calculate row selection
+			    table_cell_edit(this,true);
+			    //				}
+			})
+		),
+		$('<td/>').append(
+		    this.gen_row_preview_contents(pot_elem)
 		)
+	    ).click(fn_click)
 	);
     },
 
     gen_row_preview_contents: function(pot_elem){
-	console.log(pot_elem);
-
 	var $contents = [];
 	if(pot_elem.type=="range"){//HTML for 'range'
 
 	    // object contains two levels of lookup key:
 	    // [C1, C2, C_av, Cdiff].[H, S, L]
 	    var bits = logic.colour_pair_to_hsl(pot_elem.value[0], pot_elem.value[1]);
-	    console.log(bits.C_av.H, bits.C_av.S, bits.C_av.L);
 	    var av_colour = hslToHex(bits.C_av.H, bits.C_av.S, bits.C_av.L);
-	    console.log(av_colour);
 
 	    $contents = [
 		$("<div\>").addClass("threeCells").append(

@@ -133,7 +133,7 @@ $(document).ready(function() {
 
     //code to auto enter CP edit and speed up testing...
     $("#c-pots-view-table tbody tr").first().click();
-    $("#color-pot-array-options #edit").click();
+    $("#cp-view-table-buttons #edit").click();
 
 });
 

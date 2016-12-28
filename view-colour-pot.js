@@ -32,8 +32,8 @@ var view_cp = {
 			})
 		),
 		$('<td/>').addClass("preview-column").append(
-		    $('<div/>').addClass("preview-container")
-			.append(global.$div_array(16, "preview-cell", ColourPot))
+		    $('<div/>').addClass("preview-container tiny")
+			.append(global.$div_array(16, "preview-cell small", ColourPot))
 		)
 	    )[0];
 	}; 
@@ -43,7 +43,7 @@ var view_cp = {
 	    $(this).addClass("selected");
 	    if(view_cp.selected_cp_index != d.index){
 		view_cp.selected_cp_index = d.index;
-		view_cp.fill_preview();
+		view_cp.fill_preview(".preview-container#main-cp-view");
 	    }
 	};
 
@@ -98,9 +98,10 @@ var view_cp = {
 	}
     },
 
-    fill_preview: function(){
+    //move to more generic location...
+    fill_preview: function(container_id){
 	var ColourPot = DM.ColourPotArray[this.selected_cp_index];
-	$("#colour-pots-sample-container").children().each(function(){
+	$(container_id).children().each(function(){
 	    $(this).css("background",logic.DrawFromColourPot(ColourPot))
 	});
     },
@@ -108,15 +109,15 @@ var view_cp = {
     init: function(){
 		
 	//add many cells into main preview
-	$("#colour-pots-sample-container").append(
-	    global.$div_array(169, "preview-cell-big")
+	$(".preview-container#main-cp-view").append(
+	    global.$div_array(169, "preview-cell big")
 	);
 
 	//add initial data for colour pot rows...
 	this.table_update_d3();
 
 	//The Edit, Duplicate and Delete buttons underneath the table - click handling...
-	$("#color-pot-array-options #edit").click(function(){
+	$("#cp-view-table-buttons #edit").click(function(){
 	    //this needs to do more work, in terms of editing the specific colour pot... TODO.
 	    var index = view_cp.selected_cp_index;
 	    if(index !== undefined){
@@ -124,7 +125,7 @@ var view_cp = {
 	    }
 	});
 
-	$("#color-pot-array-options #duplicate").click(function(){
+	$("#cp-view-table-buttons #duplicate").click(function(){
 	    var index = view_cp.selected_cp_index;
 	    if(index !== undefined){
 		DM.duplicate_ColourPot(index);
@@ -133,7 +134,7 @@ var view_cp = {
 	});
 
 
-	$("#color-pot-array-options #delete").click(function(){
+	$("#cp-view-table-buttons #delete").click(function(){
 	    var index = view_cp.selected_cp_index;
 	    if(index !== undefined){
 		var lowest_row = DM.delete_ColourPot(index);
@@ -142,7 +143,7 @@ var view_cp = {
 	});
 
 	$("#c-pot-view-rerandomise").click(function(){
-	    view_cp.fill_preview();
+	    view_cp.fill_preview(".preview-container#main-cp-view");
 	});
     }
 

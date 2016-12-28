@@ -58,7 +58,7 @@
     color: rgba(0,0,0,0.6);
     font-size: 24px;
     font-family: sans;
-    width: 310px;
+    width: 260px;
 }
 
 #colour-pots-edit input.TL-3:hover{
@@ -81,7 +81,7 @@
     position: absolute;
     top: 177px;
     right: 10px;
-    width: 245px;
+    width: 195px;
     padding: 0px;
     margin: 0px;
 }
@@ -96,6 +96,7 @@
     border: 1px solid rgba(0,0,0,0.5);
     border-radius: 4px;
     padding: 3px;
+    height: 280px;
 }
 
 /* BUTTONS - positioning - within "Edit Colour Pot" */
@@ -103,6 +104,12 @@
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+
+#cp-edit-table-buttons{
+    position: absolute;
+    top: 565px;
+    left: 117px;
 }
 
 
@@ -207,4 +214,13 @@
 
 .cp-item-container .A-c3{
     top: 3px;
+}
+
+/* Preview - set position of this specific preview*/
+.preview-container#main-cp-edit{
+    position: absolute;
+    width: 190px;
+    height: 80px;
+    top: 502px;
+    right: 11px;
 }
