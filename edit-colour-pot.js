@@ -80,17 +80,18 @@ var edit_cp = {
 		    $('<input/>')
 			.val(pot_elem.prob+"%")
 			.attr('type', 'text')
+			.data({unit: "%"})
 			.addClass("table-input-cell")
 			.attr('readonly', true)
 			.on("focusout", function(){
 			    // add logic to write underlying data
 			    //				var d3_index = $(this).parent().parent()[0].__data__.index;
 			    //				DM.ColourPotArray[d3_index].description = $(this).val();
-			    table_cell_edit(this,false);
+			    widgets.table_cell_edit(this,false);
 			})
 			.click(function(){
 			    //				if(view_cp.selected_cp_index == ColourPot.index){ // add logic to calculate row selection
-			    table_cell_edit(this,true);
+			    widgets.table_cell_edit(this,true);
 			    //				}
 			})
 		),

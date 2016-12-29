@@ -1,11 +1,3 @@
-function table_cell_edit(input_elem, enable){
-    if(enable){
-	$(input_elem).attr('readonly', false).addClass("ui-enabled");
-    }else{
-	$(input_elem).attr('readonly', true).removeClass("ui-enabled");
-    }
-};
-
 var view_cp = {
 
     selected_cp_index: undefined,
@@ -23,11 +15,11 @@ var view_cp = {
 			.on("focusout", function(){
 			    var d3_index = $(this).parent().parent()[0].__data__.index;
 			    DM.ColourPotArray[d3_index].description = $(this).val();
-			    table_cell_edit(this,false);
+			    widgets.table_cell_edit(this,false);
 			})
 			.click(function(){
 			    if(view_cp.selected_cp_index == ColourPot.index){
-				table_cell_edit(this,true);
+				widgets.table_cell_edit(this,true);
 			    }
 			})
 		),
