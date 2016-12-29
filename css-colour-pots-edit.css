@@ -77,13 +77,24 @@
 
 /* for RANGE mode - position the CENTRAL vs. EDGES TABS*/
 
-#cp-edit-tabs {
+#cp-edit-colour{
     position: absolute;
     top: 177px;
     right: 10px;
     width: 195px;
+}
+
+#cp-edit-solid{
+    position: absolute;
+    top:0px;
+    left:0px;
+      display:none;/* for initial rendering purposes*/
+}
+
+
+#cp-edit-tabs {
     padding: 0px;
-    margin: 0px;
+    display:none;/* for initial rendering purposes*/
 }
 
 #cp-edit-tabs > ul{

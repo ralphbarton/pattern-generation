@@ -51,20 +51,8 @@ var edit_cp = {
 	    POT.description = $(this).val();
 	});
 
-	
-	var TR_edit_click_listener = function(d,i){
-	    $("#c-pot-edit-table tr.selected").removeClass("selected");
-	    $(this).addClass("selected");
-	    /* test if this represents a selection change...
-	    if(view_cp.selected_cp_index != d.index){
-		view_cp.selected_cp_index = d.index;
-		view_cp.fill_preview();
-	    }*/
-	};
-
-
 	POT.contents.forEach(function(element, i){
-	    edit_cp.table_row(element, i, TR_edit_click_listener);
+	    edit_cp.table_row(element, i);
 	});
 
 	// this is going to need work so that it updates when necessary
@@ -72,7 +60,7 @@ var edit_cp = {
 
     },
 
-    table_row: function(pot_elem, i, fn_click){
+    table_row: function(pot_elem, i){
     	$("#c-pot-edit-table tbody").append(
 	    $('<tr/>').append(
 		$('<td/>').text(i+1),
@@ -90,15 +78,33 @@ var edit_cp = {
 			    widgets.table_cell_edit(this,false);
 			})
 			.click(function(){
-			    //				if(view_cp.selected_cp_index == ColourPot.index){ // add logic to calculate row selection
+			    // like on 'edit' we could require row to be slected first before clicking makes text editable
+			    // but probably more annoying than useful
+			    //	if(view_cp.selected_cp_index == ColourPot.index){
 			    widgets.table_cell_edit(this,true);
-			    //				}
 			})
 		),
 		$('<td/>').append(
 		    this.gen_row_preview_contents(pot_elem)
 		)
-	    ).click(fn_click)
+	    ).click(function(d,ii){
+		$("#c-pot-edit-table tr.selected").removeClass("selected");
+		$(this).addClass("selected");
+
+		if(pot_elem.type == "solid"){
+		    $("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
+		    $("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
+		}else{
+		    $("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
+		    $("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
+		}
+
+		/* test if this represents a selection change...
+		   if(view_cp.selected_cp_index != d.index){
+		   view_cp.selected_cp_index = d.index;
+		   view_cp.fill_preview();
+		   }*/
+	    })
 	);
     },
 
