@@ -123,6 +123,24 @@
     left: 117px;
 }
 
+/* Actions - positioning - within "Edit Colour Pot" */
+#cp-edit-actions {
+    position: absolute;
+    top: 560px;
+    left: 4px;
+    width: 120px;
+}
+
+.action-link#sum100{
+    text-align: left;
+}
+
+#cp-edit-actions #solid-v-range{
+    display:inline-block;
+    position: absolute;
+        font-size: 11px;
+    margin-top: 2px;
+}
 
 /* This large chunk below is CSS for the ITEM column*/
 

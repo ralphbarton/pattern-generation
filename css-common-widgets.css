@@ -146,7 +146,26 @@ text-decoration: underline;
 
 
 
-.action-link{
+/*Mutex action link pairs...*/
+
+.act-mutex{
+    display: inline-block;
+    font-size: 11px;
+}
+
+/* creates the bar between the links*/
+.act-mutex>div:first-child{
+    border-right: 2px solid rgba(0,30,70,0.25);
+}
+
+.act-mutex div{
+    padding: 0px 4px;
+    display: inline-block;
+    text-decoration: underline;
+    color: rgba(0,30,70,0.5);
+}
+
+div.action-link{
     font-size: 11px;
     text-decoration: underline;
     color: #0C47B3;
@@ -160,7 +179,7 @@ text-decoration: underline;
 }
 
 
-.noselect, .action-link, .button{
+.noselect, .action-link, .button, .act-mutex{
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */
     -khtml-user-select: none; /* Konqueror */

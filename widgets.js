@@ -48,5 +48,36 @@ var widgets = {
 
 	    }
 	}
+    },
+
+    //this assumes an array of 2 functions as second parameter.
+    actionLink_init: function(select, fn_listeners_array){
+	
+	$(select).find("div").each(function(div_i){
+	    $(this).click(function(){
+		
+		// 1. instigate listener function if allowed
+		if($(this).hasClass("action-link")){
+		    fn_listeners_array[div_i]();
+		    //2. invert which link is active (upon click)
+		    widgets.actionLink_set(select, 1-div_i)
+		}
+	    });
+	});
+
+	//initially, set left one as active.
+	widgets.actionLink_set(select, 0);
+    },
+
+    actionLink_set: function(select, activate_i){
+	$(select).find("div").each(function(i){
+	    if(i == activate_i){
+		$(this).addClass("action-link");
+	    }else{
+		$(this).removeClass("action-link");
+	    }
+	});
     }
+
+    
 };

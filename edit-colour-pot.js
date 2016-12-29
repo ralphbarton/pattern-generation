@@ -23,8 +23,20 @@ var edit_cp = {
 	    global.$div_array(152, "preview-cell small")
 	);
 
+	widgets.actionLink_init("#solid-v-range .act-mutex",[
+	    function(){
+		console.log("link 1");
+	    },
+	    function(){
+		console.log("link 2");
+	    }
+	]);
+
+
 	//doesn't work
 	$("#cp-edit-slider").slider();
+
+
 
 	this.not_yet_initialised = false;
     },
