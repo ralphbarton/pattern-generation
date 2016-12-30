@@ -122,18 +122,17 @@ text-decoration: underline;
 .button{
     transition: all 0.2s;
     display: inline-block;
-    border: 1px solid rgba(0,30,70,0.4);
+    border: 1px solid;
     border-radius: 4px;
-    background: rgba(0,30,70,0.1);
     padding: 3px 14px;
     margin: 0px 5px;
     cursor:pointer;
 }
 
-.button.s{
-    font-size: 75%;
-      padding: 2px 9px;
-    margin: 0px 1px;  
+.button{
+    color: black;
+    background: rgba(0,30,70,0.1);
+    border-color: rgba(0,30,70,0.4);
 }
 
 .button:hover{
@@ -142,6 +141,19 @@ text-decoration: underline;
     text-decoration: underline;
     color: #004370;
     border-color: #004370;
+}
+
+.button.ui-disabled{
+    color: rgba(0,30,70,0.4);
+    background: rgba(210,210,210,0.4);
+    border-color: rgba(0,30,70,0.3);
+    text-decoration: none;
+}
+
+.button.s{
+    font-size: 75%;
+      padding: 2px 9px;
+    margin: 0px 1px;  
 }
 
 

@@ -16,10 +16,10 @@ var logic = {
 	}
 	
 	if (items[i].type== "solid"){
-	    return items[i].value;
+	    return items[i].solid;
 	}
 	else if (items[i].type== "range"){
-	    var rand_col = this.draw_continuous_colour(items[i].value[0], items[i].value[1], false)
+	    var rand_col = this.draw_continuous_colour(items[i].range[0], items[i].range[1], false)
 	    return rand_col;
 	}
 

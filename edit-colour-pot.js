@@ -7,22 +7,27 @@ var edit_cp = {
 	//initiate tabs...
 	$("#cp-edit-tabs").tabs();
 
-	//add action for cancel button
+ 	//add action for main TAB buttons
 	$("#cp-edit-buttons #cancel").click(function(){edit_cp.hide();});
 	$("#cp-edit-buttons #done").click(function(){
-	    //first save data...
-	    var save_i = DM.save_editing_ColourPot();//return value is the index of the colour-pot just saved
-	    edit_cp.hide();
 
-	    //this redraws the list with the latest data...
-	    view_cp.table_update_d3(save_i);
+	    if(!$(this).hasClass("ui-disabled")){
+		//first save data...
+		var save_i = DM.save_editing_ColourPot();//return value is the index of the colour-pot just saved
+		edit_cp.hide();
+
+		//this redraws the list with the latest data...
+		view_cp.table_update_d3(save_i);
+	    }
 
 	});
 
+	// inital setting of the preview-zone
 	$(".preview-container#main-cp-edit").append(
 	    global.$div_array(152, "preview-cell small")
 	);
 
+	// add logic to the action links
 	widgets.actionLink_init("#solid-v-range .act-mutex",[
 	    function(){
 		console.log("link 1");
@@ -31,6 +36,23 @@ var edit_cp = {
 		console.log("link 2");
 	    }
 	]);
+
+	// add logic to the table buttons
+	$("#cp-edit-actions #sum100").click(function(){
+	    // may fail if all probabilities are zero...
+	    DM.sum100_editing_ColourPot();
+
+	    // view update required now...
+	    $("#cp-edit-buttons #done").removeClass("ui-disabled")
+
+	    //and data itself
+    	    $("#c-pot-edit-table tbody tr").each(function(i){
+		$(this).find("input").val(DM.editing_ColourPot.contents[i].prob);
+		widgets.table_cell_edit($(this), false);
+	    });
+
+
+	});
 
 
 	//doesn't work
@@ -72,6 +94,8 @@ var edit_cp = {
 
     },
 
+    selected_row_i: undefined,
+
     table_row: function(pot_elem, i){
     	$("#c-pot-edit-table tbody").append(
 	    $('<tr/>').append(
@@ -88,6 +112,22 @@ var edit_cp = {
 			    //				var d3_index = $(this).parent().parent()[0].__data__.index;
 			    //				DM.ColourPotArray[d3_index].description = $(this).val();
 			    widgets.table_cell_edit(this,false);
+
+			    // probability change may have triggered change to validity of set (does it sum to 100?)
+
+			    // Access and mutate the data structure
+			    DM.editing_ColourPot.contents[i].prob = parseInt($(this).val());
+
+			    // valid sum of probabilities?
+			    if(DM.validProbs_editing_ColourPot()){
+				$("#cp-edit-buttons #done").removeClass("ui-disabled")
+				// update preview now????
+				// TODO.
+
+			    }else{
+				$("#cp-edit-buttons #done").addClass("ui-disabled")
+			    }
+
 			})
 			.click(function(){
 			    // like on 'edit' we could require row to be slected first before clicking makes text editable
@@ -99,23 +139,34 @@ var edit_cp = {
 		$('<td/>').append(
 		    this.gen_row_preview_contents(pot_elem)
 		)
-	    ).click(function(d,ii){
-		$("#c-pot-edit-table tr.selected").removeClass("selected");
-		$(this).addClass("selected");
+	    ).click(function(d,ii){//"d" is the entire event object and "ii" is undefined.
 
-		if(pot_elem.type == "solid"){
-		    $("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
-		    $("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
-		}else{
-		    $("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
-		    $("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
+		// these values are useful.
+		//console.log(pot_elem, i);
+
+		// UPON selection of a row....
+		// an awful lot needs to happen upon selection of a row.
+
+		//row selected has changed?
+		if(edit_cp.selected_row_i != i){
+
+		    // update global state.
+		    edit_cp.selected_row_i = i;
+
+		    // update view
+		    $("#c-pot-edit-table tr.selected").removeClass("selected");
+		    $(this).addClass("selected");
+
+		    if(pot_elem.type == "solid"){
+			$("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
+			$("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
+		    }else{
+			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
+			$("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
+		    }
+
 		}
 
-		/* test if this represents a selection change...
-		   if(view_cp.selected_cp_index != d.index){
-		   view_cp.selected_cp_index = d.index;
-		   view_cp.fill_preview();
-		   }*/
 	    })
 	);
     },
@@ -126,19 +177,19 @@ var edit_cp = {
 
 	    // object contains two levels of lookup key:
 	    // [C1, C2, C_av, Cdiff].[H, S, L]
-	    var bits = logic.colour_pair_to_hsl(pot_elem.value[0], pot_elem.value[1]);
+	    var bits = logic.colour_pair_to_hsl(pot_elem.range[0], pot_elem.range[1]);
 	    var av_colour = hslToHex(bits.C_av.H, bits.C_av.S, bits.C_av.L);
 
 	    $contents = [
 		$("<div\>").addClass("threeCells").append(
-		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:0, S:"y", L:"x"}),
-		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:"x", S:0, L:"y"}),
-		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:"x", S:"y", L:0})
+		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:0, S:"y", L:"x"}),
+		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:"x", S:0, L:"y"}),
+		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:"x", S:"y", L:0})
 		),
 		$("<div\>").addClass("threeCells low").append(
-		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:1, S:"y", L:"x"}),
-		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:"x", S:1, L:"y"}),
-		    gradient_cell.make(25, pot_elem.value[0], pot_elem.value[1], {H:"x", S:"y", L:1})
+		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:1, S:"y", L:"x"}),
+		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:"x", S:1, L:"y"}),
+		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:"x", S:"y", L:1})
 		),
 		$("<div\>").addClass("oblong")//append order to make sure it's on top...
 		    .css("background", av_colour),
@@ -154,11 +205,11 @@ var edit_cp = {
 	}else{//HTML for 'solid'
 	    $contents = [
 		$("<div\>").addClass("oblong")
-		    .css("background",pot_elem.value),
+		    .css("background",pot_elem.solid),
 		$("<div\>").addClass("blank").append(
 		    $("<div\>").addClass("chequer"),
 		    $("<div\>").addClass("alpha A-c3")
-			.css("background", pot_elem.value)
+			.css("background", pot_elem.solid)
 		)
 	    ];
 	}

@@ -9,17 +9,17 @@ var DM = {
 		{
 		    prob: 80,
 		    type: "solid",
-		    value: "#E3DD8A"
+		    solid: "#E3DD8A"
 		},
 		{
 		    prob: 15,
 		    type: "solid",
-		    value: "#78531F"
+		    solid: "#78531F"
 		},
 		{
 		    prob: 5,
 		    type: "solid",
-		    value: "#E38ABC"
+		    solid: "#E38ABC"
 		}
 	    ]
 	},
@@ -30,52 +30,72 @@ var DM = {
 		{
 		    prob: 85,
 		    type: "range",
-		    value: ["#A9CF89","#79901A"]
+		    range: ["#A9CF89","#79901A"]
 		},
 		{
 		    prob: 5,
 		    type: "range",
-		    value: ["#0B17E6","#66A781"]
+		    range: ["#0B17E6","#66A781"]
 		},
 		{
 		    prob: 10,
 		    type: "solid",
-		    value: "#CF7713"
+		    solid: "#CF7713"
 		}
 	    ]
 	},
 	{
 	    index: 2,
-	    description: "Chequer",
+	    description: "Electric paints",
 	    contents: [
 		{
 		    prob: 21,
 		    type: "solid",
-		    value: "yellow"
+		    solid: "yellow"
 		},
 		{
 		    prob: 21,
 		    type: "solid",
-		    value: "orange"
+		    solid: "orange"
 		},
 		{
 		    prob: 21,
 		    type: "solid",
-		    value: "green"
+		    solid: "green"
 		},
 		{
 		    prob: 21,
 		    type: "solid",
-		    value: "purple"
+		    solid: "purple"
 		},
 		{
 		    prob: 16,
 		    type: "solid",
-		    value: "black"
+		    solid: "black"
 		}
 	    ]
 	},
-
+	{
+	    index: 3,
+	    description: "Primary dotters",
+	    contents: [
+		{
+		    prob: 33.3,
+		    type: "solid",
+		    solid: "#FCEE59"
+		},
+		{
+		    prob: 33.4,
+		    type: "solid",
+		    solid: "#458EFA"
+		},
+		{
+		    prob: 33.3,
+		    type: "solid",
+		    solid: "#FF5B2E"//red
+		}
+	    ]
+	},
     ],
 
     duplicate_ColourPot: function(index_dupl){
@@ -113,6 +133,33 @@ var DM = {
 	this.ColourPotArray[save_index] = this.editing_ColourPot;
 	this.editing_ColourPot = null;
 	return save_index;
+    },
+
+    validProbs_editing_ColourPot: function(){
+	var items = this.editing_ColourPot.contents;	
+	var accumulator = 0;
+
+	for (var i=0; i < items.length; i++){
+	    accumulator += items[i].prob;
+	}
+	return accumulator == 100;
+    },
+
+    sum100_editing_ColourPot: function(){
+	var items = this.editing_ColourPot.contents;	
+	var accumulator = 0;
+
+	//1. sum
+	for (var i=0; i < items.length; i++){
+	    accumulator += items[i].prob;
+	}
+
+	//2. rescale
+	for (var i=0; i < items.length; i++){
+	    items[i].prob = items[i].prob * (100/accumulator);
+	}
+
     }
+
     
 };
