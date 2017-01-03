@@ -45,10 +45,11 @@ var edit_cp = {
 	    // view update required now...
 	    $("#cp-edit-buttons #done").removeClass("ui-disabled")
 
-	    //and data itself
+	    // update the view to match the underlying data
     	    $("#c-pot-edit-table tbody tr").each(function(i){
-		$(this).find("input").val(DM.editing_ColourPot.contents[i].prob);
-		widgets.table_cell_edit($(this), false);
+		var $input_elem = $(this).find("input");
+		$input_elem.val(DM.editing_ColourPot.contents[i].prob);
+		widgets.table_cell_edit($input_elem[0], false);//pass native element accessed via [0]
 	    });
 
 

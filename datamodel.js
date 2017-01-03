@@ -154,9 +154,13 @@ var DM = {
 	    accumulator += items[i].prob;
 	}
 
-	//2. rescale
+	//2. rescale (with rounding and guarenteed sum=100)
+	var r_acc = 0;
 	for (var i=0; i < items.length; i++){
-	    items[i].prob = items[i].prob * (100/accumulator);
+	    var rounded = +((items[i].prob * (100/accumulator)).toFixed(0));
+	    var remainder = +((100-r_acc).toFixed(0));
+	    items[i].prob = (i == items.length-1 ? remainder : rounded);
+	    r_acc += rounded;
 	}
 
     }

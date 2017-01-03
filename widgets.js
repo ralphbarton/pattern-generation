@@ -30,12 +30,10 @@ var widgets = {
 	    );
 
 	}else{
-
 	    if(!$El.data("disable_focusout")){
 
 		// 1. Change display class and readonly attribute - do first because units are text...
 		$El.attr('readonly', true).removeClass("ui-enabled").attr('type', 'text');
-
 		if(validate_int){
 		    // 2. test for invalid data - this won't happen, because the "numeric" type doesn't allow it
 		    if(isNaN(int_val)){
@@ -45,7 +43,6 @@ var widgets = {
 		    var unit = $El.data("unit");
 		    $El.val(int_val+unit);
 		}
-
 	    }
 	}
     },
