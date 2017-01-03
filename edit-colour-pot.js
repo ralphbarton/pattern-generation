@@ -226,6 +226,10 @@ var edit_cp = {
 	//Response to closing Edit
 	$("#c-pot-edit-table tbody").html("");//wipe table contents...
 	$("#cpanel-main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
+	$("#cp-edit-solid").hide();
+	$("#cp-edit-tabs").hide();
+	this.selected_row_i = undefined;
+
 	$("#colour-pots-view").show();
 	$("#colour-pots-edit").hide();
 	$("#cpanel-main-tabs").tabs("option", "disabled", false);
