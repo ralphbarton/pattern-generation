@@ -46,7 +46,7 @@ var edit_cp = {
 		pot_elem.solid = av_colour;
 
 		//refresh view
-		edit_cp.visual_update(POT, edit_cp.selected_row_i);
+		edit_cp.visual_update();
 	    },
 	    function(){
 		// change the selected row from type 'solid' to type 'range'
@@ -58,7 +58,6 @@ var edit_cp = {
 
 		// is range data null? Make up something...
 		if(pot_elem.range == undefined){
-		    console.log(pot_elem.solid);
 		    var bits = logic.colour_pair_to_hsl(pot_elem.solid, pot_elem.solid);
 		    var Hm = bits.C1.H;
 		    var Sm = bits.C1.S;
@@ -72,19 +71,21 @@ var edit_cp = {
 		
 
 		//refresh view
-		edit_cp.visual_update(POT, edit_cp.selected_row_i);
+		edit_cp.visual_update();
 	    }
 	]);
 	//both null initally
 	widgets.actionLink_set("#solid-v-range.act-mutex", null);
 
-	// add logic to the table buttons
+	// 3. Add logic to the table buttons
 	$("#cp-edit-actions #sum100").click(function(){
 	    // may fail if all probabilities are zero...
 	    DM.sum100_editing_ColourPot();
 
 	    // view update required now...
-	    $("#cp-edit-buttons #done").removeClass("ui-disabled")
+	    edit_cp.check_valid_probs();//this has the side effect of recolouring 'done' button.
+	    //unconditional - and probably duplicate - preview redraw...
+	    view_cp.fill_preview(".preview-container#main-cp-edit", DM.editing_ColourPot);
 
 	    // update the view to match the underlying data
     	    $("#c-pot-edit-table tbody tr").each(function(i){
@@ -102,6 +103,33 @@ var edit_cp = {
 	    //just click the other button, and have it do all the work, including view update.
 	    $("#cp-edit-actions #sum100").click();
 	});
+
+	// 4. Callbacks for table action-links
+
+	// 4.1 - New
+	$("#cp-edit-table-buttons #new").click(function(){
+	    var rows = DM.newRow_editing_ColourPot();
+	    edit_cp.selected_row_i = rows-1;//select final row...
+	    edit_cp.visual_update(); //refresh view
+	    // Disable "done" button if necessary
+	    edit_cp.check_valid_probs();
+	});
+	
+	// 4.3 - Delete
+	$("#cp-edit-table-buttons #delete").click(function(){
+	    if(edit_cp.selected_row_i != undefined){
+		DM.deleteRow_editing_ColourPot(edit_cp.selected_row_i);
+		edit_cp.selected_row_i = undefined;
+		edit_cp.visual_update(); //refresh view
+		// Disable "done" button if necessary
+		edit_cp.check_valid_probs();
+	    }
+	});
+
+
+
+
+
 
 	//add more logic within.....
 	// add logic to the action links
@@ -146,34 +174,49 @@ var edit_cp = {
 	});
 
 	//then fill the table etc.
-	this.visual_update(POT);
+	this.visual_update();
     },
 
-    visual_update: function(POT, i_select){
+    visual_update: function(){
+
+	var POT = DM.editing_ColourPot;
 
 	//wipe the entire table of rows...
 	$("#c-pot-edit-table tbody").html("");
-
-	//reset selection
-	this.selected_row_i = undefined;
 
 	POT.contents.forEach(function(element, i){
 	    edit_cp.table_row(element, i);
 	});
 
-	// update the preview
-	view_cp.fill_preview(".preview-container#main-cp-edit", POT);
+	// update the preview - conditional on its current state being valid...
+	if(DM.validProbs_editing_ColourPot()){
+	    view_cp.fill_preview(".preview-container#main-cp-edit", POT);
+	}
 
 	// use click handler to achieve re-selection
-	if(i_select != undefined){
-	    var tr_selected = $("#c-pot-edit-table tbody tr")[i_select];
+	if(this.selected_row_i != undefined){
+	    var tr_selected = $("#c-pot-edit-table tbody tr")[this.selected_row_i];
+	    this.selected_row_i = undefined;//reset selection - necessary for effect of next line
 	    tr_selected.click();
 	}
 	
     },
 
-    selected_row_i: undefined,
+    check_valid_probs: function(){
+	var $done_Btn = $("#cp-edit-buttons #done");
+	if(DM.validProbs_editing_ColourPot()){
+	    // if it has become re-enabled after disable, refresh the pot-preview
+	    if($done_Btn.hasClass("ui-disabled")){
+		view_cp.fill_preview(".preview-container#main-cp-edit", DM.editing_ColourPot);
+		$done_Btn.removeClass("ui-disabled")
+	    }
+	}else{
+	    $done_Btn.addClass("ui-disabled")
 
+	}
+    },
+
+    selected_row_i: undefined,
     table_row: function(pot_elem, i){
     	$("#c-pot-edit-table tbody").append(
 	    $('<tr/>').append(
@@ -195,17 +238,9 @@ var edit_cp = {
 
 			    // Access and mutate the data structure
 			    DM.editing_ColourPot.contents[i].prob = parseInt($(this).val());
-
-			    // valid sum of probabilities?
-			    if(DM.validProbs_editing_ColourPot()){
-				$("#cp-edit-buttons #done").removeClass("ui-disabled")
-				// update preview now????
-				// TODO.
-
-			    }else{
-				$("#cp-edit-buttons #done").addClass("ui-disabled")
-			    }
-
+			    
+			    // Disable "done" button if necessary
+			    edit_cp.check_valid_probs();
 			})
 			.click(function(){
 			    // like on 'edit' we could require row to be slected first before clicking makes text editable

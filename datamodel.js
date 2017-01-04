@@ -173,7 +173,21 @@ var DM = {
 	for (var i=0; i < items.length; i++){
 	    items[i].prob = 3;//an arbitrary number
 	}
-    }
+    },
 
+    deleteRow_editing_ColourPot: function(index){
+	this.editing_ColourPot.contents.splice(index, 1);
+    },
+
+    newRow_editing_ColourPot: function(){
+	this.editing_ColourPot.contents.push(
+	    {
+		prob: 15,
+		type: "solid",
+		solid: "#FF0000"
+	    }
+	);
+	return this.editing_ColourPot.contents.length;
+    }
     
 };
