@@ -18,6 +18,9 @@ var edit_cp = {
 
 		//this redraws the list with the latest data...
 		view_cp.table_update_d3(save_i);
+
+		//this redraws preview with update pot...
+		view_cp.fill_preview(".preview-container#main-cp-view");
 	    }
 
 	});
@@ -30,12 +33,50 @@ var edit_cp = {
 	// add logic to the action links
 	widgets.actionLink_init("#solid-v-range.act-mutex",[
 	    function(){
-		console.log("link 1");
+		// change the selected row from type 'range' to type 'solid'
+		var POT = DM.editing_ColourPot;
+		var pot_elem = POT.contents[edit_cp.selected_row_i];
+
+		// get average colour from range
+		var bits = logic.colour_pair_to_hsl(pot_elem.range[0], pot_elem.range[1]);
+		var av_colour = hslToHex(bits.C_av.H, bits.C_av.S, bits.C_av.L);
+
+		// mutate data
+		pot_elem.type = "solid";
+		pot_elem.solid = av_colour;
+
+		//refresh view
+		edit_cp.visual_update(POT, edit_cp.selected_row_i);
 	    },
 	    function(){
-		console.log("link 2");
+		// change the selected row from type 'solid' to type 'range'
+		var POT = DM.editing_ColourPot;
+		var pot_elem = POT.contents[edit_cp.selected_row_i];
+
+		// mutate data
+		pot_elem.type = "range";
+
+		// is range data null? Make up something...
+		if(pot_elem.range == undefined){
+		    console.log(pot_elem.solid);
+		    var bits = logic.colour_pair_to_hsl(pot_elem.solid, pot_elem.solid);
+		    var Hm = bits.C1.H;
+		    var Sm = bits.C1.S;
+		    var Lm = bits.C1.L;
+		    var cp = function (x){return Math.max(Math.min(x,1),0);}
+		    var colour_1 = hslToHex(cp(Hm+0.04), cp(Sm+0.3), cp(Lm+0.10));
+		    var colour_2 = hslToHex(cp(Hm-0.04), cp(Sm-0.3), cp(Lm-0.10));
+		    
+		    pot_elem.range = [colour_1, colour_2];
+		}
+		
+
+		//refresh view
+		edit_cp.visual_update(POT, edit_cp.selected_row_i);
 	    }
 	]);
+	//both null initally
+	widgets.actionLink_set("#solid-v-range.act-mutex", null);
 
 	// add logic to the table buttons
 	$("#cp-edit-actions #sum100").click(function(){
@@ -104,13 +145,31 @@ var edit_cp = {
 	    POT.description = $(this).val();
 	});
 
+	//then fill the table etc.
+	this.visual_update(POT);
+    },
+
+    visual_update: function(POT, i_select){
+
+	//wipe the entire table of rows...
+	$("#c-pot-edit-table tbody").html("");
+
+	//reset selection
+	this.selected_row_i = undefined;
+
 	POT.contents.forEach(function(element, i){
 	    edit_cp.table_row(element, i);
 	});
 
-	// this is going to need work so that it updates when necessary
-	view_cp.fill_preview(".preview-container#main-cp-edit");
+	// update the preview
+	view_cp.fill_preview(".preview-container#main-cp-edit", POT);
 
+	// use click handler to achieve re-selection
+	if(i_select != undefined){
+	    var tr_selected = $("#c-pot-edit-table tbody tr")[i_select];
+	    tr_selected.click();
+	}
+	
     },
 
     selected_row_i: undefined,
@@ -159,29 +218,29 @@ var edit_cp = {
 		    this.gen_row_preview_contents(pot_elem)
 		)
 	    ).click(function(d,ii){//"d" is the entire event object and "ii" is undefined.
+		// in this same context, we also have "pot_elem", "i"
 
-		// these values are useful.
-		//console.log(pot_elem, i);
-
-		// UPON selection of a row....
-		// an awful lot needs to happen upon selection of a row.
-
-		//row selected has changed?
+		//
+		//
+		// THIS IS THE ALL IMPORTANT UPON SELECT ROW FUNCTION
 		if(edit_cp.selected_row_i != i){
 
-		    // update global state.
+		    // 1. update global (view) state.
 		    edit_cp.selected_row_i = i;
 
-		    // update view
+		    // 2. Class update to show row in blue
 		    $("#c-pot-edit-table tr.selected").removeClass("selected");
 		    $(this).addClass("selected");
 
+		    // 3. Change which side panel is shown...
 		    if(pot_elem.type == "solid"){
 			$("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
+			widgets.actionLink_set("#solid-v-range.act-mutex", 1);// make "Range" active (as change option)
 		    }else{
 			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
+			widgets.actionLink_set("#solid-v-range.act-mutex", 0);// make "solid" active (as change option)
 		    }
 
 		}
@@ -246,7 +305,6 @@ var edit_cp = {
 	$("#cpanel-main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
 	$("#cp-edit-solid").hide();
 	$("#cp-edit-tabs").hide();
-	this.selected_row_i = undefined;
 
 	$("#colour-pots-view").show();
 	$("#colour-pots-edit").hide();

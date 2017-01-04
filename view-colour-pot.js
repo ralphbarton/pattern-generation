@@ -91,8 +91,11 @@ var view_cp = {
     },
 
     //move to more generic location...
-    fill_preview: function(container_id){
-	var ColourPot = DM.ColourPotArray[this.selected_cp_index];
+    fill_preview: function(container_id, POT){
+	var ColourPot = POT;
+	if (POT == undefined){
+	    ColourPot = DM.ColourPotArray[this.selected_cp_index];
+	}
 	$(container_id).children().each(function(){
 	    $(this).css("background",logic.DrawFromColourPot(ColourPot))
 	});
