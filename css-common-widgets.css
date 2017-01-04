@@ -185,7 +185,7 @@ text-decoration: underline;
 /*Mutex action link pairs...*/
 
 .act-mutex{
-    display: inline-block;
+    cursor:pointer;
     font-size: 11px;
 }
 
@@ -194,6 +194,7 @@ text-decoration: underline;
     border-right: 2px solid rgba(0,30,70,0.25);
 }
 
+/*greyish colour for disabled link*/
 .act-mutex div{
     padding: 0px 4px;
     display: inline-block;

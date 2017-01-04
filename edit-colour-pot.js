@@ -28,7 +28,7 @@ var edit_cp = {
 	);
 
 	// add logic to the action links
-	widgets.actionLink_init("#solid-v-range .act-mutex",[
+	widgets.actionLink_init("#solid-v-range.act-mutex",[
 	    function(){
 		console.log("link 1");
 	    },
@@ -61,6 +61,17 @@ var edit_cp = {
 	    //just click the other button, and have it do all the work, including view update.
 	    $("#cp-edit-actions #sum100").click();
 	});
+
+	//add more logic within.....
+	// add logic to the action links
+	widgets.actionLink_init("#space-1d-4d.act-mutex",[
+	    function(){
+		console.log("link X");
+	    },
+	    function(){
+		console.log("link Y");
+	    }
+	]);
 
 
 	//doesn't work

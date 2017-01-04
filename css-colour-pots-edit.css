@@ -79,8 +79,13 @@
 }
 
 #cp-edit-tabs > ul{
-    padding-left: 10px;
+    padding-left: 6px;
+    font-size: 12px;
+}
 
+#cp-edit-tabs  .ui-tabs-tab {
+    border-radius: 7px 7px 0px 0px;
+    padding: 1px 3px;
 }
 
 /* range mode - box around content*/
