@@ -51,27 +51,27 @@ var DM = {
 		{
 		    prob: 21,
 		    type: "solid",
-		    solid: "yellow"
+		    solid: "#FFFF00"
 		},
 		{
 		    prob: 21,
 		    type: "solid",
-		    solid: "orange"
+		    solid: "#FFA500"
 		},
 		{
 		    prob: 21,
 		    type: "solid",
-		    solid: "green"
+		    solid: "#008000"
 		},
 		{
 		    prob: 21,
 		    type: "solid",
-		    solid: "purple"
+		    solid: "#800080"
 		},
 		{
 		    prob: 16,
 		    type: "solid",
-		    solid: "black"
+		    solid: "#000000"
 		}
 	    ]
 	},
