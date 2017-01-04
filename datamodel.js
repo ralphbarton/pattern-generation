@@ -135,6 +135,9 @@ var DM = {
 	return save_index;
     },
 
+
+    // The three functions below are for manipulating the probabilities list
+
     validProbs_editing_ColourPot: function(){
 	var items = this.editing_ColourPot.contents;	
 	var accumulator = 0;
@@ -163,6 +166,13 @@ var DM = {
 	    r_acc += rounded;
 	}
 
+    },
+
+    allEqualProbs_editing_ColourPot: function(){
+	var items = this.editing_ColourPot.contents;	
+	for (var i=0; i < items.length; i++){
+	    items[i].prob = 3;//an arbitrary number
+	}
     }
 
     

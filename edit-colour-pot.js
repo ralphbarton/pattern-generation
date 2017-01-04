@@ -51,8 +51,15 @@ var edit_cp = {
 		$input_elem.val(DM.editing_ColourPot.contents[i].prob);
 		widgets.table_cell_edit($input_elem[0], false);//pass native element accessed via [0]
 	    });
+	});
 
+	// add logic to the table buttons
+	$("#cp-edit-actions #all-eq").click(function(){
+	    //underlying data change
+	    DM.allEqualProbs_editing_ColourPot();
 
+	    //just click the other button, and have it do all the work, including view update.
+	    $("#cp-edit-actions #sum100").click();
 	});
 
 
