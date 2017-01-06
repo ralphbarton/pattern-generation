@@ -300,6 +300,8 @@
     left: 215px;
     top: -108px;
     display: none;
+    width: 273px;
+    height: 369px;
 }
 
 #bgrins-container .sp-palette-container{
@@ -313,4 +315,8 @@
 
 #bgrins-container .sp-input-container{
     width: 180px;
+}
+
+#bgrins-container #bgrins-buttons{
+      text-align: right;
 }

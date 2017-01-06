@@ -1,4 +1,3 @@
-var xss;
 var edit_cp = {
 
     not_yet_initialised: true,
@@ -130,23 +129,6 @@ var edit_cp = {
 
 	//Add Code for the CP-edit solid tab
 	
-	$("#bgrins-colour-picker").spectrum({
-	    flat: true, // always show full-size, inline block...
-	    color: "#f0f", //default colour
-	    showInput: true, // allow text entry to specify colour
-	    showAlpha: true, // allow transparency selection
-	    //palette based options...
-	    localStorageKey: "spectrum.ralph-patterns-program", // Any Spectrum with the same string will share selection
-	    showPalette: true, // "palette" is a fixed provision of colours for the picker to offer
-	    palette: [ ],
-	    showSelectionPalette: true, // "selectionPalette" retains some history of user's colour choices.
-	    selectionPalette: [ ],
-	    maxSelectionSize: 22,
-	    showInitial: true, // show initial colour when opening
-	    showButtons: false, //do not require OK and Cancel buttons
-	    preferredFormat: "hex", // for the input box...
-	});
-
 
 	// add event listeners...
 	$("#bgrins-colour-picker").on('move.spectrum', function(e, tinycolor) {
@@ -155,11 +137,61 @@ var edit_cp = {
 	    var withAlpha = tinycolor.toRgbString();
 	    $("#colour-sun").css("background", hexC);
 	    $("#k2 #strip").css("background", withAlpha);
-	    xss = tinycolor;
 	});
 
+	$("#bgrins-buttons #cancel").click(function() {
+	    $("#bgrins-container").hide({duration: 400});
+
+	    //also, resore original colour (please don't copy paste code from above!)
+	    var old_col = $("#bgrins-colour-picker").spectrum("option","color");
+	    $("#colour-sun").css("background", old_col);
+	    $("#k2 #strip").css("background", old_col);
+	});
+
+	var just_opened = false;
+	$("#bgrins-buttons #choose").click(function() {
+	    if(!just_opened){
+		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toHexString();
+		//mutate the data
+		var pot_row = DM.editing_ColourPot.contents[edit_cp.selected_row_i].solid = col_chosen;
+
+		$("#bgrins-container").hide({duration: 400});
+
+		//refresh view
+		//note that this function triggers a click event (recursion?)
+		// this shows the ugliness of using dummy click events as a means of UI visual update
+		edit_cp.visual_update();
+	    }
+	});
+	
 	$("#colour-sun").click(function (){
-	    $("#bgrins-container").toggle({duration: 400});
+	    var current_colour = $("#colour-sun").css("background-color");
+	    $("#bgrins-container").show({duration: 400});
+
+	    //Initiate the element here
+	    $("#bgrins-colour-picker").spectrum("destroy");
+	    $("#bgrins-colour-picker").spectrum({
+		flat: true, // always show full-size, inline block...
+		color: current_colour, //default colour
+		showInput: true, // allow text entry to specify colour
+		showAlpha: true, // allow transparency selection
+		//palette based options...
+		localStorageKey: "spectrum.ralph-patterns-program", // Any Spectrum with the same string will share selection
+		showPalette: true, // "palette" is a fixed provision of colours for the picker to offer
+		palette: [ ],
+		showSelectionPalette: true, // "selectionPalette" retains some history of user's colour choices.
+		selectionPalette: [ ],
+		maxSelectionSize: 22,
+		showInitial: true, // show the original (starting) colour alongside the new one
+		showButtons: false, //do not require OK and Cancel buttons
+		preferredFormat: "hex", // for the input box...
+		clickoutFiresChange: true, // cause a change event upon clickout
+	    });
+
+
+	    //to prevent the change event triggered from immediately re-closing
+	    just_opened = true;
+	    setTimeout(function(){just_opened = false;}, 200);
 	});
 
 
@@ -305,6 +337,10 @@ var edit_cp = {
 			$("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
 			widgets.actionLink_set("#solid-v-range.act-mutex", 1);// make "Range" active (as change option)
+
+			//set the colour of the "solid" sidepanel
+			$("#colour-sun").css("background-color", pot_elem.solid);
+
 		    }else{
 			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
