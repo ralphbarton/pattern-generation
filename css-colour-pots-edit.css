@@ -284,7 +284,6 @@
     width: 120px;
     height: 24px;
     background: red;
-    opacity: 0.6;
 }
 
 #k3, #k4, #k5, #k6 {
@@ -310,4 +309,8 @@
 
 #bgrins-container .sp-picker-container{
     width: 250px;
+}
+
+#bgrins-container .sp-input-container{
+    width: 180px;
 }

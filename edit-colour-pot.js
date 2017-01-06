@@ -1,3 +1,4 @@
+var xss;
 var edit_cp = {
 
     not_yet_initialised: true,
@@ -141,14 +142,24 @@ var edit_cp = {
 	    showSelectionPalette: true, // "selectionPalette" retains some history of user's colour choices.
 	    selectionPalette: [ ],
 	    maxSelectionSize: 22,
-	    showInitial: true // show initial colour when opening
+	    showInitial: true, // show initial colour when opening
+	    showButtons: false, //do not require OK and Cancel buttons
+	    preferredFormat: "hex", // for the input box...
 	});
 
 
+	// add event listeners...
+	$("#bgrins-colour-picker").on('move.spectrum', function(e, tinycolor) {
+	    //note that converting colour to hex strips away the Alpha, which is what I want here.
+	    var hexC = tinycolor.toHexString();
+	    var withAlpha = tinycolor.toRgbString();
+	    $("#colour-sun").css("background", hexC);
+	    $("#k2 #strip").css("background", withAlpha);
+	    xss = tinycolor;
+	});
 
 	$("#colour-sun").click(function (){
 	    $("#bgrins-container").toggle({duration: 400});
-	    console.log("AA");
 	});
 
 
