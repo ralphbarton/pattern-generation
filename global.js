@@ -2,19 +2,19 @@ var global = {
 
     init: function(){
 	// 1. main the main DIV draggable...
-	$("#cpanel-main").draggable({cancel: "div#cpanel-main-body"});
+	$(".cpanel#main").draggable({cancel: "div#cpanel-main-body"});
 
 	// 2. add functionality to the "hide" badge"s.c
 	$("#cpanel-title-hide").click(function(){
 	    
 	    //animate Object then hide
-	    $("#cpanel-main").animate({
+	    $(".cpanel#main").animate({
 		opacity:0
 	    },{
 		duration: 1000,
 		easing: "linear",
 		complete: function(){
-		    $("#cpanel-main").hide();
+		    $(".cpanel#main").hide();
 		}
 	    });
 	});
@@ -45,7 +45,7 @@ var global = {
 
 	    if (keyPressed == 'H'){
 		//animate Object then hide
-		$("#cpanel-main").show().animate({
+		$(".cpanel#main").show().animate({
 		    opacity:1
 		},{
 		    duration: 500,

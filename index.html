@@ -52,7 +52,7 @@
     <a href="/samples.html">[link to samples page]</a>
 
     <!-- ITEM 1 - the cpanel -->
-    <div id="cpanel-main" class="cpanel-main-size1">
+    <div class="cpanel cpanel-main-size1" id="main">
 
       <!-- 1.1 cpanel title bar -->
       <div id="cpanel-title-strip">
@@ -200,7 +200,12 @@
 
 		<!-- 4. [cp-edit] Solid-colour alteration -->
 		<div id="cp-edit-solid">
-		  <div id="k1"></div>
+
+		  <div id="bgrins-container" class="cpanel">
+		    <input id="bgrins-colour-picker" />
+		  </div>
+
+		  <div id="colour-sun"></div>
 
 		  <div id="k3">Hue:
 		    <input class="TL-3" type="number">

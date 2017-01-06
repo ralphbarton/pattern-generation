@@ -127,7 +127,29 @@ var edit_cp = {
 	});
 
 
+	//Add Code for the CP-edit solid tab
+	
+	$("#bgrins-colour-picker").spectrum({
+	    flat: true, // always show full-size, inline block...
+	    color: "#f0f", //default colour
+	    showInput: true, // allow text entry to specify colour
+	    showAlpha: true, // allow transparency selection
+	    //palette based options...
+	    localStorageKey: "spectrum.ralph-patterns-program", // Any Spectrum with the same string will share selection
+	    showPalette: true, // "palette" is a fixed provision of colours for the picker to offer
+	    palette: [ ],
+	    showSelectionPalette: true, // "selectionPalette" retains some history of user's colour choices.
+	    selectionPalette: [ ],
+	    maxSelectionSize: 22,
+	    showInitial: true // show initial colour when opening
+	});
 
+
+
+	$("#colour-sun").click(function (){
+	    $("#bgrins-container").toggle({duration: 400});
+	    console.log("AA");
+	});
 
 
 
@@ -158,7 +180,7 @@ var edit_cp = {
 	}
 
 	//Response to clicking Edit
-	$("#cpanel-main").removeClass("cpanel-main-size1").addClass("cpanel-main-size2");
+	$(".cpanel#main").removeClass("cpanel-main-size1").addClass("cpanel-main-size2");
 	$("#colour-pots-view").hide();
 	$("#colour-pots-edit").show();
 	$("#cpanel-main-tabs").tabs("option", "disabled", true);
@@ -337,7 +359,7 @@ var edit_cp = {
     hide: function(){
 	//Response to closing Edit
 	$("#c-pot-edit-table tbody").html("");//wipe table contents...
-	$("#cpanel-main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
+	$(".cpanel#main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
 	$("#cp-edit-solid").hide();
 	$("#cp-edit-tabs").hide();
 

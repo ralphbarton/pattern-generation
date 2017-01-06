@@ -247,7 +247,7 @@
     text-align: center;
 }
 
-#cp-edit-solid #k1{
+#cp-edit-solid #colour-sun{
     width: 100px;
     height: 100px;
     border-radius: 50px;
@@ -293,3 +293,21 @@
     padding-right: 20px;
 }
 
+/*relating to the colour picker by b-grins*/
+
+#bgrins-container{
+    padding: 6px;
+    position: absolute;
+    left: 215px;
+    top: -108px;
+    display: none;
+}
+
+#bgrins-container .sp-palette-container{
+    width: 220px;
+    border: none;
+}
+
+#bgrins-container .sp-picker-container{
+    width: 250px;
+}
