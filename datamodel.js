@@ -214,6 +214,51 @@ var DM = {
 	    }
 	);
 	return this.editing_ColourPot.contents.length;
-    }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    GridsArray: [
+	{
+	    type: "std",
+	    description: "my first grid",
+	    n_dimentions: 2,
+	    spacing1: {
+		v: 100,
+		u: 'px'
+	    },
+	    angle1: 10, 
+	    spacing2: {
+		v: 100,
+		u: 'px'
+	    },
+	    angle2: 80, 
+	}
+    ],
+
+    deleteRow_grid: function(index){
+	this.GridsArray.splice(index, 1);
+    },
+    
+    duplicate_grid: function(index_dupl){
+	/* Deep copy
+	   var newObject = jQuery.extend(true, {}, oldObject);
+	*/
+
+	var new_grid = jQuery.extend(true, {}, this.GridsArray[index_dupl]);
+	new_grid.description += " - copy";
+	this.ColourPotArray.splice(index_dupl+1, 0, new_grid);
+    },
+
     
 };

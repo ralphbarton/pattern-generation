@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="css-colour-pots-view.css" />
     <link rel="stylesheet" href="css-colour-pots-edit.css" />
 
+    <link rel="stylesheet" href="css-grids.css" />
     <link rel="stylesheet" href="css-export.css" />
     <link rel="stylesheet" href="css--sandbox.css" />
 
@@ -43,6 +44,7 @@
     <script src="edit-colour-pot.js"></script>
     <script src="export.js"></script>
     <script src="gradient-cell.js"></script>
+    <script src="grids.js"></script>
 
   </head>
 
@@ -136,7 +138,7 @@
 		<input class="TL-3" type="text">
 	      </div>
 
-	      <!-- 2. [cp-edit] Table Bar -->
+	      <!-- 2. [cp-edit] Table -->
 	      <table class="user-data-table" id="c-pot-edit-table">
 		<thead>
 		  <tr>
@@ -259,10 +261,35 @@
 	    x
 	  </div>
 
-	  <!-- 1.2.3 Tab 3 -->	  
+
+
+
+	  <!-- 1.2.3 Tab 3 - Grids -->	  
 	  <div id="tabs-3">
-	    d
+	    
+	    <!-- 1. [Grids] Table -->
+	    <table class="user-data-table" id="grids-table">
+	      <thead>
+		<tr>
+		  <th class="col-1">#</th>
+		  <th class="col-2">Description</th>
+		</tr>
+	      </thead>
+	      <tbody>
+	      </tbody>
+	    </table>
+
+	    <div id="grids-buttons">
+	      <div class="button" id="duplicate">Duplicate</div>
+	      <div class="button" id="delete">Delete</div>
+	    </div>
+
+
 	  </div>
+
+
+
+
 
 	  <!-- 1.2.4 Tab 4 -->	  
 	  <div id="tabs-4">

@@ -128,12 +128,22 @@ $(document).ready(function() {
     global.init();
 
     view_cp.init();
+    grids.init();
 
     export_pat.init();
 
     //code to auto enter CP edit and speed up testing...
+
+/*
+    //go straight to CP edit
     $("#c-pots-view-table tbody tr").first().click();
     $("#cp-view-table-buttons #edit").click();
+*/
+
+    //go straight to Grids ( = 3rd tab...)
+    $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click()
+
+
 
 });
 
