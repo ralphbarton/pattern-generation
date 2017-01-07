@@ -338,8 +338,16 @@ var edit_cp = {
 			$("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
 			widgets.actionLink_set("#solid-v-range.act-mutex", 1);// make "Range" active (as change option)
 
+			//hide the colour-picker if it is present
+			$("#bgrins-container").hide({duration: 400});
+
 			//set the colour of the "solid" sidepanel
 			$("#colour-sun").css("background-color", pot_elem.solid);
+			//todo - handle transparency
+			// in fact, use tiny-colour objects in this project.
+			// refer to...
+			// https://github.com/bgrins/TinyColor
+			$("#k2 #strip").css("background-color", pot_elem.solid);
 
 		    }else{
 			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});

@@ -24,26 +24,52 @@ var DM = {
 	    ]
 	},
 	{
-	    index: 1,
-	    description: "Lush Woods",
-	    contents: [
+	    "index": 1,
+	    "description": "Puddle sky",
+	    "contents": [
 		{
-		    prob: 85,
-		    type: "range",
-		    range: ["#A9CF89","#79901A"]
+		    "prob": 40,
+		    "type": "solid",
+		    "solid": "#02a7eb"
 		},
 		{
-		    prob: 5,
-		    type: "range",
-		    range: ["#0B17E6","#66A781"]
+		    "prob": 25,
+		    "type": "range",
+		    "solid": "#6ab523",
+		    "range": [
+			"#49fc0f",
+			"#617233"
+		    ]
 		},
 		{
-		    prob: 10,
-		    type: "solid",
-		    solid: "#CF7713"
+		    "prob": 16,
+		    "type": "solid",
+		    "solid": "#525261",
+		    "range": [
+			"#5c479f",
+			"#404040"
+		    ]
+		},
+		{
+		    "prob": 16,
+		    "type": "range",
+		    "solid": "#362a50",
+		    "range": [
+			"#5c228b",
+			"#232324"
+		    ]
+		},
+		{
+		    "prob": 3,
+		    "type": "range",
+		    "solid": "#af6e14",
+		    "range": [
+			"#f6ca00",
+			"#6c3d24"
+		    ]
 		}
 	    ]
-	},
+	},	
 	{
 	    index: 2,
 	    description: "Electric paints",
@@ -77,7 +103,7 @@ var DM = {
 	},
 	{
 	    index: 3,
-	    description: "Primary dotters",
+	    description: "Cookie decoration",
 	    contents: [
 		{
 		    prob: 33.3,
