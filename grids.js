@@ -7,21 +7,25 @@ var grids = {
 	// Handler for -DUPLICATE-
 	$("#grids-buttons #duplicate").click(function(){
 	    //mutate the data structure
-	    DM.duplicate_grid(this.selected_row_i);
-	    //select the row just created...
-	    this.selected_row_i += 1;
-	    //refresh view
-	    grids.table_update();
+	    if(grids.selected_row_i != undefined){
+		DM.duplicate_grid(grids.selected_row_i);
+		//select the row just created...
+		grids.selected_row_i += 1;
+		//refresh view
+		grids.table_update();
+	    }
 	});
 
 	// Handler for -DELETE-
 	$("#grids-buttons #delete").click(function(){
-	    //mutate the data structure
-	    DM.deleteRow_grid(this.selected_row_i);
-	    //select the row just created...
-	    this.selected_row_i = Math.min(this.selected_row_i, DM.GridsArray.length-1);
-	    //refresh view
-	    grids.table_update();
+	    if(grids.selected_row_i != undefined){
+		//mutate the data structure
+		DM.deleteRow_grid(grids.selected_row_i);
+		//select the row just created...
+		grids.selected_row_i = Math.min(grids.selected_row_i, DM.GridsArray.length-1);
+		//refresh view
+		grids.table_update();
+	    }
 	});
 
 
@@ -35,7 +39,6 @@ var grids = {
 
 	DM.GridsArray.forEach(function(grid_obj, i){
 
-	    console.log("adding row", i);
     	    $("#grids-table tbody").append(
 		$('<tr/>')
 		    .data({index:i})
@@ -45,10 +48,11 @@ var grids = {
 			    $('<input/>')
 				.val(grid_obj.description)
 				.attr('type', 'text')
-				.addClass("table-input-cell")
+				.addClass("blue-cell")
 				.attr('readonly', true)
 				.on("focusout", function(){
 				    //update underlying data here...
+				    DM.GridsArray[i].description = $(this).val();
 				    widgets.table_cell_edit(this,false);
 				})
 				.click(function(){ //click on the input element

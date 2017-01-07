@@ -251,13 +251,10 @@ var DM = {
     },
     
     duplicate_grid: function(index_dupl){
-	/* Deep copy
-	   var newObject = jQuery.extend(true, {}, oldObject);
-	*/
-
+	//deep object copy via jquery
 	var new_grid = jQuery.extend(true, {}, this.GridsArray[index_dupl]);
 	new_grid.description += " - copy";
-	this.ColourPotArray.splice(index_dupl+1, 0, new_grid);
+	this.GridsArray.splice(index_dupl+1, 0, new_grid);
     },
 
     

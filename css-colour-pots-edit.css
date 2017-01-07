@@ -1,34 +1,32 @@
 /* Properties to customise TABLE size for this tab */
-#c-pot-edit-table tbody{
+#edit-cp-table tbody{
     height: 350px;
 }
 
 
-#c-pot-edit-table{
+#edit-cp-table{
     margin-left: 6px
 }
 
-#c-pot-edit-table th:nth-of-type(1),
-#c-pot-edit-table td:nth-of-type(1){
+#edit-cp-table .col-1{
     width: 14px;
 }
 
-#c-pot-edit-table th:nth-of-type(2),
-#c-pot-edit-table td:nth-of-type(2){
+#edit-cp-table .col-2{
     width: 43px;
 }
 
-#c-pot-edit-table th:nth-of-type(3){
+#edit-cp-table th.col-3{
     width: 157px;
 }
 
 /* width of the edit cell*/
-#c-pot-edit-table .table-input-cell{
+#edit-cp-table .blue-cell{
     width: 37px;
     text-align: center;
 }
 
-#c-pot-edit-table .prob-col{
+#edit-cp-table .col-2{
     padding:0px;
 }
 

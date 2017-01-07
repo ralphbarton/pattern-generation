@@ -88,7 +88,7 @@ var edit_cp = {
 	    view_cp.fill_preview(".preview-container#main-cp-edit", DM.editing_ColourPot);
 
 	    // update the view to match the underlying data
-    	    $("#c-pot-edit-table tbody tr").each(function(i){
+    	    $("#edit-cp-table tbody tr").each(function(i){
 		var $input_elem = $(this).find("input");
 		$input_elem.val(DM.editing_ColourPot.contents[i].prob);
 		widgets.table_cell_edit($input_elem[0], false);//pass native element accessed via [0]
@@ -247,7 +247,7 @@ var edit_cp = {
 	var POT = DM.editing_ColourPot;
 
 	//wipe the entire table of rows...
-	$("#c-pot-edit-table tbody").html("");
+	$("#edit-cp-table tbody").html("");
 
 	POT.contents.forEach(function(element, i){
 	    edit_cp.table_row(element, i);
@@ -260,7 +260,7 @@ var edit_cp = {
 
 	// use click handler to achieve re-selection
 	if(this.selected_row_i != undefined){
-	    var tr_selected = $("#c-pot-edit-table tbody tr")[this.selected_row_i];
+	    var tr_selected = $("#edit-cp-table tbody tr")[this.selected_row_i];
 	    this.selected_row_i = undefined;//reset selection - necessary for effect of next line
 	    tr_selected.click();
 	}
@@ -283,27 +283,24 @@ var edit_cp = {
 
     selected_row_i: undefined,
     table_row: function(pot_elem, i){
-    	$("#c-pot-edit-table tbody").append(
+    	$("#edit-cp-table tbody").append(
 	    $('<tr/>').append(
-		$('<td/>').text(i+1),
-		$('<td/>').addClass("prob-col").append(
+		$('<td/>').addClass("col-1").text(i+1),
+		$('<td/>').addClass("col-2").append(
 		    $('<input/>')
 			.val(pot_elem.prob+"%")
 			.attr('type', 'text')
 			.data({unit: "%"})
-			.addClass("table-input-cell")
+			.addClass("blue-cell")
 			.attr('readonly', true)
 			.on("focusout", function(){
-			    // add logic to write underlying data
-			    //				var d3_index = $(this).parent().parent()[0].__data__.index;
-			    //				DM.ColourPotArray[d3_index].description = $(this).val();
-			    widgets.table_cell_edit(this,false);
 
-			    // probability change may have triggered change to validity of set (does it sum to 100?)
+			    widgets.table_cell_edit(this,false);
 
 			    // Access and mutate the data structure
 			    DM.editing_ColourPot.contents[i].prob = parseInt($(this).val());
 			    
+			    // probability change may have triggered change in validity of set (does it sum to 100?)
 			    // Disable "done" button if necessary
 			    edit_cp.check_valid_probs();
 			})
@@ -314,7 +311,7 @@ var edit_cp = {
 			    widgets.table_cell_edit(this,true);
 			})
 		),
-		$('<td/>').append(
+		$('<td/>').addClass("col-3").append(
 		    this.gen_row_preview_contents(pot_elem)
 		)
 	    ).click(function(d,ii){//"d" is the entire event object and "ii" is undefined.
@@ -329,7 +326,7 @@ var edit_cp = {
 		    edit_cp.selected_row_i = i;
 
 		    // 2. Class update to show row in blue
-		    $("#c-pot-edit-table tr.selected").removeClass("selected");
+		    $("#edit-cp-table tr.selected").removeClass("selected");
 		    $(this).addClass("selected");
 
 		    // 3. Change which side panel is shown...
@@ -413,7 +410,7 @@ var edit_cp = {
 
     hide: function(){
 	//Response to closing Edit
-	$("#c-pot-edit-table tbody").html("");//wipe table contents...
+	$("#edit-cp-table tbody").html("");//wipe table contents...
 	$(".cpanel#main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
 	$("#cp-edit-solid").hide();
 	$("#cp-edit-tabs").hide();

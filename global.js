@@ -136,7 +136,7 @@ $(document).ready(function() {
 
 /*
     //go straight to CP edit
-    $("#c-pots-view-table tbody tr").first().click();
+    $("#view-cp-table tbody tr").first().click();
     $("#cp-view-table-buttons #edit").click();
 */
 

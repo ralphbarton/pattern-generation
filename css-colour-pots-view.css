@@ -1,43 +1,35 @@
 /* Specific to Colour Pots VIEW table */
 
-#c-pots-view-table th:nth-of-type(1),
-#c-pots-view-table td:nth-of-type(1)
-{
-    width: 20px;
-}
-
-#c-pots-view-table th:nth-of-type(2),
-#c-pots-view-table td:nth-of-type(2)
-{
-    width: 270px;
-}
-
-#c-pots-view-table th:nth-of-type(3)
-{
-    width: 97px;
-}
-
-#c-pots-view-table td:nth-of-type(2)
-{
-    text-align: left;
-}
-
-
-#c-pots-view-table tbody{
+#view-cp-table tbody{
      height: 205px;
 }
 
-#c-pots-view-table td.preview-column{
-    padding: 1px;
+#view-cp-table .col-1{
+    width: 20px;
 }
 
+#view-cp-table .col-2{
+    width: 270px;
+}
 
-#c-pots-view-table .description-column{
+#view-cp-table td.col-2{
+    text-align: left;
+}
+
+#view-cp-table .col-2{
     padding: 0px;
 }
 
-#c-pots-view-table .table-input-cell{
+#view-cp-table input.blue-cell{
     width: 264px;
+}
+
+#view-cp-table th.col-3{
+    width: 97px;
+}
+
+#view-cp-table td.col-3{
+    padding: 1px;
 }
 
 /* Preview - set position of this specific preview*/

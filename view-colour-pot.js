@@ -5,12 +5,12 @@ var view_cp = {
 
 	var TR_with_innerElements = function(ColourPot,i){
 	    return $('<tr/>').append(
-		$('<td/>').text(ColourPot.index+1),
-		$('<td/>').addClass("description-column").append(
+		$('<td/>').addClass("col-1").text(ColourPot.index+1),
+		$('<td/>').addClass("col-2").append(
 		    $('<input/>')
 			.val(ColourPot.description)
 			.attr('type', 'text')
-			.addClass("table-input-cell")
+			.addClass("blue-cell")
 			.attr('readonly', true)
 			.on("focusout", function(){
 			    var d3_index = $(this).parent().parent()[0].__data__.index;
@@ -23,7 +23,7 @@ var view_cp = {
 			    }
 			})
 		),
-		$('<td/>').addClass("preview-column").append(
+		$('<td/>').addClass("col-3").append(
 		    $('<div/>').addClass("preview-container tiny")
 			.append(global.$div_array(16, "preview-cell small", ColourPot))
 		)
@@ -31,7 +31,7 @@ var view_cp = {
 	}; 
 
 	var TR_click_listener = function(d,i){
-	    $("#c-pots-view-table tr.selected").removeClass("selected");
+	    $("#view-cp-table tr.selected").removeClass("selected");
 	    $(this).addClass("selected");
 	    if(view_cp.selected_cp_index != d.index){
 		view_cp.selected_cp_index = d.index;
@@ -39,7 +39,7 @@ var view_cp = {
 	    }
 	};
 
-	var selection = d3.select("#c-pots-view-table tbody").selectAll("tr")
+	var selection = d3.select("#view-cp-table tbody").selectAll("tr")
 	    .data(DM.ColourPotArray);
 
 	// 1. update function for a <tr> element...
@@ -69,11 +69,11 @@ var view_cp = {
 
 	// 4. this ineligant code will "click" one of the rows of the table for you
 	this.selected_cp_index = undefined;// re-initialise. Code below may set it.
-	$("#c-pots-view-table tr.selected").removeClass("selected");//keep view sync'ed with data!!!
+	$("#view-cp-table tr.selected").removeClass("selected");//keep view sync'ed with data!!!
 	if(select_index !== undefined){
 	    //This now selects an item in the new list generated
 
-	    d3.select("#c-pots-view-table tbody").selectAll("tr").datum(function(d){
+	    d3.select("#view-cp-table tbody").selectAll("tr").datum(function(d){
 		if(d.index == select_index){
 		    $(this).click();
 		}
@@ -81,7 +81,7 @@ var view_cp = {
 		return d;
 	    });
 
-/*	    $("#c-pots-view-table tbody tr").each(function() {
+/*	    $("#view-cp-table tbody tr").each(function() {
 		if($(this).data("index") == select_index){
 
 		}

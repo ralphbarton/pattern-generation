@@ -45,21 +45,21 @@
 }
 
 /* styling the tr>td>input element within a table to indicate when editing*/
-.table-input-cell{
+.blue-cell{
     border: 2px solid rgba(0,0,0,0);
     font: inherit;
     background: none;
     cursor:default;
 }
 
-.selected .table-input-cell:hover{
+.selected .blue-cell:hover{
     cursor:text;
     border: 2px solid rgba(2,143,237,0.9);
     background: rgba(255,255,255,0.4);
 }
 
-.table-input-cell.ui-enabled,
-.table-input-cell.ui-enabled:hover{
+.blue-cell.ui-enabled,
+.blue-cell.ui-enabled:hover{
     cursor:text;
     font-family: sans;
     border: 2px solid rgba(2,143,237,1);

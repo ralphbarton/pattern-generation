@@ -1,7 +1,26 @@
+/*no content yet...*/
+
+#grids-table tbody{
+     height: 205px;
+}
+
 #grids-table .col-1{
   width: 18px;
 }
 
-#grids-table .col-2{
+#grids-table th.col-2{
   width: 200px;
+}
+
+#grids-table td.col-2{
+    text-align: left;
+}
+
+#grids-table .col-2{
+    padding: 0px;
+        padding-right: 1px;
+}
+
+#grids-table input.blue-cell{
+    width: 175px;
 }
