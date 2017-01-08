@@ -49,7 +49,7 @@
     font-weight: normal;
 }
 
-#colour-pots-edit #title-bar input.TL-3{
+#colour-pots-edit #title-bar input.plain-cell{
     font-size: 24px;
     width: 260px;
 }
@@ -87,10 +87,7 @@
 }
 
 /* range mode - box around content*/
-#cp-edit-tabs > div {
-    border: 1px solid rgba(0,0,0,0.5);
-    border-radius: 4px;
-    padding: 3px;
+#cp-edit-tabs div.boxie {
     height: 280px;
 }
 
@@ -256,7 +253,7 @@
     margin: 10px 0px;
 }
 
-#cp-edit-solid input.TL-3{
+#cp-edit-solid input.plain-cell{
     font-size: 18px;
     width: 60px;
 }

@@ -135,7 +135,7 @@
 	      <div id="title-bar">
 		<span class="TL-1">Pot Contents: </span>
 		<span class="TL-2">n. </span>
-		<input class="TL-3" type="text">
+		<input class="plain-cell" type="text">
 	      </div>
 
 	      <!-- 2. [cp-edit] Table -->
@@ -182,17 +182,17 @@
 		  </ul>
 
 		  <!-- Tab E1 -->	  
-		  <div id="tabs-e1">
+		  <div class="boxie" id="tabs-e1">
 		    the range based options here...
 		  </div>
 
 		  <!-- Tab E2 -->	  
-		  <div id="tabs-e2">
+		  <div class="boxie" id="tabs-e2">
 		    the limit based options here...
 		  </div>
 
 		  <!-- Tab E3 -->	  
-		  <div id="tabs-e3">
+		  <div class="boxie" id="tabs-e3">
 		    <div id="space-1d-4d" class="act-mutex">
 		      Draw from:<div>1D line</div><div>4D space</div>
 		    </div>
@@ -214,15 +214,15 @@
 		  <div id="colour-sun"></div>
 
 		  <div id="k3">Hue:
-		    <input class="TL-3" type="number">
+		    <input class="plain-cell" type="number">
 		  </div>
 
 		  <div id="k4">Saturation:
-		    <input class="TL-3" type="number">
+		    <input class="plain-cell" type="number">
 		  </div>
 
 		  <div id="k5">Luminosity:
-		    <input class="TL-3" type="number">
+		    <input class="plain-cell" type="number">
 		  </div>
 
 		  <div id="k2">
@@ -231,7 +231,7 @@
 		  </div>
 
 		  <div id="k6">Alpha:
-		    <input class="TL-3" type="number">
+		    <input class="plain-cell" type="number">
 		  </div>
 
 		</div>
@@ -282,7 +282,68 @@
 	    <div id="grids-buttons">
 	      <div class="button" id="duplicate">Duplicate</div>
 	      <div class="button" id="delete">Delete</div>
+	      <div class="button" id="advanced">Advanced Grid</div>
 	    </div>
+
+	    <div id="row-content">
+
+	      <div id="lines-v-grid" class="act-mutex">
+		Grid type:<div>1D (=lines)</div><div>2D (=grid)</div>
+	      </div>
+
+	      <div class="boxie">
+		<div class="title">Line Set 1</div>
+
+		<div class="q3">svg here</div>
+
+		<div class="q1">Angle:
+		  <input class="plain-cell" type="number">
+		</div>
+
+		<div class="q2">Spacing:
+		  <input class="plain-cell" type="number">
+		  <div id="px-v-pc-1" class="act-mutex">
+		    Unit:<div>px</div><div>%</div>
+		  </div>
+		</div>
+
+	      </div>
+
+	      <div class="boxie">
+		<div class="title">Line Set 2</div>
+
+		<div class="q3">svg here</div>
+
+		<div class="q1">Angle:
+		  <input class="plain-cell" type="number">
+		</div>
+
+		<div class="q2">Spacing:
+		  <input class="plain-cell" type="number">
+		  <div id="px-v-pc-1" class="act-mutex">
+		    Unit:<div>px</div><div>%</div>
+		  </div>
+		</div>
+
+
+	      </div>
+
+	      <div id="overlay-bg" class="act-mutex">
+		Preview:<div>Hide background</div><div>Show background</div>
+	      </div>
+
+	      <div id="colour-monochrome" class="act-mutex">
+		Preview:<div>Show in Colour</div><div>Show in Monochrome</div>
+	      </div>
+
+	      <div id="one-v-all" class="act-mutex">
+		Preview:<div>Show Selected</div><div>Show All</div>
+	      </div>
+
+
+
+	    </div>
+	    
 
 
 	  </div>

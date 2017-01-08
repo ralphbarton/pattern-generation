@@ -1,7 +1,7 @@
 /*no content yet...*/
 
 #grids-table tbody{
-     height: 205px;
+     height: 175px;
 }
 
 #grids-table .col-1{
@@ -18,9 +18,66 @@
 
 #grids-table .col-2{
     padding: 0px;
-        padding-right: 1px;
+    padding-right: 1px;
 }
 
 #grids-table input.blue-cell{
     width: 175px;
+}
+
+#grids-buttons {
+    width: 240px;
+    text-align: right;
+}
+
+#grids-buttons #advanced{
+    margin-top: 5px;
+}
+
+#tabs-3 div#row-content{
+    position: absolute;
+    left: 244px;
+    top: 123px;
+}
+
+#tabs-3 div.boxie{
+    margin-top: 15px;
+    margin-right: 5px;
+    display: inline-block;
+    height: 120px;
+    width: 212px;
+    margin-bottom: 5px;
+}
+
+#tabs-3 .q1,
+#tabs-3 .q2{
+    position: relative;
+    display: inline-block;
+}
+
+#tabs-3 .q1{
+    top:45px;
+    left:19px;
+}
+
+#tabs-3 .q2{
+    top:10px;
+}
+
+#tabs-3 .q3{
+    position: relative;
+    border: 3px dotted black;
+    color: blueviolet;
+    float: right;
+    width: 80px;
+    height: 80px;
+}
+
+#tabs-3 .boxie .act-mutex{
+        display: inline-block;
+        margin-left: 10px;
+}
+
+#tabs-3 .plain-cell{
+    width: 40px;
 }

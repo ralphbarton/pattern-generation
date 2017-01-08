@@ -1,6 +1,6 @@
 /* Defining the style of the toolbox itself */
 .cpanel{
-    background: #DBD1AB;
+    background-color: #DBD1AB;
     box-shadow: 0px 0px 3px 3px #000;
     border-radius: 10px;
 }

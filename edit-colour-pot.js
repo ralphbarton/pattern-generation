@@ -234,7 +234,7 @@ var edit_cp = {
 
 	//set up the window visuals...
 	$("#colour-pots-edit .TL-2").text(POT.index+1+". ");
-	$("#colour-pots-edit .TL-3").val(POT.description).on( "focusout", function(){
+	$("#colour-pots-edit .plain-cell").val(POT.description).on( "focusout", function(){
 	    POT.description = $(this).val();
 	});
 
