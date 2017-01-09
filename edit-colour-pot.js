@@ -57,6 +57,8 @@ var edit_cp = {
 		pot_elem.type = "range";
 
 		// is range data null? Make up something...
+		// yes. scrap any old range data hidden.
+		pot_elem.range = undefined;
 		if(pot_elem.range == undefined){
 		    var bits = logic.colour_pair_to_hsl(pot_elem.solid, pot_elem.solid);
 		    var Hm = bits.C1.H;

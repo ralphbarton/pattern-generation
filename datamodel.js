@@ -234,16 +234,31 @@ var DM = {
 	    description: "my first grid",
 	    n_dimentions: 2,
 	    spacing1: {
-		v: 100,
+		v: 75,
 		u: 'px'
 	    },
-	    angle1: 10, 
+	    angle1: 15, 
 	    spacing2: {
-		v: 100,
+		v: 64,
 		u: 'px'
 	    },
-	    angle2: 80, 
-	}
+	    angle2: 15, 
+	},
+	{
+	    type: "std",
+	    description: "square grid",
+	    n_dimentions: 2,
+	    spacing1: {
+		v: 3.5,
+		u: '%'
+	    },
+	    angle1: 90, 
+	    spacing2: {
+		v: 3.5,
+		u: '%'
+	    },
+	    angle2: 0, 
+	},
     ],
 
     deleteRow_grid: function(index){

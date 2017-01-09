@@ -190,8 +190,12 @@ text-decoration: underline;
 }
 
 /* creates the bar between the links*/
-.act-mutex>div:first-child{
+.act-mutex>div{
     border-right: 2px solid rgba(0,30,70,0.25);
+}
+
+.act-mutex>div:last-child{
+    border-right: none;
 }
 
 /*greyish colour for disabled link*/

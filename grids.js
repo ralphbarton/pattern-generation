@@ -63,9 +63,21 @@ var grids = {
 				})
 			)
 		    ).on("click",function(){ //click on the row
+
+			// 1. manage row selection witin the table itself
 			$("#grids-table tr.selected").removeClass("selected");
 			$(this).addClass("selected");
 			grids.selected_row_i = $(this).data("index");
+
+			// 2. populate the right section of screen using data from that specific grid
+
+			//q1=angle, q2=spacing
+			var Gx = DM.GridsArray[i];
+			$("#line-set-1 .q1 input").val(Gx.angle1);
+			$("#line-set-1 .q2 input").val(Gx.spacing1.v);
+			$("#line-set-2 .q1 input").val(Gx.angle2);
+			$("#line-set-2 .q2 input").val(Gx.spacing2.v);
+
 		    })
 	    );
 
