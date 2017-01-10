@@ -28,6 +28,23 @@ var grids = {
 	    }
 	});
 
+	// add logic to the action links
+	widgets.actionLink_init("#preset-grid.act-mutex",[
+	    function(){
+		//callback 1
+		console.log("Isometric commanded");
+	    },
+	    function(){
+		//callback 2
+		console.log("Square commanded");
+	    },
+	    function(){
+		//callback 3
+		console.log("Diamond commanded");
+	    }]
+			       );
+	//put them all "set" (in fact, this command will be needed every time a manual mutation is done)
+	widgets.actionLink_unset("#preset-grid.act-mutex", null);
 
     },
 

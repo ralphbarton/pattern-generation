@@ -259,17 +259,33 @@ div.action-link{
 }
 
 div.boxie{
-    border: 1px solid rgba(0,0,0,0.5);
+    position: relative;
+    border: 2px solid rgba(0,0,0,0.3);
     border-radius: 4px;
     padding: 3px;
+    margin-top: 12px;
+    padding-top: 12px;
+}
+
+div.boxie.s{
+        border: 1px solid rgba(0,0,0,0.4);
+        margin-top: 9px;
+        padding-top: 5px;
 }
 
 div.boxie div.title{
-    position: relative;
+    position: absolute;
     display: inline-block;
-    top: -12px;
-    left: 5px;
+    top: -10px;
+    left: 8px;
     padding: 0px 4px;
     background-color: #DBD1AB;
     color: rgba(0,0,0,0.5);
+    text-align: left;
+}
+
+div.boxie.s div.title{
+    font-size: 13px;
+    top: -9px;
+    left: 6px;
 }

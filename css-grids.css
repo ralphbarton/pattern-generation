@@ -41,43 +41,63 @@
 }
 
 #tabs-3 div.boxie{
-    margin-top: 15px;
-    margin-right: 5px;
+    position: relative;
+    margin-right: 3px;
     display: inline-block;
     height: 120px;
     width: 212px;
     margin-bottom: 5px;
+    text-align: right;
 }
+
+#tabs-3 div.boxie#preview-opts{
+        margin-top: 15px;
+    width: 250px;
+        height: 58px;
+        text-align: left;
+    position: absolute;
+    right: 5px;
+    top: 185px;
+}
+
 
 #tabs-3 .q1,
-#tabs-3 .q2{
+#tabs-3 .q2,
+#tabs-3 .q4{
     position: relative;
     display: inline-block;
+    margin-right: 90px;
+    margin-bottom: 6px;
 }
 
-#tabs-3 .q1{
-    top:45px;
-    left:19px;
-}
-
-#tabs-3 .q2{
-    top:10px;
+#tabs-3 .q4{
+    margin-right: 10px;    
 }
 
 #tabs-3 .q3{
-    position: relative;
+    position: absolute;
     border: 3px dotted black;
     color: blueviolet;
-    float: right;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
+    top: 5px;
+    right: 5px;
 }
 
 #tabs-3 .boxie .act-mutex{
         display: inline-block;
         margin-left: 10px;
+       position: relative;
+}
+
+#tabs-3 .boxie#preview-opts .act-mutex#colour-monochrome{
+    left: 11px;
+}
+
+#tabs-3 .boxie#preview-opts .act-mutex#one-v-all{
+    left: 14px;
 }
 
 #tabs-3 .plain-cell{
-    width: 40px;
+    width: 60px;
 }

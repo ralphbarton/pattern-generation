@@ -30,7 +30,7 @@ var edit_cp = {
 	    global.$div_array(152, "preview-cell small")
 	);
 
-	// add logic to the action links
+	// add logic to the action links of Solid v. Range
 	widgets.actionLink_init("#solid-v-range.act-mutex",[
 	    function(){
 		// change the selected row from type 'range' to type 'solid'
@@ -77,7 +77,7 @@ var edit_cp = {
 	    }
 	]);
 	//both null initally
-	widgets.actionLink_set("#solid-v-range.act-mutex", null);
+	widgets.actionLink_unset("#solid-v-range.act-mutex", "all");
 
 	// 3. Add logic to the table buttons
 	$("#cp-edit-actions #sum100").click(function(){
@@ -335,7 +335,7 @@ var edit_cp = {
 		    if(pot_elem.type == "solid"){
 			$("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
-			widgets.actionLink_set("#solid-v-range.act-mutex", 1);// make "Range" active (as change option)
+			widgets.actionLink_unset("#solid-v-range.act-mutex", 0);// make "Solid" inactive (its the current state)
 
 			//hide the colour-picker if it is present
 			$("#bgrins-container").hide({duration: 400});
@@ -351,7 +351,7 @@ var edit_cp = {
 		    }else{
 			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
-			widgets.actionLink_set("#solid-v-range.act-mutex", 0);// make "solid" active (as change option)
+			widgets.actionLink_set("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 		    }
 
 		}

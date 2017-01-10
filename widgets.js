@@ -50,28 +50,29 @@ var widgets = {
     //this assumes an array of 2 functions as second parameter.
     actionLink_init: function(select, fn_listeners_array){
 	
-	$(select).find("div").each(function(div_i){
+	$(select).find("div").each(function(i_div){
 	    $(this).click(function(){
 		
 		// 1. instigate listener function if allowed
 		if($(this).hasClass("action-link")){
-		    fn_listeners_array[div_i]();
-		    //2. invert which link is active (upon click)
-		    widgets.actionLink_set(select, 1-div_i)
+		    fn_listeners_array[i_div]();
+		    //2. upon clicking it, unset the link clicked as active
+		    widgets.actionLink_unset(select, i_div)
 		}
 	    });
 	});
 
 	//initially, set left one as active.
-	widgets.actionLink_set(select, 0);
+	widgets.actionLink_unset(select, 1);
     },
 
-    actionLink_set: function(select, activate_i){
+    //using "activate_i" = "all" will put both links in a disabled state
+    actionLink_unset: function(select, activate_i){
 	$(select).find("div").each(function(i){
-	    if(i == activate_i){
-		$(this).addClass("action-link");
-	    }else{
+	    if((i == activate_i)||(activate_i === "all")){
 		$(this).removeClass("action-link");
+	    }else{
+		$(this).addClass("action-link");
 	    }
 	});
     }
