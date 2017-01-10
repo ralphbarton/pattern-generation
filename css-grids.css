@@ -61,20 +61,20 @@
 }
 
 
-#tabs-3 .q1,
-#tabs-3 .q2,
-#tabs-3 .q4{
+#tabs-3 .k-ang,
+#tabs-3 .k-inte,
+#tabs-3 .k-shif{
     position: relative;
     display: inline-block;
     margin-right: 90px;
     margin-bottom: 6px;
 }
 
-#tabs-3 .q4{
+#tabs-3 .k-shif{
     margin-right: 10px;    
 }
 
-#tabs-3 .q3{
+#tabs-3 .k-pix{
     position: absolute;
     border: 3px dotted black;
     color: blueviolet;

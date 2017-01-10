@@ -46,6 +46,46 @@ var grids = {
 	//put them all "set" (in fact, this command will be needed every time a manual mutation is done)
 	widgets.actionLink_unset("#preset-grid.act-mutex", null);
 
+
+	//add logic for input boxes:
+
+	//function to modify grid array
+	var GA_mod = function(obj, ls, key){
+	    var my_i = grids.selected_row_i;
+	    if(my_i != undefined){
+		//parse int logic probably needed here
+		DM.GridsArray[my_i].line_sets[ls][key] = $(obj).val();
+	    }
+	};
+
+	var GAu_mod = function(ls, u){
+	    var my_i = grids.selected_row_i;
+	    if(my_i != undefined){
+		DM.GridsArray[my_i].line_sets[ls]["spacing_unit"] = u;
+		// also take action here to convert the spacing value,
+		// such that it is equivalent with new units...
+	    }
+	};
+
+	//callbacks for all input boxes.....
+	$("#line-set-1 .k-ang  input").on("focusout", function(){GA_mod(this, 0, "angle")});
+	$("#line-set-1 .k-inte input").on("focusout", function(){GA_mod(this, 0, "spacing")});
+	$("#line-set-1 .k-shif input").on("focusout", function(){GA_mod(this, 0, "shift")});
+	$("#line-set-2 .k-ang  input").on("focusout", function(){GA_mod(this, 1, "angle")});
+	$("#line-set-2 .k-inte input").on("focusout", function(){GA_mod(this, 1, "spacing")});
+	$("#line-set-2 .k-shif input").on("focusout", function(){GA_mod(this, 1, "shift")});
+
+
+	// add logic to the action links
+	widgets.actionLink_init("#line-set-1 .px-pc-qty.act-mutex",[
+	    function(){GAu_mod(0,'px');},
+	    function(){GAu_mod(0,'pc');},
+	    function(){GAu_mod(0,'qty');},
+	]
+			       );
+
+	
+
     },
 
     selected_row_i: undefined,
@@ -88,12 +128,14 @@ var grids = {
 
 			// 2. populate the right section of screen using data from that specific grid
 
-			//q1=angle, q2=spacing
-			var Gx = DM.GridsArray[i];
-			$("#line-set-1 .q1 input").val(Gx.angle1);
-			$("#line-set-1 .q2 input").val(Gx.spacing1.v);
-			$("#line-set-2 .q1 input").val(Gx.angle2);
-			$("#line-set-2 .q2 input").val(Gx.spacing2.v);
+			//k-ang=angle, k-inte=spacing
+			var Gx = DM.GridsArray[i].line_sets;
+			$("#line-set-1 .k-ang input").val(Gx[0]["angle"]);
+			$("#line-set-1 .k-inte input").val(Gx[0]["spacing"]);
+			$("#line-set-1 .k-shif input").val(Gx[0]["shift"]);
+			$("#line-set-2 .k-ang input").val(Gx[1]["angle"]);
+			$("#line-set-2 .k-inte input").val(Gx[1]["spacing"]);
+			$("#line-set-2 .k-shif input").val(Gx[1]["shift"]);
 
 		    })
 	    );
