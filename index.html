@@ -294,7 +294,7 @@
 	      <div class="boxie" id="line-set-1">
 		<div class="title">Line Set 1</div>
 
-		<div class="k-pix">svg here</div>
+		<div class="k-pix"></div>
 
 		<div class="k-ang">Angle:
 		  <input class="plain-cell" type="number">
@@ -397,6 +397,35 @@
 	</div>
 
       </div>
+
+    </div>
+
+
+
+
+
+    <!-- Define SVGs in the anonymous hidden div -->
+
+    <div style="display:none;">
+
+      <!-- 1. -->
+      <svg id="svg-angle-1" width="70" height="70">
+
+	<defs>
+	  <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3"
+		  orient="auto" markerUnits="strokeWidth" viewBox="0 0 10 20">
+	    <path d="M0,0 L0,6 L6,3 z" fill="#1c737c" />
+	  </marker>
+	</defs>
+
+	<rect width="70" height="70" fill="#DBD1AB" />
+	<line x1="8" y1="0" x2="8" y2="70" stroke="rgba(0,0,0,0.3)" stroke-width="2"/>
+	<line x1="0" y1="62" x2="70" y2="62" stroke="rgba(0,0,0,0.3)" stroke-width="2"/>
+
+	<line x1="0" y1="62" x2="63" y2="62" stroke="#1c737c" stroke-width="2" marker-end="url(#arrow)"
+	      transform = "rotate(-5 8 62)" id="my_arrow"/>
+      </svg>
+
 
     </div>
 

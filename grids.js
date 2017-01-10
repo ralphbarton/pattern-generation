@@ -54,10 +54,21 @@ var grids = {
 	    var my_i = grids.selected_row_i;
 	    if(my_i != undefined){
 		//parse int logic probably needed here
-		DM.GridsArray[my_i].line_sets[ls][key] = $(obj).val();
+		var my_val = $(obj).val();
+		DM.GridsArray[my_i].line_sets[ls][key] = my_val;
+
+		if(key=="angle"){
+		    console.log("d3 transform");
+		    d3.select("#svg-angle-1 #my_arrow")
+			.transition()
+			.duration(500)
+			.attr("transform", "rotate(-"+my_val+" 8 62)");
+		}
+
 	    }
 	};
 
+	// change grid array units...
 	var GAu_mod = function(ls, u){
 	    var my_i = grids.selected_row_i;
 	    if(my_i != undefined){
@@ -84,7 +95,9 @@ var grids = {
 	]
 			       );
 
-	
+	//performs a 'move'
+	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
+
 
     },
 
