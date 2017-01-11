@@ -49,9 +49,13 @@
   </head>
 
   <body>
+
+    <svg id="svg-bg-fullscreen"></svg>
+
     This is the page body...
     <br>
     <a href="/samples.html">[link to samples page]</a>
+
 
     <!-- ITEM 1 - the cpanel -->
     <div class="cpanel cpanel-main-size1" id="main">
@@ -345,16 +349,20 @@
 
 	      <div class="boxie s" id="preview-opts">
 		<div class="title">Preview Options</div>
-		<div id="overlay-bg" class="act-mutex"><div>Hide background</div><div>Show background</div></div>
-		<div id="colour-monochrome" class="act-mutex"><div>Show in Colour</div><div>Show in Monochrome</div></div>
+		<div id="show-bg" class="act-mutex">Background;<div>Hide</div><div>Show</div></div>
+		<div id="show-points" class="act-mutex">Points:<div>Hide</div><div>Show</div></div>
+		<div id="colour-monochrome" class="act-mutex">Gridlines:<div>Colour</div><div>Monochrome</div></div>
+		<br>
 		<div id="one-v-all" class="act-mutex"><div>Show Selected</div><div>Show All</div></div>
+
+		<div id="grid-preview-visibility">
+		  <div class="button" id="show">Show</div>
+		  <div class="action-link" id="hide">Hide Preview</div>
+		</div>
+
 	      </div>
 
-
-
-
-	    </div>
-	    
+	    </div>	    
 
 
 	  </div>
@@ -399,15 +407,6 @@
       </div>
 
     </div>
-
-
-
-    <svg id="svg-test" width="700" height="700">
-
-      <line x1="0" y1="0" x2="500" y2="500" stroke="blue" stroke-width="2"/> <!-- vertical -->
-
-    </svg>
-
 
 
     <!-- Define SVGs in the anonymous hidden div -->

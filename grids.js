@@ -28,6 +28,14 @@ var grids = {
 	    }
 	});
 
+	// Handler for -Show- preview
+	$("#grid-preview-visibility #show").click(function(){
+	    var my_i = grids.selected_row_i;
+	    if(my_i != undefined){
+		grids.screen_grid(DM.GridsArray[my_i]);
+	    }
+	});
+
 	// add logic to the action links
 	widgets.actionLink_init("#preset-grid.act-mutex",[
 	    function(){
@@ -182,6 +190,68 @@ var grids = {
 	    .attr("transform", "translate(8 "+dy+") rotate("+angle+")");
     },
 
-    
+    previous: undefined;
+    screen_grid: function (grid_obj){
+	var winW = $(window).width();
+	var winH = $(window).height();
+	var Dia = Math.sqrt(winW*winW + winH*winH);
+
+	$("#svg-bg-fullscreen").css("width", winW).css("height", winH);
+
+	//assuming data in pixels here...
+	var inte1 = grid_obj.line_sets[0].spacing;
+	var N1 = Math.floor((Dia/2) / inte1);//N1 is the number of lines in just the upper half
+
+	//this is an array to apply D3 to and generate one line set...
+	var lines1_genData = [];
+	for (var i = 0; i < N1; i++){
+	    lines1_genData.push(i);
+	    if(i != 0){
+		lines1_genData.push(-i);
+	    }
+	}
+
+	var origX = winW/2;
+	var origY = winH/2;
+	var Radius = Dia/2;
+
+	//select the set of lines
+	var selection = d3.select("#svg-bg-fullscreen")
+	    .selectAll(".lines-1").data(lines1_genData);
+
+	//change the set to contain the correct number of lines
+	selection.enter()
+	    .append("line").attr("class", "lines-1")
+	    .attr("x1", origX - Radius)
+	    .attr("y1", function(d){return (origY + d*inte1) + "px";})
+	    .attr("x2", origX + Radius)
+	    .attr("y2", function(d){
+		console.log(d, (origY + d*inte1));
+		return (origY + d*inte1) + "px";})
+	    .attr("stroke","black")
+	    .attr("stroke-width","1");
+
+	selection.exit().remove();
+
+	if(this.previous == undefined){
+
+	}
+
+	var selection = d3.select("#svg-bg-fullscreen")
+	    .selectAll(".lines-1").data(lines1_genData)
+	    .attr("x1", origX - Radius)
+	    .attr("y1", function(d){return (origY + d*inte1) + "px";})
+	    .attr("x2", origX + Radius)
+	    .attr("y2", function(d){
+		console.log(d, (origY + d*inte1));
+		return (origY + d*inte1) + "px";})
+	    .attr("stroke","black")
+	    .attr("stroke-width","1");
+
+
+	console.log(winW, winH, Dia, inte1, N1);
+
+	this.previous.inte1 = inte1;
+    }
 
 };

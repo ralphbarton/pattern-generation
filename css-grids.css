@@ -52,11 +52,11 @@
 
 #tabs-3 div.boxie#preview-opts{
         margin-top: 15px;
-    width: 250px;
+    width: 380px;
         height: 58px;
         text-align: left;
     position: absolute;
-    right: 5px;
+    left: 1px;
     top: 185px;
 }
 
@@ -89,13 +89,35 @@
 }
 
 #tabs-3 .boxie#preview-opts .act-mutex#colour-monochrome{
-    left: 11px;
+    left: 5px;
 }
 
 #tabs-3 .boxie#preview-opts .act-mutex#one-v-all{
-    left: 14px;
+    left: 15px;
+}
+
+#tabs-3 .act-mutex#link-angles{
+    display: inline-block;
+    position: absolute;
+    right: 3px;
+    top: 165px;
+    width: 80px;
+}
+
+#tabs-3 #grid-preview-visibility{
+        position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 80px;
 }
 
 #tabs-3 .plain-cell{
     width: 60px;
+}
+
+#svg-bg-fullscreen{
+    z-index: -1;
+    position: absolute;
+    top:0;
+    left: 0;
 }
