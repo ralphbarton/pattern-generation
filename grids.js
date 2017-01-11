@@ -49,7 +49,7 @@ var grids = {
 
 	//add logic for input boxes:
 
-	//function to modify grid array
+	// handle a change in one of the <input> boxes for the grid array
 	var GA_mod = function(obj, ls, key){
 	    // 'obj' - input elem
 	    // 'ls' - line set (0,1)
@@ -59,19 +59,7 @@ var grids = {
 		//parse int logic probably needed here
 		var my_val = $(obj).val();
 		DM.GridsArray[my_i].line_sets[ls][key] = my_val;
-
-		if(key=="angle"){
-
-		    var dy = ls ? 8 : 62;
-		    var svg_id = "#svg-angle-" + (ls+1);
-		    var my_val = ls ? my_val : -my_val;
-
-		    d3.select(svg_id + " #my_arrow")
-			.transition()
-			.duration(500)
-			.attr("transform", "translate(8 "+dy+") rotate("+my_val+")");
-		}
-
+		if(key=="angle"){grids.update_preview_svg_angle(ls, my_val);}
 	    }
 	};
 
@@ -86,10 +74,10 @@ var grids = {
 	};
 
 	//callbacks for all input boxes.....
-	$("#line-set-1 .k-ang  input").on("focusout", function(){GA_mod(this, 0, "angle")});
+	$("#line-set-1 .k-ang  input").on("change", function(){GA_mod(this, 0, "angle")});
 	$("#line-set-1 .k-inte input").on("focusout", function(){GA_mod(this, 0, "spacing")});
 	$("#line-set-1 .k-shif input").on("focusout", function(){GA_mod(this, 0, "shift")});
-	$("#line-set-2 .k-ang  input").on("focusout", function(){GA_mod(this, 1, "angle")});
+	$("#line-set-2 .k-ang  input").on("change", function(){GA_mod(this, 1, "angle")});
 	$("#line-set-2 .k-inte input").on("focusout", function(){GA_mod(this, 1, "spacing")});
 	$("#line-set-2 .k-shif input").on("focusout", function(){GA_mod(this, 1, "shift")});
 
@@ -152,11 +140,15 @@ var grids = {
 			//k-ang=angle, k-inte=spacing
 			var Gx = DM.GridsArray[i].line_sets;
 			$("#line-set-1 .k-ang input").val(Gx[0]["angle"]);
+			grids.update_preview_svg_angle(0, Gx[0]["angle"]);//update the SVG
 			$("#line-set-1 .k-inte input").val(Gx[0]["spacing"]);
 			$("#line-set-1 .k-shif input").val(Gx[0]["shift"]);
 			$("#line-set-2 .k-ang input").val(Gx[1]["angle"]);
+			grids.update_preview_svg_angle(1, Gx[1]["angle"]);//update the SVG
 			$("#line-set-2 .k-inte input").val(Gx[1]["spacing"]);
 			$("#line-set-2 .k-shif input").val(Gx[1]["shift"]);
+
+
 
 		    })
 	    );
@@ -178,5 +170,18 @@ var grids = {
 */
 	
     },
+
+    update_preview_svg_angle: function (ls, angle){
+	var dy = ls ? 8 : 62;
+	var svg_id = "#svg-angle-" + (ls+1);
+	var angle = ls ? angle : -angle;
+
+	d3.select(svg_id + " #my_arrow")
+	    .transition()
+	    .duration(500)
+	    .attr("transform", "translate(8 "+dy+") rotate("+angle+")");
+    },
+
+    
 
 };
