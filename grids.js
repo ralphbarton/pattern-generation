@@ -1,5 +1,6 @@
 var grids = {
 
+    showing_preview: false,
     init: function(){
 
 	this.table_update();
@@ -31,8 +32,9 @@ var grids = {
 	// Handler for -Show- preview
 	$("#grid-preview-visibility #show").click(function(){
 	    var my_i = grids.selected_row_i;
-	    if(my_i != undefined){
+	    if((my_i != undefined) && (!$(this).hasClass("ui-disabled"))){
 		grids.screen_grid(DM.GridsArray[my_i]);
+		$(this).addClass("ui-disabled");
 	    }
 	});
 
@@ -68,6 +70,9 @@ var grids = {
 		var my_val = $(obj).val();
 		DM.GridsArray[my_i].line_sets[ls][key] = my_val;
 		if(key=="angle"){grids.update_preview_svg_angle(ls, my_val);}
+		
+		//animated grid change...
+		grids.screen_grid(DM.GridsArray[my_i]);
 	    }
 	};
 
@@ -190,7 +195,7 @@ var grids = {
 	    .attr("transform", "translate(8 "+dy+") rotate("+angle+")");
     },
 
-    previous: undefined;
+    previous: undefined,
     screen_grid: function (grid_obj){
 	var winW = $(window).width();
 	var winH = $(window).height();
@@ -200,6 +205,8 @@ var grids = {
 
 	//assuming data in pixels here...
 	var inte1 = grid_obj.line_sets[0].spacing;
+	var angle1 = -grid_obj.line_sets[0].angle;
+
 	var N1 = Math.floor((Dia/2) / inte1);//N1 is the number of lines in just the upper half
 
 	//this is an array to apply D3 to and generate one line set...
@@ -214,44 +221,51 @@ var grids = {
 	var origX = winW/2;
 	var origY = winH/2;
 	var Radius = Dia/2;
+	var first = this.previous == undefined;
 
 	//select the set of lines
 	var selection = d3.select("#svg-bg-fullscreen")
 	    .selectAll(".lines-1").data(lines1_genData);
 
-	//change the set to contain the correct number of lines
+	var inteval = first ? inte1 : this.previous.inte1;
+	var angle = first ? angle1 : this.previous.angle1;
+	// first pass - change the set to contain the correct number of lines
 	selection.enter()
 	    .append("line").attr("class", "lines-1")
-	    .attr("x1", origX - Radius)
-	    .attr("y1", function(d){return (origY + d*inte1) + "px";})
-	    .attr("x2", origX + Radius)
-	    .attr("y2", function(d){
-		console.log(d, (origY + d*inte1));
-		return (origY + d*inte1) + "px";})
+	    .attr("x1", -Radius)
+	    .attr("y1", 0)
+	    .attr("x2", +Radius)
+	    .attr("y2", 0)
+	    .attr("transform", function(d){return ("translate("+origX+" "+(origY + d*inteval)+") rotate("+angle+")");})
 	    .attr("stroke","black")
 	    .attr("stroke-width","1");
 
-	selection.exit().remove();
+	selection.exit()
+	    .transition()
+	    .delay(500)
+	    .duration(2000)
+	    .attr("stroke", "rgba(0,0,0,0)")
+	    .remove();
 
-	if(this.previous == undefined){
-
+	//second pass. Animate
+	if(!first){
+	    var selection = d3.select("#svg-bg-fullscreen")
+		.selectAll(".lines-1").data(lines1_genData)
+		.transition()
+		.delay(function(d, i) {
+		    return (i / N1) * 250; // max of (i/N2) = 2
+		})
+		.duration(1000)
+		.attr("transform", function(d){return ("translate("+origX+" "+(origY + d*inte1)+") rotate("+angle1+")");});
 	}
-
-	var selection = d3.select("#svg-bg-fullscreen")
-	    .selectAll(".lines-1").data(lines1_genData)
-	    .attr("x1", origX - Radius)
-	    .attr("y1", function(d){return (origY + d*inte1) + "px";})
-	    .attr("x2", origX + Radius)
-	    .attr("y2", function(d){
-		console.log(d, (origY + d*inte1));
-		return (origY + d*inte1) + "px";})
-	    .attr("stroke","black")
-	    .attr("stroke-width","1");
-
 
 	console.log(winW, winH, Dia, inte1, N1);
 
-	this.previous.inte1 = inte1;
+	this.previous = {
+	    inte1: inte1,
+	    angle1: angle1
+	};
+
     }
 
 };
