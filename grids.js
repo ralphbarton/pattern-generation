@@ -1,6 +1,9 @@
 var grids = {
 
     showing_preview: false,
+    selected_row_i: undefined,
+    previousGrid: {line_sets:[]},
+
     init: function(){
 
 	this.table_update();
@@ -33,29 +36,11 @@ var grids = {
 	$("#grid-preview-visibility #show").click(function(){
 	    var my_i = grids.selected_row_i;
 	    if((my_i != undefined) && (!$(this).hasClass("ui-disabled"))){
-		grids.screen_grid(DM.GridsArray[my_i]);
+		grids.showing_preview = true;
+		grids.update_bg_grid(DM.GridsArray[my_i]);
 		$(this).addClass("ui-disabled");
 	    }
 	});
-
-	// add logic to the action links
-	widgets.actionLink_init("#preset-grid.act-mutex",[
-	    function(){
-		//callback 1
-		console.log("Isometric commanded");
-	    },
-	    function(){
-		//callback 2
-		console.log("Square commanded");
-	    },
-	    function(){
-		//callback 3
-		console.log("Diamond commanded");
-	    }]
-			       );
-	//put them all "set" (in fact, this command will be needed every time a manual mutation is done)
-	widgets.actionLink_unset("#preset-grid.act-mutex", null);
-
 
 	//add logic for input boxes:
 
@@ -72,7 +57,10 @@ var grids = {
 		if(key=="angle"){grids.update_preview_svg_angle(ls, my_val);}
 		
 		//animated grid change...
-		grids.screen_grid(DM.GridsArray[my_i]);
+		grids.update_bg_grid(DM.GridsArray[my_i]);
+
+		//reset the Isometric / Square / Diamond so all are available as options
+		grids.preset_grid_action_links_enablement();
 	    }
 	};
 
@@ -88,12 +76,12 @@ var grids = {
 
 	//callbacks for all input boxes.....
 	$("#line-set-1 .k-ang  input").on("change", function(){GA_mod(this, 0, "angle")});
-	$("#line-set-1 .k-inte input").on("focusout", function(){GA_mod(this, 0, "spacing")});
-	$("#line-set-1 .k-shif input").on("focusout", function(){GA_mod(this, 0, "shift")});
+	$("#line-set-1 .k-inte input").on("change", function(){GA_mod(this, 0, "spacing")});
+	$("#line-set-1 .k-shif input").on("change", function(){GA_mod(this, 0, "shift")});
 	$("#line-set-2 .k-ang  input").on("change", function(){GA_mod(this, 1, "angle")});
-	$("#line-set-2 .k-inte input").on("focusout", function(){GA_mod(this, 1, "spacing")});
-	$("#line-set-2 .k-shif input").on("focusout", function(){GA_mod(this, 1, "shift")});
-
+	$("#line-set-2 .k-inte input").on("change", function(){GA_mod(this, 1, "spacing")});
+	$("#line-set-2 .k-shif input").on("change", function(){GA_mod(this, 1, "shift")});
+	//todo: also need to handle on("focusout"
 
 	// add logic to the action links
 	widgets.actionLink_init("#line-set-1 .px-pc-qty.act-mutex",[
@@ -103,6 +91,35 @@ var grids = {
 	]
 			       );
 
+
+	// Logic for 3-way action-link:  Isometric / Square / Diamond
+
+	var AdjustGridToPresetType = function(type){	// callback 1 - set  ==Isometric==
+	    var grid_obj_i = DM.GridsArray[grids.selected_row_i];
+	    var LS = grid_obj_i.line_sets
+	    if(type == "iso"){LS[1].angle = 60 - LS[0].angle;}
+	    if(type == "squ"){LS[1].angle = 90 - LS[0].angle;}
+	    if(type == "dia"){
+		if(LS[0].angle != 0){
+		    LS[1].angle = LS[0].angle;
+		}
+	    }
+	    LS[1].spacing = LS[0].spacing; //rhomboid
+
+	    //update display. Input elems and grid.
+	    grids.update_all_input_elements_values(grid_obj_i);
+	    grids.update_bg_grid(grid_obj_i);
+	};
+
+	widgets.actionLink_init("#preset-grid.act-mutex", [
+	    function(){AdjustGridToPresetType("iso")},
+	    function(){AdjustGridToPresetType("squ")},
+	    function(){AdjustGridToPresetType("dia")}    ]);
+
+	//put them all "set"
+	grids.preset_grid_action_links_enablement();
+
+
 	//performs a 'move' within the DOM
 	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
 	$("#svg-angle-2").appendTo("#line-set-2 .k-pix");
@@ -110,7 +127,19 @@ var grids = {
 
     },
 
-    selected_row_i: undefined,
+    preset_grid_action_links_enablement: function(){
+	widgets.actionLink_unset("#preset-grid.act-mutex", null);
+	var my_i = grids.selected_row_i;
+	if(my_i != undefined){
+	    var LS = DM.GridsArray[my_i].line_sets;
+	    if((LS[0].angle == LS[1].angle) || (LS[0].angle == 0)){//can't apply diamond if angle zero
+		$($("#preset-grid.act-mutex div")[2]).removeClass("action-link");
+		console.log($("#preset-grid.act-mutex div")[2]);
+	    }
+	}
+    },
+
+
     table_update: function(){
 
 	//wipe the entire table of rows...
@@ -143,26 +172,23 @@ var grids = {
 			)
 		    ).on("click",function(){ //click on the row
 
+			//it it ok we're not testing here for if row is already selected...
+
 			// 1. manage row selection witin the table itself
 			$("#grids-table tr.selected").removeClass("selected");
 			$(this).addClass("selected");
 			grids.selected_row_i = $(this).data("index");
 
 			// 2. populate the right section of screen using data from that specific grid
+			var grid_obj_i = DM.GridsArray[i];
+			grids.update_all_input_elements_values(grid_obj_i);
 
-			//k-ang=angle, k-inte=spacing
-			var Gx = DM.GridsArray[i].line_sets;
-			$("#line-set-1 .k-ang input").val(Gx[0]["angle"]);
-			grids.update_preview_svg_angle(0, Gx[0]["angle"]);//update the SVG
-			$("#line-set-1 .k-inte input").val(Gx[0]["spacing"]);
-			$("#line-set-1 .k-shif input").val(Gx[0]["shift"]);
-			$("#line-set-2 .k-ang input").val(Gx[1]["angle"]);
-			grids.update_preview_svg_angle(1, Gx[1]["angle"]);//update the SVG
-			$("#line-set-2 .k-inte input").val(Gx[1]["spacing"]);
-			$("#line-set-2 .k-shif input").val(Gx[1]["shift"]);
+			// show the content for editing
+			$("#tabs-3 div#row-content").fadeIn({duration:400, easing: "linear"});
 
-
-
+			// update to this Grid.
+			grids.update_bg_grid(grid_obj_i);
+			grids.preset_grid_action_links_enablement();
 		    })
 	    );
 
@@ -174,14 +200,26 @@ var grids = {
 	});
 
 	// use click handler to achieve re-selection
-/*
 	if(this.selected_row_i != undefined){
-	    var tr_selected = $("#c-pot-edit-table tbody tr")[this.selected_row_i];
-	    this.selected_row_i = undefined;//reset selection - necessary for effect of next line
+	    var tr_selected = $("#grids-table tbody tr")[this.selected_row_i];
+	    //this.selected_row_i = undefined;//reset selection - necessary for effect of next line
 	    tr_selected.click();
 	}
-*/
+
 	
+    },
+
+    update_all_input_elements_values: function (grid_obj){
+	//k-ang=angle, k-inte=spacing
+	var Gx = grid_obj.line_sets;
+	$("#line-set-1 .k-ang input").val(Gx[0]["angle"]);
+	this.update_preview_svg_angle(0, Gx[0]["angle"]);//update the SVG
+	$("#line-set-1 .k-inte input").val(Gx[0]["spacing"]);
+	$("#line-set-1 .k-shif input").val(Gx[0]["shift"]);
+	$("#line-set-2 .k-ang input").val(Gx[1]["angle"]);
+	this.update_preview_svg_angle(1, Gx[1]["angle"]);//update the SVG
+	$("#line-set-2 .k-inte input").val(Gx[1]["spacing"]);
+	$("#line-set-2 .k-shif input").val(Gx[1]["shift"]);
     },
 
     update_preview_svg_angle: function (ls, angle){
@@ -195,18 +233,19 @@ var grids = {
 	    .attr("transform", "translate(8 "+dy+") rotate("+angle+")");
     },
 
-    previous: {line_sets:[]},
-    screen_grid: function (grid_obj){
-	var winW = $(window).width();
-	var winH = $(window).height();
+    update_bg_grid: function (grid_obj){
 
-	$("#svg-bg-fullscreen").css("width", winW).css("height", winH);
+	if(grids.showing_preview){
+	    var winW = $(window).width();
+	    var winH = $(window).height();
 
-	this.screen_update_line_set(grid_obj.line_sets[0], this.previous.line_sets[0], winW, winH, 0);
-	this.screen_update_line_set(grid_obj.line_sets[1], this.previous.line_sets[1], winW, winH, 1);
+	    $("#svg-bg-fullscreen").css("width", winW).css("height", winH);
 
-	this.previous = grid_obj;
+	    this.screen_update_line_set(grid_obj.line_sets[0], this.previousGrid.line_sets[0], winW, winH, 0);
+	    this.screen_update_line_set(grid_obj.line_sets[1], this.previousGrid.line_sets[1], winW, winH, 1);
 
+	    this.previousGrid = grid_obj;
+	}
     },
 
     screen_update_line_set: function (LineSet, prev_LineSet, W, H, i){

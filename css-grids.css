@@ -36,6 +36,7 @@
 
 #tabs-3 div#row-content{
     position: absolute;
+    display: none;/* for initial rendering purposes*/
     left: 244px;
     top: 123px;
 }
