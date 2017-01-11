@@ -195,19 +195,38 @@ var grids = {
 	    .attr("transform", "translate(8 "+dy+") rotate("+angle+")");
     },
 
-    previous: undefined,
+    previous: {line_sets:[]},
     screen_grid: function (grid_obj){
 	var winW = $(window).width();
 	var winH = $(window).height();
-	var Dia = Math.sqrt(winW*winW + winH*winH);
 
 	$("#svg-bg-fullscreen").css("width", winW).css("height", winH);
 
-	//assuming data in pixels here...
-	var inte1 = grid_obj.line_sets[0].spacing;
-	var angle1 = -grid_obj.line_sets[0].angle;
+	this.screen_update_line_set(grid_obj.line_sets[0], this.previous.line_sets[0], winW, winH, 0);
+	this.screen_update_line_set(grid_obj.line_sets[1], this.previous.line_sets[1], winW, winH, 1);
 
-	var N1 = Math.floor((Dia/2) / inte1);//N1 is the number of lines in just the upper half
+	this.previous = grid_obj;
+
+    },
+
+    screen_update_line_set: function (LineSet, prev_LineSet, W, H, i){
+
+	var Dia = Math.sqrt(W*W + H*H);
+	var origX = W/2;
+	var origY = H/2;
+	var Radius = Dia/2;
+	var first = prev_LineSet == undefined;
+	var neg_ang = (i==0 ? -1 : 1);
+
+	//assuming data in pixels here...
+	var inte_target = LineSet.spacing;
+	var angle_target = LineSet.angle * neg_ang;
+	var inte_starting = first ? inte_target : prev_LineSet.spacing;
+	var angle_starting = first ? angle_target : (prev_LineSet.angle * neg_ang);
+
+	var N1 = Math.ceil((Dia/2) / inte_target);//N1 is the number of lines in just the upper half
+	
+	var lines_class = "lines-"+(i+1);
 
 	//this is an array to apply D3 to and generate one line set...
 	var lines1_genData = [];
@@ -218,54 +237,41 @@ var grids = {
 	    }
 	}
 
-	var origX = winW/2;
-	var origY = winH/2;
-	var Radius = Dia/2;
-	var first = this.previous == undefined;
-
 	//select the set of lines
 	var selection = d3.select("#svg-bg-fullscreen")
-	    .selectAll(".lines-1").data(lines1_genData);
+	    .selectAll("."+lines_class).data(lines1_genData);
 
-	var inteval = first ? inte1 : this.previous.inte1;
-	var angle = first ? angle1 : this.previous.angle1;
 	// first pass - change the set to contain the correct number of lines
 	selection.enter()
-	    .append("line").attr("class", "lines-1")
+	    .append("line").attr("class", lines_class)
 	    .attr("x1", -Radius)
-	    .attr("y1", 0)
 	    .attr("x2", +Radius)
-	    .attr("y2", 0)
-	    .attr("transform", function(d){return ("translate("+origX+" "+(origY + d*inteval)+") rotate("+angle+")");})
+	    .attr("y1", function(d){return d*inte_starting;})
+	    .attr("y2", function(d){return d*inte_starting;})
+	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_starting+")")
 	    .attr("stroke","black")
 	    .attr("stroke-width","1");
 
 	selection.exit()
 	    .transition()
 	    .delay(500)
-	    .duration(2000)
+	    .duration(1300)
 	    .attr("stroke", "rgba(0,0,0,0)")
 	    .remove();
 
 	//second pass. Animate
 	if(!first){
 	    var selection = d3.select("#svg-bg-fullscreen")
-		.selectAll(".lines-1").data(lines1_genData)
+		.selectAll("."+lines_class).data(lines1_genData)
 		.transition()
 		.delay(function(d, i) {
 		    return (i / N1) * 250; // max of (i/N2) = 2
 		})
-		.duration(1000)
-		.attr("transform", function(d){return ("translate("+origX+" "+(origY + d*inte1)+") rotate("+angle1+")");});
+		.duration(500)
+		.attr("y1", function(d){return d*inte_target;})
+		.attr("y2", function(d){return d*inte_target;})
+		.attr("transform", "translate("+origX+" "+origY+") rotate("+angle_target+")");
 	}
-
-	console.log(winW, winH, Dia, inte1, N1);
-
-	this.previous = {
-	    inte1: inte1,
-	    angle1: angle1
-	};
-
-    }
+    },
 
 };
