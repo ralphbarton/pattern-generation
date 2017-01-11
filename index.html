@@ -316,7 +316,7 @@
 	      <div class="boxie" id="line-set-2">
 		<div class="title">Line Set 2</div>
 
-		<div class="k-pix">svg here</div>
+		<div class="k-pix"></div>
 
 		<div class="k-ang">Angle:
 		  <input class="plain-cell" type="number">
@@ -418,12 +418,29 @@
 	  </marker>
 	</defs>
 
-	<rect width="70" height="70" fill="#DBD1AB" />
-	<line x1="8" y1="0" x2="8" y2="70" stroke="rgba(0,0,0,0.3)" stroke-width="2"/>
-	<line x1="0" y1="62" x2="70" y2="62" stroke="rgba(0,0,0,0.3)" stroke-width="2"/>
+	<line x1="8" y1="0" x2="8" y2="70" stroke="rgba(0,0,0,0.3)" stroke-width="2"/> <!-- vertical -->
+	<line x1="0" y1="62" x2="70" y2="62" stroke="rgba(0,0,0,0.3)" stroke-width="2"/><!-- horizontal -->
 
-	<line x1="0" y1="62" x2="63" y2="62" stroke="#1c737c" stroke-width="2" marker-end="url(#arrow)"
-	      transform = "rotate(-5 8 62)" id="my_arrow"/>
+	<line x1="-8" y1="0" x2="53" y2="0" stroke="#1c737c" stroke-width="3" marker-end="url(#arrow)"
+	      transform = "translate(8 62)" id="my_arrow"/>
+      </svg>
+
+
+      <!-- 2. -->
+      <svg id="svg-angle-2" width="70" height="70">
+
+	<defs>
+	  <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3"
+		  orient="auto" markerUnits="strokeWidth" viewBox="0 0 10 20">
+	    <path d="M0,0 L0,6 L6,3 z" fill="#1c737c" />
+	  </marker>
+	</defs>
+
+	<line x1="8" y1="0" x2="8" y2="70" stroke="rgba(0,0,0,0.3)" stroke-width="2"/> <!-- vertical -->
+	<line x1="0" y1="8" x2="70" y2="8" stroke="rgba(0,0,0,0.3)" stroke-width="2"/><!-- horizontal -->
+
+	<line x1="-8" y1="0" x2="53" y2="0" stroke="#1c737c" stroke-width="3" marker-end="url(#arrow)"
+	      transform = "translate(8 8)" id="my_arrow"/>
       </svg>
 
 

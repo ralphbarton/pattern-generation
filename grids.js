@@ -51,6 +51,9 @@ var grids = {
 
 	//function to modify grid array
 	var GA_mod = function(obj, ls, key){
+	    // 'obj' - input elem
+	    // 'ls' - line set (0,1)
+	    // 'key' - angle / spacing / shift
 	    var my_i = grids.selected_row_i;
 	    if(my_i != undefined){
 		//parse int logic probably needed here
@@ -58,11 +61,15 @@ var grids = {
 		DM.GridsArray[my_i].line_sets[ls][key] = my_val;
 
 		if(key=="angle"){
-		    console.log("d3 transform");
-		    d3.select("#svg-angle-1 #my_arrow")
+
+		    var dy = ls ? 8 : 62;
+		    var svg_id = "#svg-angle-" + (ls+1);
+		    var my_val = ls ? my_val : -my_val;
+
+		    d3.select(svg_id + " #my_arrow")
 			.transition()
 			.duration(500)
-			.attr("transform", "rotate(-"+my_val+" 8 62)");
+			.attr("transform", "translate(8 "+dy+") rotate("+my_val+")");
 		}
 
 	    }
@@ -95,8 +102,9 @@ var grids = {
 	]
 			       );
 
-	//performs a 'move'
+	//performs a 'move' within the DOM
 	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
+	$("#svg-angle-2").appendTo("#line-set-2 .k-pix");
 
 
     },
