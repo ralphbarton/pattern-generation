@@ -56,7 +56,7 @@ var grids = {
 		var my_val = $(obj).val();
 		var Grid_i = DM.GridsArray[grids.selected_row_i];
 		var diff = my_val - Grid_i.line_sets[ls][key];
-		Grid_i.line_sets[ls][key] = my_val;
+		Grid_i.line_sets[ls][key] = Number(my_val);//danger of storing a string here...
 		if(key=="angle"){
 		    grids.update_preview_svg_angle(ls, my_val);
 		    if(grids.lock_angles){
@@ -102,20 +102,31 @@ var grids = {
 
 
 	// Logic for 3-way action-link:  Isometric / Square / Diamond
-
-	var AdjustGridToPresetType = function(type){	// callback 1 - set  ==Isometric==
+	var AdjustGridToPresetType = function(type){
 	    var Grid_i = DM.GridsArray[grids.selected_row_i];
 	    var LS = Grid_i.line_sets
 	    if(type == "iso"){
 		if(LS[0].angle > 60){
 		    LS[0].angle -=60;//rotating back by 60 keeps within range...
 		}
-		LS[1].angle = 60 - LS[0].angle;		
+		LS[1].angle = 60 - LS[0].angle;
+		grids.lock_angles = false;//resets lock		
+		widgets.actionLink_unset("#link-angles.act-mutex", 1);//show unlinked
 	    }
-	    if(type == "squ"){LS[1].angle = 90 - LS[0].angle;}
+	    if(type == "squ"){
+		LS[1].angle = 90 - LS[0].angle;
+		grids.lock_angles = false;//resets lock		
+		widgets.actionLink_unset("#link-angles.act-mutex", 1);//show unlinked
+	    }
 	    if(type == "dia"){
-		if(LS[0].angle != 0){
-		    LS[1].angle = LS[0].angle;
+		if(grids.lock_angles){
+		    var ave_angle = (LS[0].angle + LS[1].angle)/2;
+		    LS[0].angle = ave_angle;
+		    LS[1].angle = ave_angle;
+		}else{
+		    if(LS[0].angle != 0){
+			LS[1].angle = LS[0].angle;
+		    }
 		}
 	    }
 	    LS[1].spacing = LS[0].spacing; //rhomboid
@@ -123,8 +134,6 @@ var grids = {
 	    //update display. Input elems and grid.
 	    grids.update_all_input_elements_values(Grid_i);
 	    grids.update_bg_grid(Grid_i);
-	    grids.lock_angles = false;//resets lock
-	    widgets.actionLink_unset("#link-angles.act-mutex", 1);//show unlinked
 	};
 
 	widgets.actionLink_init("#preset-grid.act-mutex", [
@@ -134,12 +143,17 @@ var grids = {
 
 	//put them all "set"
 	grids.preset_grid_action_links_enablement();
-
 	
 	// lock/link angles together
 	widgets.actionLink_init("#link-angles.act-mutex", [
 	    function(){grids.lock_angles = true;},
 	    function(){grids.lock_angles = false;}    ]);
+
+	// switch between 1D and 2D grid.
+
+	widgets.actionLink_init("#lines-v-grid.act-mutex", [
+	    function(){DM.GridsArray[grids.selected_row_i].n_dimentions = 1;},
+	    function(){DM.GridsArray[grids.selected_row_i].n_dimentions = 2;}    ]);
 
 	//performs a 'move' within the DOM
 	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
@@ -209,6 +223,7 @@ var grids = {
 			// update to this Grid.
 			grids.update_bg_grid(Grid_i);
 			grids.preset_grid_action_links_enablement();
+			widgets.actionLink_unset("#lines-v-grid.act-mutex", Grid_i.n_dimentions == 2);
 		    })
 	    );
 
@@ -262,7 +277,10 @@ var grids = {
 	    $("#svg-bg-fullscreen").css("width", winW).css("height", winH);
 
 	    this.screen_update_line_set(grid_obj.line_sets[0], this.previousGrid.line_sets[0], winW, winH, 0);
-	    this.screen_update_line_set(grid_obj.line_sets[1], this.previousGrid.line_sets[1], winW, winH, 1);
+
+	    if(grid_obj.n_dimentions > 1){
+		this.screen_update_line_set(grid_obj.line_sets[1], this.previousGrid.line_sets[1], winW, winH, 1);
+	    }
 
 	    this.previousGrid = grid_obj;
 	}
