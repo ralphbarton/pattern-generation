@@ -1,6 +1,7 @@
 var grids = {
 
     showing_preview: false,
+    lock_angles: false,
     selected_row_i: undefined,
     previousGrid: {line_sets:[]},
 
@@ -53,11 +54,19 @@ var grids = {
 	    if(my_i != undefined){
 		//parse int logic probably needed here
 		var my_val = $(obj).val();
-		DM.GridsArray[my_i].line_sets[ls][key] = my_val;
-		if(key=="angle"){grids.update_preview_svg_angle(ls, my_val);}
+		var Grid_i = DM.GridsArray[grids.selected_row_i];
+		var diff = my_val - Grid_i.line_sets[ls][key];
+		Grid_i.line_sets[ls][key] = my_val;
+		if(key=="angle"){
+		    grids.update_preview_svg_angle(ls, my_val);
+		    if(grids.lock_angles){
+			Grid_i.line_sets[1-ls].angle -= diff;
+			grids.update_all_input_elements_values(Grid_i);
+		    }
+		}
 		
 		//animated grid change...
-		grids.update_bg_grid(DM.GridsArray[my_i]);
+		grids.update_bg_grid(Grid_i);
 
 		//reset the Isometric / Square / Diamond so all are available as options
 		grids.preset_grid_action_links_enablement();
@@ -95,9 +104,14 @@ var grids = {
 	// Logic for 3-way action-link:  Isometric / Square / Diamond
 
 	var AdjustGridToPresetType = function(type){	// callback 1 - set  ==Isometric==
-	    var grid_obj_i = DM.GridsArray[grids.selected_row_i];
-	    var LS = grid_obj_i.line_sets
-	    if(type == "iso"){LS[1].angle = 60 - LS[0].angle;}
+	    var Grid_i = DM.GridsArray[grids.selected_row_i];
+	    var LS = Grid_i.line_sets
+	    if(type == "iso"){
+		if(LS[0].angle > 60){
+		    LS[0].angle -=60;//rotating back by 60 keeps within range...
+		}
+		LS[1].angle = 60 - LS[0].angle;		
+	    }
 	    if(type == "squ"){LS[1].angle = 90 - LS[0].angle;}
 	    if(type == "dia"){
 		if(LS[0].angle != 0){
@@ -107,8 +121,10 @@ var grids = {
 	    LS[1].spacing = LS[0].spacing; //rhomboid
 
 	    //update display. Input elems and grid.
-	    grids.update_all_input_elements_values(grid_obj_i);
-	    grids.update_bg_grid(grid_obj_i);
+	    grids.update_all_input_elements_values(Grid_i);
+	    grids.update_bg_grid(Grid_i);
+	    grids.lock_angles = false;//resets lock
+	    widgets.actionLink_unset("#link-angles.act-mutex", 1);//show unlinked
 	};
 
 	widgets.actionLink_init("#preset-grid.act-mutex", [
@@ -119,6 +135,11 @@ var grids = {
 	//put them all "set"
 	grids.preset_grid_action_links_enablement();
 
+	
+	// lock/link angles together
+	widgets.actionLink_init("#link-angles.act-mutex", [
+	    function(){grids.lock_angles = true;},
+	    function(){grids.lock_angles = false;}    ]);
 
 	//performs a 'move' within the DOM
 	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
@@ -134,7 +155,6 @@ var grids = {
 	    var LS = DM.GridsArray[my_i].line_sets;
 	    if((LS[0].angle == LS[1].angle) || (LS[0].angle == 0)){//can't apply diamond if angle zero
 		$($("#preset-grid.act-mutex div")[2]).removeClass("action-link");
-		console.log($("#preset-grid.act-mutex div")[2]);
 	    }
 	}
     },
@@ -180,14 +200,14 @@ var grids = {
 			grids.selected_row_i = $(this).data("index");
 
 			// 2. populate the right section of screen using data from that specific grid
-			var grid_obj_i = DM.GridsArray[i];
-			grids.update_all_input_elements_values(grid_obj_i);
+			var Grid_i = DM.GridsArray[i];
+			grids.update_all_input_elements_values(Grid_i);
 
 			// show the content for editing
 			$("#tabs-3 div#row-content").fadeIn({duration:400, easing: "linear"});
 
 			// update to this Grid.
-			grids.update_bg_grid(grid_obj_i);
+			grids.update_bg_grid(Grid_i);
 			grids.preset_grid_action_links_enablement();
 		    })
 	    );
@@ -304,7 +324,7 @@ var grids = {
 		.selectAll("."+lines_class).data(lines1_genData)
 		.transition()
 		.delay(function(d, i) {
-		    return (i / N1) * 250; // max of (i/N2) = 2
+		    return (i / N1) * (grids.lock_angles ? 0 : 250); // max of (i/N2) = 2
 		})
 		.duration(500)
 		.attr("y1", function(d){return d*inte_target;})
