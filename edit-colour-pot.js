@@ -174,11 +174,11 @@ var edit_cp = {
 	    function(){
 		$("#bgrins-container").removeClass("large");
 		//to allow the expansion animation to finish...
-		setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},210);
+		setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},410);
 	    },
 	    function(){
 		$("#bgrins-container").addClass("large");
-		setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},210);
+		setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},410);
 	    }
 	]);
 	widgets.actionLink_unset("#normal-large.act-mutex", 0);//show normal
