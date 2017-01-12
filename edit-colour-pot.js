@@ -165,16 +165,47 @@ var edit_cp = {
 		edit_cp.visual_update();
 	    }
 	});
-	
-	$("#colour-sun").click(function (){
-	    var current_colour = $("#colour-sun").css("background-color");
-	    $("#bgrins-container").show({duration: 400});
 
+	//other action links of my own adding, within the popup...
+
+
+	// Picker Size change...
+	widgets.actionLink_init("#bgrins-actions #normal-large.act-mutex",[
+	    function(){
+		$("#bgrins-container").removeClass("large");
+		//to allow the expansion animation to finish...
+		setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},210);
+	    },
+	    function(){
+		$("#bgrins-container").addClass("large");
+		setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},210);
+	    }
+	]);
+	widgets.actionLink_unset("#normal-large.act-mutex", 0);//show normal
+
+	var poke = function(){
+	    var w = $("#bgrins-colour-picker").spectrum("get");
+	    $("#bgrins-colour-picker").spectrum("set", w);
+	};
+
+	// Colour string format change...
+	widgets.actionLink_init("#bgrins-actions #hex-rgb-hsl.act-mutex",[
+	    function(){$("#bgrins-colour-picker").spectrum("option", "preferredFormat", "hex3"); poke();},
+	    function(){$("#bgrins-colour-picker").spectrum("option", "preferredFormat", "rgb"); poke();},
+	    function(){$("#bgrins-colour-picker").spectrum("option", "preferredFormat", "hsl"); poke();},
+	]);
+	widgets.actionLink_unset("#bgrins-actions #hex-rgb-hsl.act-mutex", null);//show all as available
+
+	//function only used once, on colour-sun click below...
+	var regenerate_picker = function(base_col){
 	    //Initiate the element here
+	    var was_large = $("#bgrins-container").hasClass("large");
+	    var original_colour = $("#bgrins-colour-picker").spectrum("option", "color"); 
+	    var original_format = $("#bgrins-colour-picker").spectrum("option", "preferredFormat");
 	    $("#bgrins-colour-picker").spectrum("destroy");
 	    $("#bgrins-colour-picker").spectrum({
 		flat: true, // always show full-size, inline block...
-		color: current_colour, //default colour
+		color: base_col || original_colour, // default colour for the picker...
 		showInput: true, // allow text entry to specify colour
 		showAlpha: true, // allow transparency selection
 		//palette based options...
@@ -186,11 +217,18 @@ var edit_cp = {
 		maxSelectionSize: 22,
 		showInitial: true, // show the original (starting) colour alongside the new one
 		showButtons: false, //do not require OK and Cancel buttons
-		preferredFormat: "hex", // for the input box...
+		preferredFormat: original_format, // for the input box...
 		clickoutFiresChange: true, // cause a change event upon clickout
 	    });
+	    if(was_large){
+		$("#bgrins-container").addClass("large");
+	    }
+	};
 
-
+	$("#colour-sun").click(function (){
+	    $("#bgrins-container").show({duration: 400});
+	    //this will set picker's original colour to the starting colour.
+	    regenerate_picker($("#colour-sun").css("background-color"));
 	    //to prevent the change event triggered from immediately re-closing
 	    just_opened = true;
 	    setTimeout(function(){just_opened = false;}, 200);

@@ -295,8 +295,6 @@
     left: 215px;
     top: -108px;
     display: none;
-    width: 273px;
-    height: 369px;
 }
 
 #bgrins-container .sp-palette-container{
@@ -305,13 +303,46 @@
 }
 
 #bgrins-container .sp-picker-container{
-    width: 250px;
+    transition: all 0.4s;
+    width: 260px;
+}
+
+#bgrins-container.large .sp-picker-container{
+    width: 500px;
 }
 
 #bgrins-container .sp-input-container{
     width: 180px;
 }
 
-#bgrins-container #bgrins-buttons{
-      text-align: right;
+
+#bgrins-container.large .sp-hue{
+    width: 35px;
 }
+
+#bgrins-container.large .sp-alpha{
+    height: 18px;
+    top: 22px;
+}
+
+
+#bgrins-container #bgrins-buttons{
+    display: inline-block;
+    float:right;
+    margin-top: 10px;
+    bottom: 3px;
+}
+
+#bgrins-actions{
+    float:left;
+    left: 10px;
+    display: inline-block;
+}
+
+#bgrins-actions #normal-large{
+    position: relative;
+    left: -7px;
+    padding-bottom: 2px;
+}
+
+
