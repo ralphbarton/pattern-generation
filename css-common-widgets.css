@@ -259,6 +259,7 @@ div.action-link{
 }
 
 div.boxie{
+    transition: all 0.2s;
     position: relative;
     border: 2px solid rgba(0,0,0,0.3);
     border-radius: 4px;
@@ -288,4 +289,16 @@ div.boxie.s div.title{
     font-size: 13px;
     top: -9px;
     left: 6px;
+}
+
+/*this is a bit specific, and potentially used only on grids*/
+.boxie.ui-disabled{
+    opacity: 0.4;
+    color: rgba(0,30,70,0.7);
+    border-color: rgba(0,30,70,0.3);
+}
+
+div.boxie.ui-disabled div.title,
+div.boxie.ui-disabled input{
+    color: rgba(0,30,70,0.4);
 }

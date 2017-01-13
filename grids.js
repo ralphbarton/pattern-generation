@@ -151,9 +151,17 @@ var grids = {
 
 	// switch between 1D and 2D grid.
 
+	var set_2D = function(make_2d){
+	    DM.GridsArray[grids.selected_row_i].n_dimentions = make_2d ? 2 : 1;
+	    var Grid_i = DM.GridsArray[grids.selected_row_i];
+	    grids.update_bg_grid(Grid_i);
+	    $("#tabs-3 #line-set-2.boxie").toggleClass("ui-disabled", !make_2d);
+	    $("#tabs-3 #line-set-2.boxie vinput").prop('disabled', !make_2d);   //Disable input
+	};
+
 	widgets.actionLink_init("#lines-v-grid.act-mutex", [
-	    function(){DM.GridsArray[grids.selected_row_i].n_dimentions = 1;},
-	    function(){DM.GridsArray[grids.selected_row_i].n_dimentions = 2;}    ]);
+	    function(){set_2D(false);},
+	    function(){set_2D(true);}    ]);
 
 	//performs a 'move' within the DOM
 	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
@@ -277,23 +285,20 @@ var grids = {
 	    $("#svg-bg-fullscreen").css("width", winW).css("height", winH);
 
 	    this.screen_update_line_set(grid_obj.line_sets[0], this.previousGrid.line_sets[0], winW, winH, 0);
-
-	    if(grid_obj.n_dimentions > 1){
-		this.screen_update_line_set(grid_obj.line_sets[1], this.previousGrid.line_sets[1], winW, winH, 1);
-	    }
+	    this.screen_update_line_set(grid_obj.line_sets[1], this.previousGrid.line_sets[1], winW, winH, 1, grid_obj.n_dimentions == 1);
 
 	    this.previousGrid = grid_obj;
 	}
     },
 
-    screen_update_line_set: function (LineSet, prev_LineSet, W, H, i){
+    screen_update_line_set: function (LineSet, prev_LineSet, W, H, ls_i, b_remove){
 
 	var Dia = Math.sqrt(W*W + H*H);
 	var origX = W/2;
 	var origY = H/2;
 	var Radius = Dia/2;
 	var first = prev_LineSet == undefined;
-	var neg_ang = (i==0 ? -1 : 1);
+	var neg_ang = (ls_i == 0 ? -1 : 1);
 
 	//assuming data in pixels here...
 	var inte_target = LineSet.spacing;
@@ -303,20 +308,24 @@ var grids = {
 
 	var N1 = Math.ceil((Dia/2) / inte_target);//N1 is the number of lines in just the upper half
 	
-	var lines_class = "lines-"+(i+1);
+	var lines_class = "lines-"+(ls_i + 1);
 
 	//this is an array to apply D3 to and generate one line set...
 	var lines1_genData = [];
-	for (var i = 0; i < N1; i++){
-	    lines1_genData.push(i);
-	    if(i != 0){
-		lines1_genData.push(-i);
+	if(b_remove !== true){
+	    for (var i = 0; i < N1; i++){
+		lines1_genData.push(i);
+		if(i != 0){
+		    lines1_genData.push(-i);
+		}
 	    }
 	}
 
 	//select the set of lines
 	var selection = d3.select("#svg-bg-fullscreen")
 	    .selectAll("."+lines_class).data(lines1_genData);
+
+	first = first || selection.size() == 0; //if 
 
 	// first pass - change the set to contain the correct number of lines
 	selection.enter()
@@ -326,17 +335,23 @@ var grids = {
 	    .attr("y1", function(d){return d*inte_starting;})
 	    .attr("y2", function(d){return d*inte_starting;})
 	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_starting+")")
-	    .attr("stroke","black")
-	    .attr("stroke-width","1");
+	    .attr("stroke","rgba(0,0,0,0)")
+	    .attr("stroke-width","1")
+	    .transition()// ok, let's animate the arrival of new lines...
+	    .duration(first ? 500:0)//this animation can be overridden by a later one, causing it to stop
+	    .attr("stroke", "black");
+
 
 	selection.exit()
 	    .transition()
-	    .delay(500)
-	    .duration(1300)
+	    .delay(b_remove ? 0 : 500)
+	    .duration(b_remove ? 500 : 1300)
+	    .ease(d3.easeLinear)//not sure what easing is best for opacity changes
 	    .attr("stroke", "rgba(0,0,0,0)")
 	    .remove();
 
-	//second pass. Animate
+	//second pass. Animate (this will often have no impact where previous and current are the same)
+	// (which means an opportunity to optimise, arguably).
 	if(!first){
 	    var selection = d3.select("#svg-bg-fullscreen")
 		.selectAll("."+lines_class).data(lines1_genData)
