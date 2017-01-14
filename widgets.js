@@ -1,5 +1,37 @@
 var widgets = {
 
+    /*options list:
+      - styling (class)
+      - type (text vs number)
+      - units
+      - precision
+      - step sizes
+      - (tie up all the above in value-type class)
+      - underlying data reference
+      - focus-condition
+      - additional custom callbacks for focus-out (i.e. specific validation)
+    */
+    input_init: function(elem, Ops){
+	var $El = $(elem);
+
+	//this code executes to initialise the element
+	$El.attr('type', 'text')// subsume this into an if statement...
+	    .addClass(Ops.style_class)
+	    .val(Ops.underlying_obj[Ops.underlying_key])
+	    .attr('readonly', true);
+
+	//now we add the generic listeners...
+	$El
+	    .on("focusout", function(){
+		Ops.underlying_obj[Ops.underlying_key] = $(elem).val();
+		widgets.table_cell_edit(elem,false);})
+	    .on("click", function(){
+		if((Ops.click_filter === undefined)||(Ops.click_filter())){
+		    widgets.table_cell_edit(elem,true);
+		}
+	    })
+    },
+
     table_cell_edit: function(input_elem, enable){
 
 	var $El = $(input_elem);

@@ -235,10 +235,6 @@ var grids = {
 		    })
 	    );
 
-
-
-
-
 	    //edit_cp.table_row(element, i);
 	});
 

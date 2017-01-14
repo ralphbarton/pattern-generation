@@ -5,89 +5,50 @@ var view_cp = {
 
 	var TR_with_innerElements = function(ColourPot,i){
 	    return $('<tr/>').append(
-		$('<td/>').addClass("col-1").text(ColourPot.index+1),
+		$('<td/>').addClass("col-1").text(i+1),
 		$('<td/>').addClass("col-2").append(
 		    $('<input/>')
-			.val(ColourPot.description)
-			.attr('type', 'text')
-			.addClass("blue-cell")
-			.attr('readonly', true)
-			.on("focusout", function(){
-			    var d3_index = $(this).parent().parent()[0].__data__.index;
-			    DM.ColourPotArray[d3_index].description = $(this).val();
-			    widgets.table_cell_edit(this,false);
-			})
-			.click(function(){
-			    if(view_cp.selected_cp_index == ColourPot.index){
-				widgets.table_cell_edit(this,true);
-			    }
-			})
+			.on("my_onLoad", function(){
+			    widgets.input_init(this,{
+				underlying_obj: DM.ColourPotArray[i],
+				underlying_key: "description",
+				style_class: "blue-cell",
+				data_class: "text",
+				click_filter: function(){return view_cp.selected_cp_index == i;}
+			    });
+			}).trigger("my_onLoad")
 		),
 		$('<td/>').addClass("col-3").append(
 		    $('<div/>').addClass("preview-container tiny")
 			.append(global.$div_array(16, "preview-cell small", ColourPot))
 		)
-	    )[0];
-	}; 
-
-	var TR_click_listener = function(d,i){
-	    $("#view-cp-table tr.selected").removeClass("selected");
-	    $(this).addClass("selected");
-	    if(view_cp.selected_cp_index != d.index){
-		view_cp.selected_cp_index = d.index;
-		view_cp.fill_preview(".preview-container#main-cp-view");
-	    }
+	    );
 	};
 
-	var selection = d3.select("#view-cp-table tbody").selectAll("tr")
-	    .data(DM.ColourPotArray);
+	//wipe the entire table of rows...
+	$("#view-cp-table tbody").html("");
 
-	// 1. update function for a <tr> element...
-	selection
-	    .on("click", TR_click_listener)//add to each selected element (hence location in chain)
-	    .append(function(d,i){
-		//use $(this) for side effects...
-		$(this)
-		    .html("")
-		    .append(
-			$(TR_with_innerElements(d)).children()
-		    );
-
-		return $("<p/>")[0];// return a useless element
-	    }).remove();// and remove the useless element we just added
-
-
-	// 2. 'create-new' function for a <tr> element...
-	selection.enter()
-	    .append(TR_with_innerElements)
-	    .on("click", TR_click_listener);//add it to the appended TR element (hence location in chain)
-
-
-
-	// 3. delete function for a <tr> element...
-	selection.exit().remove();
-
-	// 4. this ineligant code will "click" one of the rows of the table for you
 	this.selected_cp_index = undefined;// re-initialise. Code below may set it.
-	$("#view-cp-table tr.selected").removeClass("selected");//keep view sync'ed with data!!!
-	if(select_index !== undefined){
-	    //This now selects an item in the new list generated
 
-	    d3.select("#view-cp-table tbody").selectAll("tr").datum(function(d){
-		if(d.index == select_index){
-		    $(this).click();
-		}
-		//line below v.important to prevent detachment of data
-		return d;
-	    });
-
-/*	    $("#view-cp-table tbody tr").each(function() {
-		if($(this).data("index") == select_index){
-
-		}
-	    });
-*/
-	}
+	DM.ColourPotArray.forEach(function(ColourPot_obj, i){
+    	    $("#view-cp-table tbody").append(// add a row into table here...
+		TR_with_innerElements(ColourPot_obj, i)
+		    .on("click", function(){
+			if(view_cp.selected_cp_index != i){//a previously unselected row clicked
+			    $("#view-cp-table tr.selected").removeClass("selected");
+			    $(this).addClass("selected");
+			    view_cp.selected_cp_index = i;
+			    view_cp.fill_preview(".preview-container#main-cp-view");
+			}
+		    })
+		    .on("my_onLoad", function(){
+			// this ineligant code may "click" one of the table rows, upon generation...
+			if((select_index !== undefined) &&((i == select_index))){
+			    $(this).click();
+			}
+		    }).trigger("my_onLoad")
+	    );
+	});
     },
 
     //move to more generic location...

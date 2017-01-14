@@ -3,7 +3,6 @@ var DM = {
     
     ColourPotArray: [
 	{
-	    index: 0,
 	    description: "Banana Pie",
 	    contents: [
 		{
@@ -24,46 +23,45 @@ var DM = {
 	    ]
 	},
 	{
-	    "index": 1,
-	    "description": "Puddle sky",
-	    "contents": [
+	    description: "Puddle sky",
+	    contents: [
 		{
-		    "prob": 40,
-		    "type": "solid",
-		    "solid": "#02a7eb"
+		    prob: 40,
+		    type: "solid",
+		    solid: "#02a7eb"
 		},
 		{
-		    "prob": 25,
-		    "type": "range",
-		    "solid": "#6ab523",
-		    "range": [
+		    prob: 25,
+		    type: "range",
+		    solid: "#6ab523",
+		    range: [
 			"#49fc0f",
 			"#617233"
 		    ]
 		},
 		{
-		    "prob": 16,
-		    "type": "solid",
-		    "solid": "#525261",
-		    "range": [
+		    prob: 16,
+		    type: "solid",
+		    solid: "#525261",
+		    range: [
 			"#5c479f",
 			"#404040"
 		    ]
 		},
 		{
-		    "prob": 16,
-		    "type": "range",
-		    "solid": "#362a50",
-		    "range": [
+		    prob: 16,
+		    type: "range",
+		    solid: "#362a50",
+		    range: [
 			"#5c228b",
 			"#232324"
 		    ]
 		},
 		{
-		    "prob": 3,
-		    "type": "range",
-		    "solid": "#af6e14",
-		    "range": [
+		    prob: 3,
+		    type: "range",
+		    solid: "#af6e14",
+		    range: [
 			"#f6ca00",
 			"#6c3d24"
 		    ]
@@ -71,7 +69,6 @@ var DM = {
 	    ]
 	},	
 	{
-	    index: 2,
 	    description: "Electric paints",
 	    contents: [
 		{
@@ -102,7 +99,6 @@ var DM = {
 	    ]
 	},
 	{
-	    index: 3,
 	    description: "Cookie decoration",
 	    contents: [
 		{
@@ -128,25 +124,14 @@ var DM = {
 	/* Deep copy
 	   var newObject = jQuery.extend(true, {}, oldObject);
 	*/
-
 	var new_pot = jQuery.extend(true, {}, this.ColourPotArray[index_dupl]);
 	new_pot.description += " - copy";
 	this.ColourPotArray.splice(index_dupl+1, 0, new_pot);
-
-	//also shuffle up indeces
-	for (var i= index_dupl+1; i < this.ColourPotArray.length; i++){
-	    this.ColourPotArray[i].index = i;
-	}
     },
 
     delete_ColourPot: function(index){
 	this.ColourPotArray.splice(index, 1);
-	//also shuffle down indeces
-	for (var i= index; i < this.ColourPotArray.length; i++){
-	    this.ColourPotArray[i].index = i;
-	}
 	return index == this.ColourPotArray.length;//true if "index" now refers to a row that doesn't exist 
-
     },
 
     editing_ColourPot: undefined,
@@ -154,11 +139,9 @@ var DM = {
 	this.editing_ColourPot = jQuery.extend(true, {}, this.ColourPotArray[index]);
     },
 
-    save_editing_ColourPot: function(){
-	var save_index = this.editing_ColourPot.index;
-	this.ColourPotArray[save_index] = this.editing_ColourPot;
+    save_editing_ColourPot: function(replace_me_index){
+	this.ColourPotArray[replace_me_index] = this.editing_ColourPot;
 	this.editing_ColourPot = null;
-	return save_index;
     },
 
 
@@ -253,13 +236,13 @@ var DM = {
 	    n_dimentions: 2,
 	    line_sets:[
 		{// set 1
-		    spacing: 4.5,
+		    spacing: 12.5,
 		    spacing_unit: '%',
 		    shift: 0.3,
 		    angle: 45
 		},
 		{// set 2
-		    spacing: 7.5,
+		    spacing: 12.5,
 		    spacing_unit: '%',
 		    shift: 0.5,
 		    angle: 55

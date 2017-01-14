@@ -55,11 +55,6 @@ var global = {
 	    if (keyPressed == 'A'){
 		//Action for 'A' pressed
 
-	d3.select("#svg-bg-fullscreen line")
-	    .transition()
-	    .duration(500)
-	    .attr("x1", 600);
-
 
 	    }
 	    

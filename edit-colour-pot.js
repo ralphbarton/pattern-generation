@@ -1,7 +1,7 @@
 var edit_cp = {
 
     not_yet_initialised: true,
-
+    selected_row_i: undefined,
     init: function(){
 
 	//initiate tabs...
@@ -13,16 +13,13 @@ var edit_cp = {
 
 	    if(!$(this).hasClass("ui-disabled")){
 		//first save data...
-		var save_i = DM.save_editing_ColourPot();//return value is the index of the colour-pot just saved
+		DM.save_editing_ColourPot(view_cp.selected_cp_index);//return value is the index of the colour-pot just saved
 		edit_cp.hide();
 
-		//this redraws the list with the latest data...
-		view_cp.table_update_d3(save_i);
-
-		//this redraws preview with update pot...
+		//redraws the table and the preview on the View tab, with the latest data...
+		view_cp.table_update_d3(view_cp.selected_cp_index);
 		view_cp.fill_preview(".preview-container#main-cp-view");
 	    }
-
 	});
 
 	// inital setting of the preview-zone
@@ -273,7 +270,7 @@ var edit_cp = {
 	var POT = DM.editing_ColourPot;
 
 	//set up the window visuals...
-	$("#colour-pots-edit .TL-2").text(POT.index+1+". ");
+	$("#colour-pots-edit .TL-2").text((view_cp.selected_cp_index+1) + ". ");
 	$("#colour-pots-edit .plain-cell").val(POT.description).on( "focusout", function(){
 	    POT.description = $(this).val();
 	});
@@ -321,7 +318,6 @@ var edit_cp = {
 	}
     },
 
-    selected_row_i: undefined,
     table_row: function(pot_elem, i){
     	$("#edit-cp-table tbody").append(
 	    $('<tr/>').append(
@@ -389,7 +385,7 @@ var edit_cp = {
 		    }else{
 			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
-			widgets.actionLink_set("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
+			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 		    }
 
 		}
@@ -458,6 +454,8 @@ var edit_cp = {
 	$("#colour-pots-view").show();
 	$("#colour-pots-edit").hide();
 	$("#cpanel-main-tabs").tabs("option", "disabled", false);
+	
+	this.selected_row_i = undefined;
     }
 
 };
