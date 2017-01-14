@@ -87,10 +87,9 @@ var edit_cp = {
 	    view_cp.fill_preview(".preview-container#main-cp-edit", DM.editing_ColourPot);
 
 	    // update the view to match the underlying data
+	    // note how ref is already known by input_cell_update()
     	    $("#edit-cp-table tbody tr").each(function(i){
-		var $input_elem = $(this).find("input");
-		$input_elem.val(DM.editing_ColourPot.contents[i].prob);
-		widgets.input_cell_update($input_elem[0], false);//pass native element accessed via [0]
+		widgets.input_cell_update($(this).find("input")[0], false, {data_change: true});//native element via [0]
 	    });
 	});
 
@@ -271,9 +270,15 @@ var edit_cp = {
 
 	//set up the window visuals...
 	$("#colour-pots-edit .TL-2").text((view_cp.selected_cp_index+1) + ". ");
-	$("#colour-pots-edit .plain-cell").val(POT.description).on( "focusout", function(){
-	    POT.description = $(this).val();
-	});
+
+	$("#colour-pots-edit input").on("my_onLoad", function(){
+	    widgets.input_init(this,{
+		underlying_obj: POT,
+		underlying_key: "description",
+		style_class: "plain-cell",
+		data_class: "text",
+	    });
+	}).trigger("my_onLoad").off("my_onLoad");
 
 	//then fill the table etc.
 	this.visual_update();

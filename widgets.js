@@ -49,8 +49,10 @@ var widgets = {
 
 	//store custom props in the element
 	$El.data({
-	    data_class: this.data_classes_list[Ops.data_class],
-	    text_length: Ops.text_length
+	    data_class_key: Ops.data_class,
+	    text_length: Ops.text_length,
+	    U_obj: Ops.underlying_obj,
+	    U_key: Ops.underlying_key
 	});
 
 	//this code executes to initialise the element
@@ -60,8 +62,9 @@ var widgets = {
 	// call to initiate it with units etc.
 	widgets.input_cell_update(elem, false);
 
-	//now we add the generic listeners...
-	$El.on("focusout", function(){
+	//now we add remove old and add new generic listeners...
+	$El.off()
+	    .on("focusout", function(){
 	    Ops.underlying_obj[Ops.underlying_key] = $(elem).val();
 	    widgets.input_cell_update(elem, false);
 	    if(Ops.cb_focusout != undefined){Ops.cb_focusout();}//execute callback if defined.
@@ -75,17 +78,36 @@ var widgets = {
 
     // this can also be used to update the cell to correctly reflect
     // new "value_units", without a change in enabled/disabled state...
-    input_cell_update: function(input_elem, enable){
+    input_cell_update: function(input_elem, enable, Ops){
 
 	var $El = $(input_elem);
-	var data_props = $El.data("data_class");// properties of the input's data class
+	var inital_dc_key = $El.data("data_class_key");
+
+	var data_change = false;
+	if(Ops !== undefined){
+	    var change_dc = (Ops.new_dc_key != undefined) && (Ops.new_dc_key != inital_dc_key);
+	    data_change = Ops.data_change === true;
+	}
+	$El.data({data_class_key: change_dc ? Ops.new_dc_key : inital_dc_key});	//change the data class...
+	var data_props = this.data_classes_list[$El.data("data_class_key")];// properties of the input's data class
 
 	// Lord almighty. Look at this: Number("sdf") = NaN yet Number("") = 0
 	// lines below handle both preping the string-with-units back to being to be a pure number, and interpreting
 	// the val of a <input type="number">
 	var val_str_digits_only = $El.val().replace(/[^0-9\.]/g,'');
 	var v_numeric = val_str_digits_only == "" ? NaN : Number(val_str_digits_only);
+	// or, scrap that and reread from underlying data.
+	var o = $El.data("U_obj");
+	var k = $El.data("U_key");
+	v_numeric = data_change ? o[k] : v_numeric;
+
+	//manage actual data conversion, because of class change.
+	if(change_dc){
+
+	}
+
 	v_numeric = Number(v_numeric.toFixed(data_props.decimal_places));//truncate decimal places.
+
 
 /*
 // these are the properties that must be respected...
@@ -140,6 +162,7 @@ var widgets = {
 		}else{
 		    //limit text length...
 		    $El.val(
+			//todo - toast if name truncation actually does occur.
 			$El.val().substring(0, $El.data("text_length"))
 		    );
 		}

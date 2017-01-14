@@ -163,7 +163,7 @@ var DM = {
 
 	//1. sum
 	for (var i=0; i < items.length; i++){
-	    accumulator += items[i].prob;
+	    accumulator += Number(items[i].prob);
 	}
 
 	//2. rescale (with rounding and guarenteed sum=100)

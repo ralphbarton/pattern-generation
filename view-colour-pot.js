@@ -14,7 +14,7 @@ var view_cp = {
 				underlying_key: "description",
 				style_class: "blue-cell",
 				data_class: "text",
-				text_length: 50,
+				text_length: 18,//max name length 18 char
 				click_filter: function(){return view_cp.selected_cp_index == i;}
 			    });
 			}).trigger("my_onLoad")
