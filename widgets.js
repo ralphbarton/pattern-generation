@@ -1,6 +1,6 @@
 var widgets = {
 
-    value_types_list: {
+    data_classes_list: {
 	text: {
 	    type: "text"
 	},
@@ -8,9 +8,10 @@ var widgets = {
 	    type: "number",
 	    unit: "px",
 	    unit_preceeds: false,
-	    min: 0,
-	    max: 1500,
-	    std_steps: [1, 25, 100]
+	    min: 0, //dynamic
+	    max: 1500, //dynamic
+	    std_steps: [1, 25, 100],
+	    decimal_places: 0
 	},
 	percent: {
 	    type: "number",
@@ -18,7 +19,8 @@ var widgets = {
 	    unit_preceeds: false,
 	    min: 0,
 	    max: 100,
-	    std_steps: [0.2, 1, 10]
+	    std_steps: [0.2, 1, 10],
+	    decimal_places: 1
 	},
 	quantity: {
 	    type: "number",
@@ -26,7 +28,8 @@ var widgets = {
 	    unit_preceeds: true,
 	    min: 0,
 	    max: 250,
-	    std_steps: [1, 2, 5]
+	    std_steps: [1, 2, 5],
+	    decimal_places: 0
 	},
     },
 
@@ -46,46 +49,60 @@ var widgets = {
 
 	//store custom props in the element
 	$El.data({
-	    value_type: Ops.value_type,
+	    data_class: this.data_classes_list[Ops.data_class],
 	    text_length: Ops.text_length
 	});
 
 	//this code executes to initialise the element
-	$El
-	    .addClass(Ops.style_class)
+	$El.addClass(Ops.style_class)
 	    .val(Ops.underlying_obj[Ops.underlying_key]);
 
 	// call to initiate it with units etc.
-	widgets.table_cell_edit(elem, false);
+	widgets.input_cell_update(elem, false);
 
 	//now we add the generic listeners...
-	$El
-	    .on("focusout", function(){
-		Ops.underlying_obj[Ops.underlying_key] = $(elem).val();
-		widgets.table_cell_edit(elem, false);})
+	$El.on("focusout", function(){
+	    Ops.underlying_obj[Ops.underlying_key] = $(elem).val();
+	    widgets.input_cell_update(elem, false);
+	    if(Ops.cb_focusout != undefined){Ops.cb_focusout();}//execute callback if defined.
+	})
 	    .on("click", function(){
 		if((Ops.click_filter === undefined)||(Ops.click_filter())){
-		    widgets.table_cell_edit(elem, true);
+		    widgets.input_cell_update(elem, true);
 		}
 	    })
     },
 
     // this can also be used to update the cell to correctly reflect
     // new "value_units", without a change in enabled/disabled state...
-    table_cell_edit: function(input_elem, enable){
+    input_cell_update: function(input_elem, enable){
 
 	var $El = $(input_elem);
+	var data_props = $El.data("data_class");// properties of the input's data class
+
 	// Lord almighty. Look at this: Number("sdf") = NaN yet Number("") = 0
+	// lines below handle both preping the string-with-units back to being to be a pure number, and interpreting
+	// the val of a <input type="number">
 	var val_str_digits_only = $El.val().replace(/[^0-9\.]/g,'');
 	var v_numeric = val_str_digits_only == "" ? NaN : Number(val_str_digits_only);
-	console.log(v_numeric);
-	//this is superflous; provided by <input type="number">
-	//;//extract a number with a decimal point from string
-	var validate_int = $El.data("unit") != undefined;
+	v_numeric = Number(v_numeric.toFixed(data_props.decimal_places));//truncate decimal places.
+
+/*
+// these are the properties that must be respected...
+	quantity: {
+	    type: "number",
+	    unit: "n=",
+	    unit_preceeds: true,
+	    min: 0, //dynamic
+	    max: 1500, //dynamic
+	    std_steps: [1, 2, 5],
+	    decimal_places: 0
+	},
+*/
 
 	if(enable){//convert to user-editable number only
 
-	    if(validate_int){
+	    if(data_props.type == "number"){
 		// 1. when enabling, catch old (validated) v_numeric, in case an invalid one is added.
 		$El.data({value_on_freeze: v_numeric});
 
@@ -111,18 +128,20 @@ var widgets = {
 
 		// 1. Change display class and readonly attribute - do first because units are text...
 		$El.attr('readonly', true).removeClass("ui-enabled").attr('type', 'text');
-		if(validate_int){
+		if(data_props.type == "number"){
 		    // 2. test for invalid data - this won't happen, because the "numeric" type doesn't allow it
 		    if(isNaN(v_numeric)){
 			v_numeric = $El.data("value_on_freeze");
 		    }
 		    // 3. set value to include the units string.
-		    var unit = $El.data("unit");
-		    $El.val(v_numeric+unit);
+		    var UU = data_props.unit
+		    var value_str = data_props.unit_preceeds ? UU+v_numeric : v_numeric+UU;
+		    $El.val(value_str);
 		}else{
-		    //take action here to potentially truncate the text string to limit value..
-
-		    // todo
+		    //limit text length...
+		    $El.val(
+			$El.val().substring(0, $El.data("text_length"))
+		    );
 		}
 	    }
 	}

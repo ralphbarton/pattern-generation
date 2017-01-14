@@ -90,7 +90,7 @@ var edit_cp = {
     	    $("#edit-cp-table tbody tr").each(function(i){
 		var $input_elem = $(this).find("input");
 		$input_elem.val(DM.editing_ColourPot.contents[i].prob);
-		widgets.table_cell_edit($input_elem[0], false);//pass native element accessed via [0]
+		widgets.input_cell_update($input_elem[0], false);//pass native element accessed via [0]
 	    });
 	});
 
@@ -323,37 +323,22 @@ var edit_cp = {
 	    $('<tr/>').append(
 		$('<td/>').addClass("col-1").text(i+1),
 		$('<td/>').addClass("col-2").append(
-		    $('<input/>')
-			.val(pot_elem.prob+"%")
-			.attr('type', 'text')
-			.data({unit: "%"})
-			.addClass("blue-cell")
-			.attr('readonly', true)
-			.on("focusout", function(){
-
-			    widgets.table_cell_edit(this,false);
-
-			    // Access and mutate the data structure
-			    DM.editing_ColourPot.contents[i].prob = parseInt($(this).val());
-			    
-			    // probability change may have triggered change in validity of set (does it sum to 100?)
-			    // Disable "done" button if necessary
-			    edit_cp.check_valid_probs();
-			})
-			.click(function(){
-			    // like on 'edit' we could require row to be slected first before clicking makes text editable
-			    // but probably more annoying than useful
-			    //	if(view_cp.selected_cp_index == ColourPot.index){
-			    widgets.table_cell_edit(this,true);
-			})
+		    $('<input/>').on("my_onLoad", function(){
+			widgets.input_init(this,{
+			    underlying_obj: pot_elem,
+			    underlying_key: "prob",
+			    style_class: "blue-cell",
+			    data_class: "percent",
+			    cb_focusout: function(){edit_cp.check_valid_probs();}//may disable "done" btn
+			});
+		    }).trigger("my_onLoad")
 		),
 		$('<td/>').addClass("col-3").append(
 		    this.gen_row_preview_contents(pot_elem)
 		)
-	    ).click(function(d,ii){//"d" is the entire event object and "ii" is undefined.
-		// in this same context, we also have "pot_elem", "i"
+	    ).click(function(){
+		// in this context, we have "pot_elem", "i" which are accessed below...
 
-		//
 		//
 		// THIS IS THE ALL IMPORTANT UPON SELECT ROW FUNCTION
 		if(edit_cp.selected_row_i != i){

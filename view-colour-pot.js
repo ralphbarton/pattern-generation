@@ -14,6 +14,7 @@ var view_cp = {
 				underlying_key: "description",
 				style_class: "blue-cell",
 				data_class: "text",
+				text_length: 50,
 				click_filter: function(){return view_cp.selected_cp_index == i;}
 			    });
 			}).trigger("my_onLoad")

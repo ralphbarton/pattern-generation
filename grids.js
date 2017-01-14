@@ -203,12 +203,12 @@ var grids = {
 				.on("focusout", function(){
 				    //update underlying data here...
 				    DM.GridsArray[i].description = $(this).val();
-				    widgets.table_cell_edit(this,false);
+				    widgets.input_cell_update(this,false);
 				})
 				.click(function(){ //click on the input element
 				    var jquery_tr_index = $(this).parent().parent().data("index");
 				    if(grids.selected_row_i == jquery_tr_index){
-					widgets.table_cell_edit(this,true);
+					widgets.input_cell_update(this,true);
 				    }
 				})
 			)

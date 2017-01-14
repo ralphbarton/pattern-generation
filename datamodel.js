@@ -169,8 +169,8 @@ var DM = {
 	//2. rescale (with rounding and guarenteed sum=100)
 	var r_acc = 0;
 	for (var i=0; i < items.length; i++){
-	    var rounded = +((items[i].prob * (100/accumulator)).toFixed(0));
-	    var remainder = +((100-r_acc).toFixed(0));
+	    var rounded = +((items[i].prob * (100/accumulator)).toFixed(1));
+	    var remainder = +((100-r_acc).toFixed(1));//we assume the %'s have 1.d.p.
 	    items[i].prob = (i == items.length-1 ? remainder : rounded);
 	    r_acc += rounded;
 	}
