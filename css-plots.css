@@ -1,0 +1,13 @@
+/**/
+#backgrounds{
+  z-index: -1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: green;
+}
+
+/*imporant to prevent problems with canvas inside div*/
+#backgrounds canvas{
+  display: block;
+}
