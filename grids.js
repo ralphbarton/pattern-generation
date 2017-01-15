@@ -7,7 +7,7 @@ var grids = {
 
     init: function(){
 
-	this.table_update();
+	this.regenerate_table();
 
 	// Handler for -DUPLICATE-
 	$("#grids-buttons #duplicate").click(function(){
@@ -17,7 +17,7 @@ var grids = {
 		//select the row just created...
 		grids.selected_row_i += 1;
 		//refresh view
-		grids.table_update();
+		grids.regenerate_table();
 	    }
 	});
 
@@ -29,7 +29,7 @@ var grids = {
 		//select the row just created...
 		grids.selected_row_i = Math.min(grids.selected_row_i, DM.GridsArray.length-1);
 		//refresh view
-		grids.table_update();
+		grids.regenerate_table();
 	    }
 	});
 
@@ -57,6 +57,8 @@ var grids = {
 		var Grid_i = DM.GridsArray[grids.selected_row_i];
 		var diff = my_val - Grid_i.line_sets[ls][key];
 		Grid_i.line_sets[ls][key] = Number(my_val);//danger of storing a string here...
+
+		//For angle changes (1) animate svg (2) logic for locking angles
 		if(key=="angle"){
 		    grids.update_preview_svg_angle(ls, my_val);
 		    if(grids.lock_angles){
@@ -67,11 +69,12 @@ var grids = {
 		
 		//animated grid change...
 		grids.update_bg_grid(Grid_i);
-
 		//reset the Isometric / Square / Diamond so all are available as options
 		grids.preset_grid_action_links_enablement();
 	    }
 	};
+
+
 
 	// change grid array units...
 	var GAu_mod = function(ls, u){
@@ -83,14 +86,24 @@ var grids = {
 	    }
 	};
 
-	//callbacks for all input boxes.....
-	$("#line-set-1 .k-ang  input").on("change", function(){GA_mod(this, 0, "angle")});
-	$("#line-set-1 .k-inte input").on("change", function(){GA_mod(this, 0, "spacing")});
-	$("#line-set-1 .k-shif input").on("change", function(){GA_mod(this, 0, "shift")});
-	$("#line-set-2 .k-ang  input").on("change", function(){GA_mod(this, 1, "angle")});
-	$("#line-set-2 .k-inte input").on("change", function(){GA_mod(this, 1, "spacing")});
-	$("#line-set-2 .k-shif input").on("change", function(){GA_mod(this, 1, "shift")});
-	//todo: also need to handle on("focusout"
+	//initiate 6 input boxes in this way...
+	[0,1].forEach(function(ls) {
+	    [{k:"spacing", u:"pixels"}, {k:"shift", u:"percent"}, {k:"angle", u:"degrees"}].forEach(function(TY) {
+
+		//INITIATE
+		var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input");
+		$input.on("my_onLoad", function(){
+		    widgets.input_init(this,{
+//			underlying_obj: Grid_i.line_sets[ls], // this property set on row-select, it is a function of row...
+			underlying_key: TY.k,
+			style_class: "plain-cell",
+			data_class: TY.u,
+			cb_change: function(){GA_mod($input[0], ls, TY.k);}//all the graphical change...
+		    });
+		}).trigger("my_onLoad").off("my_onLoad");//the off is needed because the underlying data may change
+
+	    });
+	});
 
 	// add logic to the action links
 	widgets.actionLink_init("#line-set-1 .px-pc-qty.act-mutex",[
@@ -182,7 +195,7 @@ var grids = {
     },
 
 
-    table_update: function(){
+    regenerate_table: function(){
 
 	//wipe the entire table of rows...
 	$("#grids-table tbody").html("");
@@ -196,21 +209,16 @@ var grids = {
 			$('<td/>').addClass("col-1").text(i+1),
 			$('<td/>').addClass("col-2").append(
 			    $('<input/>')
-				.val(grid_obj.description)
-				.attr('type', 'text')
-				.addClass("blue-cell")
-				.attr('readonly', true)
-				.on("focusout", function(){
-				    //update underlying data here...
-				    DM.GridsArray[i].description = $(this).val();
-				    widgets.input_cell_update(this,false);
-				})
-				.click(function(){ //click on the input element
-				    var jquery_tr_index = $(this).parent().parent().data("index");
-				    if(grids.selected_row_i == jquery_tr_index){
-					widgets.input_cell_update(this,true);
-				    }
-				})
+				.on("my_onLoad", function(){
+				    widgets.input_init(this,{
+					underlying_obj: DM.GridsArray[i],
+					underlying_key: "description",
+					style_class: "blue-cell",
+					data_class: "text",
+					text_length: 18,//max name length 18 char
+					click_filter: function(){return grids.selected_row_i == i;}
+				    });
+				}).trigger("my_onLoad")
 			)
 		    ).on("click",function(){ //click on the row
 
@@ -232,6 +240,18 @@ var grids = {
 			grids.update_bg_grid(Grid_i);
 			grids.preset_grid_action_links_enablement();
 			widgets.actionLink_unset("#lines-v-grid.act-mutex", Grid_i.n_dimentions == 2);
+
+			//update referenced underlying data of 6 input boxes in this way...
+			[0,1].forEach(function(ls) {
+			    [{k:"spacing"}, {k:"shift"}, {k:"angle"}].forEach(function(TY) {
+
+				//UPDATE
+				//native element via [0]
+				var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input");
+				widgets.input_cell_update($input[0], false, {underlying_obj: Grid_i.line_sets[ls]});
+			    });
+			});
+
 		    })
 	    );
 
@@ -249,16 +269,16 @@ var grids = {
     },
 
     update_all_input_elements_values: function (grid_obj){
-	//k-ang=angle, k-inte=spacing
+	//k-angle=angle, k-spacing=spacing
 	var Gx = grid_obj.line_sets;
-	$("#line-set-1 .k-ang input").val(Gx[0]["angle"]);
+	$("#line-set-1 .k-angle input").val(Gx[0]["angle"]);
 	this.update_preview_svg_angle(0, Gx[0]["angle"]);//update the SVG
-	$("#line-set-1 .k-inte input").val(Gx[0]["spacing"]);
-	$("#line-set-1 .k-shif input").val(Gx[0]["shift"]);
-	$("#line-set-2 .k-ang input").val(Gx[1]["angle"]);
+	$("#line-set-1 .k-spacing input").val(Gx[0]["spacing"]);
+	$("#line-set-1 .k-shift input").val(Gx[0]["shift"]);
+	$("#line-set-2 .k-angle input").val(Gx[1]["angle"]);
 	this.update_preview_svg_angle(1, Gx[1]["angle"]);//update the SVG
-	$("#line-set-2 .k-inte input").val(Gx[1]["spacing"]);
-	$("#line-set-2 .k-shif input").val(Gx[1]["shift"]);
+	$("#line-set-2 .k-spacing input").val(Gx[1]["spacing"]);
+	$("#line-set-2 .k-shift input").val(Gx[1]["shift"]);
     },
 
     update_preview_svg_angle: function (ls, angle){

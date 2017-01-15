@@ -1,7 +1,7 @@
 var view_cp = {
 
     selected_cp_index: undefined,
-    table_update_d3: function(select_index){
+    regenerate_table: function(select_index){
 
 	var TR_with_innerElements = function(ColourPot,i){
 	    return $('<tr/>').append(
@@ -71,7 +71,7 @@ var view_cp = {
 	);
 
 	//add initial data for colour pot rows...
-	this.table_update_d3();
+	this.regenerate_table();
 
 	//The Edit, Duplicate and Delete buttons underneath the table - click handling...
 	$("#cp-view-table-buttons #edit").click(function(){
@@ -86,7 +86,7 @@ var view_cp = {
 	    var index = view_cp.selected_cp_index;
 	    if(index !== undefined){
 		DM.duplicate_ColourPot(index);
-		view_cp.table_update_d3( index+1 );//select the item duplicated
+		view_cp.regenerate_table( index+1 );//select the item duplicated
 	    }
 	});
 
@@ -95,7 +95,7 @@ var view_cp = {
 	    var index = view_cp.selected_cp_index;
 	    if(index !== undefined){
 		var lowest_row = DM.delete_ColourPot(index);
-		view_cp.table_update_d3(index - (lowest_row?1:0));//we now select the next one down...
+		view_cp.regenerate_table(index - (lowest_row?1:0));//we now select the next one down...
 	    }
 	});
 

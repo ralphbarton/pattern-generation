@@ -17,7 +17,7 @@ var edit_cp = {
 		edit_cp.hide();
 
 		//redraws the table and the preview on the View tab, with the latest data...
-		view_cp.table_update_d3(view_cp.selected_cp_index);
+		view_cp.regenerate_table(view_cp.selected_cp_index);
 		view_cp.fill_preview(".preview-container#main-cp-view");
 	    }
 	});
@@ -278,7 +278,7 @@ var edit_cp = {
 		style_class: "plain-cell",
 		data_class: "text",
 	    });
-	}).trigger("my_onLoad").off("my_onLoad");
+	}).trigger("my_onLoad").off("my_onLoad");//the off is needed because the underlying data may change
 
 	//then fill the table etc.
 	this.visual_update();

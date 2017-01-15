@@ -22,6 +22,15 @@ var widgets = {
 	    std_steps: [0.2, 1, 10],
 	    decimal_places: 1
 	},
+	degrees: {
+	    type: "number",
+	    unit: "°",
+	    unit_preceeds: false,
+	    min: 0,
+	    max: 90,
+	    std_steps: [0.5, 1, 5],
+	    decimal_places: 1
+	},
 	quantity: {
 	    type: "number",
 	    unit: "n=",
@@ -55,9 +64,11 @@ var widgets = {
 	    U_key: Ops.underlying_key
 	});
 
-	//this code executes to initialise the element
-	$El.addClass(Ops.style_class)
-	    .val(Ops.underlying_obj[Ops.underlying_key]);
+	//this code executes to initialise the element's value, if the full reference is supplied
+	if((Ops.underlying_obj !== undefined)&&(Ops.underlying_key !== undefined)){
+	    $El.addClass(Ops.style_class)
+		.val(Ops.underlying_obj[Ops.underlying_key]);
+	}
 
 	// call to initiate it with units etc.
 	widgets.input_cell_update(elem, false);
@@ -65,15 +76,19 @@ var widgets = {
 	//now we add remove old and add new generic listeners...
 	$El.off()
 	    .on("focusout", function(){
-	    Ops.underlying_obj[Ops.underlying_key] = $(elem).val();
-	    widgets.input_cell_update(elem, false);
-	    if(Ops.cb_focusout != undefined){Ops.cb_focusout();}//execute callback if defined.
-	})
+		$El.data("U_obj")[$El.data("U_key")] = $(elem).val();
+		widgets.input_cell_update(elem, false);
+		if(Ops.cb_focusout != undefined){Ops.cb_focusout();}//execute callback if defined.
+	    })
 	    .on("click", function(){
 		if((Ops.click_filter === undefined)||(Ops.click_filter())){
 		    widgets.input_cell_update(elem, true);
 		}
 	    })
+	    .on("change", function(){
+		//widgets.input_cell_update(elem, false);    // maybe good to have, maybe not???? 
+		if(Ops.cb_change != undefined){Ops.cb_change();}//execute callback if defined.
+	    });
     },
 
     // this can also be used to update the cell to correctly reflect
@@ -87,11 +102,19 @@ var widgets = {
 	if(Ops !== undefined){
 	    var change_dc = (Ops.new_dc_key != undefined) && (Ops.new_dc_key != inital_dc_key);
 	    data_change = Ops.data_change === true;
+
+	    //this is to change the data the input box refers to...
+	    if(Ops.underlying_obj !== undefined){
+		//update the reference
+		$El.data({"U_obj": Ops.underlying_obj});
+		//update the <input value to reflect...
+		data_change = true;//flags it to happen shortly
+	    }
 	}
-	$El.data({data_class_key: change_dc ? Ops.new_dc_key : inital_dc_key});	//change the data class...
+	$El.data({"data_class_key": change_dc ? Ops.new_dc_key : inital_dc_key});	//change the data class...
 	var data_props = this.data_classes_list[$El.data("data_class_key")];// properties of the input's data class
 
-	// Lord almighty. Look at this: Number("sdf") = NaN yet Number("") = 0
+	// Worth noting:  Number("sdf") = NaN     (which is different to: Number("") = 0 )!!!
 	// lines below handle both preping the string-with-units back to being to be a pure number, and interpreting
 	// the val of a <input type="number">
 	var val_str_digits_only = $El.val().replace(/[^0-9\.]/g,'');

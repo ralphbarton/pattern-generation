@@ -62,16 +62,16 @@
 }
 
 
-#tabs-3 .k-ang,
-#tabs-3 .k-inte,
-#tabs-3 .k-shif{
+#tabs-3 .k-angle,
+#tabs-3 .k-spacing,
+#tabs-3 .k-shift{
     position: relative;
     display: inline-block;
     margin-right: 90px;
     margin-bottom: 6px;
 }
 
-#tabs-3 .k-shif{
+#tabs-3 .k-shift{
     margin-right: 10px;    
 }
 
