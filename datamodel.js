@@ -219,13 +219,13 @@ var DM = {
 	    line_sets:[
 		{// set 1
 		    spacing: 75,
-		    spacing_unit: 'px',
+		    spacing_unit: 'pixels',
 		    shift: 0,
 		    angle: 15
 		},
 		{// set 2
 		    spacing: 64,
-		    spacing_unit: 'px',
+		    spacing_unit: 'pixels',
 		    shift: 0,
 		    angle: 35
 		}
@@ -236,14 +236,14 @@ var DM = {
 	    n_dimentions: 2,
 	    line_sets:[
 		{// set 1
-		    spacing: 12.5,
-		    spacing_unit: '%',
+		    spacing: 5,
+		    spacing_unit: 'percent',
 		    shift: 0.3,
 		    angle: 45
 		},
 		{// set 2
 		    spacing: 12.5,
-		    spacing_unit: '%',
+		    spacing_unit: 'quantity',
 		    shift: 0.5,
 		    angle: 55
 		}

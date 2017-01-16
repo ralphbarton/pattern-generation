@@ -382,4 +382,54 @@ var grids = {
 	}
     },
 
+    spacing_unit_convert: function(LineSet, units_new){
+	/*
+	LineSet = 
+	    {
+		spacing: 75,
+		spacing_unit: 'px',
+		shift: 0,
+		angle: 15
+	    },
+	*/
+
+	var winW = $(window).width();
+	var winH = $(window).height();
+	var ang_rad = LineSet.angle * 2 * Math.PI / 360;
+
+	var L_eff = Math.sqrt(winW*winW + winH*winH) * Math.cos(ang_rad + Math.atan(winH/winW))
+	console.log(winW, winH, L_eff);
+	var to_deg = 180/Math.PI;
+	console.log(ang_rad, Math.atan(winH/winW), ang_rad*to_deg, Math.atan(winH/winW)*to_deg);
+
+	//whatever units are, restore them as px
+	var spacing_px = LineSet.spacing;
+	if(LineSet.spacing_unit == 'percent'){
+
+	    //convert percent into px
+	    spacing_px = winW * LineSet.spacing/100;
+	    
+	}else if(LineSet.spacing_unit == 'quantity'){
+
+	    //convert qty into px
+	    spacing_px = L_eff / LineSet.spacing;
+	}
+
+	var spacing_new = spacing_px;
+	if(units_new == 'percent'){
+	    spacing_new = (spacing_px/winW) * 100;
+	}else if(units_new == 'quantity'){
+	    spacing_new = L_eff / spacing_px;
+	}
+
+	return {
+	    spacing: spacing_new,
+	    spacing_unit: units_new,
+	    shift: LineSet.shift,
+	    angle: LineSet.angle
+	};
+
+
+    }
+
 };
