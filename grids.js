@@ -395,12 +395,21 @@ var grids = {
 
 	var winW = $(window).width();
 	var winH = $(window).height();
-	var ang_rad = LineSet.angle * 2 * Math.PI / 360;
+	var phi_rad = LineSet.angle * 2 * Math.PI / 360;
+	var theta_rad = Math.atan(winH/winW);
 
-	var L_eff = Math.sqrt(winW*winW + winH*winH) * Math.cos(ang_rad + Math.atan(winH/winW))
-	console.log(winW, winH, L_eff);
+	var L_eff = winW / Math.sin(phi_rad);
+
+	if(((Math.PI/2) - phi_rad) > theta_rad){
+	    var L_eff = Math.sqrt(winW*winW + winH*winH) * Math.cos(phi_rad + theta_rad);
+	    console.log("case 1");
+	}else{
+	    // stick with assignment above
+	    console.log("case 2");
+	}
+
 	var to_deg = 180/Math.PI;
-	console.log(ang_rad, Math.atan(winH/winW), ang_rad*to_deg, Math.atan(winH/winW)*to_deg);
+	console.log("a", winH, "b", winW, "theta", theta_rad*to_deg ,"phi", phi_rad*to_deg, "l_eff", L_eff);
 
 	//whatever units are, restore them as px
 	var spacing_px = LineSet.spacing;
