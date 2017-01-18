@@ -45,35 +45,59 @@
     position: relative;
     margin-right: 3px;
     display: inline-block;
-    height: 120px;
+    height: 88px;
     width: 212px;
     margin-bottom: 5px;
     text-align: right;
 }
 
 #tabs-3 div.boxie#preview-opts{
-        margin-top: 15px;
-    width: 380px;
-        height: 58px;
-        text-align: left;
+    margin-top: 15px;
+    width: 439px;
+    height: 46px;
+    text-align: left;
     position: absolute;
     left: 1px;
-    top: 185px;
+    top: 200px;
 }
 
+#slider-placeholder{
+    background-color: rgba(255,255,0,0.12);
+    border: 1px solid red;
+    height: 32px;
+    position: absolute;
+    width: 444px;
+    top: 163px;
+}
+
+#tabs-3 .act-mutex#link-angles{
+    display: inline-block;
+    position: absolute;
+    right: 3px;
+    top: 134px;
+}
 
 #tabs-3 .k-angle,
-#tabs-3 .k-spacing,
-#tabs-3 .k-shift{
+#tabs-3 .k-spacing{
     position: relative;
     display: inline-block;
     margin-right: 90px;
     margin-bottom: 6px;
+    font-size: 15px;
 }
 
-#tabs-3 .k-shift{
-    margin-right: 10px;    
+#tabs-3 .act-mutex.px-pc-qty{
+    width: 100px;
+    top: 43px;
+    left: -34px;
 }
+
+#tabs-3 .action-link.translate {
+    position: absolute;
+    right: 9px;
+    bottom: 4px;
+}
+
 
 #tabs-3 .k-pix{
     position: absolute;
@@ -84,29 +108,32 @@
 }
 
 #tabs-3 .boxie .act-mutex{
-        display: inline-block;
-        margin-left: 10px;
-       position: relative;
+    display: inline-block;
+    position: absolute;
+}
+
+#tabs-3 .boxie#preview-opts .act-mutex#show-bg{
+    top: 9px;
+    left: 14px;
 }
 
 #tabs-3 .boxie#preview-opts .act-mutex#colour-monochrome{
-    left: 5px;
+    top: 27px;
+    left: 19px;
 }
 
 #tabs-3 .boxie#preview-opts .act-mutex#one-v-all{
-    left: 15px;
+    top: 9px;
+    left: 205px;
 }
 
-#tabs-3 .act-mutex#link-angles{
-    display: inline-block;
-    position: absolute;
-    right: 3px;
-    top: 165px;
-    width: 80px;
+#tabs-3 .boxie#preview-opts .act-mutex#show-points{
+    top: 27px;
+    left: 223px;
 }
 
 #tabs-3 #grid-preview-visibility{
-        position: absolute;
+    position: absolute;
     right: 5px;
     top: 5px;
     width: 80px;
@@ -114,6 +141,16 @@
 
 #tabs-3 .plain-cell{
     width: 60px;
+}
+
+#tabs-3 #extra-content{
+    padding: 6px;
+    position: absolute;
+    left: 710px;
+    top: 200px;
+    width: 180px;
+    height: 60px;
+    display: none;
 }
 
 #svg-bg-fullscreen{

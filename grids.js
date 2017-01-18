@@ -52,6 +52,11 @@ var grids = {
 	    }
 	});
 
+
+	$(".action-link.translate").click(function() {
+	    $("#tabs-3 #extra-content").show({duration: 400});
+	});
+
 	//add logic for input boxes:
 
 	// handle a change in one of the <input> boxes for the grid array
@@ -97,7 +102,7 @@ var grids = {
 
 	//initiate 6 input boxes in this way...
 	[0,1].forEach(function(ls) {
-	    [{k:"spacing", u:"pixels"}, {k:"shift", u:"percent"}, {k:"angle", u:"degrees"}].forEach(function(TY) {
+	    [{k:"spacing", u:"pixels"}, /*{k:"shift", u:"percent"},*/ {k:"angle", u:"degrees"}].forEach(function(TY) {
 
 		//INITIATE
 		var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input");
@@ -247,7 +252,7 @@ var grids = {
 
 			//update referenced underlying data of 6 input boxes in this way...
 			[0,1].forEach(function(ls) {
-			    [{k:"spacing"}, {k:"shift"}, {k:"angle"}].forEach(function(TY) {
+			    [{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
 
 				//UPDATE
 				//native element via [0]
