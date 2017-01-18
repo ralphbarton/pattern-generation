@@ -397,18 +397,14 @@ var grids = {
 	var winH = $(window).height();
 	var phi_rad = LineSet.angle * 2 * Math.PI / 360;
 	var theta_rad = Math.atan(winH/winW);
+	var to_deg = 180/Math.PI;
 
 	var L_eff = winW / Math.sin(phi_rad);
 
-	if(((Math.PI/2) - phi_rad) > theta_rad){
-	    var L_eff = Math.sqrt(winW*winW + winH*winH) * Math.cos(phi_rad + theta_rad);
-	    console.log("case 1");
-	}else{
-	    // stick with assignment above
-	    console.log("case 2");
-	}
+	console.log("90-phi, theta",((Math.PI/2) - phi_rad)*to_deg, theta_rad*to_deg)
 
-	var to_deg = 180/Math.PI;
+	var L_eff = Math.sqrt(winW*winW + winH*winH) * Math.sin(Math.abs(phi_rad + theta_rad));
+
 	console.log("a", winH, "b", winW, "theta", theta_rad*to_deg ,"phi", phi_rad*to_deg, "l_eff", L_eff);
 
 	//whatever units are, restore them as px
