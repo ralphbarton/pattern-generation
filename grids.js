@@ -97,16 +97,13 @@ var grids = {
 
 		//INITIATE
 		var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input");
-		$input.on("my_onLoad", function(){
-		    widgets.input_init(this,{
-//			underlying_obj: Grid_i.line_sets[ls], // this property set on row-select, it is a function of row...
-			underlying_key: TY.k,
-			style_class: "plain-cell",
-			data_class: TY.u,
-			cb_change: function(){GA_mod($input[0], ls, TY.k);}//all the graphical change...
-		    });
-		}).trigger("my_onLoad").off("my_onLoad");//the off is needed because the underlying data may change
-
+		$input.SmartInput({
+//		    underlying_obj: Grid_i.line_sets[ls], // this property set on row-select, it is a function of row...
+		    underlying_key: TY.k,
+		    style_class: "plain-cell",
+		    data_class: TY.u, //TODO - isn't this just an arbirary choice, as above -> delete this line?
+		    cb_change: function(){GA_mod($input[0], ls, TY.k);}//all the graphical change...
+		});
 	    });
 	});
 
@@ -121,8 +118,8 @@ var grids = {
 		//as a side effect, this function updates the object it is passed by reference
 		grids.spacing_unit_objectUpdater(DM.GridsArray[my_i].line_sets[ls], units_new);
 
-		var $input = $("#line-set-"+(ls+1)+" .k-spacing input");
-		widgets.input_cell_update($input, false, {
+		$("#line-set-"+(ls+1)+" .k-spacing input").SmartInput("update", {
+		    UI_enable: false,
 		    data_change: true,
 		    new_dc_key: units_new // arguably, because this is referenceable from the updated underlying object,
 		    // should not have to pass again aws a parameter here... ( = even more refactoring and ?? re-inventing
@@ -235,17 +232,14 @@ var grids = {
 		    .append(
 			$('<td/>').addClass("col-1").text(i+1),
 			$('<td/>').addClass("col-2").append(
-			    $('<input/>')
-				.on("my_onLoad", function(){
-				    widgets.input_init(this,{
-					underlying_obj: DM.GridsArray[i],
-					underlying_key: "description",
-					style_class: "blue-cell",
-					data_class: "text",
-					text_length: 18,//max name length 18 char
-					click_filter: function(){return grids.selected_row_i == i;}
-				    });
-				}).trigger("my_onLoad")
+			    $('<input/>').SmartInput({
+				underlying_obj: DM.GridsArray[i],
+				underlying_key: "description",
+				style_class: "blue-cell",
+				data_class: "text",
+				text_length: 18,//max name length 18 char
+				click_filter: function(){return grids.selected_row_i == i;}
+			    })
 			)
 		    ).on("click",function(){ //click on the row
 
@@ -273,9 +267,10 @@ var grids = {
 			    [{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
 
 				//UPDATE
-				//native element via [0]
-				var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input");
-				widgets.input_cell_update($input[0], false, {underlying_obj: Grid_i.line_sets[ls]});
+				var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input").SmartInput("update", {
+				    UI_enable: false,
+				    underlying_obj: Grid_i.line_sets[ls]
+				});
 			    });
 			});
 

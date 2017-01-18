@@ -7,17 +7,14 @@ var view_cp = {
 	    return $('<tr/>').append(
 		$('<td/>').addClass("col-1").text(i+1),
 		$('<td/>').addClass("col-2").append(
-		    $('<input/>')
-			.on("my_onLoad", function(){
-			    widgets.input_init(this,{
-				underlying_obj: DM.ColourPotArray[i],
-				underlying_key: "description",
-				style_class: "blue-cell",
-				data_class: "text",
-				text_length: 18,//max name length 18 char
-				click_filter: function(){return view_cp.selected_cp_index == i;}
-			    });
-			}).trigger("my_onLoad")
+		    $('<input/>').SmartInput({
+			underlying_obj: DM.ColourPotArray[i],
+			underlying_key: "description",
+			style_class: "blue-cell",
+			data_class: "text",
+			text_length: 18,//max name length 18 char
+			click_filter: function(){return view_cp.selected_cp_index == i;}
+		    })
 		),
 		$('<td/>').addClass("col-3").append(
 		    $('<div/>').addClass("preview-container tiny")

@@ -87,9 +87,9 @@ var edit_cp = {
 	    view_cp.fill_preview(".preview-container#main-cp-edit", DM.editing_ColourPot);
 
 	    // update the view to match the underlying data
-	    // note how ref is already known by input_cell_update()
+	    // note how ref is already known by SmartInput("update", {...})
     	    $("#edit-cp-table tbody tr").each(function(i){
-		widgets.input_cell_update($(this).find("input")[0], false, {data_change: true});//native element via [0]
+		$(this).find("input").SmartInput("update", {UI_enable: false, data_change: true});
 	    });
 	});
 
@@ -271,14 +271,12 @@ var edit_cp = {
 	//set up the window visuals...
 	$("#colour-pots-edit .TL-2").text((view_cp.selected_cp_index+1) + ". ");
 
-	$("#colour-pots-edit input").on("my_onLoad", function(){
-	    widgets.input_init(this,{
-		underlying_obj: POT,
-		underlying_key: "description",
-		style_class: "plain-cell",
-		data_class: "text",
-	    });
-	}).trigger("my_onLoad").off("my_onLoad");//the off is needed because the underlying data may change
+	$("#colour-pots-edit input").SmartInput({
+	    underlying_obj: POT,
+	    underlying_key: "description",
+	    style_class: "plain-cell",
+	    data_class: "text",
+	});
 
 	//then fill the table etc.
 	this.visual_update();
@@ -328,15 +326,13 @@ var edit_cp = {
 	    $('<tr/>').append(
 		$('<td/>').addClass("col-1").text(i+1),
 		$('<td/>').addClass("col-2").append(
-		    $('<input/>').on("my_onLoad", function(){
-			widgets.input_init(this,{
-			    underlying_obj: pot_elem,
-			    underlying_key: "prob",
-			    style_class: "blue-cell",
-			    data_class: "percent",
-			    cb_focusout: function(){edit_cp.check_valid_probs();}//may disable "done" btn
-			});
-		    }).trigger("my_onLoad")
+		    $('<input/>').SmartInput({
+			underlying_obj: pot_elem,
+			underlying_key: "prob",
+			style_class: "blue-cell",
+			data_class: "percent",
+			cb_focusout: function(){edit_cp.check_valid_probs();}//may disable "done" btn
+		    })
 		),
 		$('<td/>').addClass("col-3").append(
 		    this.gen_row_preview_contents(pot_elem)
