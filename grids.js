@@ -9,6 +9,15 @@ var grids = {
 
 	this.regenerate_table();
 
+
+	//cuts and copies of DOM content
+	$("#line-set-2").append($("#line-set-1").clone().html());
+	$("#line-set-2 .title").text("Line Set 2");
+	
+	//move SVGs into position
+	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
+	$("#svg-angle-2").appendTo("#line-set-2 .k-pix");
+
 	// Handler for -DUPLICATE-
 	$("#grids-buttons #duplicate").click(function(){
 	    //mutate the data structure
@@ -175,11 +184,6 @@ var grids = {
 	widgets.actionLink_init("#lines-v-grid.act-mutex", [
 	    function(){set_2D(false);},
 	    function(){set_2D(true);}    ]);
-
-	//performs a 'move' within the DOM
-	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
-	$("#svg-angle-2").appendTo("#line-set-2 .k-pix");
-
 
     },
 
