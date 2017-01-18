@@ -93,6 +93,14 @@ var widgets = {
 
     // this can also be used to update the cell to correctly reflect
     // new "value_units", without a change in enabled/disabled state...
+
+/*    -- options are all optional --
+    Ops = {
+            new_dc_key
+            data_change
+            underlying_obj
+    }
+*/
     input_cell_update: function(input_elem, enable, Ops){
 
 	var $El = $(input_elem);
@@ -122,14 +130,12 @@ var widgets = {
 	// or, scrap that and reread from underlying data.
 	var o = $El.data("U_obj");
 	var k = $El.data("U_key");
-	v_numeric = data_change ? o[k] : v_numeric;
-
-	//manage actual data conversion, because of class change.
-	if(change_dc){
-
+	
+	if(o !== undefined){ //sometimes, smart-inputs can be created without underlying object being provided 
+	    v_numeric = data_change ? o[k] : v_numeric;
 	}
 
-	v_numeric = Number(v_numeric.toFixed(data_props.decimal_places));//truncate decimal places.
+	v_numeric = Number(Number(v_numeric).toFixed(data_props.decimal_places));//truncate decimal places.
 
 
 /*

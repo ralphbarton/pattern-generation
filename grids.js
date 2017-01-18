@@ -90,15 +90,6 @@ var grids = {
 
 
 
-	// change grid array units...
-	var GAu_mod = function(ls, u){
-	    var my_i = grids.selected_row_i;
-	    if(my_i != undefined){
-		DM.GridsArray[my_i].line_sets[ls]["spacing_unit"] = u;
-		// also take action here to convert the spacing value,
-		// such that it is equivalent with new units...
-	    }
-	};
 
 	//initiate 6 input boxes in this way...
 	[0,1].forEach(function(ls) {
@@ -119,14 +110,36 @@ var grids = {
 	    });
 	});
 
-	// add logic to the action links
-	widgets.actionLink_init("#line-set-1 .px-pc-qty.act-mutex",[
-	    function(){GAu_mod(0,'px');},
-	    function(){GAu_mod(0,'pc');},
-	    function(){GAu_mod(0,'qty');},
-	]
-			       );
 
+
+	// change grid array units...
+	var GAu_mod = function(ls, units_new){
+	    var my_i = grids.selected_row_i;
+	    if(my_i != undefined){
+
+		// CONVERT the spacing value (such that it is equivalent with new units)
+		//as a side effect, this function updates the object it is passed by reference
+		grids.spacing_unit_objectUpdater(DM.GridsArray[my_i].line_sets[ls], units_new);
+
+		var $input = $("#line-set-"+(ls+1)+" .k-spacing input");
+		widgets.input_cell_update($input, false, {
+		    data_change: true,
+		    new_dc_key: units_new // arguably, because this is referenceable from the updated underlying object,
+		    // should not have to pass again aws a parameter here... ( = even more refactoring and ?? re-inventing
+		    // something 'React'-like myself!!
+		});
+	    }
+	};
+
+	// add logic to the action links
+	[0,1].forEach(function(ls) {
+	    widgets.actionLink_init("#line-set-"+(ls+1)+" .px-pc-qty.act-mutex",[
+		function(){GAu_mod(ls, 'pixels');},
+		function(){GAu_mod(ls, 'percent');},
+		function(){GAu_mod(ls, 'quantity');},
+	    ]
+				   );
+	});
 
 	// Logic for 3-way action-link:  Isometric / Square / Diamond
 	var AdjustGridToPresetType = function(type){
@@ -156,7 +169,12 @@ var grids = {
 		    }
 		}
 	    }
-	    LS[1].spacing = LS[0].spacing; //rhomboid
+
+	    //rhomboid. (And its getting crazy if we do this with equal line quantities)
+	    if(LS[0].spacing_unit == "quantity"){GAu_mod(0, 'pixels');}
+	    if(LS[1].spacing_unit == "quantity"){GAu_mod(1, 'pixels');}
+	    LS[1].spacing = LS[0].spacing; 
+	    LS[1].spacing_unit = LS[0].spacing_unit; // important to set units same (e.g. both to %).
 
 	    //update display. Input elems and grid.
 	    grids.update_all_input_elements_values(Grid_i);
@@ -326,9 +344,16 @@ var grids = {
 	var neg_ang = (ls_i == 0 ? -1 : 1);
 
 	//assuming data in pixels here...
-	var inte_target = LineSet.spacing;
+	var LineSet_px = grids.spacing_unit_objectUpdater(LineSet, "pixels", true);
+	var inte_target = LineSet_px.spacing;
+
 	var angle_target = LineSet.angle * neg_ang;
-	var inte_starting = first ? inte_target : prev_LineSet.spacing;
+	var inte_starting = inte_target; // may reassign just below... hmm... consideration needed.
+	if(prev_LineSet){
+	    var prev_LineSet_px = grids.spacing_unit_objectUpdater(prev_LineSet, "pixels", true);
+	    var inte_starting = first ? inte_target : prev_LineSet_px.spacing;
+	}
+
 	var angle_starting = first ? angle_target : (prev_LineSet.angle * neg_ang);
 
 	var N1 = Math.ceil((Dia/2) / inte_target);//N1 is the number of lines in just the upper half
@@ -391,42 +416,20 @@ var grids = {
 	}
     },
 
-    spacing_unit_convert: function(LineSet, units_new){
-	/*
-	LineSet = 
-	    {
-		spacing: 75,
-		spacing_unit: 'px',
-		shift: 0,
-		angle: 15
-	    },
-	*/
-
+    spacing_unit_objectUpdater: function(LineSet, units_new, no_side_effect__return_new){
 	var winW = $(window).width();
 	var winH = $(window).height();
 	var phi_rad = LineSet.angle * 2 * Math.PI / 360;
 	var theta_rad = Math.atan(winH/winW);
 	var to_deg = 180/Math.PI;
-
-	var L_eff = winW / Math.sin(phi_rad);
-
-	console.log("90-phi, theta",((Math.PI/2) - phi_rad)*to_deg, theta_rad*to_deg)
-
 	var L_eff = Math.sqrt(winW*winW + winH*winH) * Math.sin(Math.abs(phi_rad + theta_rad));
-
-	console.log("a", winH, "b", winW, "theta", theta_rad*to_deg ,"phi", phi_rad*to_deg, "l_eff", L_eff);
 
 	//whatever units are, restore them as px
 	var spacing_px = LineSet.spacing;
 	if(LineSet.spacing_unit == 'percent'){
-
-	    //convert percent into px
-	    spacing_px = winW * LineSet.spacing/100;
-	    
+	    spacing_px = winW * LineSet.spacing/100; //convert percent into px
 	}else if(LineSet.spacing_unit == 'quantity'){
-
-	    //convert qty into px
-	    spacing_px = L_eff / LineSet.spacing;
+	    spacing_px = L_eff / LineSet.spacing; //convert qty into px
 	}
 
 	var spacing_new = spacing_px;
@@ -436,14 +439,21 @@ var grids = {
 	    spacing_new = L_eff / spacing_px;
 	}
 
-	return {
-	    spacing: spacing_new,
-	    spacing_unit: units_new,
-	    shift: LineSet.shift,
-	    angle: LineSet.angle
-	};
-
-
+	if(no_side_effect__return_new !== true){
+	    // "LineSet" (that passed into a function by value) is a reference to an object
+	    // assigning a new object to it would only change the temporary reference. We need to de-reference, as below
+	    LineSet.spacing = spacing_new;
+	    LineSet.spacing_unit = units_new;
+	    LineSet.shift = LineSet.shift;
+	    LineSet.angle = LineSet.angle;
+	}else{
+	    return {
+		spacing: spacing_new,
+		spacing_unit: units_new,
+		shift: LineSet.shift,
+		angle: LineSet.angle
+	    };
+	}
     }
 
 };
