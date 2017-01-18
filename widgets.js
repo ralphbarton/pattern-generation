@@ -10,7 +10,7 @@ var widgets = {
 	    unit_preceeds: false,
 	    min: 0, //dynamic
 	    max: 1500, //dynamic
-	    std_steps: [1, 25, 100],
+	    std_steps: [1, 10, 100],
 	    decimal_places: 0
 	},
 	percent: {
@@ -107,17 +107,25 @@ jQuery.fn.extend({
 
 	   return this.each(function() {
 	       //code run on every matched element
+
+
 	       
 
 	       if (action == "initialise"){// LOGIC to initialise element
 
 		   /*options list:
+		     style_class
+		     data_class
+		     options.text_length
+		     underlying_obj
+		     underlying_key
+		     cb_focusout
+		     cb_change
+		     click_filter
 		   */
 
-		   var $El = $(this);
-
 		   //store custom props in the element
-		   $El.data({
+		   $(this).data({
 		       data_class_key: options.data_class,
 		       text_length: options.text_length,
 		       U_obj: options.underlying_obj,
@@ -126,7 +134,7 @@ jQuery.fn.extend({
 
 		   //this code executes to initialise the element's value, if the full reference is supplied
 		   if((options.underlying_obj !== undefined)&&(options.underlying_key !== undefined)){
-		       $El.addClass(options.style_class)
+		       $(this).addClass(options.style_class)
 			   .val(options.underlying_obj[options.underlying_key]);
 		   }
 
@@ -135,9 +143,9 @@ jQuery.fn.extend({
 		   $(this).SmartInput("update", {UI_enable: false});
 
 		   //now we add remove old and add new generic listeners...
-		   $El.off()
+		   $(this).off()
 		       .on("focusout", function(){
-			   $El.data("U_obj")[$El.data("U_key")] = $(this).val();
+			   $(this).data("U_obj")[$(this).data("U_key")] = $(this).val();
 			   $(this).SmartInput("update", {UI_enable: false});
 			   if(options.cb_focusout != undefined){options.cb_focusout();}//execute callback if defined.
 		       })
@@ -160,51 +168,63 @@ jQuery.fn.extend({
 		   // new "value_units", without a change in enabled/disabled state...
 
 		   /*    -- options are all optional --
-			 Ops = {
 			 new_dc_key
 			 data_change
 			 underlying_obj
-			 }
+			 UI_enable
 		   */
 
-		   var $El = $(this);
-		   var inital_dc_key = $El.data("data_class_key");
+		   var inital_dc_key = $(this).data("data_class_key");
 
 		   var data_change = false;
 		   if(options !== undefined){
-		       var change_dc = (options.new_dc_key != undefined) && (options.new_dc_key != inital_dc_key);
+		       
+		       if(options.new_dc_key != undefined){//if a new data class is supplied...
+			   $(this).data({"data_class_key": options.new_dc_key});
+		       }
+
+
 		       data_change = options.data_change === true;
 
 		       //this is to change the data the input box refers to...
 		       if(options.underlying_obj !== undefined){
 			   //update the reference
-			   $El.data({"U_obj": options.underlying_obj});
+			   $(this).data({"U_obj": options.underlying_obj});
 			   //update the <input value to reflect...
 			   data_change = true;//flags it to happen shortly
 		       }
 		   }
-		   $El.data({"data_class_key": change_dc ? options.new_dc_key : inital_dc_key});	//change the data class...
-		   var data_props = widgets.data_classes_list[$El.data("data_class_key")];// properties of the input's data class
+		   var data_props = widgets.data_classes_list[$(this).data("data_class_key")];// properties class for input data
+		   if(data_props.type == "number"){
+		       // Worth noting:  Number("sdf") = NaN     (which is different to: Number("") = 0 )!!!
+		       // lines below handle both preping the string-with-units back to being to be a pure number, and interpreting
+		       // the val of a <input type="number">
+		       var val_str_digits_only = $(this).val().replace(/[^0-9\.]/g,'');
+		       var v_numeric = val_str_digits_only == "" ? NaN : Number(val_str_digits_only);
 
-		   // Worth noting:  Number("sdf") = NaN     (which is different to: Number("") = 0 )!!!
-		   // lines below handle both preping the string-with-units back to being to be a pure number, and interpreting
-		   // the val of a <input type="number">
-		   var val_str_digits_only = $El.val().replace(/[^0-9\.]/g,'');
-		   var v_numeric = val_str_digits_only == "" ? NaN : Number(val_str_digits_only);
-		   // or, scrap that and reread from underlying data.
-		   var o = $El.data("U_obj");
-		   var k = $El.data("U_key");
-		   
-		   if(o !== undefined){ //sometimes, smart-inputs can be created without underlying object being provided 
-		       v_numeric = data_change ? o[k] : v_numeric;
+		       // or, scrap that and reread from underlying data.
+		       var o = $(this).data("U_obj");
+		       var k = $(this).data("U_key");
+		       
+		       if(o !== undefined){ //sometimes, smart-inputs can be created without underlying object being provided 
+			   v_numeric = data_change ? o[k] : v_numeric;
+		       }
+
+		       // this is only to truncate number decimal places and keep data type number and not String
+		       v_numeric = Number(Number(v_numeric).toFixed(data_props.decimal_places));
+		       
+		       // 1. apply min & max to actual number		   
+		       v_numeric = Math.min(Math.max(v_numeric, data_props.min), data_props.max);
+
+		       // 2. apply min & max to input element
+		       $(this).attr('min', data_props.min)
+			   .attr('max', data_props.max)
+			   .attr('step', data_props.std_steps[0]); //choose the smallest step, since smaller steps are banned
 		   }
 
-		   v_numeric = Number(Number(v_numeric).toFixed(data_props.decimal_places));//truncate decimal places.
-
-
 		   /*
-		   // these are the properties that must be respected...
-		   quantity: {
+		   // this is an example for the properties in "data_props"
+		   {
 		   type: "number",
 		   unit: "n=",
 		   unit_preceeds: true,
@@ -219,44 +239,44 @@ jQuery.fn.extend({
 
 		       if(data_props.type == "number"){
 			   // 1. when enabling, catch old (validated) v_numeric, in case an invalid one is added.
-			   $El.data({value_on_freeze: v_numeric});
+			   $(this).data({value_on_freeze: v_numeric});
 
 			   // 2. (if numeric) change content to value without units...
-			   $El.val(v_numeric);
-			   $El.attr('type', 'number');
+			   $(this).val(v_numeric);
+			   $(this).attr('type', 'number');
 		       }
 
 		       // 3. Change display class and readonly attribute
-		       $El.attr('readonly', false).addClass("ui-enabled");
+		       $(this).attr('readonly', false).addClass("ui-enabled");
 
 		       // 4. Prevent a focusout event for a few ms
-		       $El.data({disable_focusout: true});	    
+		       $(this).data({disable_focusout: true});	    
 		       setTimeout(
 			   function(){
-			       $El.data({disable_focusout: false});
+			       $(this).data({disable_focusout: false});
 			   },
 			   20
 		       );
 
 		   }else{//convert to read-only number+unit string
-		       if(!$El.data("disable_focusout")){
+		       if(!$(this).data("disable_focusout")){
 
 			   // 1. Change display class and readonly attribute - do first because units are text...
-			   $El.attr('readonly', true).removeClass("ui-enabled").attr('type', 'text');
+			   $(this).attr('readonly', true).removeClass("ui-enabled").attr('type', 'text');
 			   if(data_props.type == "number"){
 			       // 2. test for invalid data - this won't happen, because the "numeric" type doesn't allow it
 			       if(isNaN(v_numeric)){
-				   v_numeric = $El.data("value_on_freeze");
+				   v_numeric = $(this).data("value_on_freeze");
 			       }
 			       // 3. set value to include the units string.
 			       var UU = data_props.unit
 			       var value_str = data_props.unit_preceeds ? UU+v_numeric : v_numeric+UU;
-			       $El.val(value_str);
+			       $(this).val(value_str);
 			   }else{
 			       //limit text length...
-			       $El.val(
+			       $(this).val(
 				   //todo - toast if name truncation actually does occur.
-				   $El.val().substring(0, $El.data("text_length"))
+				   $(this).val().substring(0, $(this).data("text_length"))
 			       );
 			   }
 		       }
