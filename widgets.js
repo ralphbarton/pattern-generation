@@ -145,7 +145,10 @@ jQuery.fn.extend({
 		   //now we add remove old and add new generic listeners...
 		   $(this).off()
 		       .on("focusout", function(){
-			   $(this).SmartInput("update", {UI_enable: false});
+			   $(this).SmartInput("update",{
+			       UI_enable: false,
+			       true_focusout: true			
+		      });
 			   if(options.cb_focusout != undefined){options.cb_focusout();}//execute callback if defined.
 		       })
 		       .on("click", function(){

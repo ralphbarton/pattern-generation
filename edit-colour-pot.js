@@ -78,6 +78,7 @@ var edit_cp = {
 
 	// 3. Add logic to the table buttons
 	$("#cp-edit-actions #sum100").click(function(){
+
 	    // may fail if all probabilities are zero...
 	    DM.sum100_editing_ColourPot();
 
@@ -271,6 +272,7 @@ var edit_cp = {
 	//set up the window visuals...
 	$("#colour-pots-edit .TL-2").text((view_cp.selected_cp_index+1) + ". ");
 
+	//this initiates the SmartInput for the Title, only
 	$("#colour-pots-edit input").SmartInput({
 	    underlying_obj: POT,
 	    underlying_key: "description",
