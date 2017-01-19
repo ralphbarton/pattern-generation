@@ -145,7 +145,6 @@ jQuery.fn.extend({
 		   //now we add remove old and add new generic listeners...
 		   $(this).off()
 		       .on("focusout", function(){
-			   $(this).data("U_obj")[$(this).data("U_key")] = $(this).val();
 			   $(this).SmartInput("update", {UI_enable: false});
 			   if(options.cb_focusout != undefined){options.cb_focusout();}//execute callback if defined.
 		       })
@@ -232,10 +231,14 @@ jQuery.fn.extend({
 		   max: 1500, //dynamic
 		   std_steps: [1, 2, 5],
 		   decimal_places: 0
+		   true_focusout: true
 		   },
 		   */
 
-		   if(options.UI_enable){//convert to user-editable number only
+		   if((options)&&(options.change_underlying_from_DOM === true)){
+		       $(this).data("U_obj")[$(this).data("U_key")] = v_numeric;		       
+
+		   }else if((options)&&(options.UI_enable === true)){//convert to user-editable number only
 
 		       if(data_props.type == "number"){
 			   // 1. when enabling, catch old (validated) v_numeric, in case an invalid one is added.
@@ -251,16 +254,16 @@ jQuery.fn.extend({
 
 		       // 4. Prevent a focusout event for a few ms
 		       $(this).data({disable_focusout: true});	    
+		       $element = $(this);
 		       setTimeout(
 			   function(){
-			       $(this).data({disable_focusout: false});
+			       $element.data({disable_focusout: false});
 			   },
 			   20
 		       );
 
 		   }else{//convert to read-only number+unit string
 		       if(!$(this).data("disable_focusout")){
-
 			   // 1. Change display class and readonly attribute - do first because units are text...
 			   $(this).attr('readonly', true).removeClass("ui-enabled").attr('type', 'text');
 			   if(data_props.type == "number"){
@@ -272,12 +275,21 @@ jQuery.fn.extend({
 			       var UU = data_props.unit
 			       var value_str = data_props.unit_preceeds ? UU+v_numeric : v_numeric+UU;
 			       $(this).val(value_str);
+
+			       if((options)&&(options.true_focusout=== true)){
+				   // write value into underlying data
+				   $(this).data("U_obj")[$(this).data("U_key")] = v_numeric;
+			       }
 			   }else{
 			       //limit text length...
 			       $(this).val(
 				   //todo - toast if name truncation actually does occur.
 				   $(this).val().substring(0, $(this).data("text_length"))
 			       );
+			       //I think this next line (3 lines) is necessary...
+			       if(options.true_focusout=== true){
+				   $(this).data("U_obj")[$(this).data("U_key")] = $(this).val();
+			       }
 			   }
 		       }
 		   }

@@ -61,23 +61,21 @@ var grids = {
 
 	// handle a change in one of the <input> boxes for the grid array
 	var GA_mod = function(obj, ls, key){
-	    // 'obj' - input elem
-	    // 'ls' - line set (0,1)
-	    // 'key' - angle / spacing / shift
 	    var my_i = grids.selected_row_i;
 	    if(my_i != undefined){
-		//parse int logic probably needed here
-		var my_val = $(obj).val();
 		var Grid_i = DM.GridsArray[grids.selected_row_i];
-		var diff = my_val - Grid_i.line_sets[ls][key];
-		Grid_i.line_sets[ls][key] = Number(my_val);//danger of storing a string here...
+		var old_val = Grid_i.line_sets[ls][key];
+		$("#line-set-"+(ls+1)+" .k-"+key+" input").SmartInput("update", {change_underlying_from_DOM: true});
+		var new_val = Grid_i.line_sets[ls][key];
 
 		//For angle changes (1) animate svg (2) logic for locking angles
 		if(key=="angle"){
-		    grids.update_preview_svg_angle(ls, my_val);
+		    grids.update_preview_svg_angle(ls, new_val);
 		    if(grids.lock_angles){
-			Grid_i.line_sets[1-ls].angle -= diff;
-			grids.update_all_input_elements_values(Grid_i);
+			Grid_i.line_sets[1-ls].angle -= (new_val - old_val);
+			// visually update other angle
+			$("#line-set-"+(2-ls)+" .k-angle input").SmartInput("update", {data_change: true});
+			grids.update_preview_svg_angle(1-ls, Grid_i.line_sets[1-ls].angle);
 		    }
 		}
 		
@@ -268,7 +266,6 @@ var grids = {
 
 				//UPDATE
 				var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input").SmartInput("update", {
-				    UI_enable: false,
 				    underlying_obj: Grid_i.line_sets[ls]
 				});
 			    });
@@ -293,14 +290,14 @@ var grids = {
     update_all_input_elements_values: function (grid_obj){
 	//k-angle=angle, k-spacing=spacing
 	var Gx = grid_obj.line_sets;
-	$("#line-set-1 .k-angle input").val(Gx[0]["angle"]);
-	this.update_preview_svg_angle(0, Gx[0]["angle"]);//update the SVG
-	$("#line-set-1 .k-spacing input").val(Gx[0]["spacing"]);
-	$("#line-set-1 .k-shift input").val(Gx[0]["shift"]);
-	$("#line-set-2 .k-angle input").val(Gx[1]["angle"]);
-	this.update_preview_svg_angle(1, Gx[1]["angle"]);//update the SVG
-	$("#line-set-2 .k-spacing input").val(Gx[1]["spacing"]);
-	$("#line-set-2 .k-shift input").val(Gx[1]["shift"]);
+
+	[0,1].forEach(function(ls) {
+	    grids.update_preview_svg_angle(ls, grid_obj.line_sets[ls]["angle"]);//update the SVG
+	    [{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
+		//UPDATE
+		$("#line-set-"+(ls+1)+" .k-"+TY.k+" input").SmartInput("update", {data_change: true});
+	    });
+	});
     },
 
     update_preview_svg_angle: function (ls, angle){
