@@ -35,7 +35,7 @@ var grids = {
 	    if(grids.selected_row_i != undefined){
 		//mutate the data structure
 		DM.deleteRow_grid(grids.selected_row_i);
-		//select the row just created...
+		//now, leave selected either replacing row in same position, or final row
 		grids.selected_row_i = Math.min(grids.selected_row_i, DM.GridsArray.length-1);
 		//refresh view
 		grids.regenerate_table();

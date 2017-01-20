@@ -105,8 +105,8 @@ var edit_cp = {
 
 	// 4. Callbacks for table action-links
 
-	// 4.1 - New
-	$("#cp-edit-table-buttons #new").click(function(){
+	// 4.1 - Add
+	$("#cp-edit-table-buttons #add").click(function(){
 	    var rows = DM.newRow_editing_ColourPot();
 	    edit_cp.selected_row_i = rows-1;//select final row...
 	    edit_cp.visual_update(); //refresh view
@@ -118,7 +118,10 @@ var edit_cp = {
 	$("#cp-edit-table-buttons #delete").click(function(){
 	    if(edit_cp.selected_row_i != undefined){
 		DM.deleteRow_editing_ColourPot(edit_cp.selected_row_i);
-		edit_cp.selected_row_i = undefined;
+
+		//now, leave selected either replacing row in same position, or final row
+		edit_cp.selected_row_i = Math.min(edit_cp.selected_row_i, DM.editing_ColourPot.contents.length-1);
+
 		edit_cp.visual_update(); //refresh view
 		// Disable "done" button if necessary
 		edit_cp.check_valid_probs();
@@ -301,7 +304,7 @@ var edit_cp = {
 	}
 
 	// use click handler to achieve re-selection
-	if(this.selected_row_i != undefined){
+	if((DM.editing_ColourPot.contents.length > 0)&&(this.selected_row_i != undefined)){
 	    var tr_selected = $("#edit-cp-table tbody tr")[this.selected_row_i];
 	    this.selected_row_i = undefined;//reset selection - necessary for effect of next line
 	    tr_selected.click();
