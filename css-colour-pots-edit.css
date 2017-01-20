@@ -27,11 +27,6 @@
     height: 350px;
 }
 
-
-#edit-cp-table{
-    margin-left: 6px
-}
-
 #edit-cp-table .col-1{
     width: 21px;
 }
@@ -57,41 +52,8 @@
     padding:0px;
 }
 
-/* for RANGE mode - position the CENTRAL vs. EDGES TABS*/
-
-#cp-edit-colour{
-    position: absolute;
-    top: 177px;
-    right: 10px;
-    width: 195px;
-}
-
-#cp-edit-solid{
-    position: absolute;
-    top:0px;
-    left:0px;
-    display:none;/* for initial rendering purposes*/
-}
-
-
-#cp-edit-tabs {
-    padding: 0px;
-    display:none;/* for initial rendering purposes*/
-}
-
-#cp-edit-tabs > ul{
-    padding-left: 6px;
-    font-size: 12px;
-}
-
-#cp-edit-tabs  .ui-tabs-tab {
-    border-radius: 7px 7px 0px 0px;
-    padding: 1px 3px;
-}
-
-/* range mode - box around content*/
-#cp-edit-tabs div.boxie {
-    height: 290px;
+#edit-cp-table{
+    margin-bottom: 1px
 }
 
 
@@ -99,33 +61,40 @@
 #cp-edit-beneath-table{
     position: relative;
     margin: 5px;
-    border: 1px solid red;
-    width: 252px;
-    height: 50px;
+    margin-top: 1px;
+    width: 280px;/* excess here...*/
+    height: 48px;
+    padding: 0px;
 }
 
+#cp-edit-beneath-table .mini-text{
+    position: absolute;
+}
+
+/* row add/delete - positioning */
 #cp-edit-table-buttons{
     position: absolute;
-    bottom: 0px;
-    right: 0px;
+    bottom: 6px;
+    left: 139px;
 }
 
 /* Actions - positioning - within "Edit Colour Pot" */
-#cp-edit-actions {
-    position: absolute;
-    top: -5px;
-}
-
-.action-link#sum100{
-    text-align: left;
-}
 
 #cp-edit-actions #solid-v-range{
-    display:inline-block;
     position: absolute;
-    font-size: 11px;
-    margin-top: 2px;
+    top: 30px;
 }
+
+
+/* Preview - set position of this specific preview*/
+.preview-container#main-cp-edit{
+    position: absolute;
+    width: 190px;
+    height: 80px;
+    top: 502px;
+    right: 12px;
+}
+
 
 /* Main Cancel+Done buttons - positioning */
 #cp-edit-buttons{
@@ -247,14 +216,47 @@
     top: 3px;
 }
 
-/* Preview - set position of this specific preview*/
-.preview-container#main-cp-edit{
+
+
+/* for RANGE mode - position the CENTRAL vs. EDGES TABS*/
+
+#cp-edit-colour{
     position: absolute;
-    width: 190px;
-    height: 80px;
-    top: 502px;
-    right: 12px;
+    top: 177px;
+    right: 10px;
+    width: 195px;
 }
+
+#cp-edit-solid{
+    position: absolute;
+    top:0px;
+    left:0px;
+    display:none;/* for initial rendering purposes*/
+}
+
+#cp-edit-tabs {
+    padding: 0px;
+    display:none;/* for initial rendering purposes*/
+}
+
+#cp-edit-tabs > ul{
+    padding-left: 6px;
+    font-size: 12px;
+}
+
+#cp-edit-tabs  .ui-tabs-tab {
+    border-radius: 7px 7px 0px 0px;
+    padding: 1px 3px;
+}
+
+/* range mode - box around content*/
+#cp-edit-tabs div.boxie {
+    height: 290px;
+}
+
+
+
+/* this relates to content of the row-edit pane*/
 
 #cp-edit-solid{
     width: 100%;

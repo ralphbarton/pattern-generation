@@ -122,6 +122,7 @@ jQuery.fn.extend({
 		     cb_focusout
 		     cb_change
 		     click_filter
+		     underlying_from_DOM_onChange
 		   */
 
 		   //store custom props in the element
@@ -157,7 +158,9 @@ jQuery.fn.extend({
 			   }
 		       })
 		       .on("change", function(){
-			   //$(this).SmartInput("update", {UI_enable: false}); // maybe good to have, maybe not???? 
+			   if(options.underlying_from_DOM_onChange){
+			       $(this).SmartInput("update", {change_underlying_from_DOM: true});
+			   }
 			   if(options.cb_change != undefined){options.cb_change();}//execute callback if defined.
 		       });
 
@@ -173,6 +176,7 @@ jQuery.fn.extend({
 			 new_dc_key
 			 data_change
 			 underlying_obj
+			 change_underlying_from_DOM
 			 UI_enable
 		   */
 

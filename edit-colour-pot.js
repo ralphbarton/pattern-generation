@@ -76,7 +76,8 @@ var edit_cp = {
 	//both null initally
 	widgets.actionLink_unset("#solid-v-range.act-mutex", "all");
 
-	// 3. Add logic to the table buttons
+	// Action Link callback 1:
+	// make sum 100%
 	$("#cp-edit-actions #sum100").click(function(){
 
 	    // may fail if all probabilities are zero...
@@ -94,7 +95,8 @@ var edit_cp = {
 	    });
 	});
 
-	// add logic to the table buttons
+	// Action Link callback 2:
+	// Set all probabilities equal
 	$("#cp-edit-actions #all-eq").click(function(){
 	    //underlying data change
 	    DM.allEqualProbs_editing_ColourPot();
@@ -102,6 +104,21 @@ var edit_cp = {
 	    //just click the other button, and have it do all the work, including view update.
 	    $("#cp-edit-actions #sum100").click();
 	});
+
+	// Action Link callback 3:
+	// Add delta-from-100% to seection (another way to achieve sum=100
+	// must also respect probs all > 0%
+	$("#cp-edit-actions #delta-to-selection").click(function(){
+
+	    //underlying data change
+	    var delta = DM.sumProbs_editing_ColourPot() - 100;
+	    var ED_pot_row_i = DM.editing_ColourPot.contents[edit_cp.selected_row_i];
+	    ED_pot_row_i.prob = Math.max(ED_pot_row_i.prob-delta, 0);
+
+	    edit_cp.check_valid_probs();//this has the side effect of recolouring 'done' button.
+	    edit_cp.visual_update(); //refresh view
+	});
+
 
 	// 4. Callbacks for table action-links
 
@@ -299,7 +316,7 @@ var edit_cp = {
 	});
 
 	// update the preview - conditional on its current state being valid...
-	if(DM.validProbs_editing_ColourPot()){
+	if(DM.sumProbs_editing_ColourPot() == 100){
 	    view_cp.fill_preview(".preview-container#main-cp-edit", POT);
 	}
 
@@ -309,20 +326,33 @@ var edit_cp = {
 	    this.selected_row_i = undefined;//reset selection - necessary for effect of next line
 	    tr_selected.click();
 	}
+
+	//call during init to ensure correct initial display state
+	this.check_valid_probs();
 	
     },
 
     check_valid_probs: function(){
 	var $done_Btn = $("#cp-edit-buttons #done");
-	if(DM.validProbs_editing_ColourPot()){
+	var $msg_text = $("#cp-edit-actions #probs-sum");
+	var sum_probs = DM.sumProbs_editing_ColourPot();
+
+	$("#cp-edit-actions #sum").text(sum_probs.toFixed(1)+"%");
+	var delta = sum_probs-100;
+	$("#cp-edit-actions #delta").text((delta > 0? "+" : "")+delta.toFixed(1)+"%").
+	    css("color", delta > 0 ? "#DE641D" : "#7946B3");
+	if(delta == 0){$("#cp-edit-actions #delta").removeAttr('style');}
+
+	if( sum_probs == 100){
 	    // if it has become re-enabled after disable, refresh the pot-preview
 	    if($done_Btn.hasClass("ui-disabled")){
 		view_cp.fill_preview(".preview-container#main-cp-edit", DM.editing_ColourPot);
 		$done_Btn.removeClass("ui-disabled")
 	    }
+	    $msg_text.addClass("B");//B means show in grey
 	}else{
 	    $done_Btn.addClass("ui-disabled")
-
+	    $msg_text.removeClass("B")
 	}
     },
 
@@ -336,6 +366,8 @@ var edit_cp = {
 			underlying_key: "prob",
 			style_class: "blue-cell",
 			data_class: "percent",
+			underlying_from_DOM_onChange: true,
+			cb_change: function(){edit_cp.check_valid_probs();},//all the graphical change...
 			cb_focusout: function(){edit_cp.check_valid_probs();}//may disable "done" btn
 		    })
 		),

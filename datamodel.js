@@ -147,14 +147,14 @@ var DM = {
 
     // The three functions below are for manipulating the probabilities list
 
-    validProbs_editing_ColourPot: function(){
+    sumProbs_editing_ColourPot: function(){
 	var items = this.editing_ColourPot.contents;	
 	var accumulator = 0;
 
 	for (var i=0; i < items.length; i++){
 	    accumulator += items[i].prob;
 	}
-	return accumulator == 100;
+	return accumulator;
     },
 
     sum100_editing_ColourPot: function(){

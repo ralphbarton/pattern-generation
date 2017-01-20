@@ -1,4 +1,199 @@
-/* 01 styling for a generic TABLE */
+/* 01 styling for text content */
+
+.mini-text{
+    font-size: 11px;
+    color: rgba(0,0,0,1);
+}
+
+.mini-text .A{
+    font-family: sans;
+    font-weight: bold;
+}
+
+.mini-text .B{
+    color: rgba(0,30,70,0.5);
+}
+
+
+/* 02 styling for Buttons */
+
+.button{
+    transition: all 0.2s;
+    display: inline-block;
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 3px 14px;
+    margin: 0px 5px;
+    cursor:pointer;
+}
+
+.button{
+    color: black;
+    background: rgba(0,30,70,0.1);
+    border-color: rgba(0,30,70,0.4);
+}
+
+.button:hover{
+    transition: background 0.2s;
+    background: rgba(0,70,180,0.3);
+    text-decoration: underline;
+    color: #004370;
+    border-color: #004370;
+}
+
+.button.ui-disabled{
+    color: rgba(0,30,70,0.4);
+    background: rgba(210,210,210,0.4);
+    border-color: rgba(0,30,70,0.3);
+    text-decoration: none;
+}
+
+.button.s{
+    font-size: 75%;
+      padding: 2px 9px;
+    margin: 0px 1px;  
+}
+
+
+/* 03 styling Action Links (mutex links) */
+
+.act-mutex{/*Mutex action link pairs...*/
+    cursor:pointer;
+    font-size: 11px;
+}
+
+/* creates the bar between the links*/
+.act-mutex>div{
+    border-right: 2px solid rgba(0,30,70,0.25);
+}
+
+.act-mutex>div:last-child{
+    border-right: none;
+}
+
+/*greyish colour for disabled link*/
+.act-mutex div{
+    padding: 0px 4px;
+    display: inline-block;
+    text-decoration: underline;
+    color: rgba(0,30,70,0.5);
+}
+
+div.action-link{
+    display: inline-block;
+    font-size: 11px;
+    text-decoration: underline;
+    color: #0C47B3;
+    text-align: center;
+}
+
+.action-link:hover{
+    color: #000FE6;
+    text-shadow: 0px 0px 3px rgba(150,255,245,1);
+    cursor:pointer;
+}
+
+
+/* non-selectable content... */
+
+.noselect, .action-link, .button, .act-mutex{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          not supported by any browser */
+}
+
+
+
+/* 04 styling for content boxes ("boxie" class) */
+
+div.boxie{
+    transition: all 0.2s;
+    position: relative;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-radius: 4px;
+    padding: 3px;
+    margin-top: 12px;
+    padding-top: 12px;
+}
+
+div.boxie.s{
+        border: 1px solid rgba(0,0,0,0.4);
+        margin-top: 9px;
+        padding-top: 5px;
+}
+
+div.boxie.no-title{
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+div.boxie div.title{
+    position: absolute;
+    display: inline-block;
+    top: -10px;
+    left: 8px;
+    padding: 0px 4px;
+    background-color: #DBD1AB;
+    color: rgba(0,0,0,0.5);
+    text-align: left;
+}
+
+div.boxie.s div.title{
+    font-size: 13px;
+    top: -9px;
+    left: 6px;
+}
+
+/*this is a bit specific, and potentially used only on grids*/
+.boxie.ui-disabled{
+    opacity: 0.4;
+    color: rgba(0,30,70,0.7);
+    border-color: rgba(0,30,70,0.3);
+}
+
+div.boxie.ui-disabled div.title,
+div.boxie.ui-disabled input{
+    color: rgba(0,30,70,0.4);
+}
+
+
+
+/* Styles for colourpot preview zones*/
+.preview-container{
+    font-size: 0;
+    border: 1px solid black;
+    padding: 0px
+}
+.preview-container.tiny{
+    width: 80px;
+}
+
+.preview-cell{
+    display: inline-block;
+    border: 1px solid black;
+    margin: 0px;
+    padding: 0px;
+}
+
+.preview-cell.small{
+    width: 8px;
+    height: 8px;
+}
+
+.preview-cell.big{
+    width: 18px;
+    height: 18px;
+}
+
+
+
+
+
+/*  Styling for TABLEs */
 
 .user-data-table{
     margin: 6px;
@@ -91,7 +286,7 @@ input.plain-cell:focus{
 }
 
 
-/* 02 styling for a generic TAB SYSTEM */
+/* Styling for TABs */
 
 ul{
     margin: 0px;
@@ -138,176 +333,4 @@ text-decoration: underline;
 .ui-tabs-tab > a{
     color:inherit;
     text-decoration: none;    
-}
-
-
-/* 03 styling for a generic Buttons */
-
-.button{
-    transition: all 0.2s;
-    display: inline-block;
-    border: 1px solid;
-    border-radius: 4px;
-    padding: 3px 14px;
-    margin: 0px 5px;
-    cursor:pointer;
-}
-
-.button{
-    color: black;
-    background: rgba(0,30,70,0.1);
-    border-color: rgba(0,30,70,0.4);
-}
-
-.button:hover{
-    transition: background 0.2s;
-    background: rgba(0,70,180,0.3);
-    text-decoration: underline;
-    color: #004370;
-    border-color: #004370;
-}
-
-.button.ui-disabled{
-    color: rgba(0,30,70,0.4);
-    background: rgba(210,210,210,0.4);
-    border-color: rgba(0,30,70,0.3);
-    text-decoration: none;
-}
-
-.button.s{
-    font-size: 75%;
-      padding: 2px 9px;
-    margin: 0px 1px;  
-}
-
-.mini-text{
-    font-size: 11px;
-    color: rgba(0,0,0,0.7);
-}
-
-
-/*Mutex action link pairs...*/
-
-.act-mutex{
-    cursor:pointer;
-    font-size: 11px;
-}
-
-/* creates the bar between the links*/
-.act-mutex>div{
-    border-right: 2px solid rgba(0,30,70,0.25);
-}
-
-.act-mutex>div:last-child{
-    border-right: none;
-}
-
-/*greyish colour for disabled link*/
-.act-mutex div{
-    padding: 0px 4px;
-    display: inline-block;
-    text-decoration: underline;
-    color: rgba(0,30,70,0.5);
-}
-
-div.action-link{
-    display: inline-block;
-    font-size: 11px;
-    text-decoration: underline;
-    color: #0C47B3;
-    text-align: center;
-}
-
-.action-link:hover{
-    color: #000FE6;
-    text-shadow: 0px 0px 3px rgba(150,255,245,1);
-    cursor:pointer;
-}
-
-
-.noselect, .action-link, .button, .act-mutex{
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Chrome/Safari/Opera */
-    -khtml-user-select: none; /* Konqueror */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                          not supported by any browser */
-}
-
-/* Styles for colourpot preview zones*/
-.preview-container{
-    font-size: 0;
-    border: 1px solid black;
-    padding: 0px
-}
-.preview-container.tiny{
-    width: 80px;
-}
-
-.preview-cell{
-    display: inline-block;
-    border: 1px solid black;
-    margin: 0px;
-    padding: 0px;
-}
-
-.preview-cell.small{
-    width: 8px;
-    height: 8px;
-}
-
-.preview-cell.big{
-    width: 18px;
-    height: 18px;
-}
-
-div.boxie{
-    transition: all 0.2s;
-    position: relative;
-    border: 2px solid rgba(0,0,0,0.3);
-    border-radius: 4px;
-    padding: 3px;
-    margin-top: 12px;
-    padding-top: 12px;
-}
-
-div.boxie.s{
-        border: 1px solid rgba(0,0,0,0.4);
-        margin-top: 9px;
-        padding-top: 5px;
-}
-
-div.boxie.no-title{
-    margin-top: 0px;
-    padding-top: 0px;
-}
-
-div.boxie div.title{
-    position: absolute;
-    display: inline-block;
-    top: -10px;
-    left: 8px;
-    padding: 0px 4px;
-    background-color: #DBD1AB;
-    color: rgba(0,0,0,0.5);
-    text-align: left;
-}
-
-div.boxie.s div.title{
-    font-size: 13px;
-    top: -9px;
-    left: 6px;
-}
-
-/*this is a bit specific, and potentially used only on grids*/
-.boxie.ui-disabled{
-    opacity: 0.4;
-    color: rgba(0,30,70,0.7);
-    border-color: rgba(0,30,70,0.3);
-}
-
-div.boxie.ui-disabled div.title,
-div.boxie.ui-disabled input{
-    color: rgba(0,30,70,0.4);
 }

@@ -100,6 +100,7 @@ var grids = {
 		    underlying_key: TY.k,
 		    style_class: "plain-cell",
 		    data_class: TY.u, //TODO - isn't this just an arbirary choice, as above -> delete this line?
+		    underlying_from_DOM_onChange: false, // cannot do this - full logic uses old value
 		    cb_change: function(){GA_mod($input[0], ls, TY.k);}//all the graphical change...
 		});
 	    });
