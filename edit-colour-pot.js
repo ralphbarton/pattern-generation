@@ -22,11 +22,6 @@ var edit_cp = {
 	    }
 	});
 
-	// inital setting of the preview-zone
-	$(".preview-container#main-cp-edit").append(
-	    global.$div_array(152, "preview-cell small")
-	);
-
 	// add logic to the action links of Solid v. Range
 	widgets.actionLink_init("#solid-v-range.act-mutex",[
 	    function(){
@@ -86,7 +81,7 @@ var edit_cp = {
 	    // view update required now...
 	    edit_cp.check_valid_probs();//this has the side effect of recolouring 'done' button.
 	    //unconditional - and probably duplicate - preview redraw...
-	    view_cp.fill_preview(".preview-container#main-cp-edit", DM.editing_ColourPot);
+	    view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
 
 	    // update the view to match the underlying data
 	    // note how ref is already known by SmartInput("update", {...})
@@ -145,9 +140,48 @@ var edit_cp = {
 	    }
 	});
 
+	// 5. CP-edit Preview zone...
 
-	//Add Code for the CP-edit solid tab
-	
+	// initalise - TO AN EXPANDED STATE...
+	$("#colour-pots-edit .preview-container").append(
+	    global.$div_array(152+19, "preview-cell small")
+	).addClass("expanded");
+
+	// re-randomise callback
+	$("#colour-pots-edit #preview-area #re-randomise").click(function(){
+	    view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+	});
+
+	// expand callback
+	$("#colour-pots-edit #preview-area #expand").click(function(){
+
+	    var $p_container = $("#colour-pots-edit .preview-container");
+
+	    if(!$p_container.hasClass("expanded")){
+		$p_container.addClass("expanded");
+
+		//add another 30 elements
+		$p_container.append(
+		    global.$div_array(19, "preview-cell")
+		);
+
+		//hide the old pane now that now row is selected
+		if(edit_cp.selected_row_i != undefined){
+		    edit_cp.selected_row_i = undefined;
+		    //no fading out here, because the preview area expands instantly...
+		    $("#cp-edit-tabs").hide();
+		    $("#cp-edit-solid").hide();
+		}
+
+		edit_cp.visual_update(); //refresh view
+	    }
+	});
+
+
+
+
+
+	//Add Code for the CP-edit solid tab	
 
 	// add event listeners...
 	$("#bgrins-colour-picker").on('move.spectrum', function(e, tinycolor) {
@@ -317,7 +351,7 @@ var edit_cp = {
 
 	// update the preview - conditional on its current state being valid...
 	if(DM.sumProbs_editing_ColourPot() == 100){
-	    view_cp.fill_preview(".preview-container#main-cp-edit", POT);
+	    view_cp.fill_preview("#colour-pots-edit .preview-container", POT);
 	}
 
 	// use click handler to achieve re-selection
@@ -346,7 +380,7 @@ var edit_cp = {
 	if( sum_probs == 100){
 	    // if it has become re-enabled after disable, refresh the pot-preview
 	    if($done_Btn.hasClass("ui-disabled")){
-		view_cp.fill_preview(".preview-container#main-cp-edit", DM.editing_ColourPot);
+		view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
 		$done_Btn.removeClass("ui-disabled")
 	    }
 	    $msg_text.addClass("B");//B means show in grey
@@ -388,7 +422,24 @@ var edit_cp = {
 		    $("#edit-cp-table tr.selected").removeClass("selected");
 		    $(this).addClass("selected");
 
-		    // 3. Change which side panel is shown...
+
+		    // 3. reduce the size of the preview container, if expanded...
+		    var $p_container = $("#colour-pots-edit .preview-container");
+
+		    if($p_container.hasClass("expanded")){
+			$p_container.removeClass("expanded");
+
+			//remove all elements then add 152 (qty small) elements
+			$p_container.html("").append(
+			    global.$div_array(152, "preview-cell small")
+			);
+
+			// fill all those (slighly wastefully regenerated) new elements with colour...
+			view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+		    }
+
+
+		    // 4. Change which side panel is shown...
 		    if(pot_elem.type == "solid"){
 			$("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
