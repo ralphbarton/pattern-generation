@@ -94,25 +94,26 @@
     height: 290px;
 }
 
-/* BUTTONS - positioning - within "Edit Colour Pot" */
-#cp-edit-buttons{
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+
+/* Section of content directly beneath table*/
+#cp-edit-beneath-table{
+    position: relative;
+    margin: 5px;
+    border: 1px solid red;
+    width: 252px;
+    height: 50px;
 }
 
 #cp-edit-table-buttons{
     position: absolute;
-    top: 565px;
-    left: 117px;
+    bottom: 0px;
+    right: 0px;
 }
 
 /* Actions - positioning - within "Edit Colour Pot" */
 #cp-edit-actions {
     position: absolute;
-    top: 560px;
-    left: 4px;
-    width: 120px;
+    top: -5px;
 }
 
 .action-link#sum100{
@@ -124,6 +125,21 @@
     position: absolute;
     font-size: 11px;
     margin-top: 2px;
+}
+
+/* Main Cancel+Done buttons - positioning */
+#cp-edit-buttons{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+#cp-edit-slider{
+    height: 30px;
+    width: 460px;
+    margin: 5px;
+    border: 1px solid blue;
+    background-color: rgba(255,255,0,0.1)
 }
 
 /* This large chunk below is CSS for the ITEM column*/

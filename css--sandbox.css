@@ -1,11 +1,3 @@
-#slider{
-    height: 30px;
-    width: 480px;
-    margin: 5px;
-    margin-top: 40px;
-    border: 1px solid yellow;
-}
-
 .ui-slider{
     background:green;
 }

@@ -164,23 +164,31 @@
 		</tbody>
 	      </table>
 
-	      <!-- 3. [cp-edit] Table Buttons -->
-	      <div id="cp-edit-table-buttons">
-		<div class="button s" id="add">Add</div>
-		<div class="button s" id="delete">Delete</div>
-	      </div>
 
-	      <!-- 3.1 [cp-edit] Table Actions -->
-	      <div id="cp-edit-actions">
+	      <!-- 3. [cp-edit] Table Bottom -->
+	      <div id="cp-edit-beneath-table">
 
-		<div id="block">
+		<!-- 3.2 [cp-edit] Table Actions -->
+		<div id="cp-edit-actions">
+
+		  <span class="mini-text">
+		    Probs sum:=<span id="sum">x</span> (<span id="delta">x</span>)
+		  </span>
+
 		  <div class="action-link" id="sum100">sum=100</div>
 		  <div class="action-link" id="all-eq" style="padding-left:8px;">all equ.</div>
-		</div>		
 
-		<div id="solid-v-range" class="act-mutex">
-		  Type:<div>Solid</div><div>Range</div>
+		  <div id="solid-v-range" class="act-mutex">
+		    Type:<div>Solid</div><div>Range</div>
+		  </div>
 		</div>
+
+		<!-- 3.1 [cp-edit] Table Buttons -->
+		<div id="cp-edit-table-buttons">
+		  <div class="button s" id="add">Add</div>
+		  <div class="button s" id="delete">Delete</div>
+		</div>
+
 	      </div>
 
 
@@ -267,7 +275,7 @@
 	      <div class="preview-container" id="main-cp-edit"></div>
 
 	      <!-- 6. [cp-edit] Slider (it doen't work!) -->
-	      <div id="slider"></div>
+	      <div id="cp-edit-slider">placeholder space for slider...</div>
 
 	      <!-- 7. [cp-edit] Cancel/Done Buttons -->
 	      <div id="cp-edit-buttons">

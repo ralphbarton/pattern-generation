@@ -180,6 +180,10 @@ text-decoration: underline;
     margin: 0px 1px;  
 }
 
+.mini-text{
+    font-size: 11px;
+    color: rgba(0,0,0,0.7);
+}
 
 
 /*Mutex action link pairs...*/
@@ -207,7 +211,7 @@ text-decoration: underline;
 }
 
 div.action-link{
-        display: inline-block;
+    display: inline-block;
     font-size: 11px;
     text-decoration: underline;
     color: #0C47B3;
