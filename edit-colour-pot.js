@@ -118,15 +118,39 @@ var edit_cp = {
 	// 4. Callbacks for table action-links
 
 	// 4.1 - Add
+	var ADD_subOp = null;
 	$("#cp-edit-table-buttons #add").click(function(){
-	    var rows = DM.newRow_editing_ColourPot();
-	    edit_cp.selected_row_i = rows-1;//select final row...
-	    edit_cp.visual_update(); //refresh view
-	    // Disable "done" button if necessary
-	    edit_cp.check_valid_probs();
+
+	    if(ADD_subOp != "B"){
+
+		var R_col = $("#cp-edit-table-buttons #add #A").css("background-color");
+
+		var rows = DM.newRow_editing_ColourPot(ADD_subOp == "A" ? R_col : undefined );
+		edit_cp.selected_row_i = rows-1;//select final row...
+		edit_cp.visual_update(); //refresh view
+		// Disable "done" button if necessary
+		edit_cp.check_valid_probs();
+	    }
 	});
-	
-	// 4.3 - Delete
+
+	// 4.1.1 - fancy suboption of ADD - [A] adds row, using a random colour previewed
+	$("#cp-edit-table-buttons #add #A").click(function(){
+	    ADD_subOp = "A";//detect the specific suboption clicked (for purpose of other callbacks triggered)
+	    setTimeout(function(){ADD_subOp = null;}, 50);
+	});
+
+	// 4.1.2 - fancy suboption of ADD - [B] cycles the random colour used for tiny-bg
+	$("#cp-edit-table-buttons #add #B").click(function(){
+	    var rand_color = tinycolor.fromRatio({ h: Math.random(), s: 1, l: 0.25+Math.random()*0.5 });
+	    $("#cp-edit-table-buttons #add #A").show()
+		.css("background-color", "#"+rand_color.toHex());
+
+	    ADD_subOp = "B";//detect the specific suboption clicked (for purpose of other callbacks triggered)
+	    setTimeout(function(){ADD_subOp = null;}, 50);
+	});
+
+
+	// 4.2 - Delete
 	$("#cp-edit-table-buttons #delete").click(function(){
 	    if(edit_cp.selected_row_i != undefined){
 		DM.deleteRow_editing_ColourPot(edit_cp.selected_row_i);
@@ -524,6 +548,8 @@ var edit_cp = {
 	$(".cpanel#main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
 	$("#cp-edit-solid").hide();
 	$("#cp-edit-tabs").hide();
+
+	$("#cp-edit-table-buttons #add #A").hide();//the tiny random chooser...
 
 	$("#colour-pots-view").show();
 	$("#colour-pots-edit").hide();

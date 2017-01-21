@@ -188,12 +188,12 @@ var DM = {
 	this.editing_ColourPot.contents.splice(index, 1);
     },
 
-    newRow_editing_ColourPot: function(){
+    newRow_editing_ColourPot: function(row_col){
 	this.editing_ColourPot.contents.push(
 	    {
 		prob: 15,
 		type: "solid",
-		solid: "#FF0000"
+		solid: (row_col || "#FF0000")
 	    }
 	);
 	return this.editing_ColourPot.contents.length;

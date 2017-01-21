@@ -75,7 +75,35 @@
 #cp-edit-table-buttons{
     position: absolute;
     bottom: 6px;
-    left: 139px;
+    left: 133px;
+}
+
+/* little add-in to Ad button*/
+#cp-edit-table-buttons #add{
+    position: relative;
+    padding-right: 15px;
+}
+#cp-edit-table-buttons #add div{
+    position: absolute;
+    border: inherit;
+    width: 7px;
+    height: 9px;
+}
+
+#cp-edit-table-buttons #add #A{
+    border-width: 1px;
+    border-radius: 0px 4px 0px 0px;
+    right: -1px;
+    top: -1px;
+    border-color: black;
+    display: none;
+}
+
+#cp-edit-table-buttons #add #B{
+    border-width: 1px 0px 0px 1px;
+    border-radius: 0px 0px 4px 0px;
+    right: 0px;
+    bottom: 0px;
 }
 
 /* Actions - positioning - within "Edit Colour Pot" */
