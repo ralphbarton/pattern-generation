@@ -33,7 +33,9 @@ var plots = {
 
 
 	$("#tabs-4 #exec-plot").click(function(){
-	    plots.exec();
+	    $("#tabs-4 #status").text("calculating...");
+	    setTimeout(function(){plots.exec();}, 10);
+
 	});
 
     },
@@ -42,7 +44,6 @@ var plots = {
 
 	var winW = $(window).width();
 	var winH = $(window).height();
-
 
 	//get or create new canvas for the plot...
 	if($("#plot-canv").length > 0){
@@ -127,6 +128,7 @@ var plots = {
 	}
 	console.log("Putting data into Canvas took (ms) : ", new Date()-starting);
 
+	$("#tabs-4 #status").text("complete...");
     }
 
 };
