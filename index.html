@@ -335,11 +335,11 @@
 		<div class="k-pix"></div>
 
 		<div class="k-angle">Angle:
-		  <input class="plain-cell" type="number">
+		  <input/>
 		</div>
 
 		<div class="k-spacing">Interval:<br>
-		  <input class="plain-cell" type="number">
+		  <input/>
 		  <div class="act-mutex px-pc-qty">
 		    Unit:<div>px</div><div>%</div><div>qty</div>
 		  </div>
@@ -398,11 +398,21 @@
 
 	  <!-- 1.2.4 Tab 4 -->	  
 	  <div id="tabs-4">
-	    Code here for Density Plot UI layout
+
 	    <br>
-	    Contour graphs etc...
-	    <div class="button" id="show" onClick="plots.do(); return false;">Plot a contour (work needed)</div>
+	    enter a complex curve here i.e. h=re{ f(z) } 
+	    <input id="equation"/>
+	    <br>
+
+	    cell size (pixels)
+	    <input id="cell-px"/>
+	    <br>
+
+
+	    <div class="button" id="exec-plot">Plot!</div>
 	  </div>
+
+
 
 	  <!-- 1.2.5 Tab 5 -->	  
 	  <div id="tabs-5">

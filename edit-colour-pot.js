@@ -168,8 +168,8 @@ var edit_cp = {
 
 	// initalise - TO AN EXPANDED STATE...
 	$("#colour-pots-edit .preview-container").append(
-	    global.$div_array(152+19, "preview-cell small")
-	).addClass("expanded");
+	    global.$div_array(152, "preview-cell small")
+	);
 
 	// re-randomise callback
 	$("#colour-pots-edit #preview-area #re-randomise").click(function(){
@@ -357,6 +357,9 @@ var edit_cp = {
 	    style_class: "plain-cell",
 	    data_class: "text",
 	});
+
+	//put the preview area into its expanded state...
+	$("#colour-pots-edit #preview-area #expand").click();
 
 	//then fill the table etc.
 	this.visual_update();
