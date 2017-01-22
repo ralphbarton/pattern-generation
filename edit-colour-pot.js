@@ -205,16 +205,19 @@ var edit_cp = {
 
 
 
+
+
+
 	//Add Code for the CP-edit solid tab	
 
 	// add event listeners...
-	$("#bgrins-colour-picker").on('move.spectrum', function(e, tinycolor) {
+	var brgins_on_colMove_cb = function(tinycolor) {
 	    //note that converting colour to hex strips away the Alpha, which is what I want here.
 	    var hexC = tinycolor.toHexString();
 	    var withAlpha = tinycolor.toRgbString();
 	    $("#colour-sun").css("background", hexC);
 	    $("#k2 #strip").css("background", withAlpha);
-	});
+	}
 
 	$("#bgrins-buttons #cancel").click(function() {
 	    $("#bgrins-container").hide({duration: 400});
@@ -294,6 +297,7 @@ var edit_cp = {
 		showButtons: false, //do not require OK and Cancel buttons
 		preferredFormat: original_format, // for the input box...
 		clickoutFiresChange: true, // cause a change event upon clickout
+		move: brgins_on_colMove_cb
 	    });
 	    if(was_large){
 		$("#bgrins-container").addClass("large");
