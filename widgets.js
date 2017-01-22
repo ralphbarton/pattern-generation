@@ -125,6 +125,9 @@ jQuery.fn.extend({
 		     underlying_from_DOM_onChange
 		   */
 
+		   //set the input class (for styling purposes)
+		   $(this).addClass(options.style_class)
+
 		   //store custom props in the element
 		   $(this).data({
 		       data_class_key: options.data_class,
@@ -135,8 +138,7 @@ jQuery.fn.extend({
 
 		   //this code executes to initialise the element's value, if the full reference is supplied
 		   if((options.underlying_obj !== undefined)&&(options.underlying_key !== undefined)){
-		       $(this).addClass(options.style_class)
-			   .val(options.underlying_obj[options.underlying_key]);
+		       $(this).val(options.underlying_obj[options.underlying_key]);
 		   }
 
 
