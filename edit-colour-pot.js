@@ -437,7 +437,7 @@ var edit_cp = {
 		    })
 		),
 		$('<td/>').addClass("col-3").append(
-		    this.gen_row_preview_contents(pot_elem)
+		    this.gen_row_preview_contents(pot_elem, i)
 		)
 	    ).click(function(){
 		// in this context, we have "pot_elem", "i" which are accessed below...
@@ -499,7 +499,7 @@ var edit_cp = {
 	);
     },
 
-    gen_row_preview_contents: function(pot_elem){
+    gen_row_preview_contents: function(pot_elem, i){
 	var $contents = [];
 	if(pot_elem.type=="range"){//HTML for 'range'
 
@@ -533,7 +533,10 @@ var edit_cp = {
 	}else{//HTML for 'solid'
 	    $contents = [
 		$("<div\>").addClass("oblong")
-		    .css("background",pot_elem.solid),
+		    .css("background",pot_elem.solid)
+		    .click(function(){
+			console.log("oblong-shape clicked (for solid). i=", i);
+		    }),
 		$("<div\>").addClass("blank").append(
 		    $("<div\>").addClass("chequer"),
 		    $("<div\>").addClass("alpha A-c3")
