@@ -14,7 +14,7 @@ var plots = {
 
 	
 
-	$("#tabs-4 input#equation").SmartInput({
+	$("#temp-density-plots input#equation").SmartInput({
 	    underlying_obj: this.eq2,
 	    underlying_key: "func",
 	    style_class: "plain-cell",
@@ -24,7 +24,7 @@ var plots = {
 	});
 
 
-	$("#tabs-4 input#cell-px").SmartInput({
+	$("#temp-density-plots input#cell-px").SmartInput({
 	    underlying_obj: this.eq2,
 	    underlying_key: "cell_px",
 	    style_class: "plain-cell",
@@ -32,8 +32,8 @@ var plots = {
 	});
 
 
-	$("#tabs-4 #exec-plot").click(function(){
-	    $("#tabs-4 #status").text("calculating...");
+	$("#temp-density-plots #exec-plot").click(function(){
+	    $("#temp-density-plots #status").text("calculating...");
 	    setTimeout(function(){plots.exec();}, 10);
 
 	});
@@ -128,7 +128,7 @@ var plots = {
 	}
 	console.log("Putting data into Canvas took (ms) : ", new Date()-starting);
 
-	$("#tabs-4 #status").text("complete...");
+	$("#temp-density-plots #status").text("complete...");
     }
 
 };

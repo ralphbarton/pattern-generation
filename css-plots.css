@@ -1,3 +1,125 @@
+/* Specific to Colour Pots VIEW table */
+
+
+#plots-table tbody{
+     height: 120px;
+}
+
+#plots-table .col-1{
+    width: 20px;
+}
+
+#plots-table .col-2{
+    width: 220px;
+}
+
+#plots-table .col-3{
+    width: 70px;
+}
+
+#plots-table .col-4{
+    width: 45px;
+}
+
+#plots-table th.col-5{
+    width: 40px;
+}
+
+#tabs-4 .zone{
+    position: absolute;
+
+}
+
+#tabs-4 #z-1,
+#tabs-4 #z-3{
+        border: 1px solid red;
+}
+
+.zone#z-1{
+    top: 276px;
+    left: 5px;
+    height: 24px;
+    width: 425px
+}
+
+.zone#z-2{
+    top: 302px;
+    left: 5px;
+    height: 74px;
+    width: 419px
+}
+
+.zone#z-3{
+    top: 120px;
+    left: 437px;
+    height: 50px;
+    width: 256px
+}
+
+.zone#z-4{
+    top: 172px;
+    left: 437px;
+    height: 98px;
+    width: 250px
+}
+
+.zone#z-5{
+    top: 290px;
+    left: 437px;
+    height: 86px;
+    width: 250px
+}
+
+#tabs-4 .act-mutex{
+    margin-bottom: 2px;
+    display: inline-block;
+}
+
+#mouse-zoom{
+    margin-top: 6px;
+    position: relative;
+    left: 3px
+}
+
+#reset-zoom{
+    position: absolute;
+    right: 5px;
+    top: 2px;
+}
+
+#square-axes{
+    position: absolute;
+    right: 5px;
+    top: 18px;
+}
+
+#more-brack{
+    position: absolute;
+    right: 5px;
+    top: 34px;
+}
+
+
+#zoom-both-x-y{
+    margin-top: 7px;
+}
+
+
+.lump{
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    margin: 1px;
+    background-color: rgba(99, 129, 26, 0.59);
+    border: 1px solid rgba(23, 114, 40, 0.81);
+        vertical-align: text-bottom;
+}
+
+.sqr-btns{
+    margin-top: 4px;
+}
+
+
 /**/
 #backgrounds{
   z-index: -2;

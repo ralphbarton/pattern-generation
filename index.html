@@ -399,18 +399,61 @@
 	  <!-- 1.2.4 Tab 4 -->	  
 	  <div id="tabs-4">
 
-	    <br>
-	    enter a complex curve here i.e. h=re{ f(z) } 
-	    <input id="equation"/>
-	    <br>
+	      <table class="user-data-table" id="plots-table">
+		<thead>
+		  <tr>
+		    <th class="col-1">#</th>
+		    <th class="col-2">Formula</th>
+		    <th class="col-3">Section</th>
+		    <th class="col-4">Prev.</th>
+		    <th class="col-5">Hist</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <!-- rows populated using JS -->
+		</tbody>
+	      </table>
 
-	    cell size (pixels)
-	    <input id="cell-px"/>
-	    <br>
+	      <!-- 1. buttons underneath table -->
+	      <div class="zone" id="z-1">
+
+	      </div>
+
+	      <!-- 2. Histogram section -->
+	      <div class="zone boxie s" id="z-2">
+		<div class="title">Histogram</div>
+	      </div>
 
 
-	    <div class="button" id="exec-plot">Plot!</div>
-	    <div id="status">idle</div>
+	      <!-- 3. Marked-up equation and misc. options section -->
+	      <div class="zone" id="z-3">
+
+	      </div>
+
+	      <!-- 4. d -->
+	      <div class="zone boxie s" id="z-4">
+		<div class="title">Zoom+Rotation</div>
+		<div class="act-mutex" id="mouse-zoom">Mouse Zoom:<div>On</div><div>Off</div></div>
+		<div class="act-mutex" id="lock-aspects">Aspect ratio:<div>lock</div><div>unlock</div></div>
+		<div class="action-link" id="reset-zoom">Reset Zoom</div>
+		<div class="action-link" id="square-axes">Square Axes</div>
+		<div class="mini-text" id="more-brack">[<div class="action-link" id="more">More...</div>]</div>
+		<div class="act-mutex" id="zoom-both-x-y">Zoom:<div>x, y</div><div>x only</div><div>y only</div></div>
+		<div class="act-mutex" id="steps-SML">Steps:<div>S</div><div>M</div><div>L</div></div>
+
+		<div class="sqr-btns">
+		  Zoom:<div class="lump">A</div><div class="lump">B</div>
+		  Rotation:<div class="lump">C</div><div class="lump">D</div>
+		</div>
+
+
+	      </div>
+
+	      <!-- 5. d -->
+	      <div class="zone boxie s" id="z-5">
+		<div class="title">Preview Options</div>
+	      </div>
+
 
 	  </div>
 
@@ -419,8 +462,24 @@
 	  <!-- 1.2.5 Tab 5 -->	  
 	  <div id="tabs-5">
 	    Code here for density painting. 
-	    <br>
+
 	    Can some open-source JS 'paint-box' type code be found for this?
+
+	    <div id="temp-density-plots">
+
+	      <br><br>	  <!-- Temporary code... -->	  
+	      <strong>This is a basic control relevant in fact to density **PLOTS**</strong><br>
+	      enter a complex curve here i.e. h=re{ f(z) } 
+	      <input id="equation"/>
+	      <br>
+	      cell size (pixels)
+	      <input id="cell-px"/>
+	      <br>
+	      <div class="button" id="exec-plot">Plot!</div>
+	      <div id="status">idle</div>
+
+	    </div>
+
 	  </div>
 
 	  <!-- 1.2.6 Tab 6 -->	  
