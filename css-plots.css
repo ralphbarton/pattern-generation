@@ -1,4 +1,4 @@
-/* Specific to Colour Pots VIEW table */
+/* 1. TABLE formats */
 
 
 #plots-table tbody{
@@ -29,6 +29,11 @@
     position: absolute;
 
 }
+
+
+
+
+/* 2. main zone blocks formats */
 
 #tabs-4 #z-1,
 #tabs-4 #z-3{
@@ -70,6 +75,28 @@
     width: 250px
 }
 
+
+/* misc / temp*/
+
+.lump{
+    display: inline-block;
+    margin: 1px;
+    background-color: rgba(99, 129, 26, 0.59);
+    border: 1px solid rgba(23, 114, 40, 0.81);
+}
+
+.L1{
+    width: 26px;
+    height: 26px;
+    vertical-align: text-bottom;
+}
+
+
+
+
+
+/* 3. Zoom + Rotation block (tab-4) */
+
 #tabs-4 .act-mutex{
     margin-bottom: 2px;
     display: inline-block;
@@ -104,19 +131,93 @@
     margin-top: 7px;
 }
 
-
-.lump{
-    display: inline-block;
-    width: 26px;
-    height: 26px;
-    margin: 1px;
-    background-color: rgba(99, 129, 26, 0.59);
-    border: 1px solid rgba(23, 114, 40, 0.81);
-        vertical-align: text-bottom;
-}
-
 .sqr-btns{
     margin-top: 4px;
+}
+
+
+
+
+/* 4. Histogram (tab-2) */
+#hist{
+    position: absolute;
+    top: 7px;
+    left: 2px;
+    width: 153px;
+    height: 68px;
+}
+
+#hist-stats{
+    position: absolute;
+    top: -1px;
+    left: 160px;
+    width: 150px;
+    height: 68px; 
+}
+
+#hist-stats div span{
+    font-weight: bold;
+    font-family: sans;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+#hist-adjust {
+    position: absolute;
+    top: 0px;
+    left: 245px;
+    width: 150px;
+    height: 68px; 
+    border-left: 1px solid rgba(0,0,0,0.4);
+    height: 100%;
+}
+
+#hist-adjust .title-c{
+    background: #DBD1AB;
+    border: 1px solid rgba(0,0,0,0.25);
+    border-radius: 5px;
+    padding: 0px 3px;
+    color: rgba(0,0,0,0.55);
+    position: absolute;
+    top: -10px;
+    left: 3px;
+    display: inline-block;
+}
+
+#hist-adjust #ops {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+}
+
+#hist-adjust #ops div{
+    margin: 2px 0px;
+    width: 150px;
+}
+
+#hist-adjust #ops div span{
+    position: absolute;
+    left: 52px;
+}
+
+#hist-adjust #ops input.plain-cell{
+    position: relative;
+    top: -2px;
+    height: 11px;
+    width: 40px;
+}
+
+#hist-adjust #curve{
+    position: absolute;
+    left: 104px;  
+    top: 1px;
+    width: 68px;
+    height: 65px;
+}
+
+#hist-adjust #hist-more{
+    position: absolute;
+    left: 122px;  
+    top: 68px;
 }
 
 

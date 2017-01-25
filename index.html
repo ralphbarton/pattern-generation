@@ -334,8 +334,7 @@
 
 		<div class="k-pix"></div>
 
-		<div class="k-angle">Angle:
-		  <input/>
+		<div class="k-angle">Angle:<input/>
 		</div>
 
 		<div class="k-spacing">Interval:<br>
@@ -422,8 +421,33 @@
 	      <!-- 2. Histogram section -->
 	      <div class="zone boxie s" id="z-2">
 		<div class="title">Histogram</div>
-	      </div>
+		<div class="lump" id="hist">H</div>
 
+		<div class="mini-text" id="hist-stats">
+		  <div id="points" >Points: <span>x</span></div>
+		  <div id="min"    >Min: <span>x</span></div>
+		  <div id="max"    >Max: <span>x</span></div>
+		  <div id="low-10" >cf-10&#37: <span>x</span></div>
+		  <div id="high-10">cf-90&#37: <span>x</span></div>
+		  <div id="median" >Median: <span>x</span></div>
+		</div>
+
+		<div class="mini-text" id="hist-adjust">
+		  <div class="title-c">Adjust</div>
+		  <div id="ops">
+		    <div id="value-min">val.min: <span><input class="plain-cell"/></div></span>
+		    <div id="value-max">val.max: <span><input class="plain-cell"/></div></span>
+		    <div id="value-mid">val.mid: <span><input class="plain-cell"/></div></span>
+		    <div id="brightness">Brightn.: <span><input class="plain-cell"/></div></span>
+		    <div id="contrast">Contrast: <span><input class="plain-cell"/></div></span>
+		  </div>
+
+		  <div class="lump" id="curve">FF</div>
+		  <div class="action-link" id="hist-more">More</div>
+
+		</div>
+
+	      </div>
 
 	      <!-- 3. Marked-up equation and misc. options section -->
 	      <div class="zone" id="z-3">
@@ -442,8 +466,8 @@
 		<div class="act-mutex" id="steps-SML">Steps:<div>S</div><div>M</div><div>L</div></div>
 
 		<div class="sqr-btns">
-		  Zoom:<div class="lump">A</div><div class="lump">B</div>
-		  Rotation:<div class="lump">C</div><div class="lump">D</div>
+		  Zoom:<div class="lump L1">A</div><div class="lump L1">B</div>
+		  Rotation:<div class="lump L1">C</div><div class="lump L1">D</div>
 		</div>
 
 
