@@ -3,7 +3,7 @@
 # snatch-it source code repository
 
 TAGS
-icons/
+#icons/
 include/
 pattern-generation-launch.sh
 deploy.sh

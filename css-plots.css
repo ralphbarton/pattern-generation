@@ -85,13 +85,6 @@
     border: 1px solid rgba(23, 114, 40, 0.81);
 }
 
-.L1{
-    width: 26px;
-    height: 26px;
-    vertical-align: text-bottom;
-}
-
-
 
 
 
@@ -135,7 +128,48 @@
     margin-top: 4px;
 }
 
+.sqr-but{
+    width: 26px;
+    height: 26px;
+    vertical-align: text-bottom;
+    margin: 1px;
+    padding:0px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.3);
+}
 
+.sqr-but span{
+    font-family: sans;
+    font-weight: bold;
+    font-size: 28px;
+    position: relative;
+}
+
+.sqr-but.p span{
+    top: -5px;
+    left:-1px;
+}
+
+.sqr-but.m span{
+    top: -6px;
+    left: 0px;
+}
+
+.sqr-btns img{
+    position: relative;
+    width: 18px;
+    top: 1px;
+    margin: 3px;
+    opacity: 0.3;
+}
+
+.sqr-but:hover{
+    text-decoration: none;
+}
+
+.sqr-but:hover img{
+    opacity: 0.6;
+}
 
 
 /* 4. Histogram (tab-2) */
