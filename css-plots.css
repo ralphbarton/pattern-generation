@@ -33,32 +33,31 @@
 
 
 
-/* 2. main zone blocks formats */
-
-#tabs-4 #z-1,
-#tabs-4 #z-3{
-        border: 1px solid red;
-}
+/* 2. main zone-blocks formats */
 
 .zone#z-1{
     top: 276px;
     left: 5px;
     height: 24px;
-    width: 425px
+    width: 427px
 }
 
 .zone#z-2{
-    top: 302px;
+    top: 296px;
     left: 5px;
-    height: 74px;
+    height: 80px;
     width: 419px
 }
 
 .zone#z-3{
-    top: 120px;
-    left: 437px;
-    height: 50px;
-    width: 256px
+    background-color: #EEE;
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,1);
+    border-radius: 2px;
+    z-index: 1;
+    top: 125px;
+    left: 444px;
+    height: 45px;
+    width: 244px
 }
 
 .zone#z-4{
@@ -88,7 +87,7 @@
 
 
 
-/* 3. Zoom + Rotation block (tab-4) */
+/* 3. Zoom + Rotation block (zone-4) */
 
 #tabs-4 .act-mutex{
     margin-bottom: 2px;
@@ -172,13 +171,13 @@
 }
 
 
-/* 4. Histogram (tab-2) */
+/* 4. Histogram (zone-2) */
 #hist{
     position: absolute;
     top: 7px;
     left: 2px;
     width: 153px;
-    height: 68px;
+    height: 76px;
 }
 
 #hist-stats{
@@ -224,7 +223,7 @@
 }
 
 #hist-adjust #ops div{
-    margin: 2px 0px;
+    margin: 3px 0px;
     width: 150px;
 }
 
@@ -233,10 +232,10 @@
     left: 52px;
 }
 
-#hist-adjust #ops input.plain-cell{
+#tabs-4 input.plain-cell{
     position: relative;
     top: -2px;
-    height: 11px;
+    height: 12px;
     width: 40px;
 }
 
@@ -244,16 +243,77 @@
     position: absolute;
     left: 104px;  
     top: 1px;
-    width: 68px;
-    height: 65px;
+    width: 69px;
+    height: 70px;
+}
+
+#hist-adjust #hist-reset{
+    position: absolute;
+    left: 104px;  
+    top: 73px;
 }
 
 #hist-adjust #hist-more{
     position: absolute;
-    left: 122px;  
-    top: 68px;
+    left: 146px;  
+    top: 73px;
 }
 
+
+
+/* 5. Directly beneath table (zone-1) */
+#undr-tabl-btns{
+    display: inline-block;
+    float: right;
+}
+
+.zone#z-1 .action-link{
+    padding: 0px 10px;
+    position: relative;
+    top: -6px;
+}
+
+/* 6. Preview Options - zone 5 */
+
+.zone#z-5 .act-mutex{
+    margin-top: 5px;
+    float: right;
+}
+
+.zone#z-5 .act-mutex#cv-contours{
+    position: relative;
+    left: -47px;
+    top: -4px;
+}
+
+
+.zone#z-5 #PO-inputs{
+    position: relative;
+    top: 36px;
+    left:3px;
+}
+
+.zone#z-5 #PO-inputs div span{
+    position: absolute;
+    left: 59px;
+}
+
+.zone#z-5 #PO-inputs div{
+    margin: 3px 0px;
+    width: 150px;
+}
+
+#z-5 #plot{
+    position: absolute;
+    top: 64px;
+    left: 185px;
+}
+
+#z-5 #clear{
+    position: absolute;
+    top: 48px;
+    left: 216px;
+}
 
 /**/
 #backgrounds{

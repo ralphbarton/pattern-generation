@@ -415,7 +415,12 @@
 
 	      <!-- 1. buttons underneath table -->
 	      <div class="zone" id="z-1">
-
+		<div id="undr-tabl-btns">
+		  <div class="button s" id="duplicate">Add</div>
+		  <div class="button s" id="delete">Delete</div>
+		</div>
+		<div class="action-link" id="suggestions">Suggestions</div>
+		<div class="action-link" id="func-pal">Functions Palette</div>
 	      </div>
 
 	      <!-- 2. Histogram section -->
@@ -444,6 +449,7 @@
 
 		  <div class="lump" id="curve">FF</div>
 		  <div class="action-link" id="hist-more">More</div>
+		  <div class="action-link" id="hist-reset">Reset</div>
 
 		</div>
 
@@ -476,6 +482,14 @@
 	      <!-- 5. d -->
 	      <div class="zone boxie s" id="z-5">
 		<div class="title">Preview Options</div>
+		<div class="act-mutex" id="colouring">Colouring:<div>monochrome</div><div>like-heatmap</div></div>
+		<div class="act-mutex" id="cv-contours">const.val. contours:<div>Show</div><div>Hide</div></div>
+		<div class="mini-text" id="PO-inputs">
+		  <div id="contours">contours: <span><input class="plain-cell"/></div></span>
+		  <div id="res-lim">res. limit: <span><input class="plain-cell"/></div></span>
+		</div>
+		<div class="action-link" id="clear">Clear</div>
+		<div class="button" id="plot">Plot</div>
 	      </div>
 
 
