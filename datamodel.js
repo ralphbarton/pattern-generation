@@ -262,5 +262,63 @@ var DM = {
 	this.GridsArray.splice(index_dupl+1, 0, new_grid);
     },
 
+
+
+
+
+
+
+
+
+    PlotsArray: [
+	{
+	    formula: "i*exp(3*z^3)*(z+1.2)^3",
+	    section: {
+		rotation: 0,
+		x_zoom: 1,
+		y_zoom: 1
+	    },
+	    histogram: {
+		val_min: 0,
+		val_max: 0,
+		val_mid: 0,
+		brightness: 0,
+		contrast: 0
+	    },
+	    cache: {
+		values_data: {},
+		canvas: {},
+		preview_canvas: {}
+	    },
+	}
+    ],
+
+    deleteRow_plot: function(index){
+	this.PlotsArray.splice(index, 1);
+    },
+    
+    addRow_plot: function(){
+	this.PlotsArray.push({//default data
+	    formula: "i*exp(3*z^3)*(z+1.2)^3",
+	    section: {
+		rotation: 0,
+		x_zoom: 1,
+		y_zoom: 1
+	    },
+	    histogram: {
+		val_min: 0,
+		val_max: 0,
+		val_mid: 0,
+		brightness: 0,
+		contrast: 0
+	    },
+	    cache: {
+		values_data: {},
+		canvas: {},
+		preview_canvas: {}
+	    }
+	});//default data
+    },
+
     
 };

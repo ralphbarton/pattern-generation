@@ -82,7 +82,7 @@ var grids = {
 		//animated grid change...
 		grids.update_bg_grid(Grid_i);
 		//reset the Isometric / Square / Diamond so all are available as options
-		grids.preset_grid_action_links_enablement();
+		grids.enable_Iso_Square_Hex_for_current_grid();
 	    }
 	};
 
@@ -183,7 +183,7 @@ var grids = {
 	    function(){AdjustGridToPresetType("dia")}    ]);
 
 	//put them all "set"
-	grids.preset_grid_action_links_enablement();
+	grids.enable_Iso_Square_Hex_for_current_grid();
 	
 	// lock/link angles together
 	widgets.actionLink_init("#link-angles.act-mutex", [
@@ -206,12 +206,13 @@ var grids = {
 
     },
 
-    preset_grid_action_links_enablement: function(){
-	widgets.actionLink_unset("#preset-grid.act-mutex", null);
-	var my_i = grids.selected_row_i;
+    enable_Iso_Square_Hex_for_current_grid: function(){
+	var my_i = this.selected_row_i;
+	widgets.actionLink_unset("#preset-grid.act-mutex", null);//make all options "enabled" initially
 	if(my_i != undefined){
 	    var LS = DM.GridsArray[my_i].line_sets;
-	    if((LS[0].angle == LS[1].angle) || (LS[0].angle == 0)){//can't apply diamond if angle zero
+	    // disable "diamond" if (1) angles already equal => no effect, or (2) angle zero => cannot be applied
+	    if((LS[0].angle == LS[1].angle) || (LS[0].angle == 0)){
 		$($("#preset-grid.act-mutex div")[2]).removeClass("action-link");
 	    }
 	}
@@ -241,41 +242,19 @@ var grids = {
 			    })
 			)
 		    ).on("click",function(){ //click on the row
+			if(grids.selected_row_i != $(this).data("index")){
 
-			//it it ok we're not testing here for if row is already selected...
+			    grids.selected_row_i = $(this).data("index");
+			    // 1. manage row selection witin the table itself
+			    $("#grids-table tr.selected").removeClass("selected");
+			    $(this).addClass("selected");
 
-			// 1. manage row selection witin the table itself
-			$("#grids-table tr.selected").removeClass("selected");
-			$(this).addClass("selected");
-			grids.selected_row_i = $(this).data("index");
-
-			// 2. populate the right section of screen using data from that specific grid
-			var Grid_i = DM.GridsArray[i];
-			grids.update_all_input_elements_values(Grid_i);
-
-			// show the content for editing
-			$("#tabs-3 div#row-content").fadeIn({duration:400, easing: "linear"});
-
-			// update to this Grid.
-			grids.update_bg_grid(Grid_i);
-			grids.preset_grid_action_links_enablement();
-			widgets.actionLink_unset("#lines-v-grid.act-mutex", Grid_i.n_dimentions == 2);
-
-			//update referenced underlying data of 6 input boxes in this way...
-			[0,1].forEach(function(ls) {
-			    [{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
-
-				//UPDATE
-				var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input").SmartInput("update", {
-				    underlying_obj: Grid_i.line_sets[ls]
-				});
-			    });
-			});
-
+			    var Grid_i = DM.GridsArray[i];			
+			    grids.update_bg_grid(Grid_i);// update the background accordingly
+			    grids.update_panel_items(Grid_i);// update the panel accordingly
+			}
 		    })
 	    );
-
-	    //edit_cp.table_row(element, i);
 	});
 
 	// use click handler to achieve re-selection
@@ -287,6 +266,31 @@ var grids = {
 
 	
     },
+
+
+    // populate the right section of screen using data from that specific grid
+    update_panel_items: function (Grid_i){
+
+	// show the content for editing - first click only, since there is no event which
+	// subsequently hides this DIV...
+	$("#tabs-3 div#row-content").fadeIn({duration: 400, easing: "linear"});
+
+	grids.enable_Iso_Square_Hex_for_current_grid();
+	widgets.actionLink_unset("#lines-v-grid.act-mutex", Grid_i.n_dimentions == 2);
+
+	grids.update_all_input_elements_values(Grid_i);
+	//update referenced underlying data of 6 input boxes in this way...
+	[0,1].forEach(function(ls) {
+	    [{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
+
+		//UPDATE
+		var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input").SmartInput("update", {
+		    underlying_obj: Grid_i.line_sets[ls]
+		});
+	    });
+	});
+    },
+
 
     update_all_input_elements_values: function (grid_obj){
 	//k-angle=angle, k-spacing=spacing

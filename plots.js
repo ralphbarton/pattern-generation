@@ -12,8 +12,10 @@ var plots = {
 
     init: function(){
 
-	
+	this.regenerate_table();
 
+
+	////////////////////?TEMP
 	$("#temp-density-plots input#equation").SmartInput({
 	    underlying_obj: this.eq2,
 	    underlying_key: "func",
@@ -39,6 +41,14 @@ var plots = {
 	});
 
     },
+
+    regenerate_table: function(){
+
+	//wipe the entire table of rows...
+	$("#plots-table tbody").html("");
+  
+
+  },
 
     exec: function(){
 
