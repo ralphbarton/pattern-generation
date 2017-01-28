@@ -290,7 +290,24 @@ var DM = {
 		canvas: {},
 		preview_canvas: {}
 	    },
-	}
+	},
+	{
+	    formula: "z=jingle",
+	    section: {}
+	},
+	{
+	    formula: "z=jangle",
+	    section: {}
+	},
+	{
+	    formula: "z=dongle",
+	    section: {}
+	},
+	{
+	    formula: "z=dingle",
+	    section: {}
+	},
+
     ],
 
     deleteRow_plot: function(index){
@@ -299,7 +316,7 @@ var DM = {
     
     addRow_plot: function(){
 	this.PlotsArray.push({//default data
-	    formula: "i*exp(3*z^3)*(z+1.2)^3",
+	    formula: "abcdef",
 	    section: {
 		rotation: 0,
 		x_zoom: 1,

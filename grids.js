@@ -259,9 +259,9 @@ var grids = {
 
 	// use click handler to achieve re-selection
 	if(this.selected_row_i != undefined){
-	    var tr_selected = $("#grids-table tbody tr")[this.selected_row_i];
-	    //this.selected_row_i = undefined;//reset selection - necessary for effect of next line
-	    tr_selected.click();
+	    var click_me_i = this.selected_row_i;
+	    this.selected_row_i = undefined;//necessary for this dummy click to cause an action.
+	    $($("#grids-table tbody tr")[click_me_i]).click();
 	}
 
 	

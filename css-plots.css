@@ -1,6 +1,6 @@
 /* 1. TABLE formats */
 
-
+/* 1.1 basic column widths */
 #plots-table tbody{
      height: 120px;
 }
@@ -14,7 +14,7 @@
 }
 
 #plots-table .col-3{
-    width: 70px;
+    width: 54px;
 }
 
 #plots-table .col-4{
@@ -22,18 +22,27 @@
 }
 
 #plots-table th.col-5{
-    width: 40px;
-}
-
-#tabs-4 .zone{
-    position: absolute;
-
+    width: 59px;
 }
 
 
+/* 1.2 other table formats... */
+
+#plots-table .col-2{
+    padding: 0px;
+    padding-right: 1px;
+}
+
+#plots-table input.blue-cell{
+    width: 214px;
+}
 
 
 /* 2. main zone-blocks formats */
+
+#tabs-4 .zone{
+    position: absolute;
+}
 
 .zone#z-1{
     top: 276px;
