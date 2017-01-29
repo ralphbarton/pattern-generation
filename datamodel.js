@@ -292,6 +292,10 @@ var DM = {
 	    },
 	},
 	{
+	    formula: "z^7",
+	    section: {}
+	},
+	{
 	    formula: "z=jingle",
 	    section: {}
 	},

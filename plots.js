@@ -1,16 +1,10 @@
 var plots = {
 
-    eq1: {
-	func:"z^7",
-	cell_px: 5,
-    },
-
-    eq2: {
-	func:"i*exp(3*z^3)*(z+1.2)^3",
-	cell_px: 3,
-    },
-
     selected_row_i: undefined,
+    tab_props: {
+	contours: 3,
+	res_limit: 3
+    },
 
     init: function(){
 
@@ -40,7 +34,11 @@ var plots = {
 	    }
 	});
 
-
+	$("#tabs-4 #z-5 .button#plot").click(function(){
+	    if(plots.selected_row_i != undefined){
+		plots.exec(0);
+	    }
+	});
 
 
 	////////////////////?TEMP
@@ -122,18 +120,26 @@ var plots = {
 	    $($("#plots-table tbody tr")[click_me_i]).click();
 	}
 
+    },
 
 
-  },
+    prep: function(){},
 
-    exec: function(){
+    work: function(){},
+
+    exec: function(res){
 
 	var winW = $(window).width();
 	var winH = $(window).height();
 
 	//get or create new canvas for the plot...
+
+	//TODO - use multiple canvases, one for each plot...
 	if($("#plot-canv").length > 0){
 	    var ctx = $("#plot-canv")[0].getContext('2d');
+	    $("#plot-canv").attr("width", winW)
+		.attr("height", winH);
+
 	}else{
 	    var $pc = $('<canvas/>')
 		.attr("width", winW)
@@ -143,13 +149,73 @@ var plots = {
 	    var ctx = $pc[0].getContext('2d');
 	}
 
-	var BOX = this.eq2.cell_px; // how many pixels per box
+	var Plot_i = DM.PlotsArray[this.selected_row_i];
+	var compilled_formula = math.compile(Plot_i.formula);
+
+	var resolution = [81, 27, 9, 3, 1];// max_i =4
+//	var samples_sets = []; DO WE NEED TO STORE THE CALCULATED VALUES?????????????
+	var cell_size = resolution[res];
+//	var samples = samples_sets[res];
+	var interval_size = 2 * (cell_size/winW);// in units of [-1, +1] for function
+	var r_aspect = winH / winW;
+
+	var n_steps_x = Math.ceil((1 / interval_size) - 0.5)*2 + 1;
+	var n_steps_y = Math.ceil((r_aspect / interval_size) - 0.5)*2 + 1;
+	var n_steps_xH = Math.floor(n_steps_x/2)// number of steps wholely contained in x<0 half
+	var n_steps_yH = Math.floor(n_steps_y/2)// number of steps wholely contained in x<0 half
+//	console.log(winW, winH, n_steps_x, n_steps_y);
+
+	var x = 0;
+
+	while(x < n_steps_x){		
+//	    samples[x] = [];
+	    y = 0;
+	    while(y < n_steps_y){		
+
+		// 1. calculating the sample
+		var x_location = (x - n_steps_xH) * interval_size;
+		var y_location = (y - n_steps_yH) * interval_size;
+		var my_z = math.complex(x_location, y_location)
+		var my_fz = compilled_formula.eval({z: my_z});
+		var my_h = my_fz.im;
+
+		//samples[x][y] = my_h; // store calculated value....
+
+		// 2. convert value into colour
+		var UU = 2;
+		var LL = -2;
+		var hue = (my_h - LL) / (UU - LL);
+		var color = tinycolor.fromRatio({ h: hue, s: 1, l: 0.5 });
+
+		// 3. Draw onto canvas
+		ctx.fillStyle = "#" + color.toHex();
+		var x_location_px = Math.round((winW/2) + (x - n_steps_xH - 0.5)*cell_size);
+		var y_location_px = Math.round((winH/2) + (y - n_steps_yH - 0.5)*cell_size);
+
+		ctx.fillRect (x_location_px, y_location_px, cell_size, cell_size);//x,y,w,h
+		
+		y++;
+	    }
+	    x++;
+	}
+
+	res++;
+	var res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val());
+	console.log(res_lim);
+	if((res<5)&&(resolution[res]>=res_lim)){
+	    setTimeout(function(){plots.exec(res);}, 100);
+	}
+
+/*
+
+	var BOX = 32; // how many pixels per box
 
 	var sf = 2 / winW; //how many units per 1 pixel
 	var x_or = winH / 2;
 	var y_or = winW / 2;
 
-	var compilled_formula = math.compile(this.eq2.func);
+
+
 
 	// 1. Calculating the underlying data
 	var starting = new Date();//record start time
@@ -215,6 +281,7 @@ var plots = {
 	console.log("Putting data into Canvas took (ms) : ", new Date()-starting);
 
 	$("#temp-density-plots #status").text("complete...");
+*/
     }
 
 };
