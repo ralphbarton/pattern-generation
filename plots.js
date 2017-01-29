@@ -246,7 +246,7 @@ var plots = {
 		var y_location = (this.wcx.y - this.wcx.n_steps_yH) * this.wcx.interval_size;
 		var my_z = math.complex(x_location, y_location)
 		var my_fz = this.wcx.compilled_formula.eval({z: my_z});
-		var my_h = my_fz.im;
+		var my_h = my_fz.re;
 
 		//samples[random_x][this.wcx.y] = my_h; // store calculated value....
 
