@@ -36,7 +36,7 @@ var plots = {
 
 	$("#tabs-4 #z-5 .button#plot").click(function(){
 	    if(plots.selected_row_i != undefined){
-		plots.exec(0);
+		plots.draw_job();
 	    }
 	});
 
@@ -62,8 +62,7 @@ var plots = {
 
 	$("#temp-density-plots #exec-plot").click(function(){
 	    $("#temp-density-plots #status").text("calculating...");
-	    setTimeout(function(){plots.exec();}, 10);
-
+	    plots.draw_job();
 	});
 
     },
@@ -250,14 +249,13 @@ var plots = {
 
 		//samples[random_x][this.wcx.y] = my_h; // store calculated value....
 
-		// 2. convert value into colour
-		var UU = 2;
-		var LL = -2;
-		var hue = (my_h - LL) / (UU - LL);
-		var color = tinycolor.fromRatio({ h: hue, s: 1, l: 0.5 });
 
 		// 3. Draw onto canvas
-		this.wcx.canvas_ctx.fillStyle = "#" + color.toHex();
+
+		// 3.1 Set colour according to conversion function.
+		this.wcx.canvas_ctx.fillStyle = this.colouring_func(my_h, 3);
+
+		// 3.2 determine draw location
 		var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
 		var y_location_px = Math.round((this.wcx.winH/2) + (this.wcx.y - this.wcx.n_steps_yH - 0.5)*this.wcx.cell_size);
 
@@ -305,89 +303,52 @@ var plots = {
     },
 
 
+    // heat map array: white, cream, scarlet, magenta, deep blue, black
+    hmA: ["#FFFFFF", "#FFE480", "#FF4C00", "#C70089", "#270385", "#000000"],
+    hmCS: [0.9, 0.7, 0.45, 0.2],
+    colouring_func: function(value, scheme){
 
-
-    exec: function(res){
-
-	this.draw_job();
-
-
-/*
-
-	var BOX = 32; // how many pixels per box
-
-	var sf = 2 / winW; //how many units per 1 pixel
-	var x_or = winH / 2;
-	var y_or = winW / 2;
-
-
-
-
-	// 1. Calculating the underlying data
-	var starting = new Date();//record start time
-	var Curve = [];
-	var G_max = null;
-	var G_min = null;
-	var count = 0;
-	for(var x=0; x < winW; x += BOX){	
-	    Curve[x] = [];
-	    for(var y=0; y < winH; y += BOX){	
-
-		var Xm = (x - x_or) * sf;
-		var Ym = (y - y_or) * sf;
-		//console.log(Xm,Ym);
-
-		var my_z = math.complex(Xm, Ym)
-		var my_fz = compilled_formula.eval({z: my_z});
-		var my_h = my_fz.im;
-
-		//store that pixel!
-		Curve[x][y] = my_h;
-		
-		count++;
-		G_max = Math.max(G_max, my_h);
-		G_min = Math.min(G_min, my_h);
-
-	    }
-	}
-	console.log("Data creation took (ms) : ", new Date()-starting);
-	console.log("min:", G_min, "max:", G_max, "count:", count);
-
-	// 2. convert to pixel colours
-	starting = new Date();//record start time
-	var Curve_cols = [];
 	
-	var UU = 2;
-	var LL = -2;
+	if(scheme == 0){//rainbow effect, cycle HUE only
 
-	for(var x=0; x < winW; x += BOX){	
-	    Curve_cols[x] = [];
-	    for(var y=0; y < winH; y += BOX){	
-		var my_h = Curve[x][y];
+	    var UU = 2;
+	    var LL = -2;
+	    var hue = (value - LL) / (UU - LL);
 
-		//draw that pixel
-		var hue = (my_h - LL) / (UU - LL);
-		var color = tinycolor.fromRatio({ h: hue, s: 1, l: 0.5 });
-		Curve_cols[x][y] = "#" + color.toHex();
+	    return tinycolor.fromRatio({ h: hue, s: 1, l: 0.5 }).toHexString();
+
+
+	}else if(scheme == 1){//greyscale effect
+
+	}else if(scheme == 2){//posi-negi effect
+
+	}else if(scheme == 3){//heatmap effect
+
+	    var UU = 2;
+	    var LL = -2;
+	    var r = (value - LL) / (UU - LL);
+	    r = Math.min(1, Math.max(0, r));
+	    
+
+	    if(r < this.hmCS[3]){
+		return tinycolor.mix(this.hmA[5], this.hmA[4], amount = 100 * r / this.hmCS[3] );
+
+	    }else if(r < this.hmCS[2]){
+		return tinycolor.mix(this.hmA[4], this.hmA[3], amount = 100 * (r-this.hmCS[3])/(this.hmCS[2]-this.hmCS[3]) );
+
+	    }else if(r < this.hmCS[1]){
+		return tinycolor.mix(this.hmA[3], this.hmA[2], amount = 100 * (r-this.hmCS[2])/(this.hmCS[1]-this.hmCS[2]) );
+
+	    }else if(r < this.hmCS[0]){
+		return tinycolor.mix(this.hmA[2], this.hmA[1], amount = 100 * (r-this.hmCS[1])/(this.hmCS[0]-this.hmCS[1]) );
+
+	    }else{
+		return tinycolor.mix(this.hmA[1], this.hmA[0], amount = 100 * (r-this.hmCS[0])/(1-this.hmCS[0]) );
+
 	    }
+
 	}
-	console.log("converting numbers to px colours (ms) : ", new Date()-starting);
 
-	// 3. plot on canvas
-	starting = new Date();//record start time
-	for(var x=0; x < winW; x += BOX){	
-	    for(var y=0; y < winH; y += BOX){	
-
-
-		ctx.fillStyle = Curve_cols[x][y];
-		ctx.fillRect (x, y, BOX, BOX);//x,y,w,h
-
-	    }
-	}
-	console.log("Putting data into Canvas took (ms) : ", new Date()-starting);
-
-	$("#temp-density-plots #status").text("complete...");
-*/
     }
 
 };
