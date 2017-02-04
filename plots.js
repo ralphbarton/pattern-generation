@@ -57,7 +57,9 @@ var plots = {
 	// 3-way mutex action link Logic: colouring
 	//todo: add immediate effect colour change.
 	var change_colouring = function(i){
-	    plots.wcx.req_abort = true;
+	    if(plots.wcx.running){
+		plots.wcx.req_abort = true;
+	    }
 	    plots.UI_props.prev.colouring = i;
 	};
 
@@ -155,7 +157,7 @@ var plots = {
     wcx: {
 	compilled_formula: undefined,
 	canvas_ctx: undefined,
-//	samples_sets: [], // DO WE STORE THE CALCULATED VALUES?????????????
+	samples_sets: [],
 	winW: undefined,
 	winH: undefined,
 	cell_size: undefined,
@@ -166,8 +168,9 @@ var plots = {
 	n_steps_xH: undefined,
 	n_steps_yH: undefined,
 	x_randomise: undefined,
-	x: undefined,
 	y: undefined,
+	x: undefined,
+	phase: undefined,
 	res: undefined,
 	req_abort: false,
 	running: false
@@ -217,6 +220,7 @@ var plots = {
     set_for_res: function(res){
 
 	this.wcx.res = res;
+	this.wcx.phase = 0;
 	this.wcx.x = 0;
 	this.wcx.y = 0;
 
@@ -264,22 +268,40 @@ var plots = {
 	    this.wcx.req_abort = false;
 	}
 	else{
+
+	    // CARRY OUT the work for fixed number of iterations.
 	    for(var i = 0; i<iterations; i++){
 
-		// 1. calculating the sample
-		var random_x = this.wcx.x_randomise[this.wcx.x].i;
-		var x_location = (random_x - this.wcx.n_steps_xH) * this.wcx.interval_size;
-		var y_location = (this.wcx.y - this.wcx.n_steps_yH) * this.wcx.interval_size;
-		var my_z = math.complex(x_location, y_location)
-		var my_fz = this.wcx.compilled_formula.eval({z: my_z});
-		var my_h = my_fz.re;
+		if(this.wcx.samples_sets[this.wcx.res] == undefined){
+		    this.wcx.samples_sets[this.wcx.res] = [];
+		}
 
-		//samples[random_x][this.wcx.y] = my_h; // store calculated value....
+		// Shorthand....
+		var samples = this.wcx.samples_sets[this.wcx.res];
 
+		var random_x = this.wcx.x_randomise[this.wcx.x].i; // this is an ACCESS operation on an array of randomised
+		if(this.wcx.phase == 0){
+		    // 1. calculating the sample
+		    var x_location = (random_x - this.wcx.n_steps_xH) * this.wcx.interval_size;
+		    var y_location = (this.wcx.y - this.wcx.n_steps_yH) * this.wcx.interval_size;
+		    var my_z = math.complex(x_location, y_location)
+		    var my_fz = this.wcx.compilled_formula.eval({z: my_z});/////MATHS EVALUATION AT POINT
+		    var my_h = my_fz.re;
+
+		    if(samples[random_x] == undefined){
+			samples[random_x] = [];
+		    }
+
+		    samples[random_x][this.wcx.y] = my_h; // store calculated value....
+		}
 
 		// 3. Draw onto canvas
 
 		// 3.1 Set colour according to conversion function.
+		if(this.wcx.phase > 0){
+		    console.log(samples[random_x][this.wcx.y]);
+		}
+		var value = this.wcx.phase == 0 ? my_h : samples[random_x][this.wcx.y]; 
 		this.wcx.canvas_ctx.fillStyle = this.colouring_func(my_h, this.UI_props.prev.colouring);
 
 		// 3.2 determine draw location
@@ -287,29 +309,35 @@ var plots = {
 		var y_location_px = Math.round((this.wcx.winH/2) + (this.wcx.y - this.wcx.n_steps_yH - 0.5)*this.wcx.cell_size);
 
 		this.wcx.canvas_ctx.fillRect (x_location_px, y_location_px, this.wcx.cell_size, this.wcx.cell_size);//x,y,w,h
+
 		
 		this.wcx.y++;
 
+
+		// Iteration control, for state variables...
 		if(this.wcx.y >= this.wcx.n_steps_y){//test if column finished
 		    this.wcx.y=0;
 		    this.wcx.x++;
 
 		    if(this.wcx.x >= this.wcx.n_steps_x){//test if screen finished
 			this.wcx.x = 0;
-			this.wcx.res++;
-			var res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val());
-			if((this.wcx.res>=this.CellSizes.length)||(this.CellSizes[this.wcx.res]<res_lim)){//test full completion
-			    /// terminate and flag no further callbacks
-			    completed = true;
-			    break;
-			}else{
-			    //recalculate a bunch of resolution stuff
-			    this.set_for_res(this.wcx.res);
-			    break; //also, pause for breath after doing so.
+			this.wcx.phase++;
+			
+			if(this.wcx.phase > 1){
+			    this.wcx.phase = 0;
+			    this.wcx.res++;
+			    var res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val());
+			    //test full completion
+			    if((this.wcx.res>=this.CellSizes.length)||(this.CellSizes[this.wcx.res]<res_lim)){
+				/// terminate and flag no further callbacks
+				completed = true;
+				break;
+			    }else{
+				//recalculate a bunch of resolution stuff
+				this.set_for_res(this.wcx.res);
+				break; //also, pause for breath after doing so.
+			    }
 			}		    
-		    }else{//another col...
-			random_x = this.wcx.x_randomise[this.wcx.x].i;	//update
-//			samples[random_x] = [];
 		    }
 		}
 	    }
