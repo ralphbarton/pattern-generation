@@ -298,11 +298,9 @@ var plots = {
 		// 3. Draw onto canvas
 
 		// 3.1 Set colour according to conversion function.
-		if(this.wcx.phase > 0){
-		    console.log(samples[random_x][this.wcx.y]);
-		}
-		var value = this.wcx.phase == 0 ? my_h : samples[random_x][this.wcx.y]; 
-		this.wcx.canvas_ctx.fillStyle = this.colouring_func(my_h, this.UI_props.prev.colouring);
+		var value = this.wcx.phase == 0 ? my_h : samples[random_x][this.wcx.y]+0.1; 
+
+		this.wcx.canvas_ctx.fillStyle = this.colouring_func(value, this.UI_props.prev.colouring);
 
 		// 3.2 determine draw location
 		var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
