@@ -1,9 +1,20 @@
 var plots = {
 
     selected_row_i: undefined,
-    tab_props: {
-	contours: 3,
-	res_limit: 3
+
+    UI_props: {
+	//properties of the PREVIEW tab
+	prev: {
+	    contours: 3,
+	    res_limit: 3,
+	    colouring: 0
+	},
+
+	zoom: {
+	    mouse_zoom: undefined,
+	    steps: undefined,
+
+	}
     },
 
     init: function(){
@@ -39,6 +50,22 @@ var plots = {
 		plots.draw_job();
 	    }
 	});
+
+
+	// == Within Preview Options ==
+
+	// 3-way mutex action link Logic: colouring
+	//todo: add immediate effect colour change.
+	var change_colouring = function(i){
+	    plots.wcx.req_abort = true;
+	    plots.UI_props.prev.colouring = i;
+	};
+
+	widgets.actionLink_init("#colouring.act-mutex", [
+	    function(){change_colouring(1);},
+	    function(){change_colouring(2);},
+	    function(){change_colouring(3);}    ]);
+	widgets.actionLink_unset("#colouring.act-mutex", null);//make all options "enabled" initially
 
 
 	////////////////////?TEMP
@@ -253,7 +280,7 @@ var plots = {
 		// 3. Draw onto canvas
 
 		// 3.1 Set colour according to conversion function.
-		this.wcx.canvas_ctx.fillStyle = this.colouring_func(my_h, 3);
+		this.wcx.canvas_ctx.fillStyle = this.colouring_func(my_h, this.UI_props.prev.colouring);
 
 		// 3.2 determine draw location
 		var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
@@ -308,27 +335,32 @@ var plots = {
     hmCS: [0.9, 0.7, 0.45, 0.2],
     colouring_func: function(value, scheme){
 
+	var UU = 2;
+	var LL = -2;
+	var r = (value - LL) / (UU - LL);
+	r = Math.min(1, Math.max(0, r));
 	
+
 	if(scheme == 0){//rainbow effect, cycle HUE only
 
-	    var UU = 2;
-	    var LL = -2;
-	    var hue = (value - LL) / (UU - LL);
-
-	    return tinycolor.fromRatio({ h: hue, s: 1, l: 0.5 }).toHexString();
+	    return tinycolor.fromRatio({ h: r, s: 1, l: 0.5 }).toHexString();
 
 
 	}else if(scheme == 1){//greyscale effect
+	    return tinycolor.fromRatio({ r: r, g: r, b: r}).toHexString();
 
 	}else if(scheme == 2){//posi-negi effect
 
-	}else if(scheme == 3){//heatmap effect
+	    if(r > 0.5){
+		return tinycolor.mix('white', '#E05000', amount = 100 * 2 * (r-0.5) );
 
-	    var UU = 2;
-	    var LL = -2;
-	    var r = (value - LL) / (UU - LL);
-	    r = Math.min(1, Math.max(0, r));
-	    
+	    }else{
+		return tinycolor.mix('white', '#0092E0', amount = 100 * 2 * (0.5-r) );
+
+	    }
+
+
+	}else if(scheme == 3){//heatmap effect	    
 
 	    if(r < this.hmCS[3]){
 		return tinycolor.mix(this.hmA[5], this.hmA[4], amount = 100 * r / this.hmCS[3] );
