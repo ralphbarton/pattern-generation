@@ -213,7 +213,7 @@ var plots = {
 	    //function calls
 	    this.set_for_res(0);
 	    // 10000 iterations seems to take around 100ms on my laptop => around 50% duty
-	    this.work(10000, 100);//start the chain
+	    this.work(200, 100);//start the chain Work=200, rest=100
 	}
     },
 
@@ -257,11 +257,16 @@ var plots = {
 
 
 
+    av_step_time: [1/100],// as a starting value, assume a single iteration takes 0.01ms
+    work: function(work_duration_targ, free_duration){
 
+	var sum = this.av_step_time.reduce(function(a, b) { return a + b; });
+	var avg = sum / this.av_step_time.length; // the average durations of recent work chunks
+	var iterations = work_duration_targ / avg;
 
-    work: function(iterations, pause_duration){
+	console.log("iterations", iterations);
 
-	//var t_sta = new Date();
+	var t_sta = new Date();
 	var completed = false;
 	if(this.wcx.req_abort){
 	    this.wcx.running = false;
@@ -343,8 +348,8 @@ var plots = {
 	    
 	    if(!completed){
 		setTimeout(function(){
-		    plots.work(iterations, pause_duration);
-		}, pause_duration);
+		    plots.work(work_duration_targ, free_duration);
+		}, free_duration);
 	    }else{
 		//something to indicate we're finished...
 		$("#tabs-4 #z-5 #res-lim").css("background-color", "transparent");
@@ -352,7 +357,13 @@ var plots = {
 
 	}
 
-//	console.log("duration of work", (new Date() - t_sta));
+	var dur = (new Date() - t_sta);
+	//add the new time and pop the old one
+	this.av_step_time.push(dur/iterations);
+	if(this.av_step_time.length > 8){
+	    this.av_step_time.splice(0,1);
+	}
+	console.log("duration of work", dur);
     },
 
 
