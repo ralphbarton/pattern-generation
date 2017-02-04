@@ -263,8 +263,7 @@ var plots = {
 	var sum = this.av_step_time.reduce(function(a, b) { return a + b; });
 	var avg = sum / this.av_step_time.length; // the average durations of recent work chunks
 	var iterations = work_duration_targ / avg;
-
-	console.log("iterations", iterations);
+	var next_phase = false;
 
 	var t_sta = new Date();
 	var completed = false;
@@ -297,36 +296,57 @@ var plots = {
 			samples[random_x] = [];
 		    }
 
-		    samples[random_x][this.wcx.y] = my_h; // store calculated value....
+		    // 2.store calculated value....
+		    samples[random_x][this.wcx.y] = my_h; 
+
+		    // 3. Draw onto canvas
+
+		    // 3.1 Set colour according to conversion function.
+		    this.wcx.canvas_ctx.fillStyle = this.colouring_func(my_h, this.UI_props.prev.colouring);
+
+		    // 3.2 determine draw location
+		    var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
+		    var y_location_px = Math.round((this.wcx.winH/2) + (this.wcx.y - this.wcx.n_steps_yH - 0.5)*this.wcx.cell_size);
+		    this.wcx.canvas_ctx.fillRect (x_location_px, y_location_px, this.wcx.cell_size, this.wcx.cell_size);//x,y,w,h
+		    this.wcx.y++;
+		
+
+		}else if(this.wcx.phase == 1){
+
+		    if(this.wcx.res == 0){
+			
+			var vals = [];
+			samples.forEach(function(column) {
+			    column.forEach(function(datum) {
+				vals.push()
+			    });
+			});
+	
+			
+
+		    }
+		    samples[random_x][this.wcx.y]
+
+		    if(false){//move on
+			next_phase = true;
+		    }
+
 		}
 
-		// 3. Draw onto canvas
 
-		// 3.1 Set colour according to conversion function.
-		var value = this.wcx.phase == 0 ? my_h : samples[random_x][this.wcx.y]+0.1; 
 
-		this.wcx.canvas_ctx.fillStyle = this.colouring_func(value, this.UI_props.prev.colouring);
-
-		// 3.2 determine draw location
-		var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
-		var y_location_px = Math.round((this.wcx.winH/2) + (this.wcx.y - this.wcx.n_steps_yH - 0.5)*this.wcx.cell_size);
-
-		this.wcx.canvas_ctx.fillRect (x_location_px, y_location_px, this.wcx.cell_size, this.wcx.cell_size);//x,y,w,h
-
-		
-		this.wcx.y++;
 
 
 		// Iteration control, for state variables...
-		if(this.wcx.y >= this.wcx.n_steps_y){//test if column finished
+		if((this.wcx.y >= this.wcx.n_steps_y)||(next_phase)){//test if column finished
 		    this.wcx.y=0;
 		    this.wcx.x++;
 
-		    if(this.wcx.x >= this.wcx.n_steps_x){//test if screen finished
+		    if((this.wcx.x >= this.wcx.n_steps_x)||(next_phase)){//test if screen finished
 			this.wcx.x = 0;
 			this.wcx.phase++;
 			
-			if(this.wcx.phase > 1){
+			if(this.wcx.phase > 1){// dont use multiple phases...
 			    this.wcx.phase = 0;
 			    this.wcx.res++;
 			    var res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val());
@@ -360,10 +380,9 @@ var plots = {
 	var dur = (new Date() - t_sta);
 	//add the new time and pop the old one
 	this.av_step_time.push(dur/iterations);
-	if(this.av_step_time.length > 8){
+	if(this.av_step_time.length > 4){
 	    this.av_step_time.splice(0,1);
 	}
-	console.log("duration of work", dur);
     },
 
 
