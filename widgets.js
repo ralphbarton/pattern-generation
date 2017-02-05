@@ -152,7 +152,7 @@ jQuery.fn.extend({
 			       UI_enable: false,
 			       true_focusout: true			
 		      });
-			   if(options.cb_focusout != undefined){options.cb_focusout();}//execute callback if defined.
+			   if(options.cb_focusout != undefined){options.cb_focusout(this);}//execute callback if defined.
 		       })
 		       .on("click", function(){
 			   if((options.click_filter === undefined)||(options.click_filter())){
