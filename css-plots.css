@@ -77,6 +77,10 @@
     padding: 2px;
 }
 
+.zone#z-3 #invalid{
+    color: red;
+    opacity: 0.8;
+}
 
 .zone#z-4{
     top: 172px;
