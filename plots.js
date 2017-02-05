@@ -68,6 +68,11 @@ var plots = {
 	    function(){change_colouring(3);}    ]);
 	widgets.actionLink_unset("#colouring.act-mutex", null);//make all options "enabled" initially
 
+	$("#z-3.zone .comment").hide();
+
+
+
+
 
 	////////////////////?TEMP
 	$("#temp-density-plots input#equation").SmartInput({
@@ -100,35 +105,49 @@ var plots = {
 	var check_eqn_type = function(input_elem){//check the equation...
 
 	    var usrFn = math.compile($(input_elem).val());
-	    console.log("testing:", $(input_elem).val());
 
 	    var OK_real = true;
-	    try{
-		usrFn.eval({x:0, y:0});
-	    }catch (e){
-		OK_real = false;
-	    }
+	    try{         usrFn.eval({x:0, y:0}); }
+	    catch (e){   OK_real = false;        }
 
-	    var OK_cmpx = true;
-	    try{
-		usrFn.eval({z:0});
-	    }catch (e){
-		OK_cmpx = false;
-	    }
+	    var OK_cplx = true;
+	    try{         usrFn.eval({z:0}); }
+	    catch (e){   OK_cplx = false;        }
+
+	    return OK_real ? "real" : (OK_cplx ? "cplx" : "invalid");
+	};
+
+	var set_EQN_row_class = function(input_elem){//check the equation...
+	    var eqnTy = check_eqn_type(input_elem);
 
 	    //parent x2 -> containing elems for <tr> for the <input>
-	    if(OK_real){
-		console.log("r");
+	    if(eqnTy == "real"){
 		$(input_elem).parent().parent().toggleClass("pink", false);
-	    }else if(OK_cmpx){
-		console.log("zz");
-		console.log($(input_elem).parent().parent());
+	    }else if(eqnTy == "cplx"){
 		$(input_elem).parent().parent().toggleClass("pink", true);
-	    }				    
+	    }
 
-	    $(input_elem).parent().parent().toggleClass("invalid", !(OK_real||OK_cmpx));
-
+	    $(input_elem).parent().parent().toggleClass("invalid", (eqnTy != "real") && (eqnTy != "cplx"));
 	};
+
+	var set_EQN_type_msg = function(input_elem){//check the equation...
+	    var eqnTy = check_eqn_type(input_elem);
+
+	    if(eqnTy == "real"){
+		$("#z-3.zone #real").fadeIn({duration:200, easing: "linear"});
+		$("#z-3.zone #cplx").fadeOut({duration:200, easing: "linear"});
+		$("#z-3.zone #invalid").fadeOut({duration:200, easing: "linear"});
+	    }else if(eqnTy == "cplx"){
+		$("#z-3.zone #real").fadeOut({duration:200, easing: "linear"});
+		$("#z-3.zone #cplx").fadeIn({duration:200, easing: "linear"});
+		$("#z-3.zone #invalid").fadeOut({duration:200, easing: "linear"});
+	    }else{
+		$("#z-3.zone #real").fadeOut({duration:200, easing: "linear"});
+		$("#z-3.zone #cplx").fadeOut({duration:200, easing: "linear"});
+		$("#z-3.zone #invalid").fadeIn({duration:200, easing: "linear"});
+	    }			    
+	};
+
 
 	//wipe the entire table of rows...
 	$("#plots-table tbody").html("");
@@ -149,8 +168,9 @@ var plots = {
 				data_class: "text",
 				text_length: 120,//max name length 18 char
 				click_filter: function(){return plots.selected_row_i == i;},
-				cb_focusout: check_eqn_type,
-				cb_init: function(el){setTimeout(function(){check_eqn_type(el);},10)},//defer call because of DOM initia
+				cb_focusout: set_EQN_row_class,
+				//defer call because of <input> doesn't have the right parent elems until Append call finishes
+				cb_init: function(el){setTimeout(function(){set_EQN_row_class(el);},10)},
 			    })
 			),
 			$('<td/>').addClass("col-3").text("x"),
@@ -163,6 +183,8 @@ var plots = {
 			    // 1. manage row selection witin the table itself
 			    $("#plots-table tr.selected").removeClass("selected");
 			    $(this).addClass("selected");
+
+			    set_EQN_type_msg($("#plots-table tr.selected td input"));
 
 			    /*
 			      Take a lot of rendering actions here...

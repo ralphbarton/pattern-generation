@@ -69,6 +69,15 @@
     width: 244px
 }
 
+.zone#z-3 .comment{
+    position: absolute;
+    font-size: 9px;
+    font-family: sans;
+    opacity: 0.5;
+    padding: 2px;
+}
+
+
 .zone#z-4{
     top: 172px;
     left: 437px;
