@@ -51,6 +51,12 @@ var plots = {
 	    }
 	});
 
+	$("#tabs-4 #z-5 .action-link#clear").click(function(){
+	    plots2.wcx.req_abort = true;
+	    plots2.plotting_canv(true);//clear the canvas...
+	});
+
+
 
 	// == Within Preview Options ==
 
@@ -58,8 +64,9 @@ var plots = {
 	//todo: add immediate effect colour change.
 	var change_colouring = function(i){
 	    plots.UI_props.prev.colouring = i;
-	    plots2.draw_job();//this will abort the existing job and start afresh
-//	    if(plots2.wcx.running){}
+	    if(plots2.wcx.canvas_ctx !== undefined){
+		plots2.draw_job();//this will abort the existing job and start afres
+	    }
 	};
 
 	widgets.actionLink_init("#colouring.act-mutex", [
@@ -69,7 +76,9 @@ var plots = {
 	widgets.actionLink_unset("#colouring.act-mutex", null);//make all options "enabled" initially
 
 	$("#z-3.zone .comment").hide();
-
+ 
+	//set an assumed res-limit value of 3 pixels
+	$("#tabs-4 #z-5 #res-lim input").val(3);
 
 
 

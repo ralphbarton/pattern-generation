@@ -19,8 +19,49 @@ var plots2 = {
 	x: undefined,
 	phase: undefined,
 	res: undefined,
+	res_lim: undefined,
 	req_abort: false,
-	running: false
+	running: false,
+	start_time: undefined,
+	res_start_time: undefined,
+	iterations_expected: 0,
+	iterations_counted: 0,
+    },
+
+    plotting_canv: function(clear){
+
+	//get or create new canvas for the plot...
+	//TODO - use multiple canvases, one for each plot...
+
+	//sets the global this.wcx.canvas_ctx
+	this.wcx.winW = $(window).width();
+	this.wcx.winH = $(window).height();
+
+	var my_W = this.wcx.winW;
+	var my_H = this.wcx.winH;
+
+	var canv_ctx = undefined;
+
+	if($("#plot-canv").length > 0){
+	    canv_ctx = $("#plot-canv")[0].getContext('2d');
+	    $("#plot-canv").attr("width", my_W)
+		.attr("height", my_H);
+
+	}else{
+	    var $pc = $('<canvas/>')
+		.attr("width", my_W)
+		.attr("height", my_H)
+		.attr("id", "plot-canv");
+	    $("#backgrounds").append($pc);
+	    canv_ctx = $pc[0].getContext('2d');
+	}
+
+	if(clear){
+	    canv_ctx.clearRect(0, 0, my_W, my_H);
+	}
+
+	return canv_ctx;
+
     },
 
     draw_job: function(){
@@ -31,43 +72,51 @@ var plots2 = {
 
 	}else{
 
-	    $("#tabs-4 #z-5 #res-lim").css("background-color", "rgba(147, 90, 9, 0.7)");
+	    $("#tabs-4 #z-5 #plot-status div").hide();
+	    $("#tabs-4 #z-5 #working").show();
+
+	    this.wcx.start_time = new Date();
 
 	    var Plot_i = DM.PlotsArray[plots.selected_row_i];
 	    this.wcx.compilled_formula = math.compile(Plot_i.formula);
 
-	    //get or create new canvas for the plot...
-	    //TODO - use multiple canvases, one for each plot...
+	    //assume 1 otherwise
+	    this.wcx.res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val()) || 1;
 
-	    //sets the global this.wcx.canvas_ctx
-	    this.wcx.winW = $(window).width();
-	    this.wcx.winH = $(window).height();
-
-	    if($("#plot-canv").length > 0){
-		this.wcx.canvas_ctx = $("#plot-canv")[0].getContext('2d');
-		$("#plot-canv").attr("width", this.wcx.winW)
-		    .attr("height", this.wcx.winH);
-
-	    }else{
-		var $pc = $('<canvas/>')
-		    .attr("width", this.wcx.winW)
-		    .attr("height", this.wcx.winH)
-		    .attr("id", "plot-canv");
-		$("#backgrounds").append($pc);
-		this.wcx.canvas_ctx = $pc[0].getContext('2d');
-	    }
+	    this.wcx.canvas_ctx = this.plotting_canv(false);
 
 	    //function calls
+	    this.wcx.iterations_counted = 0;
+	    this.wcx.iterations_expected = this.calc_total_iterations();//call after grabbing canvas
+
 	    this.set_for_res(0);
+
 	    // 10000 iterations seems to take around 100ms on my laptop => around 50% duty
 	    this.work(200, 200);//start the chain Work=200, rest=100
 	}
     },
 
-    set_for_res: function(res){
+
+    calc_total_iterations: function(){
+	
+	var total_Its = 0;
+	console.log(this.CellSizes[0], this.wcx.res_lim)
+	for(var i = 0; this.CellSizes[i] >= this.wcx.res_lim; i++){
+	    //call the side effect fn
+	    this.set_for_res(i, true);
+	    total_Its += this.wcx.n_steps_xH * this.wcx.n_steps_yH * 4;
+	    console.log(i, total_Its);
+	}
+	console.log(total_Its)
+	return total_Its;
+    },
+
+    set_for_res: function(res, dummy){
+
 
 	this.wcx.res = res;
 	this.wcx.phase = 0;
+	this.wcx.res_start_time = new Date();	
 	this.wcx.x = 0;
 	this.wcx.y = 0;
 
@@ -80,26 +129,29 @@ var plots2 = {
 	this.wcx.n_steps_xH = Math.floor(this.wcx.n_steps_x/2)// number of steps wholely contained in x<0 half
 	this.wcx.n_steps_yH = Math.floor(this.wcx.n_steps_y/2)// number of steps wholely contained in x<0 half
 
-	//logic here to manage random column order feature
-	this.wcx.x_randomise = [];
+	if(dummy !== true){
+	    //logic here to manage random column order feature
+	    this.wcx.x_randomise = [];
 
-	for(var i = 0; i < this.wcx.n_steps_x; i++){
-	    this.wcx.x_randomise.push({
-		i: i,
-		marker: Math.random()
-	    });
+	    for(var i = 0; i < this.wcx.n_steps_x; i++){
+		this.wcx.x_randomise.push({
+		    i: i,
+		    marker: Math.random()
+		});
+	    }
+
+	    function compare(a,b) {
+		if (a.marker < b.marker)
+		    return -1;
+		if (a.marker > b.marker)
+		    return 1;
+		return 0;
+	    }
+
+	    this.wcx.x_randomise.sort(compare);
+
+	    $("#tabs-4 #z-5 #working #res-cur").text(this.wcx.cell_size);
 	}
-
-	function compare(a,b) {
-	    if (a.marker < b.marker)
-		return -1;
-	    if (a.marker > b.marker)
-		return 1;
-	    return 0;
-	}
-
-	this.wcx.x_randomise.sort(compare);
-
     },
 
 
@@ -117,6 +169,9 @@ var plots2 = {
 	if(this.wcx.req_abort){
 	    this.wcx.running = false;
 	    this.wcx.req_abort = false;
+
+	    $("#tabs-4 #z-5 #plot-status div").hide();
+	    $("#tabs-4 #z-5 #aborted").show();
 	}
 	else{
 
@@ -196,15 +251,17 @@ var plots2 = {
 			if(this.wcx.phase > 0){// dont use multiple phases...
 			    this.wcx.phase = 0;
 			    this.wcx.res++;
-			    var res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val());
+
 			    //test full completion
-			    if((this.wcx.res>=this.CellSizes.length)||(this.CellSizes[this.wcx.res]<res_lim)){
+			    if((this.wcx.res >= this.CellSizes.length) || (this.CellSizes[this.wcx.res] < this.wcx.res_lim)){
 				/// terminate and flag no further callbacks
 				completed = true;
+				iterations = i;//set to actual
 				break;
 			    }else{
 				//recalculate a bunch of resolution stuff
 				this.set_for_res(this.wcx.res);
+				iterations = i;//set to actual
 				break; //also, pause for breath after doing so.
 			    }
 			}		    
@@ -219,10 +276,21 @@ var plots2 = {
 		}, free_duration);
 	    }else{
 		//something to indicate we're finished...
-		$("#tabs-4 #z-5 #res-lim").css("background-color", "transparent");
+		$("#tabs-4 #z-5 #plot-status div").hide();
+		$("#tabs-4 #z-5 #complete").show();
+
+		var t_now = new Date();
+		var t_overall = t_now - this.wcx.start_time;
+		var t_final = t_now - this.wcx.res_start_time;
+		$("#tabs-4 #z-5 #complete #t-overall").text((t_overall/1000).toFixed(1));
+		$("#tabs-4 #z-5 #complete #t-final").text((t_final/1000).toFixed(1));
 	    }
 
 	}
+
+	this.wcx.iterations_counted += iterations;
+	var pc_raw = 100 * this.wcx.iterations_counted / this.wcx.iterations_expected
+	$("#tabs-4 #z-5 #working #pc-compl").text(pc_raw.toFixed(1));
 
 	var dur = (new Date() - t_sta);
 	//add the new time and pop the old one

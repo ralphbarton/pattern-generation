@@ -484,13 +484,26 @@
 
 	      <!-- 5. d -->
 	      <div class="zone boxie s" id="z-5">
-		<div class="title">Preview Options</div>
-		<div class="act-mutex" id="colouring">Colouring:<div>greyscale</div><div>posi-negi</div><div>heatmap</div></div>
-		<div class="act-mutex" id="cv-contours">const.val. contours:<div>Show</div><div>Hide</div></div>
-		<div class="mini-text" id="PO-inputs">
-		  <div id="contours">contours: <span><input class="plain-cell"/></div></span>
+		<div class="mini-text">
+		  <div class="title">Preview Options</div>
+		  <div class="act-mutex" id="colouring">Colouring:<div>greyscale</div><div>posi-negi</div><div>heatmap</div></div>
+		  <div class="act-mutex" id="cv-contours">CV-Contours:<div>Show</div><div>Hide</div></div>
+		  <div id="contours">Qty.cvc:<span><input class="plain-cell"/></div></span>
 		  <div id="res-lim">res. limit: <span><input class="plain-cell"/></div></span>
+		  <div id="plot-status">
+		    <div id="working" style="display: none;">
+		      Working...(<span id="pc-compl">0</span><span>%</span>, <span id="res-cur">0</span><span>px</span>)
+		    </div>
+		    <div id="complete" style="display: none;">
+		      Overall: <span id="t-overall">0</span><span>s</span> (final: <span id="t-final">0</span><span>s</span>)
+		    </div>
+		    <div id="aborted" style="display: none;">
+		      Plotting Aborted.
+		    </div>
+		  </div>
+
 		</div>
+
 		<div class="action-link" id="clear">Clear</div>
 		<div class="button" id="plot">Plot</div>
 	      </div>
