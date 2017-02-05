@@ -97,6 +97,39 @@ var plots = {
 
     regenerate_table: function(){
 
+	var check_eqn_type = function(input_elem){//check the equation...
+
+	    var usrFn = math.compile($(input_elem).val());
+	    console.log("testing:", $(input_elem).val());
+
+	    var OK_real = true;
+	    try{
+		usrFn.eval({x:0, y:0});
+	    }catch (e){
+		OK_real = false;
+	    }
+
+	    var OK_cmpx = true;
+	    try{
+		usrFn.eval({z:0});
+	    }catch (e){
+		OK_cmpx = false;
+	    }
+
+	    //parent x2 -> containing elems for <tr> for the <input>
+	    if(OK_real){
+		console.log("r");
+		$(input_elem).parent().parent().toggleClass("pink", false);
+	    }else if(OK_cmpx){
+		console.log("zz");
+		console.log($(input_elem).parent().parent());
+		$(input_elem).parent().parent().toggleClass("pink", true);
+	    }				    
+
+	    $(input_elem).parent().parent().toggleClass("invalid", !(OK_real||OK_cmpx));
+
+	};
+
 	//wipe the entire table of rows...
 	$("#plots-table tbody").html("");
 
@@ -116,23 +149,8 @@ var plots = {
 				data_class: "text",
 				text_length: 120,//max name length 18 char
 				click_filter: function(){return plots.selected_row_i == i;},
-				cb_focusout: function(input_elem){//check the equation...
-
-				    console.log($(input_elem).val());
-/*
-
-math.compile("x+1")
-D = math.compile("x+1")
-D.eval({x:3})
-				    try {
-					throw 'myException'; // generates an exception
-				    }
-				    catch (e) {
-					// statements to handle any exceptions
-					logMyErrors(e); // pass exception object to error handler
-				    }
-*/
-				}
+				cb_focusout: check_eqn_type,
+				cb_init: function(el){setTimeout(function(){check_eqn_type(el);},10)},//defer call because of DOM initia
 			    })
 			),
 			$('<td/>').addClass("col-3").text("x"),
@@ -148,6 +166,7 @@ D.eval({x:3})
 
 			    /*
 			      Take a lot of rendering actions here...
+			      //so in the case of GRIDs we would display a different grid
 			    var Grid_i = DM.GridsArray[i];			
 			    grids.update_bg_grid(Grid_i);// update the background accordingly
 			    grids.update_panel_items(Grid_i);// update the panel accordingly

@@ -121,6 +121,7 @@ jQuery.fn.extend({
 		     underlying_key
 		     cb_focusout
 		     cb_change
+		     cb_init
 		     click_filter
 		     underlying_from_DOM_onChange
 		   */
@@ -166,7 +167,8 @@ jQuery.fn.extend({
 			   if(options.cb_change != undefined){options.cb_change();}//execute callback if defined.
 		       });
 
-
+		   //the INITIALISATION callback may be applied to the element.
+		   if(options.cb_init != undefined){options.cb_init(this);}//execute callback if defined.
 
 
 	       }else if(action == "update"){ // LOGIC to update element

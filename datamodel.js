@@ -296,21 +296,9 @@ var DM = {
 	    section: {}
 	},
 	{
-	    formula: "z=jingle",
+	    formula: "x+y",
 	    section: {}
-	},
-	{
-	    formula: "z=jangle",
-	    section: {}
-	},
-	{
-	    formula: "z=dongle",
-	    section: {}
-	},
-	{
-	    formula: "z=dingle",
-	    section: {}
-	},
+	}
 
     ],
 
