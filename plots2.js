@@ -111,7 +111,6 @@ var plots2 = {
 
 
 	this.wcx.res = res;
-	this.wcx.phase = 0;
 	this.wcx.res_start_time = new Date();	
 	this.wcx.x = 0;
 	this.wcx.y = 0;
@@ -174,7 +173,8 @@ var plots2 = {
 	    // CARRY OUT the work for fixed number of iterations.
 	    for(var i = 0; i<iterations; i++){
 
-		if(this.wcx.samples_sets[this.wcx.res] == undefined){
+		//set to a blank array (may be scrapping old data, or first assignment).
+		if((this.wcx.x == 0)&&(this.wcx.y == 0)){
 		    this.wcx.samples_sets[this.wcx.res] = [];
 		}
 
@@ -190,12 +190,8 @@ var plots2 = {
 		var my_fz = this.wcx.compilled_formula.eval({z: my_z});/////MATHS EVALUATION AT POINT
 		var my_h = my_fz.re;
 
-		if(samples[random_x] == undefined){
-		    samples[random_x] = [];
-		}
-
 		// 2.store calculated value....
-		samples[random_x][this.wcx.y] = my_h; 
+		samples.push(my_h);
 
 		// 3. Draw onto canvas
 		// 3.1 Set colour according to conversion function.
@@ -227,18 +223,24 @@ var plots2 = {
 			this.wcx.x = 0;
 			this.wcx.res++;
 
-			//test full completion
+			// now we have a complete point-set, draw histogram.
+			plots.histogram_stats(samples);
+
+			// (A) Completely finished drawing at the finest resolution
 			if((this.wcx.res >= this.CellSizes.length) || (this.CellSizes[this.wcx.res] < this.wcx.res_lim)){
 			    /// terminate and flag no further callbacks
 			    completed = true;
-			    iterations = i;//set to actual
 			    break;
+
+			// (B) about to redraw it all at a finer resolution
 			}else{
+
 			    //recalculate a bunch of resolution stuff
 			    this.set_for_res(this.wcx.res);
-			    iterations = i;//set to actual
-			    break; //also, pause for breath after doing so.
 			}
+
+			iterations = i;//set to actual
+			break; //whether completely finished, or just finished at a particular res, pause for a breath here.
 		    }		    
 		}
 	    }

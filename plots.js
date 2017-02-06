@@ -216,6 +216,37 @@ var plots = {
 	    $($("#plots-table tbody tr")[click_me_i]).click();
 	}
 
+    },
+
+    //ideally, call any really computationally expensive functions within this by a timeout.
+    // this will prevent it adding to cost calculation for plotting - not that that's so bad...
+    histogram_stats: function(samples){
+
+	var A1 = new Date();
+
+	function compare(a, b) {
+	    if (a < b) return -1;
+	    if (a > b) return 1;
+	    return 0;
+	}
+
+	samples.sort(compare);
+	console.log("Time taken to sort (ms):",(new Date())-A1);
+
+	var grab = function(ind_real){
+	    var i = parseInt(ind_real);
+	    return samples[i].toFixed(2);
+	};
+
+	var L = samples.length;
+
+	$(".zone#z-2 #hist-stats #points  span").text(L);
+	$(".zone#z-2 #hist-stats #min     span").text(grab(0) );
+	$(".zone#z-2 #hist-stats #max     span").text(grab(L-1));
+	$(".zone#z-2 #hist-stats #low-10  span").text(grab(L*0.1));
+	$(".zone#z-2 #hist-stats #high-10 span").text(grab(L*0.9));
+	$(".zone#z-2 #hist-stats #median  span").text(grab(L*0.5));
+
     }
 
 };
