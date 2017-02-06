@@ -200,8 +200,16 @@ var plots2 = {
 		    // 3. Draw onto canvas
 
 		    // 3.1 Set colour according to conversion function.
-		    my_h = Math.min(1, Math.max(0, my_h));//saturate the value at 0 and 1.
-		    var lkup = parseInt(my_h*500 + 0.5);
+
+
+		    //TODO: change this for something better...
+		    var UU = 2;
+		    var LL = -2;
+		    var r = (my_h - LL) / (UU - LL);
+
+		    r = Math.min(1, Math.max(0, r));//saturate the value at 0 and 1.
+
+		    var lkup = parseInt(r*500 + 0.5);
 		    var COL = this.colours_prelookup[plots.UI_props.prev.colouring][lkup];
 		    this.wcx.canvas_ctx.fillStyle = COL;
 
@@ -305,11 +313,8 @@ var plots2 = {
     hmCS: [0.9, 0.7, 0.45, 0.2],
     colouring_func: function(value, scheme){
 
-	var UU = 2;
-	var LL = -2;
-	var r = (value - LL) / (UU - LL);
-	r = Math.min(1, Math.max(0, r));
-	
+	//assign "value" to a variable called "r"
+	r = Math.min(1, Math.max(0, value));	
 
 	if(scheme == 0){//rainbow effect, cycle HUE only
 
