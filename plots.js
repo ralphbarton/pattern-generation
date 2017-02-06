@@ -21,6 +21,8 @@ var plots = {
 
 	this.regenerate_table();
 
+	plots2.load_colours_prelookup();
+
 	//swathes of code are being copy-pasted here, for similiar functionality accross different tabs.
 	// aaargh!!
 

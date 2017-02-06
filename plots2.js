@@ -98,16 +98,12 @@ var plots2 = {
 
 
     calc_total_iterations: function(){
-	
 	var total_Its = 0;
-	console.log(this.CellSizes[0], this.wcx.res_lim)
 	for(var i = 0; this.CellSizes[i] >= this.wcx.res_lim; i++){
 	    //call the side effect fn
 	    this.set_for_res(i, true);
 	    total_Its += this.wcx.n_steps_xH * this.wcx.n_steps_yH * 4;
-	    console.log(i, total_Its);
 	}
-	console.log(total_Its)
 	return total_Its;
     },
 
@@ -204,7 +200,10 @@ var plots2 = {
 		    // 3. Draw onto canvas
 
 		    // 3.1 Set colour according to conversion function.
-		    this.wcx.canvas_ctx.fillStyle = this.colouring_func(my_h, plots.UI_props.prev.colouring);
+		    my_h = Math.min(1, Math.max(0, my_h));//saturate the value at 0 and 1.
+		    var lkup = parseInt(my_h*500 + 0.5);
+		    var COL = this.colours_prelookup[plots.UI_props.prev.colouring][lkup];
+		    this.wcx.canvas_ctx.fillStyle = COL;
 
 		    // 3.2 determine draw location
 		    var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
@@ -347,6 +346,28 @@ var plots2 = {
 
 	    }else{
 		return tinycolor.mix(this.hmA[1], this.hmA[0], amount = 100 * (r-this.hmCS[0])/(1-this.hmCS[0]) );
+
+	    }
+
+	}
+
+    },
+
+    colours_prelookup: [],
+    load_colours_prelookup: function(){
+
+	var n_schemes = 4;
+	var n_points = 501;
+
+	for(var i = 0; i < n_schemes; i++){
+
+	    this.colours_prelookup[i] = [];
+
+	    for(var j=0; j < n_points; j++){
+
+		var real_val = j / (n_points-1);
+
+		this.colours_prelookup[i][j] = this.colouring_func(real_val, i);
 
 	    }
 
