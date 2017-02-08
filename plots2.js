@@ -343,11 +343,16 @@ var plots2 = {
 
     },
 
-    HexColour_from_fnValue: function(fn_value){
+    HexColour_from_fnValue: function(fn_value, use_0to1_range){
 
-	var UU = this.wcx.val_upper_saturate_colour;
-	var LL = this.wcx.val_lower_saturate_colour;
-	var r = (fn_value - LL) / (UU - LL);
+	if(use_0to1_range === true){
+	    var r = fn_value;
+
+	}else{
+	    var UU = this.wcx.val_upper_saturate_colour;
+	    var LL = this.wcx.val_lower_saturate_colour;
+	    var r = (fn_value - LL) / (UU - LL);
+	}
 
 	r = Math.min(1, Math.max(0, r));//saturate the value at 0 and 1.
 

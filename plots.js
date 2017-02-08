@@ -221,6 +221,7 @@ var plots = {
     //ideally, call any really computationally expensive functions within this by a timeout.
     // this will prevent it adding to cost calculation for plotting - not that that's so bad...
     first_hist: true,
+    persistent_in_colour: false,
     histogram_stats: function(samples){
 
 	var A1 = new Date();
@@ -311,7 +312,7 @@ var plots = {
 		    return i * bar_w + 2;
 		})
 		.attr("y", function(d) {
-		    return h - (d);
+		    return (h - d);
 		})
 		.attr("width", bar_w - barPadding)
 		.attr("height", function(d) {return d;});
@@ -323,41 +324,49 @@ var plots = {
 	    selection
 		.transition()
 		.duration(500)
-		.attr("x", function(d, i) {
-		    return i * bar_w + 2;
-		})
 		.attr("y", function(d) {
-		    return h - (d);
+		    return (h - d);
 		})
-		.attr("width", bar_w - barPadding)
 		.attr("height", function(d) {return d;});
 
 	}
 
+
+	var HistInColour = function(use_colour){
+
+	    var selection = d3.select("#hist svg")
+		.selectAll("rect")
+		.attr("fill", function(d, i) {
+
+		    if(use_colour == false){
+			return "rgba(0, 0, 0, 0.5)";
+		    }else if (i == 0){
+			return plots2.HexColour_from_fnValue(0, true);
+		    }else if(i == (n_bars-1)){
+			return plots2.HexColour_from_fnValue(1, true);
+		    }else{
+			return plots2.HexColour_from_fnValue( (i+0.5)/n_bars , true);
+		    }
+		});
+
+	};
+
+	//set the colours every time
+	HistInColour(this.persistent_in_colour);
+
 	$("#hist svg").off()
+	    .on("mouseenter", function () {
+		HistInColour(true);
+	    })
+	    .on("mouseleave", function () {
+		if(!plots.persistent_in_colour){
+		    HistInColour(false);
+		}
+	    })
 	    .on("click", function () {
-		//stuff to do on mouseover
-
-		console.log("hist click");
-
-		var selection = d3.select("#hist svg")
-		    .selectAll("rect")
-		    .data(scaled_bars)
-		    .attr("fill", "red");
-		
-
-	    });/*
-	    .on("mouseout", function () {
-		//stuff to do on mouseoff
-
-		console.log("hist mouse off");
-
-		var selection = d3.select("#hist svg")
-		    .selectAll("rect")
-		    .attr("fill", "blue")		
-
-	    });*/
-
+		plots.persistent_in_colour = !plots.persistent_in_colour;
+		console.log("plots.persistent_in_colour -> value now:", plots.persistent_in_colour);
+	    });
 
     }
 
