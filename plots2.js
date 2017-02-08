@@ -1,6 +1,8 @@
 var plots2 = {
 
     CellSizes: [81, 27, 9, 3, 1],
+
+    //context information for a broken up piece of (plotting) Work
     wcx: {
 	compilled_formula: undefined,
 	canvas_ctx: undefined,
@@ -26,6 +28,8 @@ var plots2 = {
 	res_start_time: undefined,
 	iterations_expected: 0,
 	iterations_counted: 0,
+	val_upper_saturate_colour: 2,
+	val_lower_saturate_colour: -2
     },
 
     plotting_canv: function(clear){
@@ -195,10 +199,8 @@ var plots2 = {
 
 		// 3. Draw onto canvas
 		// 3.1 Set colour according to conversion function.
-
-		//TODO: change this for something better...
-		var UU = 2;
-		var LL = -2;
+		var UU = this.wcx.val_upper_saturate_colour;
+		var LL = this.wcx.val_lower_saturate_colour;
 		var r = (my_h - LL) / (UU - LL);
 
 		r = Math.min(1, Math.max(0, r));//saturate the value at 0 and 1.

@@ -249,11 +249,19 @@ var plots = {
 	$(".zone#z-2 #hist-stats #median  span").text(grab(L*0.5));
 
 
+	var num_grab = function(ind_real){
+	    var i = parseInt(ind_real);
+	    return samples[i];
+	};
+
 	////maybe split into separate function: D3 histogram drawing here...
+	plots2.wcx.val_lower_saturate_colour = num_grab(L * 0.1);
+	plots2.wcx.val_upper_saturate_colour = num_grab(L * 0.9);
 
 	var n_bars = 16;
-	var V_min = samples[0];
-	var value_step = (samples[L-1]-V_min)/n_bars;
+	var V_min = plots2.wcx.val_lower_saturate_colour;
+	var V_max = plots2.wcx.val_upper_saturate_colour;
+	var value_step = (V_max - V_min) / n_bars;
 
 	var bar_heights = [0];
 	var bar_counter = 0;
