@@ -198,8 +198,13 @@
     position: absolute;
     top: 7px;
     left: 2px;
-    width: 143px;
-    height: 76px;
+    width: 147px;
+    height: 78px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15)
+}
+
+#hist svg rect{
+    fill: rgba(0, 0, 0, 0.5);
 }
 
 #hist-stats{

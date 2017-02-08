@@ -220,6 +220,7 @@ var plots = {
 
     //ideally, call any really computationally expensive functions within this by a timeout.
     // this will prevent it adding to cost calculation for plotting - not that that's so bad...
+    first_hist: true,
     histogram_stats: function(samples){
 
 	var A1 = new Date();
@@ -250,36 +251,82 @@ var plots = {
 
 	////maybe split into separate function: D3 histogram drawing here...
 
+	var n_bars = 16;
+	var V_min = samples[0];
+	var value_step = (samples[L-1]-V_min)/n_bars;
+
+	var bar_heights = [0];
+	var bar_counter = 0;
+	var max_bar_height = 0;
+
+	//turn the sorted array of values into a set of bins
+	for(var i = 0; i < samples.length; i++){
+	    bar_heights[bar_counter]++;
+	    max_bar_height = Math.max(bar_heights[bar_counter], max_bar_height);
+
+	    while(samples[i] > V_min+((bar_counter+1)*value_step)){
+		//you'd have thought this wouldn't be necessary, but a superflous bin can be created otherwise
+		if(bar_counter == (n_bars-1)){break;}
+		bar_counter++;
+		bar_heights.push(0);
+	    }
+	}
+
 	//Width and height
-	var w = 143;
-	var h = 76;
+	var w = parseInt($("#hist").css("width"));
+	var h = parseInt($("#hist").css("height"));
 	var barPadding = 1;
 	
-	var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-			11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-	
-	//Create SVG element
-	var svg = d3.select("#hist svg")
-	    .attr("width", w)
-	    .attr("height", h);
+	var scaled_bars = [];
+	bar_heights.forEach(function(element) {
+	    scaled_bars.push(h*0.97*element/max_bar_height);
+	});
 
-	svg.selectAll("rect")
-	    .data(dataset)
-	    .enter()
-	    .append("rect")
-	    .attr("x", function(d, i) {
-		return i * (w / dataset.length);
-	    })
-	    .attr("y", function(d) {
-		return h - (d * 2);
-	    })
-	    .attr("width", w / dataset.length - barPadding)
-	    .attr("height", function(d) {
-		return d * 2;
-	    })
-	    .attr("fill", function(d) {
-		return "rgb(0, 0, " + (d * 10) + ")";
-	    });
+	var bar_w = Math.floor(w / scaled_bars.length);
+
+	
+
+	//Create SVG element
+	var selection = d3.select("#hist svg")
+	    .attr("width", w)
+	    .attr("height", h)
+	    .selectAll("rect")
+	    .data(scaled_bars);
+
+
+	if(this.first_hist){
+
+	    selection
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {
+		    return i * bar_w + 2;
+		})
+		.attr("y", function(d) {
+		    return h - (d);
+		})
+		.attr("width", bar_w - barPadding)
+		.attr("height", function(d) {return d;});
+
+	    this.first_hist=false;
+
+	}else{
+
+	    selection
+		.transition()
+		.duration(500)
+		.attr("x", function(d, i) {
+		    return i * bar_w + 2;
+		})
+		.attr("y", function(d) {
+		    return h - (d);
+		})
+		.attr("width", bar_w - barPadding)
+		.attr("height", function(d) {return d;});
+
+	}
+
+
 
     }
 
