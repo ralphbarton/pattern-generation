@@ -199,15 +199,7 @@ var plots2 = {
 
 		// 3. Draw onto canvas
 		// 3.1 Set colour according to conversion function.
-		var UU = this.wcx.val_upper_saturate_colour;
-		var LL = this.wcx.val_lower_saturate_colour;
-		var r = (my_h - LL) / (UU - LL);
-
-		r = Math.min(1, Math.max(0, r));//saturate the value at 0 and 1.
-
-		var lkup = parseInt(r*500 + 0.5);
-		var COL = this.colours_prelookup[plots.UI_props.prev.colouring][lkup];
-		this.wcx.canvas_ctx.fillStyle = COL;
+		this.wcx.canvas_ctx.fillStyle = this.HexColour_from_fnValue(my_h);
 
 		// 3.2 determine draw location
 		var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
@@ -348,6 +340,19 @@ var plots2 = {
 	    }
 
 	}
+
+    },
+
+    HexColour_from_fnValue: function(fn_value){
+
+	var UU = this.wcx.val_upper_saturate_colour;
+	var LL = this.wcx.val_lower_saturate_colour;
+	var r = (fn_value - LL) / (UU - LL);
+
+	r = Math.min(1, Math.max(0, r));//saturate the value at 0 and 1.
+
+	var lkup = parseInt(r*500 + 0.5);
+	return this.colours_prelookup[plots.UI_props.prev.colouring][lkup];
 
     }
 

@@ -334,6 +334,29 @@ var plots = {
 
 	}
 
+	$("#hist svg").off()
+	    .on("click", function () {
+		//stuff to do on mouseover
+
+		console.log("hist click");
+
+		var selection = d3.select("#hist svg")
+		    .selectAll("rect")
+		    .data(scaled_bars)
+		    .attr("fill", "red");
+		
+
+	    });/*
+	    .on("mouseout", function () {
+		//stuff to do on mouseoff
+
+		console.log("hist mouse off");
+
+		var selection = d3.select("#hist svg")
+		    .selectAll("rect")
+		    .attr("fill", "blue")		
+
+	    });*/
 
 
     }

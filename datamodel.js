@@ -298,6 +298,10 @@ var DM = {
 	{
 	    formula: "x+y",
 	    section: {}
+	},
+	{
+	    formula: "z*log( (z-0.7)*(z+0.7*i)*(z+0.2*(i+1.3)) )^4",
+	    section: {}
 	}
 
     ],
