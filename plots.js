@@ -82,6 +82,39 @@ var plots = {
 	//set an assumed res-limit value of 3 pixels
 	$("#tabs-4 #z-5 #res-lim input").val(3);
 
+	//initiate the smart-inputs
+	["min", "max", "mid"].forEach(function(str) {
+
+	    $("#tabs-4 #value-"+str+" input").SmartInput({
+		underlying_key: "val_"+str,
+		style_class: "plain-cell",
+		underlying_from_DOM_onChange: false,
+		data_class: "dimentionless",
+		cb_change: function(){
+		    if(plots.selected_row_i != undefined){
+			// 1. flag as manual (reset to Auto upon)
+			var Plot_iH = DM.PlotsArray[plots.selected_row_i].histogram;
+			Plot_iH.manual = true;
+
+			// 2. Redraw plot
+			plots2.draw_job();//this will abort the existing job and start afresh
+		    }
+		}
+	    });
+
+	});
+
+	$("#tabs-4 #z-2 .action-link#hist-reset").click(function(){
+	    // 1. reset to auto.
+	    var Plot_iH = DM.PlotsArray[plots.selected_row_i].histogram;
+	    Plot_iH.manual = false;
+
+	    // 2. Redraw plot
+	    plots2.draw_job();//this will abort the existing job and start afresh
+	    
+	});
+
+
 
 
 
@@ -197,6 +230,15 @@ var plots = {
 
 			    set_EQN_type_msg($("#plots-table tr.selected td input"));
 
+			    var Plot_i = DM.PlotsArray[plots.selected_row_i];
+
+			    //update the smart inputs to refer to the right underlying data
+			    ["min", "max", "mid"].forEach(function(str) {
+				$("#tabs-4 #value-"+str+" input").SmartInput("update", {
+				    underlying_obj: Plot_i.histogram
+				});
+			    });
+
 			    /*
 			      Take a lot of rendering actions here...
 			      //so in the case of GRIDs we would display a different grid
@@ -218,6 +260,8 @@ var plots = {
 
     },
 
+
+
     //ideally, call any really computationally expensive functions within this by a timeout.
     // this will prevent it adding to cost calculation for plotting - not that that's so bad...
     first_hist: true,
@@ -233,7 +277,7 @@ var plots = {
 	}
 
 	samples.sort(compare);
-	console.log("Time taken to sort (ms):",(new Date())-A1);
+//	console.log("Time taken to sort (ms):",(new Date())-A1);
 
 	var grab = function(ind_real){
 	    var i = parseInt(ind_real);
@@ -255,9 +299,25 @@ var plots = {
 	    return samples[i];
 	};
 
+
+	var Plot_iH = DM.PlotsArray[plots.selected_row_i].histogram;
+
+	if(Plot_iH.manual){
+
+	    plots2.wcx.val_lower_saturate_colour = Plot_iH.val_min;
+	    plots2.wcx.val_upper_saturate_colour = Plot_iH.val_max;
+	    
+	}else{
+
+	    plots2.wcx.val_lower_saturate_colour = num_grab(L * 0.1);
+	    plots2.wcx.val_upper_saturate_colour = num_grab(L * 0.9);
+	    // also need to update Input boxes here..
+
+	    //TODO
+	}
+
+
 	////maybe split into separate function: D3 histogram drawing here...
-	plots2.wcx.val_lower_saturate_colour = num_grab(L * 0.1);
-	plots2.wcx.val_upper_saturate_colour = num_grab(L * 0.9);
 
 	var n_bars = 16;
 	var V_min = plots2.wcx.val_lower_saturate_colour;
