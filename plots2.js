@@ -174,6 +174,8 @@ var plots2 = {
 	}
 	else{
 
+	    this.wcx.running = true;
+
 	    // CARRY OUT the work for fixed number of iterations.
 	    for(var i = 0; i<iterations; i++){
 
@@ -254,6 +256,8 @@ var plots2 = {
 		var t_final = t_now - this.wcx.res_start_time;
 		$("#tabs-4 #z-5 #complete #t-overall").text((t_overall/1000).toFixed(1));
 		$("#tabs-4 #z-5 #complete #t-final").text((t_final/1000).toFixed(1));
+
+		this.wcx.running = false;
 	    }
 
 	}
