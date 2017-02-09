@@ -306,14 +306,18 @@ var plots = {
 
 	    plots2.wcx.val_lower_saturate_colour = Plot_iH.val_min;
 	    plots2.wcx.val_upper_saturate_colour = Plot_iH.val_max;
-	    
+
 	}else{
 
 	    plots2.wcx.val_lower_saturate_colour = num_grab(L * 0.1);
 	    plots2.wcx.val_upper_saturate_colour = num_grab(L * 0.9);
-	    // also need to update Input boxes here..
 
-	    //TODO
+	    // also need to update Input boxes here...
+	    Plot_iH.val_min = plots2.wcx.val_lower_saturate_colour;
+	    Plot_iH.val_max = plots2.wcx.val_upper_saturate_colour;	    
+	    $("#tabs-4 #value-min input").SmartInput("update", {data_change: true});
+	    $("#tabs-4 #value-max input").SmartInput("update", {data_change: true});	    
+
 	}
 
 
@@ -425,7 +429,6 @@ var plots = {
 	    })
 	    .on("click", function () {
 		plots.persistent_in_colour = !plots.persistent_in_colour;
-		console.log("plots.persistent_in_colour -> value now:", plots.persistent_in_colour);
 	    });
 
     }
