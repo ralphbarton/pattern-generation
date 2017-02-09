@@ -96,7 +96,7 @@ var plots = {
 	    $("#tabs-4 #value-"+str+" input").SmartInput({
 		underlying_key: "val_"+str,
 		style_class: "plain-cell",
-		underlying_from_DOM_onChange: false,
+		underlying_from_DOM_onChange: true,
 		data_class: "dimentionless",
 		cb_change: function(){
 		    if(plots.selected_row_i != undefined){
