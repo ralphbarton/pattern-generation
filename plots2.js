@@ -21,8 +21,7 @@ var plots2 = {
 	x: undefined,
 	res: undefined,
 	res_lim: undefined,
-	req_abort: false,
-	running: false,
+	recursive_timeoutID: null,
 	start_time: undefined,
 	res_start_time: undefined,
 	iterations_expected: 0,
@@ -68,35 +67,45 @@ var plots2 = {
     },
 
     draw_job: function(){
-	
-	this.wcx.req_abort = false;
-	if(this.wcx.running != false){
-	    this.wcx.req_abort = true;
 
+	// Cancel any pre-existing draw job
+	if(this.wcx.recursive_timeoutID != null){
+	    clearTimeout(this.wcx.recursive_timeoutID);
 	}else{
-
 	    $("#tabs-4 #z-5 #plot-status div").hide();
 	    $("#tabs-4 #z-5 #working").show();
-
-	    this.wcx.start_time = new Date();
-
-	    var Plot_i = DM.PlotsArray[plots.selected_row_i];
-	    this.wcx.compilled_formula = math.compile(Plot_i.formula);
-
-	    //assume 1 otherwise
-	    this.wcx.res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val()) || 1;
-
-	    this.wcx.canvas_ctx = this.plotting_canv(false);
-
-	    //function calls
-	    this.wcx.iterations_counted = 0;
-	    this.wcx.iterations_expected = this.calc_total_iterations();//call after grabbing canvas
-
-	    this.set_for_res(0);
-
-	    // 10000 iterations seems to take around 100ms on my laptop => around 50% duty
-	    this.recursive_work_step(200, 200);//start the chain Work=200, rest=100
 	}
+
+	this.wcx.start_time = new Date();
+
+	var Plot_i = DM.PlotsArray[plots.selected_row_i];
+	this.wcx.compilled_formula = math.compile(Plot_i.formula);
+
+	//assume 1 otherwise
+	this.wcx.res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val()) || 1;
+
+	this.wcx.canvas_ctx = this.plotting_canv(false);
+
+	//function calls
+	this.wcx.iterations_counted = 0;
+	this.wcx.iterations_expected = this.calc_total_iterations();//call after grabbing canvas
+
+	this.set_for_res(0);
+
+	// 10000 iterations seems to take around 100ms on my laptop => around 50% duty
+	this.recursive_work_step(200, 200);//start the chain Work=200, rest=100
+    },
+
+
+    abort_recursive_work: function(){
+
+	clearTimeout(this.wcx.recursive_timeoutID);
+	this.wcx.recursive_timeoutID = null;	
+
+	$("#tabs-4 #z-5 #plot-status div").hide();
+	$("#tabs-4 #z-5 #aborted").show();
+
+
     },
 
 
@@ -155,60 +164,49 @@ var plots2 = {
 
 
     av_step_time: [1/100],// as a starting value, assume a single iteration takes 0.01ms
+
     recursive_work_step: function(work_duration_targ, free_duration){
 
 	var sum = this.av_step_time.reduce(function(a, b) { return a + b; });
 	var avg = sum / this.av_step_time.length; // the average durations of recent work chunks
 	var iterations = work_duration_targ / avg;
-
 	var t_sta = new Date();
 
-	//cancel the chain
-	if(this.wcx.req_abort){
-	    this.wcx.running = false;
-	    this.wcx.req_abort = false;
+	//Perform actual work via the "EXECUTE ITERATIONS" function.
+	var Response = this.execute_iterations(iterations);	    
+	
+	if(!Response.complete){// INCOMPLETE
 
-	    $("#tabs-4 #z-5 #plot-status div").hide();
-	    $("#tabs-4 #z-5 #aborted").show();
-	}
+	    // SET UP THE TIMEOUT-BASED RECURSIVE CALL HERE...
+	    this.wcx.recursive_timeoutID = setTimeout(function(){
+		plots2.recursive_work_step(work_duration_targ, free_duration);
+	    }, free_duration);
 
-	// do another step in the chain
-	else{
-	    this.wcx.running = true;
-	    var Response = this.execute_iterations(iterations);	    
-	    
-	    if(!Response.complete){
-		setTimeout(function(){
-		    plots2.recursive_work_step(work_duration_targ, free_duration);
-		}, free_duration);
+	    // 1. displaying PERCENT complete of draw-job, based upon counting iterations
+	    this.wcx.iterations_counted += Response.iterations_run;
+	    var pc_raw = 100 * this.wcx.iterations_counted / this.wcx.iterations_expected
+	    $("#tabs-4 #z-5 #working #pc-compl").text(pc_raw.toFixed(1));
 
-		// 1. displaying PERCENT complete of draw-job, based upon counting iterations
-		this.wcx.iterations_counted += Response.iterations_run;
-		var pc_raw = 100 * this.wcx.iterations_counted / this.wcx.iterations_expected
-		$("#tabs-4 #z-5 #working #pc-compl").text(pc_raw.toFixed(1));
-
-		// 2. RECORD the average time per iteration, for use in calculating future quantities of iterations.
-		var dur = (new Date() - t_sta);
-		//add the new time and pop the old one
-		this.av_step_time.push(dur / Response.iterations_run);
-		if(this.av_step_time.length > 4){
-		    this.av_step_time.splice(0,1);
-		}
-
-
-	    }else{
-		//something to indicate we're finished...
-		$("#tabs-4 #z-5 #plot-status div").hide();
-		$("#tabs-4 #z-5 #complete").show();
-
-		var t_now = new Date();
-		var t_overall = t_now - this.wcx.start_time;
-		var t_final = t_now - this.wcx.res_start_time;
-		$("#tabs-4 #z-5 #complete #t-overall").text((t_overall/1000).toFixed(1));
-		$("#tabs-4 #z-5 #complete #t-final").text((t_final/1000).toFixed(1));
-
-		this.wcx.running = false;
+	    // 2. RECORD the average time per iteration, for use in calculating future quantities of iterations.
+	    var dur = (new Date() - t_sta);
+	    //add the new time and pop the old one
+	    this.av_step_time.push(dur / Response.iterations_run);
+	    if(this.av_step_time.length > 4){
+		this.av_step_time.splice(0,1);
 	    }
+
+
+	}else{// COMPLETE
+	    $("#tabs-4 #z-5 #plot-status div").hide();
+	    $("#tabs-4 #z-5 #complete").show();
+
+	    var t_now = new Date();
+	    var t_overall = t_now - this.wcx.start_time;
+	    var t_final = t_now - this.wcx.res_start_time;
+	    $("#tabs-4 #z-5 #complete #t-overall").text((t_overall/1000).toFixed(1));
+	    $("#tabs-4 #z-5 #complete #t-final").text((t_final/1000).toFixed(1));
+
+	    this.wcx.recursive_timeoutID = null;
 	}
     },
 

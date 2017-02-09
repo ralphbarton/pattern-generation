@@ -54,7 +54,7 @@ var plots = {
 	});
 
 	$("#tabs-4 #z-5 .action-link#clear").click(function(){
-	    plots2.wcx.req_abort = true;
+	    plots2.abort_recursive_work();
 	    plots2.plotting_canv(true);//clear the canvas...
 	});
 
