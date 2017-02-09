@@ -19,7 +19,6 @@ var plots2 = {
 	x_randomise: undefined,
 	y: undefined,
 	x: undefined,
-	phase: undefined,
 	res: undefined,
 	res_lim: undefined,
 	req_abort: false,
@@ -96,7 +95,7 @@ var plots2 = {
 	    this.set_for_res(0);
 
 	    // 10000 iterations seems to take around 100ms on my laptop => around 50% duty
-	    this.work(200, 200);//start the chain Work=200, rest=100
+	    this.recursive_work_step(200, 200);//start the chain Work=200, rest=100
 	}
     },
 
@@ -156,15 +155,15 @@ var plots2 = {
 
 
     av_step_time: [1/100],// as a starting value, assume a single iteration takes 0.01ms
-    work: function(work_duration_targ, free_duration){
+    recursive_work_step: function(work_duration_targ, free_duration){
 
 	var sum = this.av_step_time.reduce(function(a, b) { return a + b; });
 	var avg = sum / this.av_step_time.length; // the average durations of recent work chunks
 	var iterations = work_duration_targ / avg;
-	var next_phase = false;
 
 	var t_sta = new Date();
-	var completed = false;
+
+	//cancel the chain
 	if(this.wcx.req_abort){
 	    this.wcx.running = false;
 	    this.wcx.req_abort = false;
@@ -172,80 +171,31 @@ var plots2 = {
 	    $("#tabs-4 #z-5 #plot-status div").hide();
 	    $("#tabs-4 #z-5 #aborted").show();
 	}
+
+	// do another step in the chain
 	else{
-
 	    this.wcx.running = true;
-
-	    // CARRY OUT the work for fixed number of iterations.
-	    for(var i = 0; i<iterations; i++){
-
-		//set to a blank array (may be scrapping old data, or first assignment).
-		if((this.wcx.x == 0)&&(this.wcx.y == 0)){
-		    this.wcx.samples_sets[this.wcx.res] = [];
-		}
-
-		// Shorthand....
-		var samples = this.wcx.samples_sets[this.wcx.res];
-		var random_x = this.wcx.x_randomise[this.wcx.x].i; // this is an ACCESS operation on an array of randomised
-
-
-		// 1. calculating the sample
-		var x_location = (random_x - this.wcx.n_steps_xH) * this.wcx.interval_size;
-		var y_location = (this.wcx.y - this.wcx.n_steps_yH) * this.wcx.interval_size;
-		var my_z = math.complex(x_location, y_location)
-		var my_fz = this.wcx.compilled_formula.eval({z: my_z});/////MATHS EVALUATION AT POINT
-		var my_h = my_fz.re;
-
-		// 2.store calculated value....
-		samples.push(my_h);
-
-		// 3. Draw onto canvas
-		// 3.1 Set colour according to conversion function.
-		this.wcx.canvas_ctx.fillStyle = this.HexColour_from_fnValue(my_h);
-
-		// 3.2 determine draw location
-		var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
-		var y_location_px = Math.round((this.wcx.winH/2) + (this.wcx.y - this.wcx.n_steps_yH - 0.5)*this.wcx.cell_size);
-		this.wcx.canvas_ctx.fillRect (x_location_px, y_location_px, this.wcx.cell_size, this.wcx.cell_size);//x,y,w,h
-		this.wcx.y++;
-		
-
-		// Iteration control, for state variables...
-		if((this.wcx.y >= this.wcx.n_steps_y)||(next_phase)){//test if column finished
-		    this.wcx.y=0;
-		    this.wcx.x++;
-
-		    if((this.wcx.x >= this.wcx.n_steps_x)||(next_phase)){//test if screen finished
-			this.wcx.x = 0;
-			this.wcx.res++;
-
-			// now we have a complete point-set, draw histogram.
-			plots.histogram_stats(samples);
-
-			// (A) Completely finished drawing at the finest resolution
-			if((this.wcx.res >= this.CellSizes.length) || (this.CellSizes[this.wcx.res] < this.wcx.res_lim)){
-			    /// terminate and flag no further callbacks
-			    completed = true;
-			    break;
-
-			// (B) about to redraw it all at a finer resolution
-			}else{
-
-			    //recalculate a bunch of resolution stuff
-			    this.set_for_res(this.wcx.res);
-			}
-
-			iterations = i;//set to actual
-			break; //whether completely finished, or just finished at a particular res, pause for a breath here.
-		    }		    
-		}
-	    }
-
+	    var Response = this.execute_iterations(iterations);	    
 	    
-	    if(!completed){
+	    if(!Response.complete){
 		setTimeout(function(){
-		    plots2.work(work_duration_targ, free_duration);
+		    plots2.recursive_work_step(work_duration_targ, free_duration);
 		}, free_duration);
+
+		// 1. displaying PERCENT complete of draw-job, based upon counting iterations
+		this.wcx.iterations_counted += Response.iterations_run;
+		var pc_raw = 100 * this.wcx.iterations_counted / this.wcx.iterations_expected
+		$("#tabs-4 #z-5 #working #pc-compl").text(pc_raw.toFixed(1));
+
+		// 2. RECORD the average time per iteration, for use in calculating future quantities of iterations.
+		var dur = (new Date() - t_sta);
+		//add the new time and pop the old one
+		this.av_step_time.push(dur / Response.iterations_run);
+		if(this.av_step_time.length > 4){
+		    this.av_step_time.splice(0,1);
+		}
+
+
 	    }else{
 		//something to indicate we're finished...
 		$("#tabs-4 #z-5 #plot-status div").hide();
@@ -259,19 +209,77 @@ var plots2 = {
 
 		this.wcx.running = false;
 	    }
-
 	}
+    },
 
-	this.wcx.iterations_counted += iterations;
-	var pc_raw = 100 * this.wcx.iterations_counted / this.wcx.iterations_expected
-	$("#tabs-4 #z-5 #working #pc-compl").text(pc_raw.toFixed(1));
 
-	var dur = (new Date() - t_sta);
-	//add the new time and pop the old one
-	this.av_step_time.push(dur/iterations);
-	if(this.av_step_time.length > 4){
-	    this.av_step_time.splice(0,1);
+    // CARRY OUT the work for fixed number of iterations.
+    execute_iterations: function(iterations){
+
+	for(var i = 0; i<iterations; i++){
+
+	    //set to a blank array (may be scrapping old data, or first assignment).
+	    if((this.wcx.x == 0)&&(this.wcx.y == 0)){
+		this.wcx.samples_sets[this.wcx.res] = [];
+	    }
+
+	    // Shorthand....
+	    var samples = this.wcx.samples_sets[this.wcx.res];
+	    var random_x = this.wcx.x_randomise[this.wcx.x].i; // this is an ACCESS operation on an array of randomised
+
+
+	    // 1. calculating the sample
+	    var x_location = (random_x - this.wcx.n_steps_xH) * this.wcx.interval_size;
+	    var y_location = (this.wcx.y - this.wcx.n_steps_yH) * this.wcx.interval_size;
+	    var my_z = math.complex(x_location, y_location)
+	    var my_fz = this.wcx.compilled_formula.eval({z: my_z});/////MATHS EVALUATION AT POINT
+	    var my_h = my_fz.re;
+
+	    // 2.store calculated value....
+	    samples.push(my_h);
+
+	    // 3. Draw onto canvas
+	    // 3.1 Set colour according to conversion function.
+	    this.wcx.canvas_ctx.fillStyle = this.HexColour_from_fnValue(my_h);
+
+	    // 3.2 determine draw location
+	    var x_location_px = Math.round((this.wcx.winW/2) + (random_x - this.wcx.n_steps_xH - 0.5)*this.wcx.cell_size);
+	    var y_location_px = Math.round((this.wcx.winH/2) + (this.wcx.y - this.wcx.n_steps_yH - 0.5)*this.wcx.cell_size);
+	    this.wcx.canvas_ctx.fillRect (x_location_px, y_location_px, this.wcx.cell_size, this.wcx.cell_size);//x,y,w,h
+	    this.wcx.y++;
+	    
+
+	    // Iteration control, for state variables...
+	    if (this.wcx.y >= this.wcx.n_steps_y){//test if column finished
+		this.wcx.y=0;
+		this.wcx.x++;
+
+		//Case: whole screen finished....
+		if (this.wcx.x >= this.wcx.n_steps_x){
+		    this.wcx.x = 0;
+		    this.wcx.res++;
+
+		    // now we have a complete point-set, draw histogram.
+		    plots.histogram_stats(samples);
+
+		    // (A) Test if completely finished drawing at the finest resolution
+		    var job_done = (this.wcx.res >= this.CellSizes.length) || (this.CellSizes[this.wcx.res] < this.wcx.res_lim);
+
+		    //recalculate a bunch of resolution stuff
+		    // (B) about to redraw it all at a finer resolution
+		    if(!job_done){
+			this.set_for_res(this.wcx.res);
+		    }
+
+		    //whether completely finished, or just finished at a particular res, terminate / pause for a breath here.
+		    return {complete: job_done, iterations_run: i}; // return ACTUAL number of iterations.
+
+		}		    
+	    }
 	}
+	
+	//designated number of iterations ran, and work is ongoing.
+	return {complete: false, iterations_run: iterations};
     },
 
 
