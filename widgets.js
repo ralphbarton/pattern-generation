@@ -40,6 +40,16 @@ var widgets = {
 	    std_steps: [1, 2, 5],
 	    decimal_places: 0
 	},
+	dimentionless: {
+	    type: "number",
+	    unit: "",
+	    unit_preceeds: false,
+	    min: (-10000),//Infinity
+	    max: 10000,//Infinity
+	    std_steps: [0.1, 1, 100],
+	    decimal_places: 2
+	},
+
     },
 
     //this assumes an array of 2 functions as second parameter.
@@ -146,13 +156,14 @@ jQuery.fn.extend({
 		   // call to initialise it with units etc.
 		   $(this).SmartInput("update", {UI_enable: false});
 
+
 		   //now we add remove old and add new generic listeners...
 		   $(this).off()
 		       .on("focusout", function(){
 			   $(this).SmartInput("update",{
 			       UI_enable: false,
 			       true_focusout: true			
-		      });
+			   });
 			   if(options.cb_focusout != undefined){options.cb_focusout(this);}//execute callback if defined.
 		       })
 		       .on("click", function(){
@@ -166,6 +177,7 @@ jQuery.fn.extend({
 			   }
 			   if(options.cb_change != undefined){options.cb_change();}//execute callback if defined.
 		       });
+
 
 		   //the INITIALISATION callback may be applied to the element.
 		   if(options.cb_init != undefined){options.cb_init(this);}//execute callback if defined.
