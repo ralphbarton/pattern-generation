@@ -1,6 +1,7 @@
 var plots = {
 
     selected_row_i: undefined,
+    showing_plot_active: false,
 
     UI_props: {
 	//properties of the PREVIEW tab
@@ -50,14 +51,21 @@ var plots = {
 	$("#tabs-4 #z-5 .button#plot").click(function(){
 	    if(plots.selected_row_i != undefined){
 		plots2.draw_job();//this will abort the existing job and start afresh
+		plots.showing_plot_active = true;
 	    }
 	});
 
 	$("#tabs-4 #z-5 .action-link#clear").click(function(){
 	    plots2.abort_recursive_work();
 	    plots2.plotting_canv(true);//clear the canvas...
-	});
+	    plots.showing_plot_active = false;
 
+	    //Delete all the bars of the barchart.
+	    d3.select("#hist svg")
+	    .selectAll("rect").remove();
+	    plots.first_hist = true;
+
+	});
 
 
 	// == Within Preview Options ==
@@ -66,7 +74,7 @@ var plots = {
 	//todo: add immediate effect colour change.
 	var change_colouring = function(i){
 	    plots.UI_props.prev.colouring = i;
-	    if(plots2.wcx.canvas_ctx !== undefined){
+	    if(plots.showing_plot_active){
 		plots2.draw_job();//this will abort the existing job and start afres
 	    }
 	};
@@ -238,6 +246,10 @@ var plots = {
 				    underlying_obj: Plot_i.histogram
 				});
 			    });
+
+			    if(plots.showing_plot_active){
+				plots2.draw_job();//this will abort the existing job and start afresh
+			    }
 
 			    /*
 			      Take a lot of rendering actions here...
