@@ -432,6 +432,8 @@
 		  <svg id="bar-graph"></svg>
 		</div>
 
+		<div class="action-link" id="hist-flatten">Flatten</div>
+
 		<div class="mini-text" id="hist-stats">
 		  <div id="points" >Points: <span>x</span></div>
 		  <div id="min"    >Min: <span>x</span></div>
@@ -444,11 +446,21 @@
 		<div class="mini-text" id="hist-adjust">
 		  <div class="title-c">Adjust</div>
 		  <div id="ops">
-		    <div id="value-min">val.min: <span><input class="plain-cell"/></div></span>
-		    <div id="value-max">val.max: <span><input class="plain-cell"/></div></span>
-		    <div id="value-mid">val.mid: <span><input class="plain-cell"/></div></span>
-		    <div id="brightness">Brightn.: <span><input class="plain-cell"/></div></span>
-		    <div id="contrast">Contrast: <span><input class="plain-cell"/></div></span>
+		    <div id="value-min">val.min: <span><input class="plain-cell"/></span></div>
+		    <div id="value-max">val.max: <span><input class="plain-cell"/></span></div>
+		    <div id="value-mid">val.mid: <span><input class="plain-cell"/></span></div>
+		    <div id="brightness">Brightn.:
+		      <div>		      
+			<div class="button sqr-but sm n"><span>-</span></div>
+			<div class="button sqr-but sm p"><span>+</span></div>
+		      </div>
+		    </div>
+		    <div id="contrast">Contrast:
+		      <div>		      
+			<div class="button sqr-but sm n"><span>-</span></div>
+			<div class="button sqr-but sm p"><span>+</span></div>
+		      </div>
+		    </div>
 		  </div>
 
 		  <div class="lump" id="curve">FF</div>

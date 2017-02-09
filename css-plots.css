@@ -159,7 +159,7 @@
     color: rgba(0, 0, 0, 0.3);
 }
 
-.sqr-but span{
+.sqr-but > span{
     font-family: sans;
     font-weight: bold;
     font-size: 28px;
@@ -218,6 +218,13 @@
     font-size: 10px;
 }
 
+#z-2 #hist-flatten {
+    position: absolute;
+    top: -1px;
+    left: 95px;
+    z-index: 10;
+}
+
 #hist-adjust {
     position: absolute;
     top: 0px;
@@ -246,12 +253,12 @@
     left: 4px;
 }
 
-#hist-adjust #ops div{
+#hist-adjust #ops > div{
     margin: 3px 0px;
     width: 150px;
 }
 
-#hist-adjust #ops div span{
+#hist-adjust #ops > div > span{
     position: absolute;
     left: 52px;
 }
@@ -262,6 +269,37 @@
     height: 12px;
     width: 40px;
 }
+
+#brightness > div,
+#contrast > div{
+    display: inline-block;
+    position: absolute;
+    left: 55px;
+}
+
+.sqr-but.sm{
+    border-radius: 3px;
+    width: 15px;
+    height: 12px;
+    margin: 0px;
+    position: relative;
+    top: -1px;
+}
+
+.sqr-but.sm > span{
+    font-size: 12px; 
+}
+
+.sqr-but.sm.p span{
+    top: -2px;
+    left: -1px;
+}
+
+.sqr-but.sm.n span{
+    top: -2px;
+    left: 0px;
+}
+
 
 #hist-adjust #curve{
     position: absolute;
