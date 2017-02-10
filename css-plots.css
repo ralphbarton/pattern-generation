@@ -85,14 +85,14 @@
 .zone#z-4{
     top: 172px;
     left: 437px;
-    height: 98px;
+    height: 115px;
     width: 250px
 }
 
 .zone#z-5{
-    top: 290px;
+    top: 308px;
     left: 437px;
-    height: 86px;
+    height: 68px;
     width: 250px
 }
 
@@ -145,14 +145,9 @@
     margin-top: 7px;
 }
 
-.sqr-btns{
-    margin-top: 4px;
-}
-
 .sqr-but{
-    width: 26px;
-    height: 26px;
-    vertical-align: text-bottom;
+    width: 25px;
+    height: 25px;
     margin: 1px;
     padding:0px;
     text-align: center;
@@ -168,18 +163,19 @@
 
 .sqr-but.p span{
     top: -5px;
-    left:-1px;
+    left:-0px;
 }
 
 .sqr-but.m span{
     top: -6px;
-    left: 0px;
+    left: -1px;
 }
 
-.sqr-btns img{
+.sqr-but img{
     position: relative;
     width: 18px;
     top: 1px;
+    left: -1px;
     margin: 3px;
     opacity: 0.3;
 }
@@ -190,6 +186,28 @@
 
 .sqr-but:hover img{
     opacity: 0.6;
+}
+
+#ztr-btns{
+    margin-top: 7px;
+    position: relative;
+}
+
+#ztr-btns > div{
+    display: inline-block;
+    position: absolute;
+}
+
+#ztr-btns #zoom{
+    left: 0px;  
+}
+
+#ztr-btns #translate{
+    left: 67px;
+}
+
+#ztr-btns #rotate{
+    left: 192px;
 }
 
 
@@ -365,20 +383,19 @@
 
 .zone#z-5 #res-lim{
     position: absolute;
-    top: 78px;
-
+    bottom: 2px;
 }
 
 #z-5 #plot{
     position: absolute;
-    top: 64px;
+    bottom: 3px;
     left: 185px;
 }
 
 #z-5 #clear{
     position: absolute;
-    top: 48px;
-    left: 216px;
+    bottom: 4px;
+    right: 72px;
 }
 
 #z-5 #plot-status{
