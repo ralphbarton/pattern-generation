@@ -104,7 +104,7 @@ $(document).ready(function() {
 */
 
     //go straight to Grids ( = 4rd tab...)
-    $("#cpanel-main-tabs > ul > li:nth-of-type(4) a").click()
+    $("#cpanel-main-tabs > ul > li:nth-of-type(8) a").click()
 
 
 });

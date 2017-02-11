@@ -41,6 +41,8 @@
     <link rel="stylesheet" href="css-export.css" />
     <link rel="stylesheet" href="css--sandbox.css" />
 
+    <link rel="stylesheet" href="css-hand-drawing.css" />
+
     <!-- JS -->
     <script src="global.js"></script>
     <script src="widgets.js"></script>
@@ -103,8 +105,8 @@
 	    <li><a href="#tabs-4">Density Plots</a></li>
 	    <li><a href="#tabs-5">Density Paintings</a></li>
 	    <li><a href="#tabs-6">Motifs</a></li>
-	    <li><a href="#tabs-7">Randomization</a></li>
-	    <li><a href="#tabs-8">Export</a></li>
+	    <li><a href="#tabs-7">Options</a></li>
+	    <li><a href="#tabs-8">Examples</a></li>
 	  </ul>
 
 	  <!-- 1.2.1 Tab 1 -->	  
@@ -565,15 +567,50 @@
 	  </div>
 
 	  <!-- 1.2.7 Tab 7 -->	  
+	  <!-- == Options == -->	  
 	  <div id="tabs-7">
-	    With the random seed idea, a fixed random-number generator algorithm will allow the exact same image to be generated on different occasions. Neat
+
+	    <div id="ops-main">
+	      With the random seed idea, a fixed random-number generator algorithm will allow the exact same image to be generated on different occasions. Neat
+
+	    </div>
+
+	    <!-- style="display: none;" -->
+	    <div id="ops-rseed">
+
+	      Export options here...
+	      This means JSON, and a text-file download.
+	      <textarea placeholder="put JSON here..." id="json-text"></textarea>
+
+	    </div>
+
 	  </div>
 
 	  <!-- 1.2.8 Tab 8 -->	  
+	  <!-- == Examples == -->	  
 	  <div id="tabs-8">
-	    Export options here...
-	    This means JSON, and a text-file download.
-	    <textarea placeholder="put JSON here..." id="json-text"></textarea>
+
+	    <div id="info">
+	      Here are some hand-drawn examples of the kinds of pattern intended. Click a thumbnail
+	    </div>
+
+	    <div id="thumb-container">
+	      <div class="drawn-thumb">
+		<div>146-01</div>
+		<img src="hand-drawing/square-thumb/146-01b.jpg"/>
+	      </div>
+
+	      <div class="drawn-thumb">
+		<div>139-04</div>
+		<img src="hand-drawing/square-thumb/139-04a.png"/>
+	      </div>
+
+	      <div class="drawn-thumb">
+		<div>152-01</div>
+		<img src="hand-drawing/square-thumb/152-01b.jpg"/>
+	      </div>
+	    </div>
+
 	  </div>
 
 	</div>
