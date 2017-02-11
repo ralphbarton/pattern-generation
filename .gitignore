@@ -5,6 +5,7 @@
 TAGS
 #icons/
 include/
+hand-drawing/
 pattern-generation-launch.sh
 deploy.sh
 *.js~
