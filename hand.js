@@ -38,6 +38,44 @@ var hand = {
 
 	this.set_random_thumbnails();
 
+	
+	//bind functionality to elements in (initialially hidden) Gallery...
+	$("#tabs-8 #close-gallery").click(function(){
+	    hand.hide_gallery();
+	});
+
+
+	//put thumbnails into list...
+	$.each( this.dict_thumb, function(key, filelist) {
+	    var rand_i = Math.floor( Math.random() * filelist.length );
+	    $("#listing-bar").append(
+		$("<div/>")
+		    .addClass("drawn-thumb")
+		    .addClass("list")
+		    .append(
+			$("<div/>").text(key),
+			$("<img/>").attr("src", "hand-drawing/square-thumb/" + filelist[rand_i])
+		    )
+		    .data({pattern_id: key})
+		    .click(function(){
+			var pID = $(this).data("pattern_id")
+			
+			var fileslist = hand.dict_fullsize[pID];
+			
+			console.log(fileslist);
+
+			$("#img-container")
+			    .html("")
+			    .append(
+			    $("<img/>").attr("src", "hand-drawing/gallery/" + fileslist[0])
+			)
+		    })
+	    );
+	});
+
+
+
+
     },
 
     set_random_thumbnails: function(){
@@ -77,14 +115,42 @@ var hand = {
 		.append(
 		    $("<div/>").text(this_thumb.pattern_id),
 		    $("<img/>").attr("src", "hand-drawing/square-thumb/" + this_thumb.files_list[rand_i])
-		);
+		).click(function(){
+		    hand.show_gallery(this_thumb.pattern_id);
+		});
 	});
 
     },
 
-    fn3: function(){},
-	    
+    show_gallery: function(pattern_id){
 
+	$(".cpanel#main").removeClass("cpanel-main-size1").addClass("cpanel-main-size3");
+
+	//sets the global this.wcx.canvas_ctx
+	var newLeft = ($(window).width() - 1000)/2;
+	var newTop = ($(window).height() - 750)/2;
+
+	$(".cpanel#main").animate({
+	    left: newLeft,
+	    top: newTop
+	}, 700);
+
+	$("#tabs-8 #thumbs-view").hide();
+	$("#tabs-8 #gallery-view").show();
+	$("#cpanel-main-tabs").tabs("option", "disabled", true);
+
+	$("#tabs-8 #top-section #heading").text(pattern_id);
+
+    },
+	    
+    hide_gallery: function(){
+
+	$("#tabs-8 #gallery-view").hide();
+	$("#tabs-8 #thumbs-view").show();
+	$(".cpanel#main").removeClass("cpanel-main-size3").addClass("cpanel-main-size1");
+	$("#cpanel-main-tabs").tabs("option", "disabled", false);
+
+    },
 
     fullsize_img: [
 	"139-01-1600px01.jpg",
@@ -212,12 +278,12 @@ var hand = {
 	"146-04e.jpg",
 	"146-04f.jpg",
 	"146-04g.jpg",
-	"152-01a.jpg",
-	"152-01b.jpg",
-	"152-01c.jpg",
-	"152-01d.jpg",
-	"152-01e.jpg",
-	"152-01f.jpg",
+	"152-02a.jpg",
+	"152-02b.jpg",
+	"152-02c.jpg",
+	"152-02d.jpg",
+	"152-02e.jpg",
+	"152-02f.jpg",
 	"153-01a.jpg",
 	"153-01b.jpg",
 	"153-01c.jpg",

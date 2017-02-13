@@ -12,17 +12,21 @@
 }
 
 .cpanel-main-size1{
+    transition: width 0.7s, height 0.7s;
     width: 700px;
     height: 400px;
-    -webkit-transition: width 0.7s, height 0.7s; /* Safari */
-    transition: width 0.7s, height 0.7s;
 }
 
 .cpanel-main-size2{
+    transition: width 0.7s, height 0.7s;
     width: 472px;
     height: 700px;
-    -webkit-transition: width 0.7s, height 0.7s; /* Safari */
+}
+
+.cpanel-main-size3{
     transition: width 0.7s, height 0.7s;
+    width: 1000px;
+    height: 750px;
 }
 
 #cpanel-title-strip{
