@@ -96,21 +96,28 @@
   width: 152px;
 }
 
-#img-section{
+#img-section {
     text-align: center;
 }
 
-#img-container{
-  display: inline-block;
+#img-white-box {
+  margin-left: 4px;
   border-radius: 6px;
   background: #EEE;
   border: 1px solid black;
   text-align: center;
   width: 790px;
   height: 580px;
+  display: table;
 }
 
-#img-container img{
+#img-container{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#img-white-box img{
   max-width: 790px;
   max-height: 580px;
 }
+

@@ -58,11 +58,11 @@ var hand = {
 		    )
 		    .data({pattern_id: key})
 		    .click(function(){
+
+			//this function places an image inside the image container DIV
 			var pID = $(this).data("pattern_id")
 			
 			var fileslist = hand.dict_fullsize[pID];
-			
-			console.log(fileslist);
 
 			$("#img-container")
 			    .html("")
