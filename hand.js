@@ -3,9 +3,84 @@ var hand = {
     //long lists are:
     // this.fullsize_img
     // this.thumb_img
-    init: function(){},
+    dict_thumb: {},
+    dict_fullsize: {},
 
-    fn2: function(){},
+    init: function(){
+
+	/*
+	  "139-02a.jpg",
+	  "139-02b.jpg",
+	*/
+	this.thumb_img.forEach(function(filename) {
+
+	    var img_code = filename.slice(0,6);
+	    if(hand.dict_thumb[img_code] == undefined){
+		hand.dict_thumb[img_code] = [];
+	    }
+	    hand.dict_thumb[img_code].push(filename);
+
+	});
+
+	/*
+	  "139-01-1600px01.jpg",
+	  "139-02-1600px02.jpg",
+	*/	
+	this.fullsize_img.forEach(function(filename) {
+
+	    var img_code = filename.slice(0,6);
+	    if(hand.dict_fullsize[img_code] == undefined){
+		hand.dict_fullsize[img_code] = [];
+	    }
+	    hand.dict_fullsize[img_code].push(filename);
+
+	});
+
+	this.set_random_thumbnails();
+
+    },
+
+    set_random_thumbnails: function(){
+
+	// 1. put list of thumbnails into a random order
+	var rand_ordering = [];
+	$.each( this.dict_thumb, function(key, value) {
+	    rand_ordering.push({
+		pattern_id: key,
+		files_list: value,
+		seq_rand: Math.random()
+	    });
+	});
+
+	function compare(a,b) {
+	    if (a.seq_rand < b.seq_rand)
+		return -1;
+	    if (a.seq_rand > b.seq_rand)
+		return 1;
+	    return 0;
+	};
+
+	rand_ordering.sort(compare);
+
+	// 2. populate 3 DIV's using the first 3 in the list
+	var t_counter = 0;
+	$.each( $("#tabs-8 div#thumb-container > div.drawn-thumb"), function(key, DOM_myDiv) {
+
+	    // 2.1 for the thumbnail set of a specific pattern, randomly choose the actual thumbnail to display.
+	    var this_thumb = rand_ordering[t_counter];
+	    t_counter++;
+	    var rand_i = Math.floor( Math.random() * this_thumb.files_list.length );
+
+	    // 2.2 change contents of DOM...
+	    $(DOM_myDiv)
+		.html("")
+		.append(
+		    $("<div/>").text(this_thumb.pattern_id),
+		    $("<img/>").attr("src", "hand-drawing/square-thumb/" + this_thumb.files_list[rand_i])
+		);
+	});
+
+    },
 
     fn3: function(){},
 	    
