@@ -68,7 +68,34 @@ var hand = {
 			    .html("")
 			    .append(
 			    $("<img/>").attr("src", "hand-drawing/gallery/" + fileslist[0])
-			)
+			);
+
+			//get the correct details obj;
+			var Arr = hand_descriptions.text_obj;
+			var TextDetails = undefined;
+			for (var i = 0; i < Arr.length; i++){
+			    if(Arr[i].pattern_id == pID){
+				TextDetails = Arr[i];
+				break;
+			    }
+			}
+			$("#tabs-8 #top-section #heading").text(pID);
+
+			$("#tabs-8 #top-section #date").text(TextDetails["completion_date"]);
+			$("#tabs-8 #top-section #materials").text(TextDetails["materials_used"]);
+			$("#tabs-8 #top-section #links").text("ahem");
+			$("#tabs-8 #top-section #description").text(TextDetails["description"]);
+			$("#tabs-8 #top-section #dimentions").text(TextDetails["dimentions"]);
+
+			/*
+			  use this data:
+
+			  "img_comments": {
+			  "139-01-1600px01.jpg": "I ought to retake this photo using a flatbed scanner instead of my phone camera."
+			  }
+			*/
+
+
 		    })
 	    );
 	});
