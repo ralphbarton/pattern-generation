@@ -79,13 +79,13 @@ var hand = {
 				break;
 			    }
 			}
-			$("#tabs-8 #top-section #heading").text(pID);
+			$("#tabs-8 #heading span.value").text(pID);
 
-			$("#tabs-8 #top-section #date").text(TextDetails["completion_date"]);
-			$("#tabs-8 #top-section #materials").text(TextDetails["materials_used"]);
-			$("#tabs-8 #top-section #links").text("ahem");
-			$("#tabs-8 #top-section #description").text(TextDetails["description"]);
-			$("#tabs-8 #top-section #dimentions").text(TextDetails["dimentions"]);
+			$("#tabs-8 #date span.value").text(TextDetails["completion_date"]);
+			$("#tabs-8 #materials span.value").text(TextDetails["materials_used"]);
+			$("#tabs-8 #links span.value").text("Progress photos: [1 | 2 | 3 | 4]. Final Photo");
+			$("#tabs-8 #description span.value").text(TextDetails["description"]);
+			$("#tabs-8 #dimentions span.value").text(TextDetails["dimentions"]);
 
 			/*
 			  use this data:
@@ -166,7 +166,7 @@ var hand = {
 	$("#tabs-8 #gallery-view").show();
 	$("#cpanel-main-tabs").tabs("option", "disabled", true);
 
-	$("#tabs-8 #top-section #heading").text(pattern_id);
+	$("#tabs-8 #heading span.value").text(pattern_id);
 
     },
 	    

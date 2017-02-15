@@ -1,4 +1,4 @@
-/* for images etc. */
+/* 1. for the 3 mini thumbnails */
 
 #tabs-8 #info{
   margin: 6px;
@@ -29,8 +29,6 @@
   font-family: sans;
 }
 
-
-
 .drawn-thumb img{
   width: 200px;
   display: block;
@@ -45,6 +43,12 @@
 .drawn-thumb:hover > div{
   opacity: 0;
 }
+
+
+
+
+
+/* 2. for the whole expanded gallery tab */
 
 #listing-bar{
   border-right: 2px solid rgba(0,0,0,0.4);
@@ -63,21 +67,77 @@
   bottom: 0px;
   width: 800px;
   height: 658px;
+     font-family: sans;
+    font-size: 12px;
 }
 
-#close-gallery{
-  z-index: 1;
+#close-gallery {
   position: absolute;
-  right: 4px;
-  top: 4px;
+  top: 3px;
+  left: 285px;
+  z-index: 1;
+}
+
+#gallery-view .prop{
+  font-weight: bold;
 }
 
 #gallery-view #heading{
-  margin: 4px 20px;
-   font-family: sans;
+  position: absolute;
+  top: 0px;
+  left: 20px;
   font-size: 36px;
   opacity: 0.7;
 }
+
+#gallery-view #date{
+  position: absolute;
+  top: 5px;
+  left: 165px;
+  font-size: 14px;
+}
+
+#gallery-view #dimentions{
+  position: absolute;
+  top: 22px;
+  left: 165px;
+  font-size: 10px;
+  font-weight: bold;
+  opacity: 0.35;
+}
+
+#gallery-view #materials{
+  position: absolute;
+  top: 37px;
+  left: 5px;
+  width: 268px;
+  opacity: 0.5;
+}
+
+#gallery-view #links{
+  position: absolute;
+  top: 95px;
+  left: 5px;
+  width: 90%%;
+}
+
+#gallery-view #description{
+  position: absolute;
+  top: 7px;
+  right: 11px;
+  width: 420px;
+  height: 95px;
+  padding: 3px;
+    overflow-x: hidden;
+  overflow-y: auto;
+    background-color: rgba(238, 238, 238, 0.8);
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,1);
+    border-radius: 2px;
+}
+
+
+
+
 
 .drawn-thumb.list{
   box-shadow: 0px 0px 4px 1px rgba(0,0,0,1);
@@ -101,13 +161,15 @@
 }
 
 #img-white-box {
-  margin-left: 4px;
+  position: absolute;
+  top: 115px;
+  left: 4px;
+  width: 790px;
+  height: 515px;
   border-radius: 6px;
   background: #EEE;
   border: 1px solid black;
   text-align: center;
-  width: 790px;
-  height: 580px;
   display: table;
 }
 
@@ -118,6 +180,6 @@
 
 #img-white-box img{
   max-width: 790px;
-  max-height: 580px;
+  max-height: 515px;
 }
 
