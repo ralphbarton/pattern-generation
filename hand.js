@@ -84,7 +84,7 @@ var hand = {
 			$("#tabs-8 #date span.value").text(TextDetails["completion_date"]);
 			$("#tabs-8 #materials span.value").text(TextDetails["materials_used"]);
 			$("#tabs-8 #links span.value").text("Progress photos: [1 | 2 | 3 | 4]. Final Photo");
-			$("#tabs-8 #description span.value").text(TextDetails["description"]);
+			$("#tabs-8 #description span.value").html(TextDetails["description"]);//may contain <br>
 			$("#tabs-8 #dimentions span.value").text(TextDetails["dimentions"]);
 
 			/*

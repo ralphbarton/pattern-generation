@@ -43,16 +43,25 @@ fs.readFile(path_input_file, 'utf8', function (err,data) {
     //assume we're at an "=" line
     while(ix < n_lines){
 
+	//the description (only) may be composed of more than one line
+	var Desc = trim(lines[ix+3].replace("C:", ""));
+	var d_counter = 1;
+	while( lines[ix + 3 + d_counter][1] != ":" ){// expection a "D:" to indicate next data...
+	    Desc += "\n<br>" + trim(lines[ix + 3 + d_counter]);
+	    d_counter++;
+	}
+
+
 	var desc_obj = {
 	    pattern_id:       trim(lines[ix].replace("=", "")),
 	    completion_date:  trim(lines[ix+1].replace("A:", "")),
 	    materials_used:   trim(lines[ix+2].replace("B:", "")),
-	    description:      trim(lines[ix+3].replace("C:", "")),
-	    dimentions:       trim(lines[ix+4].replace("D:", "")),
+	    description:      Desc,
+	    dimentions:       trim(lines[ix+4+(d_counter-1)].replace("D:", "")),
 	    img_comments: {}
 	};
 
-	ix += 5; //we should be now be on the line starting capital E
+	ix += 5 +(d_counter-1); //we should be now be on the line starting capital E
 	ix ++; //now at the list of individual files and description...
 
 	while((ix < n_lines)&&(!lines[ix].includes("="))){
