@@ -190,15 +190,22 @@ var hand = {
 		    $("<div/>")
 			.text(i==final_i ? "final" : i+1)
 			.addClass("button pho")
-			.toggleClass("fin", i==final_i)
+			.toggleClass("fin", i==final_i)// different css padding needed for word 'final'...
+			.toggleClass("selected", i==final_i)
 			.click(function(){
+			    $(".button.pho").removeClass("selected");
+			    $(this).addClass("selected");
 			    console.log("show",i);
 			    hand.show_photo(i);
 			})
 		);
 	    });
 	}else{
-	    links_html.push("Final photo below...");
+	    links_html.push(
+		$("<div/>")
+		    .addClass("single-photo-text")
+		    .text("Final photo shown below.")
+	    );
 	}
 
 	$("#tabs-8 #links span.value")
@@ -210,7 +217,7 @@ var hand = {
     },
 
 
-
+    fader_count: 0,
     show_photo: function(photo_id){
 
 	var PATpix_fileslist = hand.dict_fullsize[this.current_Details.pattern_id];
@@ -221,11 +228,29 @@ var hand = {
 
 	var photo_file = PATpix_fileslist[photo_id];
 
-	$("#img-container")
-	    .html("")
+	//add the new IMG
+	$("#img-section")
 	    .append(
-		$("<img/>").attr("src", "hand-drawing/gallery/" + photo_file)
+		$("<div/>").addClass("img-white-box").append(
+		    $("<div/>").addClass("img-container").append(
+			$("<img/>")
+			    .attr("src", "hand-drawing/gallery/" + photo_file)
+		    )
+		)
+		    .attr("id", "img-" + this.fader_count)
+		    .hide()
+		    .fadeIn({duration: 600, easing: "linear"})
 	    );
+
+	if(this.fader_count > 0){
+	    (function(cnt){
+		setTimeout(function(){
+		    $("#img-" + cnt).remove();
+		}, 650);
+	    })(hand.fader_count-1);
+	}
+	this.fader_count++;
+
 
 	//if undefined, use an empty string.
 	var comment = this.current_Details.img_comments[photo_file] || "";

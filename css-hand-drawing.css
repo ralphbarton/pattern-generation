@@ -112,16 +112,15 @@
   left: 5px;
   width: 268px;
   opacity: 0.5;
-    overflow-y: hidden;
-    border: 1px solid red;
+  overflow-y: hidden;
   height: 30px;
 }
 
 #gallery-view #links{
   position: absolute;
-  top: 72px;
+  bottom: 545px;
   left: 5px;
-  width: 345px;
+  width: 280px;
 }
 
 #gallery-view #description{
@@ -163,7 +162,7 @@
     text-align: center;
 }
 
-#img-white-box {
+.img-white-box {
   position: absolute;
   top: 115px;
   left: 4px;
@@ -176,12 +175,12 @@
   display: table;
 }
 
-#img-container{
+.img-container{
   display: table-cell;
   vertical-align: middle;
 }
 
-#img-white-box img{
+.img-white-box img{
   max-width: 790px;
   max-height: 505px;
 }
@@ -201,4 +200,16 @@
 
 .button.pho.fin{
   padding: 1px 8px;
+}
+
+.button.pho.selected{
+   background-color: rgba(255,255,255,0.4);
+   font-weight: bold;
+   color: rgba(0,70,180,0.6);
+   border-color: rgba(0,70,180,0.6);
+}
+
+.single-photo-text{
+   font-weight: bold;
+   color: rgba(0,70,180,0.5);
 }
