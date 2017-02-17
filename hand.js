@@ -59,41 +59,9 @@ var hand = {
 		    .data({pattern_id: key})
 		    .click(function(){
 
-			//this function places an image inside the image container DIV
-			var pID = $(this).data("pattern_id")
-			
-			var fileslist = hand.dict_fullsize[pID];
-
-			$("#img-container")
-			    .html("")
-			    .append(
-			    $("<img/>").attr("src", "hand-drawing/gallery/" + fileslist[0])
-			);
-
-			//get the correct details obj;
-			var Arr = hand_descriptions.text_obj;
-			var TextDetails = undefined;
-			for (var i = 0; i < Arr.length; i++){
-			    if(Arr[i].pattern_id == pID){
-				TextDetails = Arr[i];
-				break;
-			    }
-			}
-			$("#tabs-8 #heading span.value").text(pID);
-
-			$("#tabs-8 #date span.value").text(TextDetails["completion_date"]);
-			$("#tabs-8 #materials span.value").text(TextDetails["materials_used"]);
-			$("#tabs-8 #links span.value").text("Progress photos: [1 | 2 | 3 | 4]. Final Photo");
-			$("#tabs-8 #description span.value").html(TextDetails["description"]);//may contain <br>
-			$("#tabs-8 #dimentions span.value").text(TextDetails["dimentions"]);
-
-			/*
-			  use this data:
-
-			  "img_comments": {
-			  "139-01-1600px01.jpg": "I ought to retake this photo using a flatbed scanner instead of my phone camera."
-			  }
-			*/
+			// render pattern
+			var pattern_id = $(this).data("pattern_id")
+			hand.show_pattern(pattern_id);
 
 
 		    })
@@ -166,7 +134,7 @@ var hand = {
 	$("#tabs-8 #gallery-view").show();
 	$("#cpanel-main-tabs").tabs("option", "disabled", true);
 
-	$("#tabs-8 #heading span.value").text(pattern_id);
+	this.show_pattern(pattern_id);
 
     },
 	    
@@ -178,6 +146,50 @@ var hand = {
 	$("#cpanel-main-tabs").tabs("option", "disabled", false);
 
     },
+
+    show_pattern: function(pattern_id){
+
+	var fileslist = hand.dict_fullsize[pattern_id];
+
+	$("#img-container")
+	    .html("")
+	    .append(
+		$("<img/>").attr("src", "hand-drawing/gallery/" + fileslist[0])
+	    );
+
+	//get the obj for Textual details...
+	var Arr = hand_descriptions.text_obj;
+	var TextDetails = undefined;
+	for (var i = 0; i < Arr.length; i++){
+	    if(Arr[i].pattern_id == pattern_id){
+		TextDetails = Arr[i];
+		break;
+	    }
+	}
+	$("#tabs-8 #heading span.value").text(pattern_id);
+
+	$("#tabs-8 #date span.value").text(TextDetails["completion_date"]);
+	$("#tabs-8 #materials span.value").text(TextDetails["materials_used"]);
+	$("#tabs-8 #links span.value").text("Progress photos: [1 | 2 | 3 | 4]. Final Photo");
+	$("#tabs-8 #description span.value").html(TextDetails["description"]);//may contain <br>
+	$("#tabs-8 #dimentions span.value").text(TextDetails["dimentions"]);
+
+    },
+
+    show_photo: function(id){
+
+
+	/*
+	  use this data:
+
+	  "img_comments": {
+	  "139-01-1600px01.jpg": "I ought to retake this photo using a flatbed scanner instead of my phone camera."
+	  }
+	*/
+
+
+    },
+
 
     fullsize_img: [
 	"139-01-1600px01.jpg",
