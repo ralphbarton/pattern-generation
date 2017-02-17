@@ -172,11 +172,40 @@ var hand = {
 
 	$("#tabs-8 #date span.value").text(TextDetails["completion_date"]);
 	$("#tabs-8 #materials span.value").text(TextDetails["materials_used"]);
-	$("#tabs-8 #links span.value").text("Progress photos: [1 | 2 | 3 | 4]. Final Photo");
 	$("#tabs-8 #description span.value").html(TextDetails["description"]);//may contain <br>
 	$("#tabs-8 #dimentions span.value").text(TextDetails["dimentions"]);
 
 	this.show_photo();
+
+	var PATpix_fileslist = hand.dict_fullsize[pattern_id];
+
+	// create the list of photo links...
+	var final_i = PATpix_fileslist.length - 1;
+
+	var links_html = [];
+	if(final_i > 0){
+	    links_html.push("Progress photos : ");
+	    var x = PATpix_fileslist.map(function(filename, i){
+		links_html.push(
+		    $("<div/>")
+			.text(i==final_i ? "final" : i+1)
+			.addClass("button pho")
+			.toggleClass("fin", i==final_i)
+			.click(function(){
+			    console.log("show",i);
+			    hand.show_photo(i);
+			})
+		);
+	    });
+	}else{
+	    links_html.push("Final photo below...");
+	}
+
+	$("#tabs-8 #links span.value")
+	    .html("")
+	    .append(links_html);
+
+
 
     },
 
@@ -184,13 +213,13 @@ var hand = {
 
     show_photo: function(photo_id){
 
-	var fileslist = hand.dict_fullsize[this.current_Details.pattern_id];
+	var PATpix_fileslist = hand.dict_fullsize[this.current_Details.pattern_id];
 
 	if(photo_id === undefined){
-	    photo_id = fileslist.length - 1;
+	    photo_id = PATpix_fileslist.length - 1;
 	}
 
-	var photo_file = fileslist[photo_id];
+	var photo_file = PATpix_fileslist[photo_id];
 
 	$("#img-container")
 	    .html("")

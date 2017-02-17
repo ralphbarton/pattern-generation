@@ -112,13 +112,16 @@
   left: 5px;
   width: 268px;
   opacity: 0.5;
+    overflow-y: hidden;
+    border: 1px solid red;
+  height: 30px;
 }
 
 #gallery-view #links{
   position: absolute;
-  top: 95px;
+  top: 72px;
   left: 5px;
-  width: 90%%;
+  width: 345px;
 }
 
 #gallery-view #description{
@@ -189,3 +192,13 @@
   padding: 2px 8px;
 }
 
+.button.pho{
+  margin: 1px;
+  padding: 1px;
+  text-align: center;
+  min-width: 18px;
+}
+
+.button.pho.fin{
+  padding: 1px 8px;
+}
