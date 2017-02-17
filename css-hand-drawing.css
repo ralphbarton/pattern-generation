@@ -114,6 +114,7 @@
   opacity: 0.5;
   overflow-y: hidden;
   height: 30px;
+    border: 1px solid red;
 }
 
 #gallery-view #links{
@@ -137,9 +138,41 @@
     border-radius: 2px;
 }
 
+#play-pause{
+  position: absolute;
+  top: 27px;
+  left: 282px;
+  width: 75px;
+  height: 85px;
+}
 
+#play-pause #pp-icon{
+   width: 49px;
+  height: 39px;
+   background-image: url("icons/icon-play.png");
+  background-size: 70%;
+  background-repeat: no-repeat;
+    opacity: 0.5;
+}
 
+#play-pause .action-link{
+  position: absolute;
+  right: 5px;
+}
 
+#play-pause #pp-slow{
+  top: 23px;
+}
+
+#play-pause #pp-fast{
+  top: 4px;
+}
+
+#use-pic{
+  position: absolute;
+  bottom: 0px;
+  left: -6px;
+}
 
 .drawn-thumb.list{
   box-shadow: 0px 0px 4px 1px rgba(0,0,0,1);
