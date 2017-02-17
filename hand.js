@@ -38,12 +38,6 @@ var hand = {
 
 	this.set_random_thumbnails();
 
-	
-	//bind functionality to elements in (initialially hidden) Gallery...
-	$("#tabs-8 #close-gallery").click(function(){
-	    hand.hide_gallery();
-	});
-
 
 	//put thumbnails into list...
 	$.each( this.dict_thumb, function(key, filelist) {
@@ -75,9 +69,90 @@ var hand = {
 	    );
 	});
 
+	//bind functionality to elements (buttons & links) in (initialially hidden) Gallery...
+	$("#tabs-8 #close-gallery").click(function(){
+	    hand.hide_gallery();
+	});
 
 
+	$("#tabs-8 #pp-fast .action-link").click(function(){
+	    $("#tabs-8 #pp-fast span").text("*");
+	    $("#tabs-8 #pp-slow span").text("");
+	    hand.change_periodicity_slideshow(true);//slow -> fast
+	    var N_photo = hand.dict_fullsize[hand.current_Details.pattern_id].length;
+	    var t = hand.t_fast * N_photo/1000;
+	    $("#tabs-8 #pp-runtime").text(t.toFixed(t<10)+" seconds");
+	});
 
+	//almost duplicate of above.
+	$("#tabs-8 #pp-slow .action-link").click(function(){
+	    $("#tabs-8 #pp-fast span").text("");
+	    $("#tabs-8 #pp-slow span").text("*");
+	    hand.change_periodicity_slideshow(false);//fast -> slow
+	    var N_photo = hand.dict_fullsize[hand.current_Details.pattern_id].length;
+	    var t = hand.t_slow * N_photo/1000;
+	    $("#tabs-8 #pp-runtime").text(t.toFixed(t<10)+" seconds");
+	});
+
+	$("#tabs-8 #play-pause #pp-icon").click(function(){
+
+	    if($(this).attr("class") == "play"){
+		hand.slideshow();
+		$("#tabs-8 #play-pause #pp-icon").removeClass("play").addClass("pause");
+	    }else{
+		hand.stop_slideshow();
+		$("#tabs-8 #play-pause #pp-icon").removeClass("pause").addClass("play");
+	    }
+
+	});
+
+    },
+
+    slideshow_fast: false,
+    slideshow_timeout_id: undefined,
+    t_fast: 1000,
+    t_slow: 3000,
+    slideshow: function(S){
+
+	var PATpix_fileslist = hand.dict_fullsize[this.current_Details.pattern_id];
+	var final_i = PATpix_fileslist.length - 1;
+	var slide_counter = S || 0;
+
+	var chain_photo = function (){
+
+	    //show the next photo
+	    hand.show_photo(slide_counter)
+	    $(".button.pho").removeClass("selected");
+	    $(".button.pho:nth-of-type("+(slide_counter+1)+")").addClass("selected");
+
+	    //check if there's another to show, and if so set a timeout
+	    if(slide_counter < final_i){
+		slide_counter++;
+		hand.slideshow_timeout_id = setTimeout(function(){
+		    chain_photo();
+		}, hand.slideshow_fast ? hand.t_fast : hand.t_slow);
+		hand.timout_sc = slide_counter;
+	    }else{
+		setTimeout(function(){
+		    $("#tabs-8 #play-pause #pp-icon").removeClass("pause").addClass("play");
+		}, 1000);
+	    }
+	};
+
+	chain_photo();
+
+    },
+
+    stop_slideshow: function(){
+	$("#tabs-8 #play-pause #pp-icon").removeClass("pause").addClass("play");
+	clearTimeout(this.slideshow_timeout_id);
+    },
+
+    timout_sc: undefined,
+    change_periodicity_slideshow: function(to_fast){
+	this.slideshow_fast = to_fast;
+	clearTimeout(this.slideshow_timeout_id);
+	hand.slideshow(this.timout_sc - (to_fast?0:1));	
     },
 
     set_random_thumbnails: function(){
@@ -157,6 +232,8 @@ var hand = {
     current_Details: undefined,
     show_pattern: function(pattern_id){
 
+	//cancel any ongoing slideshow if moving between patterns...
+	this.stop_slideshow();
 
 	//get the obj for Textual details...
 	var Arr = hand_descriptions.text_obj;
@@ -175,7 +252,9 @@ var hand = {
 	$("#tabs-8 #description span.value").html(TextDetails["description"]);//may contain <br>
 	$("#tabs-8 #dimentions span.value").text(TextDetails["dimentions"]);
 
+
 	this.show_photo();
+	this.remove_last_photo(0, 200);
 
 	var PATpix_fileslist = hand.dict_fullsize[pattern_id];
 
@@ -193,9 +272,11 @@ var hand = {
 			.toggleClass("fin", i==final_i)// different css padding needed for word 'final'...
 			.toggleClass("selected", i==final_i)
 			.click(function(){
+			    //cancel any ongoing slideshow if user selects photo
+			    this.stop_slideshow();
+
 			    $(".button.pho").removeClass("selected");
 			    $(this).addClass("selected");
-			    console.log("show",i);
 			    hand.show_photo(i);
 			})
 		);
@@ -217,7 +298,26 @@ var hand = {
     },
 
 
-    fader_count: 0,
+    photo_show_cnt: 0,
+    remove_last_photo: function(delay, duration){
+
+	var cnt = this.photo_show_cnt-1;
+
+	//fade it out
+	setTimeout(function(){
+	    $("#img-" + cnt).fadeOut({duration: duration, easing: "linear"});
+	}, delay);
+
+	//remove element
+	if(cnt > 0){
+	    setTimeout(function(){
+		$("#img-" + cnt).remove();
+	    }, delay + duration + 1);//timeout ordering not guarenteed hence 1 extra ms...
+	}
+
+    },
+
+
     show_photo: function(photo_id){
 
 	var PATpix_fileslist = hand.dict_fullsize[this.current_Details.pattern_id];
@@ -229,6 +329,7 @@ var hand = {
 	var photo_file = PATpix_fileslist[photo_id];
 
 	//add the new IMG
+	this.photo_show_cnt++;
 	$("#img-section")
 	    .append(
 		$("<div/>").addClass("img-white-box").append(
@@ -237,20 +338,12 @@ var hand = {
 			    .attr("src", "hand-drawing/gallery/" + photo_file)
 		    )
 		)
-		    .attr("id", "img-" + this.fader_count)
+		    .attr("id", "img-" + this.photo_show_cnt)
 		    .hide()
 		    .fadeIn({duration: 600, easing: "linear"})
 	    );
 
-	if(this.fader_count > 0){
-	    (function(cnt){
-		setTimeout(function(){
-		    $("#img-" + cnt).remove();
-		}, 650);
-	    })(hand.fader_count-1);
-	}
-	this.fader_count++;
-
+	this.remove_last_photo(600, 0);
 
 	//if undefined, use an empty string.
 	var comment = this.current_Details.img_comments[photo_file] || "";

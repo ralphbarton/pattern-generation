@@ -114,7 +114,6 @@
   opacity: 0.5;
   overflow-y: hidden;
   height: 30px;
-    border: 1px solid red;
 }
 
 #gallery-view #links{
@@ -147,24 +146,48 @@
 }
 
 #play-pause #pp-icon{
-   width: 49px;
+  transition: opacity 0.2s;
+  position: relative;
+  width: 49px;
   height: 39px;
-   background-image: url("icons/icon-play.png");
-  background-size: 70%;
   background-repeat: no-repeat;
-    opacity: 0.5;
+  opacity: 0.3;
 }
 
-#play-pause .action-link{
-  position: absolute;
-  right: 5px;
+#play-pause #pp-icon:hover{
+  opacity: 0.6;
+}
+
+#play-pause #pp-runtime{
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+
+#play-pause:hover #pp-runtime{
+  opacity: 0.3;
+}
+
+#play-pause #pp-icon.play{
+  background-image: url("icons/icon-play.png");
+  left: 1px;
+  background-size: 70%;
+}
+
+#play-pause #pp-icon.pause{
+  background-image: url("icons/icon-pause.png");
+  left: 4px;
+  background-size: 60%;
 }
 
 #play-pause #pp-slow{
+    position: absolute;
+  right: 5px;
   top: 23px;
 }
 
 #play-pause #pp-fast{
+    position: absolute;
+  right: 5px;
   top: 4px;
 }
 
@@ -192,28 +215,20 @@
 }
 
 #img-section {
-    text-align: center;
+  width: 800px;
+    position: absolute;
+    top: 115px;
+    height: 505px;
 }
 
-.img-white-box {
-  position: absolute;
-  top: 115px;
-  left: 4px;
-  width: 790px;
-  height: 505px;
-  border-radius: 6px;
-  background: #EEE;
+#img-section img{
   border: 1px solid black;
-  text-align: center;
-  display: table;
-}
-
-.img-container{
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.img-white-box img{
+  display: block;
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
   max-width: 790px;
   max-height: 505px;
 }
