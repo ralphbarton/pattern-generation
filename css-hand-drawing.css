@@ -165,7 +165,7 @@
   top: 115px;
   left: 4px;
   width: 790px;
-  height: 515px;
+  height: 505px;
   border-radius: 6px;
   background: #EEE;
   border: 1px solid black;
@@ -180,6 +180,12 @@
 
 #img-white-box img{
   max-width: 790px;
-  max-height: 515px;
+  max-height: 505px;
+}
+
+#tabs-8 #bottom-section{
+  position: absolute;
+  bottom: 0px;
+  padding: 2px 8px;
 }
 

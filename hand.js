@@ -47,14 +47,21 @@ var hand = {
 
 	//put thumbnails into list...
 	$.each( this.dict_thumb, function(key, filelist) {
-	    var rand_i = Math.floor( Math.random() * filelist.length );
+	    var file_index = Math.floor( Math.random() * filelist.length );
+	    for (var i = 0; i < filelist.length; i++){
+		if(filelist[i].includes("Primary")){
+		    file_index = i;
+		    break;
+		}
+	    }
+
 	    $("#listing-bar").append(
 		$("<div/>")
 		    .addClass("drawn-thumb")
 		    .addClass("list")
 		    .append(
 			$("<div/>").text(key),
-			$("<img/>").attr("src", "hand-drawing/square-thumb/" + filelist[rand_i])
+			$("<img/>").attr("src", "hand-drawing/square-thumb/" + filelist[file_index])
 		    )
 		    .data({pattern_id: key})
 		    .click(function(){
@@ -147,15 +154,9 @@ var hand = {
 
     },
 
+    current_Details: undefined,
     show_pattern: function(pattern_id){
 
-	var fileslist = hand.dict_fullsize[pattern_id];
-
-	$("#img-container")
-	    .html("")
-	    .append(
-		$("<img/>").attr("src", "hand-drawing/gallery/" + fileslist[0])
-	    );
 
 	//get the obj for Textual details...
 	var Arr = hand_descriptions.text_obj;
@@ -163,6 +164,7 @@ var hand = {
 	for (var i = 0; i < Arr.length; i++){
 	    if(Arr[i].pattern_id == pattern_id){
 		TextDetails = Arr[i];
+		this.current_Details = Arr[i];
 		break;
 	    }
 	}
@@ -174,19 +176,32 @@ var hand = {
 	$("#tabs-8 #description span.value").html(TextDetails["description"]);//may contain <br>
 	$("#tabs-8 #dimentions span.value").text(TextDetails["dimentions"]);
 
+	this.show_photo();
+
     },
 
-    show_photo: function(id){
 
 
-	/*
-	  use this data:
+    show_photo: function(photo_id){
 
-	  "img_comments": {
-	  "139-01-1600px01.jpg": "I ought to retake this photo using a flatbed scanner instead of my phone camera."
-	  }
-	*/
+	var fileslist = hand.dict_fullsize[this.current_Details.pattern_id];
 
+	if(photo_id === undefined){
+	    photo_id = fileslist.length - 1;
+	}
+
+	var photo_file = fileslist[photo_id];
+
+	$("#img-container")
+	    .html("")
+	    .append(
+		$("<img/>").attr("src", "hand-drawing/gallery/" + photo_file)
+	    );
+
+	//if undefined, use an empty string.
+	var comment = this.current_Details.img_comments[photo_file] || "";
+
+	$("#tabs-8 #bottom-section").text(comment);
 
     },
 
