@@ -146,13 +146,17 @@ var hand = {
     stop_slideshow: function(){
 	$("#tabs-8 #play-pause #pp-icon").removeClass("pause").addClass("play");
 	clearTimeout(this.slideshow_timeout_id);
+	this.slideshow_timeout_id = undefined;
     },
 
     timout_sc: undefined,
     change_periodicity_slideshow: function(to_fast){
 	this.slideshow_fast = to_fast;
 	clearTimeout(this.slideshow_timeout_id);
-	hand.slideshow(this.timout_sc - (to_fast?0:1));	
+	if(this.slideshow_timeout_id != undefined){
+	    hand.slideshow(this.timout_sc - (to_fast?0:1));
+	}
+	this.slideshow_timeout_id = undefined;
     },
 
     set_random_thumbnails: function(){
@@ -273,7 +277,7 @@ var hand = {
 			.toggleClass("selected", i==final_i)
 			.click(function(){
 			    //cancel any ongoing slideshow if user selects photo
-			    this.stop_slideshow();
+			    hand.stop_slideshow();
 
 			    $(".button.pho").removeClass("selected");
 			    $(this).addClass("selected");
