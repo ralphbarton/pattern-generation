@@ -102,6 +102,13 @@ var hand = {
 
 	});
 
+	$("#tabs-8 #img-section").on("onmouseover", function(){
+	    $("img#magnify-icon").addClass("SH");
+	    setTimeout(function(){
+		$("img#magnify-icon").removeClass("SH");
+	    }, 1000);
+	});
+
     },
 
     slideshow_fast: false,
@@ -303,8 +310,6 @@ var hand = {
 	    .html("")
 	    .append(links_html);
 
-
-
     },
 
 
@@ -345,6 +350,7 @@ var hand = {
 		$("<div/>").addClass("img-white-box").append(
 		    $("<div/>").addClass("img-container").append(
 			$("<img/>")
+			    .addClass("pattern-photo")
 			    .attr("src", "hand-drawing/gallery/" + photo_file)
 		    )
 		)
