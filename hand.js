@@ -102,11 +102,34 @@ var hand = {
 
 	});
 
-	$("#tabs-8 #img-section").on("onmouseover", function(){
-	    $("img#magnify-icon").addClass("SH");
+	var opac_med = 0.6;
+	var opac_low = 0.85;
+
+	var mouseenter_counter = 0;
+	$("#tabs-8 #img-section").on("mouseenter", function(){
+	    if(mouseenter_counter > 0){
+		$("img#magnify-icon").animate({opacity: opac_med}, 200);
+		setTimeout(function(){
+		    $("img#magnify-icon").animate({opacity: 0}, 1000);
+		}, 3200);
+	    }
+	    mouseenter_counter++;
+	});
+
+	//do it here rather than using css :hover (which conficts with js-managed styling responsiveness)
+	$("#tabs-8 img#magnify-icon").on("mouseenter", function(){
+	    $("img#magnify-icon").animate({opacity: opac_low}, 200);
+	});
+
+	$("#tabs-8 img#magnify-icon").on("mouseleave", function(){
+	    $("img#magnify-icon").animate({opacity: opac_med}, 200);
 	    setTimeout(function(){
-		$("img#magnify-icon").removeClass("SH");
-	    }, 1000);
+		$("img#magnify-icon").animate({opacity: 0}, 1000);
+	    }, 3200);
+	});
+
+	$("#tabs-8 img#magnify-icon").on("click", function(){
+	    console.log("ss");
 	});
 
     },
