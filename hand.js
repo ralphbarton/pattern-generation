@@ -129,7 +129,26 @@ var hand = {
 	});
 
 	$("#tabs-8 img#magnify-icon").on("click", function(){
-	    console.log("ss");
+
+	    //add the "zooming" class
+	    $("#tabs-8 #img-section")
+		.toggleClass("normal")
+		.toggleClass("zooming")
+
+	    if( $("#tabs-8 #img-section").hasClass("zooming") ){
+
+		$("#tabs-8 #img-section img.pattern-photo")
+		    .draggable();
+
+	    }else{
+
+		$("#tabs-8 #img-section img.pattern-photo")
+		    .draggable( "destroy" )
+		    .attr("style","");//remove inline styles not removed by the "destroy" method above...
+
+	    }
+
+
 	});
 
     },
@@ -370,13 +389,9 @@ var hand = {
 	this.photo_show_cnt++;
 	$("#img-section")
 	    .append(
-		$("<div/>").addClass("img-white-box").append(
-		    $("<div/>").addClass("img-container").append(
-			$("<img/>")
-			    .addClass("pattern-photo")
-			    .attr("src", "hand-drawing/gallery/" + photo_file)
-		    )
-		)
+		$("<img/>")
+		    .addClass("pattern-photo")
+		    .attr("src", "hand-drawing/gallery/" + photo_file)
 		    .attr("id", "img-" + this.photo_show_cnt)
 		    .hide()
 		    .fadeIn({duration: 600, easing: "linear"})
