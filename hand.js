@@ -79,9 +79,7 @@ var hand = {
 	    $("#tabs-8 #pp-fast span").text("*");
 	    $("#tabs-8 #pp-slow span").text("");
 	    hand.change_periodicity_slideshow(true);//slow -> fast
-	    var N_photo = hand.dict_fullsize[hand.current_Details.pattern_id].length;
-	    var t = hand.t_fast * N_photo/1000;
-	    $("#tabs-8 #pp-runtime").text(t.toFixed(t<10)+" seconds");
+	    hand.update_duration_slideshow();
 	});
 
 	//almost duplicate of above.
@@ -89,9 +87,7 @@ var hand = {
 	    $("#tabs-8 #pp-fast span").text("");
 	    $("#tabs-8 #pp-slow span").text("*");
 	    hand.change_periodicity_slideshow(false);//fast -> slow
-	    var N_photo = hand.dict_fullsize[hand.current_Details.pattern_id].length;
-	    var t = hand.t_slow * N_photo/1000;
-	    $("#tabs-8 #pp-runtime").text(t.toFixed(t<10)+" seconds");
+	    hand.update_duration_slideshow();
 	});
 
 	$("#tabs-8 #play-pause #pp-icon").click(function(){
@@ -157,6 +153,12 @@ var hand = {
 	    hand.slideshow(this.timout_sc - (to_fast?0:1));
 	}
 	this.slideshow_timeout_id = undefined;
+    },
+
+    update_duration_slideshow: function(){
+	var N_photo = hand.dict_fullsize[hand.current_Details.pattern_id].length;
+	var t = (this.slideshow_fast ? hand.t_fast : hand.t_slow) * N_photo/1000;
+	$("#tabs-8 #pp-runtime").text(t.toFixed(t<10)+" seconds");
     },
 
     set_random_thumbnails: function(){
@@ -249,6 +251,10 @@ var hand = {
 		break;
 	    }
 	}
+
+	//MUST be called after update of "current_Details"
+	this.update_duration_slideshow();
+
 	$("#tabs-8 #heading span.value").text(pattern_id);
 
 	$("#tabs-8 #date span.value").text(TextDetails["completion_date"]);
