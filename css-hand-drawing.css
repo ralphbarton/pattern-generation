@@ -215,18 +215,21 @@
 }
 
 #img-section {
-  width: 800px;
     position: absolute;
     top: 115px;
-    height: 510px;
+    width: 800px;
+  height: 510px;
     overflow-y: hidden;
     overflow-x: hidden;
+  border-color: transparent;
+  transition: background-color 0.5s, border-color 0.5s;
 }
 
 #img-section.zooming{
   width: 794px;
   height: 499px;
-  border: 3px solid rgba(0,0,0,0.5);
+  border: 3px solid rgba(0,0,0,0.7);
+  background-color: #CCC;
 }
 
 
@@ -248,6 +251,11 @@
 #img-section.zooming img.pattern-photo{
   max-width: 2000px;
   max-height: 2000px;
+}
+
+/*this invisible div bounds the image dragability*/
+#panning-img-container{
+  position: absolute;
 }
 
 #img-section img#magnify-icon{
