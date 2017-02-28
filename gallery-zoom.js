@@ -16,6 +16,13 @@ var gallery_zoom = {
 	    mouseenter_counter++;
 	});
 
+
+	//
+	$("#tabs-8 #img-section").on("click", function(){
+	    console.log("click");
+	});
+
+
 	//do it here rather than using css :hover (which conficts with js-managed styling responsiveness)
 	$("#tabs-8 img#magnify-icon").on("mouseenter", function(){
 	    $("img#magnify-icon").animate({opacity: opac_low}, 200);

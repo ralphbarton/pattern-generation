@@ -297,3 +297,12 @@
    color: rgba(0,70,180,0.5);
 }
 
+#magnify-popup{
+  position: absolute;
+  background: yellow;
+  z-index: 2;
+}
+
+#magnify-popup > img{
+   width: 100px;
+}
