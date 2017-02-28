@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 var path_input_file = "/home/ralph/ln-pat-gen/Decriptive text.txt";
-var path_output_file = "/home/ralph/ln-pat-gen/hand-descriptions.js";
+var path_output_file = "/home/ralph/ln-pat-gen/gallery-text.js";
 
 //JavaScript: trim leading or trailing spaces from a string
 function trim (mystring){
@@ -82,7 +82,7 @@ fs.readFile(path_input_file, 'utf8', function (err,data) {
             return console.log(err);
 	}
 
-	console.log("The 'hand-descriptions.js' was saved!");
+	console.log("wrote file: " + path_output_file);
     });
 
 });

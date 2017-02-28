@@ -91,7 +91,7 @@ $(document).ready(function() {
 
     export_pat.init();
 
-    hand.init();
+    gallery.init();
 
     //code to auto enter CP edit and speed up testing...
 
