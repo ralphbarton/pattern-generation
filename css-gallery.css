@@ -214,60 +214,6 @@
   width: 152px;
 }
 
-#img-section {
-    position: absolute;
-    top: 115px;
-    width: 800px;
-  height: 510px;
-    overflow-y: hidden;
-    overflow-x: hidden;
-  border-color: transparent;
-  transition: background-color 0.5s, border-color 0.5s;
-}
-
-#img-section.zooming{
-  width: 794px;
-  height: 499px;
-  border: 3px solid rgba(0,0,0,0.7);
-  background-color: #CCC;
-}
-
-
-#img-section img.pattern-photo{
-  display: block;
-  position: absolute;
-}
-
-#img-section.normal img.pattern-photo{
-  border: 1px solid black;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-  max-width: 790px;
-  max-height: 508px;
-}
-
-#img-section.zooming img.pattern-photo{
-  max-width: 2000px;
-  max-height: 2000px;
-}
-
-/*this invisible div bounds the image dragability*/
-#panning-img-container{
-  position: absolute;
-}
-
-#img-section img#magnify-icon{
-    position: absolute;
-    right: 17px;
-    top: 10px;
-  width: 100px;
-    z-index: 1;
-    opacity: 0;
-}
-
-
 #tabs-8 #bottom-section{
   position: absolute;
   bottom: 0px;
@@ -292,94 +238,8 @@
    border-color: rgba(0,70,180,0.6);
 }
 
+/*Text used when only one photo shown in slideshow*/
 .single-photo-text{
    font-weight: bold;
    color: rgba(0,70,180,0.5);
-}
-
-#magnify-popup{
-  z-index: 2;
-  position: absolute;
-  left: 100px;
-  top: 100px;
-  width: 120px;
-  height: 91px;
-  background: white;
-  border: 1px solid black;
-  border-radius: 10px;
-  opacity: 0.9;
-  cursor: default;
-}
-
-#magnify-popup > *{
-  position: absolute;
-}
-
-#magnify-popup .buttons{
-  width: 40px;
-}
-
-#magnify-popup .buttons > div{
-  width: 27px;
-  height: 22px;
-  left: 0px;
-  border-bottom: 1px solid blue;
-  border-right: 1px solid blue;
-  display: inline-block;
-  font-size: 21px;
-  text-align: center;
-  transition: all 0.2s;
-}
-
-#magnify-popup .buttons > div:last-child{
-  border-bottom: none;
-  border-bottom-left-radius: 10px;
-}
-
-#magnify-popup .buttons > div:first-child{
-  border-top-left-radius: 10px;
-}
-
-#magnify-popup .buttons > div:hover{
-  background: yellow;
-}
-
-#magnify-popup .buttons > div.big span{
-  position: relative;
-  top: -2px;
-  left: 1px;
-}
-
-#magnify-popup .buttons > div.small{
-  font-size: 13px;
-}
-
-#magnify-popup .buttons > div.small span{
-  position: relative;
-  top: 2px;
-  font-weight: bold;
-}
-
-#magnify-popup .click-hint{
-  color: green;
-  opacity: 0.15;
-  left: 50px;
-}
-
-#magnify-popup .close{
-  top: -4px;
-  right: 2px;
-  color: darkred;
-  font-size: 25px;
-  transition: all 0.2s;
-}
-
-#magnify-popup div.close:hover{
-  color: red;
-}
-
-#magnify-popup > img{
-  right: 8px;
-  top: 8px;
-   width: 75px;
 }
