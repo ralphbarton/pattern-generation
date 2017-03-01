@@ -96,7 +96,11 @@ div.action-link{
 
 /* non-selectable content... */
 
-.noselect, .action-link, .button, .act-mutex{
+.noselect,
+.action-link,
+.button,
+.act-mutex,
+#img-section{
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */
     -khtml-user-select: none; /* Konqueror */

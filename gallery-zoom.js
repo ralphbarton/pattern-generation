@@ -41,6 +41,14 @@ var gallery_zoom = {
 	    gallery_zoom.set_panning_zoom();
 	});
 
+	//disable Firefox image drag behaviour for every image
+	$(document).on("dragstart", function(e) {
+	    if (e.target.nodeName.toUpperCase() == "IMG") {
+		//however, this also prevents the behaviour where it is intended...
+//		return false;
+	    }
+	});
+
     },
 
 
