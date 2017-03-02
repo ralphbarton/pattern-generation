@@ -1,46 +1,123 @@
 var gallery_zoom = {
 
-    magnif_timeout_id: undefined,
     init: function(){
 
-	var t_ani = 400;
+	var magnif_showing = 0;
+	/* value table for "magnif_showing"
+	   -1  fade-out in progress
+	   0   fully transparent
+	   1   showing, with short timeout set
+	   2   showing, with longer timeout set
+	   3   requested close in progress
+	 */
+	var magnif_timeout_id = undefined;
+	var magnif_timeout_id2 = undefined;
+
+	var t_fade = 400;
+	var t_move = 200;
 	var t_brief = 1000;
-	var t_long = 10000;
+	var t_long = 3000;
 
-	var set_magnif_show_time = function(t_showfor){
+	var set_magnif_show_time = function(option){
 
-	    clearTimeout(gallery_zoom.magnif_timeout_id);
+	    var t_showfor = undefined;
+	    if(option == "immediate"){
+		t_showfor = 1;
+		magnif_showing = 3;//requested close in progress
+	    }else if(option == "brief"){
+		t_showfor = t_brief;
+		magnif_showing = 1;//brief show
+	    }else if(option == "long"){
+		t_showfor = t_long;
+		magnif_showing = 2;//long show
+	    }
 
-	    gallery_zoom.magnif_timeout_id = setTimeout(function(){
-		$("#magnify-popup").animate({opacity: 0}, t_ani);
-		gallery_zoom.magnif_timeout_id = undefined;
+	    //clear any pre-existing scheduled effects
+	    clearTimeout(magnif_timeout_id);
+	    clearTimeout(magnif_timeout_id2);
+
+	    //start the Fadeout
+	    magnif_timeout_id = setTimeout(function(){
+		$("#magnify-popup").animate({opacity: 0}, t_fade);
+		magnif_showing = -1;//fade-out in progress
 	    }, t_showfor);
+
+	    //soon after, reset the flag (when Fadeout complete)
+	    magnif_timeout_id2 = setTimeout(function(){
+		magnif_showing = 0;
+		$("#magnify-popup").hide();//prevents clicks landing on transparent object
+	    }, t_showfor + t_fade);
 	};
 
 
 	// respond to clicking within the image space...
-	$("#tabs-8 #img-section").on("click", function(){
-	    if(gallery_zoom.magnif_timeout_id == undefined){
-		console.log("img click");
-		$("#magnify-popup").animate({opacity: 0.9}, t_ani);
-		set_magnif_show_time(t_brief);//disappear soon (1 second)
-	    }else{
-		console.log("img click (ignored)");
+	$("#tabs-8 #img-section").on("click", function(e){
+
+	    // 1. if fading out, stop this;
+	    if(magnif_showing == -1){
+		$("#magnify-popup").stop();
 	    }
+
+	    // 2. Changing location of the magnifier box (don't relocate if requested-close is in progress)...
+	    // also, dont' relocate if click lands inside box.
+	    // note how e.target is already a DOM element
+	    var click_child_magnif = $.contains($("#magnify-popup")[0], e.target);
+	    var click_main_magnif = $(e.target).is("#magnify-popup");
+	    var click_outside_magnif = !(click_child_magnif || click_main_magnif);
+
+	    if((magnif_showing < 3) && click_outside_magnif){
+
+		var container_pos = $("#img-section").offset();
+		var box_x = e.pageX - container_pos.left;
+		var box_y = e.pageY - container_pos.top - parseInt($("#magnify-popup").css("height"))/2;
+
+		//if visible, need to move it with an animation (can never be -1 here)
+		if(magnif_showing != 0){
+		    $("#magnify-popup").animate({
+			left: box_x,
+			top: box_y
+		    }, t_move);
+
+		}else{
+		    //move it directly to location without animation
+		    $("#magnify-popup").css({
+			left: box_x,
+			top: box_y
+		    });
+		}
+	    }
+
+	    // 3. set to highest opacity and extend (=set short) display-time
+	    // (so long as not on long timeout or requested close)
+	    if(magnif_showing < 2){
+		// stop() => cancel any fadeOut in progress...
+		$("#magnify-popup").show().animate({opacity: 0.9}, t_fade);
+		set_magnif_show_time("brief");//disappear soon (1 second)
+	    }
+
+
 	});
 
 	//respond to clicking a magnifier button
 	$("#magnify-popup .buttons > div").on("click", function(){
-	    set_magnif_show_time(t_long);//disappear after longer time (10 second)
+
+	    // 1. if fading out, stop this;
+	    if(magnif_showing == -1){
+		$("#magnify-popup").stop();
+	    }
+
+	    //so long as not on requested close, restore highest opacity and extend timeout
+	    if(magnif_showing < 3){
+		// stop() => cancel any fadeOut in progress...
+		$("#magnify-popup").animate({opacity: 0.9}, t_fade);
+		set_magnif_show_time("long");//disappear after longer time (10 second)
+	    }
 	});
 
-	//respond to clicking a magnifier button
+	//respond to clicking a the "close" button for the window...
 	$("#magnify-popup .close").on("click", function(){
-	    $("#magnify-popup").animate({opacity: 0}, t_ani);
-	    gallery_zoom.magnif_timeout_id = "holdoff";//prevent this click from causing it to show again
-	    set_magnif_show_time(t_brief);//this will re-enable the click functionality in 1 second.
+	    set_magnif_show_time("immediate");//disappear right now (effectively, it's 1ms!)
 	});
-
 
 
 	var opac_med = 0.6;
