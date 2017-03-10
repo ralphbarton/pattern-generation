@@ -2,10 +2,16 @@
     display: block;
     margin: 5px;
     width: 90px;
-    min-width: 383px;
-    max-width: 383px;
-    height: 220px;
+    min-width: 483px;
+    max-width: 483px;
+    height: 200px;
     min-height: 100px;
     max-height: 220px;
     border-radius: 6px;
+}
+
+#json-load{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 }
