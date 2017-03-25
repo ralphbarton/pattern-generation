@@ -93,6 +93,9 @@ $(document).ready(function() {
 
     gallery.init();
 
+    motifs_view.init();
+    motifs_edit.init();
+
     //code to auto enter CP edit and speed up testing...
 
 /*
@@ -111,7 +114,8 @@ $(document).ready(function() {
 
     //go straight to Motifs ( = 6th tab...)
     $("#cpanel-main-tabs > ul > li:nth-of-type(6) a").click();
-
+    // --> and into Motif EDIT
+    $("#motifs-view .table-buttons #edit").click();
 
 });
 

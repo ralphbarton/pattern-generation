@@ -27,6 +27,8 @@
     <!-- http://mathjs.org/index.html -->
     <script src="include/math.min.js"></script>
 
+    <script src="include/fabric.min.js"></script>
+
 
 
     <!-- Here's my own code... -->
@@ -45,6 +47,7 @@
     <link rel="stylesheet" href="css-gallery-zoom.css" />
 
     <link rel="stylesheet" href="css-motifs-view.css" />
+    <link rel="stylesheet" href="css-motifs-edit.css" />
 
     <!-- JS -->
     <script src="global.js"></script>
@@ -67,6 +70,7 @@
     <script src="gallery-zoom.js"></script>
 
     <script src="motifs-view.js"></script>
+    <script src="motifs-edit.js"></script>
 
   </head>
 
@@ -666,14 +670,91 @@
 
 
 
-
+	  <!-- 1.2.6.2 - Edit motifs... -->	  
 	    <div id="motifs-edit" style="display: none;">
 
-	      <!-- 1. [cp-edit] Title Bar -->
-	      <div class="title-bar">
-		<span class="TL-1">Pot Contents: </span>
-		<span class="TL-2">n. </span>
-		<input />
+	      <!-- 1. The fabric canvas, this is where it all happens! -->	  
+	      <div id="Motif">
+		<canvas width="400" height="400"></canvas>
+	      </div>
+
+	      <!-- 2. Parameters table -->
+	      <table class="user-data-table" id="params">
+		<thead>
+		  <tr>
+		    <th class="col-1">Param.</th>
+		    <th class="col-2">Min</th>
+		    <th class="col-3">Max</th>
+		    <th class="col-4">What</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <!-- rows populated using JS -->
+		</tbody>
+	      </table>
+
+
+	      <!-- 3. Properties table -->
+	      <table class="user-data-table" id="props">
+		<thead>
+		  <tr>
+		    <th class="col-1">#</th>
+		    <th class="col-2">Property</th>
+		    <th class="col-3">Value</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <!-- rows populated using JS -->
+		</tbody>
+	      </table>
+
+
+	      <!-- 4. Title -->
+	      <div class="mid-1 title">
+		Henry Horse Motif
+	      </div>
+
+	      <!-- 5. Tools -->
+	      <div class="mid-1 tools">
+	      </div>
+
+	      <!-- 6. Tabs [Pane for advanced motif options...]-->
+
+	      <div class="mid-1 tabs">
+		<ul>
+		  <li><a href="#tabs-f1">Design mode</a></li>
+		  <li><a href="#tabs-f2">Macros</a></li>
+		  <li><a href="#tabs-f3">Patterning Controls</a></li>
+		  <li><a href="#tabs-f4">Embed Motif</a></li>
+		</ul>
+
+		<!-- Tab F1 -->	  
+		<div class="boxie s no-title" id="tabs-f1">
+		  Design mod choice
+		</div>
+
+		<!-- Tab F2 -->	  
+		<div class="boxie s no-title" id="tabs-f2">
+		  Macros....
+		</div>
+
+		<!-- Tab F3 -->	  
+		<div class="boxie s no-title" id="tabs-f3">
+		  rotational pattern. Linear pattern
+		</div>
+
+		<!-- Tab F4 -->	  
+		<div class="boxie s no-title" id="tabs-f4">
+		  pick a motif to embed.....
+		</div>
+
+	      </div><!-- (end of 6. tabs)-->
+
+
+	      <!-- 7. Main Buttons -->
+	      <div class="main-buttons">
+		<div class="button" id="cancel">Cancel</div>
+		<div class="button" id="done">Done</div>
 	      </div>
 
 	    </div>

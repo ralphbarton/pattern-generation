@@ -1,0 +1,60 @@
+/**/
+
+#motifs-edit .main-buttons{
+  position: absolute;
+  bottom: 5px;
+  right: 8px;
+}
+
+#motifs-edit #Motif{
+  background: white;
+  box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
+  position: absolute;
+  right: 12px;
+  top: 150px;
+  width: 400px;
+  height: 400px;
+}
+
+#motifs-edit #params tbody{
+    height: 180px;
+}
+
+#motifs-edit #params .col-4{
+    width: 170px;
+}
+
+#motifs-edit #props tbody{
+    height: 395px;
+}
+
+#motifs-edit #props .col-2{
+    width: 380px;
+}
+
+#motifs-edit .mid-1{
+    position: absolute;
+    left: 478px;
+}
+
+#motifs-edit .title{
+    top: 100px;
+}
+
+#motifs-edit .tools{
+    top: 150px;
+    background-color: #333;
+    border-radius: 5px;
+  box-shadow: 0px 0px 3px 1px rgba(0,0,0,1);
+    width: 100px;
+    height: 400px;
+}
+
+#motifs-edit .tabs{
+    top: 560px;
+}
+
+.tabs .boxie.s{
+    width: 505px;
+    height: 120px;
+}
