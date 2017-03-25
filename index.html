@@ -44,6 +44,8 @@
     <link rel="stylesheet" href="css-gallery.css" />
     <link rel="stylesheet" href="css-gallery-zoom.css" />
 
+    <link rel="stylesheet" href="css-motifs-view.css" />
+
     <!-- JS -->
     <script src="global.js"></script>
     <script src="widgets.js"></script>
@@ -63,6 +65,8 @@
     <script src="gallery-text.js"></script>
     <script src="gallery-slideshow.js"></script>
     <script src="gallery-zoom.js"></script>
+
+    <script src="motifs-view.js"></script>
 
   </head>
 
@@ -571,7 +575,55 @@
 
 	  <!-- 1.2.6 Tab 6 -->	  
 	  <div id="tabs-6">
-	    Motifs - UI to create a basic paramterised SVG. Think about how to preview, and toolbox.
+
+	    <div id="motifs-view">
+	      <table class="user-data-table">
+		<thead>
+		  <tr>
+		    <th class="col-1">#</th>
+		    <th class="col-2">Title</th>
+		    <th class="col-3">D.</th>
+		    <th class="col-4">Prev.</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <!-- rows populated using JS -->
+		</tbody>
+	      </table>
+
+	      <div class="preview">
+		<div class="title">My Motif 2</div>
+		<div class="pic-box"></div>
+	      </div>
+
+	      <div class="table-buttons">
+		<div class="button" id="edit">Edit</div>
+		<div class="button" id="duplicate">Duplicate</div>
+		<div class="button" id="delete">Delete</div>
+	      </div>
+
+	    </div>
+
+
+
+
+
+
+
+
+
+	    <div id="motifs-edit" style="display: none;">
+
+	      <!-- 1. [cp-edit] Title Bar -->
+	      <div class="title-bar">
+		<span class="TL-1">Pot Contents: </span>
+		<span class="TL-2">n. </span>
+		<input />
+	      </div>
+
+	    </div>
+
+
 	  </div>
 
 	  <!-- 1.2.7 Tab 7 -->	  

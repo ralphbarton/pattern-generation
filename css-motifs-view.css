@@ -1,0 +1,63 @@
+/* Specific to Motifs VIEW table */
+
+#motifs-view .user-data-table tbody{
+    height: 165px;
+}
+
+#motifs-view .user-data-table .col-1{
+    width: 20px;
+}
+
+#motifs-view .user-data-table .col-2{
+    width: 100px;
+}
+
+#motifs-view .user-data-table td.col-2{
+    text-align: left;
+}
+
+#motifs-view .user-data-table .col-2{
+    padding: 0px;
+}
+
+#motifs-view .user-data-table input.blue-cell{
+    width: 264px;
+}
+
+#motifs-view .user-data-table th.col-3{
+    width: 10px;
+}
+
+#motifs-view .user-data-table th.col-4{
+    width: 60px;
+}
+
+#motifs-view .user-data-table td.col-4{
+    padding: 1px;
+}
+
+#motifs-view .preview{
+    position: absolute;
+    box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
+    border-radius: 7px 7px 0px 0px;
+    width: 235px;
+    right: 12px;
+    bottom: 12px;
+}
+
+#motifs-view .preview .pic-box{
+    background-color: white;
+    width: 100%;
+    height: 235px;
+}
+
+#motifs-view .preview .title{
+    background-color: #444;
+    border-radius: 7px 7px 0px 0px;
+    color: white;
+    font-weight: bold;
+    font-family: sans;
+    text-align: center;
+    padding: 2px;
+    
+}

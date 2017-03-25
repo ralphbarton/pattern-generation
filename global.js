@@ -102,11 +102,15 @@ $(document).ready(function() {
 
 
     //go straight to Grids ( = 3rd tab...)
-    $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click()
-*/
+    $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click();
+
 
     //go straight to Grids ( = 4rd tab...)
-    $("#cpanel-main-tabs > ul > li:nth-of-type(8) a").click()
+    $("#cpanel-main-tabs > ul > li:nth-of-type(8) a").click();
+*/
+
+    //go straight to Motifs ( = 6th tab...)
+    $("#cpanel-main-tabs > ul > li:nth-of-type(6) a").click();
 
 
 });
