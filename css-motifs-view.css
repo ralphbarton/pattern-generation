@@ -49,6 +49,7 @@
     background-color: white;
     width: 100%;
     height: 235px;
+    position: relative;
 }
 
 #motifs-view .preview .title{
@@ -60,4 +61,55 @@
     text-align: center;
     padding: 2px;
     
+}
+
+#motifs-view .preview img{
+    max-height: 210px;
+    max-width: 210px;
+      position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+#motifs-view .table-buttons{
+    position: relative;
+    left: 12px;
+    top: -2px;
+}
+
+#motifs-view .table-buttons .button.s{
+    padding: 2px 7px;
+}
+
+#motifs-view .mot-1{
+        position: absolute;
+    left: 14px;
+    top: 343px;
+    height: 32px;
+    width: 204px;
+}
+
+/*Applies to all of the middle column divs...*/
+#motifs-view .mot-M{
+    position: absolute;
+    left: 235px;
+    top: 118px;
+}
+
+#motifs-view .mot-M > div{
+    position: relative;
+    height: 67px;
+    width: 197px;
+}
+
+#motifs-view div.mot-5 {
+    width: 212px;
+}
+
+#motifs-view .act-mutex{
+    position: absolute;
+    top: 5px;
+}
+#motifs-view #gridlines-on-off{
+    left: 94px;
 }
