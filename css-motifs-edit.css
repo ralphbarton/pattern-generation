@@ -34,21 +34,62 @@
 
 #motifs-edit .mid-1{
     position: absolute;
-    left: 478px;
+    left: 476px;
 }
 
-#motifs-edit .title{
+#motifs-edit .motif-title{
     top: 100px;
 }
 
+
+
+
+
+/* X. Toolbox styling*/
+
 #motifs-edit .tools{
-    top: 150px;
-    background-color: #333;
-    border-radius: 5px;
-  box-shadow: 0px 0px 3px 1px rgba(0,0,0,1);
-    width: 100px;
-    height: 400px;
+    top: 140px;
+    width: 94px;
+    height: 392px;
+    padding-top: 10px;
+    font-size: 0;
 }
+
+#motifs-edit .sqr-but{
+    vertical-align: bottom;
+    margin: 2px;
+}
+
+/*jiggle exact placement of shapes within boxes*/
+#motifs-edit .sqr-but#shap1 img{
+    top: 1px;
+    left: 0px;
+}
+#motifs-edit .sqr-but#shap2 img{
+    top: 1px;
+    left: 0px;
+}
+#motifs-edit .sqr-but#shap3 img{
+    top: 0px;
+    left: -1px;
+}
+#motifs-edit .sqr-but#shap4 img{
+    top: 0px;
+    left: 0px;
+}
+#motifs-edit .sqr-but#shap5 img{
+    top: 1px;
+    left: 0px;
+}
+
+
+
+
+
+
+
+
+
 
 #motifs-edit .tabs{
     top: 560px;
