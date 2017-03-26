@@ -1,10 +1,14 @@
-/**/
+/* 1. Cancel / Done buttons, bottom right*/
 
 #motifs-edit .main-buttons{
   position: absolute;
   bottom: 5px;
   right: 8px;
 }
+
+
+
+/* 2. Motif zone */
 
 #motifs-edit #Motif{
   background: white;
@@ -15,6 +19,11 @@
   width: 400px;
   height: 400px;
 }
+
+
+
+
+/* 3. tables zones */
 
 #motifs-edit #params tbody{
     height: 180px;
@@ -37,15 +46,34 @@
     left: 476px;
 }
 
+
+
+
+
+
+
+/* 4. Section of content above the canvas*/
+
 #motifs-edit .motif-title{
     top: 100px;
 }
 
+#motifs-edit .mouse-coords{
+    opacity: 0.5;
+    position: absolute;
+    left: 379px;
+    top: 33px;
+    width: 150px;
+}
+
+#motifs-edit .mouse-coords > span{
+    font-family: sans;
+    color: rgba(0,70,180,1);
+}
 
 
 
-
-/* X. Toolbox styling*/
+/* 5. Toolbox (left of canvas)*/
 
 #motifs-edit .tools{
     top: 140px;

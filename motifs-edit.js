@@ -20,6 +20,20 @@ var motifs_edit = {
 
 
 
+
+	// 2. Designing additional interaction with the canvas
+	// this is the DIV which *contains* the canvas element...
+	$("#motifs-edit #Motif").mousemove(function( event ) {
+	    
+	    //offsetX attribute of event is position relative to the DIV the mouse is over
+	    $("#motifs-edit .mouse-coords .x").text( (event.offsetX - 200) );
+	    $("#motifs-edit .mouse-coords .y").text( (event.offsetY - 200) );
+
+	});
+
+
+
+
 	// FABRIC...
 
 	// create a wrapper around native canvas element (with id="c")
