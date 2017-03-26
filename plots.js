@@ -112,6 +112,9 @@ var plots = {
 
 	});
 
+
+	// Note 26-Mar-2017 - even in its incompleted state, this action link makes some impact,
+	// since the 'val-min' and 'val-max' parameters are used by the software.
 	$("#tabs-4 #z-2 .action-link#hist-reset").click(function(){
 	    // 1. reset to auto.
 	    var Plot_iH = DM.PlotsArray[plots.selected_row_i].histogram;
@@ -122,35 +125,9 @@ var plots = {
 	    
 	});
 
-
-
-
-
-	////////////////////?TEMP
-	$("#temp-density-plots input#equation").SmartInput({
-	    underlying_obj: this.eq2,
-	    underlying_key: "func",
-	    style_class: "plain-cell",
-	    data_class: "text",
-	    underlying_from_DOM_onChange: true,
-//	    cb_change: 
-	});
-
-
-	$("#temp-density-plots input#cell-px").SmartInput({
-	    underlying_obj: this.eq2,
-	    underlying_key: "cell_px",
-	    style_class: "plain-cell",
-	    data_class: "pixels",
-	});
-
-
-	$("#temp-density-plots #exec-plot").click(function(){
-	    $("#temp-density-plots #status").text("calculating...");
-	    plots2.draw_job();
-	});
-
     },
+
+
 
     regenerate_table: function(){
 
