@@ -39,40 +39,49 @@ var motifs_edit = {
 	});
 
 	// 2.2 - Callback for "mouse-down" event on the interceptor
-	var BL_left = undefined;
-	var BL_top = undefined;
+	var mousedown_left = undefined;
+	var mousedown_top = undefined;
 	$("#motifs-edit #Motif .interceptor").mousedown(function(event){
-
-	    BL_left = event.offsetX;
-	    BL_top = event.offsetY;
-	    $("#motifs-edit .interceptor > div")
-		.show()
-		.css({
-		    left: event.offsetX,
-		    top: event.offsetY
-		});
+	    mousedown_left = event.offsetX;
+	    mousedown_top = event.offsetY;
 	});
 
 
 	// 2.3 - Callback for "mouse-up" event on the interceptor
 	$("#motifs-edit #Motif .interceptor").mouseup(function(){
-	    $("#motifs-edit .interceptor > div").hide();
+	    $("#motifs-edit .interceptor > div")
+		.css({
+		    width: 0,
+		    height: 0
+		});
+	    // record mouse up state...
+	    mousedown_left = undefined;
+	    mousedown_top = undefined;
 	});
 
 
 	// 2.4 - Callback for "mouse-move" event on canvas *Container* 
-	$("#motifs-edit #Motif").mousemove(function( event ) {
+	$("#motifs-edit #Motif").mousemove(function(event) {
 	    
-	    //offsetX attribute of event is position relative to the DIV the mouse is over
-	    $("#motifs-edit .mouse-coords .x").text( (event.offsetX - 200) );
-	    $("#motifs-edit .mouse-coords .y").text( (event.offsetY - 200) );
-//	    console.log(event);
+	    //this coordinates are relative to the Document (i.e. (I think) the window)
+	    var canv_page_coords = $("#motifs-edit .interceptor").offset();
+	    var canv_mou_x = event.pageX - canv_page_coords.left;
+	    var canv_mou_y = event.pageY - canv_page_coords.top;
 
-	    $("#motifs-edit .interceptor > div")
-		.css({
-		    width: (event.offsetX - BL_left),
-		    height: (event.offsetY - BL_top)
+	    //only do when mouse is clicked...
+	    if(mousedown_left != undefined){
+		//The logic here also handles when the mouse moves above/left of the point clicked...
+		$("#motifs-edit .interceptor > div").css({
+		    width: Math.abs(canv_mou_x - mousedown_left),
+		    left: (mousedown_left < canv_mou_x ? mousedown_left : canv_mou_x),
+		    height: Math.abs(canv_mou_y - mousedown_top),
+		    top: (mousedown_top < canv_mou_y ? mousedown_top : canv_mou_y)
 		});
+	    }
+
+	    //offsetX attribute of event is position relative to the DIV the mouse is over
+	    $("#motifs-edit .mouse-coords .x").text( (canv_mou_x - 200) );
+	    $("#motifs-edit .mouse-coords .y").text( (canv_mou_y - 200) );
 
 
 	});
