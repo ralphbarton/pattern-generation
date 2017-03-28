@@ -33,6 +33,17 @@ var motifs_edit = {
 
 
 
+	$("#motifs-edit .tools .button").click(function(){
+	    var was_on = $(this).hasClass("sel");
+	    $("#motifs-edit .tools .button").removeClass("sel");
+	    $(this).toggleClass("sel", !was_on);
+
+	    // at this point, either 1 or 0 of the buttons is lit up, depending upon user's wishes...
+	    console.log($("#motifs-edit .tools .button.sel").attr("id"));
+
+	});
+
+
 
 	// FABRIC...
 
