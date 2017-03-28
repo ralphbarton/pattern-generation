@@ -23,24 +23,68 @@ var motifs_edit = {
 
 	// 2. Designing additional interaction with the canvas
 	// this is the DIV which *contains* the canvas element...
-	$("#motifs-edit #Motif").mousemove(function( event ) {
-	    
-	    //offsetX attribute of event is position relative to the DIV the mouse is over
-	    $("#motifs-edit .mouse-coords .x").text( (event.offsetX - 200) );
-	    $("#motifs-edit .mouse-coords .y").text( (event.offsetY - 200) );
-
-	});
 
 
-
+	// 2.1 - Callback for Toolbox button click
+	var Tool_selected = undefined;
 	$("#motifs-edit .tools .button").click(function(){
 	    var was_on = $(this).hasClass("sel");
 	    $("#motifs-edit .tools .button").removeClass("sel");
 	    $(this).toggleClass("sel", !was_on);
 
 	    // at this point, either 1 or 0 of the buttons is lit up, depending upon user's wishes...
-	    console.log($("#motifs-edit .tools .button.sel").attr("id"));
+	    var Tool_selected = $("#motifs-edit .tools .button.sel").attr("id");
+	    $("#motifs-edit #Motif .interceptor").toggleClass("active", Tool_selected !== undefined);
 
+	});
+
+	// 2.2 - Callback for "mouse-down" event on the interceptor
+	var BL_left = undefined;
+	var BL_top = undefined;
+	$("#motifs-edit #Motif .interceptor").mousedown(function(event){
+
+	    BL_left = event.offsetX;
+	    BL_top = event.offsetY;
+	    $("#motifs-edit .interceptor > div")
+		.show()
+		.css({
+		    left: event.offsetX,
+		    top: event.offsetY
+		});
+	});
+
+
+	// 2.3 - Callback for "mouse-up" event on the interceptor
+	$("#motifs-edit #Motif .interceptor").mouseup(function(){
+	    $("#motifs-edit .interceptor > div").hide();
+	});
+
+
+	// 2.4 - Callback for "mouse-move" event on canvas *Container* 
+	$("#motifs-edit #Motif").mousemove(function( event ) {
+	    
+	    //offsetX attribute of event is position relative to the DIV the mouse is over
+	    $("#motifs-edit .mouse-coords .x").text( (event.offsetX - 200) );
+	    $("#motifs-edit .mouse-coords .y").text( (event.offsetY - 200) );
+//	    console.log(event);
+
+	    $("#motifs-edit .interceptor > div")
+		.css({
+		    width: (event.offsetX - BL_left),
+		    height: (event.offsetY - BL_top)
+		});
+
+
+	});
+
+	// 2.5 - Callback for mouse Over the canvas
+	$("#motifs-edit #Motif").mouseenter(function(){
+	    $("#motifs-edit .mouse-coords").fadeIn({duration: 200, easing: "linear"});
+	});
+
+	// 2.6 - Callback for mouse Out on the canvas
+	$("#motifs-edit #Motif").mouseleave(function(){
+	    $("#motifs-edit .mouse-coords").fadeOut({duration: 200, easing: "linear"});
 	});
 
 
