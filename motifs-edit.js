@@ -33,7 +33,7 @@ var motifs_edit = {
 	    $(this).toggleClass("sel", !was_on);
 
 	    // at this point, either 1 or 0 of the buttons is lit up, depending upon user's wishes...
-	    var Tool_selected = $("#motifs-edit .tools .button.sel").attr("id");
+	    Tool_selected = $("#motifs-edit .tools .button.sel").attr("id");
 	    $("#motifs-edit #Motif .interceptor").toggleClass("active", Tool_selected !== undefined);
 
 	});
@@ -48,17 +48,84 @@ var motifs_edit = {
 
 
 	// 2.3 - Callback for "mouse-up" event on the interceptor
-	$("#motifs-edit #Motif .interceptor").mouseup(function(){
+	$("#motifs-edit #Motif .interceptor").mouseup(function(event){
 	    $("#motifs-edit .interceptor > div")
 		.css({
 		    width: 0,
 		    height: 0
 		});
-	    // record mouse up state...
+
+	    //this means draw a shape...
+	    if(mousedown_left !== undefined){
+
+
+		//these 3 lines are copy-pasted, unfortunately...
+		var canv_page_coords = $("#motifs-edit .interceptor").offset();
+		var canv_mou_x = event.pageX - canv_page_coords.left;
+		var canv_mou_y = event.pageY - canv_page_coords.top;
+
+		var USR = rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y);
+
+		// create a rectangle object
+		var new_shape = undefined;
+		console.log(Tool_selected);
+		if(Tool_selected == "shap1"){//circle
+		    new_shape = new fabric.Ellipse({
+			left: USR.left,
+			top: USR.top,
+			fill: 'red',
+			rx: (USR.width/2),
+			ry: (USR.height/2)
+		    });
+
+		}else if(Tool_selected == "shap2"){//rectangle
+		    new_shape = new fabric.Rect();
+
+		}else if(Tool_selected == "shap3"){//triangle
+		    new_shape = new fabric.Triangle();
+
+		}else if(Tool_selected == "shap4"){//hexagon
+		    new_shape = new fabric.Rect();
+
+		}else if(Tool_selected == "shap5"){//line
+		    new_shape = new fabric.Line();
+		    new_shape.set({
+			strokeWidth: 1,
+			stroke: 'black'
+		    });
+
+		}
+
+		if((Tool_selected == "shap2")||(Tool_selected == "shap3")||(Tool_selected == "shap5")){
+		    new_shape.set({
+			left: USR.left,
+			top: USR.top,
+			fill: 'blue',
+			width: USR.width,
+			height: USR.height
+		    });
+		}
+
+		// "add" rectangle onto canvas
+		canvas.add(new_shape);
+
+	    }
+
+	    // record that the mouse is now UP...
 	    mousedown_left = undefined;
 	    mousedown_top = undefined;
 	});
 
+
+	var rect_params = function(start_x, start_y, now_x, now_y){
+	    // Logic here to handle when the mouse moves above/left of the point clicked...
+	    return {
+		width: Math.abs(now_x - start_x),
+		left: (start_x < now_x ? start_x : now_x),
+		height: Math.abs(now_y - start_y),
+		top: (start_y < now_y ? start_y : now_y)
+	    };
+	};
 
 	// 2.4 - Callback for "mouse-move" event on canvas *Container* 
 	$("#motifs-edit #Motif").mousemove(function(event) {
@@ -70,13 +137,9 @@ var motifs_edit = {
 
 	    //only do when mouse is clicked...
 	    if(mousedown_left != undefined){
-		//The logic here also handles when the mouse moves above/left of the point clicked...
-		$("#motifs-edit .interceptor > div").css({
-		    width: Math.abs(canv_mou_x - mousedown_left),
-		    left: (mousedown_left < canv_mou_x ? mousedown_left : canv_mou_x),
-		    height: Math.abs(canv_mou_y - mousedown_top),
-		    top: (mousedown_top < canv_mou_y ? mousedown_top : canv_mou_y)
-		});
+		$("#motifs-edit .interceptor > div").css(
+		    rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y)
+		);
 	    }
 
 	    //offsetX attribute of event is position relative to the DIV the mouse is over
@@ -103,18 +166,6 @@ var motifs_edit = {
 	// create a wrapper around native canvas element (with id="c")
 	var my_canv_El = $("#motifs-edit #Motif > canvas")[0];
 	var canvas = new fabric.Canvas(my_canv_El);
-
-	// create a rectangle object
-	var rect = new fabric.Rect({
-	    left: 100,
-	    top: 100,
-	    fill: 'red',
-	    width: 80,
-	    height: 120
-	});
-
-	// "add" rectangle onto canvas
-	canvas.add(rect);
 
     },
 

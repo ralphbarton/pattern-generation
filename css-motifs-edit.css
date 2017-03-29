@@ -35,10 +35,8 @@
 
 #motifs-edit .interceptor > div{
     position: absolute;
-    top: 1px;
-    left: 1px;
-    width: 100px;
-    height: 100px;
+    width: 0px;
+    height: 0px;
     background: rgba(66, 103, 114, 0.45);
 }
 
