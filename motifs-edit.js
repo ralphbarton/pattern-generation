@@ -1,5 +1,6 @@
 var motifs_edit = {
 
+    Fabric_Canvas: undefined,
     init: function(){
 
 	// 1. Add handlers for the "main" (Done / Cancel) buttons...
@@ -68,7 +69,6 @@ var motifs_edit = {
 
 		// create a rectangle object
 		var new_shape = undefined;
-		console.log(Tool_selected);
 		if(Tool_selected == "shap1"){//circle
 		    new_shape = new fabric.Ellipse({
 			left: USR.left,
@@ -166,15 +166,17 @@ var motifs_edit = {
 	// create a wrapper around native canvas element (with id="c")
 	var my_canv_El = $("#motifs-edit #Motif > canvas")[0];
 	var canvas = new fabric.Canvas(my_canv_El);
+	this.Fabric_Canvas = canvas;
 
     },
 
-
+    active: false,
     show: function(){
 	$(".cpanel#main").removeClass("cpanel-main-size1").addClass("cpanel-main-size3");//change window size
 	$("#cpanel-main-tabs").tabs("option", "disabled", true); // Disable main tab set
 	$("#motifs-view").hide();
 	$("#motifs-edit").show();
+	this.active = true;
     },
 
 
@@ -183,6 +185,78 @@ var motifs_edit = {
 	$("#cpanel-main-tabs").tabs("option", "disabled", false); // Enable main tab set
 	$("#motifs-view").show();
 	$("#motifs-edit").hide();
+	this.active = false;
+    },
+
+    keyStrokeHandler: function(myKeycode, keyPressed){
+	
+	var canvas = this.Fabric_Canvas;
+	//Delete key pressed...
+	if(myKeycode == 46){
+	    var activeObject = canvas.getActiveObject(),
+	    activeGroup = canvas.getActiveGroup();
+	    if (activeObject) {
+		canvas.remove(activeObject);
+	    }
+	    else if (activeGroup) {
+		var objectsInGroup = activeGroup.getObjects();
+		canvas.discardActiveGroup();
+		objectsInGroup.forEach(function(object) {
+		    canvas.remove(object);
+		});
+	    }
+	}
+
+	//an ARROW key pressed...
+	else if((myKeycode >= 37)&&(myKeycode <= 40)){
+	    //This code is copy-pasted from the code to delete an object. is generalisation possible / worthwhile??
+
+	    var activeObject = canvas.getActiveObject(),
+	    activeGroup = canvas.getActiveGroup();
+	    if (activeObject) {
+		motifs_edit.moveFabricObj(myKeycode, activeObject);
+	    }
+	    else if (activeGroup) {
+		var objectsInGroup = activeGroup.getObjects();
+		objectsInGroup.forEach(function(object) {
+		    motifs_edit.moveFabricObj(myKeycode, object);
+		});
+	    }
+
+	    
+	}
+
+    },
+
+
+	/*
+	  left arrow 37
+	  up arrow 38
+	  right arrow 39
+	  down arrow 40 
+	*/
+    moveFabricObj: function(keyCode, object){
+
+	var cng = undefined;
+	if(keyCode == 37){
+	    cng = {'left': (object.left - 1)};
+	}else if(keyCode == 38){
+	    cng = {'top': (object.top - 1)};
+	}else if(keyCode == 39){
+	    cng = {'left': (object.left + 1)};
+	}else if(keyCode == 40){
+	    cng = {'top': (object.top + 1)};
+	}
+
+	// execute the 1px MOVE
+	// remove then add is needed to recalculate the mouse-click handling zone.
+	//  -- however, it also has the effect of DESELECTING OBJECT, hence commented out...
+	object.set(cng);
+	var canvas = this.Fabric_Canvas;
+//	canvas.remove(object);
+//	canvas.add(object);
+	canvas.renderAll();
+
     }
 
 

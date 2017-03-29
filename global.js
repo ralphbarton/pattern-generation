@@ -57,7 +57,11 @@ var global = {
 
 
 	    }
-	    
+
+	    if(motifs_edit.active){
+		motifs_edit.keyStrokeHandler(myKeycode, keyPressed);
+
+	    }
 
 	}, false);
 
