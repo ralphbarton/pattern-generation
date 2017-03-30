@@ -168,7 +168,14 @@ var motifs_edit = {
 	var canvas = new fabric.Canvas(my_canv_El);
 	this.Fabric_Canvas = canvas;
 
+	// testing...
+	this.regenerateMotifPropsList();
+
     },
+
+
+
+
 
     active: false,
     show: function(){
@@ -259,6 +266,9 @@ var motifs_edit = {
 
     regenerateMotifPropsList: function(){
 	
+	//just for testing purposes...
+	// create another 3 copies of the stuff...
+	$( "#motif-props-zone #elem-1" ).clone().appendTo("#motif-props-zone .contents");
 
     }
 
