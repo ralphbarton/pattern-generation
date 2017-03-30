@@ -249,13 +249,10 @@ var motifs_edit = {
 	}
 
 	// execute the 1px MOVE
-	// remove then add is needed to recalculate the mouse-click handling zone.
-	//  -- however, it also has the effect of DESELECTING OBJECT, hence commented out...
 	object.set(cng);
+	object.setCoords(); // this recalculates the Fabric's click detection for the object.
 	var canvas = this.Fabric_Canvas;
-//	canvas.remove(object);
-//	canvas.add(object);
-	canvas.renderAll();
+	canvas.renderAll(); // n.b. setCoords() doesn't negate the need for this!
 
     }
 
