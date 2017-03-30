@@ -41,7 +41,7 @@
 }
 
 
-/* 3. tables zones */
+/* 3. Parameters Zone */
 
 #motifs-edit #params tbody{
     height: 180px;
@@ -51,13 +51,53 @@
     width: 170px;
 }
 
-#motifs-edit #props tbody{
-    height: 395px;
+
+
+
+
+
+
+/* 4. Properties Zone */
+
+#motifs-edit #motif-props-zone{
+    position: absolute;
+    left: 6px;
+    width: 462px;
 }
 
-#motifs-edit #props .col-2{
-    width: 380px;
+.listing-box{
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 3px inset #DBD1AB;
+    background-color: white;
+    text-align: center; 
 }
+
+.listing-box .title{
+    background-color: #CCC;
+    font-weight: bold;
+    padding: 2px;
+    border-bottom: 1px solid black;
+}
+
+#motifs-edit .listing-box{
+    height: 402px;
+}
+
+#motif-props-zone .props-buttons{
+    margin-top: 3px;
+    text-align: right;
+}
+
+/* 4.1 Properties Zone - Elements styling...*/
+
+
+
+
+
+
+
+/* 4.9 Left side of divide accross the tab... */
 
 #motifs-edit .mid-1{
     position: absolute;
@@ -70,7 +110,7 @@
 
 
 
-/* 4. Section of content above the canvas*/
+/* 5. Section of content above the canvas*/
 
 #motifs-edit .motif-title{
     top: 100px;
@@ -91,7 +131,7 @@
 
 
 
-/* 5. Toolbox (left of canvas)*/
+/* 6. Toolbox (left of canvas)*/
 
 #motifs-edit .tools{
     top: 140px;
