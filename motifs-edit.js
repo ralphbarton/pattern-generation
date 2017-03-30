@@ -254,6 +254,12 @@ var motifs_edit = {
 	var canvas = this.Fabric_Canvas;
 	canvas.renderAll(); // n.b. setCoords() doesn't negate the need for this!
 
+    },
+
+
+    regenerateMotifPropsList: function(){
+	
+
     }
 
 

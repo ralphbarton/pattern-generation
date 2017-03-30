@@ -55,8 +55,6 @@
 
 
 
-
-
 /* 4. Properties Zone */
 
 #motifs-edit #motif-props-zone{
@@ -70,10 +68,10 @@
     overflow-y: auto;
     border: 3px inset #DBD1AB;
     background-color: white;
-    text-align: center; 
 }
 
 .listing-box .title{
+    text-align: center; 
     background-color: #CCC;
     font-weight: bold;
     padding: 2px;
@@ -90,6 +88,95 @@
 }
 
 /* 4.1 Properties Zone - Elements styling...*/
+
+/* 4.1.1  = w3schools Drop-down styling (begin)*/
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+/* w3schools Drop-down styling (end)*/
+
+
+
+/* 4.2 Element general & heading */
+.m-elem{
+    font-family: Arial, Helvetica, sans-serif;
+    border-bottom: 2px solid black;
+    padding: 5px 2px;
+}
+
+.heading-bar{
+    border: 1px solid green;
+}
+
+.heading-bar .name{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* 4.2 Element properties tables... */
+
+.m-elem table{
+    background: grey;
+    border-spacing: 1px;
+    color: grey;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.m-elem table td{
+    background: white;
+}
+
+.m-elem .col-prop{
+    width: 50px;
+}
+
+.m-elem .col-valu{
+    width: 150px;
+}
+
+.m-elem .col-more{
+    width: 13px;
+}
+
+
+
 
 
 
