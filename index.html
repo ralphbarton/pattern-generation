@@ -696,9 +696,9 @@
 		  <div class="contents">
 		    <div class="m-elem" id="elem-1">
 		      <div class="heading-bar">
-			<div class="name">Rectangle 1</div>
+			<div class="name">Trian 1</div>
 
-			<div class="placement">
+			<div class="p-origin">
 			  <div class="title">Placement origin</div>
 
 			  <!-- 3.1 - Lifted from https://www.w3schools.com/css/tryit.asp?filename=trycss_dropdown_button-->
@@ -714,9 +714,10 @@
 			</div>
 
 			<div class="props-sets">
-			  <button class="set-1 sel">Placement & Size</button>
+			  <button class="set-1">Pos & Size</button>
 			  <button class="set-2">Appearance</button>
 			  <button class="set-3">Repetition</button>
+			  <button class="set-3 sel">More</button>
 			</div>
 
 		      </div>
@@ -727,10 +728,10 @@
 			<div class="title">Placement & Size</div>
 			<table class="a">		    
 			  <tr>
-			    <td class="col-prop">x (@left)</td>
+			    <td class="col-prop">x</td>
 			    <td class="col-valu">32</td>
 			    <td class="col-more">...</td>
-			    <td class="col-prop">y (@top)</td>
+			    <td class="col-prop">y</td>
 			    <td class="col-valu">23</td>
 			    <td class="col-more">...</td>
 			  </tr>
@@ -758,42 +759,50 @@
 			<div class="title">Appearance</div>
 			<table class="a">		    
 			  <tr>
-			    <td class="col-prop">fill colour</td>
+			    <td class="col-prop">fill</td>
 			    <td class="col-valu">x</td>
 			    <td class="col-more">...</td>
-			    <td class="col-prop">outline colour</td>
-			    <td class="col-valu">x</td>
-			    <td class="col-more">...</td>
-			  </tr>
-			  <tr>
-			    <td class="col-prop">overall opacity</td>
-			    <td class="col-valu">x</td>
-			    <td class="col-more">...</td>
-			    <td class="col-prop">shadow colour</td>
+			    <td class="col-prop">outline</td>
 			    <td class="col-valu">x</td>
 			    <td class="col-more">...</td>
 			  </tr>
 			  <tr>
-			    <td class="col-prop">shadow opacity</td>
+			    <td class="col-prop">opacity</td>
 			    <td class="col-valu">x</td>
 			    <td class="col-more">...</td>
-			    <td class="col-prop">shadow blur</td>
-			    <td class="col-valu">x</td>
-			    <td class="col-more">...</td>
-			  </tr>
-			  <tr>
-			    <td class="col-prop">shadow x-offset</td>
-			    <td class="col-valu">x</td>
-			    <td class="col-more">...</td>
-			    <td class="col-prop">shadow y-offset</td>
+			    <td class="col-prop">shadow</td>
 			    <td class="col-valu">x</td>
 			    <td class="col-more">...</td>
 			  </tr>
 			  <tr>
-			    <td class="col-prop">outline thickness</td>
+			    <td class="col-prop">shad opac</td>
 			    <td class="col-valu">x</td>
 			    <td class="col-more">...</td>
-			    <td class="col-prop">outline type</td>
+			    <td class="col-prop">shad blur</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			  </tr>
+			  <tr>
+			    <td class="col-prop">shad x</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			    <td class="col-prop">shad y</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			  </tr>
+			  <tr>
+			    <td class="col-prop">outl thick</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			    <td class="col-prop">outl pat</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			  </tr>
+			  <tr>
+			    <td class="col-prop">corner rx</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			    <td class="col-prop">corner ry</td>
 			    <td class="col-valu">x</td>
 			    <td class="col-more">...</td>
 			  </tr>
@@ -807,13 +816,43 @@
 			<div class="title">Repetition</div>
 			<table class="a">		    
 			  <tr>
-			    <td class="col-prop">qty i-repetitions</td>
+			    <td class="col-prop">qty i-reps</td>
 			    <td class="col-valu">x</td>
 			    <td class="col-more">...</td>
-			    <td class="col-prop">qty j-repetitions</td>
+			    <td class="col-prop">qty j-reps</td>
 			    <td class="col-valu">x</td>
 			    <td class="col-more">...</td>
 			  </tr>
+			</table>
+
+			<!-- 3.2.4 - More table-->
+			<div class="title">More Properties</div>
+			<table class="a">		    
+			  <tr>
+			    <td class="col-prop">origin x</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			    <td class="col-prop">origin y</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			  </tr>
+			  <tr>
+			    <td class="col-prop">adv fill</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			    <td class="col-prop">outl mr</td>
+			    <td class="col-valu">e.g. mitre?</td>
+			    <td class="col-more">...</td>
+			  </tr>
+			  <tr>
+			    <td class="col-prop">z index</td>
+			    <td class="col-valu">x</td>
+			    <td class="col-more">...</td>
+			    <td class="col-prop"></td>
+			    <td class="col-valu"></td>
+			    <td class="col-more"></td>
+			  </tr>
+
 			</table>
 
 		      </div>
@@ -825,6 +864,7 @@
 		<div class="props-buttons">
 		  <div class="button s" id="contract">Contract All</div>
 		  <div class="button s" id="expand">Expand All</div>
+		  <div class="button s" id="sweep">Sweep</div>
 		  <div class="button s" id="render">Render</div>
 		  <div class="button s" id="render10">Render ×10</div>
 		</div>

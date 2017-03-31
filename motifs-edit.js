@@ -268,7 +268,9 @@ var motifs_edit = {
 	
 	//just for testing purposes...
 	// create another 3 copies of the stuff...
-	$( "#motif-props-zone #elem-1" ).clone().appendTo("#motif-props-zone .contents");
+	$( "#motif-props-zone #elem-1" ).clone().attr('id','clone1').appendTo("#motif-props-zone .contents");
+	$( "#motif-props-zone #elem-1" ).clone().attr('id','clone2').appendTo("#motif-props-zone .contents");
+	$( "#motif-props-zone #elem-1" ).clone().attr('id','clone3').appendTo("#motif-props-zone .contents");
 
     }
 
