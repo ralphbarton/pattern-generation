@@ -393,8 +393,25 @@ var DM = {
 
     MotifsArray: [],
 
-    Motif_addProps: function(PGTuid, PropsObj){
-	
+    PGTuid_counter: 0,
+    Motif_newElement: function(PropsObj){
+	var new_uid = this.PGTuid_counter;
+	this.PGTuid_counter++
+	PropsObj.PGTuid = new_uid;
+
+	DM.MotifDummy.Elements.push(PropsObj);
+	return new_uid;
+    },
+
+    Motif_updateElementProps: function(PGTuid, PropsObj){
+
+// the jQuery grep function which searches array for elements that match a filter function
+//	var result = $.grep(myArray, function(e){ return e.id == id; });
+
+	//use jQuery to iterate over elements of 'PropsObj'
+	$.each( obj, function( key, value ) {
+	    DM.MotifDummy.Elements[0][key] = value;
+	});
 
     }
 

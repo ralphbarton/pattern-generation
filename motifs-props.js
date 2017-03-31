@@ -1,7 +1,20 @@
 var motifs_props = {
 
     //top-left cartesian by default...
-    placement_style: 0,
+    current_placement_style: [
+	{ // Array - 0 
+	    originX: 'left',
+	    originY: 'left'
+	},
+	{ // Array - 1
+	    originX: 'center',
+	    originY: 'center'
+	},
+	{ // Array - 2
+	    originX: 'center',
+	    originY: 'center'
+	},
+    ],
 
     /*
       shape_type: rect, ellipse, triangle, hexagon, line, circle, square
@@ -52,6 +65,19 @@ var motifs_props = {
 	var canvas = motifs_edit.Fabric_Canvas;
 	canvas.add(new_shape);
 
+	var new_uid = DM.Motif_newElement({
+	    shape: shape_type,
+	    left: new_shape.left,
+	    top: new_shape.top,
+	    width: new_shape.width,
+	    height: new_shape.height,
+	    fill: new_shape.fill,
+	    stroke: new_shape.stroke,
+	    rx: new_shape.rx,
+	    ry: new_shape.ry,
+	});
+
+	new_shape.PGTuid = new_uid;
 
     },
     
