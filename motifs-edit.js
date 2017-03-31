@@ -48,75 +48,6 @@ var motifs_edit = {
 	});
 
 
-	// 2.3 - Callback for "mouse-up" event on the interceptor
-	$("#motifs-edit #Motif .interceptor").mouseup(function(event){
-	    $("#motifs-edit .interceptor > div")
-		.css({
-		    width: 0,
-		    height: 0
-		});
-
-	    //this means draw a shape...
-	    if(mousedown_left !== undefined){
-
-
-		//these 3 lines are copy-pasted, unfortunately...
-		var canv_page_coords = $("#motifs-edit .interceptor").offset();
-		var canv_mou_x = event.pageX - canv_page_coords.left;
-		var canv_mou_y = event.pageY - canv_page_coords.top;
-
-		var USR = rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y);
-
-		// create a rectangle object
-		var new_shape = undefined;
-		if(Tool_selected == "shap1"){//circle
-		    new_shape = new fabric.Ellipse({
-			left: USR.left,
-			top: USR.top,
-			fill: 'red',
-			rx: (USR.width/2),
-			ry: (USR.height/2)
-		    });
-
-		}else if(Tool_selected == "shap2"){//rectangle
-		    new_shape = new fabric.Rect();
-
-		}else if(Tool_selected == "shap3"){//triangle
-		    new_shape = new fabric.Triangle();
-
-		}else if(Tool_selected == "shap4"){//hexagon
-		    new_shape = new fabric.Rect();
-
-		}else if(Tool_selected == "shap5"){//line
-		    new_shape = new fabric.Line();
-		    new_shape.set({
-			strokeWidth: 1,
-			stroke: 'black'
-		    });
-
-		}
-
-		if((Tool_selected == "shap2")||(Tool_selected == "shap3")||(Tool_selected == "shap5")){
-		    new_shape.set({
-			left: USR.left,
-			top: USR.top,
-			fill: 'blue',
-			width: USR.width,
-			height: USR.height
-		    });
-		}
-
-		// "add" rectangle onto canvas
-		canvas.add(new_shape);
-
-	    }
-
-	    // record that the mouse is now UP...
-	    mousedown_left = undefined;
-	    mousedown_top = undefined;
-	});
-
-
 	var rect_params = function(start_x, start_y, now_x, now_y){
 	    // Logic here to handle when the mouse moves above/left of the point clicked...
 	    return {
@@ -126,6 +57,35 @@ var motifs_edit = {
 		top: (start_y < now_y ? start_y : now_y)
 	    };
 	};
+
+
+	// 2.3 - Callback for "mouse-up" event on the interceptor
+	// (such an event can only happen when Tool_selected is a valid shape type...)
+	$("#motifs-edit #Motif .interceptor").mouseup(function(event){
+	    $("#motifs-edit .interceptor > div")
+		.css({
+		    width: 0,
+		    height: 0
+		});
+
+	    //this means draw a shape...
+	    if(mousedown_left !== undefined){
+		//these 3 lines are copy-pasted, unfortunately...
+		var canv_page_coords = $("#motifs-edit .interceptor").offset();
+		var canv_mou_x = event.pageX - canv_page_coords.left;
+		var canv_mou_y = event.pageY - canv_page_coords.top;
+
+		var USR = rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y);
+
+		//Function to Add a shape (Element) via Fabric canvas and via Datamodel...
+		motifs_props.AddShape(Tool_selected, USR);
+	    }
+
+	    // record that the mouse is now UP...
+	    mousedown_left = undefined;
+	    mousedown_top = undefined;
+	});
+
 
 	// 2.4 - Callback for "mouse-move" event on canvas *Container* 
 	$("#motifs-edit #Motif").mousemove(function(event) {

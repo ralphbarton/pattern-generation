@@ -349,5 +349,55 @@ var DM = {
 	});//default data
     },
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    MotifDummy: {
+	Name: "Glowing target",
+	Params: {
+	    links: [],
+	    random: [],
+	    CP_picks: [],
+	},
+	Elements: [
+	    {
+		/* 0 = top-left (cartesian)
+		   1 = center (cartesian)
+		   2 = center (polar)
+		   3 = Other...
+
+		*/
+		placement: 0, 
+
+
+
+		/*
+		  lots of standard props
+		*/
+	    }
+	]
+    },
+
+    MotifsArray: [],
+
+    Motif_addProps: function(PGTuid, PropsObj){
+	
+
+    }
+
+
     
 };
