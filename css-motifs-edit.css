@@ -1,9 +1,9 @@
 /* 1. Cancel / Done buttons, bottom right*/
 
 #motifs-edit .main-buttons{
-  position: absolute;
-  bottom: 5px;
-  right: 8px;
+    position: absolute;
+    bottom: 5px;
+    right: 8px;
 }
 
 
@@ -11,13 +11,13 @@
 /* 2. Motif zone */
 
 #motifs-edit #Motif{
-  background: white;
-  box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
-  position: absolute;
-  right: 12px;
-  top: 150px;
-  width: 400px;
-  height: 400px;
+    background: white;
+    box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
+    position: absolute;
+    right: 12px;
+    top: 150px;
+    width: 400px;
+    height: 400px;
 }
 
 #motifs-edit #Motif .interceptor{
@@ -84,7 +84,7 @@
 #motifs-edit .listing-box > div.contents{
     overflow-x: hidden;
     overflow-y: auto;
-        height: 377px;
+    height: 377px;
 }
 
 #motif-props-zone .props-buttons{
@@ -114,7 +114,8 @@
     display: none;
     position: absolute;
     background-color: #eee;
-    min-width: 180px;
+    font-size: 12px;
+    min-width: 125px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
     z-index: 1;
 }
@@ -126,7 +127,9 @@
     display: block;
 }
 
-.dropdown-content a:hover {background-color: #CCC}
+.dropdown-content a:hover {
+    background-color: rgba(76, 157, 174, 0.3);
+}
 
 .dropdown:hover .dropdown-content {
     display: block;
@@ -157,19 +160,19 @@
     border: none;
     padding: 2px 6px;
     position: relative;
-background: #c0cfdb;
-background: -moz-linear-gradient(top,  #c0cfdb 0%, #ffffff 100%);
-background: -webkit-linear-gradient(top,  #c0cfdb 0%,#ffffff 100%);
-background: linear-gradient(to bottom,  #c0cfdb 0%,#ffffff 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c0cfdb', endColorstr='#ffffff',GradientType=0 );
-
+    background: #c0cfdb;
+    background: -moz-linear-gradient(top,  #c0cfdb 0%, #ffffff 100%);
+    background: -webkit-linear-gradient(top,  #c0cfdb 0%,#ffffff 100%);
+    background: linear-gradient(to bottom,  #c0cfdb 0%,#ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c0cfdb', endColorstr='#ffffff',GradientType=0 );
+    height: 27px;
 
 }
 
 .heading-bar .name{
     display: inline-block;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .heading-bar .p-origin{
@@ -184,7 +187,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c0cfdb', end
 }
 
 .heading-bar .props-sets{
-position: absolute;
+    position: absolute;
     top: 2px;
     right: 8px;
     font-size: 0;
