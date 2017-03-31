@@ -121,6 +121,8 @@ var motifs_edit = {
 
 
 
+
+
 	// FABRIC...
 
 	// create a wrapper around native canvas element (with id="c")
@@ -129,7 +131,22 @@ var motifs_edit = {
 	this.Fabric_Canvas = canvas;
 
 	// testing...
+
+	// listeners on property-sets buttons...
+	$("#motif-props-zone .props-tables-vis-buttons > button").click(function(){
+	    $(this).toggleClass('sel');
+	    var btn_of_4 = $(this).attr('id');
+
+	    //traverse DOM tree to the specific table-chunk relating to the same Motif element
+	    var $clicked_motif_element = $(this).closest(".m-elem");
+	    $clicked_motif_element.find(".props-table-chunk." + btn_of_4).slideToggle();
+	});
+
+
 	this.regenerateMotifPropsList();
+
+
+
 
     },
 
