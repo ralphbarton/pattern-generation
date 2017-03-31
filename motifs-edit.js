@@ -28,16 +28,21 @@ var motifs_edit = {
 
 	// 2.1 - Callback for Toolbox button click
 	var Tool_selected = undefined;
+	var set_Tool = function(Tool){
+	    Tool_selected = Tool;
+	    $("#motifs-edit #Motif .interceptor").toggleClass("active", Tool !== undefined);
+	    if(Tool === undefined){
+		$("#motifs-edit .tools .button").removeClass("sel");
+	    }
+	};
+
 	$("#motifs-edit .tools .button").click(function(){
 	    var was_on = $(this).hasClass("sel");
 	    $("#motifs-edit .tools .button").removeClass("sel");
-	    $(this).toggleClass("sel", !was_on);
-
-	    // at this point, either 1 or 0 of the buttons is lit up, depending upon user's wishes...
-	    Tool_selected = $("#motifs-edit .tools .button.sel").attr("id");
-	    $("#motifs-edit #Motif .interceptor").toggleClass("active", Tool_selected !== undefined);
-
+	    $(this).toggleClass("sel", !was_on);// now either 1 or 0 of the buttons is lit up
+	    set_Tool( $("#motifs-edit .tools .button.sel").attr("id") );
 	});
+
 
 	// 2.2 - Callback for "mouse-down" event on the interceptor
 	var mousedown_left = undefined;
@@ -79,6 +84,7 @@ var motifs_edit = {
 
 		//Function to Add a shape (Element) via Fabric canvas and via Datamodel...
 		motifs_props.AddShape(Tool_selected, USR);
+		set_Tool(undefined);// if a shape has been drawn...
 	    }
 
 	    // record that the mouse is now UP...
