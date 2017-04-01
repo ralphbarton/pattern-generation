@@ -40,7 +40,32 @@ var motifs_props = {
 	    new_shape = new fabric.Triangle();
 
 	}else if(shape_type == "shap4"){//hexagon
-	    new_shape = new fabric.Rect();
+	    var W1 = 0.5 * props_TLWH.width;
+	    var W2 = 0.5 * props_TLWH.height / 0.866;
+	    var Wm = Math.min(W1, W2);
+	    var Wh = Wm * 0.866;
+
+	    // 'macro' to generate an offset coordinate
+	    var OC = function(x,y){
+		return {x: x, y: y};
+	    };
+
+	    new_shape = new fabric.Polygon(
+		[
+		    OC(0.5*Wm, 0),//1
+		    OC(1.5*Wm, 0),
+		    OC(2*Wm, Wh),
+		    OC(1.5*Wm, 2*Wh),//4
+		    OC(0.5*Wm, 2*Wh),
+		    OC(0, Wh)
+		], {
+		    left: props_TLWH.left,
+		    top: props_TLWH.top,
+//		    angle: 0,
+		    fill: '#89ac56'
+		}
+	    );
+
 
 	}else if(shape_type == "shap5"){//line
 	    new_shape = new fabric.Line();
