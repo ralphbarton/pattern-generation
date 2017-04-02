@@ -173,24 +173,11 @@ var motifs_props = {
             "set-4": "more"
 	};
 
-/*
-	DM_instance_props = {
-	    shape: shape_type,
-	    left: new_shape.left,
-	    top: new_shape.top,
-	    width: new_shape.width,
-	    height: new_shape.height,
-	    fill: new_shape.fill,
-	    stroke: new_shape.stroke,
-	    rx: new_shape.rx,
-	    ry: new_shape.ry,
-	};
-*/
-
 	$ME_plist.find(".props-table-chunk").each(function(){
 	    var myClass = $(this).attr("class").replace("props-table-chunk ", "");
 	    var props_set = ShapeProps[SetName[myClass]];
 
+	    // Create the table (of which there are 4) row by row here
 	    for (var i = 0; i < props_set.length; i+=2){
 		$(this).find("table").append(
 		    $("<tr\>").append(
@@ -211,16 +198,36 @@ var motifs_props = {
 		    )
 		);
 	    }
-
-	    //text(ShapeProps.name + PGTuid);
-
 	});
 	
 
 	// 4. Finally, add the element into the DOM tree...
 	$ME_plist.appendTo("#motif-props-zone .contents");
 
+	// 5. auto scroll to the new element
+	this.MotifElem_focusListing({uid: PGTuid});
     },
+
+    MotifElem_focusListing: function(options){
+
+	var $ME_plist = $('#m-elem-' + options.uid);
+
+	// 1. Auto scroll to the Motif Element's Propery Listing
+	$(".listing-box .contents").scrollTop(0);
+	var new_elem_TOP = $ME_plist.position().top - 28;// height offset of 27 pixels...
+	$(".listing-box .contents").scrollTop(new_elem_TOP);
+
+	// 2. Change styling
+	if(options.focus){
+	    // defocus any already focussed elements
+	    $(".m-elem.focus").removeClass("focus");
+
+	    $ME_plist.addClass("focus");
+	}
+
+    },
+
+
 
 
 
@@ -337,6 +344,43 @@ var motifs_props = {
     
     DerenderMotif: function(){
 
-    }
+    },
+
+    init_canvas_selection_events: function(){
+
+	var canvas = motifs_edit.Fabric_Canvas;
+
+	canvas.on('object:selected', function(options) {
+	    if (options.target) {
+
+		var uid = options.target.PGTuid;
+
+		motifs_props.MotifElem_focusListing({
+		    focus: true,
+		    uid: uid
+		});
+
+		console.log('object:selected', uid);
+	    }
+	});
+
+
+	canvas.on('before:selection:cleared', function(options) {
+	    if (options.target) {
+		console.log('before:selection:cleared', options.target.PGTuid);
+	    }
+	});
+
+
+	canvas.on('object:modified', function(options) {
+	    if (options.target) {
+		console.log('object:modified', options.target.PGTuid);
+	    }
+	});
+
+
+    },
+
+
 
 };

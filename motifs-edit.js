@@ -136,14 +136,16 @@ var motifs_edit = {
 	var canvas = new fabric.Canvas(my_canv_El);
 	this.Fabric_Canvas = canvas;
 
+	// Disables the locked aspect ratio scaling when dragging corner-points, which is the default behaviour
+	canvas.uniScaleTransform = true;
+
 
 
 	// Also v. important...
 	motifs_props.init_props_lists_per_shape();
 
 
-	// testing...
-
+	motifs_props.init_canvas_selection_events();
 
 
 
