@@ -1,5 +1,6 @@
 var motifs_props = {
 
+    //Note to self: what does this DO???
     //top-left cartesian by default...
     current_placement_style: [
 	{ // Array - 0 
@@ -15,6 +16,136 @@ var motifs_props = {
 	    originY: 'center'
 	},
     ],
+
+
+    //these span 2 columns and appear in pairs...
+    props_list_generic: {
+	pos_size:[
+
+	    "x",
+	    "y",
+
+	    "width",
+	    "height",
+
+	    "rotation",
+	    "hide"
+	],
+	appearance:[
+
+	    "fill",
+	    "outline",
+
+	    "opacity",
+	    "shadow",
+
+	    "shad opac",
+	    "shad blur",
+
+	    "shad x",
+	    "shad y",
+
+	    "outl thick",
+	    "outl pat"
+	],
+	repetition:[
+	    "qty i-reps",
+	    "qty j-reps",
+	],
+	more:[
+	    "origin x",
+	    "origin y",
+
+	    "adv fill",
+	    "outl mr",
+
+	    "z index",
+	    "",
+	]
+    },
+
+    
+    props_lists_per_shape: [],
+
+    init_props_lists_per_shape: function(){
+	
+	/* Deep copy
+	   var newObject = jQuery.extend(true, {}, oldObject);
+	*/
+
+
+	// 1. Ellipse - copy generic, then manipulate it to suit...
+	var props_list_Ellipse = jQuery.extend(true, {}, this.props_list_generic);
+
+	props_list_Ellipse.name = "Ellipse";
+	props_list_Ellipse.shape_type = "shap1";
+	props_list_Ellipse.shape_constructor = fabric.Ellipse;
+
+	// 1.2 - edit data structure
+	props_list_Ellipse.pos_size[2] = "radius x";
+	props_list_Ellipse.pos_size[3] = "radius y";
+
+	// 1.3 - "Submit"
+	this.props_lists_per_shape.push(props_list_Ellipse);
+
+
+
+	// 2. Rectangle
+	var props_list_Rect = jQuery.extend(true, {}, this.props_list_generic);
+
+	props_list_Rect.name = "Rectangle";
+	props_list_Rect.shape_type = "shap2";
+	props_list_Rect.shape_constructor = fabric.Rect;
+
+	// 2.2 - edit data structure
+	props_list_Rect.pos_size.concat([
+	    "corner rx",
+	    "corner ry"
+	]);
+
+	this.props_lists_per_shape.push(props_list_Rect);
+
+
+
+	// 3. Triangle
+	var props_list_Triangle = jQuery.extend(true, {}, this.props_list_generic);
+
+	props_list_Triangle.name = "Triangle";
+	props_list_Triangle.shape_type = "shap3";
+	props_list_Triangle.shape_constructor = fabric.Triangle;
+
+	// 3.2 - edit data structure
+	// (none)
+
+	// 3.3 - "Submit"
+	this.props_lists_per_shape.push(props_list_Triangle);
+
+
+
+	// 4. Hexagon
+	var props_list_Hexagon = jQuery.extend(true, {}, this.props_list_generic);
+
+	props_list_Hexagon.name = "Hexagon";
+	props_list_Hexagon.shape_type = "shap4";
+	props_list_Hexagon.shape_constructor = fabric.Polygon;
+
+	// 4.2 - edit data structure
+	props_list_Ellipse.pos_size[2] = "side len";
+	props_list_Ellipse.pos_size[3] = "";
+
+	// 4.3 - "Submit"
+	this.props_lists_per_shape.push(props_list_Hexagon);
+
+
+    },
+
+
+    AddMotifElem_itemHTML: function(){
+
+
+    },
+
+
 
     /*
       shape_type: rect, ellipse, triangle, hexagon, line, circle, square
