@@ -136,20 +136,13 @@ var motifs_edit = {
 	var canvas = new fabric.Canvas(my_canv_El);
 	this.Fabric_Canvas = canvas;
 
+
+
+	// Also v. important...
+	motifs_props.init_props_lists_per_shape();
+
+
 	// testing...
-
-	// listeners on property-sets buttons...
-	$("#motif-props-zone .props-tables-vis-buttons > button").click(function(){
-	    $(this).toggleClass('sel');
-	    var btn_of_4 = $(this).attr('id');
-
-	    //traverse DOM tree to the specific table-chunk relating to the same Motif element
-	    var $clicked_motif_element = $(this).closest(".m-elem");
-	    $clicked_motif_element.find(".props-table-chunk." + btn_of_4).slideToggle();
-	});
-
-
-	this.regenerateMotifPropsList();
 
 
 
@@ -248,12 +241,8 @@ var motifs_edit = {
 
 
     regenerateMotifPropsList: function(){
-	
-	//just for testing purposes...
-	// create another 3 copies of the stuff...
-	$( "#motif-props-zone #elem-1" ).clone().attr('id','clone1').appendTo("#motif-props-zone .contents");
-	$( "#motif-props-zone #elem-1" ).clone().attr('id','clone2').appendTo("#motif-props-zone .contents");
-	$( "#motif-props-zone #elem-1" ).clone().attr('id','clone3').appendTo("#motif-props-zone .contents");
+
+	//this will need to do something like calling " motifs_props.AddMotifElem_itemHTML() " for each motif element
 
     }
 

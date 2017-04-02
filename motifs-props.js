@@ -21,46 +21,50 @@ var motifs_props = {
     //these span 2 columns and appear in pairs...
     props_list_generic: {
 	pos_size:[
+	    
+	    // ab - the 'abbreviated' name for the property shown to the user
+	    // key - the key by which this property is stored in my own data model
+	    //     keys starting with CUS-...  are custom properties for shapes, not part of Fabric JS
 
-	    "x",
-	    "y",
+	    {ab:"x", key: "left"},
+	    {ab:"y", key: "top"},
 
-	    "width",
-	    "height",
+	    {ab:"width", key: "width"},
+	    {ab:"height", key: "height"},
 
-	    "rotation",
-	    "hide"
+	    {ab:"rotation", key: "rotation"},
+	    {ab:"hide", key: "CUS-hide"},
 	],
 	appearance:[
 
-	    "fill",
-	    "outline",
+	    {ab:"fill", key: "fill"},
+	    {ab:"outline", key: "stroke"},
 
-	    "opacity",
-	    "shadow",
+	    {ab:"opacity", key: "opacity"},
+	    {ab:"shadow", key: "CUS-"},
 
-	    "shad opac",
-	    "shad blur",
+	    {ab:"shad opac", key: "CUS-"},
+	    {ab:"shad blur", key: "CUS-"},
 
-	    "shad x",
-	    "shad y",
+	    {ab:"shad x", key: "CUS-"},
+	    {ab:"shad y", key: "CUS-"},
 
-	    "outl thick",
-	    "outl pat"
+	    {ab:"outl thick", key: "strokeWidth"},
+	    {ab:"outl pat", key: "strokeDashArray"},
 	],
 	repetition:[
-	    "qty i-reps",
-	    "qty j-reps",
+	    {ab:"qty i-reps", key: "CUS-i-reps"},
+	    {ab:"qty j-reps", key: "CUS-j-reps"},
 	],
 	more:[
-	    "origin x",
-	    "origin y",
+	    {ab:"origin x", key: "originX"},
+	    {ab:"origin y", key: "originY"},
 
-	    "adv fill",
-	    "outl mr",
+	    {ab:"adv fill", key: "CUS-"},
+	    {ab:"outl mr", key: "CUS-"},
 
-	    "z index",
-	    "",
+	    {ab:"z index", key: "CUS-"},
+	    {ab:"", key: "var"},
 	]
     },
 
@@ -82,8 +86,8 @@ var motifs_props = {
 	props_list_Ellipse.shape_constructor = fabric.Ellipse;
 
 	// 1.2 - edit data structure
-	props_list_Ellipse.pos_size[2] = "radius x";
-	props_list_Ellipse.pos_size[3] = "radius y";
+	props_list_Ellipse.pos_size[2] = {ab:"radius x", key: "rx"},
+	props_list_Ellipse.pos_size[3] = {ab:"radius y", key: "ry"},
 
 	// 1.3 - "Submit"
 	this.props_lists_per_shape.push(props_list_Ellipse);
@@ -98,10 +102,10 @@ var motifs_props = {
 	props_list_Rect.shape_constructor = fabric.Rect;
 
 	// 2.2 - edit data structure
-	props_list_Rect.pos_size.concat([
-	    "corner rx",
-	    "corner ry"
-	]);
+	props_list_Rect.appearance.push(
+	    {ab:"corner rx", key: "var"},
+	    {ab:"corner ry", key: "var"}
+	);
 
 	this.props_lists_per_shape.push(props_list_Rect);
 
@@ -130,18 +134,91 @@ var motifs_props = {
 	props_list_Hexagon.shape_constructor = fabric.Polygon;
 
 	// 4.2 - edit data structure
-	props_list_Ellipse.pos_size[2] = "side len";
-	props_list_Ellipse.pos_size[3] = "";
+	props_list_Hexagon.pos_size[2] = "side len";
+	props_list_Hexagon.pos_size[3] = "";
 
 	// 4.3 - "Submit"
 	this.props_lists_per_shape.push(props_list_Hexagon);
 
-
     },
 
+    
+    AddMotifElem_itemHTML: function(DM_instance_props, PGTuid){
 
-    AddMotifElem_itemHTML: function(){
+	// 1. Get create a new Motif Element properties list from the template.
+	var $ME_plist = $( "#motif-props-zone #m-elem-template" ).clone()
+	    .attr('id',('m-elem-' + PGTuid))
+	    .show();
 
+	// 2. Add callback functions to the Buttons to hide/show the property sets
+	$ME_plist.find(".props-tables-vis-buttons > button").click(function(){
+	    $(this).toggleClass('sel');
+	    var btn_of_4 = $(this).attr('id');
+
+	    //traverse DOM tree to the specific table-chunk relating to the same Motif element
+	    var $clicked_motif_element = $(this).closest(".m-elem");
+	    $clicked_motif_element.find(".props-table-chunk." + btn_of_4).slideToggle();
+	});
+
+	// 3. Create and populate the tables html...
+
+	// 3.1 Get the set of props which applies for this shape...
+	var ShapeProps = $.grep(this.props_lists_per_shape, function(e){ return e.shape_type == DM_instance_props.shape; })[0];
+	$ME_plist.find(".heading-bar .name").text(ShapeProps.name + " " + PGTuid);
+
+	var SetName = {
+            "set-1": "pos_size",
+            "set-2": "appearance",
+            "set-3": "repetition",
+            "set-4": "more"
+	};
+
+/*
+	DM_instance_props = {
+	    shape: shape_type,
+	    left: new_shape.left,
+	    top: new_shape.top,
+	    width: new_shape.width,
+	    height: new_shape.height,
+	    fill: new_shape.fill,
+	    stroke: new_shape.stroke,
+	    rx: new_shape.rx,
+	    ry: new_shape.ry,
+	};
+*/
+
+	$ME_plist.find(".props-table-chunk").each(function(){
+	    var myClass = $(this).attr("class").replace("props-table-chunk ", "");
+	    var props_set = ShapeProps[SetName[myClass]];
+
+	    for (var i = 0; i < props_set.length; i+=2){
+		$(this).find("table").append(
+		    $("<tr\>").append(
+			$("<td\>").addClass("col-prop").text(props_set[i].ab),
+			$("<td\>").addClass("col-valu").text(
+			    DM_instance_props[
+				props_set[i].key
+			    ]
+			),
+			$("<td\>").addClass("col-more").text("..."),
+			$("<td\>").addClass("col-prop").text(props_set[i+1].ab),
+			$("<td\>").addClass("col-valu").text(
+			    DM_instance_props[
+				props_set[i+1].key
+			    ]
+			),
+			$("<td\>").addClass("col-more").text("...")
+		    )
+		);
+	    }
+
+	    //text(ShapeProps.name + PGTuid);
+
+	});
+	
+
+	// 4. Finally, add the element into the DOM tree...
+	$ME_plist.appendTo("#motif-props-zone .contents");
 
     },
 
@@ -221,7 +298,7 @@ var motifs_props = {
 	var canvas = motifs_edit.Fabric_Canvas;
 	canvas.add(new_shape);
 
-	var new_uid = DM.Motif_newElement({
+	var DM_props = {
 	    shape: shape_type,
 	    left: new_shape.left,
 	    top: new_shape.top,
@@ -231,9 +308,14 @@ var motifs_props = {
 	    stroke: new_shape.stroke,
 	    rx: new_shape.rx,
 	    ry: new_shape.ry,
-	});
+	};
+
+	var new_uid = DM.Motif_newElement(DM_props);
 
 	new_shape.PGTuid = new_uid;
+
+	// Add the properties listing for the added shape...
+	this.AddMotifElem_itemHTML(DM_props, new_uid);
 
     },
     
