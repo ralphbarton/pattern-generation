@@ -179,7 +179,7 @@
 .heading-bar .p-origin{
     position: absolute;
     top: 4px;
-    right: 170px;
+    right: 194px;
 }
 
 .heading-bar .p-origin .title{
@@ -187,10 +187,25 @@
     margin: 1px;
 }
 
+
+img.delete-m-elem{
+    position: absolute;
+    height: 32px;
+    right: 1px;
+    top:  5px;
+    opacity: 0.5;
+}
+
+img.delete-m-elem:hover{
+    opacity: 1;
+  filter: saturate(8) hue-rotate(120deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
+}
+
+
 .heading-bar .props-tables-vis-buttons{
     position: absolute;
     top: 2px;
-    right: 8px;
+    right: 34px;
     font-size: 0;
     text-align: right;
     width: 155px;
