@@ -132,6 +132,11 @@ var motifs_edit = {
 	$("#motifs-edit .tools .fill .mini-picker").colorpicker();
 	$("#motifs-edit .tools .outl .mini-picker").colorpicker();
 
+	$(".mini-picker-1").colorpicker();
+	$(".mini-picker-2").colorpicker();
+	$(".mini-picker-3").colorpicker();
+	$(".mini-picker-4").colorpicker();
+
 
 
 
