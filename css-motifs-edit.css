@@ -393,10 +393,23 @@ img.delete-m-elem:hover{
     font-size: 10px;
 }
 
-#motifs-edit .tools .fill .mini-color-picker{
-    
+.tools .fill{
+    background: yellow;
 }
 
+.mini-picker{
+    border: 1px solid red;
+    display: inline-block;
+}
+
+.mini-picker .maximize-wrapper {
+  padding: 0;
+}
+
+.mini-picker.expanded .maximize-wrapper {
+  padding: 0.4em;
+    box-shadow: 0 .07em .4em rgba(0,0,0,.8);
+}
 
 
 
