@@ -237,15 +237,24 @@ var motifs_props = {
      */
     AddShape: function(shape_type, props_TLWH){
 
+
+
+	var fill_col = $("#motifs-edit .fill .mini-picker").colorpicker().toCssString('rgba');
+	var outl_col = $("#motifs-edit .outl .mini-picker").colorpicker().toCssString('rgba');
+
+
+
+
+
 	// create a rectangle object
 	var new_shape = undefined;
 	if(shape_type == "shap1"){//circle
 	    new_shape = new fabric.Ellipse({
 		left: props_TLWH.left,
 		top: props_TLWH.top,
-		fill: 'red',
+		fill: fill_col,
 		rx: (props_TLWH.width/2),
-		ry: (props_TLWH.height/2)
+		ry: (props_TLWH.height/2)		
 	    });
 
 	}else if(shape_type == "shap2"){//rectangle
@@ -277,7 +286,7 @@ var motifs_props = {
 		    left: props_TLWH.left,
 		    top: props_TLWH.top,
 //		    angle: 0,
-		    fill: '#89ac56'
+		    fill: fill_col
 		}
 	    );
 
@@ -295,9 +304,11 @@ var motifs_props = {
 	    new_shape.set({
 		left: props_TLWH.left,
 		top: props_TLWH.top,
-		fill: 'blue',
+		fill: fill_col,
+		stroke: outl_col,
 		width: props_TLWH.width,
-		height: props_TLWH.height
+		height: props_TLWH.height,
+		strokeWidth: 4
 	    });
 	}
 

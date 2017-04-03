@@ -337,7 +337,11 @@ img.delete-m-elem:hover{
 }
 
 .tools .shapes{
-    padding: 3px;
+    padding: 0px 3px;
+}
+
+.shapes .act-mutex#draw-one-many{
+    margin-bottom: 2px;
 }
 
 #motifs-edit .sqr-but{
@@ -378,21 +382,23 @@ img.delete-m-elem:hover{
     opacity: 1;
 }
 
+
 .tools .colours{
     border-top: 1px solid rgba(0,0,0,0.5);
     border-bottom: 1px solid rgba(0,0,0,0.5);
     margin-top: 4px;
+    position: absolute;
 }
 
 .tools .colours > div{
     display: inline-block;
     width: 50px;
-    text-align: center;
 }
 .tools .colours span{
     display: block;
     font-size: 11px;
     color: rgba(0,0,0,0.65);
+    text-align: center;
 }
 
 .mini-picker{

@@ -84,7 +84,9 @@ var motifs_edit = {
 
 		//Function to Add a shape (Element) via Fabric canvas and via Datamodel...
 		motifs_props.AddShape(Tool_selected, USR);
-		set_Tool(undefined);// if a shape has been drawn...
+		if(!draw_many){
+		    set_Tool(undefined);// if a shape has been drawn...
+		}
 	    }
 
 	    // record that the mouse is now UP...
@@ -129,16 +131,19 @@ var motifs_edit = {
 
 
 	/// 3.x colour pickers...
-	$("#motifs-edit .tools .fill .mini-picker").colorpicker();
-	$("#motifs-edit .tools .outl .mini-picker").colorpicker();
+	$("#motifs-edit .fill .mini-picker").colorpicker({
+	    color: 'rgba(255, 179, 0, 0.5)',
+	});
 
-	$(".mini-picker-1").colorpicker();
-	$(".mini-picker-2").colorpicker();
-	$(".mini-picker-3").colorpicker();
-	$(".mini-picker-4").colorpicker();
+	$("#motifs-edit .outl .mini-picker").colorpicker({
+	    color: 'rgb(86, 26, 216)',
+	});
 
-
-
+	var draw_many = true;
+	widgets.actionLink_init("#motifs-edit .tools .shapes .act-mutex#draw-one-many",[
+	    function(){draw_many = false;},
+	    function(){draw_many = true;}
+	]);
 
 
 
