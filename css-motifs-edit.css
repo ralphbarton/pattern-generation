@@ -329,10 +329,15 @@ img.delete-m-elem:hover{
 
 #motifs-edit .tools{
     top: 140px;
-    width: 94px;
+    width: 100px;
     height: 392px;
-    padding-top: 10px;
+    padding: 0px;
+    padding-top: 8px;
     font-size: 0;
+}
+
+.tools .shapes{
+    padding: 3px;
 }
 
 #motifs-edit .sqr-but{
@@ -373,7 +378,24 @@ img.delete-m-elem:hover{
     opacity: 1;
 }
 
+.tools .colours{
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+    margin-top: 4px;
+}
 
+.tools .colours > div{
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}
+.tools .colours span{
+    font-size: 10px;
+}
+
+#motifs-edit .tools .fill .mini-color-picker{
+    
+}
 
 
 

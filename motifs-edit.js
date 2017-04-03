@@ -128,6 +128,19 @@ var motifs_edit = {
 
 
 
+	/// 3.x colour pickers...
+
+	$("#motifs-edit .tools .fill .mini-color-picker").colorpicker();
+	$("#motifs-edit .tools .outl .mini-color-picker").colorpicker();
+
+
+
+
+
+
+
+
+
 
 	// FABRIC...
 
