@@ -145,16 +145,18 @@ var motifs_edit = {
 	    function(){draw_many = true;}
 	]);
 
-	var css_chequers = function(activate){
-	    $("#motifs-edit #Motif div.canvas-container")
-		.toggleClass("chequer", activate)
-		.css("border", "none");
+	var set_bg_layer_config = function(options){
+	    $("#motifs-edit #Motif div.bg-layer.ly2")
+		.css("background", options.ly2_col);
+	    $("#motifs-edit #Motif div.bg-layer.ly3")
+		.css("opacity", options.ly3_opac);
 	};
+
 	widgets.actionLink_init("#motifs-edit .act-mutex#background-w-1-2-b",[
-	    function(){ $("#motifs-edit #Motif").css("background", "white"); css_chequers(false); },
-	    function(){ $("#motifs-edit #Motif").css("background", "white"); css_chequers(true); },
-	    function(){$("#motifs-edit #Motif").css("background", "url(icons/motif/gimp-transparent.png)"); css_chequers(false);},
-	    function(){$("#motifs-edit #Motif").css("background", "black"); css_chequers(false);}
+	    function(){  set_bg_layer_config({ly2_col: "white", ly3_opac: 0});  },
+	    function(){  set_bg_layer_config({ly2_col: "white", ly3_opac: 1});  },
+	    function(){  set_bg_layer_config({ly2_col: "none",  ly3_opac: 0});  },
+	    function(){  set_bg_layer_config({ly2_col: "black", ly3_opac: 0});  }
 	]);
 
 
