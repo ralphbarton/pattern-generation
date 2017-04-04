@@ -20,6 +20,8 @@ var motifs_edit = {
 	$("#motifs-edit .tabs").tabs();
 
 
+	
+
 
 
 	// 2. Designing additional interaction with the canvas
@@ -126,6 +128,26 @@ var motifs_edit = {
 	$("#motifs-edit #Motif").mouseleave(function(){
 	    $("#motifs-edit .mouse-coords").fadeOut({duration: 200, easing: "linear"});
 	});
+
+
+
+	// 3.x Initialise buttons: buttons underneath Motif-Properties listing...
+
+	$("#motifs-edit .props-buttons #contract").click(function(){
+	    //this will find all tables of properties, and hide them without animation (there may be quite a few...)
+	    //(important to exclude the template one)
+	    $(".m-elem:not(#m-elem-template) .props-table-chunk").hide();
+	    // change buttons appearance to match
+	    $(".m-elem:not(#m-elem-template) .props-tables-vis-buttons button").removeClass("sel");
+	});
+
+	$("#motifs-edit .props-buttons #expand").click(function(){
+	    //this will find all tables of properties, and hide them without animation (there may be quite a few...)
+	    $(".m-elem:not(#m-elem-template) .props-table-chunk").show();
+	    $(".m-elem:not(#m-elem-template) .props-tables-vis-buttons button").addClass("sel");
+	});
+	
+
 
 
 
