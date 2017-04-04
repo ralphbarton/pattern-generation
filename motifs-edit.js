@@ -145,6 +145,18 @@ var motifs_edit = {
 	    function(){draw_many = true;}
 	]);
 
+	var css_chequers = function(activate){
+	    $("#motifs-edit #Motif div.canvas-container")
+		.toggleClass("chequer", activate)
+		.css("border", "none");
+	};
+	widgets.actionLink_init("#motifs-edit .act-mutex#background-w-1-2-b",[
+	    function(){ $("#motifs-edit #Motif").css("background", "white"); css_chequers(false); },
+	    function(){ $("#motifs-edit #Motif").css("background", "white"); css_chequers(true); },
+	    function(){$("#motifs-edit #Motif").css("background", "url(icons/motif/gimp-transparent.png)"); css_chequers(false);},
+	    function(){$("#motifs-edit #Motif").css("background", "black"); css_chequers(false);}
+	]);
+
 
 
 

@@ -11,7 +11,7 @@
 /* 2. Motif zone */
 
 #motifs-edit #Motif{
-    background: white;
+    background: url(icons/motif/gimp-transparent.png);
     box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
     position: absolute;
     right: 12px;
@@ -307,8 +307,30 @@ img.delete-m-elem:hover{
 /* 5. Section of content above the canvas*/
 
 #motifs-edit .motif-title{
-    top: 100px;
+    top: 96px;
 }
+
+#motifs-edit .motif-title input.plain-cell{
+    font-size: 18px;
+    width: 245px;
+}
+
+.motif-title #bg-w-1-2-b.act-mutex{
+    margin-top: 3px;
+}
+
+.motif-title .grids-and-axes{
+    position: absolute;
+    top: 0px;
+    left: 255px;
+    width: 140px;
+}
+
+.motif-title .grids-and-axes .act-mutex{
+    margin-bottom: 3px;
+}
+
+
 
 #motifs-edit .mouse-coords{
     opacity: 0.5;
