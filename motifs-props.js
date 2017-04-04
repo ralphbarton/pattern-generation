@@ -142,7 +142,12 @@ var motifs_props = {
 
     },
 
+
+    DeleteMotifElem_itemHTML: function(PGTuid){
+	$( "#motif-props-zone #m-elem-" + PGTuid ).remove();
+    },
     
+
     AddMotifElem_itemHTML: function(DM_instance_props, PGTuid){
 
 	// 1. Get create a new Motif Element properties list from the template.
@@ -205,24 +210,28 @@ var motifs_props = {
 	$ME_plist.appendTo("#motif-props-zone .contents");
 
 	// 5. auto scroll to the new element
-	this.MotifElem_focusListing({uid: PGTuid});
+	this.MotifElem_focusListing({uid: PGTuid, autoScroll: true});
     },
 
+    // "focus" refers to scrolling to the location
+    // focus
     MotifElem_focusListing: function(options){
 
 	var $ME_plist = $('#m-elem-' + options.uid);
 
 	// 1. Auto scroll to the Motif Element's Propery Listing
-	$(".listing-box .contents").scrollTop(0);
-	var new_elem_TOP = $ME_plist.position().top - 28;// height offset of 27 pixels...
-	$(".listing-box .contents").scrollTop(new_elem_TOP);
+	if(options.autoScroll){
+	    $(".listing-box .contents").scrollTop(0);
+	    var new_elem_TOP = $ME_plist.position().top - 28;// height offset of 27 pixels...
+	    $(".listing-box .contents").scrollTop(new_elem_TOP);
+	}
 
 	// 2. Change styling
-	if(options.focus){
+	if(options.focusHighlight){
 	    // defocus any already focussed elements
 	    $(".m-elem.focus").removeClass("focus");
 
-	    $ME_plist.addClass("focus");
+	    $ME_plist.toggleClass("focus", (options.removeHighlight != true) );
 	}
 
     },
@@ -362,23 +371,31 @@ var motifs_props = {
 	var canvas = motifs_edit.Fabric_Canvas;
 
 	canvas.on('object:selected', function(options) {
+
 	    if (options.target) {
 
+		// scroll to and highlight the item in the list
 		var uid = options.target.PGTuid;
-
 		motifs_props.MotifElem_focusListing({
-		    focus: true,
-		    uid: uid
+		    uid: uid,
+		    autoScroll: true,
+		    focusHighlight: true
 		});
 
-		console.log('object:selected', uid);
 	    }
 	});
 
 
 	canvas.on('before:selection:cleared', function(options) {
 	    if (options.target) {
-		console.log('before:selection:cleared', options.target.PGTuid);
+
+		// de-highlight item in list
+		var uid = options.target.PGTuid;
+		motifs_props.MotifElem_focusListing({
+		    uid: uid,
+		    focusHighlight: true,
+		    removeHighlight: true
+		});
 	    }
 	});
 
@@ -391,7 +408,6 @@ var motifs_props = {
 
 
     },
-
 
 
 };
