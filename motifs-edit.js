@@ -139,19 +139,29 @@ var motifs_edit = {
 	    color: 'rgb(86, 26, 216)',
 	});
 
+
+	// 4. Initialise ACTION LINKS
+
+	// 4.1 - Toolbox: draw one vs. draw many
 	var draw_many = true;
 	widgets.actionLink_init("#motifs-edit .tools .shapes .act-mutex#draw-one-many",[
 	    function(){draw_many = false;},
 	    function(){draw_many = true;}
 	]);
 
+
+	// 4.2 - Above Motif: Choose background type
+	// (todo alter other 'theme' aspects based upon dark/light background 
 	var set_bg_layer_config = function(options){
 	    $("#motifs-edit #Motif div.bg-layer.ly2")
 		.css("background", options.ly2_col);
 	    $("#motifs-edit #Motif div.bg-layer.ly3")
 		.css("opacity", options.ly3_opac);
-	};
 
+	    //adding class "dark" means that background is dark (items must be pale to show up)
+	    $("#Motif").toggleClass("dark", (options.ly2_col == "black") );
+
+	};
 	widgets.actionLink_init("#motifs-edit .act-mutex#background-w-1-2-b",[
 	    function(){  set_bg_layer_config({ly2_col: "white", ly3_opac: 0});  },
 	    function(){  set_bg_layer_config({ly2_col: "white", ly3_opac: 1});  },
@@ -159,13 +169,23 @@ var motifs_edit = {
 	    function(){  set_bg_layer_config({ly2_col: "black", ly3_opac: 0});  }
 	]);
 
+	// 4.3 - Above Motif: turn axes ON / OFF
+	var set_axes_style = function(options){
+	    $("#Motif svg#axes")
+		.css("opacity", options.opac);
+	};
+
+	widgets.actionLink_init("#motifs-edit .act-mutex#motif-axes",[
+	    function(){set_axes_style({opac:0});},
+	    function(){set_axes_style({opac:1});}
+	]);
 
 
 
 
 
 
-	// FABRIC...
+	// 5. FABRIC...
 
 	// create a wrapper around native canvas element (with id="c")
 	var my_canv_El = $("#motifs-edit #Motif > canvas")[0];
@@ -177,10 +197,12 @@ var motifs_edit = {
 
 
 
-	// Also v. important...
+	// 6. Other initialisation steps relating to the Motif
+
+	// 6.1. Generate in-memory the property sets relevant to the different shapes (triange circle etc.)
 	motifs_props.init_props_lists_per_shape();
 
-
+	// 6.2. Add listeners for object selection events happening on the canvas
 	motifs_props.init_canvas_selection_events();
 
 

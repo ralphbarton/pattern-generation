@@ -669,6 +669,14 @@
 		<div class="bg-layer ly1"></div>
 		<div class="bg-layer ly2"></div>
 		<div class="bg-layer ly3 chequer"></div>
+		<div class="bg-layer ly4">
+
+		  <svg id="axes" width="400" height="400">
+		    <line x1="200" y1="0" x2="200" y2="400" /> <!-- vertical -->
+		    <line x1="0" y1="200" x2="400" y2="200" /><!-- horizontal -->
+		  </svg>
+
+		</div>
 
 		<canvas width="400" height="400"></canvas>
 		<div class="interceptor">
@@ -790,6 +798,16 @@
 		  <div id="motif-grid" class="act-mutex">
 		    Gridlines:<div>Off</div><div>On</div>
 		  </div>
+
+
+		  <div class="dropdown" id="grid-settings">
+		    <button class="std-dropbtn">Settings</button>
+		    <div class="dropdown-content">
+		      gridline control settings show here...
+		    </div>
+		  </div>
+
+
 		  <div id="motif-grid-lock" class="act-mutex">
 		    Lock to Grid:<div>Off</div><div>On</div>
 		  </div>
