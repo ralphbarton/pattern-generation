@@ -375,10 +375,14 @@ img.delete-m-elem:hover{
 }
 
 
-.std-dropbtn {
+
+
+.dropdown.std {
     font-family: Arial, Helvetica, sans-serif;
-    display: inline-block;
-    background-color: rgba(15, 33, 97, 0.58);
+}
+
+.dropdown.std > .dropbtn {
+    background-color: rgba(15, 33, 97, 0.6);
     color: white;
     padding: 0px;
     width: 57px;
@@ -386,6 +390,45 @@ img.delete-m-elem:hover{
     border: none;
     cursor: pointer;
 }
+
+.dropdown.std .dropdown-content {
+    background-color: #eeead8;
+    padding: 1px 4px;
+    font-size: 12px;
+    width: 145px;
+    left: -96px;
+}
+
+.dropdown.std:hover .dropbtn {
+    background-color: rgba(15, 33, 97, 0.75);
+}
+
+.dropdown.std .btn-set{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    margin-bottom: 5px;
+    padding: 0px 4px;
+    padding-bottom: 1px;
+}
+
+.dropdown.std .btn-set > button{
+    border: none;
+    margin: 2px 1px;
+    background: none;
+    border-radius: 2px;
+    font-size: 12px;
+    width: 65px;
+    background: rgba(28, 60, 176, 0.4);
+    color: white;
+    display: inline-block;
+}
+
+.dropdown.std .btn-set > button:hover{
+    background: rgba(38, 66, 166, 0.55);
+}
+
+
+
+
 
 .dropdown#grid-settings{
     position: absolute;
