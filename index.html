@@ -672,20 +672,24 @@
 		<div class="bg-layer ly3 chequer"></div>
 		<div class="bg-layer ly4">
 
-		  <svg id="axes" width="400" height="400">
+		  <svg id="bg-axes-grid" width="399" height="399">
 
-		    <g class="gridlines-1"></g>
+		    <g class="gridlines">
+		      <g class="small"></g>
+		      <g class="medium"></g>
+		      <g class="large"></g>
+		    </g>
 
 		    <g class="axes">
-		      <line x1="200" y1="0" x2="200" y2="400" /> <!-- vertical -->
-		      <line x1="0" y1="200" x2="400" y2="200" /><!-- horizontal -->
+		      <line x1="199.5" y1="0" x2="199.5" y2="399" /> <!-- vertical -->
+		      <line x1="0" y1="199.5" x2="399" y2="199.5" /><!-- horizontal -->
 		    </g>
 
 		  </svg>
 
 		</div>
 
-		<canvas width="400" height="400"></canvas>
+		<canvas width="399" height="399"></canvas>
 		<div class="interceptor">
 		  <div></div>
 		</div>
@@ -813,23 +817,23 @@
 			Grid System
 		      </div>
 		      <div class="btn-set">
-			<button>Cartesian</button>
-			<button>Polar</button>
+			<button class="cartesian">Cartesian</button>
+			<button class="polar">Polar</button>
 		      </div>
 
 		      <div>
 			Grid Size
 		      </div>
-		      <div class="btn-set">
-			<button>Small
+		      <div class="btn-set size">
+			<button class="small">Small
 			  <div class="single">10px</div>
 			  <div class="dual" style="display: none;">10px, 15°</div>
 			</button>
-			<button>Medium
+			<button class="medium">Medium
 			  <div class="single" style="display: none;">25px</div>
 			  <div class="dual" >25px, 30°</div>
 			</button>
-			<button>Large
+			<button class="large">Large
 			  <div class="single" style="display: none;">50px</div>
 			  <div class="dual">50px, 45°</div>
 			</button>
@@ -838,10 +842,10 @@
 
 		      <div>
 			Grid weight
-			<div class="btn-set">
-			  <button>Faint</button>
-			  <button>Normal</button>
-			  <button>Strong</button>
+			<div class="btn-set weight">
+			  <button class="faint">Faint</button>
+			  <button class="normal">Normal</button>
+			  <button class="strong">Strong</button>
 			</div>
 		      </div>
 		      <div id="gridlines-custom-size">

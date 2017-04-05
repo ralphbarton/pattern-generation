@@ -192,19 +192,41 @@ var motifs_edit = {
 	]);
 
 	// 4.3 - Above Motif: turn axes ON / OFF
-	var set_axes_style = function(options){
-	    $("#Motif svg#axes")
+	var set_svgGrp_opac = function(selec, options){
+	    $("#Motif svg#bg-axes-grid " + selec)
 		.css("opacity", options.opac);
 	};
 
 	widgets.actionLink_init("#motifs-edit .act-mutex#motif-axes",[
-	    function(){set_axes_style({opac:0});},
-	    function(){set_axes_style({opac:1});}
+	    function(){set_svgGrp_opac(".axes", {opac:0});},
+	    function(){set_svgGrp_opac(".axes", {opac:1});}
 	]);
 
 
+	// 4.4 Gridlines Options
+	widgets.actionLink_init("#motifs-edit .act-mutex#motif-grid",[
+	    function(){set_svgGrp_opac(".gridlines", {opac:0});},
+	    function(){set_svgGrp_opac(".gridlines", {opac:1});}
+	]);
 
+	
+	// 4.4.1 - Controlling line faintness
+	$("#motifs-edit #grid-settings .btn-set.weight > button").click(function(){
+	    var btn_class = $(this).attr("class");
+	    d3.select("#Motif svg g.gridlines").classed("faint", btn_class == "faint");
+	    d3.select("#Motif svg g.gridlines").classed("strong", btn_class == "strong");
+	});
 
+	// 4.4.2 - Controlling grid size
+	$("#motifs-edit #grid-settings .btn-set.size > button").click(function(){
+	    var btn_class = $(this).attr("class");
+	    d3.select("#Motif svg g.gridlines g.small").attr("opacity", (btn_class == "small" ? 1 : 0));
+	    d3.select("#Motif svg g.gridlines g.medium").attr("opacity", (btn_class == "medium" ? 1 : 0));
+	    d3.select("#Motif svg g.gridlines g.large").attr("opacity", (btn_class == "large" ? 1 : 0));
+	});
+
+	//auto-click the medium button (necessary to hide the other two grids).
+	$("#motifs-edit #grid-settings .btn-set.size > button.medium").click();
 
 
 	// 5. FABRIC...
@@ -336,19 +358,48 @@ var motifs_edit = {
 
 	console.log("Called: init_SVG_gridlines_under_canvas()");
 
-
-
-	for (var i = -10; i <= 10 ; i++){
-
-	    //create one line
-	    d3.select('#Motif svg g.gridlines-1').append('line')
-		.attr("x1", 200 + i*10)
+	var draw_4_lines = function(my_set, offset){
+	    d3.select('#Motif svg '+my_set)
+		.append('line')// pos vertical
+		.attr("x1", 199.5 + offset)
 		.attr("y1", 0)
-		.attr("x2", 200 + i*10)
-		.attr("y2", 400);
+		.attr("x2", 199.5 + offset)
+		.attr("y2", 399);
 
-	}
+	    d3.select('#Motif svg '+my_set)
+		.append('line')// pos horizontal
+		.attr("x1", 0)
+		.attr("y1", 199.5 + offset)
+		.attr("x2", 399)
+		.attr("y2", 199.5 + offset);
 
+	    if(offset != 0){
+		d3.select('#Motif svg '+my_set)
+		    .append('line')// neg vertical
+		    .attr("x1", 199.5 - offset)
+		    .attr("y1", 0)
+		    .attr("x2", 199.5 - offset)
+		    .attr("y2", 399);
+
+		d3.select('#Motif svg '+my_set)
+		    .append('line')// neg horizontal
+		    .attr("x1", 0)
+		    .attr("y1", 199.5 - offset)
+		    .attr("x2", 399)
+		    .attr("y2", 199.5 - offset);
+	    }
+
+	};
+
+	var draw_grid = function(size, size_str){
+	    for (var i = 0; i < 400 ; i += size){
+		draw_4_lines("g.gridlines g."+size_str, i);
+	    }
+	};
+
+	draw_grid(10, "small");
+	draw_grid(25, "medium");
+	draw_grid(50, "large");
 
     }
 

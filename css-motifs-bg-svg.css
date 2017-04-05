@@ -1,18 +1,38 @@
 /* motif canvas SVG */
-#Motif svg,
-#Motif svg line{
+#Motif svg *{
     transition: all 0.2s;
 }
 
-#Motif svg#axes .axes line{
+#Motif svg#bg-axes-grid .axes line{
     stroke: black;
     stroke-width: 2;
 }
 
-#Motif.dark svg#axes .axes line{
+#Motif.dark svg#bg-axes-grid .axes line{
     stroke: white;
 }
 
-#Motif svg g.gridlines-1 line{
-    stroke: green;
+#Motif svg g.gridlines line{
+    stroke: rgba(0, 0, 0, 0.12); 
+    transition: all 0.6s;
+}
+
+#Motif svg g.gridlines.faint line{
+    stroke: rgba(0, 0, 0, 0.05);
+}
+
+#Motif svg g.gridlines.strong line{
+    stroke: rgba(0, 0, 0, 0.25); 
+}
+
+#Motif.dark svg g.gridlines line{
+    stroke: rgba(255, 255, 255, 0.12); 
+}
+
+#Motif.dark svg g.gridlines.faint line{
+    stroke: rgba(255, 255, 255, 0.05);
+}
+
+#Motif.dark svg g.gridlines.strong line{
+    stroke: rgba(255, 255, 255, 0.25); 
 }
