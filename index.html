@@ -48,6 +48,7 @@
 
     <link rel="stylesheet" href="css-motifs-view.css" />
     <link rel="stylesheet" href="css-motifs-edit.css" />
+    <link rel="stylesheet" href="css-motifs-bg-svg.css" />
 
     <link rel="stylesheet" href="css-paintings.css" />
 
@@ -673,10 +674,13 @@
 
 		  <svg id="axes" width="400" height="400">
 
-		    <g>
+		    <g class="gridlines-1"></g>
 
-		    <line x1="200" y1="0" x2="200" y2="400" /> <!-- vertical -->
-		    <line x1="0" y1="200" x2="400" y2="200" /><!-- horizontal -->
+		    <g class="axes">
+		      <line x1="200" y1="0" x2="200" y2="400" /> <!-- vertical -->
+		      <line x1="0" y1="200" x2="400" y2="200" /><!-- horizontal -->
+		    </g>
+
 		  </svg>
 
 		</div>

@@ -61,22 +61,6 @@
 }
 
 
-/* 2.5 motif canvas SVG */
-#Motif svg,
-#Motif svg line{
-    transition: all 0.2s;
-}
-
-#Motif svg#axes line{
-    stroke: black;
-    stroke-width: 2;
-}
-
-#Motif.dark svg#axes line{
-    stroke: white;
-}
-
-
 
 
 
@@ -403,7 +387,6 @@ img.delete-m-elem:hover{
 }
 
 .dropdown.std .dropdown-content {
-    display: block; /*this is temporary, to permanently fix the mouseover*/
     background-color: #eeead8;
     padding: 1px 4px;
     font-size: 12px;

@@ -19,7 +19,7 @@ var motifs_edit = {
 	//initiate tabs...
 	$("#motifs-edit .tabs").tabs();
 
-
+	this.init_SVG_gridlines_under_canvas();
 	
 
 
@@ -330,7 +330,26 @@ var motifs_edit = {
 
 	//this will need to do something like calling " motifs_props.AddMotifElem_itemHTML() " for each motif element
 
-    }
+    },
 
+    init_SVG_gridlines_under_canvas: function(){
+
+	console.log("Called: init_SVG_gridlines_under_canvas()");
+
+
+
+	for (var i = -10; i <= 10 ; i++){
+
+	    //create one line
+	    d3.select('#Motif svg g.gridlines-1').append('line')
+		.attr("x1", 200 + i*10)
+		.attr("y1", 0)
+		.attr("x2", 200 + i*10)
+		.attr("y2", 400);
+
+	}
+
+
+    }
 
 };

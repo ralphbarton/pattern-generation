@@ -1,0 +1,18 @@
+/* motif canvas SVG */
+#Motif svg,
+#Motif svg line{
+    transition: all 0.2s;
+}
+
+#Motif svg#axes .axes line{
+    stroke: black;
+    stroke-width: 2;
+}
+
+#Motif.dark svg#axes .axes line{
+    stroke: white;
+}
+
+#Motif svg g.gridlines-1 line{
+    stroke: green;
+}
