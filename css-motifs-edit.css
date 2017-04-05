@@ -286,8 +286,10 @@ img.delete-m-elem:hover{
     background: #3e818e;
 }
 
-/* 4.2 Element properties tables... */
 
+
+
+/* 4.3 Element properties tables... */
 .m-elem .content-block{
     padding: 0px 6px;
 }
@@ -354,7 +356,7 @@ img.delete-m-elem:hover{
     top: 96px;
 }
 
-#motifs-edit .motif-title input.plain-cell{
+#motifs-edit .motif-title > input.plain-cell{
     font-size: 18px;
     width: 245px;
 }
@@ -392,6 +394,7 @@ img.delete-m-elem:hover{
 }
 
 .dropdown.std .dropdown-content {
+    display: block; /*this is temporary, to permanently fix the mouseover*/
     background-color: #eeead8;
     padding: 1px 4px;
     font-size: 12px;
@@ -417,16 +420,44 @@ img.delete-m-elem:hover{
     border-radius: 2px;
     font-size: 12px;
     width: 65px;
-    background: rgba(28, 60, 176, 0.4);
+    background: hsla(227, 52%, 32%, 0.5);
     color: white;
     display: inline-block;
 }
 
+#grid-settings .btn-set > button{
+    padding: 2px 1px;
+}
+
 .dropdown.std .btn-set > button:hover{
-    background: rgba(38, 66, 166, 0.55);
+    background: hsla(227, 52%, 32%, 0.65);
+}
+
+.dropdown.std .btn-set > button > div{
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0.6;
+    padding: 1px;
 }
 
 
+/* Alternative colours for this INPUT element */
+
+.dropdown.std input.plain-cell{
+    font-size: 12px;
+    width: 50px;
+    margin: 3px;
+}
+
+.dropdown.std input.plain-cell:hover{
+    border-color: rgba(53, 72, 143, 0.5);
+}
+
+.dropdown.std input.plain-cell:focus{
+    border-color: rgba(53, 72, 143, 0.8);
+    box-shadow: 0px 0px 3px 1px rgba(37, 71, 193, 0.42);
+
+}
 
 
 
@@ -557,6 +588,7 @@ img.delete-m-elem:hover{
 
 
 
+/* 7. Tabs for advanced options */
 
 #motifs-edit .tabs{
     top: 560px;

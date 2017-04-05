@@ -814,17 +814,33 @@
 			Grid Size
 		      </div>
 		      <div class="btn-set">
-			<button>Small</button>
-			<button>Medium</button>
-			<button>Large</button>
+			<button>Small
+			  <div class="single">10px</div>
+			  <div class="dual" style="display: none;">10px, 15°</div>
+			</button>
+			<button>Medium
+			  <div class="single" style="display: none;">25px</div>
+			  <div class="dual" >25px, 30°</div>
+			</button>
+			<button>Large
+			  <div class="single" style="display: none;">50px</div>
+			  <div class="dual">50px, 45°</div>
+			</button>
 		      </div>
 
 
 		      <div>
 			Grid weight
+			<div class="btn-set">
+			  <button>Faint</button>
+			  <button>Normal</button>
+			  <button>Strong</button>
+			</div>
 		      </div>
 		      <div>
 			Custom size
+			<div>x-spacing<input class="plain-cell"/></div>
+			<div>y-spacing<input class="plain-cell"/></div>
 		      </div>
 		    </div>
 		  </div>
