@@ -376,11 +376,16 @@ var motifs_props = {
 
 		// scroll to and highlight the item in the list
 		var uid = options.target.PGTuid;
-		motifs_props.MotifElem_focusListing({
-		    uid: uid,
-		    autoScroll: true,
-		    focusHighlight: true
-		});
+		
+		// note that a group may get selected, but this will not have a PGTuid defined.
+		// In this case, no autoscroll/highlight (although I will want these later).
+		if(uid !== undefined){
+		    motifs_props.MotifElem_focusListing({
+			uid: uid,
+			autoScroll: true,
+			focusHighlight: true
+		    });
+		}
 
 	    }
 	});

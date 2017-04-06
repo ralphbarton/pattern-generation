@@ -295,45 +295,52 @@ var motifs_edit = {
     keyStrokeHandler: function(myKeycode, keyPressed){
 	
 	var canvas = this.Fabric_Canvas;
+
 	//Delete key pressed...
 	if(myKeycode == 46){
-	    var activeObject = canvas.getActiveObject(),
-	    activeGroup = canvas.getActiveGroup();
-	    if (activeObject) {
-		canvas.remove(activeObject);
-		
-		//TODO - this is not the correct way to delete. Data structure is not removed from DM.
-		var uid = activeObject.PGTuid;
-		DM.Motif_deleteElement(uid);
-		motifs_props.DeleteMotifElem_itemHTML(uid);
-
-	    }
-	    else if (activeGroup) {
-		var objectsInGroup = activeGroup.getObjects();
-		canvas.discardActiveGroup();
-		objectsInGroup.forEach(function(object) {
-		    canvas.remove(object);
-		});
-	    }
+	    this.ActUponFabricSelection(function(fObj, uid){
+		canvas.remove(fObj);   // 1. remove from canvas
+		DM.Motif_deleteElement(uid);   // 2. remove from DM structure
+		motifs_props.DeleteMotifElem_itemHTML(uid);// 3. remove from HTML
+	    }, {
+		groupDiscard: true
+	    });
 	}
 
 	//an ARROW key pressed...
 	else if((myKeycode >= 37)&&(myKeycode <= 40)){
-	    //This code is copy-pasted from the code to delete an object. is generalisation possible / worthwhile??
+	    this.ActUponFabricSelection(function(fObj, uid){
+		motifs_edit.moveFabricObj(myKeycode, fObj); // 1. update on canvas
+		// 2. update in DM structure
+		// 3. update in HTML
+	    });
+	}
 
-	    var activeObject = canvas.getActiveObject(),
-	    activeGroup = canvas.getActiveGroup();
-	    if (activeObject) {
-		motifs_edit.moveFabricObj(myKeycode, activeObject);
-	    }
-	    else if (activeGroup) {
-		var objectsInGroup = activeGroup.getObjects();
-		objectsInGroup.forEach(function(object) {
-		    motifs_edit.moveFabricObj(myKeycode, object);
-		});
+    },
+
+
+    ActUponFabricSelection: function(CB_per_object, options){
+
+	var canvas = this.Fabric_Canvas;
+
+	var activeObject = canvas.getActiveObject();
+	var activeGroup = canvas.getActiveGroup();
+
+	// 1. a single object selected
+	if (activeObject) {
+	    CB_per_object(activeObject, activeObject.PGTuid);
+
+	}
+	// 2. a group selected
+	else if (activeGroup) {
+	    if(options && options.groupDiscard){
+		canvas.discardActiveGroup();
 	    }
 
-	    
+	    var objectsInGroup = activeGroup.getObjects();
+	    objectsInGroup.forEach(function(object) {
+		CB_per_object(object, object.PGTuid);
+	    });
 	}
 
     },
