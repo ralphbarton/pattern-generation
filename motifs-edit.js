@@ -220,13 +220,30 @@ var motifs_edit = {
 	// 4.4.2 - Controlling grid size
 	$("#motifs-edit #grid-settings .btn-set.size > button").click(function(){
 	    var btn_class = $(this).attr("class");
-	    d3.select("#Motif svg g.gridlines g.small").attr("opacity", (btn_class == "small" ? 1 : 0));
-	    d3.select("#Motif svg g.gridlines g.medium").attr("opacity", (btn_class == "medium" ? 1 : 0));
-	    d3.select("#Motif svg g.gridlines g.large").attr("opacity", (btn_class == "large" ? 1 : 0));
+
+	    // "selectAll" selects both the polar and cartesian
+	    d3.selectAll("#Motif svg g.gridlines g.small").classed("hidden", btn_class != "small");
+	    d3.selectAll("#Motif svg g.gridlines g.medium").classed("hidden", btn_class != "medium");
+	    d3.selectAll("#Motif svg g.gridlines g.large").classed("hidden", btn_class != "large");
 	});
 
 	//auto-click the medium button (necessary to hide the other two grids).
 	$("#motifs-edit #grid-settings .btn-set.size > button.medium").click();
+
+	// 4.4.3 - Controlling Cartesian vs. Polar
+	$("#motifs-edit #grid-settings .btn-set.system > button").click(function(){
+	    var btn_class = $(this).attr("class");
+	    d3.select("#Motif svg g.gridlines g.cartesian").classed("hidden", btn_class != "cartesian");
+	    d3.select("#Motif svg g.gridlines g.polar").classed("hidden", btn_class != "polar");
+	    $("#motifs-edit .dropdown#grid-settings .btn-set.size .cartesian").toggle(btn_class == "cartesian");
+	    $("#motifs-edit .dropdown#grid-settings .btn-set.size .polar").toggle(btn_class == "polar");
+	});
+
+	//auto-click the cartesian button (to hide the other grid).
+	$("#motifs-edit #grid-settings .btn-set.system > button.cartesian").click();
+
+
+
 
 
 	// 5. FABRIC...
@@ -393,13 +410,28 @@ var motifs_edit = {
 
 	var draw_grid = function(size, size_str){
 	    for (var i = 0; i < 400 ; i += size){
-		draw_4_lines("g.gridlines g."+size_str, i);
+		draw_4_lines("g.gridlines g.cartesian g."+size_str, i);
 	    }
 	};
 
 	draw_grid(10, "small");
 	draw_grid(25, "medium");
 	draw_grid(50, "large");
+
+
+	var draw_circles = function(size, size_str){
+	    for (var i = size; i <= 200 ; i += size){
+		d3.select("#Motif svg g.gridlines g.polar g." + size_str)
+		    .append('circle')
+		    .attr("cx", 199.5)
+		    .attr("cy", 199.5)
+		    .attr("r", i);
+	    }
+	};
+
+	draw_circles(25, "small");
+	draw_circles(50, "medium");
+	draw_circles(100, "large");
 
     }
 

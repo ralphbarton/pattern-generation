@@ -3,36 +3,56 @@
     transition: all 0.2s;
 }
 
+#Motif svg .hidden{
+        transition: all 0.8s;
+    opacity: 0;
+}
+
 #Motif svg#bg-axes-grid .axes line{
     stroke: black;
     stroke-width: 2;
 }
 
+
+
+
+
+/* Faintness controls for both lines and circles */
+
 #Motif.dark svg#bg-axes-grid .axes line{
     stroke: white;
 }
 
-#Motif svg g.gridlines line{
+#Motif svg g.gridlines * {
     stroke: rgba(0, 0, 0, 0.12); 
-    transition: all 0.6s;
+    transition: all 0.8s;
 }
 
-#Motif svg g.gridlines.faint line{
+#Motif svg g.gridlines.faint * {
     stroke: rgba(0, 0, 0, 0.05);
 }
 
-#Motif svg g.gridlines.strong line{
+#Motif svg g.gridlines.strong *{
     stroke: rgba(0, 0, 0, 0.25); 
 }
 
-#Motif.dark svg g.gridlines line{
+#Motif.dark svg g.gridlines *{
     stroke: rgba(255, 255, 255, 0.12); 
 }
 
-#Motif.dark svg g.gridlines.faint line{
+#Motif.dark svg g.gridlines.faint *{
     stroke: rgba(255, 255, 255, 0.05);
 }
 
-#Motif.dark svg g.gridlines.strong line{
+#Motif.dark svg g.gridlines.strong *{
     stroke: rgba(255, 255, 255, 0.25); 
+}
+
+
+
+
+/* Polar grid styling */
+#Motif svg g.gridlines circle{
+    fill: none;
+    stroke-width: 1;
 }
