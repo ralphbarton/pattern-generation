@@ -433,6 +433,24 @@ var motifs_edit = {
 	draw_circles(50, "medium");
 	draw_circles(100, "large");
 
+	var draw_diagonal_lines = function(size, size_str){
+	    for (var i = 0; i < 180 ; i += size){
+		d3.select("#Motif svg g.gridlines g.polar g." + size_str)
+		    .append('line')
+		    .attr("x1", 199.5 - 300)
+		    .attr("y1", 199.5)
+		    .attr("x2", 199.5 + 300)
+		    .attr("y2", 199.5)
+		    .attr("transform", "rotate("+i+" 199.5 199.5)");
+	    }
+	};
+
+	draw_diagonal_lines(15, "small");
+	draw_diagonal_lines(45, "medium");
+	draw_diagonal_lines(90, "large");
+	
+
+
     }
 
 };
