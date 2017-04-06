@@ -1,4 +1,4 @@
-Details for each image:
+﻿Details for each image:
 A: completion date
 B: materials used=============================================(char limit for this field):==|
 C: my description
@@ -65,7 +65,7 @@ E:
 =146-01
 A: January 2017
 B: mechanical pencil, watercolour pencil (mixed on separate palette), on top of fine fibre-tips
-C: This image is inspired by memories of the interiors of the bath houses in Budapest, and the effects that can be achieved when glazing ceramics.
+C: This image is inspired by memories of pools & bath houses in Budapest, and the effects that can be achieved when glazing ceramics.
 
 Take a look at the "colour-pots" section of the website. I think concept in the tool is particularly suitable for evoking on computer the subtle variation in colour between a batch of tiles all painted with the same glaze, as they come out of the kiln.
 D: 16.0 cm × 3.8 cm
@@ -99,7 +99,7 @@ E:
 =146-04
 A: January 2017
 B: 0.5mm mechanical pencil, watercolour pencil, fine coloured fibre-tips.
-C: The concept of this composition ......
+C: Which aspects of this design are random, and which follow a trend?
 D: 16.0 cm × 10.0 cm
 E:
 146-04-1600px01.jpg: lighting is poor
@@ -115,14 +115,14 @@ E:
 146-04-1600px13.jpg
 
 =146-05
-A: not yet complete (feb '17)
-B:
+A: March 2017
+B: 0.5mm mechanical pencil, inks (watered down), fine black felt tip
 C:
 D: 7.7 cm × 8.1 cm
 E:
 
 =152-01
-A:
+A: 0.5mm mechanical pencil,
 B:
 C:
 D: 7.8 cm × 9.6 cm
@@ -139,7 +139,7 @@ E:
 152-01-1600px10.jpg
 
 =152-02
-A:
+A: March 2017
 B:
 C:
 D: 6.6 cm × 29.0 cm
@@ -161,6 +161,20 @@ D:  5.1 cm × 9.6 cm
 E:
 152-03-1600px01.jpg
 152-03-1600px04.jpg
+
+=152-04
+A: February 2017
+B:
+C:
+D: ? cm × ? cm
+E:
+
+=152-05
+A: 
+B:
+C:
+D: ? cm × ? cm
+E:
 
 =153-01
 A:
@@ -220,4 +234,74 @@ A: doesn't exist yet (Feb '17)
 B:
 C:
 D: 20.3 cm × 16.1 cm
+E:
+
+=009-01
+A: February 2017
+B:
+C:
+D: 7.9 cm × 8.1 cm
+E:
+
+=009-02
+A: February 2017
+B:
+C:
+D: 7.9 cm × 8.1 cm
+E:
+
+=009-03
+A: 
+B:
+C:
+D: 16.1 cm × 3.8 cm
+E:
+
+=009-04
+A: March 2017
+B:
+C:
+D: 16.1 cm × 7.9 cm
+E:
+
+=009-05
+A: 
+B:
+C:
+D: 7.9 cm × 16.6 cm
+E:
+
+=050-01
+A: March 2017
+B:
+C:
+D: 4.9 cm × 7.0 cm
+E:
+
+=050-02
+A: 
+B:
+C:
+D: 4.9 cm × 10.4 cm
+E:
+
+=050-03
+A: 
+B:
+C:
+D: 4.9 cm × 10.4 cm
+E:
+
+=050-04
+A: 
+B:
+C:
+D: x cm × x cm
+E:
+
+=050-05
+A: 
+B:
+C:
+D: ? cm × ? cm
 E:

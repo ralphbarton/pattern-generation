@@ -51,7 +51,7 @@ text_obj: [
     "pattern_id": "146-01",
     "completion_date": "January 2017",
     "materials_used": "mechanical pencil, watercolour pencil (mixed on separate palette), on top of fine fibre-tips",
-    "description": "This image is inspired by memories of the interiors of the bath houses in Budapest, and the effects that can be achieved when glazing ceramics.\n<br>\n<br>Take a look at the \"colour-pots\" section of the website. I think concept in the tool is particularly suitable for evoking on computer the subtle variation in colour between a batch of tiles all painted with the same glaze, as they come out of the kiln.",
+    "description": "This image is inspired by memories of pools & bath houses in Budapest, and the effects that can be achieved when glazing ceramics.\n<br>\n<br>Take a look at the \"colour-pots\" section of the website. I think concept in the tool is particularly suitable for evoking on computer the subtle variation in colour between a batch of tiles all painted with the same glaze, as they come out of the kiln.",
     "dimentions": "16.0 cm × 3.8 cm",
     "img_comments": {
       "146-01-1600px01.jpg": "I did not initally set about creating a grid of hexagons in the most obvious way!"
@@ -83,7 +83,7 @@ text_obj: [
     "pattern_id": "146-04",
     "completion_date": "January 2017",
     "materials_used": "0.5mm mechanical pencil, watercolour pencil, fine coloured fibre-tips.",
-    "description": "The concept of this composition ......",
+    "description": "Which aspects of this design are random, and which follow a trend?",
     "dimentions": "16.0 cm × 10.0 cm",
     "img_comments": {
       "146-04-1600px01.jpg": "lighting is poor"
@@ -91,15 +91,15 @@ text_obj: [
   },
   {
     "pattern_id": "146-05",
-    "completion_date": "not yet complete (feb '17)",
-    "materials_used": "",
+    "completion_date": "March 2017",
+    "materials_used": "0.5mm mechanical pencil, inks (watered down), fine black felt tip",
     "description": "",
     "dimentions": "7.7 cm × 8.1 cm",
     "img_comments": {}
   },
   {
     "pattern_id": "152-01",
-    "completion_date": "",
+    "completion_date": "0.5mm mechanical pencil,",
     "materials_used": "",
     "description": "",
     "dimentions": "7.8 cm × 9.6 cm",
@@ -107,7 +107,7 @@ text_obj: [
   },
   {
     "pattern_id": "152-02",
-    "completion_date": "",
+    "completion_date": "March 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "6.6 cm × 29.0 cm",
@@ -119,6 +119,22 @@ text_obj: [
     "materials_used": "",
     "description": "",
     "dimentions": "5.1 cm × 9.6 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "152-04",
+    "completion_date": "February 2017",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "? cm × ? cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "152-05",
+    "completion_date": "",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "? cm × ? cm",
     "img_comments": {}
   },
   {
@@ -159,6 +175,86 @@ text_obj: [
     "materials_used": "",
     "description": "",
     "dimentions": "20.3 cm × 16.1 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "009-01",
+    "completion_date": "February 2017",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "7.9 cm × 8.1 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "009-02",
+    "completion_date": "February 2017",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "7.9 cm × 8.1 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "009-03",
+    "completion_date": "",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "16.1 cm × 3.8 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "009-04",
+    "completion_date": "March 2017",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "16.1 cm × 7.9 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "009-05",
+    "completion_date": "",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "7.9 cm × 16.6 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "050-01",
+    "completion_date": "March 2017",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "4.9 cm × 7.0 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "050-02",
+    "completion_date": "",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "4.9 cm × 10.4 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "050-03",
+    "completion_date": "",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "4.9 cm × 10.4 cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "050-04",
+    "completion_date": "",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "x cm × x cm",
+    "img_comments": {}
+  },
+  {
+    "pattern_id": "050-05",
+    "completion_date": "",
+    "materials_used": "",
+    "description": "",
+    "dimentions": "? cm × ? cm",
     "img_comments": {}
   }
 ]
