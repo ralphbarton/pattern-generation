@@ -303,7 +303,9 @@ var motifs_edit = {
 		canvas.remove(activeObject);
 		
 		//TODO - this is not the correct way to delete. Data structure is not removed from DM.
-		motifs_props.DeleteMotifElem_itemHTML(activeObject.PGTuid);
+		var uid = activeObject.PGTuid;
+		DM.Motif_deleteElement(uid);
+		motifs_props.DeleteMotifElem_itemHTML(uid);
 
 	    }
 	    else if (activeGroup) {

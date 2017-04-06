@@ -403,14 +403,21 @@ var DM = {
 	return new_uid;
     },
 
-    Motif_updateElementProps: function(PGTuid, PropsObj){
+    Motif_deleteElement: function(PGTuid){
+	var new_uid = this.PGTuid_counter;
+	var El_index = DM.MotifDummy.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});
+	DM.MotifDummy.Elements.splice(El_index, 1);
+    },
+
+
+    Motif_updateElement: function(PGTuid, PropsObj){
 
 // the jQuery grep function which searches array for elements that match a filter function
-//	var result = $.grep(myArray, function(e){ return e.id == id; });
+	var Updating_Element = $.grep(DM.MotifDummy.Elements, function(El){return El.PGTuid == PGTuid;});
 
 	//use jQuery to iterate over elements of 'PropsObj'
-	$.each( obj, function( key, value ) {
-	    DM.MotifDummy.Elements[0][key] = value;
+	$.each( PropsObj, function( key, value ) {
+	    Updating_Element[key] = value;
 	});
 
     }
