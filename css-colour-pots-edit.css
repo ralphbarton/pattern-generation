@@ -402,3 +402,29 @@
 }
 
 
+
+
+
+
+
+
+
+
+.ui-slider {
+    position: relative;
+}
+
+.ui-slider .ui-slider-handle{
+    position: absolute;
+    z-index: 2;
+    width: 4px;
+    height: 30px;
+    cursor: default;
+    -ms-touch-action: none;
+    touch-action: none;
+    border: 1px solid blueviolet;
+    background: #f6f6f6;
+    top: -1px;
+}
+
+

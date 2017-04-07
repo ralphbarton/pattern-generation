@@ -18,8 +18,15 @@
     <script src="include/jquery2.1.1.js"></script>
     <script src="include/jcolor.min.js"></script>
 
+
     <!-- Herewith include the great *D3* library -->
     <script src="include/d3/d3.min.js"></script>
+
+    <script src="include/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="include/jquery-ui.css" />
+
+
 
     <!-- https://bgrins.github.io/spectrum/ -->
     <script src="include/bgrins-spectrum-98454b5/spectrum.js"></script>
@@ -66,6 +73,13 @@
       return barHeight + "px";
       });
       }
+
+      $( function() {
+      $( "#slider" ).slider();
+      } );
+
+    </script>
+
       
     </script>
     <!-- CODE for the D3 bar-chart -->
@@ -94,6 +108,9 @@
     <input type='color' name='color' />
 
     <br>
+
+    Slider div next...
+    <div id="slider"></div>
 
     <a href="/index.html">Link to Main Page</a>
 

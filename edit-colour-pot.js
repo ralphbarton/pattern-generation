@@ -331,7 +331,6 @@ var edit_cp = {
 	$("#cp-edit-slider").slider();
 
 
-
 	this.not_yet_initialised = false;
     },
 

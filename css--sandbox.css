@@ -1,13 +1,3 @@
-.ui-slider{
-    background:green;
-}
-
-.ui-slider-handle{
-    width: 5px;
-    height: 10px;
-    background:red;
-}
-
 .gradient-cell {
     border: 1px solid black;
 }
