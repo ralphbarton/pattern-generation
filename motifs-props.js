@@ -32,7 +32,7 @@ var motifs_props = {
 	    {ab:"width", key: "width"},
 	    {ab:"height", key: "height"},
 
-	    {ab:"rotation", key: "rotation"},
+	    {ab:"rotation", key: "angle"},
 	    {ab:"hide", key: "CUS-hide"},
 	],
 	appearance:[
@@ -239,6 +239,11 @@ var motifs_props = {
 	//use jQuery to iterate over elements of 'DM_changed_props'
 	$.each( DM_changed_props, function( key, value ) {
 	    $ME_plist.find("td.col-valu." + key).text(value);// HTML update
+	    $ME_plist.find("td." + key).addClass("recent-change");
+	    //and hold the class for 1 seconds
+	    setTimeout(function(){
+		$ME_plist.find("td." + key).removeClass("recent-change");
+	    }, 1000);
 	});
 
     },
@@ -401,16 +406,31 @@ var motifs_props = {
 
 	var canvas = motifs_edit.Fabric_Canvas;
 
+	var props_snapshot = function(fObj){
+	    fObj.props_preTransform = {
+		left: fObj.left,
+		top: fObj.top,
+		width: fObj.width,
+		height: fObj.height,
+		angle: fObj.angle
+	    };
+	};
+
 	canvas.on('object:selected', function(options) {
 
 	    if (options.target) {
 
+		var fObj = options.target;
+
 		// scroll to and highlight the item in the list
-		var PGTuid = options.target.PGTuid;
+		var PGTuid = fObj.PGTuid;
 		
 		// note that a group may get selected, but this will not have a PGTuid defined.
 		// In this case, no autoscroll/highlight (although I will want these later).
 		if(PGTuid !== undefined){
+
+		    props_snapshot(fObj);
+
 		    motifs_props.MotifElem_focusListing(PGTuid, {
 			autoScroll: true,
 			focusHighlight: true
@@ -433,9 +453,40 @@ var motifs_props = {
 	    }
 	});
 
-
+	// this event is triggerd one the modification activity is completed.
 	canvas.on('object:modified', function(options) {
 	    if (options.target) {
+
+		var fObj = options.target;
+		var PGTuid = fObj.PGTuid;
+
+		// use scale change to directly change with width/height rather than holding
+		if(fObj.scaleX != 1){
+		    fObj.width = Math.round(fObj.width * fObj.scaleX, 0);
+		    fObj.scaleX = 1;
+		}
+		if(fObj.scaleY != 1){
+		    fObj.height = Math.round(fObj.height * fObj.scaleY, 0);
+		    fObj.scaleY = 1;
+		}
+
+		//iterate through the properties that *may* be modified
+		var cng = {};
+		$.each(fObj.props_preTransform, function( key, value ) {
+		    //determine which *were* modified
+		    if(value != fObj[key]){
+
+			//We don't particularly care about accuracy loss for a manually created motif, and 1 d.p. precision is
+			// fine for pixels and angles...
+			cng[key] = Math.round(10 * fObj[key]) / 10;
+		    }
+		});
+
+		// this does (re)edit Fabric Object properties too, but this is at worst harmless
+		motifs_edit.updateMotifElement(PGTuid, cng);
+
+		props_snapshot(fObj);
+
 		console.log('object:modified', options.target.PGTuid);
 	    }
 	});
