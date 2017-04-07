@@ -299,9 +299,7 @@ var motifs_edit = {
 	//Delete key pressed...
 	if(myKeycode == 46){
 	    this.ActUponFabricSelection(function(fObj, uid){
-		canvas.remove(fObj);   // 1. remove from canvas
-		DM.Motif_deleteElement(uid);   // 2. remove from DM structure
-		motifs_props.DeleteMotifElem_itemHTML(uid);// 3. remove from HTML
+		motifs_edit.deleteMotifElement(uid);
 	    }, {
 		groupDiscard: true
 	    });
@@ -345,7 +343,19 @@ var motifs_edit = {
 
     },
 
+    // Function acts upon 1. Fabric;  2. DM;  3. HTML
+    deleteMotifElement: function(uid){
+	
+	// get Fabric object via its PGTuid
+	var canvas = this.Fabric_Canvas;
+	var Fabric_Object = $.grep(motifs_edit.Fabric_Canvas._objects, function(fObj){return fObj.PGTuid == uid;})[0];
 
+	canvas.remove(Fabric_Object);   // 1. remove from canvas
+	DM.Motif_deleteElement_data(uid);   // 2. remove from DM structure
+	motifs_props.DeleteMotifElem_itemHTML(uid);// 3. remove from HTML
+
+    },
+    
 	/*
 	  left arrow 37
 	  up arrow 38

@@ -394,7 +394,7 @@ var DM = {
     MotifsArray: [],
 
     PGTuid_counter: 0,
-    Motif_newElement: function(PropsObj){
+    Motif_newElement_data: function(PropsObj){
 	var new_uid = this.PGTuid_counter;
 	this.PGTuid_counter++
 	PropsObj.PGTuid = new_uid;
@@ -403,14 +403,14 @@ var DM = {
 	return new_uid;
     },
 
-    Motif_deleteElement: function(PGTuid){
+    Motif_deleteElement_data: function(PGTuid){
 	var new_uid = this.PGTuid_counter;
 	var El_index = DM.MotifDummy.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});
 	DM.MotifDummy.Elements.splice(El_index, 1);
     },
 
 
-    Motif_updateElement: function(PGTuid, PropsObj){
+    Motif_updateElement_data: function(PGTuid, PropsObj){
 
 // the jQuery grep function which searches array for elements that match a filter function
 	var Updating_Element = $.grep(DM.MotifDummy.Elements, function(El){return El.PGTuid == PGTuid;});

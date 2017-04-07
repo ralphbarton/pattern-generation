@@ -150,12 +150,16 @@ var motifs_props = {
 
     AddMotifElem_itemHTML: function(DM_instance_props, PGTuid){
 
-	// 1. Get create a new Motif Element properties list from the template.
+	// 1. Clone HTML content (from template) to create a new Motif Element properties list
 	var $ME_plist = $( "#motif-props-zone #m-elem-template" ).clone()
 	    .attr('id',('m-elem-' + PGTuid))
 	    .show();
 
-	// 2. Add callback functions to the Buttons to hide/show the property sets
+
+
+	// 2. Adding callback functions to the HTML elements
+
+	// 2.1  - Buttons to hide/show the property sets
 	$ME_plist.find(".props-tables-vis-buttons > button").click(function(){
 	    $(this).toggleClass('sel');
 	    var btn_of_4 = $(this).attr('id');
@@ -164,6 +168,13 @@ var motifs_props = {
 	    var $clicked_motif_element = $(this).closest(".m-elem");
 	    $clicked_motif_element.find(".props-table-chunk." + btn_of_4).slideToggle();
 	});
+
+	// 2.2 - "Delete Element" button
+	$ME_plist.find(".delete-m-elem").click(function(){
+	    motifs_edit.deleteMotifElement(PGTuid);
+	});
+
+
 
 	// 3. Create and populate the tables html...
 
@@ -337,7 +348,7 @@ var motifs_props = {
 	    ry: new_shape.ry,
 	};
 
-	var new_uid = DM.Motif_newElement(DM_props);
+	var new_uid = DM.Motif_newElement_data(DM_props);
 
 	new_shape.PGTuid = new_uid;
 
