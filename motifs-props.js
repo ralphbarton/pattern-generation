@@ -148,7 +148,7 @@ var motifs_props = {
     },
     
 
-    AddMotifElem_itemHTML: function(DM_instance_props, PGTuid){
+    AddMotifElem_itemHTML: function(PGTuid, DM_instance_props){
 
 	// 1. Clone HTML content (from template) to create a new Motif Element properties list
 	var $ME_plist = $( "#motif-props-zone #m-elem-template" ).clone()
@@ -195,22 +195,29 @@ var motifs_props = {
 
 	    // Create the table (of which there are 4) row by row here
 	    for (var i = 0; i < props_set.length; i+=2){
+
+		//the two properties in this row of the table, by ref'd by internal key..
+		var key1 = props_set[i].key;
+		var key2 = props_set[i+1].key;
+
 		$(this).find("table").append(
 		    $("<tr\>").append(
-			$("<td\>").addClass("col-prop").text(props_set[i].ab),
-			$("<td\>").addClass("col-valu").text(
+			// First Prop
+			$("<td\>").addClass("col-prop " + key1).text(props_set[i].ab),
+			$("<td\>").addClass("col-valu " + key1).text(
 			    DM_instance_props[
 				props_set[i].key
 			    ]
 			),
-			$("<td\>").addClass("col-more").text("..."),
-			$("<td\>").addClass("col-prop").text(props_set[i+1].ab),
-			$("<td\>").addClass("col-valu").text(
+			$("<td\>").addClass("col-more " + key1).text("..."),
+			// Second Prop
+			$("<td\>").addClass("col-prop " + key2).text(props_set[i+1].ab),
+			$("<td\>").addClass("col-valu " + key2).text(
 			    DM_instance_props[
 				props_set[i+1].key
 			    ]
 			),
-			$("<td\>").addClass("col-more").text("...")
+			$("<td\>").addClass("col-more " + key2).text("...")
 		    )
 		);
 	    }
@@ -221,14 +228,27 @@ var motifs_props = {
 	$ME_plist.appendTo("#motif-props-zone .contents");
 
 	// 5. auto scroll to the new element
-	this.MotifElem_focusListing({uid: PGTuid, autoScroll: true});
+	this.MotifElem_focusListing(PGTuid, {autoScroll: true});
     },
 
-    // "focus" refers to scrolling to the location
-    // focus
-    MotifElem_focusListing: function(options){
 
-	var $ME_plist = $('#m-elem-' + options.uid);
+    UpdateMotifElem_itemHTML: function(PGTuid, DM_changed_props){
+
+	var $ME_plist = $('#m-elem-' + PGTuid);
+	
+	//use jQuery to iterate over elements of 'DM_changed_props'
+	$.each( DM_changed_props, function( key, value ) {
+	    $ME_plist.find("td.col-valu." + key).text(value);// HTML update
+	});
+
+    },
+
+
+    // "focus" refers to scrolling to the location
+    MotifElem_focusListing: function(PGTuid, options){
+	options = options || {}; // in case of no options object provided...
+
+	var $ME_plist = $('#m-elem-' + PGTuid);
 
 	// 1. Auto scroll to the Motif Element's Propery Listing
 	if(options.autoScroll){
@@ -353,7 +373,7 @@ var motifs_props = {
 	new_shape.PGTuid = new_uid;
 
 	// Add the properties listing for the added shape...
-	this.AddMotifElem_itemHTML(DM_props, new_uid);
+	this.AddMotifElem_itemHTML(new_uid, DM_props);
 
     },
     
@@ -386,13 +406,12 @@ var motifs_props = {
 	    if (options.target) {
 
 		// scroll to and highlight the item in the list
-		var uid = options.target.PGTuid;
+		var PGTuid = options.target.PGTuid;
 		
 		// note that a group may get selected, but this will not have a PGTuid defined.
 		// In this case, no autoscroll/highlight (although I will want these later).
-		if(uid !== undefined){
-		    motifs_props.MotifElem_focusListing({
-			uid: uid,
+		if(PGTuid !== undefined){
+		    motifs_props.MotifElem_focusListing(PGTuid, {
 			autoScroll: true,
 			focusHighlight: true
 		    });
@@ -406,9 +425,8 @@ var motifs_props = {
 	    if (options.target) {
 
 		// de-highlight item in list
-		var uid = options.target.PGTuid;
-		motifs_props.MotifElem_focusListing({
-		    uid: uid,
+		var PGTuid = options.target.PGTuid;
+		motifs_props.MotifElem_focusListing(PGTuid, {
 		    focusHighlight: true,
 		    removeHighlight: true
 		});

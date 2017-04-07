@@ -307,10 +307,29 @@ var motifs_edit = {
 
 	//an ARROW key pressed...
 	else if((myKeycode >= 37)&&(myKeycode <= 40)){
+
+	    // determine the 1px MOVE, as a "change" object of properties...
 	    this.ActUponFabricSelection(function(fObj, uid){
-		motifs_edit.moveFabricObj(myKeycode, fObj); // 1. update on canvas
-		// 2. update in DM structure
-		// 3. update in HTML
+
+		/*
+		  left arrow 37
+		  up arrow 38
+		  right arrow 39
+		  down arrow 40 
+		*/
+		var cng = {};
+		if(myKeycode == 37){
+		    cng.left = fObj.left - 1;
+		}else if(myKeycode == 38){
+		    cng.top = fObj.top - 1;
+		}else if(myKeycode == 39){
+		    cng.left = fObj.left + 1;
+		}else if(myKeycode == 40){
+		    cng.top = fObj.top + 1;
+		}
+
+
+		motifs_edit.updateMotifElement(uid, cng);
 	    });
 	}
 
@@ -318,9 +337,9 @@ var motifs_edit = {
 
 
     ActUponFabricSelection: function(CB_per_object, options){
+	options = options || {}; // in case of no options object provided...
 
 	var canvas = this.Fabric_Canvas;
-
 	var activeObject = canvas.getActiveObject();
 	var activeGroup = canvas.getActiveGroup();
 
@@ -331,7 +350,7 @@ var motifs_edit = {
 	}
 	// 2. a group selected
 	else if (activeGroup) {
-	    if(options && options.groupDiscard){
+	    if(options.groupDiscard){
 		canvas.discardActiveGroup();
 	    }
 
@@ -355,36 +374,27 @@ var motifs_edit = {
 	motifs_props.DeleteMotifElem_itemHTML(uid);// 3. remove from HTML
 
     },
-    
-	/*
-	  left arrow 37
-	  up arrow 38
-	  right arrow 39
-	  down arrow 40 
-	*/
-    moveFabricObj: function(keyCode, object){
 
-	var cng = undefined;
-	if(keyCode == 37){
-	    cng = {'left': (object.left - 1)};
-	}else if(keyCode == 38){
-	    cng = {'top': (object.top - 1)};
-	}else if(keyCode == 39){
-	    cng = {'left': (object.left + 1)};
-	}else if(keyCode == 40){
-	    cng = {'top': (object.top + 1)};
-	}
-
-	// execute the 1px MOVE
-	object.set(cng);
-	object.setCoords(); // this recalculates the Fabric's click detection for the object.
+    // Function acts upon 1. Fabric;  2. DM;  3. HTML
+    updateMotifElement: function(uid, propsCng){
+	
+	// get Fabric object via its PGTuid
 	var canvas = this.Fabric_Canvas;
+	var Fabric_Object = $.grep(motifs_edit.Fabric_Canvas._objects, function(fObj){return fObj.PGTuid == uid;})[0];
+
+	// 1. update in canvas
+	Fabric_Object.set(propsCng);
+	Fabric_Object.setCoords(); // to recalculate Fabric's click detection for the object.
 	canvas.renderAll(); // n.b. setCoords() doesn't negate the need for this!
+
+	DM.Motif_updateElement_data(uid, propsCng);   // 2. update in DM structure
+	motifs_props.UpdateMotifElem_itemHTML(uid, propsCng);// 3. update in HTML
 
     },
 
-
     regenerateMotifPropsList: function(){
+
+	//this function will become relevant once I actually start to utilise multiple motifs.
 
 	//this will need to do something like calling " motifs_props.AddMotifElem_itemHTML() " for each motif element
 

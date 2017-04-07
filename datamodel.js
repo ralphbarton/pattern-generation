@@ -412,8 +412,9 @@ var DM = {
 
     Motif_updateElement_data: function(PGTuid, PropsObj){
 
-// the jQuery grep function which searches array for elements that match a filter function
-	var Updating_Element = $.grep(DM.MotifDummy.Elements, function(El){return El.PGTuid == PGTuid;});
+	// the jQuery grep function which searches array for elements that match a filter function
+	// note how grep returns an ARRAY of the matched elements, so I must select the actual element using [0]
+	var Updating_Element = $.grep(DM.MotifDummy.Elements, function(El){return El.PGTuid == PGTuid;})[0];
 
 	//use jQuery to iterate over elements of 'PropsObj'
 	$.each( PropsObj, function( key, value ) {
