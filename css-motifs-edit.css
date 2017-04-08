@@ -75,8 +75,13 @@
     height: 180px;
 }
 
-#motifs-edit #params .col-4{
-    width: 170px;
+
+#motifs-edit #params .col-1{
+    width: 85px;
+}
+
+#motifs-edit #params th{
+      padding: 0px 10px;
 }
 
 

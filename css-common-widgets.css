@@ -351,6 +351,16 @@ ul{
     color: rgba(0,30,70,1);
 }
 
+div.s .ui-tabs-tab{
+    font-size: 12px;
+    border-radius: 7px 7px 0px 0px;
+    padding: 1px 3px;
+}
+
+div.s ul{
+    padding-left: 4px;
+}
+
 .ui-state-hover {
     transition: background 0.2s;
     background: rgba(0,70,180,0.3);
