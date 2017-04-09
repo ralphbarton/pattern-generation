@@ -450,12 +450,6 @@ table td.recent-change{
 
 
 /* 5.2.1 - Alternative colours for this INPUT element */
-
-.dropdown.std input.plain-cell{
-    font-size: 12px;
-    width: 40px;
-}
-
 .dropdown.std input.plain-cell:hover{
     border-color: rgba(53, 72, 143, 0.5);
 }

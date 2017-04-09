@@ -315,6 +315,11 @@ input.plain-cell{
     font-family: sans;
 }
 
+input.plain-cell.s{
+    font-size: 12px;
+    width: 40px;
+}
+
 input.plain-cell:hover{
     transition: all 0.2s;
     border-color: rgba(0,70,180,0.5);

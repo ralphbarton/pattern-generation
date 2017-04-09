@@ -215,7 +215,7 @@ var edit_cp = {
 	    //note that converting colour to hex strips away the Alpha, which is what I want here.
 	    var hexC = tinycolor.toHexString();
 	    var withAlpha = tinycolor.toRgbString();
-	    $("#colour-sun").css("background", hexC);
+	    $("#cp-edit-solid .colour-sun.l").css("background", hexC);
 	    $("#k2 #strip").css("background", withAlpha);
 	}
 
@@ -224,7 +224,7 @@ var edit_cp = {
 
 	    //also, resore original colour (please don't copy paste code from above!)
 	    var old_col = $("#bgrins-colour-picker").spectrum("option","color");
-	    $("#colour-sun").css("background", old_col);
+	    $("#cp-edit-solid .colour-sun.l").css("background", old_col);
 	    $("#k2 #strip").css("background", old_col);
 	});
 
@@ -304,10 +304,11 @@ var edit_cp = {
 	    }
 	};
 
-	$("#colour-sun").click(function (){
+	$("#cp-edit-solid .colour-sun.l").click(function (){
 	    $("#bgrins-container").show({duration: 400});
 	    //this will set picker's original colour to the starting colour.
-	    regenerate_picker($("#colour-sun").css("background-color"));
+	    var active_colour = $("#cp-edit-solid .colour-sun.l").css("background-color");
+	    regenerate_picker(active_colour);
 	    //to prevent the change event triggered from immediately re-closing
 	    just_opened = true;
 	    setTimeout(function(){just_opened = false;}, 200);
@@ -354,7 +355,7 @@ var edit_cp = {
 	$("#colour-pots-edit .TL-2").text((view_cp.selected_cp_index+1) + ". ");
 
 	//this initiates the SmartInput for the Title, only
-	$("#colour-pots-edit input").SmartInput({
+	$("#colour-pots-edit #title-bar input").SmartInput({
 	    underlying_obj: POT,
 	    underlying_key: "description",
 	    style_class: "plain-cell",
@@ -479,7 +480,7 @@ var edit_cp = {
 			$("#bgrins-container").hide({duration: 400});
 
 			//set the colour of the "solid" sidepanel
-			$("#colour-sun").css("background-color", pot_elem.solid);
+			$("#cp-edit-solid .colour-sun.l").css("background-color", pot_elem.solid);
 			//todo - handle transparency
 			// in fact, use tiny-colour objects in this project.
 			// refer to...

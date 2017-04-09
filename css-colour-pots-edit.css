@@ -288,16 +288,28 @@
     text-align: center;
 }
 
-#cp-edit-solid #colour-sun{
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
-    background: white;
+#colour-pots-edit .colour-sun{
     border: 2px solid black;  
     box-shadow: 0px 0px 3px 0px rgba(0,0,0,1);
     display:inline-block;
+}
+
+#cp-edit-solid .colour-sun.l{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
     margin: 10px 0px;
 }
+
+#cp-edit-tabs .colour-sun.s{
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin: 4px;
+}
+
+
+
 
 #cp-edit-solid input.plain-cell{
     font-size: 18px;
