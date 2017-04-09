@@ -328,11 +328,36 @@ var edit_cp = {
 	]);
 
 
-	//doesn't work
+	// x.0 - Initialisation of the Range Tab...
+	var $my_Div = $( "#colour-pots-edit #tabs-e1 div.Ln.hue" ).clone()
+	    .removeClass("hue");
+
+
+	// create sections for SLA from H
+	$( "#colour-pots-edit #tabs-e1").append(
+	    $my_Div.clone().addClass("sat"),
+	    $my_Div.clone().addClass("lum"),
+	    $my_Div.addClass("alp")
+	);
+
+	$( "#colour-pots-edit #tabs-e1 .hue .name").text("Hue:");
+	$( "#colour-pots-edit #tabs-e1 .sat .name").text("Saturation:");
+	$( "#colour-pots-edit #tabs-e1 .lum .name").text("Luminosity:");
+	$( "#colour-pots-edit #tabs-e1 .alp .name").text("Alpha:");
+
+	$("#tabs-e1 .Ln .B").click(function(){
+	    $("#tabs-e1 .Ln .B").removeClass("sel");
+	    $(this).addClass("sel");
+	});
+	
+
+
+
 	$("#cp-edit-slider").slider();
 
-
 	this.not_yet_initialised = false;
+
+
     },
 
     show: function(index){
@@ -491,6 +516,11 @@ var edit_cp = {
 			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
+
+			// Activity upon selection of a RANGE row...
+			// Do a bunch of stuff to indicate on the UI
+			$("#cp-edit-tabs .colour-sun.s").css("background-color", pot_elem.range[0]);
+
 		    }
 
 		}
