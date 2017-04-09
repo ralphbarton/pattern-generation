@@ -519,7 +519,36 @@ var edit_cp = {
 
 			// Activity upon selection of a RANGE row...
 			// Do a bunch of stuff to indicate on the UI
-			$("#cp-edit-tabs .colour-sun.s").css("background-color", pot_elem.range[0]);
+			//C1, C2, C_av
+			var J = logic.colour_pair_to_hsl(pot_elem.range[0], pot_elem.range[1]);
+			var HH = J.C_av.H;
+			var SS = J.C_av.S;
+			var LL = J.C_av.L;
+			var av_colour = hslToHex(HH, SS, LL);
+			
+
+			$("#cp-edit-tabs .colour-sun.s").css("background-color", av_colour);
+			
+			//H
+			$("#cp-edit-tabs .Ln.hue .B.left"  ).css("background-color", hslToHex(J.C1.H, SS, LL));
+			$("#cp-edit-tabs .Ln.hue .B.center").css("background-color", av_colour);
+			$("#cp-edit-tabs .Ln.hue .B.right" ).css("background-color", hslToHex(J.C2.H, SS, LL));
+
+			//S
+			$("#cp-edit-tabs .Ln.sat .B.left"  ).css("background-color", hslToHex(HH, J.C1.S, LL));
+			$("#cp-edit-tabs .Ln.sat .B.center").css("background-color", av_colour);
+			$("#cp-edit-tabs .Ln.sat .B.right" ).css("background-color", hslToHex(HH, J.C2.S, LL));
+
+			//L
+			$("#cp-edit-tabs .Ln.lum .B.left"  ).css("background-color", hslToHex(HH, SS, J.C1.L));
+			$("#cp-edit-tabs .Ln.lum .B.center").css("background-color", av_colour);
+			$("#cp-edit-tabs .Ln.lum .B.right" ).css("background-color", hslToHex(HH, SS, J.C2.L));
+
+			//A
+			$("#cp-edit-tabs .Ln.alp .B.left"  ).css("background-color", av_colour);
+			$("#cp-edit-tabs .Ln.alp .B.center").css("background-color", av_colour);
+			$("#cp-edit-tabs .Ln.alp .B.right" ).css("background-color", av_colour);
+
 
 		    }
 
