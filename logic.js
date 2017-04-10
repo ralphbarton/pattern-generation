@@ -19,7 +19,13 @@ var logic = {
 	    return items[i].solid;
 	}
 	else if (items[i].type== "range"){
-	    var rand_col = this.draw_continuous_colour(items[i].range[0], items[i].range[1], false)
+	    // remove transparency...
+	    var tc1 = tinycolor(items[i].range[0]);
+	    var tc2 = tinycolor(items[i].range[1]);
+	    var hex1 = tc1.toHexString();
+	    var hex2 = tc2.toHexString();
+
+	    var rand_col = this.draw_continuous_colour(hex1, hex2, false);
 	    return rand_col;
 	}
 
@@ -64,6 +70,12 @@ var logic = {
 	var Lx = hslp.C1.L + (D ? fix_rand : Math.random()) * hslp.Cdiff.L;
 
 	return hslToHex(Hx, Sx, Lx);
+    },
+
+    tiny_HSLA_average: function(colour_1, colour_2){
+	var A = tinycolor(colour_1).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+	var B = tinycolor(colour_2).toHsl();
+	return tinycolor({h: (A.h+B.h)/2 , s: (A.s+B.s)/2, l: (A.l+B.l)/2, a: (A.a+B.a)/2})
     }
 
 }

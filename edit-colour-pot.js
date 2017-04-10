@@ -45,24 +45,20 @@ var edit_cp = {
 		var POT = DM.editing_ColourPot;
 		var pot_elem = POT.contents[edit_cp.selected_row_i];
 
-		// mutate data
 		pot_elem.type = "range";
-
-		// is range data null? Make up something...
-		// yes. scrap any old range data hidden.
-		pot_elem.range = undefined;
-		if(pot_elem.range == undefined){
-		    var bits = logic.colour_pair_to_hsl(pot_elem.solid, pot_elem.solid);
-		    var Hm = bits.C1.H;
-		    var Sm = bits.C1.S;
-		    var Lm = bits.C1.L;
-		    var cp = function (x){return Math.max(Math.min(x,1),0);}
-		    var colour_1 = hslToHex(cp(Hm+0.04), cp(Sm+0.3), cp(Lm+0.10));
-		    var colour_2 = hslToHex(cp(Hm-0.04), cp(Sm-0.3), cp(Lm-0.10));
-		    
-		    pot_elem.range = [colour_1, colour_2];
-		}
+		var J = tinycolor(pot_elem.solid).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+		var R = function (x){return Math.max(Math.min(x,1),0);}
+		var Q = function (x){return x>0 ? (x%360) : ((x+360)%360);}
+		var Dh = 15;
+		var Ds = 0.30;
+		var Dl = 0.10;
+		var Da = 0.20;
+		console.log(J);
+		console.log("H", J.h, Q(J.h+Dh), Q(J.h-Dh));
+		var J1 = tinycolor({ h: Q(J.h+Dh), s: R(J.s+Ds), l: R(J.l+Dl), a: R(J.a+Da) }).toRgbString();
+		var J2 = tinycolor({ h: Q(J.h-Dh), s: R(J.s-Ds), l: R(J.l-Dl), a: R(J.a-Da) }).toRgbString();
 		
+		pot_elem.range = [J1, J2];
 
 		//refresh view
 		edit_cp.visual_update();
@@ -224,14 +220,15 @@ var edit_cp = {
 
 	    //also, resore original colour (please don't copy paste code from above!)
 	    var old_col = $("#bgrins-colour-picker").spectrum("option","color");
-	    $("#cp-edit-solid .colour-sun.l").css("background", old_col);
+	    var non_transparent = tinycolor(old_col).toHexString();
+	    $("#cp-edit-solid .colour-sun.l").css("background", non_transparent);
 	    $("#k2 #strip").css("background", old_col);
 	});
 
 	var just_opened = false;
 	$("#bgrins-buttons #choose").click(function() {
 	    if(!just_opened){
-		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toHexString();
+		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toRgbString();
 		//mutate the data
 		var pot_row = DM.editing_ColourPot.contents[edit_cp.selected_row_i].solid = col_chosen;
 
@@ -307,7 +304,8 @@ var edit_cp = {
 	$("#cp-edit-solid .colour-sun.l").click(function (){
 	    $("#bgrins-container").show({duration: 400});
 	    //this will set picker's original colour to the starting colour.
-	    var active_colour = $("#cp-edit-solid .colour-sun.l").css("background-color");
+	    // take from the 'strip' which includes Alpha channel.
+	    var active_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
 	    regenerate_picker(active_colour);
 	    //to prevent the change event triggered from immediately re-closing
 	    just_opened = true;
@@ -505,7 +503,8 @@ var edit_cp = {
 			$("#bgrins-container").hide({duration: 400});
 
 			//set the colour of the "solid" sidepanel
-			$("#cp-edit-solid .colour-sun.l").css("background-color", pot_elem.solid);
+			var non_transparent = tinycolor(pot_elem.solid).toHexString();
+			$("#cp-edit-solid .colour-sun.l").css("background-color", non_transparent);
 			//todo - handle transparency
 			// in fact, use tiny-colour objects in this project.
 			// refer to...
@@ -519,35 +518,39 @@ var edit_cp = {
 
 			// Activity upon selection of a RANGE row...
 			// Do a bunch of stuff to indicate on the UI
-			//C1, C2, C_av
-			var J = logic.colour_pair_to_hsl(pot_elem.range[0], pot_elem.range[1]);
-			var HH = J.C_av.H;
-			var SS = J.C_av.S;
-			var LL = J.C_av.L;
-			var av_colour = hslToHex(HH, SS, LL);
-			
 
-			$("#cp-edit-tabs .colour-sun.s").css("background-color", av_colour);
+			// determine various averages etc...
+			var tc1 = tinycolor(pot_elem.range[0]);
+			var tc2 = tinycolor(pot_elem.range[1]);
+			var tcM = logic.tiny_HSLA_average(tc1, tc2);//tinycolor.mix(tc1, tc2, amount = 50);
+			var av_colour = tcM.toRgbString();
+
+			var A = tc1.toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+			var B = tc2.toHsl();
+			var M = tcM.toHsl();
+
+			//no alpha
+			$("#cp-edit-tabs .colour-sun.s").css("background-color", tcM.toHexString());
 			
 			//H
-			$("#cp-edit-tabs .Ln.hue .B.left"  ).css("background-color", hslToHex(J.C1.H, SS, LL));
+			$("#cp-edit-tabs .Ln.hue .B.left"  ).css("background-color", tinycolor({h: A.h, s: M.s, l: M.l, a: M.a}).toRgbString());
 			$("#cp-edit-tabs .Ln.hue .B.center").css("background-color", av_colour);
-			$("#cp-edit-tabs .Ln.hue .B.right" ).css("background-color", hslToHex(J.C2.H, SS, LL));
+			$("#cp-edit-tabs .Ln.hue .B.right" ).css("background-color", tinycolor({h: B.h, s: M.s, l: M.l, a: M.a}).toRgbString());
 
 			//S
-			$("#cp-edit-tabs .Ln.sat .B.left"  ).css("background-color", hslToHex(HH, J.C1.S, LL));
+			$("#cp-edit-tabs .Ln.sat .B.left"  ).css("background-color", tinycolor({h: M.h, s: A.s, l: M.l, a: M.a}).toRgbString());
 			$("#cp-edit-tabs .Ln.sat .B.center").css("background-color", av_colour);
-			$("#cp-edit-tabs .Ln.sat .B.right" ).css("background-color", hslToHex(HH, J.C2.S, LL));
+			$("#cp-edit-tabs .Ln.sat .B.right" ).css("background-color", tinycolor({h: M.h, s: B.s, l: M.l, a: M.a}).toRgbString());
 
 			//L
-			$("#cp-edit-tabs .Ln.lum .B.left"  ).css("background-color", hslToHex(HH, SS, J.C1.L));
+			$("#cp-edit-tabs .Ln.lum .B.left"  ).css("background-color", tinycolor({h: M.h, s: M.s, l: A.l, a: M.a}).toRgbString());
 			$("#cp-edit-tabs .Ln.lum .B.center").css("background-color", av_colour);
-			$("#cp-edit-tabs .Ln.lum .B.right" ).css("background-color", hslToHex(HH, SS, J.C2.L));
+			$("#cp-edit-tabs .Ln.lum .B.right" ).css("background-color", tinycolor({h: M.h, s: M.s, l: B.l, a: M.a}).toRgbString());
 
 			//A
-			$("#cp-edit-tabs .Ln.alp .B.left"  ).css("background-color", av_colour);
-			$("#cp-edit-tabs .Ln.alp .B.center").css("background-color", av_colour);
-			$("#cp-edit-tabs .Ln.alp .B.right" ).css("background-color", av_colour);
+			$("#cp-edit-tabs .Ln.alp .B.left"  ).css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: A.a}).toRgbString());
+			$("#cp-edit-tabs .Ln.alp .B.center").css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: M.a}).toRgbString());
+			$("#cp-edit-tabs .Ln.alp .B.right" ).css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: B.a}).toRgbString());
 
 
 		    }
@@ -562,37 +565,45 @@ var edit_cp = {
 	var $contents = [];
 	if(pot_elem.type=="range"){//HTML for 'range'
 
-	    // object contains two levels of lookup key:
-	    // [C1, C2, C_av, Cdiff].[H, S, L]
-	    var bits = logic.colour_pair_to_hsl(pot_elem.range[0], pot_elem.range[1]);
-	    var av_colour = hslToHex(bits.C_av.H, bits.C_av.S, bits.C_av.L);
+	    // determine various averages etc...
+	    var tc1 = tinycolor(pot_elem.range[0]);
+	    var tc2 = tinycolor(pot_elem.range[1]);
+	    var hex1 = tc1.toHexString();
+	    var hex2 = tc2.toHexString();
+//	    var tiny_average_col = tinycolor.mix(tc1, tc2, amount = 50);
+	    var tiny_average_col = logic.tiny_HSLA_average(tc1, tc2);
+	    var average_col = tiny_average_col.toRgbString();
+	    var average_col_NA = tiny_average_col.toHexString();
+	    var average_col_A1 = tiny_average_col.setAlpha(tc1.getAlpha());
+	    var average_col_A2 = tiny_average_col.setAlpha(tc2.getAlpha());
 
 	    $contents = [
 		$("<div\>").addClass("threeCells").append(
-		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:0, S:"y", L:"x"}),
-		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:"x", S:0, L:"y"}),
-		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:"x", S:"y", L:0})
+		    gradient_cell.make(25, hex1, hex2, {H:0, S:"y", L:"x"}),
+		    gradient_cell.make(25, hex1, hex2, {H:"x", S:0, L:"y"}),
+		    gradient_cell.make(25, hex1, hex2, {H:"x", S:"y", L:0})
 		),
 		$("<div\>").addClass("threeCells low").append(
-		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:1, S:"y", L:"x"}),
-		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:"x", S:1, L:"y"}),
-		    gradient_cell.make(25, pot_elem.range[0], pot_elem.range[1], {H:"x", S:"y", L:1})
+		    gradient_cell.make(25, hex1, hex2, {H:1, S:"y", L:"x"}),
+		    gradient_cell.make(25, hex1, hex2, {H:"x", S:1, L:"y"}),
+		    gradient_cell.make(25, hex1, hex2, {H:"x", S:"y", L:1})
 		),
 		$("<div\>").addClass("oblong")//append order to make sure it's on top...
-		    .css("background", av_colour),
+		    .css("background", average_col_NA),
 		$("<div\>").addClass("blank").append(
 		    $("<div\>").addClass("chequer"),
 		    $("<div\>").addClass("alpha A-c1")
-			.css("background", av_colour),
+			.css("background", average_col_A1),
 		    $("<div\>").addClass("alpha A-c2")
-			.css("background", av_colour)
+			.css("background", average_col_A2)
 		)
 	    ];
 
 	}else{//HTML for 'solid'
+	    var non_transparent = tinycolor(pot_elem.solid).toHexString();
 	    $contents = [
 		$("<div\>").addClass("oblong")
-		    .css("background",pot_elem.solid)
+		    .css("background", non_transparent)
 		    .click(function(){
 			console.log("oblong-shape clicked (for solid). i=", i);
 		    }),
