@@ -194,6 +194,7 @@ jQuery.fn.extend({
 			 underlying_obj
 			 change_underlying_from_DOM
 			 UI_enable
+			 true_focusout
 		   */
 
 		   var inital_dc_key = $(this).data("data_class_key");
@@ -254,7 +255,6 @@ jQuery.fn.extend({
 		   max: 1500, //dynamic
 		   std_steps: [1, 2, 5],
 		   decimal_places: 0
-		   true_focusout: true
 		   },
 		   */
 
@@ -276,6 +276,7 @@ jQuery.fn.extend({
 		       $(this).attr('readonly', false).addClass("ui-enabled");
 
 		       // 4. Prevent a focusout event for a few ms
+		       // please add a comment here explaining why it may be desireable to do this...
 		       $(this).data({disable_focusout: true});	    
 		       $element = $(this);
 		       setTimeout(
@@ -299,7 +300,7 @@ jQuery.fn.extend({
 			       var value_str = data_props.unit_preceeds ? UU+v_numeric : v_numeric+UU;
 			       $(this).val(value_str);
 
-			       if((options)&&(options.true_focusout=== true)){
+			       if((options)&&(options.true_focusout === true)){
 				   // write value into underlying data
 				   $(this).data("U_obj")[$(this).data("U_key")] = v_numeric;
 			       }
@@ -310,7 +311,7 @@ jQuery.fn.extend({
 				   $(this).val().substring(0, $(this).data("text_length"))
 			       );
 			       //I think this next line (3 lines) is necessary...
-			       if(options.true_focusout=== true){
+			       if(options.true_focusout === true){
 				   $(this).data("U_obj")[$(this).data("U_key")] = $(this).val();
 			       }
 			   }

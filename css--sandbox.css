@@ -1,3 +1,15 @@
 .gradient-cell {
     border: 1px solid black;
 }
+
+#cp-edit-slider{
+    background-image: linear-gradient(to right,
+        rgb(215, 26, 26),  /*1*/
+        rgb(215, 215, 26), /*2*/
+        rgb(26, 215, 26),  /*3*/
+        rgb(26, 215, 215), /*4*/
+        rgb(26, 26, 215),  /*5*/
+        rgb(215, 26, 215), /*6*/
+        rgb(215, 26, 26)); /*7*/
+}
+
