@@ -233,10 +233,15 @@ var motifs_edit = {
 	// 4.4.3 - Controlling Cartesian vs. Polar
 	$("#motifs-edit #grid-settings .btn-set.system > button").click(function(){
 	    var btn_class = $(this).attr("class");
+	    //4.4.3.1 - changing the actual gridlines
 	    d3.select("#Motif svg g.gridlines g.cartesian").classed("hidden", btn_class != "cartesian");
 	    d3.select("#Motif svg g.gridlines g.polar").classed("hidden", btn_class != "polar");
+	    //4.4.3.2 - changing the Size buttons (this isn't toggling class; 'toggle' refers to div's own css visibility)
 	    $("#motifs-edit .dropdown#grid-settings .btn-set.size .cartesian").toggle(btn_class == "cartesian");
 	    $("#motifs-edit .dropdown#grid-settings .btn-set.size .polar").toggle(btn_class == "polar");
+	    //4.4.3.3 - changing the increments for the custom buttons
+	    $("#motifs-edit .dropdown#grid-settings #gridlines-custom-size .cartesian").toggleClass("my-inline-block", btn_class == "cartesian");
+	    $("#motifs-edit .dropdown#grid-settings #gridlines-custom-size .polar").toggleClass("my-inline-block", btn_class == "polar");
 	});
 
 	//auto-click the cartesian button (to hide the other grid).
