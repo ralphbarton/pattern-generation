@@ -84,11 +84,18 @@ var motifs_edit = {
 
 		var USR = rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y);
 
-		//Function to Add a shape (Element) via Fabric canvas and via Datamodel...
-		motifs_props.AddShape(Tool_selected, USR);
-		if(!draw_many){
-		    set_Tool(undefined);// if a shape has been drawn...
+		//shape is larger that the minimum acceptable size threshold
+		if((USR.width >= 3) && (USR.height >= 3)){
+		    //Function to Add a shape (Element) via Fabric canvas and via Datamodel...
+		    motifs_props.AddShape(Tool_selected, USR);
+		    if(!draw_many){
+			set_Tool(undefined);// if a shape has been drawn...
+		    }
+		}else{
+		    //this stops the drawing of shapes
+		    set_Tool(undefined);
 		}
+
 	    }
 
 	    // record that the mouse is now UP...
