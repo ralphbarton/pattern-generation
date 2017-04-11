@@ -3,15 +3,19 @@ const fs = require('fs');
 // path to files on windows partition
 //var pa = "/media/ralph/Windows/Documents\ and\ Settings/Ralph\ Barton/Desktop/LTT\ Lakeside\ efw/LTT_160729/";
 
-var path = "/media/ralph/Windows/Documents and Settings/Ralph Barton/Desktop/Sketchbook patterns drawing/12-Feb filtered and resolution set2";
+var path = "/media/ralph/Windows/Documents and Settings/Ralph Barton/Desktop/Sketchbook patterns drawing/z25-Mar - next 7 filtered";
+var dest = "/media/ralph/Windows/Documents and Settings/Ralph Barton/Desktop/Sketchbook patterns drawing/z25-Mar - next 7 filtered RN";
 
-var dest = "/media/ralph/Windows/Documents and Settings/Ralph Barton/Desktop/Sketchbook patterns drawing/12-Feb filtered and resolution set3";
 
 
 var subs = [
     {
-	path: "Page 139",
-	code: "139"
+	path: "Page 9",
+	code: "009"
+    },
+    {
+	path: "Page 50",
+	code: "050"
     },
     {
 	path: "Page 146",
@@ -20,10 +24,6 @@ var subs = [
     {
 	path: "Page 152",
 	code: "152"
-    },
-    {
-	path: "Page 153",
-	code: "153"
     }
 ];
 
