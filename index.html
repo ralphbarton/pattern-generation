@@ -248,27 +248,29 @@
 	      <!-- 8. [cp-edit] Row Colour changing Pane -->
 	      <div id="cp-edit-colour">
 
-		<!-- 8.1 [cp-edit] Pane for Solid changing -->
-		<div id="cp-edit-solid">
+		
+		<!-- 8.1 [cp-edit] BGrins Picker: the actual DOM content for this is shared between Solid & Range... -->
+		<div id="bgrins-container" class="cpanel">
+		  <input id="bgrins-colour-picker" />
 
-		  <div id="bgrins-container" class="cpanel">
-		    <input id="bgrins-colour-picker" />
-
-		    <div id="bgrins-actions">
-		      <div id="normal-large" class="act-mutex">
-			<div>Normal</div><div>Large</div>
-		      </div>
-		      <div id="hex-rgb-hsl" class="act-mutex">
-			Code:<div>Hex</div><div>RGB</div><div>HSL</div>
-		      </div>
+		  <div id="bgrins-actions">
+		    <div id="normal-large" class="act-mutex">
+		      <div>Normal</div><div>Large</div>
 		    </div>
-
-		    <div id="bgrins-buttons">
-		      <div class="button s" id="cancel">Cancel</div>
-		      <div class="button s" id="choose">Choose</div>
+		    <div id="hex-rgb-hsl" class="act-mutex">
+		      Code:<div>Hex</div><div>RGB</div><div>HSL</div>
 		    </div>
-
 		  </div>
+
+		  <div id="bgrins-buttons">
+		    <div class="button s" id="cancel">Cancel</div>
+		    <div class="button s" id="choose">Choose</div>
+		  </div>
+
+		</div>
+		
+		<!-- 8.2 [cp-edit] Pane for Solid changing -->
+		<div id="cp-edit-solid">
 
 		  <div class="colour-sun l"></div>
 
@@ -295,7 +297,7 @@
 
 		</div>
 
-		<!-- 8.2 [cp-edit] Pane for Range changing (class 's' for small!)-->
+		<!-- 8.3 [cp-edit] Pane for Range changing (class 's' for small!)-->
 		<div id="cp-edit-tabs" class="s">
 		  <ul>
 		    <li><a href="#tabs-e1">Central</a></li>
@@ -303,8 +305,8 @@
 		    <li><a href="#tabs-e3">Subspace</a></li>
 		  </ul>
 
-		  <!-- Tab E1 -->	  
-		    <!-- CP-Range editor interface - Part 1 of 3: Central based-->
+		  <!-- 8.3.1 - Tab E1 -->	  
+		  <!-- CP-Range editor interface - Part 1 of 3: Range->Central -->
 		  <div class="boxie s no-title" id="tabs-e1">
 
 		    <div class="Ln1">
@@ -330,12 +332,15 @@
 
 		  </div>
 
-		  <!-- Tab E2 -->	  
+
+		  <!-- 8.3.2 - Tab E2 -->
+		  <!-- CP-Range editor interface - Part 2 of 3: Range->Edges -->
 		  <div class="boxie s no-title" id="tabs-e2">
 		    the limit based options here...
 		  </div>
 
-		  <!-- Tab E3 -->	  
+		  <!-- 8.3.3 - Tab E3 -->
+		  <!-- CP-Range editor interface - Part 3 of 3: Range->Subspace -->
 		  <div class="boxie s no-title" id="tabs-e3">
 		    <div id="space-1d-4d" class="act-mutex">
 		      Draw from:<div>1D line</div><div>4D space</div>

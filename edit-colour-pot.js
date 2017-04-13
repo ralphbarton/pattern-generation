@@ -2,6 +2,7 @@ var edit_cp = {
 
     not_yet_initialised: true,
     selected_row_i: undefined,
+    CP_ES: undefined, // Colour-Pot edit state
     init: function(){
 
 
@@ -215,15 +216,59 @@ var edit_cp = {
 
 
 
+	// K. functions to control the BGRINS colour-picker, common to both editing a SOLID and a RANGE
+
+	// K.1 - Function to destroy and re-create the picker
+	// Regeneration like this ensures the correct "starting colour" will be depicted by the picker
+	var regenerate_picker = function(starting_colour, onColourMove){
+	    //Initiate the element here
+	    var was_large = $("#bgrins-container").hasClass("large");
+	    var original_colour = $("#bgrins-colour-picker").spectrum("option", "color"); 
+	    var original_format = $("#bgrins-colour-picker").spectrum("option", "preferredFormat");
+	    $("#bgrins-colour-picker").spectrum("destroy");
+	    $("#bgrins-colour-picker").spectrum({
+		flat: true, // always show full-size, inline block...
+		color: starting_colour || original_colour, // default colour for the picker...
+		showInput: true, // allow text entry to specify colour
+		showAlpha: true, // allow transparency selection
+		//palette based options...
+		localStorageKey: "spectrum.ralph-patterns-program", // Any Spectrum with the same string will share selection
+		showPalette: true, // "palette" is a fixed provision of colours for the picker to offer
+		palette: [ ],
+		showSelectionPalette: true, // "selectionPalette" retains some history of user's colour choices.
+		selectionPalette: [ ],
+		maxSelectionSize: 22,
+		showInitial: true, // show the original (starting) colour alongside the new one
+		showButtons: false, //do not require OK and Cancel buttons
+		preferredFormat: original_format, // for the input box...
+		clickoutFiresChange: true, // cause a change event upon clickout
+		move: onColourMove
+	    });
+	    if(was_large){
+		$("#bgrins-container").addClass("large");
+	    }
+	};
+
+
+	// K.2 - unhide the picker
+	// (will set the picker's "original" / "starting" colour to the colour provided)
+	var BGrinsShow = function(starting_colour, onColourMove) {
+
+	    $("#bgrins-container").show({duration: 400});
+	    regenerate_picker(starting_colour, onColourMove);
+
+	    //to prevent the change event triggered from immediately re-closing
+	    just_opened = true;
+	    setTimeout(function(){just_opened = false;}, 200);
+	};
 
 	
 
-
-
 	// 2. Controls for editing a C-Pot element in SOLID mode
 
+	
 	// 2.1 - DEFN for live-update of two DOM elements upon colour adjust
-	var bgrins_on_colMove_cb = function(tinycolor) {
+	var bgrins_on_colMove_cb_SOLID = function(tinycolor) {
 	    //note that converting colour to hex strips away the Alpha, which is what I want here.
 	    var hexC = tinycolor.toHexString();
 	    var withAlpha = tinycolor.toRgbString();
@@ -293,51 +338,15 @@ var edit_cp = {
 	widgets.actionLink_unset("#bgrins-actions #hex-rgb-hsl.act-mutex", null);//show all as available
 
 
-	
-	// 2.6 - Function to destroy and re-create the picker
-	// (function only used once, on colour-sun click below...)
-	// ...
-	// what was the need for this? Write a note to explain, please...
-	var regenerate_picker = function(base_col){
-	    //Initiate the element here
-	    var was_large = $("#bgrins-container").hasClass("large");
-	    var original_colour = $("#bgrins-colour-picker").spectrum("option", "color"); 
-	    var original_format = $("#bgrins-colour-picker").spectrum("option", "preferredFormat");
-	    $("#bgrins-colour-picker").spectrum("destroy");
-	    $("#bgrins-colour-picker").spectrum({
-		flat: true, // always show full-size, inline block...
-		color: base_col || original_colour, // default colour for the picker...
-		showInput: true, // allow text entry to specify colour
-		showAlpha: true, // allow transparency selection
-		//palette based options...
-		localStorageKey: "spectrum.ralph-patterns-program", // Any Spectrum with the same string will share selection
-		showPalette: true, // "palette" is a fixed provision of colours for the picker to offer
-		palette: [ ],
-		showSelectionPalette: true, // "selectionPalette" retains some history of user's colour choices.
-		selectionPalette: [ ],
-		maxSelectionSize: 22,
-		showInitial: true, // show the original (starting) colour alongside the new one
-		showButtons: false, //do not require OK and Cancel buttons
-		preferredFormat: original_format, // for the input box...
-		clickoutFiresChange: true, // cause a change event upon clickout
-		move: bgrins_on_colMove_cb
-	    });
-	    if(was_large){
-		$("#bgrins-container").addClass("large");
-	    }
-	};
+
 	
 
 	// 2.7 - Click the "Colour Sun"
 	$("#cp-edit-solid .colour-sun.l").click(function (){
-	    $("#bgrins-container").show({duration: 400});
-	    //this will set picker's original colour to the starting colour.
 	    // take from the 'strip' which includes Alpha channel.
-	    var active_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
-	    regenerate_picker(active_colour);
-	    //to prevent the change event triggered from immediately re-closing
-	    just_opened = true;
-	    setTimeout(function(){just_opened = false;}, 200);
+	    var mySolid_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
+	    BGrinsShow(mySolid_colour, bgrins_on_colMove_cb_SOLID);
+	    
 	});
 
 
@@ -375,12 +384,15 @@ var edit_cp = {
 
 
 	// 3.3 - change the "Central" colour via the conventional bgrins picker...
-	$("#cp-edit-solid .colour-sun.l").click(function (){
+	$("#tabs-e1 .colour-sun.s").click(function (){
+
 	    $("#bgrins-container").show({duration: 400});
 	    //this will set picker's original colour to the starting colour.
 	    // take from the 'strip' which includes Alpha channel.
-	  //  var active_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
-	  //  regenerate_picker(active_colour);
+
+
+	    var active_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
+	    regenerate_picker(active_colour);
 	    //to prevent the change event triggered from immediately re-closing
 	    just_opened = true;
 	    setTimeout(function(){just_opened = false;}, 200);
