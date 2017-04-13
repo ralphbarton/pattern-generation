@@ -4,10 +4,11 @@ var edit_cp = {
     selected_row_i: undefined,
     init: function(){
 
-	//initiate tabs...
-	$("#cp-edit-tabs").tabs();
 
- 	//add action for main TAB buttons
+	// 1. Main controls of the C-Pot edit window (these are permanently shown)
+	
+	// 1.1 - functionality of the "Cancel" and "Done" buttons
+	// (note that "Done" may get blocked if probs don't sum to 100% etc...
 	$("#cp-edit-buttons #cancel").click(function(){edit_cp.hide();});
 	$("#cp-edit-buttons #done").click(function(){
 
@@ -22,7 +23,14 @@ var edit_cp = {
 	    }
 	});
 
-	// add logic to the action links of Solid v. Range
+	
+	// 1.2 - jQueryUI initialisation command for the "range" tabs (i.e. Central / Edges / Subspace)
+	$("#cp-edit-tabs").tabs();
+
+	
+	// 1.3 - Functions underneath list of C-Pot elements
+
+	// 1.3.1 - switching a C-Pot element Solid v. Range (action link)
 	widgets.actionLink_init("#solid-v-range.act-mutex",[
 	    function(){
 		// change the selected row from type 'range' to type 'solid'
@@ -64,11 +72,10 @@ var edit_cp = {
 		edit_cp.visual_update();
 	    }
 	]);
-	//both null initally
-	widgets.actionLink_unset("#solid-v-range.act-mutex", "all");
+	widgets.actionLink_unset("#solid-v-range.act-mutex", "all");//have both null initally
 
-	// Action Link callback 1:
-	// make sum 100%
+
+	// 1.3.2 - rescale probs to SUM to 100 (action link)
 	$("#cp-edit-actions #sum100").click(function(){
 
 	    // may fail if all probabilities are zero...
@@ -86,8 +93,8 @@ var edit_cp = {
 	    });
 	});
 
-	// Action Link callback 2:
-	// Set all probabilities equal
+
+	// 1.3.3 - set all probabilities equal (action link)
 	$("#cp-edit-actions #all-eq").click(function(){
 	    //underlying data change
 	    DM.allEqualProbs_editing_ColourPot();
@@ -96,9 +103,9 @@ var edit_cp = {
 	    $("#cp-edit-actions #sum100").click();
 	});
 
-	// Action Link callback 3:
-	// Add delta-from-100% to seection (another way to achieve sum=100
-	// must also respect probs all > 0%
+
+	// 1.3.4 - Add delta-from-100% to seection - another way to achieve sum=100 (action link)
+	// (must also respect probs all > 0%)
 	$("#cp-edit-actions #delta-to-selection").click(function(){
 
 	    //underlying data change
@@ -111,9 +118,10 @@ var edit_cp = {
 	});
 
 
-	// 4. Callbacks for table action-links
 
-	// 4.1 - Add
+	// 1.4 - Buttons underneath list of C-Pot elements
+
+	// 1.4.1 - Add new C-Pot element
 	var ADD_subOp = null;
 	$("#cp-edit-table-buttons #add").click(function(){
 
@@ -129,13 +137,14 @@ var edit_cp = {
 	    }
 	});
 
-	// 4.1.1 - fancy suboption of ADD - [A] adds row, using a random colour previewed
+	
+	// 1.4.2 - fancy suboption of ADD - [A] adds row, using a random colour previewed
 	$("#cp-edit-table-buttons #add #A").click(function(){
 	    ADD_subOp = "A";//detect the specific suboption clicked (for purpose of other callbacks triggered)
 	    setTimeout(function(){ADD_subOp = null;}, 50);
 	});
 
-	// 4.1.2 - fancy suboption of ADD - [B] cycles the random colour used for tiny-bg
+	// 1.4.3 - fancy suboption of ADD - [B] cycles the random colour used for tiny-bg
 	$("#cp-edit-table-buttons #add #B").click(function(){
 	    var rand_color = tinycolor.fromRatio({ h: Math.random(), s: 1, l: 0.25+Math.random()*0.5 });
 	    $("#cp-edit-table-buttons #add #A").show()
@@ -146,7 +155,7 @@ var edit_cp = {
 	});
 
 
-	// 4.2 - Delete
+	// 1.4.4 - Delete the selected C-pot element
 	$("#cp-edit-table-buttons #delete").click(function(){
 	    if(edit_cp.selected_row_i != undefined){
 		DM.deleteRow_editing_ColourPot(edit_cp.selected_row_i);
@@ -160,19 +169,21 @@ var edit_cp = {
 	    }
 	});
 
-	// 5. CP-edit Preview zone...
 
-	// initalise - TO AN EXPANDED STATE...
+
+	// 1.5 - The C-Pot preview area for this "Window"
+
+	// 1.5.1 - initalise the preview (to an expanded state)
 	$("#colour-pots-edit .preview-container").append(
 	    global.$div_array(152, "preview-cell small")
 	);
 
-	// re-randomise callback
+	// 1.5.2 - re-randomise the preview area
 	$("#colour-pots-edit #preview-area #re-randomise").click(function(){
 	    view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
 	});
 
-	// expand callback
+	// 1.5.3 - Expand the preview area
 	$("#colour-pots-edit #preview-area #expand").click(function(){
 
 	    var $p_container = $("#colour-pots-edit .preview-container");
@@ -197,24 +208,31 @@ var edit_cp = {
 	    }
 	});
 
+	// 1.6 - jQueryUI initialisation command for Multi-purpose slider at bottom of window
+	$("#cp-edit-slider").slider();
 
 
 
 
 
 
+	
 
-	//Add Code for the CP-edit solid tab	
 
-	// add event listeners...
-	var brgins_on_colMove_cb = function(tinycolor) {
+
+	// 2. Controls for editing a C-Pot element in SOLID mode
+
+	// 2.1 - DEFN for live-update of two DOM elements upon colour adjust
+	var bgrins_on_colMove_cb = function(tinycolor) {
 	    //note that converting colour to hex strips away the Alpha, which is what I want here.
 	    var hexC = tinycolor.toHexString();
 	    var withAlpha = tinycolor.toRgbString();
 	    $("#cp-edit-solid .colour-sun.l").css("background", hexC);
 	    $("#k2 #strip").css("background", withAlpha);
-	}
+	};
 
+
+	// 2.2 - "Cancel" Button of the colour picker
 	$("#bgrins-buttons #cancel").click(function() {
 	    $("#bgrins-container").hide({duration: 400});
 
@@ -225,6 +243,8 @@ var edit_cp = {
 	    $("#k2 #strip").css("background", old_col);
 	});
 
+
+	// 2.3 - "Choose Colour" Button of the colour picker
 	var just_opened = false;
 	$("#bgrins-buttons #choose").click(function() {
 	    if(!just_opened){
@@ -241,10 +261,9 @@ var edit_cp = {
 	    }
 	});
 
-	//other action links of my own adding, within the popup...
 
-
-	// Picker Size change...
+	
+	// 2.4 - Change SIZE of the colour picker
 	widgets.actionLink_init("#bgrins-actions #normal-large.act-mutex",[
 	    function(){
 		$("#bgrins-container").removeClass("large");
@@ -258,12 +277,14 @@ var edit_cp = {
 	]);
 	widgets.actionLink_unset("#normal-large.act-mutex", 0);//show normal
 
+
+	
+	// 2.5 - Change format (HEX v. RGB v. HSL) of the colour string provided in the colour picker
 	var poke = function(){
 	    var w = $("#bgrins-colour-picker").spectrum("get");
 	    $("#bgrins-colour-picker").spectrum("set", w);
 	};
 
-	// Colour string format change...
 	widgets.actionLink_init("#bgrins-actions #hex-rgb-hsl.act-mutex",[
 	    function(){$("#bgrins-colour-picker").spectrum("option", "preferredFormat", "hex3"); poke();},
 	    function(){$("#bgrins-colour-picker").spectrum("option", "preferredFormat", "rgb"); poke();},
@@ -271,7 +292,12 @@ var edit_cp = {
 	]);
 	widgets.actionLink_unset("#bgrins-actions #hex-rgb-hsl.act-mutex", null);//show all as available
 
-	//function only used once, on colour-sun click below...
+
+	
+	// 2.6 - Function to destroy and re-create the picker
+	// (function only used once, on colour-sun click below...)
+	// ...
+	// what was the need for this? Write a note to explain, please...
 	var regenerate_picker = function(base_col){
 	    //Initiate the element here
 	    var was_large = $("#bgrins-container").hasClass("large");
@@ -294,13 +320,15 @@ var edit_cp = {
 		showButtons: false, //do not require OK and Cancel buttons
 		preferredFormat: original_format, // for the input box...
 		clickoutFiresChange: true, // cause a change event upon clickout
-		move: brgins_on_colMove_cb
+		move: bgrins_on_colMove_cb
 	    });
 	    if(was_large){
 		$("#bgrins-container").addClass("large");
 	    }
 	};
+	
 
+	// 2.7 - Click the "Colour Sun"
 	$("#cp-edit-solid .colour-sun.l").click(function (){
 	    $("#bgrins-container").show({duration: 400});
 	    //this will set picker's original colour to the starting colour.
@@ -314,22 +342,17 @@ var edit_cp = {
 
 
 
-	//add more logic within.....
-	// add logic to the action links
-	widgets.actionLink_init("#space-1d-4d.act-mutex",[
-	    function(){
-		console.log("link X");
-	    },
-	    function(){
-		console.log("link Y");
-	    }
-	]);
 
 
-	// x.0 - Initialisation of the Range Tab...
+
+
+
+
+	// 3. Controls for editing a C-Pot element in RANGE->Central Mode
+
+	// 3.1 - Clone HTML to make the colour shades preview-blocks for Hue, Sat, Lum, Alpha
 	var $my_Div = $( "#colour-pots-edit #tabs-e1 div.Ln.hue" ).clone()
 	    .removeClass("hue");
-
 
 	// create sections for SLA from H
 	$( "#colour-pots-edit #tabs-e1").append(
@@ -343,19 +366,54 @@ var edit_cp = {
 	$( "#colour-pots-edit #tabs-e1 .lum .name").text("Luminosity:");
 	$( "#colour-pots-edit #tabs-e1 .alp .name").text("Alpha:");
 
+	
+	// 3.2 - little strips of colour SELECTED upon click...
 	$("#tabs-e1 .Ln .B").click(function(){
 	    $("#tabs-e1 .Ln .B").removeClass("sel");
 	    $(this).addClass("sel");
 	});
+
+
+	// 3.3 - change the "Central" colour via the conventional bgrins picker...
+	$("#cp-edit-solid .colour-sun.l").click(function (){
+	    $("#bgrins-container").show({duration: 400});
+	    //this will set picker's original colour to the starting colour.
+	    // take from the 'strip' which includes Alpha channel.
+	  //  var active_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
+	  //  regenerate_picker(active_colour);
+	    //to prevent the change event triggered from immediately re-closing
+	    just_opened = true;
+	    setTimeout(function(){just_opened = false;}, 200);
+	});
+
+
+
+
+
+
 	
+	// 4. Controls for editing a C-Pot element in RANGE->Edges Mode
 
 
 
-	$("#cp-edit-slider").slider();
 
+	
+	// 5. Controls for editing a C-Pot element; RANGE->Subspace
+
+	// 5.1 - Choose between  1D and 4D
+	widgets.actionLink_init("#space-1d-4d.act-mutex",[
+	    function(){
+		console.log("link X");
+	    },
+	    function(){
+		console.log("link Y");
+	    }
+	]);
+
+
+
+	
 	this.not_yet_initialised = false;
-
-
     },
 
     show: function(index){
@@ -639,4 +697,3 @@ var edit_cp = {
     }
 
 };
-
