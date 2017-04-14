@@ -2,7 +2,6 @@ var edit_cp = {
 
     not_yet_initialised: true,
     selected_row_i: undefined,
-    CP_ES: undefined, // Colour-Pot edit state
     init: function(){
 
 
@@ -613,7 +612,12 @@ var edit_cp = {
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 
 			// Activity upon selection of a RANGE row...
-			edit_cp.cp_range_set_colour_blocks(pot_elem.range);
+			//set the global variable
+			edit_cp.update_Rdata( {colour_pair: pot_elem.range} );
+			//use these colours...
+			edit_cp.cp_range_set_colour_blocks();
+
+
 		    }
 
 		}
@@ -684,40 +688,121 @@ var edit_cp = {
 
 
     //this includes the "colour sun" - it'd be perverse not to. Then the 12 other little blocks, too.
-    cp_range_set_colour_blocks: function(colours_array){
-	// determine various averages etc...
-	var tc1 = tinycolor(colours_array[0]);
-	var tc2 = tinycolor(colours_array[1]);
-	var tcM = logic.tiny_HSLA_average(tc1, tc2);
-	var av_colour = tcM.toRgbString();
+    // this access the global Rdata and takes no parameters...
+    cp_range_set_colour_blocks: function(){
 
-	var A = tc1.toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
-	var B = tc2.toHsl();
-	var M = tcM.toHsl();
+	var Q = function (x){return x>0 ? (x%360) : ((x+360)%360);}
+	
+	var h1 = Q( this.Rdata.h - this.Rdata.dh ); // lower Hue
+	var h2 = this.Rdata.h;                      // mid Hue
+	var h3 = Q( this.Rdata.h + this.Rdata.dh ); // upper Hue
+
+	// ( for s,l,a below, sums of x and dx are ASSUMED to be within bounds of 0 and 1)
+	var s1 = this.Rdata.s - this.Rdata.ds;
+	var s2 = this.Rdata.s;
+	var s3 = this.Rdata.s + this.Rdata.ds;
+
+	var l1 = this.Rdata.l - this.Rdata.dl;
+	var l2 = this.Rdata.l;
+	var l3 = this.Rdata.l + this.Rdata.dl;
+
+	var a1 = this.Rdata.a - this.Rdata.da;
+	var a2 = this.Rdata.a;
+	var a3 = this.Rdata.a + this.Rdata.da;
+
+	var av_colour = tinycolor({h: h2, s: s2, l: l2, a: a2}).toRgbString();
 
 	//no alpha
-	$("#cp-edit-tabs .colour-sun.s").css("background-color", tcM.toHexString());
+	$("#cp-edit-tabs .colour-sun.s").css("background-color", av_colour.toHexString());
 	
 	//H
-	$("#cp-edit-tabs .Ln.hue .B.left"  ).css("background-color", tinycolor({h: A.h, s: M.s, l: M.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.hue .B.left"  ).css("background-color", tinycolor({h: h1, s: s2, l: l2, a: a2}).toRgbString());
 	$("#cp-edit-tabs .Ln.hue .B.center").css("background-color", av_colour);
-	$("#cp-edit-tabs .Ln.hue .B.right" ).css("background-color", tinycolor({h: B.h, s: M.s, l: M.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.hue .B.right" ).css("background-color", tinycolor({h: h3, s: s2, l: l2, a: a2}).toRgbString());
 
 	//S
-	$("#cp-edit-tabs .Ln.sat .B.left"  ).css("background-color", tinycolor({h: M.h, s: A.s, l: M.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.sat .B.left"  ).css("background-color", tinycolor({h: h2, s: s1, l: l2, a: a2}).toRgbString());
 	$("#cp-edit-tabs .Ln.sat .B.center").css("background-color", av_colour);
-	$("#cp-edit-tabs .Ln.sat .B.right" ).css("background-color", tinycolor({h: M.h, s: B.s, l: M.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.sat .B.right" ).css("background-color", tinycolor({h: h2, s: s3, l: l2, a: a2}).toRgbString());
 
 	//L
-	$("#cp-edit-tabs .Ln.lum .B.left"  ).css("background-color", tinycolor({h: M.h, s: M.s, l: A.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.lum .B.left"  ).css("background-color", tinycolor({h: h2, s: s2, l: l1, a: a2}).toRgbString());
 	$("#cp-edit-tabs .Ln.lum .B.center").css("background-color", av_colour);
-	$("#cp-edit-tabs .Ln.lum .B.right" ).css("background-color", tinycolor({h: M.h, s: M.s, l: B.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.lum .B.right" ).css("background-color", tinycolor({h: h2, s: s2, l: l3, a: a2}).toRgbString());
 
 	//A
-	$("#cp-edit-tabs .Ln.alp .B.left"  ).css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: A.a}).toRgbString());
-	$("#cp-edit-tabs .Ln.alp .B.center").css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: M.a}).toRgbString());
-	$("#cp-edit-tabs .Ln.alp .B.right" ).css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: B.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.alp .B.left"  ).css("background-color", tinycolor({h: h2, s: s2, l: l2, a: a1}).toRgbString());
+	$("#cp-edit-tabs .Ln.alp .B.center").css("background-color", av_colour);
+	$("#cp-edit-tabs .Ln.alp .B.right" ).css("background-color", tinycolor({h: h2, s: s2, l: l2, a: a3}).toRgbString());
 
+    },
+
+
+    Rdata: {
+	h: 0, // 0 to 360
+	s: 0, // 0 to 1
+	l: 0, // 0 to 1
+	a: 0, // 0 to 1
+	dh: 0, // 0 to 360
+	ds: 0, // 0 to 1
+	dl: 0, // 0 to 1
+	da: 0 // 0 to 1
+    }, // range data...
+
+    update_Rdata: function(variant){
+
+	// case 1: a pair of colours is supplied
+	if(variant.colour_pair){
+	    var A = tinycolor(colour_1).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+	    var B = tinycolor(colour_2).toHsl();
+
+	    // Hue angle utilised is going clockwise from A to B
+	    // wrap around is handled in the structure of these calculations...
+	    this.Rdata.h = ((A.h+B.h)/2 + (B.h < A.h ? 180 : 0)) % 360;
+	    this.Rdata.dh = (B.h-A.h)/2 + (B.h < A.h ? 180 : 0);
+
+	    // These ones are much simpler...
+	    //saturation
+	    this.Rdata.s = (A.s+B.s)/2
+	    this.Rdata.ds = Math.abs(A.s - B.s);
+	    //luminosity
+	    this.Rdata.l = (A.l+B.l)/2
+	    this.Rdata.dl = Math.abs(A.l - B.l);
+	    //alpha
+	    this.Rdata.a = (A.a+B.a)/2
+	    this.Rdata.da = Math.abs(A.a - B.a);
+
+	    this.Rdata.s = (A.s+B.s)/2
+	    this.Rdata.ds = Math.abs(A.s - B.s);
+
+	    // case 2: specific properties are supplied
+	}else{
+	    
+	    $.each( variant, function( key, value ) {
+		
+		if(key == "h"){
+		    edit_cp.Rdata.h = value;
+		    
+		}else if(key == "dh"){
+		    edit_cp.Rdata.dh = value;
+
+		}else if(key[0] == "d"){
+		    // change to "ds", "dl", "da" (the key)
+		    var keyA = key[1]; // key of the complementary property
+		    edit_cp.Rdata[key] = value;
+		    edit_cp.Rdata[keyA] = Math.min(edit_cp.Rdata[keyA], 1-value);
+		    edit_cp.Rdata[keyA] = Math.max(edit_cp.Rdata[keyA], value);
+		    
+		}else{
+		    // (assume) change to "s", "l", "a" (the key)
+		    var keyA = "d" + key; // key of the complementary property
+		    edit_cp.Rdata[key] = value;
+		    edit_cp.Rdata[keyA] = Math.min(value, 1-value, edit_cp.Rdata[keyA]);
+
+		}
+	    });
+	    
+	}
     },
 
     
