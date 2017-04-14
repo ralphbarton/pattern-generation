@@ -282,6 +282,9 @@ var edit_cp = {
 		$("#k2 #strip").css("background", old_col);
 	    }else if(cp_type == "range"){
 
+		//restore to original (saved) values
+		var old_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
+		edit_cp.cp_range_set_colour_blocks(old_pair);
 	    }
 	});
 
@@ -290,11 +293,20 @@ var edit_cp = {
 	var just_opened = false;
 	$("#bgrins-buttons #choose").click(function() {
 	    if(!just_opened){
-		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toRgbString();
-		//mutate the data
-		var pot_row = DM.editing_ColourPot.contents[edit_cp.selected_row_i].solid = col_chosen;
-
 		$("#bgrins-container").hide({duration: 400});
+		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toRgbString();
+
+		//mutate the data
+		var cp_type = DM.editing_ColourPot.contents[edit_cp.selected_row_i].type;// either 'solid' or 'range'
+		if(cp_type == "solid"){
+		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].solid = col_chosen;
+
+		}else if(cp_type == "range"){
+		    var old_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
+		    var new_colour_pair = logic.tiny_HSLA_shift(old_pair[0], old_pair[1], col_chosen);
+		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].range = new_colour_pair;
+
+		}
 
 		//refresh view
 		//note that this function triggers a click event (recursion?)
@@ -400,9 +412,6 @@ var edit_cp = {
 
 	    var old_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
 	    var new_colour_pair = logic.tiny_HSLA_shift(old_pair[0], old_pair[1], tinycolor.toRgbString());
-	    console.log(
-		JSON.stringify(new_colour_pair, null, 2)
-	    );
 	    edit_cp.cp_range_set_colour_blocks(new_colour_pair);
 
 	};

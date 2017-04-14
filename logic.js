@@ -94,7 +94,7 @@ var logic = {
     },
 
     tiny_HSLA_shift: function(colour_1, colour_2, colour_new){
-	var X = this.HSLA_average_delta(colour_1, colour_2);
+	var X = this.HSLA_average_delta(colour_1, colour_2).df;//take the difference
 	var W = tinycolor(colour_new).toHsl();
 	return [
 	    tinycolor({h: (W.h - (X.h/2)) , s: (W.s - (X.s/2)) , l: (W.l - (X.l/2)) , a: (W.a - (X.a/2)) }).toRgb(),
