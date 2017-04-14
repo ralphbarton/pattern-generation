@@ -267,16 +267,6 @@ var edit_cp = {
 	// 2. Controls for editing a C-Pot element in SOLID mode
 
 	
-	// 2.1 - DEFN for live-update of two DOM elements upon colour adjust
-	var bgrins_on_colMove_cb_SOLID = function(tinycolor) {
-	    //note that converting colour to hex strips away the Alpha, which is what I want here.
-	    var hexC = tinycolor.toHexString();
-	    var withAlpha = tinycolor.toRgbString();
-	    $("#cp-edit-solid .colour-sun.l").css("background", hexC);
-	    $("#k2 #strip").css("background", withAlpha);
-	};
-
-
 	// 2.2 - "Cancel" Button of the colour picker
 	$("#bgrins-buttons #cancel").click(function() {
 	    $("#bgrins-container").hide({duration: 400});
@@ -284,8 +274,15 @@ var edit_cp = {
 	    //also, resore original colour (please don't copy paste code from above!)
 	    var old_col = $("#bgrins-colour-picker").spectrum("option","color");
 	    var non_transparent = tinycolor(old_col).toHexString();
-	    $("#cp-edit-solid .colour-sun.l").css("background", non_transparent);
-	    $("#k2 #strip").css("background", old_col);
+
+	    var cp_type = DM.editing_ColourPot.contents[edit_cp.selected_row_i].type;// either 'solid' or 'range'
+	    
+	    if(cp_type == "solid"){
+		$("#cp-edit-solid .colour-sun.l").css("background", non_transparent);
+		$("#k2 #strip").css("background", old_col);
+	    }else if(cp_type == "range"){
+
+	    }
 	});
 
 
@@ -339,7 +336,20 @@ var edit_cp = {
 
 
 
+
+
+
 	
+
+	// 2.6 - DEFN for live-update of two DOM elements upon colour adjust
+	var bgrins_on_colMove_cb_SOLID = function(tinycolor) {
+	    //note that converting colour to hex strips away the Alpha, which is what I want here.
+	    var hexC = tinycolor.toHexString();
+	    var withAlpha = tinycolor.toRgbString();
+	    $("#cp-edit-solid .colour-sun.l").css("background", hexC);
+	    $("#k2 #strip").css("background", withAlpha);
+	};
+
 
 	// 2.7 - Click the "Colour Sun"
 	$("#cp-edit-solid .colour-sun.l").click(function (){
@@ -348,7 +358,6 @@ var edit_cp = {
 	    BGrinsShow(mySolid_colour, bgrins_on_colMove_cb_SOLID);
 	    
 	});
-
 
 
 
@@ -383,22 +392,30 @@ var edit_cp = {
 	});
 
 
-	// 3.3 - change the "Central" colour via the conventional bgrins picker...
+
+
+	// 3.3 - DEFN for live-update range boundary colour pieces.
+	var bgrins_on_colMove_cb_RANGE = function(tinycolor) {
+
+
+	    var old_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
+	    var new_colour_pair = logic.tiny_HSLA_shift(old_pair[0], old_pair[1], tinycolor.toRgbString());
+	    console.log(
+		JSON.stringify(new_colour_pair, null, 2)
+	    );
+	    edit_cp.cp_range_set_colour_blocks(new_colour_pair);
+
+	};
+
+
+	// 3.4 - Click the "Colour Sun"
 	$("#tabs-e1 .colour-sun.s").click(function (){
 
-	    $("#bgrins-container").show({duration: 400});
-	    //this will set picker's original colour to the starting colour.
-	    // take from the 'strip' which includes Alpha channel.
-
-
-	    var active_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
-	    regenerate_picker(active_colour);
-	    //to prevent the change event triggered from immediately re-closing
-	    just_opened = true;
-	    setTimeout(function(){just_opened = false;}, 200);
+	    var colour_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
+	    var myCol = logic.tiny_HSLA_average(colour_pair[0], colour_pair[1]);
+	    BGrinsShow(myCol.toRgbString(), bgrins_on_colMove_cb_RANGE);
+	    
 	});
-
-
 
 
 
@@ -587,46 +604,10 @@ var edit_cp = {
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 
 			// Activity upon selection of a RANGE row...
-			// Do a bunch of stuff to indicate on the UI
-
-			// determine various averages etc...
-			var tc1 = tinycolor(pot_elem.range[0]);
-			var tc2 = tinycolor(pot_elem.range[1]);
-			var tcM = logic.tiny_HSLA_average(tc1, tc2);//tinycolor.mix(tc1, tc2, amount = 50);
-			var av_colour = tcM.toRgbString();
-
-			var A = tc1.toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
-			var B = tc2.toHsl();
-			var M = tcM.toHsl();
-
-			//no alpha
-			$("#cp-edit-tabs .colour-sun.s").css("background-color", tcM.toHexString());
-			
-			//H
-			$("#cp-edit-tabs .Ln.hue .B.left"  ).css("background-color", tinycolor({h: A.h, s: M.s, l: M.l, a: M.a}).toRgbString());
-			$("#cp-edit-tabs .Ln.hue .B.center").css("background-color", av_colour);
-			$("#cp-edit-tabs .Ln.hue .B.right" ).css("background-color", tinycolor({h: B.h, s: M.s, l: M.l, a: M.a}).toRgbString());
-
-			//S
-			$("#cp-edit-tabs .Ln.sat .B.left"  ).css("background-color", tinycolor({h: M.h, s: A.s, l: M.l, a: M.a}).toRgbString());
-			$("#cp-edit-tabs .Ln.sat .B.center").css("background-color", av_colour);
-			$("#cp-edit-tabs .Ln.sat .B.right" ).css("background-color", tinycolor({h: M.h, s: B.s, l: M.l, a: M.a}).toRgbString());
-
-			//L
-			$("#cp-edit-tabs .Ln.lum .B.left"  ).css("background-color", tinycolor({h: M.h, s: M.s, l: A.l, a: M.a}).toRgbString());
-			$("#cp-edit-tabs .Ln.lum .B.center").css("background-color", av_colour);
-			$("#cp-edit-tabs .Ln.lum .B.right" ).css("background-color", tinycolor({h: M.h, s: M.s, l: B.l, a: M.a}).toRgbString());
-
-			//A
-			$("#cp-edit-tabs .Ln.alp .B.left"  ).css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: A.a}).toRgbString());
-			$("#cp-edit-tabs .Ln.alp .B.center").css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: M.a}).toRgbString());
-			$("#cp-edit-tabs .Ln.alp .B.right" ).css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: B.a}).toRgbString());
-
-
+			edit_cp.cp_range_set_colour_blocks(pot_elem.range);
 		    }
 
 		}
-
 	    })
 	);
     },
@@ -692,6 +673,45 @@ var edit_cp = {
 
     },
 
+
+    //this includes the "colour sun" - it'd be perverse not to. Then the 12 other little blocks, too.
+    cp_range_set_colour_blocks: function(colours_array){
+	// determine various averages etc...
+	var tc1 = tinycolor(colours_array[0]);
+	var tc2 = tinycolor(colours_array[1]);
+	var tcM = logic.tiny_HSLA_average(tc1, tc2);
+	var av_colour = tcM.toRgbString();
+
+	var A = tc1.toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+	var B = tc2.toHsl();
+	var M = tcM.toHsl();
+
+	//no alpha
+	$("#cp-edit-tabs .colour-sun.s").css("background-color", tcM.toHexString());
+	
+	//H
+	$("#cp-edit-tabs .Ln.hue .B.left"  ).css("background-color", tinycolor({h: A.h, s: M.s, l: M.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.hue .B.center").css("background-color", av_colour);
+	$("#cp-edit-tabs .Ln.hue .B.right" ).css("background-color", tinycolor({h: B.h, s: M.s, l: M.l, a: M.a}).toRgbString());
+
+	//S
+	$("#cp-edit-tabs .Ln.sat .B.left"  ).css("background-color", tinycolor({h: M.h, s: A.s, l: M.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.sat .B.center").css("background-color", av_colour);
+	$("#cp-edit-tabs .Ln.sat .B.right" ).css("background-color", tinycolor({h: M.h, s: B.s, l: M.l, a: M.a}).toRgbString());
+
+	//L
+	$("#cp-edit-tabs .Ln.lum .B.left"  ).css("background-color", tinycolor({h: M.h, s: M.s, l: A.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.lum .B.center").css("background-color", av_colour);
+	$("#cp-edit-tabs .Ln.lum .B.right" ).css("background-color", tinycolor({h: M.h, s: M.s, l: B.l, a: M.a}).toRgbString());
+
+	//A
+	$("#cp-edit-tabs .Ln.alp .B.left"  ).css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: A.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.alp .B.center").css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: M.a}).toRgbString());
+	$("#cp-edit-tabs .Ln.alp .B.right" ).css("background-color", tinycolor({h: M.h, s: M.s, l: M.l, a: B.a}).toRgbString());
+
+    },
+
+    
     hide: function(){
 	//Response to closing Edit
 	$("#edit-cp-table tbody").html("");//wipe table contents...

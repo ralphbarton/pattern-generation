@@ -76,7 +76,31 @@ var logic = {
 	var A = tinycolor(colour_1).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
 	var B = tinycolor(colour_2).toHsl();
 	return tinycolor({h: (A.h+B.h)/2 , s: (A.s+B.s)/2, l: (A.l+B.l)/2, a: (A.a+B.a)/2})
-    }
+    },
+
+    HSLA_average_delta: function(colour_1, colour_2){
+	var A = tinycolor(colour_1).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+	var B = tinycolor(colour_2).toHsl();
+	var C = {h: (A.h+B.h)/2 , s: (A.s+B.s)/2, l: (A.l+B.l)/2, a: (A.a+B.a)/2};
+	var dH = Math.abs(A.h - B.h);
+	var dS = Math.abs(A.s - B.s);
+	var dL = Math.abs(A.l - B.l);
+	var dA = Math.abs(A.a - B.a);
+	
+	var D = {h: dH, s: dS, l: dL, a: dA};
+	
+	//
+	return {av:C, df:D};
+    },
+
+    tiny_HSLA_shift: function(colour_1, colour_2, colour_new){
+	var X = this.HSLA_average_delta(colour_1, colour_2);
+	var W = tinycolor(colour_new).toHsl();
+	return [
+	    tinycolor({h: (W.h - (X.h/2)) , s: (W.s - (X.s/2)) , l: (W.l - (X.l/2)) , a: (W.a - (X.a/2)) }).toRgb(),
+	    tinycolor({h: (W.h + (X.h/2)) , s: (W.s + (X.s/2)) , l: (W.l + (X.l/2)) , a: (W.a + (X.a/2)) }).toRgb()
+	];
+    }    
 
 }
 
