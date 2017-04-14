@@ -61,10 +61,8 @@ var edit_cp = {
 		var Ds = 0.30;
 		var Dl = 0.10;
 		var Da = 0.20;
-		console.log(J);
-		console.log("H", J.h, Q(J.h+Dh), Q(J.h-Dh));
-		var J1 = tinycolor({ h: Q(J.h+Dh), s: R(J.s+Ds), l: R(J.l+Dl), a: R(J.a+Da) }).toRgbString();
-		var J2 = tinycolor({ h: Q(J.h-Dh), s: R(J.s-Ds), l: R(J.l-Dl), a: R(J.a-Da) }).toRgbString();
+		var J1 = tinycolor({ h: Q(J.h-Dh), s: R(J.s-Ds), l: R(J.l-Dl), a: R(J.a-Da) }).toRgbString();
+		var J2 = tinycolor({ h: Q(J.h+Dh), s: R(J.s+Ds), l: R(J.l+Dl), a: R(J.a+Da) }).toRgbString();
 		
 		pot_elem.range = [J1, J2];
 
@@ -283,7 +281,7 @@ var edit_cp = {
 
 		//restore to original (saved) values
 		var old_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
-		edit_cp.cp_range_set_colour_blocks(old_pair);
+		edit_cp.cp_range_set_colour_blocks( {colour_pair: old_pair} );
 	    }
 	});
 
@@ -301,9 +299,10 @@ var edit_cp = {
 		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].solid = col_chosen;
 
 		}else if(cp_type == "range"){
-		    var old_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
-		    var new_colour_pair = logic.tiny_HSLA_shift(old_pair[0], old_pair[1], col_chosen);
-		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].range = new_colour_pair;
+
+		    var X = edit_cp.get_Rdata();
+
+		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].range = [X.colour1, X.colour2];
 
 		}
 
@@ -407,12 +406,8 @@ var edit_cp = {
 
 	// 3.3 - DEFN for live-update range boundary colour pieces.
 	var bgrins_on_colMove_cb_RANGE = function(tinycolor) {
-
-
-	    var old_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
-	    var new_colour_pair = logic.tiny_HSLA_shift(old_pair[0], old_pair[1], tinycolor.toRgbString());
-	    edit_cp.cp_range_set_colour_blocks(new_colour_pair);
-
+	    var new_HSLA = tinycolor.toHsl();
+	    edit_cp.cp_range_set_colour_blocks( new_HSLA );
 	};
 
 
@@ -612,11 +607,7 @@ var edit_cp = {
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 
 			// Activity upon selection of a RANGE row...
-			//set the global variable
-			edit_cp.update_Rdata( {colour_pair: pot_elem.range} );
-			//use these colours...
-			edit_cp.cp_range_set_colour_blocks();
-
+			edit_cp.cp_range_set_colour_blocks( {colour_pair: pot_elem.range} );
 
 		    }
 
@@ -634,13 +625,13 @@ var edit_cp = {
 	    var tc2 = tinycolor(pot_elem.range[1]);
 	    var hex1 = tc1.toHexString();
 	    var hex2 = tc2.toHexString();
-//	    var tiny_average_col = tinycolor.mix(tc1, tc2, amount = 50);
+
 	    var tiny_average_col = logic.tiny_HSLA_average(tc1, tc2);
 	    var average_col = tiny_average_col.toRgbString();
 	    var average_col_NA = tiny_average_col.toHexString();
-	    var average_col_A1 = tiny_average_col.setAlpha(tc1.getAlpha());
-	    var average_col_A2 = tiny_average_col.setAlpha(tc2.getAlpha());
-
+	    var average_col_A1 = tiny_average_col.setAlpha(tc1.getAlpha()).toRgbString();
+	    var average_col_A2 = tiny_average_col.setAlpha(tc2.getAlpha()).toRgbString();
+	    
 	    $contents = [
 		$("<div\>").addClass("threeCells").append(
 		    gradient_cell.make(25, hex1, hex2, {H:0, S:"y", L:"x"}),
@@ -657,9 +648,9 @@ var edit_cp = {
 		$("<div\>").addClass("blank").append(
 		    $("<div\>").addClass("chequer"),
 		    $("<div\>").addClass("alpha A-c1")
-			.css("background", average_col_A1),
+			.css("background", average_col_A2),
 		    $("<div\>").addClass("alpha A-c2")
-			.css("background", average_col_A2)
+			.css("background", average_col_A1)
 		)
 	    ];
 
@@ -689,51 +680,35 @@ var edit_cp = {
 
     //this includes the "colour sun" - it'd be perverse not to. Then the 12 other little blocks, too.
     // this access the global Rdata and takes no parameters...
-    cp_range_set_colour_blocks: function(){
+    cp_range_set_colour_blocks: function(set_colour_options){
 
-	var Q = function (x){return x>0 ? (x%360) : ((x+360)%360);}
-	
-	var h1 = Q( this.Rdata.h - this.Rdata.dh ); // lower Hue
-	var h2 = this.Rdata.h;                      // mid Hue
-	var h3 = Q( this.Rdata.h + this.Rdata.dh ); // upper Hue
-
-	// ( for s,l,a below, sums of x and dx are ASSUMED to be within bounds of 0 and 1)
-	var s1 = this.Rdata.s - this.Rdata.ds;
-	var s2 = this.Rdata.s;
-	var s3 = this.Rdata.s + this.Rdata.ds;
-
-	var l1 = this.Rdata.l - this.Rdata.dl;
-	var l2 = this.Rdata.l;
-	var l3 = this.Rdata.l + this.Rdata.dl;
-
-	var a1 = this.Rdata.a - this.Rdata.da;
-	var a2 = this.Rdata.a;
-	var a3 = this.Rdata.a + this.Rdata.da;
-
-	var av_colour = tinycolor({h: h2, s: s2, l: l2, a: a2}).toRgbString();
+	this.set_Rdata(set_colour_options);
+	var X = this.get_Rdata();
+	var av_colour = X.tiny_av.toRgbString();
+	var W = "background-color";
 
 	//no alpha
-	$("#cp-edit-tabs .colour-sun.s").css("background-color", av_colour.toHexString());
+	$("#cp-edit-tabs .colour-sun.s").css(W, X.tiny_av.toHexString());
 	
 	//H
-	$("#cp-edit-tabs .Ln.hue .B.left"  ).css("background-color", tinycolor({h: h1, s: s2, l: l2, a: a2}).toRgbString());
-	$("#cp-edit-tabs .Ln.hue .B.center").css("background-color", av_colour);
-	$("#cp-edit-tabs .Ln.hue .B.right" ).css("background-color", tinycolor({h: h3, s: s2, l: l2, a: a2}).toRgbString());
+	$("#cp-edit-tabs .Ln.hue .B.left"  ).css(W, tinycolor({h: X.h1, s: X.s2, l: X.l2, a: X.a2}).toRgbString());
+	$("#cp-edit-tabs .Ln.hue .B.center").css(W, av_colour);
+	$("#cp-edit-tabs .Ln.hue .B.right" ).css(W, tinycolor({h: X.h3, s: X.s2, l: X.l2, a: X.a2}).toRgbString());
 
 	//S
-	$("#cp-edit-tabs .Ln.sat .B.left"  ).css("background-color", tinycolor({h: h2, s: s1, l: l2, a: a2}).toRgbString());
-	$("#cp-edit-tabs .Ln.sat .B.center").css("background-color", av_colour);
-	$("#cp-edit-tabs .Ln.sat .B.right" ).css("background-color", tinycolor({h: h2, s: s3, l: l2, a: a2}).toRgbString());
+	$("#cp-edit-tabs .Ln.sat .B.left"  ).css(W, tinycolor({h: X.h2, s: X.s1, l: X.l2, a: X.a2}).toRgbString());
+	$("#cp-edit-tabs .Ln.sat .B.center").css(W, av_colour);
+	$("#cp-edit-tabs .Ln.sat .B.right" ).css(W, tinycolor({h: X.h2, s: X.s3, l: X.l2, a: X.a2}).toRgbString());
 
 	//L
-	$("#cp-edit-tabs .Ln.lum .B.left"  ).css("background-color", tinycolor({h: h2, s: s2, l: l1, a: a2}).toRgbString());
-	$("#cp-edit-tabs .Ln.lum .B.center").css("background-color", av_colour);
-	$("#cp-edit-tabs .Ln.lum .B.right" ).css("background-color", tinycolor({h: h2, s: s2, l: l3, a: a2}).toRgbString());
+	$("#cp-edit-tabs .Ln.lum .B.left"  ).css(W, tinycolor({h: X.h2, s: X.s2, l: X.l1, a: X.a2}).toRgbString());
+	$("#cp-edit-tabs .Ln.lum .B.center").css(W, av_colour);
+	$("#cp-edit-tabs .Ln.lum .B.right" ).css(W, tinycolor({h: X.h2, s: X.s2, l: X.l3, a: X.a2}).toRgbString());
 
 	//A
-	$("#cp-edit-tabs .Ln.alp .B.left"  ).css("background-color", tinycolor({h: h2, s: s2, l: l2, a: a1}).toRgbString());
-	$("#cp-edit-tabs .Ln.alp .B.center").css("background-color", av_colour);
-	$("#cp-edit-tabs .Ln.alp .B.right" ).css("background-color", tinycolor({h: h2, s: s2, l: l2, a: a3}).toRgbString());
+	$("#cp-edit-tabs .Ln.alp .B.left"  ).css(W, tinycolor({h: X.h2, s: X.s2, l: X.l2, a: X.a1}).toRgbString());
+	$("#cp-edit-tabs .Ln.alp .B.center").css(W, av_colour);
+	$("#cp-edit-tabs .Ln.alp .B.right" ).css(W, tinycolor({h: X.h2, s: X.s2, l: X.l2, a: X.a3}).toRgbString());
 
     },
 
@@ -749,31 +724,32 @@ var edit_cp = {
 	da: 0 // 0 to 1
     }, // range data...
 
-    update_Rdata: function(variant){
+    set_Rdata: function(variant){
 
 	// case 1: a pair of colours is supplied
 	if(variant.colour_pair){
-	    var A = tinycolor(colour_1).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
-	    var B = tinycolor(colour_2).toHsl();
-
+	    var A = tinycolor(variant.colour_pair[0]).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+	    var B = tinycolor(variant.colour_pair[1]).toHsl();
+	    
 	    // Hue angle utilised is going clockwise from A to B
 	    // wrap around is handled in the structure of these calculations...
 	    this.Rdata.h = ((A.h+B.h)/2 + (B.h < A.h ? 180 : 0)) % 360;
 	    this.Rdata.dh = (B.h-A.h)/2 + (B.h < A.h ? 180 : 0);
-
+	    
 	    // These ones are much simpler...
 	    //saturation
 	    this.Rdata.s = (A.s+B.s)/2
-	    this.Rdata.ds = Math.abs(A.s - B.s);
+	    this.Rdata.ds = Math.abs(A.s - B.s)/2;
+
 	    //luminosity
 	    this.Rdata.l = (A.l+B.l)/2
-	    this.Rdata.dl = Math.abs(A.l - B.l);
+	    this.Rdata.dl = Math.abs(A.l - B.l)/2;
 	    //alpha
 	    this.Rdata.a = (A.a+B.a)/2
-	    this.Rdata.da = Math.abs(A.a - B.a);
+	    this.Rdata.da = Math.abs(A.a - B.a)/2;
 
 	    this.Rdata.s = (A.s+B.s)/2
-	    this.Rdata.ds = Math.abs(A.s - B.s);
+	    this.Rdata.ds = Math.abs(A.s - B.s)/2;
 
 	    // case 2: specific properties are supplied
 	}else{
@@ -805,6 +781,52 @@ var edit_cp = {
 	}
     },
 
+    get_Rdata: function(){
+
+    	var Q = function (x){return x>0 ? (x%360) : ((x+360)%360);}
+
+	var h1 = Q( this.Rdata.h - this.Rdata.dh ); // lower Hue
+	var h2 = this.Rdata.h;                      // mid Hue
+	var h3 = Q( this.Rdata.h + this.Rdata.dh ); // upper Hue
+
+	// ( for s, l, a below, sums of x and dx are ASSUMED to be within bounds of 0 and 1)
+	var s1 = this.Rdata.s - this.Rdata.ds;
+	var s2 = this.Rdata.s;
+	var s3 = this.Rdata.s + this.Rdata.ds;
+	    
+	var l1 = this.Rdata.l - this.Rdata.dl;
+	var l2 = this.Rdata.l;
+	var l3 = this.Rdata.l + this.Rdata.dl;
+
+	var a1 = this.Rdata.a - this.Rdata.da;
+	var a2 = this.Rdata.a;
+	var a3 = this.Rdata.a + this.Rdata.da;
+
+	
+	return {
+	    h1: h1,
+	    h2: h2,
+	    h3: h3,
+
+	    s1: s1,
+	    s2: s2,
+	    s3: s3,
+
+	    l1: l1,
+	    l2: l2,
+	    l3: l3,
+
+	    a1: a1,
+	    a2: a2,
+	    a3: a3,
+
+	    tiny_av: tinycolor({h: h2, s: s2, l: l2, a: a2}),
+	    colour1: tinycolor({h: h1, s: s1, l: l1, a: a1}).toRgbString(),
+	    colour2: tinycolor({h: h3, s: s3, l: l3, a: a3}).toRgbString()
+	};
+
+    },
+    
     
     hide: function(){
 	//Response to closing Edit
