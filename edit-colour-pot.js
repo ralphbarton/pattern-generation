@@ -300,7 +300,7 @@ var edit_cp = {
 
 		}else if(cp_type == "range"){
 
-		    var X = edit_cp.get_Rdata();
+		    var X = edit_cp.get_Rdata_components();
 
 		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].range = [X.colour1, X.colour2];
 
@@ -406,18 +406,16 @@ var edit_cp = {
 
 	// 3.3 - DEFN for live-update range boundary colour pieces.
 	var bgrins_on_colMove_cb_RANGE = function(tinycolor) {
-	    var new_HSLA = tinycolor.toHsl();
-	    edit_cp.cp_range_set_colour_blocks( new_HSLA );
+	    var options = tinycolor.toHsl();
+	    //we need to pass the current "Rdata" too, so that deltas are not lost...
+	    options.Rdata = edit_cp.Rdata;
+	    edit_cp.cp_range_set_colour_blocks( options );
 	};
 
 
 	// 3.4 - Click the "Colour Sun"
 	$("#tabs-e1 .colour-sun.s").click(function (){
-
-	    var colour_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
-	    var myCol = logic.tiny_HSLA_average(colour_pair[0], colour_pair[1]);
-	    BGrinsShow(myCol.toRgbString(), bgrins_on_colMove_cb_RANGE);
-	    
+	    BGrinsShow(edit_cp.get_Rdata_components().tiny_av.toRgbString(), bgrins_on_colMove_cb_RANGE);	    
 	});
 
 
@@ -480,6 +478,22 @@ var edit_cp = {
 
 	//then fill the table etc.
 	this.visual_update();
+    },
+
+    hide: function(){
+	//Response to closing Edit
+	$("#edit-cp-table tbody").html("");//wipe table contents...
+	$(".cpanel#main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
+	$("#cp-edit-solid").hide();
+	$("#cp-edit-tabs").hide();
+
+	$("#cp-edit-table-buttons #add #A").hide();//the tiny random chooser...
+
+	$("#colour-pots-view").show();
+	$("#colour-pots-edit").hide();
+	$("#cpanel-main-tabs").tabs("option", "disabled", false);
+	
+	this.selected_row_i = undefined;
     },
 
     visual_update: function(){
@@ -616,41 +630,35 @@ var edit_cp = {
 	);
     },
 
+    
     gen_row_preview_contents: function(pot_elem, i){
 	var $contents = [];
 	if(pot_elem.type=="range"){//HTML for 'range'
 
-	    // determine various averages etc...
-	    var tc1 = tinycolor(pot_elem.range[0]);
-	    var tc2 = tinycolor(pot_elem.range[1]);
-	    var hex1 = tc1.toHexString();
-	    var hex2 = tc2.toHexString();
+	    var pot_Rdata = this.make_Rdata({colour_pair: pot_elem.range});
+	    // "components" of the colour pot...
 
-	    var tiny_average_col = logic.tiny_HSLA_average(tc1, tc2);
-	    var average_col = tiny_average_col.toRgbString();
-	    var average_col_NA = tiny_average_col.toHexString();
-	    var average_col_A1 = tiny_average_col.setAlpha(tc1.getAlpha()).toRgbString();
-	    var average_col_A2 = tiny_average_col.setAlpha(tc2.getAlpha()).toRgbString();
+	    var Pcomps = this.get_Rdata_components(pot_Rdata);
 	    
 	    $contents = [
 		$("<div\>").addClass("threeCells").append(
-		    gradient_cell.make(25, hex1, hex2, {H:0, S:"y", L:"x"}),
-		    gradient_cell.make(25, hex1, hex2, {H:"x", S:0, L:"y"}),
-		    gradient_cell.make(25, hex1, hex2, {H:"x", S:"y", L:0})
+		    this.make_gradient_cell(25, Pcomps, {H:0, S:"y", L:"x"}),
+		    this.make_gradient_cell(25, Pcomps, {H:"x", S:0, L:"y"}),
+		    this.make_gradient_cell(25, Pcomps, {H:"x", S:"y", L:0})
 		),
 		$("<div\>").addClass("threeCells low").append(
-		    gradient_cell.make(25, hex1, hex2, {H:1, S:"y", L:"x"}),
-		    gradient_cell.make(25, hex1, hex2, {H:"x", S:1, L:"y"}),
-		    gradient_cell.make(25, hex1, hex2, {H:"x", S:"y", L:1})
+		    this.make_gradient_cell(25, Pcomps, {H:1, S:"y", L:"x"}),
+		    this.make_gradient_cell(25, Pcomps, {H:"x", S:1, L:"y"}),
+		    this.make_gradient_cell(25, Pcomps, {H:"x", S:"y", L:1})
 		),
 		$("<div\>").addClass("oblong")//append order to make sure it's on top...
-		    .css("background", average_col_NA),
+		    .css("background", Pcomps.tiny_av.toHexString()),
 		$("<div\>").addClass("blank").append(
 		    $("<div\>").addClass("chequer"),
 		    $("<div\>").addClass("alpha A-c1")
-			.css("background", average_col_A2),
+			.css("background", Pcomps.tiny_av.setAlpha(Pcomps.a3).toRgbString()),
 		    $("<div\>").addClass("alpha A-c2")
-			.css("background", average_col_A1)
+			.css("background", Pcomps.tiny_av.setAlpha(Pcomps.a1).toRgbString())
 		)
 	    ];
 
@@ -679,11 +687,14 @@ var edit_cp = {
 
 
     //this includes the "colour sun" - it'd be perverse not to. Then the 12 other little blocks, too.
-    // this access the global Rdata and takes no parameters...
+
+    //note that the "options" may be a single colour (provided as {hsla} ) a pair of colours
     cp_range_set_colour_blocks: function(set_colour_options){
 
-	this.set_Rdata(set_colour_options);
-	var X = this.get_Rdata();
+
+	this.Rdata = this.make_Rdata(set_colour_options);
+	
+	var X = this.get_Rdata_components();
 	var av_colour = X.tiny_av.toRgbString();
 	var W = "background-color";
 
@@ -713,6 +724,7 @@ var edit_cp = {
     },
 
 
+
     Rdata: {
 	h: 0, // 0 to 360
 	s: 0, // 0 to 1
@@ -724,8 +736,11 @@ var edit_cp = {
 	da: 0 // 0 to 1
     }, // range data...
 
-    set_Rdata: function(variant){
+    
+    make_Rdata: function(variant){
 
+	var my_Rdata = variant.Rdata || {};
+	
 	// case 1: a pair of colours is supplied
 	if(variant.colour_pair){
 	    var A = tinycolor(variant.colour_pair[0]).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
@@ -733,93 +748,103 @@ var edit_cp = {
 	    
 	    // Hue angle utilised is going clockwise from A to B
 	    // wrap around is handled in the structure of these calculations...
-	    this.Rdata.h = ((A.h+B.h)/2 + (B.h < A.h ? 180 : 0)) % 360;
-	    this.Rdata.dh = (B.h-A.h)/2 + (B.h < A.h ? 180 : 0);
+	    my_Rdata.h = ((A.h+B.h)/2 + (B.h < A.h ? 180 : 0)) % 360;
+	    my_Rdata.dh = (B.h-A.h)/2 + (B.h < A.h ? 180 : 0);
 	    
 	    // These ones are much simpler...
 	    //saturation
-	    this.Rdata.s = (A.s+B.s)/2
-	    this.Rdata.ds = Math.abs(A.s - B.s)/2;
+	    my_Rdata.s = (A.s+B.s)/2
+	    my_Rdata.ds = Math.abs(A.s - B.s)/2;
 
 	    //luminosity
-	    this.Rdata.l = (A.l+B.l)/2
-	    this.Rdata.dl = Math.abs(A.l - B.l)/2;
+	    my_Rdata.l = (A.l+B.l)/2
+	    my_Rdata.dl = Math.abs(A.l - B.l)/2;
 	    //alpha
-	    this.Rdata.a = (A.a+B.a)/2
-	    this.Rdata.da = Math.abs(A.a - B.a)/2;
+	    my_Rdata.a = (A.a+B.a)/2
+	    my_Rdata.da = Math.abs(A.a - B.a)/2;
 
-	    this.Rdata.s = (A.s+B.s)/2
-	    this.Rdata.ds = Math.abs(A.s - B.s)/2;
+	    my_Rdata.s = (A.s+B.s)/2
+	    my_Rdata.ds = Math.abs(A.s - B.s)/2;
 
 	    // case 2: specific properties are supplied
 	}else{
 	    
 	    $.each( variant, function( key, value ) {
-		
-		if(key == "h"){
-		    edit_cp.Rdata.h = value;
+
+		if(key == "Rdata"){//dont use this key!
+		    return;
+
+		}else if(key == "h"){
+		    my_Rdata.h = value;
 		    
 		}else if(key == "dh"){
-		    edit_cp.Rdata.dh = value;
+		    my_Rdata.dh = value;
 
 		}else if(key[0] == "d"){
 		    // change to "ds", "dl", "da" (the key)
 		    var keyA = key[1]; // key of the complementary property
-		    edit_cp.Rdata[key] = value;
-		    edit_cp.Rdata[keyA] = Math.min(edit_cp.Rdata[keyA], 1-value);
-		    edit_cp.Rdata[keyA] = Math.max(edit_cp.Rdata[keyA], value);
+		    my_Rdata[key] = value;
+		    my_Rdata[keyA] = Math.min(my_Rdata[keyA], 1-value);
+		    my_Rdata[keyA] = Math.max(my_Rdata[keyA], value);
 		    
 		}else{
 		    // (assume) change to "s", "l", "a" (the key)
 		    var keyA = "d" + key; // key of the complementary property
-		    edit_cp.Rdata[key] = value;
-		    edit_cp.Rdata[keyA] = Math.min(value, 1-value, edit_cp.Rdata[keyA]);
-
+		    my_Rdata[key] = value;
+		    my_Rdata[keyA] = Math.min(value, 1-value, my_Rdata[keyA]);
 		}
 	    });
 	    
 	}
+	
+	return my_Rdata;
     },
 
-    get_Rdata: function(){
+    get_Rdata_components: function(altRdata){
 
+	var myRdata = altRdata || this.Rdata;
+	
     	var Q = function (x){return x>0 ? (x%360) : ((x+360)%360);}
 
-	var h1 = Q( this.Rdata.h - this.Rdata.dh ); // lower Hue
-	var h2 = this.Rdata.h;                      // mid Hue
-	var h3 = Q( this.Rdata.h + this.Rdata.dh ); // upper Hue
+	var h1 = Q( myRdata.h - myRdata.dh ); // lower Hue
+	var h2 = myRdata.h;                      // mid Hue
+	var h3 = Q( myRdata.h + myRdata.dh ); // upper Hue
 
 	// ( for s, l, a below, sums of x and dx are ASSUMED to be within bounds of 0 and 1)
-	var s1 = this.Rdata.s - this.Rdata.ds;
-	var s2 = this.Rdata.s;
-	var s3 = this.Rdata.s + this.Rdata.ds;
+	var s1 = myRdata.s - myRdata.ds;
+	var s2 = myRdata.s;
+	var s3 = myRdata.s + myRdata.ds;
 	    
-	var l1 = this.Rdata.l - this.Rdata.dl;
-	var l2 = this.Rdata.l;
-	var l3 = this.Rdata.l + this.Rdata.dl;
+	var l1 = myRdata.l - myRdata.dl;
+	var l2 = myRdata.l;
+	var l3 = myRdata.l + myRdata.dl;
 
-	var a1 = this.Rdata.a - this.Rdata.da;
-	var a2 = this.Rdata.a;
-	var a3 = this.Rdata.a + this.Rdata.da;
+	var a1 = myRdata.a - myRdata.da;
+	var a2 = myRdata.a;
+	var a3 = myRdata.a + myRdata.da;
 
 	
 	return {
 	    h1: h1,
 	    h2: h2,
 	    h3: h3,
-
+	    dh: myRdata.dh,
+	    
 	    s1: s1,
 	    s2: s2,
 	    s3: s3,
-
+	    ds: myRdata.ds,
+	    
 	    l1: l1,
 	    l2: l2,
 	    l3: l3,
-
+	    dl: myRdata.dl,
+	    
 	    a1: a1,
 	    a2: a2,
 	    a3: a3,
-
+	    da: myRdata.da,
+	    
 	    tiny_av: tinycolor({h: h2, s: s2, l: l2, a: a2}),
 	    colour1: tinycolor({h: h1, s: s1, l: l1, a: a1}).toRgbString(),
 	    colour2: tinycolor({h: h3, s: s3, l: l3, a: a3}).toRgbString()
@@ -827,21 +852,39 @@ var edit_cp = {
 
     },
     
-    
-    hide: function(){
-	//Response to closing Edit
-	$("#edit-cp-table tbody").html("");//wipe table contents...
-	$(".cpanel#main").removeClass("cpanel-main-size2").addClass("cpanel-main-size1");
-	$("#cp-edit-solid").hide();
-	$("#cp-edit-tabs").hide();
-
-	$("#cp-edit-table-buttons #add #A").hide();//the tiny random chooser...
-
-	$("#colour-pots-view").show();
-	$("#colour-pots-edit").hide();
-	$("#cpanel-main-tabs").tabs("option", "disabled", false);
+    make_gradient_cell: function(size, RC, conf){
 	
-	this.selected_row_i = undefined;
+	var $grad = $('<canvas/>')
+	    .attr("width", size)
+	    .attr("height", size)
+	    .addClass("gradient-cell");
+	var ctx = $grad[0].getContext('2d');
+
+	if (ctx) {
+	    for (var x = 0; x < size; x++){
+		for (var y = 0; y < size; y++){
+		    //determine colour at x,y
+		    var x_frac = x/(size-1);//what fraction of the x-distance along is this pixel?
+		    var y_frac = y/(size-1);
+
+		    // for this pixel, to what extent should it be the hue of colour 2?
+		    var H_frac = conf.H=="x" ? x_frac : (conf.H=="y" ? y_frac : conf.H);
+		    var S_frac = conf.S=="x" ? x_frac : (conf.S=="y" ? y_frac : conf.S);
+		    var L_frac = conf.L=="x" ? x_frac : (conf.L=="y" ? y_frac : conf.L);
+
+		    var Hx = RC.h1 + H_frac * RC.dh * 2;
+		    var Sx = RC.s1 + S_frac * RC.ds * 2;
+		    var Lx = RC.l1 + L_frac * RC.dl * 2;
+		    
+		    //draw that pixel
+		    ctx.fillStyle = tinycolor( {h: Hx, s: Sx, l: Lx} ).toHexString();
+		    ctx.fillRect (x, y, 1, 1);//x,y,w,h
+		}
+	    }
+	}
+
+	return $grad;
+
     }
 
 };

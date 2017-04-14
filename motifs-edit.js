@@ -414,8 +414,6 @@ var motifs_edit = {
 
     init_SVG_gridlines_under_canvas: function(){
 
-	console.log("Called: init_SVG_gridlines_under_canvas()");
-
 	var draw_4_lines = function(my_set, offset){
 	    d3.select('#Motif svg '+my_set)
 		.append('line')// pos vertical
