@@ -2,6 +2,7 @@ var edit_cp = {
 
     not_yet_initialised: true,
     selected_row_i: undefined,
+    CentralInputs_data: {},
     init: function(){
 
 
@@ -397,6 +398,22 @@ var edit_cp = {
 
 
 	// 4.3 - initialise all the Input elements...
+	var input_onChange = function(myKey){
+
+	    var options = {};
+	    var shortKey = myKey.includes("mid") ? myKey[0]+"2" : "d"+myKey[0];
+	    var fac = myKey.includes("hue") ? 1 : 0.01;
+	    
+	    options[shortKey] = edit_cp.CentralInputs_data[myKey] * fac;
+
+	    options.Rdata = edit_cp.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
+	    options.no_input_update = true; // in this case there is no need to update the inputs
+	    edit_cp.cp_range_set_colour_blocks( options );
+	    
+	};
+
+
+	
 	$( "#colour-pots-edit #tabs-e1 input").each(function(){
 	    var x2 = $(this).parent(); // var vs mid
 	    var x1 = $(this).parent().parent(); // hue, sat, lum, alp
@@ -404,8 +421,16 @@ var edit_cp = {
 	    //hue in degrees and other properties in %
 	    var dc = x1.hasClass("hue") ? "degrees" : "percent";
 	    
+	    var myKey = x1.attr("class").replace("Ln ","") + " > " + x2.attr("class");
+	    
 	    $(this).SmartInput({
-		data_class: dc
+		data_class: dc,
+		underlying_obj: edit_cp.CentralInputs_data,
+		underlying_key: myKey,
+		underlying_from_DOM_onChange: true,
+		cb_change: function(){
+		    input_onChange(myKey);
+		}
 	    });
 	    
 	});
@@ -418,8 +443,8 @@ var edit_cp = {
 	    var options = tinycolor.toHsl();
 
 	    // (1) - Update the little blocks of colour
-	    //we need to pass the current "Rdata" too, so that deltas are not lost...
-	    options.Rdata = edit_cp.Rdata;
+
+	    options.Rdata = edit_cp.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
 	    edit_cp.cp_range_set_colour_blocks( options );
 
 	    // (2) - Update the values of the <input> elements
@@ -743,6 +768,32 @@ var edit_cp = {
 	$("#cp-edit-tabs .Ln.alp .B.center").css(W, av_colour);
 	$("#cp-edit-tabs .Ln.alp .B.right" ).css(W, tinycolor({h: X.h2, s: X.s2, l: X.l2, a: X.a3}).toRgbString());
 
+
+	//Update the input boxes according to the latest data...
+	if(!(set_colour_options.no_input_update)){
+	    $( "#colour-pots-edit #tabs-e1 input").each(function(){
+		var x2 = $(this).parent(); // var vs mid
+		var x1 = $(this).parent().parent(); // hue, sat, lum, alp
+		
+		var myKey = x1.attr("class").replace("Ln ","") + " > " + x2.attr("class");
+		var sect = myKey[0];
+		var shortKey = myKey.includes("mid") ? sect+"2" : "d"+sect;
+		
+		if(myKey.includes("hue")){
+		    edit_cp.CentralInputs_data[myKey] = X[shortKey];
+		}else{
+		    edit_cp.CentralInputs_data[myKey] = X[shortKey] * 100;
+		}
+		
+		$(this).SmartInput("update",{
+		    data_change: true
+		});
+		
+	    });
+	}
+
+
+	
     },
 
 

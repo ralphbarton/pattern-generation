@@ -195,7 +195,7 @@ var plots = {
 				underlying_key: "formula",
 				style_class: "blue-cell",//change styling classes....
 				data_class: "text",
-				text_length: 120,//max name length 18 char
+				text_length: 120, // setting a 120 char limit on the formula...
 				click_filter: function(){return plots.selected_row_i == i;},
 				cb_focusout: set_EQN_row_class,
 				//defer call because of <input> doesn't have the right parent elems until Append call finishes
