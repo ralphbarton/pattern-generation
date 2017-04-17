@@ -173,6 +173,7 @@ div.boxie.ui-disabled input{
     padding: 0px
 }
 .preview-container.tiny{
+    background-color: white;
     width: 80px;
 }
 

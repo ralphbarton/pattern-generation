@@ -122,6 +122,7 @@
 }
 
 #colour-pots-edit .preview-container{
+    background-color: white;
     width: 190px;
 }
 
@@ -221,6 +222,11 @@
     background-size:auto 10px;
     border: 1px solid black;
 }
+
+.chequer.tiny{
+    background-size:auto 4px;
+}
+
 
 
 .cp-item-container .chequer{

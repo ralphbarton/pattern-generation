@@ -18,15 +18,24 @@ var logic = {
 	if (items[i].type== "solid"){
 	    return items[i].solid;
 	}
-	else if (items[i].type== "range"){
-	    // remove transparency...
-	    var tc1 = tinycolor(items[i].range[0]);
-	    var tc2 = tinycolor(items[i].range[1]);
-	    var hex1 = tc1.toHexString();
-	    var hex2 = tc2.toHexString();
 
-	    var rand_col = this.draw_continuous_colour(hex1, hex2, false);
-	    return rand_col;
+	else if (items[i].type== "range"){
+
+	    var Rdat1 = edit_cp.make_Rdata({colour_pair: items[i].range });
+	    var X = edit_cp.get_Rdata_components(Rdat1);
+
+	    var D = false;// dimentionality controls not yet implemented, and set to 'false' as default.
+
+	    var FR = Math.random();// this is a fixed random value
+
+	    
+	    return tinycolor({
+		h: (X.h1 + (D ? FR : Math.random()) * X.dh * 2)%360,
+		s: X.s1 + (D ? FR : Math.random()) * X.ds * 2,
+		l: X.l1 + (D ? FR : Math.random()) * X.dl * 2,
+		a: X.a1 + (D ? FR : Math.random()) * X.da * 2
+	    }).toRgbString();
+
 	}
 
     },
@@ -59,19 +68,7 @@ var logic = {
 	}
     },
 
-    draw_continuous_colour: function(colour_1, colour_2, D){//final parameter - line or volume connecting two points?
-
-	var hslp = this.colour_pair_to_hsl(colour_1, colour_2); // HSL pair
-
-	var fix_rand = Math.random();
-
-	var Hx = hslp.C1.H + (D ? fix_rand : Math.random()) * hslp.Cdiff.H;
-	var Sx = hslp.C1.S + (D ? fix_rand : Math.random()) * hslp.Cdiff.S;
-	var Lx = hslp.C1.L + (D ? fix_rand : Math.random()) * hslp.Cdiff.L;
-
-	return hslToHex(Hx, Sx, Lx);
-    },
-
+    
     tiny_HSLA_average: function(colour_1, colour_2){
 	var A = tinycolor(colour_1).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
 	var B = tinycolor(colour_2).toHsl();

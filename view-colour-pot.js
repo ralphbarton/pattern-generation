@@ -17,7 +17,7 @@ var view_cp = {
 		    })
 		),
 		$('<td/>').addClass("col-3").append(
-		    $('<div/>').addClass("preview-container tiny")
+		    $('<div/>').addClass("preview-container tiny chequer")
 			.append(global.$div_array(16, "preview-cell small", ColourPot))
 		)
 	    );
