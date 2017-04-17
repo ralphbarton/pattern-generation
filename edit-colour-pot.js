@@ -401,8 +401,10 @@ var edit_cp = {
 	var input_onChange = function(myKey){
 
 	    var options = {};
-	    var shortKey = myKey.includes("mid") ? myKey[0]+"2" : "d"+myKey[0];
+	    // note that the "shortKey" we pass as options has X.h, X.dh
+	    var shortKey = myKey.includes("mid") ? myKey[0]: "d"+myKey[0];
 	    var fac = myKey.includes("hue") ? 1 : 0.01;
+	    fac *= myKey.includes("var") ? 0.5 : 1;
 	    
 	    options[shortKey] = edit_cp.CentralInputs_data[myKey] * fac;
 
@@ -430,7 +432,14 @@ var edit_cp = {
 		underlying_from_DOM_onChange: true,
 		cb_change: function(){
 		    input_onChange(myKey);
+		},
+		cb_focusout: function(){
+		    //apply changes upon "focusout" event
+		    var X = edit_cp.get_Rdata_components();
+		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].range = [X.colour1, X.colour2];
+		    edit_cp.visual_update();
 		}
+		
 	    });
 	    
 	});
@@ -777,18 +786,18 @@ var edit_cp = {
 		
 		var myKey = x1.attr("class").replace("Ln ","") + " > " + x2.attr("class");
 		var sect = myKey[0];
+		// note that the "shortKey" we use here (in extracting components) has X.h2, X.dh
 		var shortKey = myKey.includes("mid") ? sect+"2" : "d"+sect;
-		
-		if(myKey.includes("hue")){
-		    edit_cp.CentralInputs_data[myKey] = X[shortKey];
-		}else{
-		    edit_cp.CentralInputs_data[myKey] = X[shortKey] * 100;
-		}
+
+		//scale up by 100 and by 2 for user display
+		var fac = myKey.includes("hue") ? 1 : 100;
+		fac *= myKey.includes("var") ? 2 : 1;
+		edit_cp.CentralInputs_data[myKey] = X[shortKey] * fac;
+
 		
 		$(this).SmartInput("update",{
 		    data_change: true
 		});
-		
 	    });
 	}
 
@@ -945,7 +954,7 @@ var edit_cp = {
 		    var S_frac = conf.S=="x" ? x_frac : (conf.S=="y" ? y_frac : conf.S);
 		    var L_frac = conf.L=="x" ? x_frac : (conf.L=="y" ? y_frac : conf.L);
 
-		    var Hx = RC.h1 + H_frac * RC.dh * 2;
+		    var Hx = (RC.h1 + H_frac * RC.dh * 2)%360;
 		    var Sx = RC.s1 + S_frac * RC.ds * 2;
 		    var Lx = RC.l1 + L_frac * RC.dl * 2;
 		    
