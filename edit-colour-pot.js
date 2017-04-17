@@ -213,11 +213,14 @@ var edit_cp = {
 
 
 
-	// K. functions to control the BGRINS colour-picker, common to both editing a SOLID and a RANGE
+	// 2. functions to control the BGRINS colour-picker, common to both editing a SOLID and a RANGE
 
-	// K.1 - Function to destroy and re-create the picker
-	// Regeneration like this ensures the correct "starting colour" will be depicted by the picker
-	var regenerate_picker = function(starting_colour, onColourMove){
+	// 2.1 - Function to destroy and re-create the picker
+	// Regeneration like this ensures the "starting" colour to the colour provided will be used as "original" colour
+	var BGrinsShow = function(starting_colour, onColourMove) {
+
+	    $("#bgrins-container").show({duration: 400});
+
 	    //Initiate the element here
 	    var was_large = $("#bgrins-container").hasClass("large");
 	    var original_colour = $("#bgrins-colour-picker").spectrum("option", "color"); 
@@ -244,25 +247,12 @@ var edit_cp = {
 	    if(was_large){
 		$("#bgrins-container").addClass("large");
 	    }
-	};
-
-
-	// K.2 - unhide the picker
-	// (will set the picker's "original" / "starting" colour to the colour provided)
-	var BGrinsShow = function(starting_colour, onColourMove) {
-
-	    $("#bgrins-container").show({duration: 400});
-	    regenerate_picker(starting_colour, onColourMove);
 
 	    //to prevent the change event triggered from immediately re-closing
 	    just_opened = true;
 	    setTimeout(function(){just_opened = false;}, 200);
 	};
-
 	
-
-	// 2. Controls for editing a C-Pot element in SOLID mode
-
 	
 	// 2.2 - "Cancel" Button of the colour picker
 	$("#bgrins-buttons #cancel").click(function() {
@@ -349,9 +339,13 @@ var edit_cp = {
 
 
 
+
 	
 
-	// 2.6 - DEFN for live-update of two DOM elements upon colour adjust
+	// 3. Editing a C-Pot element in SOLID mode
+	
+
+	// 3.1 - DEFN for live-update of two DOM elements upon colour adjust
 	var bgrins_on_colMove_cb_SOLID = function(tinycolor) {
 	    //note that converting colour to hex strips away the Alpha, which is what I want here.
 	    var hexC = tinycolor.toHexString();
@@ -361,7 +355,7 @@ var edit_cp = {
 	};
 
 
-	// 2.7 - Click the "Colour Sun"
+	// 3.2 - Click the "Colour Sun"
 	$("#cp-edit-solid .colour-sun.l").click(function (){
 	    // take from the 'strip' which includes Alpha channel.
 	    var mySolid_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
@@ -376,9 +370,9 @@ var edit_cp = {
 
 
 
-	// 3. Controls for editing a C-Pot element in RANGE->Central Mode
+	// 4. Editing C-Pot element in RANGE->Central Mode
 
-	// 3.1 - Clone HTML to make the colour shades preview-blocks for Hue, Sat, Lum, Alpha
+	// 4.1 - Clone HTML to make the colour shades preview-blocks for Hue, Sat, Lum, Alpha
 	var $my_Div = $( "#colour-pots-edit #tabs-e1 div.Ln.hue" ).clone()
 	    .removeClass("hue");
 
@@ -390,12 +384,11 @@ var edit_cp = {
 	);
 
 	$( "#colour-pots-edit #tabs-e1 .hue .name").text("Hue:");
-	$( "#colour-pots-edit #tabs-e1 .sat .name").text("Saturation:");
-	$( "#colour-pots-edit #tabs-e1 .lum .name").text("Luminosity:");
+	$( "#colour-pots-edit #tabs-e1 .sat .name").text("Sat:");
+	$( "#colour-pots-edit #tabs-e1 .lum .name").text("Lum:");
 	$( "#colour-pots-edit #tabs-e1 .alp .name").text("Alpha:");
 
-	
-	// 3.2 - little strips of colour SELECTED upon click...
+	// 4.2 - little strips of colour SELECTED upon click...
 	$("#tabs-e1 .Ln .B").click(function(){
 	    $("#tabs-e1 .Ln .B").removeClass("sel");
 	    $(this).addClass("sel");
@@ -403,34 +396,63 @@ var edit_cp = {
 
 
 
+	// 4.3 - initialise all the Input elements...
+	$( "#colour-pots-edit #tabs-e1 input").each(function(){
+	    var x2 = $(this).parent(); // var vs mid
+	    var x1 = $(this).parent().parent(); // hue, sat, lum, alp
 
-	// 3.3 - DEFN for live-update range boundary colour pieces.
+	    //hue in degrees and other properties in %
+	    var dc = x1.hasClass("hue") ? "degrees" : "percent";
+	    
+	    $(this).SmartInput({
+		data_class: dc
+	    });
+	    
+	});
+
+	
+
+
+	// 4.x - DEFN for live-update range boundary colour pieces.
 	var bgrins_on_colMove_cb_RANGE = function(tinycolor) {
 	    var options = tinycolor.toHsl();
+
+	    // (1) - Update the little blocks of colour
 	    //we need to pass the current "Rdata" too, so that deltas are not lost...
 	    options.Rdata = edit_cp.Rdata;
 	    edit_cp.cp_range_set_colour_blocks( options );
+
+	    // (2) - Update the values of the <input> elements
+
+	    
 	};
 
 
-	// 3.4 - Click the "Colour Sun"
+	// 4.x - Click the "Colour Sun"
 	$("#tabs-e1 .colour-sun.s").click(function (){
-	    BGrinsShow(edit_cp.get_Rdata_components().tiny_av.toRgbString(), bgrins_on_colMove_cb_RANGE);	    
+	    var av_colour = edit_cp.get_Rdata_components().tiny_av.toRgbString();
+	    BGrinsShow(av_colour, bgrins_on_colMove_cb_RANGE);	    
 	});
 
+	
+
+	
+
+
+	
 
 
 
 	
-	// 4. Controls for editing a C-Pot element in RANGE->Edges Mode
+	// 5. Controls for editing a C-Pot element in RANGE->Edges Mode
 
 
 
 
 	
-	// 5. Controls for editing a C-Pot element; RANGE->Subspace
+	// 6. Controls for editing a C-Pot element; RANGE->Subspace
 
-	// 5.1 - Choose between  1D and 4D
+	// 6.1 - Choose between  1D and 4D
 	widgets.actionLink_init("#space-1d-4d.act-mutex",[
 	    function(){
 		console.log("link X");

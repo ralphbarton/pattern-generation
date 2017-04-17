@@ -438,20 +438,20 @@
 
 #tabs-e1 .Ln input{
     height: 13px;
-    width: 30px;
+    width: 45px;
 }
 
 #tabs-e1 .Ln .mid,
 #tabs-e1 .Ln .var{
     position: absolute;
     top: 2px;
-    left: 75px;
+    left: 45px;
     font-size: 10px;
     color: rgba(0,0,0,0.5);
 }
 
 #tabs-e1 .Ln .var{
-    left: 130px;
+    left: 115px;
 }
 
 #tabs-e1 .Ln .view{
