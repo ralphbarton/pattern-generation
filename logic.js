@@ -14,15 +14,15 @@ var logic = {
 		break;
 	    }
 	}
+	var pot_elem = items[i];
 	
-	if (items[i].type== "solid"){
-	    return items[i].solid;
+	if (pot_elem.type== "solid"){
+	    return pot_elem.solid;
 	}
 
-	else if (items[i].type== "range"){
+	else if (pot_elem.type== "range"){
 
-	    var Rdat1 = cpot_edit.make_Rdata({colour_pair: items[i].range });
-	    var X = cpot_edit.get_Rdata_components(Rdat1);
+	    var X = cpot_edit.get_Rdata_components( pot_elem.range );
 
 	    var D = false;// dimentionality controls not yet implemented, and set to 'false' as default.
 

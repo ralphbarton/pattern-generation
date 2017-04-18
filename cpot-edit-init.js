@@ -32,37 +32,32 @@ var cpot_edit_init = {
 	widgets.actionLink_init("#solid-v-range.act-mutex",[
 	    function(){
 		// change the selected row from type 'range' to type 'solid'
-		var POT = DM.editing_ColourPot;
-		var pot_elem = POT.contents[cpot_edit.selected_row_i];
-
-		// get average colour from range
-		var bits = logic.colour_pair_to_hsl(pot_elem.range[0], pot_elem.range[1]);
-		var av_colour = hslToHex(bits.C_av.H, bits.C_av.S, bits.C_av.L);
+		var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 
 		// mutate data
 		pot_elem.type = "solid";
-		pot_elem.solid = av_colour;
+		var X = pot_elem.range;
+		pot_elem.solid = tinycolor({ h: X.h, s: X.s, l: X.l, a: X.a }).toRgbString();
 
 		//refresh view
 		cpot_edit.visual_update();
 	    },
 	    function(){
 		// change the selected row from type 'solid' to type 'range'
-		var POT = DM.editing_ColourPot;
-		var pot_elem = POT.contents[cpot_edit.selected_row_i];
-
-		pot_elem.type = "range";
+		var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 		var J = tinycolor(pot_elem.solid).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
-		var R = function (x){return Math.max(Math.min(x,1),0);}
-		var Q = function (x){return x>0 ? (x%360) : ((x+360)%360);}
-		var Dh = 15;
-		var Ds = 0.30;
-		var Dl = 0.10;
-		var Da = 0.20;
-		var J1 = tinycolor({ h: Q(J.h-Dh), s: R(J.s-Ds), l: R(J.l-Dl), a: R(J.a-Da) }).toRgbString();
-		var J2 = tinycolor({ h: Q(J.h+Dh), s: R(J.s+Ds), l: R(J.l+Dl), a: R(J.a+Da) }).toRgbString();
 		
-		pot_elem.range = [J1, J2];
+		pot_elem.type = "range";
+		pot_elem.range = {
+		    h: J.h,
+		    s: J.s,
+		    l: J.l,
+		    a: J.a,
+		    dh: 15,
+		    ds: 0.30,
+		    dl: 0.10,
+		    da: 0.20
+		};
 
 		//refresh view
 		cpot_edit.visual_update();
@@ -268,8 +263,8 @@ var cpot_edit_init = {
 	    }else if(cp_type == "range"){
 
 		//restore to original (saved) values
-		var old_pair = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range;
-		cpot_edit.cp_range_set_colour_blocks( {colour_pair: old_pair} );
+		var old_range = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range;
+		cpot_edit.cp_range_set_colour_blocks( old_range );
 	    }
 	});
 
@@ -279,19 +274,26 @@ var cpot_edit_init = {
 	$("#bgrins-buttons #choose").click(function() {
 	    if(!just_opened){
 		$("#bgrins-container").hide({duration: 400});
-		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toRgbString();
+		var col_chosen = $("#bgrins-colour-picker").spectrum("get");
 
 		//mutate the data
-		var cp_type = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].type;// either 'solid' or 'range'
-		if(cp_type == "solid"){
-		    DM.editing_ColourPot.contents[cpot_edit.selected_row_i].solid = col_chosen;
+		var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+		
+		if(pot_elem.type == "solid"){// either 'solid' or 'range'
+		    pot_elem.solid = col_chosen.toRgbString();
 
-		}else if(cp_type == "range"){
-
+		}else if(pot_elem.type == "range"){
 		    var X = cpot_edit.get_Rdata_components();
-
-		    DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range = [X.colour1, X.colour2];
-
+		    pot_elem.range = {
+			h: X.h2,
+			s: X.s2,
+			l: X.l2,
+			a: X.a2,
+			dh: X.dh,
+			ds: X.ds,
+			dl: X.dl,
+			da: X.da
+		    };
 		}
 
 		//refresh view
@@ -432,8 +434,23 @@ var cpot_edit_init = {
 		},
 		cb_focusout: function(){
 		    //apply changes upon "focusout" event
+
 		    var X = cpot_edit.get_Rdata_components();
-		    DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range = [X.colour1, X.colour2];
+		    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+		    pot_elem.range = {
+			h: X.h2,
+			s: X.s2,
+			l: X.l2,
+			a: X.a2,
+			dh: X.dh,
+			ds: X.ds,
+			dl: X.dl,
+			da: X.da
+		    };
+
+
+
+		    [X.colour1, X.colour2];
 		    cpot_edit.visual_update();
 		}
 		

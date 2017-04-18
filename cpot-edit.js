@@ -180,7 +180,7 @@ var cpot_edit = {
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 
 			// Activity upon selection of a RANGE row...
-			cpot_edit.cp_range_set_colour_blocks( {colour_pair: pot_elem.range} );
+			cpot_edit.cp_range_set_colour_blocks( pot_elem.range );
 
 		    }
 
@@ -194,7 +194,7 @@ var cpot_edit = {
 	var $contents = [];
 	if(pot_elem.type=="range"){//HTML for 'range'
 
-	    var pot_Rdata = this.make_Rdata({colour_pair: pot_elem.range});
+	    var pot_Rdata = this.make_Rdata( pot_elem.range );
 	    // "components" of the colour pot...
 
 	    var Pcomps = this.get_Rdata_components(pot_Rdata);
