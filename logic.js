@@ -21,8 +21,8 @@ var logic = {
 
 	else if (items[i].type== "range"){
 
-	    var Rdat1 = edit_cp.make_Rdata({colour_pair: items[i].range });
-	    var X = edit_cp.get_Rdata_components(Rdat1);
+	    var Rdat1 = cpot_edit.make_Rdata({colour_pair: items[i].range });
+	    var X = cpot_edit.get_Rdata_components(Rdat1);
 
 	    var D = false;// dimentionality controls not yet implemented, and set to 'false' as default.
 

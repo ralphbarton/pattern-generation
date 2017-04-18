@@ -88,7 +88,7 @@ var global = {
 $(document).ready(function() {
     global.init();
 
-    view_cp.init();
+    cpot_view.init();
     grids.init();
 
     plots.init();

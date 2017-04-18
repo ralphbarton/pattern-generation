@@ -1,4 +1,4 @@
-var edit_cp = {
+var cpot_edit = {
 
     not_yet_initialised: true,
     selected_row_i: undefined,
@@ -10,17 +10,17 @@ var edit_cp = {
 	
 	// 1.1 - functionality of the "Cancel" and "Done" buttons
 	// (note that "Done" may get blocked if probs don't sum to 100% etc...
-	$("#cp-edit-buttons #cancel").click(function(){edit_cp.hide();});
+	$("#cp-edit-buttons #cancel").click(function(){cpot_edit.hide();});
 	$("#cp-edit-buttons #done").click(function(){
 
 	    if(!$(this).hasClass("ui-disabled")){
 		//first save data...
-		DM.save_editing_ColourPot(view_cp.selected_cp_index);//return value is the index of the colour-pot just saved
-		edit_cp.hide();
+		DM.save_editing_ColourPot(cpot_view.selected_cp_index);//return value is the index of the colour-pot just saved
+		cpot_edit.hide();
 
 		//redraws the table and the preview on the View tab, with the latest data...
-		view_cp.regenerate_table(view_cp.selected_cp_index);
-		view_cp.fill_preview(".preview-container#main-cp-view");
+		cpot_view.regenerate_table(cpot_view.selected_cp_index);
+		cpot_view.fill_preview(".preview-container#main-cp-view");
 	    }
 	});
 
@@ -36,7 +36,7 @@ var edit_cp = {
 	    function(){
 		// change the selected row from type 'range' to type 'solid'
 		var POT = DM.editing_ColourPot;
-		var pot_elem = POT.contents[edit_cp.selected_row_i];
+		var pot_elem = POT.contents[cpot_edit.selected_row_i];
 
 		// get average colour from range
 		var bits = logic.colour_pair_to_hsl(pot_elem.range[0], pot_elem.range[1]);
@@ -47,12 +47,12 @@ var edit_cp = {
 		pot_elem.solid = av_colour;
 
 		//refresh view
-		edit_cp.visual_update();
+		cpot_edit.visual_update();
 	    },
 	    function(){
 		// change the selected row from type 'solid' to type 'range'
 		var POT = DM.editing_ColourPot;
-		var pot_elem = POT.contents[edit_cp.selected_row_i];
+		var pot_elem = POT.contents[cpot_edit.selected_row_i];
 
 		pot_elem.type = "range";
 		var J = tinycolor(pot_elem.solid).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
@@ -68,7 +68,7 @@ var edit_cp = {
 		pot_elem.range = [J1, J2];
 
 		//refresh view
-		edit_cp.visual_update();
+		cpot_edit.visual_update();
 	    }
 	]);
 	widgets.actionLink_unset("#solid-v-range.act-mutex", "all");//have both null initally
@@ -81,9 +81,9 @@ var edit_cp = {
 	    DM.sum100_editing_ColourPot();
 
 	    // view update required now...
-	    edit_cp.check_valid_probs();//this has the side effect of recolouring 'done' button.
+	    cpot_edit.check_valid_probs();//this has the side effect of recolouring 'done' button.
 	    //unconditional - and probably duplicate - preview redraw...
-	    view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+	    cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
 
 	    // update the view to match the underlying data
 	    // note how ref is already known by SmartInput("update", {...})
@@ -109,11 +109,11 @@ var edit_cp = {
 
 	    //underlying data change
 	    var delta = DM.sumProbs_editing_ColourPot() - 100;
-	    var ED_pot_row_i = DM.editing_ColourPot.contents[edit_cp.selected_row_i];
+	    var ED_pot_row_i = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 	    ED_pot_row_i.prob = Math.max(ED_pot_row_i.prob-delta, 0);
 
-	    edit_cp.check_valid_probs();//this has the side effect of recolouring 'done' button.
-	    edit_cp.visual_update(); //refresh view
+	    cpot_edit.check_valid_probs();//this has the side effect of recolouring 'done' button.
+	    cpot_edit.visual_update(); //refresh view
 	});
 
 
@@ -129,10 +129,10 @@ var edit_cp = {
 		var R_col = $("#cp-edit-table-buttons #add #A").css("background-color");
 
 		var rows = DM.newRow_editing_ColourPot(ADD_subOp == "A" ? R_col : undefined );
-		edit_cp.selected_row_i = rows-1;//select final row...
-		edit_cp.visual_update(); //refresh view
+		cpot_edit.selected_row_i = rows-1;//select final row...
+		cpot_edit.visual_update(); //refresh view
 		// Disable "done" button if necessary
-		edit_cp.check_valid_probs();
+		cpot_edit.check_valid_probs();
 	    }
 	});
 
@@ -156,15 +156,15 @@ var edit_cp = {
 
 	// 1.4.4 - Delete the selected C-pot element
 	$("#cp-edit-table-buttons #delete").click(function(){
-	    if(edit_cp.selected_row_i != undefined){
-		DM.deleteRow_editing_ColourPot(edit_cp.selected_row_i);
+	    if(cpot_edit.selected_row_i != undefined){
+		DM.deleteRow_editing_ColourPot(cpot_edit.selected_row_i);
 
 		//now, leave selected either replacing row in same position, or final row
-		edit_cp.selected_row_i = Math.min(edit_cp.selected_row_i, DM.editing_ColourPot.contents.length-1);
+		cpot_edit.selected_row_i = Math.min(cpot_edit.selected_row_i, DM.editing_ColourPot.contents.length-1);
 
-		edit_cp.visual_update(); //refresh view
+		cpot_edit.visual_update(); //refresh view
 		// Disable "done" button if necessary
-		edit_cp.check_valid_probs();
+		cpot_edit.check_valid_probs();
 	    }
 	});
 
@@ -179,7 +179,7 @@ var edit_cp = {
 
 	// 1.5.2 - re-randomise the preview area
 	$("#colour-pots-edit #preview-area #re-randomise").click(function(){
-	    view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+	    cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
 	});
 
 	// 1.5.3 - Expand the preview area
@@ -196,14 +196,14 @@ var edit_cp = {
 		);
 
 		//hide the old pane now that now row is selected
-		if(edit_cp.selected_row_i != undefined){
-		    edit_cp.selected_row_i = undefined;
+		if(cpot_edit.selected_row_i != undefined){
+		    cpot_edit.selected_row_i = undefined;
 		    //no fading out here, because the preview area expands instantly...
 		    $("#cp-edit-tabs").hide();
 		    $("#cp-edit-solid").hide();
 		}
 
-		edit_cp.visual_update(); //refresh view
+		cpot_edit.visual_update(); //refresh view
 	    }
 	});
 
@@ -263,7 +263,7 @@ var edit_cp = {
 	    var old_col = $("#bgrins-colour-picker").spectrum("option","color");
 	    var non_transparent = tinycolor(old_col).toHexString();
 
-	    var cp_type = DM.editing_ColourPot.contents[edit_cp.selected_row_i].type;// either 'solid' or 'range'
+	    var cp_type = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].type;// either 'solid' or 'range'
 	    
 	    if(cp_type == "solid"){
 		$("#cp-edit-solid .colour-sun.l").css("background", non_transparent);
@@ -271,8 +271,8 @@ var edit_cp = {
 	    }else if(cp_type == "range"){
 
 		//restore to original (saved) values
-		var old_pair = DM.editing_ColourPot.contents[edit_cp.selected_row_i].range;
-		edit_cp.cp_range_set_colour_blocks( {colour_pair: old_pair} );
+		var old_pair = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range;
+		cpot_edit.cp_range_set_colour_blocks( {colour_pair: old_pair} );
 	    }
 	});
 
@@ -285,22 +285,22 @@ var edit_cp = {
 		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toRgbString();
 
 		//mutate the data
-		var cp_type = DM.editing_ColourPot.contents[edit_cp.selected_row_i].type;// either 'solid' or 'range'
+		var cp_type = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].type;// either 'solid' or 'range'
 		if(cp_type == "solid"){
-		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].solid = col_chosen;
+		    DM.editing_ColourPot.contents[cpot_edit.selected_row_i].solid = col_chosen;
 
 		}else if(cp_type == "range"){
 
-		    var X = edit_cp.get_Rdata_components();
+		    var X = cpot_edit.get_Rdata_components();
 
-		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].range = [X.colour1, X.colour2];
+		    DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range = [X.colour1, X.colour2];
 
 		}
 
 		//refresh view
 		//note that this function triggers a click event (recursion?)
 		// this shows the ugliness of using dummy click events as a means of UI visual update
-		edit_cp.visual_update();
+		cpot_edit.visual_update();
 	    }
 	});
 
@@ -406,11 +406,11 @@ var edit_cp = {
 	    var fac = myKey.includes("hue") ? 1 : 0.01;
 	    fac *= myKey.includes("var") ? 0.5 : 1;
 	    
-	    options[shortKey] = edit_cp.CentralInputs_data[myKey] * fac;
+	    options[shortKey] = cpot_edit.CentralInputs_data[myKey] * fac;
 
-	    options.Rdata = edit_cp.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
+	    options.Rdata = cpot_edit.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
 	    options.no_input_update = true; // in this case there is no need to update the inputs
-	    edit_cp.cp_range_set_colour_blocks( options );
+	    cpot_edit.cp_range_set_colour_blocks( options );
 	    
 	};
 
@@ -427,7 +427,7 @@ var edit_cp = {
 	    
 	    $(this).SmartInput({
 		data_class: dc,
-		underlying_obj: edit_cp.CentralInputs_data,
+		underlying_obj: cpot_edit.CentralInputs_data,
 		underlying_key: myKey,
 		underlying_from_DOM_onChange: true,
 		cb_change: function(){
@@ -435,9 +435,9 @@ var edit_cp = {
 		},
 		cb_focusout: function(){
 		    //apply changes upon "focusout" event
-		    var X = edit_cp.get_Rdata_components();
-		    DM.editing_ColourPot.contents[edit_cp.selected_row_i].range = [X.colour1, X.colour2];
-		    edit_cp.visual_update();
+		    var X = cpot_edit.get_Rdata_components();
+		    DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range = [X.colour1, X.colour2];
+		    cpot_edit.visual_update();
 		}
 		
 	    });
@@ -453,8 +453,8 @@ var edit_cp = {
 
 	    // (1) - Update the little blocks of colour
 
-	    options.Rdata = edit_cp.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
-	    edit_cp.cp_range_set_colour_blocks( options );
+	    options.Rdata = cpot_edit.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
+	    cpot_edit.cp_range_set_colour_blocks( options );
 
 	    // (2) - Update the values of the <input> elements
 
@@ -464,7 +464,7 @@ var edit_cp = {
 
 	// 4.x - Click the "Colour Sun"
 	$("#tabs-e1 .colour-sun.s").click(function (){
-	    var av_colour = edit_cp.get_Rdata_components().tiny_av.toRgbString();
+	    var av_colour = cpot_edit.get_Rdata_components().tiny_av.toRgbString();
 	    BGrinsShow(av_colour, bgrins_on_colMove_cb_RANGE);	    
 	});
 
@@ -519,7 +519,7 @@ var edit_cp = {
 	var POT = DM.editing_ColourPot;
 
 	//set up the window visuals...
-	$("#colour-pots-edit .TL-2").text((view_cp.selected_cp_index+1) + ". ");
+	$("#colour-pots-edit .TL-2").text((cpot_view.selected_cp_index+1) + ". ");
 
 	//this initiates the SmartInput for the Title, only
 	$("#colour-pots-edit #title-bar input").SmartInput({
@@ -560,12 +560,12 @@ var edit_cp = {
 	$("#edit-cp-table tbody").html("");
 
 	POT.contents.forEach(function(element, i){
-	    edit_cp.table_row(element, i);
+	    cpot_edit.table_row(element, i);
 	});
 
 	// update the preview - conditional on its current state being valid...
 	if(DM.sumProbs_editing_ColourPot() == 100){
-	    view_cp.fill_preview("#colour-pots-edit .preview-container", POT);
+	    cpot_view.fill_preview("#colour-pots-edit .preview-container", POT);
 	}
 
 	// use click handler to achieve re-selection
@@ -594,7 +594,7 @@ var edit_cp = {
 	if( sum_probs == 100){
 	    // if it has become re-enabled after disable, refresh the pot-preview
 	    if($done_Btn.hasClass("ui-disabled")){
-		view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+		cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
 		$done_Btn.removeClass("ui-disabled")
 	    }
 	    $msg_text.addClass("B");//B means show in grey
@@ -615,8 +615,8 @@ var edit_cp = {
 			style_class: "blue-cell",
 			data_class: "percent",
 			underlying_from_DOM_onChange: true,
-			cb_change: function(){edit_cp.check_valid_probs();},//all the graphical change...
-			cb_focusout: function(){edit_cp.check_valid_probs();}//may disable "done" btn
+			cb_change: function(){cpot_edit.check_valid_probs();},//all the graphical change...
+			cb_focusout: function(){cpot_edit.check_valid_probs();}//may disable "done" btn
 		    })
 		),
 		$('<td/>').addClass("col-3").append(
@@ -627,10 +627,10 @@ var edit_cp = {
 
 		//
 		// THIS IS THE ALL IMPORTANT UPON SELECT ROW FUNCTION
-		if(edit_cp.selected_row_i != i){
+		if(cpot_edit.selected_row_i != i){
 
 		    // 1. update global (view) state.
-		    edit_cp.selected_row_i = i;
+		    cpot_edit.selected_row_i = i;
 
 		    // 2. Class update to show row in blue
 		    $("#edit-cp-table tr.selected").removeClass("selected");
@@ -649,7 +649,7 @@ var edit_cp = {
 			);
 
 			// fill all those (slighly wastefully regenerated) new elements with colour...
-			view_cp.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+			cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
 		    }
 
 
@@ -677,7 +677,7 @@ var edit_cp = {
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 
 			// Activity upon selection of a RANGE row...
-			edit_cp.cp_range_set_colour_blocks( {colour_pair: pot_elem.range} );
+			cpot_edit.cp_range_set_colour_blocks( {colour_pair: pot_elem.range} );
 
 		    }
 
@@ -792,7 +792,7 @@ var edit_cp = {
 		//scale up by 100 and by 2 for user display
 		var fac = myKey.includes("hue") ? 1 : 100;
 		fac *= myKey.includes("var") ? 2 : 1;
-		edit_cp.CentralInputs_data[myKey] = X[shortKey] * fac;
+		cpot_edit.CentralInputs_data[myKey] = X[shortKey] * fac;
 
 		
 		$(this).SmartInput("update",{

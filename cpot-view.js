@@ -1,4 +1,4 @@
-var view_cp = {
+var cpot_view = {
 
     selected_cp_index: undefined,
     regenerate_table: function(select_index){
@@ -13,7 +13,7 @@ var view_cp = {
 			style_class: "blue-cell",
 			data_class: "text",
 			text_length: 18,//max name length 18 char
-			click_filter: function(){return view_cp.selected_cp_index == i;}
+			click_filter: function(){return cpot_view.selected_cp_index == i;}
 		    })
 		),
 		$('<td/>').addClass("col-3").append(
@@ -32,11 +32,11 @@ var view_cp = {
     	    $("#view-cp-table tbody").append(// add a row into table here...
 		TR_with_innerElements(ColourPot_obj, i)
 		    .on("click", function(){
-			if(view_cp.selected_cp_index != i){//a previously unselected row clicked
+			if(cpot_view.selected_cp_index != i){//a previously unselected row clicked
 			    $("#view-cp-table tr.selected").removeClass("selected");
 			    $(this).addClass("selected");
-			    view_cp.selected_cp_index = i;
-			    view_cp.fill_preview(".preview-container#main-cp-view");
+			    cpot_view.selected_cp_index = i;
+			    cpot_view.fill_preview(".preview-container#main-cp-view");
 			}
 		    })
 		    .on("my_onLoad", function(){
@@ -73,31 +73,31 @@ var view_cp = {
 	//The Edit, Duplicate and Delete buttons underneath the table - click handling...
 	$("#cp-view-table-buttons #edit").click(function(){
 	    //this needs to do more work, in terms of editing the specific colour pot... TODO.
-	    var index = view_cp.selected_cp_index;
+	    var index = cpot_view.selected_cp_index;
 	    if(index !== undefined){
-		edit_cp.show(index);
+		cpot_edit.show(index);
 	    }
 	});
 
 	$("#cp-view-table-buttons #duplicate").click(function(){
-	    var index = view_cp.selected_cp_index;
+	    var index = cpot_view.selected_cp_index;
 	    if(index !== undefined){
 		DM.duplicate_ColourPot(index);
-		view_cp.regenerate_table( index+1 );//select the item duplicated
+		cpot_view.regenerate_table( index+1 );//select the item duplicated
 	    }
 	});
 
 
 	$("#cp-view-table-buttons #delete").click(function(){
-	    var index = view_cp.selected_cp_index;
+	    var index = cpot_view.selected_cp_index;
 	    if(index !== undefined){
 		var lowest_row = DM.delete_ColourPot(index);
-		view_cp.regenerate_table(index - (lowest_row?1:0));//we now select the next one down...
+		cpot_view.regenerate_table(index - (lowest_row?1:0));//we now select the next one down...
 	    }
 	});
 
 	$("#c-pot-view-rerandomise").click(function(){
-	    view_cp.fill_preview(".preview-container#main-cp-view");
+	    cpot_view.fill_preview(".preview-container#main-cp-view");
 	});
     }
 
