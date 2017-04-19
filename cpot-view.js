@@ -56,7 +56,7 @@ var cpot_view = {
 	    ColourPot = DM.ColourPotArray[this.selected_cp_index];
 	}
 	$(container_id).children().each(function(){
-	    $(this).css("background",logic.DrawFromColourPot(ColourPot))
+	    $(this).css("background", cpot_util.DrawFromColourPot(ColourPot))
 	});
     },
 

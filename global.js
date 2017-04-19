@@ -73,7 +73,7 @@ var global = {
     $div_array:function(qty, my_class, ColourPot){//function to generate many mini DIVs
 	var tinies = [];
 	for(var i=0; i<qty; i++){
-	    var cell_colour = ColourPot ? logic.DrawFromColourPot(ColourPot) : "white";
+	    var cell_colour = ColourPot ? cpot_util.DrawFromColourPot(ColourPot) : "white";
 	    tinies.push(
 		$('<div/>').addClass(my_class).css("background",cell_colour)
 	    );
