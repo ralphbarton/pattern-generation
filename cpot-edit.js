@@ -83,6 +83,7 @@ var cpot_edit = {
 	
     },
 
+    
     check_valid_probs: function(){
 	var $done_Btn = $("#cp-edit-buttons #done");
 	var $msg_text = $("#cp-edit-actions #probs-sum");
@@ -107,6 +108,7 @@ var cpot_edit = {
 	}
     },
 
+    
     table_row: function(pot_elem, i){
     	$("#edit-cp-table tbody").append(
 	    $('<tr/>').append(
@@ -180,7 +182,7 @@ var cpot_edit = {
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 
 			// Activity upon selection of a RANGE row...
-			cpot_edit.cp_range_set_colour_blocks( pot_elem.range );
+			cpot_edit.update_range_pane_colours( pot_elem.range );
 
 		    }
 
@@ -194,30 +196,26 @@ var cpot_edit = {
 	var $contents = [];
 	if(pot_elem.type=="range"){//HTML for 'range'
 
-	    var pot_Rdata = this.make_Rdata( pot_elem.range );
-	    // "components" of the colour pot...
-
-	    var Pcomps = this.get_Rdata_components(pot_Rdata);
-	    
+	    var X = cpot_util.range_unpack( pot_elem.range );
 	    $contents = [
 		$("<div\>").addClass("threeCells").append(
-		    this.make_gradient_cell(25, Pcomps, {H:0, S:"y", L:"x"}),
-		    this.make_gradient_cell(25, Pcomps, {H:"x", S:0, L:"y"}),
-		    this.make_gradient_cell(25, Pcomps, {H:"x", S:"y", L:0})
+		    cpot_util.make_gradient_cell(25, X, {H:0, S:"y", L:"x"}),
+		    cpot_util.make_gradient_cell(25, X, {H:"x", S:0, L:"y"}),
+		    cpot_util.make_gradient_cell(25, X, {H:"x", S:"y", L:0})
 		),
 		$("<div\>").addClass("threeCells low").append(
-		    this.make_gradient_cell(25, Pcomps, {H:1, S:"y", L:"x"}),
-		    this.make_gradient_cell(25, Pcomps, {H:"x", S:1, L:"y"}),
-		    this.make_gradient_cell(25, Pcomps, {H:"x", S:"y", L:1})
+		    cpot_util.make_gradient_cell(25, X, {H:1, S:"y", L:"x"}),
+		    cpot_util.make_gradient_cell(25, X, {H:"x", S:1, L:"y"}),
+		    cpot_util.make_gradient_cell(25, X, {H:"x", S:"y", L:1})
 		),
 		$("<div\>").addClass("oblong")//append order to make sure it's on top...
-		    .css("background", Pcomps.tiny_av.toHexString()),
+		    .css("background", X.tiny_av.toHexString()),
 		$("<div\>").addClass("blank").append(
 		    $("<div\>").addClass("chequer"),
 		    $("<div\>").addClass("alpha A-c1")
-			.css("background", Pcomps.tiny_av.setAlpha(Pcomps.a3).toRgbString()),
+			.css("background", X.tiny_av.setAlpha(X.a3).toRgbString()),
 		    $("<div\>").addClass("alpha A-c2")
-			.css("background", Pcomps.tiny_av.setAlpha(Pcomps.a1).toRgbString())
+			.css("background", X.tiny_av.setAlpha(X.a1).toRgbString())
 		)
 	    ];
 
@@ -248,12 +246,13 @@ var cpot_edit = {
     //this includes the "colour sun" - it'd be perverse not to. Then the 12 other little blocks, too.
 
     //note that the "options" may be a single colour (provided as {hsla} ) a pair of colours
-    cp_range_set_colour_blocks: function(set_colour_options){
+    update_range_pane_colours: function(adjustment, options){
 
-
-	this.Rdata = this.make_Rdata(set_colour_options);
+	var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 	
-	var X = this.get_Rdata_components();
+	var R = cpot_util.range_set(adjustment, pot_elem.range);
+	var X = cpot_util.range_unpack( R );
+
 	var av_colour = X.tiny_av.toRgbString();
 	var W = "background-color";
 
@@ -282,7 +281,7 @@ var cpot_edit = {
 
 
 	//Update the input boxes according to the latest data...
-	if(!(set_colour_options.no_input_update)){
+	if(options.updateInputElems == true){
 	    $( "#colour-pots-edit #tabs-e1 input").each(function(){
 		var x2 = $(this).parent(); // var vs mid
 		var x1 = $(this).parent().parent(); // hue, sat, lum, alp

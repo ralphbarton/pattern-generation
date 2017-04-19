@@ -36,8 +36,8 @@ var cpot_edit_init = {
 
 		// mutate data
 		pot_elem.type = "solid";
-		var X = pot_elem.range;
-		pot_elem.solid = tinycolor({ h: X.h, s: X.s, l: X.l, a: X.a }).toRgbString();
+		var R = pot_elem.range;
+		pot_elem.solid = tinycolor({ h: R.h, s: R.s, l: R.l, a: R.a }).toRgbString();
 
 		//refresh view
 		cpot_edit.visual_update();
@@ -264,7 +264,7 @@ var cpot_edit_init = {
 
 		//restore to original (saved) values
 		var old_range = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range;
-		cpot_edit.cp_range_set_colour_blocks( old_range );
+		cpot_edit.update_range_pane_colours( old_range );
 	    }
 	});
 
@@ -289,6 +289,9 @@ var cpot_edit_init = {
 			s: X.s2,
 			l: X.l2,
 			a: X.a2,
+			:
+			:
+			:
 			dh: X.dh,
 			ds: X.ds,
 			dl: X.dl,
@@ -409,8 +412,10 @@ var cpot_edit_init = {
 
 	    options.Rdata = cpot_edit.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
 	    options.no_input_update = true; // in this case there is no need to update the inputs
-	    cpot_edit.cp_range_set_colour_blocks( options );
-	    
+	    cpot_edit.update_range_pane_colours( options );
+
+
+	    ::should edit actual underlying cpot range here...
 	};
 
 
@@ -433,24 +438,6 @@ var cpot_edit_init = {
 		    input_onChange(myKey);
 		},
 		cb_focusout: function(){
-		    //apply changes upon "focusout" event
-
-		    var X = cpot_edit.get_Rdata_components();
-		    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
-		    pot_elem.range = {
-			h: X.h2,
-			s: X.s2,
-			l: X.l2,
-			a: X.a2,
-			dh: X.dh,
-			ds: X.ds,
-			dl: X.dl,
-			da: X.da
-		    };
-
-
-
-		    [X.colour1, X.colour2];
 		    cpot_edit.visual_update();
 		}
 		
@@ -463,16 +450,9 @@ var cpot_edit_init = {
 
 	// 4.x - DEFN for live-update range boundary colour pieces.
 	var bgrins_on_colMove_cb_RANGE = function(tinycolor) {
-	    var options = tinycolor.toHsl();
 
-	    // (1) - Update the little blocks of colour
-
-	    options.Rdata = cpot_edit.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
-	    cpot_edit.cp_range_set_colour_blocks( options );
-
-	    // (2) - Update the values of the <input> elements
-
-	    
+	    var adjustment = tinycolor.toHsl();
+	    cpot_edit.update_range_pane_colours(adjustment, {updateInputElems: true} );
 	};
 
 

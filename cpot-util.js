@@ -123,7 +123,7 @@ var cpot_util = {
 
 	else if (pot_elem.type== "range"){
 
-	    var X = cpot_edit.get_Rdata_components( pot_elem.range );
+	    var X = cpot_util.range_unpack( pot_elem.range );
 
 	    var D = false;// dimentionality controls not yet implemented, and set to 'false' as default.
 
