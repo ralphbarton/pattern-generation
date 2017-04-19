@@ -381,11 +381,13 @@ var cpot_edit_init = {
 	    var x1 = $(this).parent().parent(); // hue, sat, lum, alp
 
 	    //hue in degrees and other properties in %
-	    var dc = x1.hasClass("hue") ? "degrees" : "percent";	    
+	    var dc = x1.hasClass("hue") ? "degrees" : "percent";
+	    var dco = x1.hasClass("hue") ? {max:360, steps:[1,5,30]} : undefined;
 	    var myKey = x1.attr("class").replace("Ln ","") + " > " + x2.attr("class");
 	    
 	    $(this).SmartInput({
 		data_class: dc,
+		data_class_override: dco,
 		underlying_obj: cpot_edit.CentralInputs_data,
 		underlying_key: myKey,
 		underlying_from_DOM_onChange: true,
