@@ -1,5 +1,10 @@
 var global = {
 
+    keys: {
+	CTRL: false,
+	SHIFT: false
+    },
+    
     init: function(){
 	// 1. main the main DIV draggable...
 	$(".cpanel#main").draggable({cancel: "div#cpanel-main-body"});
@@ -19,7 +24,7 @@ var global = {
 	    });
 	});
 
-	//add keystroke handling
+	//add keystroke handling - key down
 	document.addEventListener("keydown",function(e){
 	    var myKeycode = e.keyCode;
 	    var keyPressed = String.fromCharCode(myKeycode);//note that this is non-case sensitive.
@@ -44,7 +49,7 @@ var global = {
 	    */
 
 	    if (keyPressed == 'H'){
-		//animate Object then hide
+		// the 'H' key can only UNHIDE....
 		$(".cpanel#main").show().animate({
 		    opacity:1
 		},{
@@ -54,17 +59,43 @@ var global = {
 	    }
 	    if (keyPressed == 'A'){
 		//Action for 'A' pressed
-
-
 	    }
 
+
+	    if(myKeycode == 16){//shift key
+		global.keys.SHIFT = true;
+	    }
+
+	    if(myKeycode == 17){//control key
+		global.keys.CTRL = true;
+	    }
+
+	    
+
 	    if(motifs_edit.active){
+		// Arrow keys and delete keys must be passed...
 		motifs_edit.keyStrokeHandler(myKeycode, keyPressed);
 
 	    }
 
 	}, false);
 
+
+	
+	document.addEventListener("keyup",function(e){
+	    var myKeycode = e.keyCode;
+	    var keyPressed = String.fromCharCode(myKeycode);//note that this is non-case sensitive.
+
+	    if(myKeycode == 16){//shift key
+		global.keys.SHIFT = false;
+	    }
+
+	    if(myKeycode == 17){//control key
+		global.keys.CTRL = false;
+	    }
+	}, false);
+
+	
 	//initiate tabs...
 	$("#cpanel-main-tabs").tabs()
 

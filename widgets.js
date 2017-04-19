@@ -52,6 +52,9 @@ var widgets = {
 
     },
 
+    SmartInput_step: 0,
+    
+    
     //this assumes an array of 2 functions as second parameter.
     actionLink_init: function(select, fn_listeners_array){
 	
@@ -169,6 +172,13 @@ jQuery.fn.extend({
 		       .on("click", function(){
 			   if((options.click_filter === undefined)||(options.click_filter())){
 			       $(this).SmartInput("update", {UI_enable: true});
+			   }
+
+			   //update
+			   if(global.keys.CTRL){
+			       console.log("smart input (CTRL) click");
+			   }else{
+			       console.log("smart input click");
 			   }
 		       })
 		       .on("change", function(){
