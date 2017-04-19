@@ -36,8 +36,7 @@ var cpot_edit_init = {
 
 		// mutate data
 		pot_elem.type = "solid";
-		var R = pot_elem.range;
-		pot_elem.solid = tinycolor({ h: R.h, s: R.s, l: R.l, a: R.a }).toRgbString();
+		pot_elem.solid = cpot_util.range_unpack(pot_elem.range).tiny_av.toRgbString();
 
 		//refresh view
 		cpot_edit.visual_update();
@@ -45,19 +44,16 @@ var cpot_edit_init = {
 	    function(){
 		// change the selected row from type 'solid' to type 'range'
 		var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
-		var J = tinycolor(pot_elem.solid).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+		var adjustment = tinycolor(pot_elem.solid).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
 		
 		pot_elem.type = "range";
-		pot_elem.range = {
-		    h: J.h,
-		    s: J.s,
-		    l: J.l,
-		    a: J.a,
+		var zero_spread_range = cpot_util.range_set(adjustment);//first inject the central colour
+		pot_elem.range = cpot_util.range_set({
 		    dh: 15,
 		    ds: 0.30,
 		    dl: 0.10,
 		    da: 0.20
-		};
+		}, zero_spread_range);
 
 		//refresh view
 		cpot_edit.visual_update();
@@ -251,20 +247,17 @@ var cpot_edit_init = {
 	$("#bgrins-buttons #cancel").click(function() {
 	    $("#bgrins-container").hide({duration: 400});
 
-	    //also, resore original colour (please don't copy paste code from above!)
-	    var old_col = $("#bgrins-colour-picker").spectrum("option","color");
-	    var non_transparent = tinycolor(old_col).toHexString();
+	    //Restore original colour
+	    var old_colour = tinycolor( $("#bgrins-colour-picker").spectrum("option","color") );
+	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 
-	    var cp_type = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].type;// either 'solid' or 'range'
-	    
-	    if(cp_type == "solid"){
-		$("#cp-edit-solid .colour-sun.l").css("background", non_transparent);
-		$("#k2 #strip").css("background", old_col);
-	    }else if(cp_type == "range"){
+	    if(pot_elem.type == "solid"){
+		$("#cp-edit-solid .colour-sun.l").css("background", old_colour.toHexString() );
+		$("#k2 #strip").css("background", old_colour.toRgbString() );
 
-		//restore to original (saved) values
-		var old_range = DM.editing_ColourPot.contents[cpot_edit.selected_row_i].range;
-		cpot_edit.update_range_pane_colours( old_range );
+	    }else if(pot_elem.type == "range"){
+		// just restore to the existing values
+		cpot_edit.update_range_pane_colours(pot_elem.range, {updateInputElems: true} );
 	    }
 	});
 
@@ -274,29 +267,19 @@ var cpot_edit_init = {
 	$("#bgrins-buttons #choose").click(function() {
 	    if(!just_opened){
 		$("#bgrins-container").hide({duration: 400});
-		var col_chosen = $("#bgrins-colour-picker").spectrum("get");
+		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toRgbString();
 
 		//mutate the data
 		var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 		
 		if(pot_elem.type == "solid"){// either 'solid' or 'range'
-		    pot_elem.solid = col_chosen.toRgbString();
+		    // Mutate the solid colour
+		    pot_elem.solid = col_chosen;
 
 		}else if(pot_elem.type == "range"){
-		    var X = cpot_edit.get_Rdata_components();
-		    pot_elem.range = {
-			h: X.h2,
-			s: X.s2,
-			l: X.l2,
-			a: X.a2,
-			:
-			:
-			:
-			dh: X.dh,
-			ds: X.ds,
-			dl: X.dl,
-			da: X.da
-		    };
+		    // Mutate the range (keep spread but change central value)
+		    pot_elem.range = cpot_util.range_set(col_chosen, pot_elem.range);
+
 		}
 
 		//refresh view
@@ -344,25 +327,18 @@ var cpot_edit_init = {
 
 
 	
-
 	// 3. Editing a C-Pot element in SOLID mode
-	
 
-	// 3.1 - DEFN for live-update of two DOM elements upon colour adjust
-	var bgrins_on_colMove_cb_SOLID = function(tinycolor) {
-	    //note that converting colour to hex strips away the Alpha, which is what I want here.
-	    var hexC = tinycolor.toHexString();
-	    var withAlpha = tinycolor.toRgbString();
-	    $("#cp-edit-solid .colour-sun.l").css("background", hexC);
-	    $("#k2 #strip").css("background", withAlpha);
-	};
-
-
-	// 3.2 - Click the "Colour Sun"
+	// 3.1 - Click the "Colour Sun"
 	$("#cp-edit-solid .colour-sun.l").click(function (){
 	    // take from the 'strip' which includes Alpha channel.
 	    var mySolid_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
-	    BGrinsShow(mySolid_colour, bgrins_on_colMove_cb_SOLID);
+
+	    BGrinsShow(mySolid_colour, function(tinycolor) {
+		//Callback for live-update of two DOM elements upon colour adjust
+		$("#cp-edit-solid .colour-sun.l").css("background", tinycolor.toHexString());// hex excludes alpha
+		$("#k2 #strip").css("background", tinycolor.toRgbString());//rgba includes alpha
+	    });
 	    
 	});
 
@@ -400,33 +376,12 @@ var cpot_edit_init = {
 
 
 	// 4.3 - initialise all the Input elements...
-	var input_onChange = function(myKey){
-
-	    var options = {};
-	    // note that the "shortKey" we pass as options has X.h, X.dh
-	    var shortKey = myKey.includes("mid") ? myKey[0]: "d"+myKey[0];
-	    var fac = myKey.includes("hue") ? 1 : 0.01;
-	    fac *= myKey.includes("var") ? 0.5 : 1;
-	    
-	    options[shortKey] = cpot_edit.CentralInputs_data[myKey] * fac;
-
-	    options.Rdata = cpot_edit.Rdata;	    // must pass current "Rdata" too, so deltas are not lost...
-	    options.no_input_update = true; // in this case there is no need to update the inputs
-	    cpot_edit.update_range_pane_colours( options );
-
-
-	    ::should edit actual underlying cpot range here...
-	};
-
-
-	
 	$( "#colour-pots-edit #tabs-e1 input").each(function(){
 	    var x2 = $(this).parent(); // var vs mid
 	    var x1 = $(this).parent().parent(); // hue, sat, lum, alp
 
 	    //hue in degrees and other properties in %
-	    var dc = x1.hasClass("hue") ? "degrees" : "percent";
-	    
+	    var dc = x1.hasClass("hue") ? "degrees" : "percent";	    
 	    var myKey = x1.attr("class").replace("Ln ","") + " > " + x2.attr("class");
 	    
 	    $(this).SmartInput({
@@ -435,7 +390,18 @@ var cpot_edit_init = {
 		underlying_key: myKey,
 		underlying_from_DOM_onChange: true,
 		cb_change: function(){
-		    input_onChange(myKey);
+		    // "shortKey" takes X.* values * such as X.h, X.dh
+		    var shortKey = myKey.includes("mid") ? myKey[0]: "d"+myKey[0];
+		    var fac = myKey.includes("hue") ? 1 : 0.01;
+		    fac *= myKey.includes("var") ? 0.5 : 1;
+
+		    var adjustment = {};
+		    adjustment[shortKey] = cpot_edit.CentralInputs_data[myKey] * fac;
+
+		    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+		    var new_range = cpot_util.range_set(adjustment, pot_elem.range);
+		    
+		    cpot_edit.update_range_pane_colours(new_range, {updateInputElems: false} );
 		},
 		cb_focusout: function(){
 		    cpot_edit.visual_update();
@@ -447,19 +413,15 @@ var cpot_edit_init = {
 
 	
 
-
-	// 4.x - DEFN for live-update range boundary colour pieces.
-	var bgrins_on_colMove_cb_RANGE = function(tinycolor) {
-
-	    var adjustment = tinycolor.toHsl();
-	    cpot_edit.update_range_pane_colours(adjustment, {updateInputElems: true} );
-	};
-
-
 	// 4.x - Click the "Colour Sun"
 	$("#tabs-e1 .colour-sun.s").click(function (){
-	    var av_colour = cpot_edit.get_Rdata_components().tiny_av.toRgbString();
-	    BGrinsShow(av_colour, bgrins_on_colMove_cb_RANGE);	    
+	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var mySolid_colour = cpot_util.range_unpack(pot_elem.range).tiny_av.toRgbString();
+	    BGrinsShow(mySolid_colour, function(tinycolor) {
+		//this is the callback for RANGE changes (live-update range boundary colour pieces)
+		var new_range = cpot_util.range_set(tinycolor.toHsl(), pot_elem.range);
+		cpot_edit.update_range_pane_colours(new_range, {updateInputElems: true} );
+	    });	    
 	});
 
 	

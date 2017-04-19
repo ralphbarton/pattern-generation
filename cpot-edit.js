@@ -182,8 +182,8 @@ var cpot_edit = {
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
 
 			// Activity upon selection of a RANGE row...
-			cpot_edit.update_range_pane_colours( pot_elem.range );
-
+			cpot_edit.update_range_pane_colours( pot_elem.range, {updateInputElems: true} );
+			
 		    }
 
 		}
@@ -246,13 +246,9 @@ var cpot_edit = {
     //this includes the "colour sun" - it'd be perverse not to. Then the 12 other little blocks, too.
 
     //note that the "options" may be a single colour (provided as {hsla} ) a pair of colours
-    update_range_pane_colours: function(adjustment, options){
+    update_range_pane_colours: function(range, options){
 
-	var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
-	
-	var R = cpot_util.range_set(adjustment, pot_elem.range);
-	var X = cpot_util.range_unpack( R );
-
+	var X = cpot_util.range_unpack( range );
 	var av_colour = X.tiny_av.toRgbString();
 	var W = "background-color";
 

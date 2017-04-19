@@ -22,15 +22,21 @@ var cpot_util = {
     },
 
 
-    //the 'default_range' parameter is optional for case 2 (repack an unpacked range)
-    range_set: function(adjustment, default_range){
+    //the 'my_range' parameter is optional, and can be ommitted to achieve certainn functions:
+    // 1. for case 2 (repack an unpacked range)
+    // 2. create a range object from only a colour...
+    range_set: function(adjustment, my_range){
 
 	if(typeof(adjustment) == "string"){
 	    // case 1: adjustment is a Colour String
 	    // convert it into the range-center values...
 	    adjustment = tinycolor(adjustment).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }	    
 
-	}else if(adjustment.h2 != undefined){
+	}
+
+//Does this use case ever occur?
+/*
+	else if(adjustment.h2 != undefined){
 	    // case 2: reducing an unpacked range into a simple range...
 	    return {
 		h: adjustment.h2,
@@ -44,31 +50,49 @@ var cpot_util = {
 	    };
 	    
 	}
+*/
 
+	
 	// Case 3: where adjustment is just several h or dh values.
 	// Handle this along with remainder of handling for case 1...
+
+	var blank_range = {
+	    h: 0,
+	    s: 0,
+	    l: 0,
+	    a: 0,
+	    dh: 0,
+	    ds: 0,
+	    dl: 0,
+	    da: 0
+	};
+
+	var my_range = my_range || blank_range;
+
 	$.each( adjustment, function( key, value ) {
 
 	    if(key == "h"){
-		default_range.h = value;
+		my_range.h = value;
 		
 	    }else if(key == "dh"){
-		default_range.dh = value;
+		my_range.dh = value;
 
 	    }else if(key[0] == "d"){
 		// change to "ds", "dl", "da" (the key)
 		var keyA = key[1]; // key of the complementary property
-		default_range[key] = value;
-		default_range[keyA] = Math.min(default_range[keyA], 1-value);
-		default_range[keyA] = Math.max(default_range[keyA], value);
+		my_range[key] = value;
+		my_range[keyA] = Math.min(my_range[keyA], 1-value);
+		my_range[keyA] = Math.max(my_range[keyA], value);
 		
 	    }else{
 		// (assume) change to "s", "l", "a" (the key)
 		var keyA = "d" + key; // key of the complementary property
-		default_range[key] = value;
-		default_range[keyA] = Math.min(value, 1-value, default_range[keyA]);
+		my_range[key] = value;
+		my_range[keyA] = Math.min(value, 1-value, my_range[keyA]);
 	    }
 	});
+
+	return my_range;
 
     },
 
