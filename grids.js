@@ -98,7 +98,6 @@ var grids = {
 		$input.SmartInput({
 //		    underlying_obj: Grid_i.line_sets[ls], // this property set on row-select, it is a function of row...
 		    underlying_key: TY.k,
-		    style_class: "plain-cell",
 		    data_class: TY.u, //TODO - isn't this just an arbirary choice, as above -> delete this line?
 		    underlying_from_DOM_onChange: false, // cannot do this - full logic uses old value
 		    cb_change: function(){GA_mod($input[0], ls, TY.k);}//all the graphical change...
@@ -232,10 +231,11 @@ var grids = {
 		    .append(
 			$('<td/>').addClass("col-1").text(i+1),
 			$('<td/>').addClass("col-2").append(
-			    $('<input/>').SmartInput({
+			    $('<input/>')
+			    	.addClass("blue-cell")//for css styling
+				.SmartInput({
 				underlying_obj: DM.GridsArray[i],
 				underlying_key: "description",
-				style_class: "blue-cell",
 				data_class: "text",
 				text_length: 18,//max name length 18 char
 				click_filter: function(){return grids.selected_row_i == i;}

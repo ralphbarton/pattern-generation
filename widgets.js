@@ -127,7 +127,6 @@ jQuery.fn.extend({
 	    if (action == "initialise"){// LOGIC to initialise element
 
 		/*options list:
-		  style_class
 		  data_class
 		  data_class_override
 		  ----{min, max, steps}
@@ -141,9 +140,6 @@ jQuery.fn.extend({
 		  click_filter
 		  underlying_from_DOM_onChange
 		*/
-
-		//set the input class (for styling purposes)
-		$(this).addClass(options.style_class)
 
 		//store custom props in the element
 		$(this).data({
@@ -251,7 +247,7 @@ jQuery.fn.extend({
 		    // Worth noting:  Number("sdf") = NaN     (which is different to: Number("") = 0 )!!!
 		    // lines below handle prepping the string-with-units back to being a pure number and interpreting
 		    // the val of a <input type="number">
-		    var val_str_digits_only = $(this).val().replace(/[^0-9\.]/g,'');
+		    var val_str_digits_only = $(this).val().replace(/[^0-9\.-]/g,'');
 		    var v_numeric = val_str_digits_only == "" ? NaN : Number(val_str_digits_only);
 
 		    // or, scrap that and reread from underlying data.
@@ -282,9 +278,9 @@ jQuery.fn.extend({
 			numeric_step = (ovr.steps || data_props.std_steps)[step_i];
 		    }
 
-		    // 1. apply min & max to actual number		   
+		    // 1. apply min & max to actual number
 		    v_numeric = Math.min(Math.max(v_numeric, numeric_min), numeric_max);
-
+		    
 		    // 2. apply min & max to input element
 		    $(this).attr('min', numeric_min)
 			.attr('max', numeric_max)

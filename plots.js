@@ -95,7 +95,6 @@ var plots = {
 
 	    $("#tabs-4 #value-"+str+" input").SmartInput({
 		underlying_key: "val_"+str,
-		style_class: "plain-cell",
 		underlying_from_DOM_onChange: true,
 		data_class: "dimentionless",
 		cb_change: function(){
@@ -190,10 +189,11 @@ var plots = {
 		    .append(
 			$('<td/>').addClass("col-1").text(i+1),
 			$('<td/>').addClass("col-2").append(
-			    $('<input/>').SmartInput({
+			    $('<input/>')
+				.addClass("blue-cell")//for css styling
+				.SmartInput({
 				underlying_obj: DM.PlotsArray[i],
 				underlying_key: "formula",
-				style_class: "blue-cell",//change styling classes....
 				data_class: "text",
 				text_length: 120, // setting a 120 char limit on the formula...
 				click_filter: function(){return plots.selected_row_i == i;},

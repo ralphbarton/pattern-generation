@@ -7,10 +7,11 @@ var cpot_view = {
 	    return $('<tr/>').append(
 		$('<td/>').addClass("col-1").text(i+1),
 		$('<td/>').addClass("col-2").append(
-		    $('<input/>').SmartInput({
+		    $('<input/>')
+		    	.addClass("blue-cell")//for css styling
+			.SmartInput({
 			underlying_obj: DM.ColourPotArray[i],
 			underlying_key: "description",
-			style_class: "blue-cell",
 			data_class: "text",
 			text_length: 18,//max name length 18 char
 			click_filter: function(){return cpot_view.selected_cp_index == i;}

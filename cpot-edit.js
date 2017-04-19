@@ -28,7 +28,6 @@ var cpot_edit = {
 	$("#colour-pots-edit #title-bar input").SmartInput({
 	    underlying_obj: POT,
 	    underlying_key: "description",
-	    style_class: "plain-cell",
 	    data_class: "text",
 	});
 
@@ -114,10 +113,11 @@ var cpot_edit = {
 	    $('<tr/>').append(
 		$('<td/>').addClass("col-1").text(i+1),
 		$('<td/>').addClass("col-2").append(
-		    $('<input/>').SmartInput({
+		    $('<input/>')
+			.addClass("blue-cell")//for css styling
+			.SmartInput({
 			underlying_obj: pot_elem,
 			underlying_key: "prob",
-			style_class: "blue-cell",
 			data_class: "percent",
 			underlying_from_DOM_onChange: true,
 			cb_change: function(){cpot_edit.check_valid_probs();},//all the graphical change...
