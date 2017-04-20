@@ -38,7 +38,7 @@ text_obj: [
     "pattern_id": "139-04",
     "completion_date": "January 2017",
     "materials_used": "0.5mm mechanical pencil, watercolour pencil, fine coloured fibre-tips, black pen.",
-    "description": "This is my first of my compositions to combine regularly placed motifs with randomly placed motifs. Regular and random placement of motifs can be done according to some underlying low-detail design (intensity / density distribution). This is one of the core ideas of my program.\n<br>\n<br>Where a grid of dots have varing size which reveals some underlying design, this is the technique of Halftone (see <a href=\"https://en.wikipedia.org/wiki/Halftone\">wikipedia article</a>). Halftone has its origin in printing, but is now used in a huge variety of modern product branding designs.\n<br>\n<br>All of these patterns are very exacting to produce by hand, and have two phases: a fine pencil drawing following by colouring in which is the more fun bit. Just as the rigid arrangement of circles in the halftone contrasts against the style of arragement of the bubbles, I have chosen bright primary colours that juxtapose a more muted, organic palette.\n<br>\n<br>The browns, greys etc. for the bubbles were randomly picked by my computer from a continuous spectrum which I specified. The blue, red and yellow of the halftone were again picked by my computer, using a discrete probability distribution with p=1/3 for each.",
+    "description": "This composition combines regularly placed motifs with randomly placed motifs. The placement of motifs (in this case motif is just a circle) follows an underlying low-detail design. I call such a design a \"density distribution\". A density distribution can be used in both regular and random placement of motifs - this is one of the core ideas of my program.\n<br>\n<br>A grid of dots with varing size revealing some underlying design is called Halftone (see <a href=\"https://en.wikipedia.org/wiki/Halftone\">wikipedia article</a>). The technique of halftone has its origin in print making. I see it used in a huge variety of modern product branding designs.\n<br>\n<br>All of these patterns are very exacting to produce by hand, and have two phases: a fine pencil drawing following by colouring in which is the more fun bit. Just as the rigid arrangement of circles in the halftone contrasts against the style of arragement of the bubbles, I have chosen bright primary colours that juxtapose a more muted, organic palette.\n<br>\n<br>The browns, greys etc. for the bubbles were randomly picked by my computer from a continuous spectrum which I specified. The blue, red and yellow of the halftone were again picked by my computer, using a discrete probability distribution with p=1/3 for each.",
     "dimentions": "20.1 cm × 14.1 cm",
     "img_comments": {
       "139-04-1600px02.jpg": "I used a ruler to set out the diamond-grid, and added some a",
@@ -51,7 +51,7 @@ text_obj: [
     "pattern_id": "146-01",
     "completion_date": "January 2017",
     "materials_used": "mechanical pencil, watercolour pencil (mixed on separate palette), on top of fine fibre-tips",
-    "description": "This image is inspired by memories of pools & bath houses in Budapest, and the effects that can be achieved when glazing ceramics.\n<br>\n<br>Take a look at the \"colour-pots\" section of the website. I think concept in the tool is particularly suitable for evoking on computer the subtle variation in colour between a batch of tiles all painted with the same glaze, as they come out of the kiln.",
+    "description": "This composition was inspired by memories of the bath houses in Budapest. I was thinking about the effects that can be achieved when glazing ceramics.\n<br>\n<br>Take a look at the \"Colour Pots\" section of the website. When a batch of tiles comes out of the kiln there will be subtle variations between them, even if they are all painted with the same colour glaze. This is what a Colour Pot should allow you to recreate.",
     "dimentions": "16.0 cm × 3.8 cm",
     "img_comments": {
       "146-01-1600px01.jpg": "I did not initally set about creating a grid of hexagons in the most obvious way!"
@@ -61,7 +61,7 @@ text_obj: [
     "pattern_id": "146-02",
     "completion_date": "January 2017",
     "materials_used": "mechanical pencil, watercolour pencil, fine coloured fibre-tips",
-    "description": "The motif is a rectangle with rounded corners, it is tiled at an angle and filled with a colour spanning from lemon yellow to crimson.\n<br>\n<br>Whilst colours of the rectangles are random, something else is happening with the bluish spot in the centre of each.",
+    "description": "The motif is a rectangle with rounded corners. It is tiled at an angle. Its colour spans from lemon yellow to crimson.\n<br>\n<br>I selected colours at random for the rectangles are random but something else is happening with the bluish spots in the centres.",
     "dimentions": "16.0 cm × 5.8 cm",
     "img_comments": {
       "146-02-1600px02.jpg": "oops. The picture got splashed, and now needs touching up with acrylic paints."
@@ -83,7 +83,7 @@ text_obj: [
     "pattern_id": "146-04",
     "completion_date": "January 2017",
     "materials_used": "0.5mm mechanical pencil, watercolour pencil, fine coloured fibre-tips.",
-    "description": "Which aspects of this design are random, and which follow a trend?",
+    "description": "The progress photos give clues to how I created this design. Can you describe what changes with the rectangle sizes accross the image?",
     "dimentions": "16.0 cm × 10.0 cm",
     "img_comments": {
       "146-04-1600px01.jpg": "lighting is poor"
@@ -93,15 +93,15 @@ text_obj: [
     "pattern_id": "146-05",
     "completion_date": "March 2017",
     "materials_used": "0.5mm mechanical pencil, inks (watered down), fine black felt tip",
-    "description": "",
+    "description": "All the shades of green, turquoise and purple were computer generated. I copied them onto the paper, mixing and diluting droplets of ink.\n<br>\n<br>The large scale repeating pattern is again inspired by tiling, perhaps as you'd see in a bathroom or swimming pool. Is the small-scale pattern of black dots familiar from anywhere?",
     "dimentions": "7.7 cm × 8.1 cm",
     "img_comments": {}
   },
   {
     "pattern_id": "152-01",
-    "completion_date": "0.5mm mechanical pencil,",
-    "materials_used": "",
-    "description": "",
+    "completion_date": "January 2017",
+    "materials_used": "0.5mm mechanical pencil",
+    "description": "The repeating motif, 5 circles arranged into a larger circle, was tricky to consistently reproduce. To approximate a continuously changing size, I split the strip horizontally into 6 different regions.",
     "dimentions": "7.8 cm × 9.6 cm",
     "img_comments": {}
   },
@@ -115,7 +115,7 @@ text_obj: [
   },
   {
     "pattern_id": "152-03",
-    "completion_date": "",
+    "completion_date": "February 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "5.1 cm × 9.6 cm",
@@ -139,7 +139,7 @@ text_obj: [
   },
   {
     "pattern_id": "153-01",
-    "completion_date": "",
+    "completion_date": "January 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "6.5 cm × 6.1 cm",
@@ -147,7 +147,7 @@ text_obj: [
   },
   {
     "pattern_id": "153-02",
-    "completion_date": "",
+    "completion_date": "January 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "6.5 cm × 6.1 cm",
@@ -155,7 +155,7 @@ text_obj: [
   },
   {
     "pattern_id": "153-03",
-    "completion_date": "",
+    "completion_date": "January 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "6.5 cm × 6.1 cm",
@@ -163,7 +163,7 @@ text_obj: [
   },
   {
     "pattern_id": "153-04",
-    "completion_date": "",
+    "completion_date": "February 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "20.1 cm × 6.0 cm",
@@ -195,7 +195,7 @@ text_obj: [
   },
   {
     "pattern_id": "009-03",
-    "completion_date": "",
+    "completion_date": "April 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "16.1 cm × 3.8 cm",
@@ -211,7 +211,7 @@ text_obj: [
   },
   {
     "pattern_id": "009-05",
-    "completion_date": "",
+    "completion_date": "March 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "7.9 cm × 16.6 cm",
@@ -227,7 +227,7 @@ text_obj: [
   },
   {
     "pattern_id": "050-02",
-    "completion_date": "",
+    "completion_date": "April 2017",
     "materials_used": "",
     "description": "",
     "dimentions": "4.9 cm × 10.4 cm",
