@@ -72,8 +72,8 @@ var plots2 = {
 	if(this.wcx.recursive_timeoutID != null){
 	    clearTimeout(this.wcx.recursive_timeoutID);
 	}else{
-	    $("#tabs-4 #z-5 #plot-status div").hide();
-	    $("#tabs-4 #z-5 #working").show();
+	    $("#Tab-plot #z-5 #plot-status div").hide();
+	    $("#Tab-plot #z-5 #working").show();
 	}
 
 	this.wcx.start_time = new Date();
@@ -82,7 +82,7 @@ var plots2 = {
 	this.wcx.compilled_formula = math.compile(Plot_i.formula);
 
 	//assume 1 otherwise
-	this.wcx.res_lim = parseInt($("#tabs-4 #z-5 #res-lim input").val()) || 1;
+	this.wcx.res_lim = parseInt($("#Tab-plot #z-5 #res-lim input").val()) || 1;
 
 	this.wcx.canvas_ctx = this.plotting_canv(false);
 
@@ -102,8 +102,8 @@ var plots2 = {
 	clearTimeout(this.wcx.recursive_timeoutID);
 	this.wcx.recursive_timeoutID = null;	
 
-	$("#tabs-4 #z-5 #plot-status div").hide();
-	$("#tabs-4 #z-5 #aborted").show();
+	$("#Tab-plot #z-5 #plot-status div").hide();
+	$("#Tab-plot #z-5 #aborted").show();
 
 
     },
@@ -157,7 +157,7 @@ var plots2 = {
 
 	    this.wcx.x_randomise.sort(compare);
 
-	    $("#tabs-4 #z-5 #working #res-cur").text(this.wcx.cell_size);
+	    $("#Tab-plot #z-5 #working #res-cur").text(this.wcx.cell_size);
 	}
     },
 
@@ -185,7 +185,7 @@ var plots2 = {
 	    // 1. displaying PERCENT complete of draw-job, based upon counting iterations
 	    this.wcx.iterations_counted += Response.iterations_run;
 	    var pc_raw = 100 * this.wcx.iterations_counted / this.wcx.iterations_expected
-	    $("#tabs-4 #z-5 #working #pc-compl").text(pc_raw.toFixed(1));
+	    $("#Tab-plot #z-5 #working #pc-compl").text(pc_raw.toFixed(1));
 
 	    // 2. RECORD the average time per iteration, for use in calculating future quantities of iterations.
 	    var dur = (new Date() - t_sta);
@@ -197,14 +197,14 @@ var plots2 = {
 
 
 	}else{// COMPLETE
-	    $("#tabs-4 #z-5 #plot-status div").hide();
-	    $("#tabs-4 #z-5 #complete").show();
+	    $("#Tab-plot #z-5 #plot-status div").hide();
+	    $("#Tab-plot #z-5 #complete").show();
 
 	    var t_now = new Date();
 	    var t_overall = t_now - this.wcx.start_time;
 	    var t_final = t_now - this.wcx.res_start_time;
-	    $("#tabs-4 #z-5 #complete #t-overall").text((t_overall/1000).toFixed(1));
-	    $("#tabs-4 #z-5 #complete #t-final").text((t_final/1000).toFixed(1));
+	    $("#Tab-plot #z-5 #complete #t-overall").text((t_overall/1000).toFixed(1));
+	    $("#Tab-plot #z-5 #complete #t-final").text((t_final/1000).toFixed(1));
 
 	    this.wcx.recursive_timeoutID = null;
 	}

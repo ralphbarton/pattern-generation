@@ -51,7 +51,7 @@ var gallery_zoom = {
 
 
 	// respond to clicking within the image space...
-	$("#tabs-8 #img-section").on("click", function(e){
+	$("#Tab-exmp #img-section").on("click", function(e){
 
 	    // 1. if fading out, stop this;
 	    if(magnif_showing == -1){
@@ -124,7 +124,7 @@ var gallery_zoom = {
 	var opac_low = 0.85;
 
 	var mouseenter_counter = 0;
-	$("#tabs-8 #img-section").on("mouseenter", function(){
+	$("#Tab-exmp #img-section").on("mouseenter", function(){
 	    if(mouseenter_counter > 0){
 		$("img#magnify-icon").animate({opacity: opac_med}, 200);
 		setTimeout(function(){
@@ -135,11 +135,11 @@ var gallery_zoom = {
 	});
 
 	//do it here rather than using css :hover (which conficts with js-managed styling responsiveness)
-	$("#tabs-8 img#magnify-icon").on("mouseenter", function(){
+	$("#Tab-exmp img#magnify-icon").on("mouseenter", function(){
 	    $("img#magnify-icon").animate({opacity: opac_low}, 200);
 	});
 
-	$("#tabs-8 img#magnify-icon").on("mouseleave", function(){
+	$("#Tab-exmp img#magnify-icon").on("mouseleave", function(){
 	    $("img#magnify-icon").animate({opacity: opac_med}, 200);
 	    setTimeout(function(){
 		$("img#magnify-icon").animate({opacity: 0}, 1000);
@@ -148,7 +148,7 @@ var gallery_zoom = {
 
 
 
-	$("#tabs-8 img#magnify-icon").on("click", function(){
+	$("#Tab-exmp img#magnify-icon").on("click", function(){
 	    gallery_zoom.set_panning_zoom();
 	});
 
@@ -168,13 +168,13 @@ var gallery_zoom = {
 
 	if(switch_on === undefined){//then toggle whatever it is...
 
-	    $("#tabs-8 #img-section")
+	    $("#Tab-exmp #img-section")
 		.toggleClass("normal")
 		.toggleClass("zooming")
-	    switch_on = $("#tabs-8 #img-section").hasClass("zooming");
+	    switch_on = $("#Tab-exmp #img-section").hasClass("zooming");
 	}else{
 
-	    $("#tabs-8 #img-section")
+	    $("#Tab-exmp #img-section")
 		.toggleClass("normal", !switch_on)
 		.toggleClass("zooming", switch_on)
 	    
@@ -213,7 +213,7 @@ var gallery_zoom = {
 		.css("width", pan_box_Width)
 		.css("height", pan_box_Height)
 
-	    $("#tabs-8 #img-section img.pattern-photo")
+	    $("#Tab-exmp #img-section img.pattern-photo")
 		.draggable({
 		    containment: $("#panning-img-container")
 		})
@@ -225,7 +225,7 @@ var gallery_zoom = {
 	    //Changes to remove the panning zoom.
 
 	    try{// use TRY statement because destroy will throw an error if it is not a dragable anyway
-		$("#tabs-8 #img-section img.pattern-photo")
+		$("#Tab-exmp #img-section img.pattern-photo")
 		    .draggable( "destroy" )
 		    .attr("style","");//remove inline styles not removed by the "destroy" method above...
 	    }catch(err){

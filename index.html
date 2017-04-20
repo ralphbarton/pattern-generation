@@ -91,51 +91,44 @@
     <br>
     <a href="/samples.html">[link to samples page]</a>
 
-    <!-- ITEM 1 - the cpanel -->
+    <!-- the cpanel DIV -->
     <div class="cpanel cpanel-main-size1" id="main">
 
-      <!-- 1.1 cpanel title bar -->
+      <!-- title bar -->
       <div id="cpanel-title-strip">
 	<div class="cpanel-title" id="cpanel-title-1">Pattern Generator</div>
 	<div class="cpanel-title" id="cpanel-title-2">TOOLBOX</div>
 
-	<!-- 1.1.3 drag-badge -->
+	<!-- badges (drag / hide) -->
 	<div class="badge" id="cpanel-title-drag">
-	  <div class="badge-content">
-	    drag
-	  </div>
+	  <div class="badge-content">drag</div>
 	</div>
 
-	<!-- 1.1.4 hide-badge -->
 	<div class="badge" id="cpanel-title-hide">
-	  <div class="badge-content">
-	    hide
-	  </div>
+	  <div class="badge-content">hide</div>
 	</div>
-
 
       </div>
 
-      <!-- 1.2 cpanel body -->
+      <!-- cpanel body (i.e. content beneath the blue gradient strip -->
       <div id="cpanel-main-body">
 
 	<div id="cpanel-main-tabs">
 	  <ul>
-	    <li><a href="#tabs-1">Colour Pots</a></li>
-	    <li><a href="#tabs-2">Layers</a></li>
-	    <li><a href="#tabs-3">Grids</a></li>
-	    <li><a href="#tabs-4">Density Plots</a></li>
-	    <li><a href="#tabs-5">Density Paintings</a></li>
-	    <li><a href="#tabs-6">Motifs</a></li>
-	    <li><a href="#tabs-7">Options</a></li>
-	    <li><a href="#tabs-8">Examples</a></li>
-<!--
-	    <li><a href="#tabs-8">Make it overflow...</a></li>
--->	  
+	    <li><a href="#Tab-cpot">Colour Pots</a></li>
+	    <li><a href="#Tab-cfun">Colouring Functions</a></li>
+	    <li><a href="#Tab-motf">Motifs</a></li>
+	    <li><a href="#Tab-grid">Grids</a></li>
+	    <li><a href="#Tab-plot">Density Plots</a></li>
+	    <li><a href="#Tab-paint">Density Paintings</a></li>
+	    <li><a href="#Tab-patt">Patterns</a></li>
+	    <li><a href="#Tab-exmp">Examples</a></li>
+	    <li><a href="#Tab-optn">Options</a></li>
+	    <li><a href="#Tab-tuti">Tutorial</a></li>
 	  </ul>
 
-	  <!-- 1.2.1 Tab 1 -->	  
-	  <div id="tabs-1">
+	  <!-- == Tab: Colour Pot == -->	  
+	  <div id="Tab-cpot">
 	    <div id="colour-pots-view">
 	      <table class="user-data-table" id="view-cp-table">
 		<thead>
@@ -169,7 +162,7 @@
 
 
 
-
+	    <!-- == Sub-tab: Colour Pot Edit == -->
 	    <div id="colour-pots-edit" style="display: none;">
 
 	      <!-- 1. [cp-edit] Title Bar -->
@@ -357,261 +350,14 @@
 	  </div>
 
 
-	  <!-- 1.2.2 Tab 2 -->	  
-	  <div id="tabs-2">
-	    x
+	  <!-- == Tab: Colouring Functions == -->
+	  <div id="Tab-cfun">
+	    Colouring Functions Tab Placeholder
 	  </div>
 
 
-
-
-	  <!-- 1.2.3 Tab 3 - Grids -->	  
-	  <div id="tabs-3">
-	    
-	    <!-- 1. [Grids] Table -->
-	    <table class="user-data-table" id="grids-table">
-	      <thead>
-		<tr>
-		  <th class="col-1">#</th>
-		  <th class="col-2">Description</th>
-		</tr>
-	      </thead>
-	      <tbody>
-	      </tbody>
-	    </table>
-
-	    <div id="grids-buttons">
-	      <div class="button" id="duplicate">Duplicate</div>
-	      <div class="button" id="delete">Delete</div>
-	      <div class="button" id="advanced">Advanced Grid</div>
-	    </div>
-
-	    <div id="row-content">
-
-	      <div id="lines-v-grid" class="act-mutex">
-		Grid type:<div>1D (=lines)</div><div>2D (=grid)</div>
-	      </div>
-
-	      <div class="boxie" id="line-set-1">
-		<div class="title">Line Set 1</div>
-
-		<div class="k-pix"></div>
-
-		<div class="k-angle">Angle:<input class="plain-cell"/>
-		</div>
-
-		<div class="k-spacing">Interval:<br>
-		  <input class="plain-cell"/>
-		  <div class="act-mutex px-pc-qty">
-		    Unit:<div>px</div><div>%</div><div>qty</div>
-		  </div>
-		</div>
-		<div class="action-link translate">Translation</div>
-
-	      </div>
-
-	      <div class="boxie" id="line-set-2">
-		<!-- inner html copied in dynamically -->	  
-	      </div>
-
-	      <div id="preset-grid" class="act-mutex">
-		Convert to:<div>Isometric (hex)</div><div>Square</div><div>Diamond</div>
-	      </div>
-	      <div id="link-angles" class="act-mutex">
-		Angles 1 & 2:<div>link</div><div>unlink</div>
-	      </div>
-
-	      <div id="slider-placeholder" >
-		this is where I want the slider to go.
-	      </div>
-
-	      <div class="boxie s" id="preview-opts">
-		<div class="title">Preview Options</div>
-		<div id="show-bg" class="act-mutex">Background:<div>Hide</div><div>Show</div></div>
-		<div id="show-points" class="act-mutex">Points:<div>Hide</div><div>Show</div></div>
-		<div id="colour-monochrome" class="act-mutex">Gridlines:<div>Colour</div><div>Monochrome</div></div>
-		<br>
-		<div id="one-v-all" class="act-mutex"><div>Show Selected</div><div>Show All</div></div>
-
-		<div id="grid-preview-visibility">
-		  <div class="button" id="show">Show</div>
-		  <div class="action-link" id="hide">Hide Preview</div>
-		</div>
-
-	      </div>
-
-	    </div>	    
-
-	    <div id="extra-content" class="cpanel">
-	      <div class="k-shift">Interval-Shift:
-		<input class="plain-cell"/>
-	      </div>
-
-	      <div class="k-shift">Interval-Shift:
-		<input class="plain-cell"/>
-	      </div>
-	    </div>
-
-	  </div>
-
-
-
-
-
-	  <!-- 1.2.4 Tab 4 -->	  
-	  <div id="tabs-4">
-
-	      <table class="user-data-table" id="plots-table">
-		<thead>
-		  <tr>
-		    <th class="col-1">#</th>
-		    <th class="col-2">Formula</th>
-		    <th class="col-3">Z.&amp;R.</th>
-		    <th class="col-4">Prev.</th>
-		    <th class="col-5">Hist.</th>
-		  </tr>
-		</thead>
-		<tbody>
-		  <!-- rows populated using JS -->
-		</tbody>
-	      </table>
-
-	      <!-- 1. buttons underneath table -->
-	      <div class="zone" id="z-1">
-		<div id="undr-tabl-btns">
-		  <div class="button s" id="add">Add</div>
-		  <div class="button s" id="delete">Delete</div>
-		</div>
-		<div class="action-link" id="suggestions">Suggestions</div>
-		<div class="action-link" id="func-pal">Functions Palette</div>
-	      </div>
-
-	      <!-- 2. Histogram section -->
-	      <div class="zone boxie s" id="z-2">
-		<div class="title">Histogram</div>
-		
-		<div id="hist">
-		  <svg id="bar-graph"></svg>
-		</div>
-
-		<div class="action-link" id="hist-flatten">Flatten</div>
-
-		<div class="mini-text" id="hist-stats">
-		  <div id="points" >Points: <span>x</span></div>
-		  <div id="min"    >Min: <span>x</span></div>
-		  <div id="max"    >Max: <span>x</span></div>
-		  <div id="low-10" >cf-10&#37: <span>x</span></div>
-		  <div id="high-10">cf-90&#37: <span>x</span></div>
-		  <div id="median" >Median: <span>x</span></div>
-		</div>
-
-		<div class="mini-text" id="hist-adjust">
-		  <div class="title-c">Adjust</div>
-		  <div id="ops">
-		    <div id="value-min">val.min: <span><input class="plain-cell s"/></span></div>
-		    <div id="value-max">val.max: <span><input class="plain-cell s"/></span></div>
-		    <div id="value-mid">val.mid: <span><input class="plain-cell s"/></span></div>
-		    <div id="brightness">Brightn.:
-		      <div>		      
-			<div class="button sqr-but sm n"><span>-</span></div>
-			<div class="button sqr-but sm p"><span>+</span></div>
-		      </div>
-		    </div>
-		    <div id="contrast">Contrast:
-		      <div>		      
-			<div class="button sqr-but sm n"><span>-</span></div>
-			<div class="button sqr-but sm p"><span>+</span></div>
-		      </div>
-		    </div>
-		  </div>
-
-		  <div class="lump" id="curve">FF</div>
-		  <div class="action-link" id="hist-more">More</div>
-		  <div class="action-link" id="hist-reset">Reset</div>
-
-		</div>
-
-	      </div>
-
-	      <!-- 3. Marked-up equation and misc. options section -->
-	      <div class="zone" id="z-3">
-		<div class="comment" id="real">formula in real variables <strong>x</strong> and <strong>y</strong> (varied over plane)</div>
-		<div class="comment" id="cplx">formula in complex variable <strong>z</strong> (varied over plane)</div>
-		<div class="comment" id="invalid">Invalid formula. Not <strong>f(x,y)</strong> and not <strong>f(z)</strong>.</div>
-	      </div>
-
-	      <!-- 4. d -->
-	      <div class="zone boxie s" id="z-4">
-		<div class="title">Zoom&amp;Rotation</div>
-		<div class="act-mutex" id="mouse-zoom">Mouse Zoom:<div>On</div><div>Off</div></div>
-		<div class="act-mutex" id="lock-aspects">Aspect ratio:<div>lock</div><div>unlock</div></div>
-		<div class="action-link" id="reset-zoom">Reset Zoom</div>
-		<div class="action-link" id="square-axes">Square Axes</div>
-		<div class="mini-text" id="more-brack">[<div class="action-link" id="more">More...</div>]</div>
-		<div class="act-mutex" id="zoom-both-x-y">Zoom:<div>x, y</div><div>x only</div><div>y only</div></div>
-		<div class="act-mutex" id="steps-SML">Steps:<div>S</div><div>M</div><div>L</div></div>
-
-		<div class="mini-text" id="ztr-btns">
-		  <div id="zoom">
-		    <div class="b-label">Zoom:</div>
-		    <div class="button sqr-but m"><span>–</span></div><div class="button sqr-but p"><span>+</span></div>
-		  </div>
-		  <div id="translate">
-		    <div class="b-label">Translate:</div><div class="button sqr-but"><img src="icons/arrow-up-s.png"/></div><div class="button sqr-but"><img src="icons/arrow-down-s.png"/></div><div class="button sqr-but"><img src="icons/arrow-left-s.png"/></div><div class="button sqr-but"><img src="icons/arrow-right-s.png"/></div>
-		  </div>
-		  <div id="rotate">
-		    <div class="b-label">Rotate:</div><div class="button sqr-but ac"><img src="icons/rotate-anticlockwise-s.png"/></div><div class="button sqr-but cw"><img src="icons/rotate-clockwise-s.png"/></div>
-		  </div>
-		</div>
-
-
-	      </div>
-
-	      <!-- 5. d -->
-	      <div class="zone boxie s" id="z-5">
-		<div class="mini-text">
-		  <div class="title">Preview Options</div>
-		  <div class="act-mutex" id="colouring">Colouring:<div>greyscale</div><div>posi-negi</div><div>heatmap</div></div>
-		  <div class="act-mutex" id="cv-contours">CV-Contours:<div>Show</div><div>Hide</div></div>
-		  <div id="contours">Qty.cvc:<span><input class="plain-cell s"/></div></span>
-		  <div id="res-lim">res. limit: <span><input class="plain-cell s"/></div></span>
-		  <div id="plot-status">
-		    <div id="working" style="display: none;">
-		      Working...(<span id="pc-compl">0</span><span>%</span>, <span id="res-cur">0</span><span>px</span>)
-		    </div>
-		    <div id="complete" style="display: none;">
-		      Overall: <span id="t-overall">0</span><span>s</span> (final: <span id="t-final">0</span><span>s</span>)
-		    </div>
-		    <div id="aborted" style="display: none;">
-		      Plotting Aborted.
-		    </div>
-		  </div>
-
-		</div>
-
-		<div class="action-link" id="clear">Clear</div>
-		<div class="button" id="plot">Plot</div>
-	      </div>
-
-
-	  </div>
-
-
-
-	  <!-- 1.2.5 Tab 5 -->	  
-	  <div id="tabs-5">
-	    Code here for density painting. <br>
-	    There are a variety of JS-paint kinds of options online. <br>
-	    The best option may well again turn out to be fabric JS, running full-screen.<br>
-	    Main feature to select brush type (e.g. round brush, Gaussian brush etc.)<br>
-	    Other feature ideas include (1) importing images / plots from the other page<br>
-	    combination of overlapping layers by various technques (add, subtract, burn, invert)<br>
-	    Options for choice of colouring function.<br>
-	    <img src="site-graphics/hardsoftbrush_1.jpg">
-	  </div>
-
-	  <!-- 1.2.6 Tab 6 -->	  
-	  <div id="tabs-6">
+	  <!-- == Tab: Motifs == -->
+	  <div id="Tab-motf">
 
 	    <div id="motifs-view">
 	      <table class="user-data-table">
@@ -631,7 +377,7 @@
 	      <div class="preview">
 		<div class="title">My Motif 2</div>
 		<div class="pic-box">
-<img src="site-graphics/example-motif-1.png">
+		  <img src="site-graphics/example-motif-1.png">
 		</div>
 	      </div>
 
@@ -701,9 +447,7 @@
 
 
 
-
-
-	  <!-- 1.2.6.2 - Edit motifs... -->	  
+	  <!-- == Sub-tab: Motif-edit == -->
 	    <div id="motifs-edit" style="display: none;">
 
 	      <!-- 1. The fabric canvas, this is where it all happens! -->	  
@@ -1012,10 +756,267 @@
 
 
 	  </div>
+	  
 
-	  <!-- 1.2.7 Tab 7 -->	  
-	  <!-- == Options == -->	  
-	  <div id="tabs-7">
+
+	  <!-- == Tab: Grids == -->
+	  <div id="Tab-grid">
+	    
+	    <!-- 1. [Grids] Table -->
+	    <table class="user-data-table" id="grids-table">
+	      <thead>
+		<tr>
+		  <th class="col-1">#</th>
+		  <th class="col-2">Description</th>
+		</tr>
+	      </thead>
+	      <tbody>
+	      </tbody>
+	    </table>
+
+	    <div id="grids-buttons">
+	      <div class="button" id="duplicate">Duplicate</div>
+	      <div class="button" id="delete">Delete</div>
+	      <div class="button" id="advanced">Advanced Grid</div>
+	    </div>
+
+	    <div id="row-content">
+
+	      <div id="lines-v-grid" class="act-mutex">
+		Grid type:<div>1D (=lines)</div><div>2D (=grid)</div>
+	      </div>
+
+	      <div class="boxie" id="line-set-1">
+		<div class="title">Line Set 1</div>
+
+		<div class="k-pix"></div>
+
+		<div class="k-angle">Angle:<input class="plain-cell"/>
+		</div>
+
+		<div class="k-spacing">Interval:<br>
+		  <input class="plain-cell"/>
+		  <div class="act-mutex px-pc-qty">
+		    Unit:<div>px</div><div>%</div><div>qty</div>
+		  </div>
+		</div>
+		<div class="action-link translate">Translation</div>
+
+	      </div>
+
+	      <div class="boxie" id="line-set-2">
+		<!-- inner html copied in dynamically -->	  
+	      </div>
+
+	      <div id="preset-grid" class="act-mutex">
+		Convert to:<div>Isometric (hex)</div><div>Square</div><div>Diamond</div>
+	      </div>
+	      <div id="link-angles" class="act-mutex">
+		Angles 1 & 2:<div>link</div><div>unlink</div>
+	      </div>
+
+	      <div id="slider-placeholder" >
+		this is where I want the slider to go.
+	      </div>
+
+	      <div class="boxie s" id="preview-opts">
+		<div class="title">Preview Options</div>
+		<div id="show-bg" class="act-mutex">Background:<div>Hide</div><div>Show</div></div>
+		<div id="show-points" class="act-mutex">Points:<div>Hide</div><div>Show</div></div>
+		<div id="colour-monochrome" class="act-mutex">Gridlines:<div>Colour</div><div>Monochrome</div></div>
+		<br>
+		<div id="one-v-all" class="act-mutex"><div>Show Selected</div><div>Show All</div></div>
+
+		<div id="grid-preview-visibility">
+		  <div class="button" id="show">Show</div>
+		  <div class="action-link" id="hide">Hide Preview</div>
+		</div>
+
+	      </div>
+
+	    </div>	    
+
+	    <div id="extra-content" class="cpanel">
+	      <div class="k-shift">Interval-Shift:
+		<input class="plain-cell"/>
+	      </div>
+
+	      <div class="k-shift">Interval-Shift:
+		<input class="plain-cell"/>
+	      </div>
+	    </div>
+
+	  </div>
+
+
+
+
+
+	  <!-- == Tab: Plots == -->
+	  <div id="Tab-plot">
+
+	      <table class="user-data-table" id="plots-table">
+		<thead>
+		  <tr>
+		    <th class="col-1">#</th>
+		    <th class="col-2">Formula</th>
+		    <th class="col-3">Z.&amp;R.</th>
+		    <th class="col-4">Prev.</th>
+		    <th class="col-5">Hist.</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <!-- rows populated using JS -->
+		</tbody>
+	      </table>
+
+	      <!-- 1. buttons underneath table -->
+	      <div class="zone" id="z-1">
+		<div id="undr-tabl-btns">
+		  <div class="button s" id="add">Add</div>
+		  <div class="button s" id="delete">Delete</div>
+		</div>
+		<div class="action-link" id="suggestions">Suggestions</div>
+		<div class="action-link" id="func-pal">Functions Palette</div>
+	      </div>
+
+	      <!-- 2. Histogram section -->
+	      <div class="zone boxie s" id="z-2">
+		<div class="title">Histogram</div>
+		
+		<div id="hist">
+		  <svg id="bar-graph"></svg>
+		</div>
+
+		<div class="action-link" id="hist-flatten">Flatten</div>
+
+		<div class="mini-text" id="hist-stats">
+		  <div id="points" >Points: <span>x</span></div>
+		  <div id="min"    >Min: <span>x</span></div>
+		  <div id="max"    >Max: <span>x</span></div>
+		  <div id="low-10" >cf-10&#37: <span>x</span></div>
+		  <div id="high-10">cf-90&#37: <span>x</span></div>
+		  <div id="median" >Median: <span>x</span></div>
+		</div>
+
+		<div class="mini-text" id="hist-adjust">
+		  <div class="title-c">Adjust</div>
+		  <div id="ops">
+		    <div id="value-min">val.min: <span><input class="plain-cell s"/></span></div>
+		    <div id="value-max">val.max: <span><input class="plain-cell s"/></span></div>
+		    <div id="value-mid">val.mid: <span><input class="plain-cell s"/></span></div>
+		    <div id="brightness">Brightn.:
+		      <div>		      
+			<div class="button sqr-but sm n"><span>-</span></div>
+			<div class="button sqr-but sm p"><span>+</span></div>
+		      </div>
+		    </div>
+		    <div id="contrast">Contrast:
+		      <div>		      
+			<div class="button sqr-but sm n"><span>-</span></div>
+			<div class="button sqr-but sm p"><span>+</span></div>
+		      </div>
+		    </div>
+		  </div>
+
+		  <div class="lump" id="curve">FF</div>
+		  <div class="action-link" id="hist-more">More</div>
+		  <div class="action-link" id="hist-reset">Reset</div>
+
+		</div>
+
+	      </div>
+
+	      <!-- 3. Marked-up equation and misc. options section -->
+	      <div class="zone" id="z-3">
+		<div class="comment" id="real">formula in real variables <strong>x</strong> and <strong>y</strong> (varied over plane)</div>
+		<div class="comment" id="cplx">formula in complex variable <strong>z</strong> (varied over plane)</div>
+		<div class="comment" id="invalid">Invalid formula. Not <strong>f(x,y)</strong> and not <strong>f(z)</strong>.</div>
+	      </div>
+
+	      <!-- 4. d -->
+	      <div class="zone boxie s" id="z-4">
+		<div class="title">Zoom&amp;Rotation</div>
+		<div class="act-mutex" id="mouse-zoom">Mouse Zoom:<div>On</div><div>Off</div></div>
+		<div class="act-mutex" id="lock-aspects">Aspect ratio:<div>lock</div><div>unlock</div></div>
+		<div class="action-link" id="reset-zoom">Reset Zoom</div>
+		<div class="action-link" id="square-axes">Square Axes</div>
+		<div class="mini-text" id="more-brack">[<div class="action-link" id="more">More...</div>]</div>
+		<div class="act-mutex" id="zoom-both-x-y">Zoom:<div>x, y</div><div>x only</div><div>y only</div></div>
+		<div class="act-mutex" id="steps-SML">Steps:<div>S</div><div>M</div><div>L</div></div>
+
+		<div class="mini-text" id="ztr-btns">
+		  <div id="zoom">
+		    <div class="b-label">Zoom:</div>
+		    <div class="button sqr-but m"><span>–</span></div><div class="button sqr-but p"><span>+</span></div>
+		  </div>
+		  <div id="translate">
+		    <div class="b-label">Translate:</div><div class="button sqr-but"><img src="icons/arrow-up-s.png"/></div><div class="button sqr-but"><img src="icons/arrow-down-s.png"/></div><div class="button sqr-but"><img src="icons/arrow-left-s.png"/></div><div class="button sqr-but"><img src="icons/arrow-right-s.png"/></div>
+		  </div>
+		  <div id="rotate">
+		    <div class="b-label">Rotate:</div><div class="button sqr-but ac"><img src="icons/rotate-anticlockwise-s.png"/></div><div class="button sqr-but cw"><img src="icons/rotate-clockwise-s.png"/></div>
+		  </div>
+		</div>
+
+
+	      </div>
+
+	      <!-- 5. d -->
+	      <div class="zone boxie s" id="z-5">
+		<div class="mini-text">
+		  <div class="title">Preview Options</div>
+		  <div class="act-mutex" id="colouring">Colouring:<div>greyscale</div><div>posi-negi</div><div>heatmap</div></div>
+		  <div class="act-mutex" id="cv-contours">CV-Contours:<div>Show</div><div>Hide</div></div>
+		  <div id="contours">Qty.cvc:<span><input class="plain-cell s"/></div></span>
+		  <div id="res-lim">res. limit: <span><input class="plain-cell s"/></div></span>
+		  <div id="plot-status">
+		    <div id="working" style="display: none;">
+		      Working...(<span id="pc-compl">0</span><span>%</span>, <span id="res-cur">0</span><span>px</span>)
+		    </div>
+		    <div id="complete" style="display: none;">
+		      Overall: <span id="t-overall">0</span><span>s</span> (final: <span id="t-final">0</span><span>s</span>)
+		    </div>
+		    <div id="aborted" style="display: none;">
+		      Plotting Aborted.
+		    </div>
+		  </div>
+
+		</div>
+
+		<div class="action-link" id="clear">Clear</div>
+		<div class="button" id="plot">Plot</div>
+	      </div>
+
+
+	  </div>
+
+
+
+	  <!-- == Tab: Density Paintings == -->
+	  <div id="Tab-paint">
+	    Code here for density painting. <br>
+	    There are a variety of JS-paint kinds of options online. <br>
+	    The best option may well again turn out to be fabric JS, running full-screen.<br>
+	    Main feature to select brush type (e.g. round brush, Gaussian brush etc.)<br>
+	    Other feature ideas include (1) importing images / plots from the other page<br>
+	    combination of overlapping layers by various technques (add, subtract, burn, invert)<br>
+	    Options for choice of colouring function.<br>
+	    <img src="site-graphics/hardsoftbrush_1.jpg">
+	  </div>
+
+
+
+	  
+	  <!-- == Tab: Patterns == -->
+	  <div id="Tab-patt">
+	    Placeholder for "Patterns" tab. I formerly called this "layers". It's where the components get brought together.
+	  </div>
+
+
+
+	  
+	  <!-- == Tab: Options == -->
+	  <div id="Tab-optn">
 
 	    <div id="ops-main">
 	      With the random seed idea, a fixed random-number generator algorithm will allow the exact same image to be generated on different occasions. Neat
@@ -1035,9 +1036,11 @@
 
 	  </div>
 
-	  <!-- 1.2.8 Tab 8 -->	  
-	  <!-- == Examples == -->	  
-	  <div id="tabs-8">
+
+
+
+	  <!-- == Tab: Examples (Gallery) == -->
+	  <div id="Tab-exmp">
 
 	    <div id="thumbs-view">
 
@@ -1135,6 +1138,16 @@
 	    </div>
 
 	  </div>
+
+
+	  <!-- == Tab: Tutorial== -->
+	  <div id="Tab-tuti">
+	    Placeholder for the user-guide / tutorial.
+	  </div>
+
+
+
+
 
 	</div>
 

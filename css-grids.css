@@ -34,14 +34,14 @@
     margin-top: 5px;
 }
 
-#tabs-3 div#row-content{
+#Tab-grid div#row-content{
     position: absolute;
     display: none;/* for initial rendering purposes*/
     left: 244px;
     top: 123px;
 }
 
-#tabs-3 div.boxie{
+#Tab-grid div.boxie{
     position: relative;
     margin-right: 3px;
     display: inline-block;
@@ -51,7 +51,7 @@
     text-align: right;
 }
 
-#tabs-3 div.boxie#preview-opts{
+#Tab-grid div.boxie#preview-opts{
     margin-top: 15px;
     width: 439px;
     height: 46px;
@@ -70,15 +70,15 @@
     top: 163px;
 }
 
-#tabs-3 .act-mutex#link-angles{
+#Tab-grid .act-mutex#link-angles{
     display: inline-block;
     position: absolute;
     right: 3px;
     top: 134px;
 }
 
-#tabs-3 .k-angle,
-#tabs-3 .k-spacing{
+#Tab-grid .k-angle,
+#Tab-grid .k-spacing{
     position: relative;
     display: inline-block;
     margin-right: 90px;
@@ -86,20 +86,20 @@
     font-size: 15px;
 }
 
-#tabs-3 .act-mutex.px-pc-qty{
+#Tab-grid .act-mutex.px-pc-qty{
     width: 100px;
     top: 43px;
     left: -34px;
 }
 
-#tabs-3 .action-link.translate {
+#Tab-grid .action-link.translate {
     position: absolute;
     right: 9px;
     bottom: 4px;
 }
 
 
-#tabs-3 .k-pix{
+#Tab-grid .k-pix{
     position: absolute;
     width: 70px;
     height: 70px;
@@ -107,43 +107,43 @@
     right: 5px;
 }
 
-#tabs-3 .boxie .act-mutex{
+#Tab-grid .boxie .act-mutex{
     display: inline-block;
     position: absolute;
 }
 
-#tabs-3 .boxie#preview-opts .act-mutex#show-bg{
+#Tab-grid .boxie#preview-opts .act-mutex#show-bg{
     top: 9px;
     left: 14px;
 }
 
-#tabs-3 .boxie#preview-opts .act-mutex#colour-monochrome{
+#Tab-grid .boxie#preview-opts .act-mutex#colour-monochrome{
     top: 27px;
     left: 19px;
 }
 
-#tabs-3 .boxie#preview-opts .act-mutex#one-v-all{
+#Tab-grid .boxie#preview-opts .act-mutex#one-v-all{
     top: 9px;
     left: 205px;
 }
 
-#tabs-3 .boxie#preview-opts .act-mutex#show-points{
+#Tab-grid .boxie#preview-opts .act-mutex#show-points{
     top: 27px;
     left: 223px;
 }
 
-#tabs-3 #grid-preview-visibility{
+#Tab-grid #grid-preview-visibility{
     position: absolute;
     right: 5px;
     top: 5px;
     width: 80px;
 }
 
-#tabs-3 .plain-cell{
+#Tab-grid .plain-cell{
     width: 60px;
 }
 
-#tabs-3 #extra-content{
+#Tab-grid #extra-content{
     padding: 6px;
     position: absolute;
     left: 710px;

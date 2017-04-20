@@ -54,7 +54,7 @@ var grids = {
 
 
 	$(".action-link.translate").click(function() {
-	    $("#tabs-3 #extra-content").show({duration: 400});
+	    $("#Tab-grid #extra-content").show({duration: 400});
 	});
 
 	//add logic for input boxes:
@@ -195,8 +195,8 @@ var grids = {
 	    DM.GridsArray[grids.selected_row_i].n_dimentions = make_2d ? 2 : 1;
 	    var Grid_i = DM.GridsArray[grids.selected_row_i];
 	    grids.update_bg_grid(Grid_i);
-	    $("#tabs-3 #line-set-2.boxie").toggleClass("ui-disabled", !make_2d);
-	    $("#tabs-3 #line-set-2.boxie vinput").prop('disabled', !make_2d);   //Disable input
+	    $("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !make_2d);
+	    $("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !make_2d);   //Disable input
 	};
 
 	widgets.actionLink_init("#lines-v-grid.act-mutex", [
@@ -273,7 +273,7 @@ var grids = {
 
 	// show the content for editing - first click only, since there is no event which
 	// subsequently hides this DIV...
-	$("#tabs-3 div#row-content").fadeIn({duration: 400, easing: "linear"});
+	$("#Tab-grid div#row-content").fadeIn({duration: 400, easing: "linear"});
 
 	grids.enable_Iso_Square_Hex_for_current_grid();
 	widgets.actionLink_unset("#lines-v-grid.act-mutex", Grid_i.n_dimentions == 2);

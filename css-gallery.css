@@ -1,6 +1,6 @@
 /* 1. for the 3 mini thumbnails */
 
-#tabs-8 #info{
+#Tab-exmp #info{
   margin: 6px;
 }
 
@@ -214,7 +214,7 @@
   width: 152px;
 }
 
-#tabs-8 #bottom-section{
+#Tab-exmp #bottom-section{
   position: absolute;
   bottom: 0px;
   padding: 2px 8px;

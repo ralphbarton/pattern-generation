@@ -28,7 +28,7 @@ var plots = {
 	// aaargh!!
 
 	// Handler for -ADD-
-	$("#tabs-4 #undr-tabl-btns #add").click(function(){
+	$("#Tab-plot #undr-tabl-btns #add").click(function(){
 	    if(plots.selected_row_i != undefined){//create a new row and select it
 		DM.addRow_plot();
 		plots.selected_row_i = DM.PlotsArray.length - 1;
@@ -37,7 +37,7 @@ var plots = {
 	});
 
 	// Handler for -DELETE-
-	$("#tabs-4 #undr-tabl-btns #delete").click(function(){
+	$("#Tab-plot #undr-tabl-btns #delete").click(function(){
 	    if(plots.selected_row_i != undefined){//create a new row and select it
 		DM.deleteRow_plot(plots.selected_row_i);
 		//"selected" row **may** move up by one
@@ -48,14 +48,14 @@ var plots = {
 	    }
 	});
 
-	$("#tabs-4 #z-5 .button#plot").click(function(){
+	$("#Tab-plot #z-5 .button#plot").click(function(){
 	    if(plots.selected_row_i != undefined){
 		plots2.draw_job();//this will abort the existing job and start afresh
 		plots.showing_plot_active = true;
 	    }
 	});
 
-	$("#tabs-4 #z-5 .action-link#clear").click(function(){
+	$("#Tab-plot #z-5 .action-link#clear").click(function(){
 	    plots2.abort_recursive_work();
 	    plots2.plotting_canv(true);//clear the canvas...
 	    plots.showing_plot_active = false;
@@ -88,12 +88,12 @@ var plots = {
 	$("#z-3.zone .comment").hide();
  
 	//set an assumed res-limit value of 3 pixels
-	$("#tabs-4 #z-5 #res-lim input").val(3);
+	$("#Tab-plot #z-5 #res-lim input").val(3);
 
 	//initiate the smart-inputs
 	["min", "max", "mid"].forEach(function(str) {
 
-	    $("#tabs-4 #value-"+str+" input").SmartInput({
+	    $("#Tab-plot #value-"+str+" input").SmartInput({
 		underlying_key: "val_"+str,
 		underlying_from_DOM_onChange: true,
 		data_class: "dimentionless",
@@ -114,7 +114,7 @@ var plots = {
 
 	// Note 26-Mar-2017 - even in its incompleted state, this action link makes some impact,
 	// since the 'val-min' and 'val-max' parameters are used by the software.
-	$("#tabs-4 #z-2 .action-link#hist-reset").click(function(){
+	$("#Tab-plot #z-2 .action-link#hist-reset").click(function(){
 	    // 1. reset to auto.
 	    var Plot_iH = DM.PlotsArray[plots.selected_row_i].histogram;
 	    Plot_iH.manual = false;
@@ -219,7 +219,7 @@ var plots = {
 
 			    //update the smart inputs to refer to the right underlying data
 			    ["min", "max", "mid"].forEach(function(str) {
-				$("#tabs-4 #value-"+str+" input").SmartInput("update", {
+				$("#Tab-plot #value-"+str+" input").SmartInput("update", {
 				    underlying_obj: Plot_i.histogram
 				});
 			    });
@@ -304,8 +304,8 @@ var plots = {
 	    // also need to update Input boxes here...
 	    Plot_iH.val_min = plots2.wcx.val_lower_saturate_colour;
 	    Plot_iH.val_max = plots2.wcx.val_upper_saturate_colour;	    
-	    $("#tabs-4 #value-min input").SmartInput("update", {data_change: true});
-	    $("#tabs-4 #value-max input").SmartInput("update", {data_change: true});	    
+	    $("#Tab-plot #value-min input").SmartInput("update", {data_change: true});
+	    $("#Tab-plot #value-max input").SmartInput("update", {data_change: true});	    
 
 	}
 

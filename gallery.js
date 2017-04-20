@@ -47,7 +47,7 @@ var gallery = {
 	});
 
 	//bind functionality to elements (buttons & links) in (initialially hidden) Gallery...
-	$("#tabs-8 #close-gallery").click(function(){
+	$("#Tab-exmp #close-gallery").click(function(){
 	    gallery.hide_gallery();
 	});
 
@@ -77,7 +77,7 @@ var gallery = {
 
 	// 2. populate 3 DIV's using the first 3 in the list
 	var t_counter = 0;
-	$.each( $("#tabs-8 div#thumb-container > div.drawn-thumb"), function(key, DOM_myDiv) {
+	$.each( $("#Tab-exmp div#thumb-container > div.drawn-thumb"), function(key, DOM_myDiv) {
 
 	    // 2.1 for the thumbnail set of a specific pattern, randomly choose the actual thumbnail to display.
 	    var this_thumb = rand_ordering[t_counter];
@@ -110,8 +110,8 @@ var gallery = {
 	    top: newTop
 	}, 700);
 
-	$("#tabs-8 #thumbs-view").hide();
-	$("#tabs-8 #gallery-view").show();
+	$("#Tab-exmp #thumbs-view").hide();
+	$("#Tab-exmp #gallery-view").show();
 	$("#cpanel-main-tabs").tabs("option", "disabled", true);
 
 	this.show_pattern(pattern_id);
@@ -120,8 +120,8 @@ var gallery = {
 	    
     hide_gallery: function(){
 
-	$("#tabs-8 #gallery-view").hide();
-	$("#tabs-8 #thumbs-view").show();
+	$("#Tab-exmp #gallery-view").hide();
+	$("#Tab-exmp #thumbs-view").show();
 	$(".cpanel#main").removeClass("cpanel-main-size3").addClass("cpanel-main-size1");
 	$("#cpanel-main-tabs").tabs("option", "disabled", false);
 
@@ -150,12 +150,12 @@ var gallery = {
 	// this function only updates the HTML to show the correct value in text
 	gallery_slideshow.update_duration_slideshow();
 
-	$("#tabs-8 #heading span.value").text(pattern_id);
+	$("#Tab-exmp #heading span.value").text(pattern_id);
 
-	$("#tabs-8 #date span.value").text(TextDetails["completion_date"]);
-	$("#tabs-8 #materials span.value").text(TextDetails["materials_used"]);
-	$("#tabs-8 #description span.value").html(TextDetails["description"]);//may contain <br>
-	$("#tabs-8 #dimentions span.value").text(TextDetails["dimentions"]);
+	$("#Tab-exmp #date span.value").text(TextDetails["completion_date"]);
+	$("#Tab-exmp #materials span.value").text(TextDetails["materials_used"]);
+	$("#Tab-exmp #description span.value").html(TextDetails["description"]);//may contain <br>
+	$("#Tab-exmp #dimentions span.value").text(TextDetails["dimentions"]);
 
 
 	this.show_photo();
@@ -195,7 +195,7 @@ var gallery = {
 	    );
 	}
 
-	$("#tabs-8 #links span.value")
+	$("#Tab-exmp #links span.value")
 	    .html("")
 	    .append(links_html);
 
@@ -249,7 +249,7 @@ var gallery = {
 	//if undefined, use an empty string.
 	var comment = this.current_Details.img_comments[photo_file] || "";
 
-	$("#tabs-8 #bottom-section").text(comment);
+	$("#Tab-exmp #bottom-section").text(comment);
 
     }
 
