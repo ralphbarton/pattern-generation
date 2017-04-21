@@ -212,8 +212,14 @@ var motifs_edit = {
 
 	// 4.4 Gridlines Options
 	widgets.actionLink_init("#motifs-edit .act-mutex#motif-grid",[
-	    function(){set_svgGrp_opac(".gridlines", {opac:0});},
-	    function(){set_svgGrp_opac(".gridlines", {opac:1});}
+	    function(){
+		$(".dropdown#grid-settings").addClass("disabled");
+		set_svgGrp_opac(".gridlines", {opac:0});
+	    },
+	    function(){
+		$(".dropdown#grid-settings").removeClass("disabled");
+		set_svgGrp_opac(".gridlines", {opac:1});
+	    }
 	]);
 
 	
@@ -251,7 +257,21 @@ var motifs_edit = {
 	    $("#motifs-edit .dropdown#grid-settings #gridlines-custom-size .polar").toggleClass("my-inline-block", btn_class == "polar");
 	});
 
-	//auto-click the cartesian button (to hide the other grid).
+	// 4.4.4 - "Reset" grid command (Cartesian, medium size, Normal faintness
+	// (note that "reset" is partially about undoing any irregular spacings that may have been manually entered)
+	$("#motifs-edit #grid-settings button.reset").click(function(){
+	    console.log("reset clicked");
+	    // (1) to Cartesian
+	    $("#motifs-edit #grid-settings .btn-set.system > button.cartesian").click();
+	    // (2) normal faintness
+	    $("#motifs-edit #grid-settings .btn-set.weight > button.normal").click();
+	    // (3) medium size
+	    $("#motifs-edit #grid-settings .btn-set.size > button.medium").click();
+	});
+
+	    
+	// 4.5 Gridlines: instigating correct initial display state.
+	// (auto-click the cartesian button (to hide the other grid)
 	$("#motifs-edit #grid-settings .btn-set.system > button.cartesian").click();
 
 
