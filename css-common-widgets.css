@@ -5,12 +5,14 @@
     color: rgba(0,0,0,1);
 }
 
-.mini-text .A{
+.mini-text .A,
+.mini-text.A{
     font-family: sans;
     font-weight: bold;
 }
 
-.mini-text .B{
+.mini-text .B,
+.mini-text.B{
     color: rgba(0,30,70,0.5);
 }
 
