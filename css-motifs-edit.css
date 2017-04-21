@@ -11,7 +11,6 @@
 /* 2. Motif zone */
 
 #motifs-edit #Motif{
-
     box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
     position: absolute;
     right: 12px;
@@ -127,51 +126,7 @@
 
 /* 4.1 Properties Zone - Elements styling...*/
 
-/* 4.1.1  = w3schools Drop-down styling (begin)*/
-.dropbtn {
-    background-color: #4c9dae;
-    color: white;
-    padding: 1px 0px;
-    width: 80px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-}
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #eee;
-    font-size: 12px;
-    min-width: 125px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 2px 6px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: rgba(76, 157, 174, 0.3);
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown:hover .dropbtn {
-    background-color: #3e818e;
-}
-/* w3schools Drop-down styling (end)*/
 
 
 
@@ -350,7 +305,6 @@ table td.recent-change{
 }
 
 /* 5.1 - arrangement of the permanent content above Motif*/
-
 #motifs-edit .motif-title > input.plain-cell{
     font-size: 18px;
     width: 245px;
@@ -379,81 +333,19 @@ table td.recent-change{
 }
 
 
-/* 5.2 - Laying out the dropdown menu*/
-
-.dropdown.std {
-    font-family: Arial, Helvetica, sans-serif;
+/* 5.2 - Customise layout: gridlines settings dropdown*/
+.dropdown#grid-settings .dropbtn{
+    width: 80px;
 }
 
-.dropdown.std > .dropbtn {
-    background-color: rgba(15, 33, 97, 0.6);
-    color: white;
-    padding: 0px;
-    width: 57px;
-    font-size: 11px;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown.std .dropdown-content {
-    background-color: #eeead8;
-    padding: 1px 4px;
-    font-size: 12px;
+.dropdown#grid-settings .dropdown-content{
     width: 145px;
-    left: -96px;
-}
-
-.dropdown.std:hover .dropbtn {
-    background-color: rgba(15, 33, 97, 0.75);
-}
-
-.dropdown.std .btn-set{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
-    margin-bottom: 5px;
-    padding: 0px 4px;
-    padding-bottom: 1px;
-}
-
-.dropdown.std button{
-    border: none;
-    margin: 2px 1px;
-    background: none;
-    border-radius: 2px;
-    font-size: 12px;
-    width: 65px;
-    background: rgba(39, 58, 124, 0.5);
-    color: white;
-    display: inline-block;
-}
-
-#grid-settings button{
-    padding: 2px 1px;
-}
-
-.dropdown.std button:hover{
-    background: rgba(39, 58, 124, 0.65);
-}
-
-.dropdown.std button > div{
-    font-size: 11px;
-    font-weight: bold;
-    opacity: 0.6;
-    padding: 1px;
+    left: -73px;
 }
 
 .dropdown#grid-settings #gridlines-custom-size > div{
-    font-weight: bold;
-    color: rgba(39, 58, 124, 0.65);
     margin-bottom: 4px;
     margin-left: 12px;
-}
-
-/*toggle an inline-block element..*/
-.dropdown#grid-settings #gridlines-custom-size > div > div{
-    display: none;
-}
-.dropdown#grid-settings #gridlines-custom-size > div > div.my-inline-block{
-    display: inline-block;
 }
 
 .dropdown#grid-settings button.reset{
@@ -462,15 +354,12 @@ table td.recent-change{
 }
 
 
-/* 5.2.1 - Alternative colours for this INPUT element */
-.dropdown.std input.plain-cell:hover{
-    border-color: rgba(53, 72, 143, 0.5);
+/*just to achieve visibility toggling for an inline-block */
+.dropdown#grid-settings #gridlines-custom-size > div > div{
+    display: none;
 }
-
-.dropdown.std input.plain-cell:focus{
-    border-color: rgba(53, 72, 143, 0.8);
-    box-shadow: 0px 0px 3px 1px rgba(37, 71, 193, 0.42);
-
+.dropdown#grid-settings #gridlines-custom-size > div > div.my-inline-block{
+    display: inline-block;
 }
 
 
@@ -478,9 +367,7 @@ table td.recent-change{
 
 
 
-
-
-
+/* 5.3 - mouse coordinates indication*/
 
 #motifs-edit .mouse-coords{
     opacity: 0.5;

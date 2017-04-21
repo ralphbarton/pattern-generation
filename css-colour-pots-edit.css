@@ -1,25 +1,9 @@
 /* Styling of the title bar */
-#colour-pots-edit #title-bar{
-    background: rgba(255,255,255,0.7);
-    margin: 10px 10px;
-    padding: 3px 6px;
-    border: 1px solid black;
-    border-radius: 3px;
+#colour-pots-edit input.cpot-title{
     font-size: 24px;
-    font-family: sans;
-    font-weight: bold;
-    color: rgba(0,0,0,0.6);
-}
-
-#colour-pots-edit span.TL-1{
-    color: rgba(0,0,0,0.4);
-    font-size: 16px;
-    font-weight: normal;
-}
-
-#colour-pots-edit #title-bar input.plain-cell{
-    font-size: 24px;
-    width: 260px;
+    width: 248px;
+    margin: 6px;
+    margin-bottom: 0px;
 }
 
 /* Styling of the table */
@@ -262,7 +246,7 @@
 
 #cp-edit-colour{
     position: absolute;
-    top: 171px;
+    top: 140px;
     right: 10px;
     width: 195px;
 }

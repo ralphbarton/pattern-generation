@@ -166,12 +166,9 @@
 	    <div id="colour-pots-edit" style="display: none;">
 
 	      <!-- 1. [cp-edit] Title Bar -->
-	      <div id="title-bar">
-		<span class="TL-1">Pot Contents: </span>
-		<span class="TL-2">n. </span>
-		<input class="plain-cell" />
-	      </div>
+	      <input class="cpot-title plain-cell" />
 
+	      
 	      <!-- 2. [cp-edit] Table -->
 	      <table class="user-data-table" id="edit-cp-table">
 		<thead>
@@ -518,7 +515,7 @@
 			  <div class="title">Placement origin</div>
 
 			  <!-- 3.1 - Lifted from https://www.w3schools.com/css/tryit.asp?filename=trycss_dropdown_button-->
-			  <div class="dropdown">
+			  <div class="dropdown teal">
 			    <button class="dropbtn">Top Left</button>
 			    <div class="dropdown-content">
 			      <a href="#">Top-Left (Cartesian)</a>
@@ -603,8 +600,8 @@
 		  </div>
 
 
-		  <div class="dropdown std" id="grid-settings">
-		    <button class="dropbtn">Settings</button>
+		  <div class="dropdown plain" id="grid-settings">
+		    <button class="dropbtn">Grid Settings</button>
 		    <div class="dropdown-content">
 		      <div>
 			Grid System
@@ -619,16 +616,16 @@
 		      </div>
 		      <div class="btn-set size">
 			<button class="small">Small
-			  <div class="cartesian">10px</div>
-			  <div class="polar">25px, 15°</div>
+			  <div class="c-note cartesian">10px</div>
+			  <div class="c-note polar">25px, 15°</div>
 			</button>
 			<button class="medium">Medium
-			  <div class="cartesian">25px</div>
-			  <div class="polar" >50px, 45°</div>
+			  <div class="c-note cartesian">25px</div>
+			  <div class="c-note polar" >50px, 45°</div>
 			</button>
 			<button class="large">Large
-			  <div class="cartesian">50px</div>
-			  <div class="polar">100px, 90°</div>
+			  <div class="c-note cartesian">50px</div>
+			  <div class="c-note polar">100px, 90°</div>
 			</button>
 		      </div>
 
@@ -644,13 +641,13 @@
 		      <div id="gridlines-custom-size">
 			Custom size
 			<div>
-			  <div class="cartesian">x-spacing: </div>
-			  <div class="polar">radius-incr:</div>
+			  <div class="i-note cartesian">x-spacing: </div>
+			  <div class="i-note polar">radius-incr:</div>
 			  <input class="plain-cell s"/>
 			</div>
 			<div>
-			  <div class="cartesian">y-spacing: </div>
-			  <div class="polar">angular-incr:</div>
+			  <div class="i-note cartesian">y-spacing: </div>
+			  <div class="i-note polar">angular-incr:</div>
 			  <input class="plain-cell s"/>
 			</div>
 			<button class="reset">Reset</button>

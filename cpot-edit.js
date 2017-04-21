@@ -21,9 +21,6 @@ var cpot_edit = {
 	DM.edit_ColourPot(index);
 	var POT = DM.editing_ColourPot;
 
-	//set up the window visuals...
-	$("#colour-pots-edit .TL-2").text((cpot_view.selected_cp_index+1) + ". ");
-
 	//this initiates the SmartInput for the Title, only
 	$("#colour-pots-edit #title-bar input").SmartInput({
 	    underlying_obj: POT,
