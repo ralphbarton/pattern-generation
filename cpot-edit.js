@@ -1,7 +1,7 @@
 var cpot_edit = {
 
     selected_row_i: undefined,
-    CentralInputs_data: {},
+    InputsValues: {},
     not_yet_initialised: true,
     
     show: function(index){
@@ -130,19 +130,20 @@ var cpot_edit = {
 	    ).click(function(){
 		// in this context, we have "pot_elem", "i" which are accessed below...
 
-		//
 		// THIS IS THE ALL IMPORTANT UPON SELECT ROW FUNCTION
 		if(cpot_edit.selected_row_i != i){
-
-		    // 1. update global (view) state.
+		    //This code is all conditional upon a NEW row being selected.
+		    
+		    // 1. Direct updates to indicate new row selected
 		    cpot_edit.selected_row_i = i;
-
-		    // 2. Class update to show row in blue
 		    $("#edit-cp-table tr.selected").removeClass("selected");
 		    $(this).addClass("selected");
 
+		    // 1.1 Always hide the colour-picker (if present) upon selection of a new row
+		    $("#bgrins-container").hide({duration: 400});
+		    
 
-		    // 3. reduce the size of the preview container, if expanded...
+		    // 2. reduce the size of the preview container, if expanded...
 		    var $p_container = $("#colour-pots-edit .preview-container");
 
 		    if($p_container.hasClass("expanded")){
@@ -158,24 +159,15 @@ var cpot_edit = {
 		    }
 
 
-		    // 4. Change which side panel is shown...
+		    // 3. Change which side panel is shown...
 		    if(pot_elem.type == "solid"){
 			$("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
 			widgets.actionLink_unset("#solid-v-range.act-mutex", 0);// make "Solid" inactive (its the current state)
 
-			//hide the colour-picker if it is present
-			$("#bgrins-container").hide({duration: 400});
-
-			//set the colour of the "solid" sidepanel
-			var non_transparent = tinycolor(pot_elem.solid).toHexString();
-			$("#cp-edit-solid .colour-sun.l").css("background-color", non_transparent);
-			//todo - handle transparency
-			// in fact, use tiny-colour objects in this project.
-			// refer to...
-			// https://github.com/bgrins/TinyColor
-			$("#k2 #strip").css("background-color", pot_elem.solid);
-
+			//update the pane to indicate details of the SOLID colour selected...
+			cpot_edit.update_solid_pane_colours( pot_elem.solid, {updateInputElems: true} );
+			
 		    }else{
 			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
@@ -243,9 +235,38 @@ var cpot_edit = {
     },
 
 
-    //this includes the "colour sun" - it'd be perverse not to. Then the 12 other little blocks, too.
 
-    //note that the "options" may be a single colour (provided as {hsla} ) a pair of colours
+    update_solid_pane_colours: function(colour_str, options){
+
+	//set the colour of the "solid" sidepanel
+	var myColour = tinycolor(colour_str);
+	$("#cp-edit-solid .colour-sun.l").css("background-color", myColour.toHexString());//non-transparent
+	$("#k2 #strip").css("background-color", myColour.toRgbString());//with-transparency
+
+	if(options.updateInputElems == true){
+	    $( "#cp-edit-solid .sld input").each(function(){
+
+		// 1. extract the relevent value from X and write it to "cpot_edit.InputsValues"
+		var x1 = $(this).parent(); // classes of "sld hue", "sld sat" etc...
+		var myKey = x1.attr("class");//use the container div *classes* as key in the {}...
+
+		var my_hsla = myColour.toHsl();
+		var my_attr = myKey.replace("sld ", "")[0]; //This should be a 1-letter string "h", "s" etc...
+
+		cpot_edit.InputsValues[myKey] = my_hsla[my_attr] * (myKey.includes("hue") ? 1 : 100);
+		
+		// 2. visual update of the SmartInput		
+		$(this).SmartInput("update",{
+		    data_change: true
+		});
+	    });
+
+	}
+
+    },
+    
+
+    //Note that "options" does only one thing. It may or not contain a flag for whether to also update inputs
     update_range_pane_colours: function(range, options){
 
 	var X = cpot_util.range_unpack( range );
@@ -279,6 +300,8 @@ var cpot_edit = {
 	//Update the input boxes according to the latest data...
 	if(options.updateInputElems == true){
 	    $( "#colour-pots-edit #tabs-e1 input").each(function(){
+
+		// 1. extract the relevent value from X and write it to "cpot_edit.InputsValues"
 		var x2 = $(this).parent(); // var vs mid
 		var x1 = $(this).parent().parent(); // hue, sat, lum, alp
 		
@@ -290,9 +313,11 @@ var cpot_edit = {
 		//scale up by 100 and by 2 for user display
 		var fac = myKey.includes("hue") ? 1 : 100;
 		fac *= myKey.includes("var") ? 2 : 1;
-		cpot_edit.CentralInputs_data[myKey] = X[shortKey] * fac;
 
-		
+
+		cpot_edit.InputsValues[myKey] = X[shortKey] * fac;
+
+		// 2. visual update of the SmartInput
 		$(this).SmartInput("update",{
 		    data_change: true
 		});

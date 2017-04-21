@@ -248,12 +248,11 @@ var cpot_edit_init = {
 	    $("#bgrins-container").hide({duration: 400});
 
 	    //Restore original colour
-	    var old_colour = tinycolor( $("#bgrins-colour-picker").spectrum("option","color") );
 	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 
 	    if(pot_elem.type == "solid"){
-		$("#cp-edit-solid .colour-sun.l").css("background", old_colour.toHexString() );
-		$("#k2 #strip").css("background", old_colour.toRgbString() );
+		var old_colour = $("#bgrins-colour-picker").spectrum("option","color");
+		cpot_edit.update_solid_pane_colours( old_colour, {updateInputElems: true} );
 
 	    }else if(pot_elem.type == "range"){
 		// just restore to the existing values
@@ -329,22 +328,57 @@ var cpot_edit_init = {
 	
 	// 3. Editing a C-Pot element in SOLID mode
 
-	// 3.1 - Click the "Colour Sun"
-	$("#cp-edit-solid .colour-sun.l").click(function (){
-	    // take from the 'strip' which includes Alpha channel.
-	    var mySolid_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
+	// 3.1 - initialise all the Input elements...
+	$( "#cp-edit-solid .sld input").each(function(){
+	    var x1 = $(this).parent(); // classes of "sld hue", "sld sat" etc...
 
-	    BGrinsShow(mySolid_colour, function(tinycolor) {
-		//Callback for live-update of two DOM elements upon colour adjust
-		$("#cp-edit-solid .colour-sun.l").css("background", tinycolor.toHexString());// hex excludes alpha
-		$("#k2 #strip").css("background", tinycolor.toRgbString());//rgba includes alpha
+	    //hue in degrees and other properties in %
+	    var dc = x1.hasClass("hue") ? "degrees" : "percent";
+	    var dco = x1.hasClass("hue") ? {max:360, steps:[1,5,30]} : undefined;
+	    var myKey = x1.attr("class");//use the container div *classes* as key in the {}...
+	    
+	    $(this).SmartInput({
+		data_class: dc,
+		data_class_override: dco,
+		underlying_obj: cpot_edit.InputsValues,
+		underlying_key: myKey,
+		underlying_from_DOM_onChange: true,
+		cb_change: function(){
+		    // Logic here is to create a new colour by applying the numeric change (HSLA) of the input element
+		    // to the original solid colour
+		    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+		    var my_hsla = tinycolor(pot_elem.solid).toHsl();
+
+		    var my_attr = myKey.replace("sld ", "")[0]; //This should be a 1-letter string "h", "s" etc...
+		    my_hsla[my_attr] = cpot_edit.InputsValues[myKey] * (myKey.includes("hue") ? 1 : 0.01);
+		    var new_solid = tinycolor(my_hsla).toRgbString();
+
+		    //mutate underlying data - 'saves' the change instigated by the interaction with the Input
+		    pot_elem.solid = new_solid;
+		    
+		    //this is the one pane-update case where we don't update the input elems
+		    cpot_edit.update_solid_pane_colours( new_solid, {updateInputElems: false} );
+		},
+		cb_focusout: function(){
+		    cpot_edit.visual_update();
+		}
+		
 	    });
 	    
 	});
+	
+	
+	// 3.2 - Click the "Colour Sun"
+	$("#cp-edit-solid .colour-sun.l").click(function (){
 
+	    // take from 'strip' (this includes Alpha)
+	    var mySolid_colour = $("#cp-edit-solid #k2 #strip").css("background-color");
 
-
-
+	    BGrinsShow(mySolid_colour, function(tinycolor) {
+		cpot_edit.update_solid_pane_colours( tinycolor.toRgbString(), {updateInputElems: true} );
+	    });
+	    
+	});
 
 
 
@@ -388,7 +422,7 @@ var cpot_edit_init = {
 	    $(this).SmartInput({
 		data_class: dc,
 		data_class_override: dco,
-		underlying_obj: cpot_edit.CentralInputs_data,
+		underlying_obj: cpot_edit.InputsValues,
 		underlying_key: myKey,
 		underlying_from_DOM_onChange: true,
 		cb_change: function(){
@@ -398,10 +432,13 @@ var cpot_edit_init = {
 		    fac *= myKey.includes("var") ? 0.5 : 1;
 
 		    var adjustment = {};
-		    adjustment[shortKey] = cpot_edit.CentralInputs_data[myKey] * fac;
+		    adjustment[shortKey] = cpot_edit.InputsValues[myKey] * fac;
 
 		    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 		    var new_range = cpot_util.range_set(adjustment, pot_elem.range);
+
+		    //mutate underlying data - 'saves' the change instigated by the interaction with the Input
+		    pot_elem.range = new_range;
 		    
 		    cpot_edit.update_range_pane_colours(new_range, {updateInputElems: false} );
 		},
@@ -415,7 +452,7 @@ var cpot_edit_init = {
 
 	
 
-	// 4.x - Click the "Colour Sun"
+	// 4.4 - Click the "Colour Sun"
 	$("#tabs-e1 .colour-sun.s").click(function (){
 	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 	    var mySolid_colour = cpot_util.range_unpack(pot_elem.range).tiny_av.toRgbString();

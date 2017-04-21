@@ -22,10 +22,10 @@ var cpot_util = {
     },
 
 
-    //the 'my_range' parameter is optional, and can be ommitted to achieve certainn functions:
+    //the 'default_range' parameter is optional, and can be ommitted to achieve certainn functions:
     // 1. for case 2 (repack an unpacked range)
     // 2. create a range object from only a colour...
-    range_set: function(adjustment, my_range){
+    range_set: function(adjustment, default_range){
 
 	if(typeof(adjustment) == "string"){
 	    // case 1: adjustment is a Colour String
@@ -67,8 +67,11 @@ var cpot_util = {
 	    da: 0
 	};
 
-	var my_range = my_range || blank_range;
 
+	// Deep copy, so that changes are made to a distinct Object...
+	var my_range = jQuery.extend(true, {}, default_range || blank_range);
+
+	
 	$.each( adjustment, function( key, value ) {
 
 	    if(key == "h"){
