@@ -423,7 +423,12 @@
 
 
 
-/* Colour Pot - Edit range...*/
+
+
+
+
+
+/* Colour Pot - Edit range -> Central*/
 #cp-edit-tabs .colour-sun.s{
     width: 50px;
     height: 50px;
@@ -431,7 +436,6 @@
     position: absolute;
     right: 35px;
     top: 5px;
-       
 }
 
 #tabs-e1 .Ln1 .text{
@@ -479,10 +483,14 @@
     left: 115px;
 }
 
-#tabs-e1 .Ln .view{
+#cp-edit-colour .view{
     background-color: white;
     box-shadow: 0px 0px 2px 1px white;
-    position: absolute;
+    position: absolute; 
+}
+
+#tabs-e1 .Ln .view{
+
     top: 24px;
     left: 3px;
     width: 181px;
@@ -534,6 +542,83 @@
     width: 101px;
 }
 
+
+
+
+
+
+/* Colour Pot - Edit range -> Boundaries*/
+#cp-edit-tabs .colour-sun.m{
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    position: absolute;
+    left: 106px;
+    top: 0px;
+    z-index: 1;
+}
+
+#tabs-e2 .colour-block{
+    position: absolute;
+    height: 74px;
+}
+
+#tabs-e2 .text{
+    position: relative;
+    left:12px;
+    font-size: 18px;
+}
+
+#tabs-e2 .view{
+    top: 28px;
+    left: 7px;
+    width: 86px;
+    height: 36px;
+}
+
+#tabs-e2 .view .chequer{
+    position: absolute;
+    width: 40px;
+    top: 3px;
+    right: 2px;
+    height: 28px; 
+}
+
+#tabs-e2 .view .B{
+    top: 0px;
+    position: absolute;
+    top: 10px;
+    left: 8px;
+    width: 60px;
+    height: 16px; 
+    background-color: yellowgreen;
+}
+
+#tabs-e2 .colour-block.c1{
+    top:15px;
+}
+
+#tabs-e2 .colour-block.c2{
+    bottom: 15px;
+}
+
+#tabs-e2 .colour-bar{
+    position: absolute;
+    top: 86px;
+    left: 135px;
+    width: 20px;
+    height: 159px;
+    background-color: white;
+}
+
+#tabs-e2 .colour-bar .gradient{
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom,
+        blue,  /*1*/
+        rgba(215, 215, 26, 0.6) /*2*/
+    );
+}
 
 
 

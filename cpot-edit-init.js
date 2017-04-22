@@ -22,7 +22,7 @@ var cpot_edit_init = {
 	});
 
 	
-	// 1.2 - jQueryUI initialisation command for the "range" tabs (i.e. Central / Edges / Subspace)
+	// 1.2 - jQueryUI initialisation command for the "range" tabs (i.e. Central / Boundaries / Subspace)
 	$("#cp-edit-tabs").tabs();
 
 	
@@ -471,7 +471,7 @@ var cpot_edit_init = {
 
 
 	
-	// 5. Controls for editing a C-Pot element in RANGE->Edges Mode
+	// 5. Controls for editing a C-Pot element in RANGE->Boundaries Mode
 
 
 
