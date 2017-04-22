@@ -285,6 +285,11 @@ jQuery.fn.extend({
 		    $(this).attr('min', numeric_min)
 			.attr('max', numeric_max)
 			.attr('step', numeric_step); //choose the smallest step, since smaller steps are banned
+
+		    // 3. show a Toast for the step size, if just changed...
+		    if(options.step_index_cycle != undefined){
+			global.toast("changed step size to " + numeric_step + data_props.unit);
+		    }
 		}
 
 		/*

@@ -4,27 +4,25 @@ var global = {
 	CTRL: false,
 	SHIFT: false
     },
+
+    toolbox_visible: true,
     
     init: function(){
 	// 1. main the main DIV draggable...
 	$(".cpanel#main").draggable({cancel: "div#cpanel-main-body"});
 
-	// 2. add functionality to the "hide" badge"s.c
+	// 2. initiate tabs...
+	$("#cpanel-main-tabs").tabs()
+	
+	
+	// 3. add functionality to the "hide" badge
 	$("#cpanel-title-hide").click(function(){
-	    
-	    //animate Object then hide
-	    $(".cpanel#main").animate({
-		opacity:0
-	    },{
-		duration: 1000,
-		easing: "linear",
-		complete: function(){
-		    $(".cpanel#main").hide();
-		}
-	    });
+	    $(".cpanel#main").fadeOut({duration: 1000, easing: "linear"});
+	    global.toolbox_visible = false;
+
 	});
 
-	//add keystroke handling - key down
+	// 4. Global keystroke handling: key down
 	document.addEventListener("keydown",function(e){
 	    var myKeycode = e.keyCode;
 	    var keyPressed = String.fromCharCode(myKeycode);//note that this is non-case sensitive.
@@ -50,12 +48,9 @@ var global = {
 
 	    if (keyPressed == 'H'){
 		// the 'H' key can only UNHIDE....
-		$(".cpanel#main").show().animate({
-		    opacity:1
-		},{
-		    duration: 500,
-		    easing: "linear"
-		});
+		$(".cpanel#main").fadeIn({duration: 400, easing: "linear"});
+		global.toolbox_visible = true;
+		
 	    }
 	    if (keyPressed == 'A'){
 		//Action for 'A' pressed
@@ -81,7 +76,7 @@ var global = {
 	}, false);
 
 
-	
+	// 5. Global keystroke handling: key up
 	document.addEventListener("keyup",function(e){
 	    var myKeycode = e.keyCode;
 	    var keyPressed = String.fromCharCode(myKeycode);//note that this is non-case sensitive.
@@ -103,12 +98,32 @@ var global = {
 	}, false);
 
 	
-	//initiate tabs...
-	$("#cpanel-main-tabs").tabs()
+	// 6. click upon anywhere
+	$(document).click(function(){
+	    if(global.toolbox_visible == false){
+		global.toast("Press the 'H' key to unhide the toolbox");
+	    }
+	});
 
     },
 
-    $div_array:function(qty, my_class, ColourPot){//function to generate many mini DIVs
+    
+    toast: function(text){
+
+	$("#toast-box")
+	    .text(text)
+	    .fadeIn({duration:200, easing: "linear"});
+
+	
+	setTimeout(function(){
+	    $("#toast-box")
+	    	.fadeOut({duration:200, easing: "linear"});
+	}, 1000);
+	
+    },
+
+    
+    $div_array: function(qty, my_class, ColourPot){//function to generate many mini DIVs
 	var tinies = [];
 	for(var i=0; i<qty; i++){
 	    var cell_colour = ColourPot ? cpot_util.DrawFromColourPot(ColourPot) : "white";
