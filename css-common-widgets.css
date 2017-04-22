@@ -460,7 +460,6 @@ text-decoration: underline;
 
 .dropdown.plain .dropdown-content {
     background-color: #eeead8;
-    padding: 4px;
 }
 
 .dropdown.teal .dropdown-content{
@@ -476,7 +475,7 @@ text-decoration: underline;
     display: none;
 }
 
-.dropdown.teal .dropdown-content a {
+.dropdown .dropdown-content a {
     color: black;
     padding: 2px 6px;
     text-decoration: none;
@@ -485,6 +484,10 @@ text-decoration: underline;
 
 .dropdown.teal .dropdown-content a:hover {
     background-color: rgba(76, 157, 174, 0.3);
+}
+
+.dropdown.plain .dropdown-content a:hover {
+    background-color: rgba(27, 51, 136, 0.25);
 }
 
 

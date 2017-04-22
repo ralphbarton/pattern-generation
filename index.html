@@ -35,8 +35,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css-toolbox.css" />
     <link rel="stylesheet" href="css-common-widgets.css" />
-    <link rel="stylesheet" href="css-colour-pots-view.css" />
-    <link rel="stylesheet" href="css-colour-pots-edit.css" />
+    <link rel="stylesheet" href="css-cpot-view.css" />
+    <link rel="stylesheet" href="css-cpot-edit.css" />
 
     <link rel="stylesheet" href="css-grids.css" />
     <link rel="stylesheet" href="css-plots.css" />
@@ -189,10 +189,30 @@
 		<!-- 3.2 [cp-edit] Table Actions -->
 		<div id="cp-edit-actions">
 
-		  <span class="mini-text" id="probs-sum">
-		    Probs sum: <span id="sum" class="A">x</span> (<span id="delta" class="A">x</span>)
-		  </span>
+		  <div class="mini-text" id="probs-sum">
+		    <span>Probs sum:</span>
+		    <span id="sum" class="A">x</span> (<span id="delta" class="A">x</span>)
+		  </div>
 
+		  <div class="dropdown summing plain">
+		    <button class="dropbtn">Summing Tools</button>
+		    <div class="dropdown-content">
+		      <a href="#" id="delta-to-selection">sum to 100% (adjust selected)</a>
+		      <a href="#" id="sum100">sum to 100% (rescale all)</a>
+		      <a href="#" id="all-eq">sum to 100% (all equal)</a>
+		    </div>
+		  </div>
+
+		  <div class="dropdown elem-type plain">
+		    <button class="dropbtn">Solid (non-static)</button>
+		    <div class="dropdown-content">
+		      <a id="conv-to-solid" href="#">Solid</a>
+		      <a id="conv-to-range" href="#">Range</a>
+		      <a href="#">Convert to non-static</a>
+		    </div>
+		  </div>
+
+		  
 		    <!-- 3.2 These are going into the dropdown menu!
 		    [<div class="action-link" id="all-eq">all eq</div>]
 		    [<div class="action-link" id="delta-to-selection">ap-r</div>]
@@ -224,13 +244,6 @@
 
 	      <!-- 5. [cp-edit] Slider -->
 	      <div id="cp-edit-slider">style this slider!</div>
-
-
-	      <!-- 6. [cp-edit] Advanced Colour Pot (editing) options -->
-	      <div id="cp-edit-advanced-buttons">
-		<div class="button s" id="cp-func">Colouring Functions</div>
-		<div class="button s" id="cp-nonstatic">Non-Static Colour Pot</div>
-	      </div>
 
 
 	      <!-- 7. [cp-edit] Cancel/Done Buttons -->
@@ -342,8 +355,9 @@
 		    </div>
 		  </div>
 
-		</div><!-- 7.1-->
-		  
+		</div>
+
+		
 	      </div>
 	    </div>
 	  </div>

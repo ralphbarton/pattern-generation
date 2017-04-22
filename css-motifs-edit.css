@@ -341,6 +341,7 @@ table td.recent-change{
 .dropdown#grid-settings .dropdown-content{
     width: 145px;
     left: -73px;
+    padding: 4px;
 }
 
 .dropdown#grid-settings #gridlines-custom-size > div{

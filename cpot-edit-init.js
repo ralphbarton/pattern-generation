@@ -28,41 +28,39 @@ var cpot_edit_init = {
 	
 	// 1.3 - Functions underneath list of C-Pot elements
 
-	// 1.3.1 - switching a C-Pot element Solid v. Range (action link)
-	widgets.actionLink_init("#solid-v-range.act-mutex",[
-	    function(){
-		// change the selected row from type 'range' to type 'solid'
-		var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	// 1.3.1 - change the selected row from type 'range' to type 'solid' (dropdown item)
+	$("#cp-edit-actions #conv-to-solid").click(function(){
+	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
 
-		// mutate data
-		pot_elem.type = "solid";
-		pot_elem.solid = cpot_util.range_unpack(pot_elem.range).tiny_av.toRgbString();
+	    // mutate data
+	    pot_elem.type = "solid";
+	    pot_elem.solid = cpot_util.range_unpack(pot_elem.range).tiny_av.toRgbString();
 
-		//refresh view
-		cpot_edit.visual_update();
-	    },
-	    function(){
-		// change the selected row from type 'solid' to type 'range'
-		var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
-		var adjustment = tinycolor(pot_elem.solid).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
-		
-		pot_elem.type = "range";
-		var zero_spread_range = cpot_util.range_set(adjustment);//first inject the central colour
-		pot_elem.range = cpot_util.range_set({
-		    dh: 15,
-		    ds: 0.30,
-		    dl: 0.10,
-		    da: 0.20
-		}, zero_spread_range);
+	    //refresh view
+	    cpot_edit.visual_update();
+	});
 
-		//refresh view
-		cpot_edit.visual_update();
-	    }
-	]);
-	widgets.actionLink_unset("#solid-v-range.act-mutex", "all");//have both null initally
+	// 1.3.2 - change the selected row from type 'solid' to type 'range' (dropdown item)
+	$("#cp-edit-actions #conv-to-range").click(function(){
 
+	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var adjustment = tinycolor(pot_elem.solid).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+	    
+	    pot_elem.type = "range";
+	    var zero_spread_range = cpot_util.range_set(adjustment);//first inject the central colour
+	    pot_elem.range = cpot_util.range_set({
+		dh: 15,
+		ds: 0.30,
+		dl: 0.10,
+		da: 0.20
+	    }, zero_spread_range);
 
-	// 1.3.2 - rescale probs to SUM to 100 (action link)
+	    //refresh view
+	    cpot_edit.visual_update();
+	});
+
+	
+	// 1.3.3 - rescale probs to SUM to 100 (dropdown item)
 	$("#cp-edit-actions #sum100").click(function(){
 
 	    // may fail if all probabilities are zero...
@@ -81,7 +79,7 @@ var cpot_edit_init = {
 	});
 
 
-	// 1.3.3 - set all probabilities equal (action link)
+	// 1.3.4 - set all probabilities equal (dropdown item)
 	$("#cp-edit-actions #all-eq").click(function(){
 	    //underlying data change
 	    DM.allEqualProbs_editing_ColourPot();
@@ -91,7 +89,7 @@ var cpot_edit_init = {
 	});
 
 
-	// 1.3.4 - Add delta-from-100% to seection - another way to achieve sum=100 (action link)
+	// 1.3.5 - Add delta-from-100% to seection - another way to achieve sum=100 (dropdown item)
 	// (must also respect probs all > 0%)
 	$("#cp-edit-actions #delta-to-selection").click(function(){
 

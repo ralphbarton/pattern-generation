@@ -160,7 +160,8 @@ var cpot_edit = {
 		    if(pot_elem.type == "solid"){
 			$("#cp-edit-tabs").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-solid").fadeIn({duration:400, easing: "linear"});
-			widgets.actionLink_unset("#solid-v-range.act-mutex", 0);// make "Solid" inactive (its the current state)
+			//indicate what the selected item is (i.e. type="Solid") using the dropdown button text
+			$("#cp-edit-actions .dropdown.elem-type .dropbtn").text("Solid");
 
 			//update the pane to indicate details of the SOLID colour selected...
 			cpot_edit.update_solid_pane_colours( pot_elem.solid, {updateInputElems: true} );
@@ -168,7 +169,8 @@ var cpot_edit = {
 		    }else{
 			$("#cp-edit-solid").fadeOut({duration:400, easing: "linear"});
 			$("#cp-edit-tabs").fadeIn({duration:400, easing: "linear"});
-			widgets.actionLink_unset("#solid-v-range.act-mutex", 1);// make "Range" inactive (its the current state)
+			//indicate what the selected item is (i.e. type="Range") using the dropdown button text
+			$("#cp-edit-actions .dropdown.elem-type .dropbtn").text("Range");
 
 			// Activity upon selection of a RANGE row...
 			cpot_edit.update_range_pane_colours( pot_elem.range, {updateInputElems: true} );
