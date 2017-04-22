@@ -74,7 +74,7 @@ var global = {
 
 	    if(motifs_edit.active){
 		// Arrow keys and delete keys must be passed...
-		motifs_edit.keyStrokeHandler(myKeycode, keyPressed);
+		motifs_edit.keyStrokeHandler(myKeycode, keyPressed, "keydown");
 
 	    }
 
@@ -93,6 +93,13 @@ var global = {
 	    if(myKeycode == 17){//control key
 		global.keys.CTRL = false;
 	    }
+
+	    if(motifs_edit.active){
+		// Arrow keys and delete keys must be passed...
+		motifs_edit.keyStrokeHandler(myKeycode, keyPressed, "keyup");
+
+	    }
+	    
 	}, false);
 
 	

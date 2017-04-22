@@ -20,48 +20,67 @@ var motifs_edit = {
 	this.active = false;
     },
 
-    keyStrokeHandler: function(myKeycode, keyPressed){
+    keyStrokeHandler: function(myKeycode, keyPressed, keyEvent){
 	
 	var canvas = this.Fabric_Canvas;
 
-	//Delete key pressed...
-	if(myKeycode == 46){
-	    this.ActUponFabricSelection(function(fObj, uid){
-		motifs_edit.deleteMotifElement(uid);
-	    }, {
-		groupDiscard: true
-	    });
+	if(keyEvent == "keydown"){
+	    
+	    //Delete key pressed...
+	    if(myKeycode == 46){
+		this.ActUponFabricSelection(function(fObj, uid){
+		    motifs_edit.deleteMotifElement(uid);
+		}, {
+		    groupDiscard: true
+		});
+	    }
+
+	    //an ARROW key pressed...
+	    else if((myKeycode >= 37)&&(myKeycode <= 40)){
+
+		// determine the 1px MOVE, as a "change" object of properties...
+		this.ActUponFabricSelection(function(fObj, uid){
+
+		    /*
+		      left arrow 37
+		      up arrow 38
+		      right arrow 39
+		      down arrow 40 
+		    */
+		    var cng = {};
+		    if(myKeycode == 37){
+			cng.left = fObj.left - 1;
+		    }else if(myKeycode == 38){
+			cng.top = fObj.top - 1;
+		    }else if(myKeycode == 39){
+			cng.left = fObj.left + 1;
+		    }else if(myKeycode == 40){
+			cng.top = fObj.top + 1;
+		    }
+
+
+		    motifs_edit.updateMotifElement(uid, cng);
+		});
+	    }
+
+	    // CTRL key pressed...
+	    else if(myKeycode == 17){
+		//Lock aspect ratios.
+		canvas.uniScaleTransform = false;
+	    }
+
+	}else if(keyEvent == "keyup"){
+
+	    // CTRL key released...
+	    if(myKeycode == 17){
+		//no lock on aspect ratios during transform
+		canvas.uniScaleTransform = true;
+	    }
+
 	}
-
-	//an ARROW key pressed...
-	else if((myKeycode >= 37)&&(myKeycode <= 40)){
-
-	    // determine the 1px MOVE, as a "change" object of properties...
-	    this.ActUponFabricSelection(function(fObj, uid){
-
-		/*
-		  left arrow 37
-		  up arrow 38
-		  right arrow 39
-		  down arrow 40 
-		*/
-		var cng = {};
-		if(myKeycode == 37){
-		    cng.left = fObj.left - 1;
-		}else if(myKeycode == 38){
-		    cng.top = fObj.top - 1;
-		}else if(myKeycode == 39){
-		    cng.left = fObj.left + 1;
-		}else if(myKeycode == 40){
-		    cng.top = fObj.top + 1;
-		}
-
-
-		motifs_edit.updateMotifElement(uid, cng);
-	    });
-	}
-
+	
     },
+	
 
 
     ActUponFabricSelection: function(CB_per_object, options){

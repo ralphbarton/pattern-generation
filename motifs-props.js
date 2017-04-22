@@ -412,7 +412,9 @@ var motifs_props = {
 		top: fObj.top,
 		width: fObj.width,
 		height: fObj.height,
-		angle: fObj.angle
+		angle: fObj.angle,
+		rx: fObj.rx,
+		ry: fObj.ry
 	    };
 	};
 
@@ -460,46 +462,28 @@ var motifs_props = {
 		var fObj = options.target;
 		var PGTuid = fObj.PGTuid;
 
-		/*
+		
 		// use scale change to directly change with width/height rather than holding
 		$.each({
-		    "ellipse": {Qx: "rx", Qx: "ry", },
-//		    "polygon": 
-		    "other": {Qx: "width", Qx: "height", },
+		    "ellipse":  {Qx: "rx", Qy: "ry" },
+		    "rect":     {Qx: "width", Qy: "height" },
+		    "triangle": {Qx: "width", Qy: "height" },
+		    "polygon":  {},
+		    "line":     {Qx: "width", Qy: "height" }
 		}, function( shape_type, props ) {//applied for each shape type
 
 		    if(fObj.type == shape_type){
+			if(fObj.scaleX != 1){
+			    fObj[props.Qx] = Math.round(fObj[props.Qx] * fObj.scaleX, 0);
+			    fObj.scaleX = 1;
+			}
+			if(fObj.scaleY != 1){
+			    fObj[props.Qy] = Math.round(fObj[props.Qy] * fObj.scaleY, 0);
+			    fObj.scaleY = 1;
+			}
+		    }
 
-			$.each(props, function(k, prp) {//applied for width & height (or equiv.)
-
-
-			});
-			
-		    }
-		    
-		});*/
-
-		    
-		if(fObj.type == "ellipse"){
-		    if(fObj.scaleX != 1){
-			console.log(fObj.rx);
-			fObj.rx = Math.round(fObj.rx * fObj.scaleX, 0);
-			fObj.scaleX = 1;
-		    }
-		    if(fObj.scaleY != 1){
-			fObj.ry = Math.round(fObj.ry * fObj.scaleY, 0);
-			fObj.scaleY = 1;
-		    }
-		}else{
-		    if(fObj.scaleX != 1){
-			fObj.width = Math.round(fObj.width * fObj.scaleX, 0);
-			fObj.scaleX = 1;
-		    }
-		    if(fObj.scaleY != 1){
-			fObj.height = Math.round(fObj.height * fObj.scaleY, 0);
-			fObj.scaleY = 1;
-		    }
-		}
+		});
 
 		//iterate through the properties that *may* be modified
 		var cng = {};
