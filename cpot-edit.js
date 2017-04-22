@@ -22,7 +22,7 @@ var cpot_edit = {
 	var POT = DM.editing_ColourPot;
 
 	//this initiates the SmartInput for the Title, only
-	$("#colour-pots-edit #title-bar input").SmartInput({
+	$("#colour-pots-edit input.cpot-title").SmartInput({
 	    underlying_obj: POT,
 	    underlying_key: "description",
 	    data_class: "text",

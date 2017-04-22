@@ -23,60 +23,60 @@ var DM = {
 	    ]
 	},
 	{
-	    description: "Puddle sky",
-	    contents: [
+	    "description": "Puddle sky",
+	    "contents": [
 		{
-		    prob: 40,
-		    type: "solid",
-		    solid: "#02a7eb"
-		},
-		{
-		    prob: 25,
+		    prob: 50,
 		    type: "range",
-		    solid: "#6ab523",
+		    solid: "#02a7eb",
 		    range: {
-			h: 90,
-			dh: 22.55,
-			s: 0.8393,
-			ds: 0.1606,
-			l: 0.4794,
-			dl: 0.10098,
-			a: 1,
-			da: 0
+			h: 205.05494505494508,
+			s: 0.75,
+			l: 0.5450980392156863,
+			a: 0.7,
+			dh: 2,
+			ds: 0.25,
+			dl: 0.15,
+			da: 0.25
 		    }
 		},
 		{
-		    prob: 16,
+		    prob: 22,
 		    type: "solid",
-		    solid: "#525261",
+		    solid: "rgb(122, 225, 20)"
+		},
+		{
+		    prob: 10,
+		    type: "solid",
+		    solid: "#525261"
+		},
+		{
+		    prob: 6,
+		    type: "range",
 		    range: {
-			h: 265.9,
-			dh: 30.5,
-			s: 0.2955,
-			ds: 0.1494,
-			l: 0.2745,
-			dl: 0.1,
+			h: 35,
+			s: 0.95,
+			l: 0.5,
+			a: 0.85,
+			dh: 20,
+			ds: 0.05,
+			dl: 0.07,
+			da: 0.15
+		    }
+		},
+		{
+		    prob: 12,
+		    type: "range",
+		    range: {
+			h: 10,
+			s: 0.4,
+			l: 0.280,
 			a: 0.9,
+			dh: 30,
+			ds: 0.4,
+			dl: 0.1,
 			da: 0.1
 		    }
-		},
-		{
-		    prob: 16,
-		    type: "range",
-		    solid: "#362a50",
-		    range: [
-			"#5c228b",
-			"#232324"
-		    ]
-		},
-		{
-		    prob: 3,
-		    type: "range",
-		    solid: "#af6e14",
-		    range: [
-			"#f6ca00",
-			"#6c3d24"
-		    ]
 		}
 	    ]
 	},	
