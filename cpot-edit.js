@@ -175,7 +175,7 @@ var cpot_edit = {
 			// Visual update function for Tab 1 - Range 'central' pane
 			cpot_edit.update_range_pane_colours( pot_elem.range, {updateInputElems: true} );
 
-			// Visual update function for Tab 1 - Range 'Boundaries' pane
+			// Visual update function for Tab 2 - Range 'Boundaries' pane
 			cpot_edit.update_range_boundaries_pane( pot_elem.range );
 
 		    }
@@ -272,17 +272,17 @@ var cpot_edit = {
 
 	options = options || {};
 
+	// when this is called during bgrins move, 2x colours provided and range=null
 	if((!options.colour_1)||(!options.colour_2)){
 	    var X = cpot_util.range_unpack( range );
+
+	    range.sla_perm = range.sla_perm === undefined ? 0 : range.sla_perm;
+	    $("#permute-sla span").text(range.sla_perm);
+	    
+	    var b1 = range.sla_perm % 2 > 0;
+	    var b2 = Math.floor(range.sla_perm/2) % 2 > 0;
+	    var b3 = Math.floor(range.sla_perm/4) % 2 > 0;
 	}
-
-	range.sla_perm = range.sla_perm === undefined ? 0 : range.sla_perm;
-
-	$("#permute-sla span").text(range.sla_perm);
-	
-	var b1 = range.sla_perm % 2 > 0;
-	var b2 = Math.floor(range.sla_perm/2) % 2 > 0;
-	var b3 = Math.floor(range.sla_perm/4) % 2 > 0;
 
 	var colour_1 = tinycolor(options.colour_1 || {h: X.h1, s: b3?X.s3:X.s1, l: b2?X.l3:X.l1, a: b1?X.a3:X.a1});
 	var colour_2 = tinycolor(options.colour_2 || {h: X.h3, s: b3?X.s1:X.s3, l: b2?X.l1:X.l3, a: b1?X.a1:X.a3});

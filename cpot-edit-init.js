@@ -253,8 +253,13 @@ var cpot_edit_init = {
 		cpot_edit.update_solid_pane_colours( old_colour, {updateInputElems: true} );
 
 	    }else if(pot_elem.type == "range"){
+
 		// just restore to the existing values
+		// Pane 1 - Central
 		cpot_edit.update_range_pane_colours(pot_elem.range, {updateInputElems: true} );
+		// Pane 2 - Boundaries
+		cpot_edit.update_range_boundaries_pane( pot_elem.range );
+		
 	    }
 	});
 
@@ -274,9 +279,26 @@ var cpot_edit_init = {
 		    pot_elem.solid = col_chosen;
 
 		}else if(pot_elem.type == "range"){
-		    // Mutate the range (keep spread but change central value)
-		    pot_elem.range = cpot_util.range_set(col_chosen, pot_elem.range);
 
+		    //it is a boolean encoded as a string!
+		    var is_boundary = $("#cp-edit-tabs ul > li:nth-of-type(2)").attr("aria-selected") == "true";
+		    
+		    if(is_boundary){
+			//extract colours from out of the HTML
+			var col_1 = $("#tabs-e2 .c1 .view .B").css("background-color");
+			var col_2 = $("#tabs-e2 .c2 .view .B").css("background-color");
+			var C1 = tinycolor(col_1).toHsl();
+			var C2 = tinycolor(col_2).toHsl();
+			
+			// save
+			pot_elem.range = cpot_util.range_from_colour_pair([col_1, col_2]);
+			// the bit unset refers to using the smaller of the SLA values in COLOUR 1
+			pot_elem.range.sla_perm = (C2.s < C1.s)*4 + (C2.l < C1.l)*2 + (C2.a < C1.a);
+		    }else{
+			// Mutate the range (keep spread but change central value)
+			pot_elem.range = cpot_util.range_set(col_chosen, pot_elem.range);
+		    }
+		    
 		}
 
 		//refresh view
@@ -472,7 +494,7 @@ var cpot_edit_init = {
 
 	
 	// 5. Controls for editing a C-Pot element in RANGE->Boundaries Mode
-
+	
 	// 5.1 - Click the "Colour Sun" - Colour 1
 	$("#tabs-e2 .c1 .colour-sun.m").click(function (){
 	    var col_1 = $("#tabs-e2 .c1 .view .B").css("background-color");

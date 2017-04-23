@@ -1,6 +1,6 @@
 var cpot_util = {
     
-    colourPair_to_range: function(colour_pair){
+    range_from_colour_pair: function(colour_pair){
 	var A = tinycolor(colour_pair[0]).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
 	var B = tinycolor(colour_pair[1]).toHsl();
 	
