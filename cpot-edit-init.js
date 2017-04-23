@@ -473,9 +473,36 @@ var cpot_edit_init = {
 	
 	// 5. Controls for editing a C-Pot element in RANGE->Boundaries Mode
 
+	// 5.1 - Click the "Colour Sun" - Colour 1
+	$("#tabs-e2 .c1 .colour-sun.m").click(function (){
+	    var col_1 = $("#tabs-e2 .c1 .view .B").css("background-color");
+	    var col_2 = $("#tabs-e2 .c2 .view .B").css("background-color");
+
+	    BGrinsShow(col_1, function(tinycolor) {
+		cpot_edit.update_range_boundaries_pane(null, {
+		    colour_1: tinycolor.toRgbString(),
+		    colour_2: col_2
+		});
+	    });
+	});
+
+
+	// 5.2 - Click the "Colour Sun" - Colour 2
+	$("#tabs-e2 .c2 .colour-sun.m").click(function (){
+	    var col_1 = $("#tabs-e2 .c1 .view .B").css("background-color");
+	    var col_2 = $("#tabs-e2 .c2 .view .B").css("background-color");
+
+	    BGrinsShow(col_2, function(tinycolor) {
+		cpot_edit.update_range_boundaries_pane(null, {
+		    colour_1: col_1,
+		    colour_2: tinycolor.toRgbString()
+		});
+	    });
+	});
 
 
 
+	
 	
 	// 6. Controls for editing a C-Pot element; RANGE->Subspace
 

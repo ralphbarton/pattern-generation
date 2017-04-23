@@ -156,11 +156,11 @@ $(document).ready(function() {
     //code to auto enter CP edit and speed up testing...
 
 
-    /*
+
     //go straight to CP edit
     $("#view-cp-table tbody tr").first().click();
     $("#cp-view-table-buttons #edit").click();
-
+    /*
 
     //go straight to Grids ( = 3rd tab...)
     $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click();
@@ -168,13 +168,13 @@ $(document).ready(function() {
 
     //go straight to Grids ( = 4rd tab...)
     $("#cpanel-main-tabs > ul > li:nth-of-type(8) a").click();
-*/
+
 
     //go straight to Motifs ( = 6th tab...)
     $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click();
     // --> and into Motif EDIT
     $("#motifs-view .table-buttons #edit").click();
-
+*/
 
 });
 

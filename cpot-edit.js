@@ -172,9 +172,12 @@ var cpot_edit = {
 			//indicate what the selected item is (i.e. type="Range") using the dropdown button text
 			$("#cp-edit-actions .dropdown.elem-type .dropbtn").text("Range");
 
-			// Activity upon selection of a RANGE row...
+			// Visual update function for Tab 1 - Range 'central' pane
 			cpot_edit.update_range_pane_colours( pot_elem.range, {updateInputElems: true} );
-			
+
+			// Visual update function for Tab 1 - Range 'Boundaries' pane
+			cpot_edit.update_range_boundaries_pane( pot_elem.range );
+
 		    }
 
 		}
@@ -262,6 +265,32 @@ var cpot_edit = {
 
 	}
 
+    },
+
+    //Here, options can be two alternative colours passed...
+    update_range_boundaries_pane: function(range, options){
+
+	options = options || {};
+
+	if((!options.colour_1)||(!options.colour_2)){
+	    var X = cpot_util.range_unpack( range );
+	}
+
+	var colour_1 = tinycolor(options.colour_1 || {h: X.h1, s: X.s1, l: X.l1, a: X.a1});
+	var colour_2 = tinycolor(options.colour_2 || {h: X.h3, s: X.s3, l: X.l3, a: X.a3});
+
+	var W = "background-color";
+	// Colour 1
+	$("#tabs-e2 .c1 .colour-sun.m").css(W, colour_1.toHexString());
+	$("#tabs-e2 .c1 .view .B").css(W, colour_1.toRgbString());
+	// Colour 2
+	$("#tabs-e2 .c2 .colour-sun.m").css(W, colour_2.toHexString());
+	$("#tabs-e2 .c2 .view .B").css(W, colour_2.toRgbString());
+	// Vertical bar
+	$("#tabs-e2 .gradient").css("background-image",
+				    "linear-gradient(to bottom, "+colour_1.toRgbString()+", "+colour_2.toRgbString()+")"
+				   );
+	
     },
     
 
