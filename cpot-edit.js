@@ -286,10 +286,75 @@ var cpot_edit = {
 	// Colour 2
 	$("#tabs-e2 .c2 .colour-sun.m").css(W, colour_2.toHexString());
 	$("#tabs-e2 .c2 .view .B").css(W, colour_2.toRgbString());
-	// Vertical bar
+
+
+	// Vertical Gradient bar
+	var C1 = colour_1.toHsl();
+	var C2 = colour_2.toHsl();
+
+	var SLA_mix = function(r){// r is mix ratio
+	    var m = function(a,b){return (b*r+ a*(1-r));};
+	    return {s: m(C1.s, C2.s), l: m(C1.l, C2.l), a: m(C1.a, C2.a)};
+	};
+
+	var h_high = C2.h > C1.h ? C2.h : (C2.h + 360); // may be over 360, guarenteed to exceed C1.h
+	var h_span = h_high - C1.h;
+	var n_stop = 0;
+	
+	var grad_str = ", " + colour_1.toRgbString() + " 0%";
+
+	while (true){
+	    var h_stopper = 60 * ( Math.ceil(C1.h / 60) + n_stop);
+	    if(h_stopper > h_high){break;}
+	    n_stop++;
+
+	    var ratio = (h_stopper - C1.h) / h_span;	
+	    var mix = SLA_mix(ratio);
+	    mix.h = h_stopper%360;
+
+	    var colourStr = tinycolor(mix).toRgbString();
+	    var pcnt = (ratio * 100).toFixed(1);
+	    grad_str += ", " + colourStr + " " + pcnt + "%";
+	}
+	
+	grad_str += ", " + colour_2.toRgbString() + " 100%";
+/*	    
+	var h_span = C2.h > C1.h ? (C2.h - C1.h) : (C2.h - C1.h + 360);
+	var h_sweeper = C1.h;
+	var h_stopper = C1.h;
+
+	var grad_str = "";
+	while (true){
+	    var ratio = (h_stopper - C1.h) / h_span;
+	    var mix = SLA_mix(ratio);
+	    mix.h = h_stopper%360;
+	    var colourStr = tinycolor(mix).toHslString();
+	    var pcnt = (ratio * 100).toFixed(1);
+	    grad_str += ", " + colourStr + " " + pcnt + "%";
+
+	    h_stopper = 60 * Math.ceil(h_sweeper / 60);
+	    h_sweeper += 60;
+	    if((h_stopper%360 > C2.h)&&((h_stopper-60)%360 < C2.h)){
+		grad_str += ", " + colour_2.toHslString() + " 100%";
+		break;
+	    }
+	    
+	}
+*/
+
+	$("#tabs-e2 .gradient").css("background-image",
+				    "linear-gradient(to bottom"+grad_str+")"
+				   );
+	
+	/*
+	
 	$("#tabs-e2 .gradient").css("background-image",
 				    "linear-gradient(to bottom, "+colour_1.toRgbString()+", "+colour_2.toRgbString()+")"
 				   );
+
+
+	linear-gradient(to bottom, #f0f9ff 0%,#cbebff 72%,#a1dbff 100%);
+*/
 	
     },
     

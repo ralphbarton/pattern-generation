@@ -7,8 +7,18 @@ var DM = {
 	    contents: [
 		{
 		    prob: 80,
-		    type: "solid",
-		    solid: "#E3DD8A"
+		    type: "range",//"solid",
+		    range: {
+			"h": 56,
+			"s": 0.6137931034482758,
+			"l": 0.7156862745098038,
+			"a": 0.8,
+			"dh": 15,
+			"ds": 0.3,
+			"dl": 0.1,
+			"da": 0.2
+		    }
+//		    solid: "#E3DD8A"
 		},
 		{
 		    prob: 15,

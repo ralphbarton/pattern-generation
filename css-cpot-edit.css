@@ -620,6 +620,19 @@
     );
 }
 
+#tabs-e2 .alc{
+    position: absolute;
+    left: 17px;
+}
+
+#tabs-e2 .alc#reverse-hue{
+    top: 150px;
+}
+
+#tabs-e2 .alc#permute-sla{
+    top: 170px;
+}
+
 
 
 
