@@ -500,7 +500,22 @@ var cpot_edit_init = {
 	    });
 	});
 
+	// 5.3 - click the "reverse hue" link
+	$("#reverse-hue .action-link").click(function (){
+	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    pot_elem.range.h = (pot_elem.range.h + 180) % 360;
+	    pot_elem.range.dh = 180 - pot_elem.range.dh;
+	    cpot_edit.visual_update();
+	});
 
+	// 5.4 - click the "permute sla" link
+	var permutation_N = 0;
+	$("#permute-sla .action-link").click(function (){
+	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var X = cpot_util.range_unpack( pot_elem.range );
+	    pot_elem.range.sla_perm = (pot_elem.range.sla_perm + (X.a3==X.a1?2:1)) % 8;//increment by 2 if alphas same
+	    cpot_edit.update_range_boundaries_pane(pot_elem.range);
+	});
 
 	
 	

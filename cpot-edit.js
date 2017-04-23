@@ -276,8 +276,16 @@ var cpot_edit = {
 	    var X = cpot_util.range_unpack( range );
 	}
 
-	var colour_1 = tinycolor(options.colour_1 || {h: X.h1, s: X.s1, l: X.l1, a: X.a1});
-	var colour_2 = tinycolor(options.colour_2 || {h: X.h3, s: X.s3, l: X.l3, a: X.a3});
+	range.sla_perm = range.sla_perm === undefined ? 0 : range.sla_perm;
+
+	$("#permute-sla span").text(range.sla_perm);
+	
+	var b1 = range.sla_perm % 2 > 0;
+	var b2 = Math.floor(range.sla_perm/2) % 2 > 0;
+	var b3 = Math.floor(range.sla_perm/4) % 2 > 0;
+
+	var colour_1 = tinycolor(options.colour_1 || {h: X.h1, s: b3?X.s3:X.s1, l: b2?X.l3:X.l1, a: b1?X.a3:X.a1});
+	var colour_2 = tinycolor(options.colour_2 || {h: X.h3, s: b3?X.s1:X.s3, l: b2?X.l1:X.l3, a: b1?X.a1:X.a3});
 
 	var W = "background-color";
 	// Colour 1
@@ -318,43 +326,10 @@ var cpot_edit = {
 	}
 	
 	grad_str += ", " + colour_2.toRgbString() + " 100%";
-/*	    
-	var h_span = C2.h > C1.h ? (C2.h - C1.h) : (C2.h - C1.h + 360);
-	var h_sweeper = C1.h;
-	var h_stopper = C1.h;
-
-	var grad_str = "";
-	while (true){
-	    var ratio = (h_stopper - C1.h) / h_span;
-	    var mix = SLA_mix(ratio);
-	    mix.h = h_stopper%360;
-	    var colourStr = tinycolor(mix).toHslString();
-	    var pcnt = (ratio * 100).toFixed(1);
-	    grad_str += ", " + colourStr + " " + pcnt + "%";
-
-	    h_stopper = 60 * Math.ceil(h_sweeper / 60);
-	    h_sweeper += 60;
-	    if((h_stopper%360 > C2.h)&&((h_stopper-60)%360 < C2.h)){
-		grad_str += ", " + colour_2.toHslString() + " 100%";
-		break;
-	    }
-	    
-	}
-*/
 
 	$("#tabs-e2 .gradient").css("background-image",
 				    "linear-gradient(to bottom"+grad_str+")"
 				   );
-	
-	/*
-	
-	$("#tabs-e2 .gradient").css("background-image",
-				    "linear-gradient(to bottom, "+colour_1.toRgbString()+", "+colour_2.toRgbString()+")"
-				   );
-
-
-	linear-gradient(to bottom, #f0f9ff 0%,#cbebff 72%,#a1dbff 100%);
-*/
 	
     },
     
