@@ -253,6 +253,58 @@ var grids = {
 		angle: LineSet.angle
 	    };
 	}
+    },
+
+
+    offset: 200,
+    gen_grid_intersection_points: function(){
+	if(this.selected_row_i !== undefined){
+
+	    // function can only operate of a Grid is selected...
+
+	    var grid_obj = DM.GridsArray[this.selected_row_i];
+	    console.log("Intersection Points Generation ("+grid_obj.description+")");
+
+	    var S1 = this.spacing_unit_objectUpdater(grid_obj.line_sets[0], "pixels", true);
+	    var S2 = this.spacing_unit_objectUpdater(grid_obj.line_sets[1], "pixels", true);
+
+	    var ang1 = S1.angle * 2 * Math.PI / 360;
+	    var ang2 = S2.angle * 2 * Math.PI / 360;
+
+	    //vector parallel to a LS 1 lines
+	    var q = S2.spacing / Math.sin(ang1 + ang2);
+	    var Q_x = q * Math.cos(ang1);
+	    var Q_y = - q * Math.sin(ang1);
+
+	    //vector parallel to a LS 2 lines
+	    var p = S1.spacing / Math.sin(ang1 + ang2);
+	    var P_x = p * Math.cos(ang2);
+	    var P_y = p * Math.sin(ang2);
+	    
+	    console.log(JSON.stringify(S1, null, 2));
+
+	    console.log("parallel to 2", P_x, P_y);
+	    console.log("parallel to 1", Q_x, Q_y);//blue
+
+	    d3.select("#svg-bg-fullscreen")
+		.append("line")
+		.attr("x1", this.offset)
+		.attr("x2", this.offset + Q_x)
+		.attr("y1", this.offset)
+		.attr("y2", this.offset + Q_y)
+		.attr("stroke","blue")
+		.attr("stroke-width","1");
+
+	    d3.select("#svg-bg-fullscreen")
+		.append("line")
+		.attr("x1", this.offset)
+		.attr("x2", this.offset + P_x)
+		.attr("y1", this.offset)
+		.attr("y2", this.offset + P_y)
+		.attr("stroke","red")
+		.attr("stroke-width","1");
+
+	}
     }
 
 };

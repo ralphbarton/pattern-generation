@@ -197,6 +197,19 @@ var grids_init = {
 	    function(){set_2D(true);}    ]);
 
 
+	widgets.actionLink_init("#show-points.act-mutex",[
+	    function(){
+		//hide
+	    },
+	    function(){
+		//show
+		grids.gen_grid_intersection_points();
+	    }
+	]
+			       );
+
+
+	
 	//Call this last so as to ensure pre-requestite initialisation (of SmartInputs etc.) has happened.
 	grids.regenerate_table();
 

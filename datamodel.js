@@ -240,13 +240,13 @@ var DM = {
 	    n_dimentions: 2,
 	    line_sets:[
 		{// set 1
-		    spacing: 75,
+		    spacing: 250,
 		    spacing_unit: 'pixels',
 		    shift: 0,
-		    angle: 15
+		    angle: 10
 		},
 		{// set 2
-		    spacing: 64,
+		    spacing: 50,
 		    spacing_unit: 'pixels',
 		    shift: 0,
 		    angle: 35
