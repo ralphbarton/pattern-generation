@@ -1,7 +1,7 @@
 /*no content yet...*/
 
 #grids-table tbody{
-     height: 175px;
+     height: 197px;
 }
 
 #grids-table .col-1{
@@ -9,7 +9,7 @@
 }
 
 #grids-table th.col-2{
-  width: 200px;
+  width: 160px;
 }
 
 #grids-table td.col-2{
@@ -22,11 +22,11 @@
 }
 
 #grids-table input.blue-cell{
-    width: 175px;
+    width: 135px;
 }
 
 #grids-buttons {
-    width: 240px;
+    width: 195px;
     text-align: right;
 }
 
@@ -36,8 +36,7 @@
 
 #Tab-grid div#row-content{
     position: absolute;
-    display: none;/* for initial rendering purposes*/
-    left: 244px;
+    left: 202px;
     top: 123px;
 }
 
@@ -46,7 +45,7 @@
     margin-right: 3px;
     display: inline-block;
     height: 88px;
-    width: 212px;
+    width: 232px;
     margin-bottom: 5px;
     text-align: right;
 }

@@ -284,6 +284,30 @@ var DM = {
 	this.GridsArray.splice(index_dupl+1, 0, new_grid);
     },
 
+    add_grid: function(){
+	var qty_new = $.grep(this.GridsArray, function(e){ return e.description.includes("New Grid"); }).length + 1;
+	this.GridsArray.push({
+	    type: "std",
+	    description: "New Grid ("+qty_new+")",
+	    n_dimentions: 2,
+	    line_sets:[
+		{// set 1
+		    spacing: 50,
+		    spacing_unit: 'pixels',
+		    shift: 0,
+		    angle: 0
+		},
+		{// set 2
+		    spacing: 200,
+		    spacing_unit: 'pixels',
+		    shift: 0,
+		    angle: 90
+		}
+	    ]
+	});
+	return this.GridsArray.length - 1;//return index of newly added element
+    },
+
 
 
 
