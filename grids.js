@@ -257,54 +257,142 @@ var grids = {
 
 
     offset: 200,
+    PointSet: {},
     gen_grid_intersection_points: function(){
-	if(this.selected_row_i !== undefined){
 
-	    // function can only operate of a Grid is selected...
+	// function can only operate if a Grid is selected...
+	if(this.selected_row_i === undefined){return;}
 
-	    var grid_obj = DM.GridsArray[this.selected_row_i];
-	    console.log("Intersection Points Generation ("+grid_obj.description+")");
 
-	    var S1 = this.spacing_unit_objectUpdater(grid_obj.line_sets[0], "pixels", true);
-	    var S2 = this.spacing_unit_objectUpdater(grid_obj.line_sets[1], "pixels", true);
+	
+	// 1. Calculate the Basis vectors
 
-	    var ang1 = S1.angle * 2 * Math.PI / 360;
-	    var ang2 = S2.angle * 2 * Math.PI / 360;
+	var grid_obj = DM.GridsArray[this.selected_row_i];
+	var S1 = this.spacing_unit_objectUpdater(grid_obj.line_sets[0], "pixels", true);
+	var S2 = this.spacing_unit_objectUpdater(grid_obj.line_sets[1], "pixels", true);
 
-	    //vector parallel to a LS 1 lines
-	    var q = S2.spacing / Math.sin(ang1 + ang2);
-	    var Q_x = q * Math.cos(ang1);
-	    var Q_y = - q * Math.sin(ang1);
+	var ang1 = S1.angle * 2 * Math.PI / 360;
+	var ang2 = S2.angle * 2 * Math.PI / 360;
 
-	    //vector parallel to a LS 2 lines
-	    var p = S1.spacing / Math.sin(ang1 + ang2);
-	    var P_x = p * Math.cos(ang2);
-	    var P_y = p * Math.sin(ang2);
-	    
-	    console.log(JSON.stringify(S1, null, 2));
+	//vector parallel to a LS 1 lines
+	var q = S2.spacing / Math.sin(ang1 + ang2);
+	var Q_x = q * Math.cos(ang1);
+	var Q_y = - q * Math.sin(ang1);
 
-	    console.log("parallel to 2", P_x, P_y);
-	    console.log("parallel to 1", Q_x, Q_y);//blue
+	//vector parallel to a LS 2 lines
+	var p = S1.spacing / Math.sin(ang1 + ang2);
+	var P_x = p * Math.cos(ang2);
+	var P_y = p * Math.sin(ang2);
+
+
+
+	// 2. Define a variety of helper functions for handling the data...
+ 	var set = function(Pi,Qi,A){
+	    grids.PointSet[Pi+'^'+Qi] = A;
+	};
+ 	var get = function(Pi,Qi){
+	    return grids.PointSet[Pi+'^'+Qi];
+	};
+
+	var winW = $(window).width();
+	var winH = $(window).height();
+
+	var origX = winW/2;
+	var origY = winH/2;
+
+ 	var convert = function(Pi,Qi){
+	    return {x: (origX + P_x*Pi + Q_x*Qi), y: (origY + P_y*Pi + Q_y*Qi)};
+	};
+	
+
+	var test = function(Pi,Qi){
+	};
+
+
+	var rGen = function(Pi,Qi){
+
+	    //the point tested may be:
+	    // undefined - never yet visited
+	    // true - visited already, and found to be in the set
+	    // false - visited already, not in the set
+	    var Here = get(Pi,Qi);
+
+	    if(Here === undefined){
+		// Is this point (passed by P-index and Q-index) inside the window? 
+		var pnt = convert(Pi,Qi);
+		var p_inside = (pnt.x >= 0) && (pnt.x < winW) && (pnt.y >= 0) && (pnt.y < winH);
+		
+		set(Pi, Qi, p_inside ? pnt : false);
+
+		if(p_inside == true){
+		    //4 recursive calls...
+		    rGen(Pi+1, Qi);
+		    rGen(Pi-1, Qi);
+		    rGen(Pi, Qi+1);
+		    rGen(Pi, Qi-1);
+		}
+	    }
+	};
+
+	//trigger a recursive call...
+	rGen(0,0);
+
+//circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+	
+	var my_monkey = [];
+	$.each( grids.PointSet, function( key, value ) {
+
+	    //some entries will represent points found to be outside boundary.
+	    if (value === false){return;}
+
+	    my_monkey.push(value);
 
 	    d3.select("#svg-bg-fullscreen")
-		.append("line")
-		.attr("x1", this.offset)
-		.attr("x2", this.offset + Q_x)
-		.attr("y1", this.offset)
-		.attr("y2", this.offset + Q_y)
-		.attr("stroke","blue")
-		.attr("stroke-width","1");
+		.append("circle")
+		.attr("cx", value.x)
+		.attr("cy", value.y)
+		.attr("r", 4)
+		.attr("fill", "red")
+		.attr("class","intesec-dot");
 
-	    d3.select("#svg-bg-fullscreen")
-		.append("line")
-		.attr("x1", this.offset)
-		.attr("x2", this.offset + P_x)
-		.attr("y1", this.offset)
-		.attr("y2", this.offset + P_y)
-		.attr("stroke","red")
-		.attr("stroke-width","1");
+	});
+	
 
-	}
+	
+	console.log(JSON.stringify(my_monkey, null, 2));
+
+	console.log("n points:", my_monkey.length);
+
+
+
+
+	console.log("Intersection Points Generation ("+grid_obj.description+")");
+
+	
+	console.log("parallel to 2", P_x, P_y);
+	console.log("parallel to 1", Q_x, Q_y);//blue
+
+	d3.select("#svg-bg-fullscreen")
+	    .append("line")
+	    .attr("x1", this.offset)
+	    .attr("x2", this.offset + Q_x)
+	    .attr("y1", this.offset)
+	    .attr("y2", this.offset + Q_y)
+	    .attr("stroke","blue")
+	    .attr("stroke-width","1");
+
+	d3.select("#svg-bg-fullscreen")
+	    .append("line")
+	    .attr("x1", this.offset)
+	    .attr("x2", this.offset + P_x)
+	    .attr("y1", this.offset)
+	    .attr("y2", this.offset + P_y)
+	    .attr("stroke","red")
+	    .attr("stroke-width","1");
+
+	this.offset += 100;
+	this.PointSet = {};//reset the pointset
+	
     }
 
 };
