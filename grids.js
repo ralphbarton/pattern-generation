@@ -119,24 +119,36 @@ var grids = {
     update_bg_grid: function (){
 
 	if(grids.showing_preview){
-	    var winW = $(window).width();
-	    var winH = $(window).height();
-
-	    $("#svg-bg-fullscreen").css("width", winW).css("height", winH);
 
 	    var Grid_i = DM.GridsArray[this.selected_row_i];
 
-	    this.screen_update_line_set(0, winW, winH, 0);
-	    this.screen_update_line_set(1, winW, winH, 1, Grid_i.n_dimentions == 1);
+	    this.screen_update_line_set(0, 0);
+	    this.screen_update_line_set(1, 1, Grid_i.n_dimentions == 1);
 
 	    this.previousGrid = Grid_i;
 	}
     },
 
 
-    //
-    screen_update_line_set: function (line_set_index, W, H, ls_i, b_remove){
+    clear_bg_grid: function (){
 
+	if(grids.showing_preview){
+	    //remove both line sets...
+	    this.screen_update_line_set(0, 0, true);
+	    this.screen_update_line_set(1, 1, true);
+	    this.previousGrid = {line_sets:[]};
+	}	
+    },
+
+    
+    // interact with the svg....
+    screen_update_line_set: function (line_set_index, ls_i, b_remove){
+
+	var W = $(window).width();
+	var H = $(window).height();	
+	// TODO: is this an expensive call? we'll be calling it unnecessarily quite often...
+	$("#svg-bg-fullscreen").css("width", W).css("height", H);
+	
 	var Grid_i = DM.GridsArray[this.selected_row_i];
 	var LineSet = Grid_i.line_sets[line_set_index];
 	var prev_LineSet = this.previousGrid.line_sets[line_set_index];

@@ -46,11 +46,9 @@ var grids_init = {
 
 	// Handler for -Hide- preview
 	$("#Tab-grid .action-link#hide").click(function(){
-
-	    console.log("logic not implemented to hide grids...");
-//		grids.showing_preview = true;
-//		grids.update_bg_grid();
-
+	    grids.clear_bg_grid();
+	    grids.showing_preview = false;
+	    $("#Tab-grid .button#show").removeClass("ui-disabled");
 	});
 
 
