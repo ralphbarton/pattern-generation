@@ -37,21 +37,29 @@ var grids_init = {
 
 	// Handler for -Show- preview
 	$("#Tab-grid .button#show").click(function(){
-	    var my_i = grids.selected_row_i;
-	    if((my_i != undefined) && (!$(this).hasClass("ui-disabled"))){
+	    if((grids.selected_row_i != undefined) && (!$(this).hasClass("ui-disabled"))){
 		grids.showing_preview = true;
-		grids.update_bg_grid(DM.GridsArray[my_i]);
+		grids.update_bg_grid();
 		$(this).addClass("ui-disabled");
 	    }
 	});
+
+	// Handler for -Hide- preview
+	$("#Tab-grid .action-link#hide").click(function(){
+
+	    console.log("logic not implemented to hide grids...");
+//		grids.showing_preview = true;
+//		grids.update_bg_grid();
+
+	});
+
 
 	
 	//add logic for input boxes:
 
 	// handle a change in one of the <input> boxes for the grid array
 	var GA_mod = function(obj, ls, key){
-	    var my_i = grids.selected_row_i;
-	    if(my_i != undefined){
+	    if(grids.selected_row_i != undefined){
 		var Grid_i = DM.GridsArray[grids.selected_row_i];
 		var old_val = Grid_i.line_sets[ls][key];
 		$("#line-set-"+(ls+1)+" .ls-param."+key+" input").SmartInput("update", {change_underlying_from_DOM: true});
@@ -69,7 +77,7 @@ var grids_init = {
 		}
 		
 		//animated grid change...
-		grids.update_bg_grid(Grid_i);
+		grids.update_bg_grid();
 		//reset the Isometric / Square / Diamond so all are available as options
 		grids.enable_Iso_Square_Hex_for_current_grid();
 	    }
@@ -82,12 +90,16 @@ var grids_init = {
 	[0,1].forEach(function(ls) {
 	    [{k:"spacing", u:"pixels"}, /*{k:"shift", u:"percent"},*/ {k:"angle", u:"degrees"}].forEach(function(TY) {
 
+		//whether %, px or qty, minimum value of 1 for spacing. It prevents script freezing.
+		var dco = TY.k == "spacing" ? {min: 1} : undefined;
+		
 		//INITIATE
 		var $input = $("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input");
 		$input.SmartInput({
-		    //		    underlying_obj: Grid_i.line_sets[ls], // this property set on row-select, it is a function of row...
+		    //underlying_obj: - this property set on row-select, it varies with row...
 		    underlying_key: TY.k,
-		    data_class: TY.u, //TODO - isn't this just an arbirary choice, as above -> delete this line?
+		    data_class: TY.u, // TODO - this is not necesarily correct. Interval may NOT be px!
+		    data_class_override: dco,
 		    underlying_from_DOM_onChange: false, // cannot do this - full logic uses old value
 		    cb_change: function(){GA_mod($input[0], ls, TY.k);}//all the graphical change...
 		});
@@ -98,12 +110,12 @@ var grids_init = {
 
 	// change grid array units...
 	var GAu_mod = function(ls, units_new){
-	    var my_i = grids.selected_row_i;
-	    if(my_i != undefined){
+	    if(grids.selected_row_i != undefined){
 
 		// CONVERT the spacing value (such that it is equivalent with new units)
 		//as a side effect, this function updates the object it is passed by reference
-		grids.spacing_unit_objectUpdater(DM.GridsArray[my_i].line_sets[ls], units_new);
+		var Grid_i = DM.GridsArray[grids.selected_row_i];
+		grids.spacing_unit_objectUpdater(Grid_i.line_sets[ls], units_new);
 
 		$("#line-set-"+(ls+1)+" .ls-param.spacing input").SmartInput("update", {
 		    UI_enable: false,
@@ -162,7 +174,7 @@ var grids_init = {
 
 	    //update display. Input elems and grid.
 	    grids.update_all_input_elements_values(Grid_i);
-	    grids.update_bg_grid(Grid_i);
+	    grids.update_bg_grid();
 	};
 
 	widgets.actionLink_init("#preset-grid.act-mutex", [
@@ -181,9 +193,9 @@ var grids_init = {
 	// switch between 1D and 2D grid.
 
 	var set_2D = function(make_2d){
-	    DM.GridsArray[grids.selected_row_i].n_dimentions = make_2d ? 2 : 1;
 	    var Grid_i = DM.GridsArray[grids.selected_row_i];
-	    grids.update_bg_grid(Grid_i);
+	    Grid_i.n_dimentions = make_2d ? 2 : 1;
+	    grids.update_bg_grid();
 	    $("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !make_2d);
 	    $("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !make_2d);   //Disable input
 	};

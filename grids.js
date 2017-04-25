@@ -3,7 +3,6 @@ var grids = {
     showing_preview: false,
     lock_angles: false,
     selected_row_i: 0,//let's have the top row selected by default
-    previousGrid: {line_sets:[]},
 
 
     enable_Iso_Square_Hex_for_current_grid: function(){
@@ -115,8 +114,9 @@ var grids = {
 	    .attr("transform", "translate(8 "+dy+") rotate("+angle+")");
     },
 
-
-    update_bg_grid: function (grid_obj){
+    
+    previousGrid: {line_sets:[]},
+    update_bg_grid: function (){
 
 	if(grids.showing_preview){
 	    var winW = $(window).width();
@@ -124,16 +124,23 @@ var grids = {
 
 	    $("#svg-bg-fullscreen").css("width", winW).css("height", winH);
 
-	    this.screen_update_line_set(grid_obj.line_sets[0], this.previousGrid.line_sets[0], winW, winH, 0);
-	    this.screen_update_line_set(grid_obj.line_sets[1], this.previousGrid.line_sets[1], winW, winH, 1, grid_obj.n_dimentions == 1);
+	    var Grid_i = DM.GridsArray[this.selected_row_i];
 
-	    this.previousGrid = grid_obj;
+	    this.screen_update_line_set(0, winW, winH, 0);
+	    this.screen_update_line_set(1, winW, winH, 1, Grid_i.n_dimentions == 1);
+
+	    this.previousGrid = Grid_i;
 	}
     },
 
-    
-    screen_update_line_set: function (LineSet, prev_LineSet, W, H, ls_i, b_remove){
 
+    //
+    screen_update_line_set: function (line_set_index, W, H, ls_i, b_remove){
+
+	var Grid_i = DM.GridsArray[this.selected_row_i];
+	var LineSet = Grid_i.line_sets[line_set_index];
+	var prev_LineSet = this.previousGrid.line_sets[line_set_index];
+	
 	var Dia = Math.sqrt(W*W + H*H);
 	var origX = W/2;
 	var origY = H/2;

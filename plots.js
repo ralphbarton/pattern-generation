@@ -228,13 +228,6 @@ var plots = {
 				plots2.draw_job();//this will abort the existing job and start afresh
 			    }
 
-			    /*
-			      Take a lot of rendering actions here...
-			      //so in the case of GRIDs we would display a different grid
-			    var Grid_i = DM.GridsArray[i];			
-			    grids.update_bg_grid(Grid_i);// update the background accordingly
-			    grids.update_panel_items(Grid_i);// update the panel accordingly
-			    */
 			}
 		    })
 	    );
