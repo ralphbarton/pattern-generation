@@ -45,11 +45,7 @@ var grids_init = {
 	    }
 	});
 
-
-	$(".action-link.translate").click(function() {
-	    $("#Tab-grid #extra-content").show({duration: 400});
-	});
-
+	
 	//add logic for input boxes:
 
 	// handle a change in one of the <input> boxes for the grid array

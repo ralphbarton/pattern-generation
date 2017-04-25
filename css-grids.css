@@ -44,20 +44,19 @@
     position: relative;
     margin-right: 3px;
     display: inline-block;
-    height: 88px;
+    height: 95px;
     width: 232px;
     margin-bottom: 5px;
     text-align: right;
 }
 
 #Tab-grid div.boxie#preview-opts{
-    margin-top: 15px;
-    width: 439px;
-    height: 46px;
+    width: 482px;
+    height: 40px;
     text-align: left;
     position: absolute;
     left: 1px;
-    top: 200px;
+    top: 212px;
 }
 
 #slider-placeholder{
@@ -65,45 +64,47 @@
     border: 1px solid red;
     height: 32px;
     position: absolute;
-    width: 444px;
+    width: 489px;
     top: 163px;
 }
 
 #Tab-grid .act-mutex#link-angles{
     display: inline-block;
     position: absolute;
-    right: 3px;
-    top: 134px;
+    right: 1px;
+    top: 140px;
 }
 
 #Tab-grid .k-angle,
-#Tab-grid .k-spacing{
+#Tab-grid .k-spacing,
+#Tab-grid .k-shift{
     position: relative;
     display: inline-block;
-    margin-right: 90px;
-    margin-bottom: 6px;
+    top: -2px;
+    margin-right: 110px;
+    margin-bottom: 5px;
     font-size: 15px;
+    width: 130px;
 }
 
 #Tab-grid .act-mutex.px-pc-qty{
     width: 100px;
-    top: 43px;
-    left: -34px;
+    top: 24px;
+    left: 27px;
 }
 
-#Tab-grid .action-link.translate {
-    position: absolute;
-    right: 9px;
-    bottom: 4px;
+#Tab-grid .k-shift{
+    margin-top: 19px;
 }
+
 
 
 #Tab-grid .k-pix{
     position: absolute;
     width: 70px;
     height: 70px;
-    top: 5px;
-    right: 5px;
+    top: 18px;
+    right: 18px;
 }
 
 #Tab-grid .boxie .act-mutex{
@@ -112,23 +113,23 @@
 }
 
 #Tab-grid .boxie#preview-opts .act-mutex#show-bg{
-    top: 9px;
-    left: 14px;
+    top: 14px;
+    left: 6px;
 }
 
 #Tab-grid .boxie#preview-opts .act-mutex#colour-monochrome{
-    top: 27px;
-    left: 19px;
+    top: 30px;
+    left: 12px;
 }
 
 #Tab-grid .boxie#preview-opts .act-mutex#one-v-all{
-    top: 9px;
-    left: 205px;
+    top: 14px;
+    left: 190px;
 }
 
 #Tab-grid .boxie#preview-opts .act-mutex#show-points{
-    top: 27px;
-    left: 223px;
+    top: 30px;
+    left: 207px;
 }
 
 #Tab-grid #grid-preview-visibility{

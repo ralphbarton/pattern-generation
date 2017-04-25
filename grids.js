@@ -351,8 +351,10 @@ var grids = {
 		.append("circle")
 		.attr("cx", value.x)
 		.attr("cy", value.y)
-		.attr("r", 4)
+		.attr("r", 3)
 		.attr("fill", "red")
+		.attr("stroke","black")
+		.attr("stroke-width","1")
 		.attr("class","intesec-dot");
 
 	});
