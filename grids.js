@@ -68,7 +68,7 @@ var grids = {
 				[{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
 
 				    //UPDATE
-				    var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input").SmartInput("update", {
+				    var $input = $("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input").SmartInput("update", {
 					underlying_obj: Grid_i.line_sets[ls]
 				    });
 				});
@@ -91,14 +91,14 @@ var grids = {
 
 
     update_all_input_elements_values: function (grid_obj){
-	//k-angle=angle, k-spacing=spacing
+	//ls-param.angle=angle, ls-param.spacing=spacing
 	var Gx = grid_obj.line_sets;
 
 	[0,1].forEach(function(ls) {
 	    grids.update_preview_svg_angle(ls, grid_obj.line_sets[ls]["angle"]);//update the SVG
 	    [{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
 		//UPDATE
-		$("#line-set-"+(ls+1)+" .k-"+TY.k+" input").SmartInput("update", {data_change: true});
+		$("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input").SmartInput("update", {data_change: true});
 	    });
 	});
     },
@@ -256,7 +256,6 @@ var grids = {
     },
 
 
-    offset: 200,
     PointSet: {},
     gen_grid_intersection_points: function(){
 
@@ -337,8 +336,6 @@ var grids = {
 	//trigger a recursive call...
 	rGen(0,0);
 
-//circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-	
 	var my_monkey = [];
 	$.each( grids.PointSet, function( key, value ) {
 
@@ -358,42 +355,9 @@ var grids = {
 		.attr("class","intesec-dot");
 
 	});
-	
 
-	
-	console.log(JSON.stringify(my_monkey, null, 2));
-
-	console.log("n points:", my_monkey.length);
-
-
-
-
-	console.log("Intersection Points Generation ("+grid_obj.description+")");
-
-	
-	console.log("parallel to 2", P_x, P_y);
-	console.log("parallel to 1", Q_x, Q_y);//blue
-
-	d3.select("#svg-bg-fullscreen")
-	    .append("line")
-	    .attr("x1", this.offset)
-	    .attr("x2", this.offset + Q_x)
-	    .attr("y1", this.offset)
-	    .attr("y2", this.offset + Q_y)
-	    .attr("stroke","blue")
-	    .attr("stroke-width","1");
-
-	d3.select("#svg-bg-fullscreen")
-	    .append("line")
-	    .attr("x1", this.offset)
-	    .attr("x2", this.offset + P_x)
-	    .attr("y1", this.offset)
-	    .attr("y2", this.offset + P_y)
-	    .attr("stroke","red")
-	    .attr("stroke-width","1");
-
-	this.offset += 100;
-	this.PointSet = {};//reset the pointset
+	//reset the pointset
+	this.PointSet = {};
 	
     }
 

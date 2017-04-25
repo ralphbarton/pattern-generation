@@ -7,8 +7,8 @@ var grids_init = {
 	$("#line-set-2 .title").text("Line Set 2");
 	
 	//move SVGs into position
-	$("#svg-angle-1").appendTo("#line-set-1 .k-pix");
-	$("#svg-angle-2").appendTo("#line-set-2 .k-pix");
+	$("#svg-angle-1").appendTo("#line-set-1 .angle-indicator-icon");
+	$("#svg-angle-2").appendTo("#line-set-2 .angle-indicator-icon");
 
 	// Handler for -DUPLICATE-
 	$("#grids-buttons #add").click(function(){
@@ -36,7 +36,7 @@ var grids_init = {
 	});
 
 	// Handler for -Show- preview
-	$("#grid-preview-visibility #show").click(function(){
+	$("#Tab-grid .button#show").click(function(){
 	    var my_i = grids.selected_row_i;
 	    if((my_i != undefined) && (!$(this).hasClass("ui-disabled"))){
 		grids.showing_preview = true;
@@ -54,7 +54,7 @@ var grids_init = {
 	    if(my_i != undefined){
 		var Grid_i = DM.GridsArray[grids.selected_row_i];
 		var old_val = Grid_i.line_sets[ls][key];
-		$("#line-set-"+(ls+1)+" .k-"+key+" input").SmartInput("update", {change_underlying_from_DOM: true});
+		$("#line-set-"+(ls+1)+" .ls-param."+key+" input").SmartInput("update", {change_underlying_from_DOM: true});
 		var new_val = Grid_i.line_sets[ls][key];
 
 		//For angle changes (1) animate svg (2) logic for locking angles
@@ -63,7 +63,7 @@ var grids_init = {
 		    if(grids.lock_angles){
 			Grid_i.line_sets[1-ls].angle -= (new_val - old_val);
 			// visually update other angle
-			$("#line-set-"+(2-ls)+" .k-angle input").SmartInput("update", {data_change: true});
+			$("#line-set-"+(2-ls)+" .ls-param.angle input").SmartInput("update", {data_change: true});
 			grids.update_preview_svg_angle(1-ls, Grid_i.line_sets[1-ls].angle);
 		    }
 		}
@@ -83,7 +83,7 @@ var grids_init = {
 	    [{k:"spacing", u:"pixels"}, /*{k:"shift", u:"percent"},*/ {k:"angle", u:"degrees"}].forEach(function(TY) {
 
 		//INITIATE
-		var $input = $("#line-set-"+(ls+1)+" .k-"+TY.k+" input");
+		var $input = $("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input");
 		$input.SmartInput({
 		    //		    underlying_obj: Grid_i.line_sets[ls], // this property set on row-select, it is a function of row...
 		    underlying_key: TY.k,
@@ -105,7 +105,7 @@ var grids_init = {
 		//as a side effect, this function updates the object it is passed by reference
 		grids.spacing_unit_objectUpdater(DM.GridsArray[my_i].line_sets[ls], units_new);
 
-		$("#line-set-"+(ls+1)+" .k-spacing input").SmartInput("update", {
+		$("#line-set-"+(ls+1)+" .ls-param.spacing input").SmartInput("update", {
 		    UI_enable: false,
 		    data_change: true,
 		    new_dc_key: units_new // arguably, because this is referenceable from the updated underlying object,

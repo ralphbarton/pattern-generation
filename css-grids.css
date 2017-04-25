@@ -1,4 +1,4 @@
-/*no content yet...*/
+/* 1. Table showing grids */
 
 #grids-table tbody{
      height: 197px;
@@ -25,6 +25,10 @@
     width: 135px;
 }
 
+
+
+/* 1.1 - buttons underneath grid*/
+
 #grids-buttons {
     width: 195px;
     text-align: right;
@@ -34,29 +38,76 @@
     margin-top: 5px;
 }
 
-#Tab-grid div#row-content{
+
+
+/* 2. Grid controls pane */
+
+#Tab-grid #grid-controls-pane{
     position: absolute;
     left: 202px;
-    top: 123px;
+    top: 116px;
 }
 
-#Tab-grid div.boxie{
+
+
+
+/* 2.1 Line Sets Controls boxes */
+
+#Tab-grid div.boxie#line-set-1,
+#Tab-grid div.boxie#line-set-2{
     position: relative;
-    margin-right: 3px;
+    margin-left: 14px;
+    margin-top: 18px;
+    margin-bottom: 2px;
     display: inline-block;
     height: 95px;
-    width: 232px;
-    margin-bottom: 5px;
+    width: 212px;
     text-align: right;
 }
 
-#Tab-grid div.boxie#preview-opts{
-    width: 482px;
-    height: 40px;
-    text-align: left;
+#Tab-grid .angle-indicator-icon{
     position: absolute;
-    left: 1px;
-    top: 212px;
+    width: 70px;
+    height: 70px;
+    top: 18px;
+    right: 12px;
+}
+
+#Tab-grid .ls-param{
+    position: relative;
+    display: inline-block;
+    top: -2px;
+    margin-right: 115px;
+    margin-bottom: 5px;
+    font-size: 15px;
+    width: 122px;
+}
+
+#Tab-grid .ls-param input.plain-cell{
+    width: 60px;
+}
+
+#Tab-grid .act-mutex.px-pc-qty{
+    position: absolute;
+    top: 23px;
+    left: 34px;
+}
+
+#Tab-grid .ls-param.shift{
+    margin-top: 19px;
+}
+
+
+
+
+
+/* 2.2 Directly beneath the Line Sets boxes */
+
+#Tab-grid .act-mutex#link-angles{
+    display: inline-block;
+    position: absolute;
+    right: 1px;
+    top: 145px;
 }
 
 #slider-placeholder{
@@ -65,93 +116,65 @@
     height: 32px;
     position: absolute;
     width: 489px;
-    top: 163px;
+    top: 171px;
 }
 
-#Tab-grid .act-mutex#link-angles{
-    display: inline-block;
+
+
+
+
+/* 2.3 Preview Options Box */
+
+#Tab-grid div.boxie#preview-opts{
     position: absolute;
-    right: 1px;
-    top: 140px;
-}
-
-#Tab-grid .k-angle,
-#Tab-grid .k-spacing,
-#Tab-grid .k-shift{
-    position: relative;
-    display: inline-block;
-    top: -2px;
-    margin-right: 110px;
-    margin-bottom: 5px;
-    font-size: 15px;
-    width: 130px;
-}
-
-#Tab-grid .act-mutex.px-pc-qty{
-    width: 100px;
-    top: 24px;
-    left: 27px;
-}
-
-#Tab-grid .k-shift{
-    margin-top: 19px;
+    left: 1px;
+    top: 218px;
+    width: 481px;
+    height: 40px;
+    text-align: left;
 }
 
 
-
-#Tab-grid .k-pix{
-    position: absolute;
-    width: 70px;
-    height: 70px;
-    top: 18px;
-    right: 18px;
-}
-
-#Tab-grid .boxie .act-mutex{
-    display: inline-block;
+/* everything contained inside will be positioned absolutely */
+#Tab-grid #preview-opts .act-mutex,
+#Tab-grid #preview-opts .button,
+#Tab-grid #preview-opts > .action-link{
     position: absolute;
 }
 
-#Tab-grid .boxie#preview-opts .act-mutex#show-bg{
+#Tab-grid #preview-opts .act-mutex#show-bg{
     top: 14px;
     left: 6px;
 }
 
-#Tab-grid .boxie#preview-opts .act-mutex#colour-monochrome{
+#Tab-grid #preview-opts .act-mutex#colour-monochrome{
     top: 30px;
     left: 12px;
 }
 
-#Tab-grid .boxie#preview-opts .act-mutex#one-v-all{
+#Tab-grid #preview-opts .act-mutex#one-v-all{
     top: 14px;
     left: 190px;
 }
 
-#Tab-grid .boxie#preview-opts .act-mutex#show-points{
+#Tab-grid #preview-opts .act-mutex#show-points{
     top: 30px;
     left: 207px;
 }
 
-#Tab-grid #grid-preview-visibility{
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 80px;
+#Tab-grid #preview-opts .button#show{
+    right: 4px;
+    bottom: 4px;
 }
 
-#Tab-grid .plain-cell{
-    width: 60px;
+#Tab-grid #preview-opts .action-link#hide{
+    right: 12px;
+    top: 3px;
 }
 
-#Tab-grid #extra-content{
-    padding: 6px;
-    position: absolute;
-    left: 710px;
-    top: 200px;
-    width: 180px;
-    height: 60px;
-    display: none;
-}
+
+
+/* 3. Underlying SVG used to show gridlines */
 
 #svg-bg-fullscreen{
     z-index: -1;
