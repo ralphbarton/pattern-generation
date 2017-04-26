@@ -167,7 +167,7 @@ $(document).ready(function() {
     $("#motifs-view .table-buttons #edit").click();
 */
 
-    //go straight to Grids ( = 3rd tab...)
+    //go straight to a particular tab...
     // Tab sequence:
     // 1 - Colour Pots
     // 2 - Colouring functions
@@ -179,7 +179,7 @@ $(document).ready(function() {
     // 8 - Examples
     // 9 - Options
     // 10 - Tutorial
-    $("#cpanel-main-tabs > ul > li:nth-of-type(9) a").click();
+    $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click();
     
 });
 
