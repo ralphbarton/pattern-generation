@@ -419,26 +419,121 @@ var DM = {
 	    CP_picks: [],
 	},
 	Elements: [
-	    {
-		/* 0 = top-left (cartesian)
-		   1 = center (cartesian)
-		   2 = center (polar)
-		   3 = Other...
-
-		*/
-		placement: 0, 
-
-
-
 		/*
-		  lots of standard props
+		  {placement: ...}
+		  0 = top-left (cartesian)
+		  1 = center (cartesian)
+		  2 = center (polar)
+		  3 = Other...
+
 		*/
-	    }
 	]
     },
 
-    MotifsArray: [],
+    MotifsArray: [
+	{// 1st dummy motif...
+	    Name: "Molecule",
+	    Params: {
+		"links": [],
+		"random": [],
+		"CP_picks": []
+	    },
+	    Elements: [
+		{
+		    "shape": "obj-ellipse",
+		    "left": 100,
+		    "top": 100,
+		    "fill": "rgba(48, 162, 7, 0.86)",
+		    "stroke": null,
+		    "rx": 100,
+		    "ry": 100,
+		    "PGTuid": 0
+		},
+		{
+		    "shape": "obj-ellipse",
+		    "left": 83,
+		    "top": 83,
+		    "fill": "rgba(244, 200, 24, 0.69)",
+		    "stroke": null,
+		    "rx": 45,
+		    "ry": 41,
+		    "PGTuid": 3
+		},
+		{
+		    "shape": "obj-ellipse",
+		    "left": 218,
+		    "top": 212,
+		    "fill": "rgba(244, 200, 24, 0.69)",
+		    "stroke": null,
+		    "rx": 48,
+		    "ry": 51.5,
+		    "PGTuid": 4
+		}
+	    ]
+	},
+	{// 2nd dummy motif...
+	    "Name": "Tetris went home",
+	    "Params": {
+		"links": [],
+		"random": [],
+		"CP_picks": []
+	    },
+	    "Elements": [
+		{
+		    "shape": "obj-rectangle",
+		    "left": 125,
+		    "top": 125,
+		    "width": 75,
+		    "height": 75,
+		    "fill": "rgba(244, 200, 24, 0.69)",
+		    "stroke": "rgba(0, 0, 0, 1.00)",
+		    "PGTuid": 5
+		},
+		{
+		    "shape": "obj-rectangle",
+		    "left": 200,
+		    "top": 150,
+		    "width": 50,
+		    "height": 50,
+		    "fill": "rgba(24, 244, 31, 0.69)",
+		    "stroke": "rgba(0, 0, 0, 1.00)",
+		    "PGTuid": 6
+		},
+		{
+		    "shape": "obj-rectangle",
+		    "left": 200,
+		    "top": 200,
+		    "width": 75,
+		    "height": 75,
+		    "fill": "rgba(244, 24, 105, 0.50)",
+		    "stroke": "rgba(0, 0, 0, 1.00)",
+		    "PGTuid": 7
+		},
+		{
+		    "shape": "obj-rectangle",
+		    "left": 150,
+		    "top": 200,
+		    "width": 50,
+		    "height": 50,
+		    "fill": "rgba(24, 83, 244, 0.50)",
+		    "stroke": "rgba(0, 0, 0, 1.00)",
+		    "PGTuid": 8
+		},
+		{
+		    "shape": "obj-rectangle",
+		    "left": 250,
+		    "top": 125,
+		    "width": 25,
+		    "height": 75,
+		    "fill": "rgba(24, 83, 244, 0.04)",
+		    "stroke": "rgba(0, 0, 0, 1.00)",
+		    "PGTuid": 9
+		}
+	    ]
+	}
+    ],
 
+    
     PGTuid_counter: 0,
     Motif_newElement_data: function(PropsObj){
 	var new_uid = this.PGTuid_counter;

@@ -419,23 +419,23 @@ table td.recent-change{
 }
 
 /*jiggle exact placement of shapes within boxes*/
-#motifs-edit .sqr-but#shap1 img{
+#motifs-edit .sqr-but#obj-ellipse img{
     top: 1px;
     left: 0px;
 }
-#motifs-edit .sqr-but#shap2 img{
+#motifs-edit .sqr-but#obj-rectangle img{
     top: 1px;
     left: 0px;
 }
-#motifs-edit .sqr-but#shap3 img{
+#motifs-edit .sqr-but#obj-triangle img{
     top: 0px;
     left: -1px;
 }
-#motifs-edit .sqr-but#shap4 img{
+#motifs-edit .sqr-but#obj-hexagon img{
     top: 0px;
     left: 0px;
 }
-#motifs-edit .sqr-but#shap5 img{
+#motifs-edit .sqr-but#obj-line img{
     top: 1px;
     left: 0px;
 }

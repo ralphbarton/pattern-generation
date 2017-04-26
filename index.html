@@ -738,11 +738,11 @@
 		    Dw:<div>one</div><div>many</div>
 		  </div>
 
-		  <div class="button sqr-but" id="shap1"><img src="icons/motif/shapes-1.png"/></div>
-		  <div class="button sqr-but" id="shap2"><img src="icons/motif/shapes-2.png"/></div>
-		  <div class="button sqr-but" id="shap3"><img src="icons/motif/shapes-3.png"/></div>
-		  <div class="button sqr-but" id="shap4"><img src="icons/motif/shapes-4.png"/></div>
-		  <div class="button sqr-but" id="shap5"><img src="icons/motif/shapes-5.png"/></div>
+		  <div class="button sqr-but" id="obj-ellipse"><img src="icons/motif/shape-icon-ellipse.png"/></div>
+		  <div class="button sqr-but" id="obj-rectangle"><img src="icons/motif/shape-icon-rectangle.png"/></div>
+		  <div class="button sqr-but" id="obj-triangle"><img src="icons/motif/shape-icon-triangle.png"/></div>
+		  <div class="button sqr-but" id="obj-hexagon"><img src="icons/motif/shape-icon-hexagon.png"/></div>
+		  <div class="button sqr-but" id="obj-line"><img src="icons/motif/shape-icon-line.png"/></div>
 		</div>
 
 
@@ -1062,22 +1062,22 @@
 	  
 	  <!-- == Tab: Options == -->
 	  <div id="Tab-optn">
+	      (Random seed idea: a fixed random-number generator algorithm will allow the exact same image to be generated on different occasions)
+	      Other options to include (export as JSON/text file / image file etc.)
 
-	    <div id="ops-main">
-	      With the random seed idea, a fixed random-number generator algorithm will allow the exact same image to be generated on different occasions. Neat
-
-	    </div>
-
-	    <!-- style="display: none;" -->
-	    <div id="ops-rseed">
-
-	      Export options here...
-	      This means JSON, and a text-file download.
 	      <textarea placeholder="put JSON here..." id="json-text"></textarea>
 
-	      <div class="button" id="json-load">Load JSON</div>
+	      <div class="button" id="json-load-cpot">Import JSON to cpot</div>
 
-	    </div>
+	      <div id="export-buttons">
+		<div>Show JSON for:</div>
+		<div class="button s" id="cpot">Colour Pots</div>
+		<div class="button s" id="grid">Grids</div>
+		<div class="button s" id="plot">Density Plots</div>
+		<div class="button s" id="moti">Motifs</div>
+	      </div>
+
+
 
 	  </div>
 

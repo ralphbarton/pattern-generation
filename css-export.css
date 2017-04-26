@@ -10,8 +10,21 @@
     border-radius: 6px;
 }
 
-#json-load{
+#json-load-cpot{
     position: absolute;
     right: 10px;
     bottom: 10px;
+}
+
+#export-buttons {
+    position: absolute;
+    right: 5px;
+    top: 230px;
+    width: 120px;
+}
+
+#export-buttons > .button{
+    width: 90px;
+    text-align: center;
+    margin: 2px 5px
 }

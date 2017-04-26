@@ -82,7 +82,7 @@ var motifs_props = {
 	var props_list_Ellipse = jQuery.extend(true, {}, this.props_list_generic);
 
 	props_list_Ellipse.name = "Ellipse";
-	props_list_Ellipse.shape_type = "shap1";
+	props_list_Ellipse.shape_type = "obj-ellipse";
 	props_list_Ellipse.shape_constructor = fabric.Ellipse;
 
 	// 1.2 - edit data structure
@@ -98,7 +98,7 @@ var motifs_props = {
 	var props_list_Rect = jQuery.extend(true, {}, this.props_list_generic);
 
 	props_list_Rect.name = "Rectangle";
-	props_list_Rect.shape_type = "shap2";
+	props_list_Rect.shape_type = "obj-rectangle";
 	props_list_Rect.shape_constructor = fabric.Rect;
 
 	// 2.2 - edit data structure
@@ -115,7 +115,7 @@ var motifs_props = {
 	var props_list_Triangle = jQuery.extend(true, {}, this.props_list_generic);
 
 	props_list_Triangle.name = "Triangle";
-	props_list_Triangle.shape_type = "shap3";
+	props_list_Triangle.shape_type = "obj-triangle";
 	props_list_Triangle.shape_constructor = fabric.Triangle;
 
 	// 3.2 - edit data structure
@@ -130,7 +130,7 @@ var motifs_props = {
 	var props_list_Hexagon = jQuery.extend(true, {}, this.props_list_generic);
 
 	props_list_Hexagon.name = "Hexagon";
-	props_list_Hexagon.shape_type = "shap4";
+	props_list_Hexagon.shape_type = "obj-hexagon";
 	props_list_Hexagon.shape_constructor = fabric.Polygon;
 
 	// 4.2 - edit data structure
@@ -293,7 +293,7 @@ var motifs_props = {
 
 	// create a rectangle object
 	var new_shape = undefined;
-	if(shape_type == "shap1"){//circle
+	if(shape_type == "obj-ellipse"){//circle
 	    new_shape = new fabric.Ellipse({
 		left: props_TLWH.left,
 		top: props_TLWH.top,
@@ -302,13 +302,13 @@ var motifs_props = {
 		ry: (props_TLWH.height/2)		
 	    });
 
-	}else if(shape_type == "shap2"){//rectangle
+	}else if(shape_type == "obj-rectangle"){//rectangle
 	    new_shape = new fabric.Rect();
 
-	}else if(shape_type == "shap3"){//triangle
+	}else if(shape_type == "obj-triangle"){//triangle
 	    new_shape = new fabric.Triangle();
 
-	}else if(shape_type == "shap4"){//hexagon
+	}else if(shape_type == "obj-hexagon"){//hexagon
 	    var W1 = 0.5 * props_TLWH.width;
 	    var W2 = 0.5 * props_TLWH.height / 0.866;
 	    var Wm = Math.min(W1, W2);
@@ -336,7 +336,7 @@ var motifs_props = {
 	    );
 
 
-	}else if(shape_type == "shap5"){//line
+	}else if(shape_type == "obj-line"){//line
 	    new_shape = new fabric.Line();
 	    new_shape.set({
 		strokeWidth: 1,
@@ -345,7 +345,7 @@ var motifs_props = {
 
 	}
 
-	if((shape_type == "shap2")||(shape_type == "shap3")||(shape_type == "shap5")){
+	if((shape_type == "obj-rectangle")||(shape_type == "obj-triangle")||(shape_type == "obj-line")){
 	    new_shape.set({
 		left: props_TLWH.left,
 		top: props_TLWH.top,
