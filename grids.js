@@ -122,10 +122,15 @@ var grids = {
 
 	    var Grid_i = DM.GridsArray[this.selected_row_i];
 
-	    this.screen_update_line_set(0, 0);
-	    this.screen_update_line_set(1, 1, Grid_i.n_dimentions == 1);
+	    this.screen_update_line_set(0);
+	    this.screen_update_line_set(1, Grid_i.n_dimentions == 1);
 
+	    //produce a deep copy of the old grid, for saving...
+	    // i'm thinking this may prevent errors
+	    // OK - it does not prevent errors.
 	    this.previousGrid = Grid_i;
+//	    this.previousGrid = jQuery.extend(true, {}, Grid_i);
+	    
 	}
     },
 
@@ -134,19 +139,19 @@ var grids = {
 
 	if(grids.showing_preview){
 	    //remove both line sets...
-	    this.screen_update_line_set(0, 0, true);
-	    this.screen_update_line_set(1, 1, true);
+	    this.screen_update_line_set(0, true);
+	    this.screen_update_line_set(1, true);
 	    this.previousGrid = {line_sets:[]};
 	}	
     },
 
     
     // interact with the svg....
-    screen_update_line_set: function (line_set_index, ls_i, b_remove){
+    screen_update_line_set: function (line_set_index, b_remove){
 
+	// 1. Setting the variables. "Diameter" is of a circle containing the rectangle of the screen. 
 	var W = $(window).width();
 	var H = $(window).height();	
-	// TODO: is this an expensive call? we'll be calling it unnecessarily quite often...
 	$("#svg-bg-fullscreen").css("width", W).css("height", H);
 	
 	var Grid_i = DM.GridsArray[this.selected_row_i];
@@ -158,43 +163,51 @@ var grids = {
 	var origY = H/2;
 	var Radius = Dia/2;
 	var first = prev_LineSet == undefined;
-	var neg_ang = (ls_i == 0 ? -1 : 1);
+	var neg_ang = (line_set_index == 0 ? -1 : 1);
 
-	//assuming data in pixels here...
 	var LineSet_px = grids.spacing_unit_objectUpdater(LineSet, "pixels", true);
-	var inte_target = LineSet_px.spacing;
 
+	// interval & angle - starting & target
+	var inte_target = LineSet_px.spacing;
 	var angle_target = LineSet.angle * neg_ang;
 	var inte_starting = inte_target; // may reassign just below... hmm... consideration needed.
 	if(prev_LineSet){
 	    var prev_LineSet_px = grids.spacing_unit_objectUpdater(prev_LineSet, "pixels", true);
 	    var inte_starting = first ? inte_target : prev_LineSet_px.spacing;
 	}
-
 	var angle_starting = first ? angle_target : (prev_LineSet.angle * neg_ang);
 
-	var N1 = Math.ceil((Dia/2) / inte_target);//N1 is the number of lines in just the upper half
-	
-	var lines_class = "lines-"+(ls_i + 1);
 
-	//this is an array to apply D3 to and generate one line set...
-	var lines1_genData = [];
+	// N1 is the number of lines in just the upper half
+	// this is the 'target' quantity of lines.
+	var N1 = Math.ceil(Radius / inte_target);
+	
+	var lines_class = "lines-"+(line_set_index + 1);
+
+	// 2. Generate data to apply the D3 to, for one line set. This is an array of positive and negative indices.
+	// i.e. [0, 1, -1, 2, -2, 3, -3.....]
+	var lines_indices_list = [];
 	if(b_remove !== true){
 	    for (var i = 0; i < N1; i++){
-		lines1_genData.push(i);
+		lines_indices_list.push(i);
 		if(i != 0){
-		    lines1_genData.push(-i);
+		    lines_indices_list.push(-i);
 		}
 	    }
 	}
 
 	//select the set of lines
 	var selection = d3.select("#svg-bg-fullscreen")
-	    .selectAll("."+lines_class).data(lines1_genData);
+	    .selectAll("."+lines_class).data(lines_indices_list);
 
-	first = first || selection.size() == 0; //if 
+	//if no lines have been selected....
+	first = first || selection.size() == 0;
 
-	// first pass - change the set to contain the correct number of lines
+	// 3. First pass of D3, runs unconditionally: change the set to contain the correct (final) number of lines
+	
+	// 3.1 CREATE any lines which are absent
+	// these lines will be created based upon the 'starting', not the 'target' angle and interval.
+	// they will be transparent, animating to solid black
 	selection.enter()
 	    .append("line").attr("class", lines_class)
 	    .attr("x1", -Radius)
@@ -205,26 +218,33 @@ var grids = {
 	    .attr("stroke","rgba(0,0,0,0)")
 	    .attr("stroke-width","1")
 	    .transition()// ok, let's animate the arrival of new lines...
-	    .duration(first ? 500:0)//this animation can be overridden by a later one, causing it to stop
+	    .duration(500)//this animation can be overridden by a later one, causing it to stop
 	    .attr("stroke", "black");
 
-
+	// 3.2 REMOVE any lines that are excess
 	selection.exit()
 	    .transition()
-	    .delay(b_remove ? 0 : 500)
-	    .duration(b_remove ? 500 : 1300)
-	    .ease(d3.easeLinear)//not sure what easing is best for opacity changes
+	    .duration(500)
+	    .ease(d3.easeLinear) //I think 'linear' is best for opacity changes
 	    .attr("stroke", "rgba(0,0,0,0)")
 	    .remove();
 
-	//second pass. Animate (this will often have no impact where previous and current are the same)
-	// (which means an opportunity to optimise, arguably).
+	// 4. Second pass of D3: Animate (all the lines by now created)
+	// (this will often have no impact where previous and current are the same)
 	if(!first){
 	    var selection = d3.select("#svg-bg-fullscreen")
-		.selectAll("."+lines_class).data(lines1_genData)
+		.selectAll("."+lines_class).data(lines_indices_list)
+	    //first run a transition to instantaneously make them all black
+		.transition()
+		.duration(0)
+		.attr("stroke", "black")
+	    //now run a cascading & non-instantaneous transition on position+angle
 		.transition()
 		.delay(function(d, i) {
-		    return (i / N1) * (grids.lock_angles ? 0 : 250); // max of (i/N2) = 2
+		    // Cascading the animation (by a variable deley) is a pretty cool effect
+		    // for 'locked angle' behaviour, I think it's better if the whole grid rotates rigidly.
+		    // The largest "delay multiplier" is (i/N1) = 2
+		    return (i / N1) * (grids.lock_angles ? 0 : 250);
 		})
 		.duration(500)
 		.attr("y1", function(d){return d*inte_target;})
