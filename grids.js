@@ -102,6 +102,49 @@ var grids = {
 	});
     },
 
+
+    spacing_unit_objectUpdater: function(LineSet, units_new, no_side_effect__return_new){
+	var winW = $(window).width();
+	var winH = $(window).height();
+	var phi_rad = LineSet.angle * 2 * Math.PI / 360;
+	var theta_rad = Math.atan(winH/winW);
+	var to_deg = 180/Math.PI;
+	var L_eff = Math.sqrt(winW*winW + winH*winH) * Math.sin(Math.abs(phi_rad + theta_rad));
+
+	//whatever units are, restore them as px
+	var spacing_px = LineSet.spacing;
+	if(LineSet.spacing_unit == 'percent'){
+	    spacing_px = winW * LineSet.spacing/100; //convert percent into px
+	}else if(LineSet.spacing_unit == 'quantity'){
+	    spacing_px = L_eff / LineSet.spacing; //convert qty into px
+	}
+
+	var spacing_new = spacing_px;
+	if(units_new == 'percent'){
+	    spacing_new = (spacing_px/winW) * 100;
+	}else if(units_new == 'quantity'){
+	    spacing_new = L_eff / spacing_px;
+	}
+
+	if(no_side_effect__return_new !== true){
+	    // "LineSet" (that passed into a function by value) is a reference to an object
+	    // assigning a new object to it would only change the temporary reference. We need to de-reference, as below
+	    LineSet.spacing = spacing_new;
+	    LineSet.spacing_unit = units_new;
+	    LineSet.shift = LineSet.shift;
+	    LineSet.angle = LineSet.angle;
+	}else{
+	    return {
+		spacing: spacing_new,
+		spacing_unit: units_new,
+		shift: LineSet.shift,
+		angle: LineSet.angle
+	    };
+	}
+    },
+
+
+    //functions below here relate to interaction with this tabs SVGs, using D3. Could move into a different file...
     
     update_preview_svg_angle: function (ls, angle){
 	var dy = ls ? 8 : 62;
@@ -128,8 +171,12 @@ var grids = {
 	    //produce a deep copy of the old grid, for saving...
 	    // i'm thinking this may prevent errors
 	    // OK - it does not prevent errors.
+
+	    // Why does the line below work???!!
 	    this.previousGrid = Grid_i;
 //	    this.previousGrid = jQuery.extend(true, {}, Grid_i);
+
+	    this.update_grid_intersection_points();
 	    
 	}
     },
@@ -196,7 +243,7 @@ var grids = {
 	    }
 	}
 
-	//select the set of lines
+	// Perform a JOIN opeation between data and lines
 	var selection = d3.select("#svg-bg-fullscreen")
 	    .selectAll("."+lines_class).data(lines_indices_list);
 
@@ -216,11 +263,8 @@ var grids = {
 	    .attr("y2", function(d){return d*inte_starting;})
 	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_starting+")")
 	    .attr("stroke","rgba(0,0,0,0)")
-	    .attr("stroke-width","1")
-	    .transition()// ok, let's animate the arrival of new lines...
-	    .duration(500)//this animation can be overridden by a later one, causing it to stop
-	    .attr("stroke", "black");
-
+	    .attr("stroke-width","1");
+	
 	// 3.2 REMOVE any lines that are excess
 	selection.exit()
 	    .transition()
@@ -229,82 +273,86 @@ var grids = {
 	    .attr("stroke", "rgba(0,0,0,0)")
 	    .remove();
 
+	
 	// 4. Second pass of D3: Animate (all the lines by now created)
-	// (this will often have no impact where previous and current are the same)
-	if(!first){
-	    var selection = d3.select("#svg-bg-fullscreen")
-		.selectAll("."+lines_class).data(lines_indices_list)
-	    //first run a transition to instantaneously make them all black
-		.transition()
-		.duration(0)
-		.attr("stroke", "black")
-	    //now run a cascading & non-instantaneous transition on position+angle
-		.transition()
-		.delay(function(d, i) {
-		    // Cascading the animation (by a variable deley) is a pretty cool effect
-		    // for 'locked angle' behaviour, I think it's better if the whole grid rotates rigidly.
-		    // The largest "delay multiplier" is (i/N1) = 2
-		    return (i / N1) * (grids.lock_angles ? 0 : 250);
-		})
-		.duration(500)
-		.attr("y1", function(d){return d*inte_target;})
-		.attr("y2", function(d){return d*inte_target;})
-		.attr("transform", "translate("+origX+" "+origY+") rotate("+angle_target+")");
-	}
+	
+	// Perform another JOIN opeation between data and lines. This will pick up every line, newly added and old.
+	// joining the new data is necessary because what we don't want to pick up is old lines that are fading out
+	var reselection = d3.select("#svg-bg-fullscreen")
+	    .selectAll("."+lines_class).data(lines_indices_list);
+
+	//first run a transition to instantaneously make them all black
+	reselection
+	    .transition()
+	    .duration(first ? 500 : 0)
+	    .ease(d3.easeLinear)
+	    .attr("stroke", "black")
+	//now run a cascading & non-instantaneous transition on position+angle
+	    .transition()
+	    .delay(function(d, i) {
+		// Cascading the animation (by a variable deley) is a pretty cool effect
+		// for 'locked angle' behaviour, I think it's better if the whole grid rotates rigidly.
+		// The largest "delay multiplier" is (i/N1) = 2
+		return (i / N1) * (grids.lock_angles ? 0 : 250);
+	    })
+	    .duration(500)
+	    .attr("y1", function(d){return d*inte_target;})
+	    .attr("y2", function(d){return d*inte_target;})
+	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_target+")");
+
     },
 
+
+    showingIntersectionPoints: false,
+    update_grid_intersection_points: function(display){
+
+	display = display !== undefined ? display : this.showingIntersectionPoints;
+	this.showingIntersectionPoints = display;
+	
+	// 1. get the data and perform the D3 
+	var myIntersectionPoints = display ? this.calc_grid_intersection_points() : [];
+	
+	var selection = d3.select("#svg-bg-fullscreen")
+	    .selectAll(".dot").data(myIntersectionPoints);
+
+	//first = selection.size() == 0;
+	
+	// Create any new points that are absent	
+	selection.enter()
+	    .append("circle").attr("class","dot")
+	    .attr("cx", function(d){return d.x;})
+	    .attr("cy", function(d){return d.y;})
+	    .attr("r", 0)
+	    .attr("fill", "red")
+	    .attr("stroke","black")
+	    .attr("stroke-width","1")
+	    .transition()
+	    .duration(1000)
+	    .attr("r", 3);
+
+	// Remove any dots that are excess
+	selection.exit()
+	    .transition()
+	    .duration(500)
+	    .attr("r", 0)
+	    .remove();
+
+	// Animate the movement of any existing dots with a location change
+	selection
+	    .transition()
+	    .duration(1000)
+	    .ease(d3.easeLinear)
+	    .attr("cx", function(d){return d.x;})
+	    .attr("cy", function(d){return d.y;});
+	
+    },
     
-    spacing_unit_objectUpdater: function(LineSet, units_new, no_side_effect__return_new){
-	var winW = $(window).width();
-	var winH = $(window).height();
-	var phi_rad = LineSet.angle * 2 * Math.PI / 360;
-	var theta_rad = Math.atan(winH/winW);
-	var to_deg = 180/Math.PI;
-	var L_eff = Math.sqrt(winW*winW + winH*winH) * Math.sin(Math.abs(phi_rad + theta_rad));
-
-	//whatever units are, restore them as px
-	var spacing_px = LineSet.spacing;
-	if(LineSet.spacing_unit == 'percent'){
-	    spacing_px = winW * LineSet.spacing/100; //convert percent into px
-	}else if(LineSet.spacing_unit == 'quantity'){
-	    spacing_px = L_eff / LineSet.spacing; //convert qty into px
-	}
-
-	var spacing_new = spacing_px;
-	if(units_new == 'percent'){
-	    spacing_new = (spacing_px/winW) * 100;
-	}else if(units_new == 'quantity'){
-	    spacing_new = L_eff / spacing_px;
-	}
-
-	if(no_side_effect__return_new !== true){
-	    // "LineSet" (that passed into a function by value) is a reference to an object
-	    // assigning a new object to it would only change the temporary reference. We need to de-reference, as below
-	    LineSet.spacing = spacing_new;
-	    LineSet.spacing_unit = units_new;
-	    LineSet.shift = LineSet.shift;
-	    LineSet.angle = LineSet.angle;
-	}else{
-	    return {
-		spacing: spacing_new,
-		spacing_unit: units_new,
-		shift: LineSet.shift,
-		angle: LineSet.angle
-	    };
-	}
-    },
-
-
-    PointSet: {},
-    gen_grid_intersection_points: function(){
+    calc_grid_intersection_points: function(){
 
 	// function can only operate if a Grid is selected...
 	if(this.selected_row_i === undefined){return;}
-
-
 	
 	// 1. Calculate the Basis vectors
-
 	var grid_obj = DM.GridsArray[this.selected_row_i];
 	var S1 = this.spacing_unit_objectUpdater(grid_obj.line_sets[0], "pixels", true);
 	var S2 = this.spacing_unit_objectUpdater(grid_obj.line_sets[1], "pixels", true);
@@ -323,30 +371,26 @@ var grids = {
 	var P_y = p * Math.sin(ang2);
 
 
-
 	// 2. Define a variety of helper functions for handling the data...
+	var PointSet = {};
+
  	var set = function(Pi,Qi,A){
-	    grids.PointSet[Pi+'^'+Qi] = A;
+	    PointSet[Pi+'^'+Qi] = A;
 	};
  	var get = function(Pi,Qi){
-	    return grids.PointSet[Pi+'^'+Qi];
+	    return PointSet[Pi+'^'+Qi];
 	};
 
 	var winW = $(window).width();
 	var winH = $(window).height();
-
 	var origX = winW/2;
 	var origY = winH/2;
 
  	var convert = function(Pi,Qi){
 	    return {x: (origX + P_x*Pi + Q_x*Qi), y: (origY + P_y*Pi + Q_y*Qi)};
 	};
-	
 
-	var test = function(Pi,Qi){
-	};
-
-
+	// 3. Define and call once the main flood-fill function
 	var rGen = function(Pi,Qi){
 
 	    //the point tested may be:
@@ -372,32 +416,18 @@ var grids = {
 	    }
 	};
 
-	//trigger a recursive call...
+	//trigger the recursive call: execute floodfill, starting in the center.
 	rGen(0,0);
 
-	var my_monkey = [];
-	$.each( grids.PointSet, function( key, value ) {
-
+	// 4. Convert the generated dictionary into a list (Array). Lose those double-index keys...
+	var PointList = [];
+	$.each( PointSet, function( key, value ) {
 	    //some entries will represent points found to be outside boundary.
 	    if (value === false){return;}
-
-	    my_monkey.push(value);
-
-	    d3.select("#svg-bg-fullscreen")
-		.append("circle")
-		.attr("cx", value.x)
-		.attr("cy", value.y)
-		.attr("r", 3)
-		.attr("fill", "red")
-		.attr("stroke","black")
-		.attr("stroke-width","1")
-		.attr("class","intesec-dot");
-
+	    PointList.push(value);
 	});
 
-	//reset the pointset
-	this.PointSet = {};
-	
+	return PointList;	
     }
 
 };

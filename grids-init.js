@@ -206,10 +206,11 @@ var grids_init = {
 	widgets.actionLink_init("#show-points.act-mutex",[
 	    function(){
 		//hide
+		grids.update_grid_intersection_points(false);
 	    },
 	    function(){
 		//show
-		grids.gen_grid_intersection_points();
+		grids.update_grid_intersection_points(true);
 	    }
 	]
 			       );
