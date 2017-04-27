@@ -127,12 +127,13 @@ var grids_init = {
 
 	// add logic to the action links
 	[0,1].forEach(function(ls) {
-	    widgets.actionLink_init("#line-set-"+(ls+1)+" .px-pc-qty.act-mutex",[
+
+	    $("#line-set-"+(ls+1)+" .px-pc-qty.act-mutex").MutexActionLink([0, 1, 0], [
 		function(){GAu_mod(ls, 'pixels');},
 		function(){GAu_mod(ls, 'percent');},
 		function(){GAu_mod(ls, 'quantity');},
-	    ]
-				   );
+	    ]);
+
 	});
 
 	// Logic for 3-way action-link:  Isometric / Square / Diamond
@@ -175,21 +176,23 @@ var grids_init = {
 	    grids.update_bg_grid();
 	};
 
-	widgets.actionLink_init("#preset-grid.act-mutex", [
+	// Initiate the "change to preset grid-type" action link...
+	$("#preset-grid.act-mutex").MutexActionLink([1, 1, 1], [
 	    function(){AdjustGridToPresetType("iso")},
 	    function(){AdjustGridToPresetType("squ")},
-	    function(){AdjustGridToPresetType("dia")}    ]);
+	    function(){AdjustGridToPresetType("dia")}
+	]);
 
 	//put them all "set"
 	grids.enable_Iso_Square_Hex_for_current_grid();
 	
 	// lock/link angles together
-	widgets.actionLink_init("#link-angles.act-mutex", [
+	$("#link-angles.act-mutex").MutexActionLink([1, 0], [
 	    function(){grids.lock_angles = true;},
-	    function(){grids.lock_angles = false;}    ]);
+	    function(){grids.lock_angles = false;}
+	]);
 
 	// switch between 1D and 2D grid.
-
 	var set_2D = function(make_2d){
 	    var Grid_i = DM.GridsArray[grids.selected_row_i];
 	    Grid_i.n_dimentions = make_2d ? 2 : 1;
@@ -198,23 +201,16 @@ var grids_init = {
 	    $("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !make_2d);   //Disable input
 	};
 
-	widgets.actionLink_init("#lines-v-grid.act-mutex", [
+	$("#lines-v-grid.act-mutex").MutexActionLink([1, 0], [
 	    function(){set_2D(false);},
-	    function(){set_2D(true);}    ]);
+	    function(){set_2D(true);}
+	]);
 
-
-	widgets.actionLink_init("#show-points.act-mutex",[
-	    function(){
-		//hide
-		grids.update_grid_intersection_points(false);
-	    },
-	    function(){
-		//show
-		grids.update_grid_intersection_points(true);
-	    }
-	]
-			       );
-
+	//Show vs hide intersection points...
+	$("#show-points.act-mutex").MutexActionLink([0, 1], [
+	    function(){ grids.update_grid_intersection_points(false); },
+	    function(){ grids.update_grid_intersection_points(true); }
+	]);
 
 	
 	//Call this last so as to ensure pre-requestite initialisation (of SmartInputs etc.) has happened.

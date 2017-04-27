@@ -89,26 +89,71 @@ var widgets = {
 };
 
 
+/*
 
+  ways of calling:
+
+  1. create...
+  $("#selection").MutexActionLink([fn1, fn2, fn3]);
+
+  2. create and set initial...
+  $("#selection").MutexActionLink([1, 1, 0], [fn1, fn2, fn3]);
+
+  3. justset a specific activation state.
+  $("#selection").MutexActionLink([1, 1, 0]);
+
+*/
 
 jQuery.fn.extend({
-    MutexActionLink: function(Array_per_link) {
+    MutexActionLink: function(param1, param2) {
 	//code runs once
 
-	// if its an array of functions, the response is to initialise..
-	var action = (typeof(Array_per_link[0]) == "function") ? "initialise" : "update";
-
-
+	var fn1 = typeof(param1[0]) == "function";
+	var fn2 = param2 && typeof(param2[0]) == "function";
+	var action = (fn1 || fn2) ? "initialise" : "update";
+	
+	var fn_arr = (fn1 && param1) || (fn2 && param2);
+	var en_arr = (!fn1 && param1);
+	
 	return this.each(function() {
+
 	    //code run on every matched element	    
+	    var $LinkSet = $(this);
+	    
+	    if (action == "initialise"){//apply callbacks to links
 
-	    if (action == "initialise"){//
-		$(this).SmartInput("update", {UI_enable: false});
+		$LinkSet.find("div").each(function(i_div){
+		    // On click for the DIV: no effect unless it has the "action-link" class...
+		    $(this).click(function(){
+			if($(this).hasClass("action-link")){
+			    
+			    // 1. Trigger the function
+			    fn_arr[i_div]();
 
-	    }else if (action == "initialise"){//
-		    
+			    // 2. upon clicking it, unset the link clicked and set all others
+			    $LinkSet.find("div").each(function(j_div){
+				$(this).toggleClass("action-link", i_div != j_div);
+			    });
+			}
+		    });
+
+		    if(!fn2){//if no initial state was supplied, default to active
+			$(this).addClass("action-link");
+		    }
+		});
+
+		if(fn2){// whereas if an initial state was supplied, apply the state accross links in this call.
+		    $LinkSet.MutexActionLink(en_arr);
+		}
+		
+	    }else if (action == "update"){//change visual appearance of links
+
+		$LinkSet.find("div").each(function(i_div){
+		    $(this).toggleClass("action-link", en_arr[i_div]==1);
+		});
+		
 	    }else{
-		Error("SmartInput called with an unknown function commanded");
+		Error("MutexActionLink called with an unknown function commanded");
 	    }
 
 	});
