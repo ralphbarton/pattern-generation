@@ -2,60 +2,63 @@ var grids_init = {
 
     init: function(){
 
-	//cuts and copies of DOM content
-	$("#line-set-2").append($("#line-set-1").clone().html());
-	$("#line-set-2 .title").text("Line Set 2");
+
+	// 1. Table of Grids (listing on the left)
+
+
+
 	
-	//move SVGs into position
-	$("#svg-angle-1").appendTo("#line-set-1 .angle-indicator-icon");
-	$("#svg-angle-2").appendTo("#line-set-2 .angle-indicator-icon");
+	// 1.1 - Buttons underneath grids listing table
 
-	// Handler for -DUPLICATE-
+	// Button Handler: ADD
+	// new grid by duplicating hidden template
 	$("#grids-buttons #add").click(function(){
-	    //mutate the data structure
 	    if(grids.selected_row_i != undefined){
-
 		//add new grid and select its (new) row index...
 		grids.selected_row_i = DM.add_grid();
-
-		//refresh view
-		grids.regenerate_table();
+		grids.regenerate_table(); //refresh view
 	    }
 	});
 
-	// Handler for -DELETE-
+	// Button Handler: DELETE
+	// removes selected
 	$("#grids-buttons #delete").click(function(){
 	    if(grids.selected_row_i != undefined){
-		//mutate the data structure
 		DM.deleteRow_grid(grids.selected_row_i);
 		//now, leave selected either replacing row in same position, or final row
 		grids.selected_row_i = Math.min(grids.selected_row_i, DM.GridsArray.length-1);
-		//refresh view
-		grids.regenerate_table();
+		grids.regenerate_table(); //refresh view
 	    }
 	});
 
-	// Handler for -Show- preview
-	$("#Tab-grid .button#show").click(function(){
-	    if((grids.selected_row_i != undefined) && (!$(this).hasClass("ui-disabled"))){
-		grids.showing_preview = true;
-		grids.update_bg_grid();
-		$(this).addClass("ui-disabled");
-	    }
-	});
 
-	// Handler for -Hide- preview
-	$("#Tab-grid .action-link#hide").click(function(){
-	    grids.clear_bg_grid();
-	    grids.showing_preview = false;
-	    $("#Tab-grid .button#show").removeClass("ui-disabled");
-	});
+
+
 
 
 	
-	//add logic for input boxes:
+	// 2. Grids control pane
 
-	// handle a change in one of the <input> boxes for the grid array
+
+
+
+	// 2.1 - Line sets control boxes
+
+	// 2.1.1 - DOM manipulations to initialise display
+
+	// Create box 2 by cloning box 1 (cuts down duplication in the HTML)
+	$("#line-set-2").append($("#line-set-1").clone().html());
+	$("#line-set-2 .title").text("Line Set 2");
+	
+	// Move SVGs into position
+	$("#svg-angle-1").appendTo("#line-set-1 .angle-indicator-icon");
+	$("#svg-angle-2").appendTo("#line-set-2 .angle-indicator-icon");
+
+	
+
+	// 2.1.2 - Functionality of ALL of the Grid Properties SmartInput Boxes
+
+	// Part A - Define the generalised on_Change callback
 	var GA_mod = function(obj, ls, key){
 	    if(grids.selected_row_i != undefined){
 		var Grid_i = DM.GridsArray[grids.selected_row_i];
@@ -80,11 +83,8 @@ var grids_init = {
 		grids.enable_Iso_Square_Hex_for_current_grid();
 	    }
 	};
-
-
-
-
-	//initiate 6 input boxes in this way...
+	
+	// Part B - Apply it in SmartInput initialisation for each (of the 6) elements
 	[0,1].forEach(function(ls) {
 	    [{k:"spacing", u:"pixels"}, /*{k:"shift", u:"percent"},*/ {k:"angle", u:"degrees"}].forEach(function(TY) {
 
@@ -106,29 +106,36 @@ var grids_init = {
 
 
 
-	// change grid array units...
+
+	
+	// 2.1.3 - Functionality of Units change MutexActionLinks (for SPACING only) -- px / % / qty
+
+	// Part A - Define the on_Click callback
 	var GAu_mod = function(ls, units_new){
 	    if(grids.selected_row_i != undefined){
 
 		// CONVERT the spacing value (such that it is equivalent with new units)
-		//as a side effect, this function updates the object it is passed by reference
+		// This function updates the object it is passed by reference ("side-effect")
 		var Grid_i = DM.GridsArray[grids.selected_row_i];
 		grids.spacing_unit_objectUpdater(Grid_i.line_sets[ls], units_new);
 
 		$("#line-set-"+(ls+1)+" .ls-param.spacing input").SmartInput("update", {
 		    UI_enable: false,
 		    data_change: true,
-		    new_dc_key: units_new // arguably, because this is referenceable from the updated underlying object,
-		    // should not have to pass again aws a parameter here... ( = even more refactoring and ?? re-inventing
-		    // something 'React'-like myself!!
+		    new_dc_key: units_new // is there a way this parameter could not be passed. It is in the data?
 		});
 	    }
 	};
 
-	// add logic to the action links
+	// Part B - Apply it to MutexActionLinks of Line Set 1 and Line Set 2
 	[0,1].forEach(function(ls) {
 
-	    $("#line-set-"+(ls+1)+" .px-pc-qty.act-mutex").MutexActionLink([0, 1, 0], [
+	    //determine starting state
+	    var Grid_i = DM.GridsArray[grids.selected_row_i];
+	    var my_unit = Grid_i.line_sets[ls].spacing_unit;
+	    var en_state = [my_unit != 'pixels', my_unit != 'percent', my_unit != 'quantity'];
+	    
+	    $("#line-set-"+(ls+1)+" .px-pc-qty.act-mutex").MutexActionLink(en_state, [
 		function(){GAu_mod(ls, 'pixels');},
 		function(){GAu_mod(ls, 'percent');},
 		function(){GAu_mod(ls, 'quantity');},
@@ -136,7 +143,35 @@ var grids_init = {
 
 	});
 
-	// Logic for 3-way action-link:  Isometric / Square / Diamond
+
+
+
+	
+	// 2.2 - above line sets control boxes
+
+	// 2.2.1 - switch between 1D and 2D grid
+	var set_2D = function(make_2d){
+	    var Grid_i = DM.GridsArray[grids.selected_row_i];
+	    Grid_i.n_dimentions = make_2d ? 2 : 1;
+	    grids.update_bg_grid();
+	    $("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !make_2d);
+	    $("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !make_2d);   //Disable input
+	};
+
+	$("#lines-v-grid.act-mutex").MutexActionLink([1, 0], [
+	    function(){set_2D(false);},
+	    function(){set_2D(true);}
+	]);
+
+
+
+	
+
+	// 2.3 - beneath line sets control boxes
+
+	// 2.3.1 - Convert Grid - Iso / Square / Diamond
+
+	// Part A - Define grid conversion callback
 	var AdjustGridToPresetType = function(type){
 	    var Grid_i = DM.GridsArray[grids.selected_row_i];
 	    var LS = Grid_i.line_sets
@@ -176,41 +211,74 @@ var grids_init = {
 	    grids.update_bg_grid();
 	};
 
-	// Initiate the "change to preset grid-type" action link...
+	// Part B - Apply function to the 3-way MutexActionLink
 	$("#preset-grid.act-mutex").MutexActionLink([1, 1, 1], [
 	    function(){AdjustGridToPresetType("iso")},
 	    function(){AdjustGridToPresetType("squ")},
 	    function(){AdjustGridToPresetType("dia")}
 	]);
 
-	//put them all "set"
+	//this may disable the 'diamond' link, in scenarios when it could not be applied.
 	grids.enable_Iso_Square_Hex_for_current_grid();
+
 	
-	// lock/link angles together
+
+	
+	// 2.3.2 - Lock & Unlock angles
 	$("#link-angles.act-mutex").MutexActionLink([1, 0], [
 	    function(){grids.lock_angles = true;},
 	    function(){grids.lock_angles = false;}
 	]);
 
-	// switch between 1D and 2D grid.
-	var set_2D = function(make_2d){
-	    var Grid_i = DM.GridsArray[grids.selected_row_i];
-	    Grid_i.n_dimentions = make_2d ? 2 : 1;
-	    grids.update_bg_grid();
-	    $("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !make_2d);
-	    $("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !make_2d);   //Disable input
-	};
 
-	$("#lines-v-grid.act-mutex").MutexActionLink([1, 0], [
-	    function(){set_2D(false);},
-	    function(){set_2D(true);}
-	]);
 
-	//Show vs hide intersection points...
+
+
+	
+	
+	// 2.4 - Preview Options box
+
+	// 2.4.1 - Show vs hide intersection points...
 	$("#show-points.act-mutex").MutexActionLink([0, 1], [
 	    function(){ grids.update_grid_intersection_points(false); },
 	    function(){ grids.update_grid_intersection_points(true); }
 	]);
+
+
+	// 2.4.2 - Overall visibility controls
+	
+	// Button Handler: SHOW
+	$("#Tab-grid .button#show").click(function(){
+	    if((grids.selected_row_i != undefined) && (!$(this).hasClass("ui-disabled"))){
+		grids.showing_preview = true;
+		grids.update_bg_grid();
+		$(this).addClass("ui-disabled");
+	    }
+	});
+
+	// Action Link Handler: HIDE
+	$("#Tab-grid .action-link#hide").click(function(){
+	    grids.clear_bg_grid();
+	    grids.showing_preview = false;
+	    $("#Tab-grid .button#show").removeClass("ui-disabled");
+	});
+
+
+
+	
+	// 3. Background SVG
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 	//Call this last so as to ensure pre-requestite initialisation (of SmartInputs etc.) has happened.

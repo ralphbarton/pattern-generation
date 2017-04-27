@@ -1,4 +1,4 @@
-/* 1. Table showing grids */
+/* 1. Table listing the grids */
 
 #grids-table tbody{
      height: 197px;
@@ -27,7 +27,7 @@
 
 
 
-/* 1.1 - buttons underneath grid*/
+/* 1.1 - buttons underneath table*/
 
 #grids-buttons {
     width: 195px;
@@ -101,7 +101,7 @@
 
 
 
-/* 2.2 Directly beneath the Line Sets boxes */
+/* 2.2 Beneath the Line Sets boxes */
 
 #Tab-grid .act-mutex#link-angles{
     display: inline-block;

@@ -60,15 +60,27 @@ var grids = {
 			    grids.enable_Iso_Square_Hex_for_current_grid();
 			    widgets.actionLink_unset("#lines-v-grid.act-mutex", Grid_i.n_dimentions == 2);
 
+			    // set correct state for SPACING UNITS MutexActionLink
+			    [0,1].forEach(function(ls) {
+				var uu = Grid_i.line_sets[ls].spacing_unit;
+				var en_state = [uu != 'pixels', uu != 'percent', uu != 'quantity'];
+				$("#line-set-"+(ls+1)+" .px-pc-qty.act-mutex").MutexActionLink(en_state);
+
+			    });
+
+			    
 			    // 3.2 - update input elements values
 			    grids.update_all_input_elements_values(Grid_i);
+
 			    //update referenced underlying data of 6 input boxes in this way...
 			    [0,1].forEach(function(ls) {
 				[{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
 
 				    //UPDATE
-				    var $input = $("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input").SmartInput("update", {
-					underlying_obj: Grid_i.line_sets[ls]
+				    var uu_set = TY.k == "spacing" ? Grid_i.line_sets[ls].spacing_unit : undefined;
+				    $("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input").SmartInput("update", {
+					underlying_obj: Grid_i.line_sets[ls],
+					new_dc_key: uu_set
 				    });
 				});
 			    });
