@@ -89,6 +89,34 @@ var widgets = {
 };
 
 
+
+
+jQuery.fn.extend({
+    MutexActionLink: function(Array_per_link) {
+	//code runs once
+
+	// if its an array of functions, the response is to initialise..
+	var action = (typeof(Array_per_link[0]) == "function") ? "initialise" : "update";
+
+
+	return this.each(function() {
+	    //code run on every matched element	    
+
+	    if (action == "initialise"){//
+		$(this).SmartInput("update", {UI_enable: false});
+
+	    }else if (action == "initialise"){//
+		    
+	    }else{
+		Error("SmartInput called with an unknown function commanded");
+	    }
+
+	});
+    }
+});
+
+		
+
 /*
 
   ways of calling:
@@ -100,6 +128,7 @@ var widgets = {
   $("#selection").SmartInput( "update", {update_object} });
 
 */
+
 
 jQuery.fn.extend({
     SmartInput: function(param1, param2) {

@@ -306,19 +306,23 @@ var grids = {
     showingIntersectionPoints: false,
     update_grid_intersection_points: function(display){
 
+	// 1. All the existing dots just need to fade out. get rid of them all.
+	d3.select("#svg-bg-fullscreen").selectAll(".dot")
+	    .attr("class","vanishing")
+	    .transition()
+	    .duration(500)
+	    .attr("r", 0)
+	    .remove();
+
+	// 2. get the new data. This may mean an empty array depending upon boolean 'display'
 	display = display !== undefined ? display : this.showingIntersectionPoints;
 	this.showingIntersectionPoints = display;
 	
-	// 1. get the data and perform the D3 
 	var myIntersectionPoints = display ? this.calc_grid_intersection_points() : [];
-	
-	var selection = d3.select("#svg-bg-fullscreen")
-	    .selectAll(".dot").data(myIntersectionPoints);
 
-	//first = selection.size() == 0;
-	
-	// Create any new points that are absent	
-	selection.enter()
+
+	// 3. Animate in the appearance of all the new dots... ( 'enter()', because all will be new.)
+	d3.select("#svg-bg-fullscreen").selectAll(".dot").data(myIntersectionPoints).enter()
 	    .append("circle").attr("class","dot")
 	    .attr("cx", function(d){return d.x;})
 	    .attr("cy", function(d){return d.y;})
@@ -327,23 +331,8 @@ var grids = {
 	    .attr("stroke","black")
 	    .attr("stroke-width","1")
 	    .transition()
-	    .duration(1000)
-	    .attr("r", 3);
-
-	// Remove any dots that are excess
-	selection.exit()
-	    .transition()
 	    .duration(500)
-	    .attr("r", 0)
-	    .remove();
-
-	// Animate the movement of any existing dots with a location change
-	selection
-	    .transition()
-	    .duration(1000)
-	    .ease(d3.easeLinear)
-	    .attr("cx", function(d){return d.x;})
-	    .attr("cy", function(d){return d.y;});
+	    .attr("r", 3);
 	
     },
     
