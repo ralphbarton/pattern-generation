@@ -543,6 +543,51 @@ var DM = {
 	}
     ],
 
+
+    deleteRow_motif: function(index){
+	this.MotifsArray.splice(index, 1);
+    },
+    
+    addRow_motif: function(){
+	var qty_new = $.grep(this.MotifsArray, function(e){ return e.Name.includes("New Motif"); }).length + 1;
+
+	//it will be 50% a circle, 50% a rectangle...
+	var isCircle = Math.random() > 0.5;
+	var Motif_Element_One = {
+	    "shape": isCircle ? "obj-ellipse" : "obj-rectangle",
+	    "left": isCircle ? 0 : 50,
+	    "top": isCircle ? 0 : 50,
+	    "fill": tinycolor.random().toHexString(),
+	    "stroke": null,
+	    "PGTuid": 0
+	};
+	
+	if(isCircle){
+	    Motif_Element_One["rx"] = 200;
+	    Motif_Element_One["ry"] = 200;	    
+	}else{
+	    Motif_Element_One["width"]  = 300;
+	    Motif_Element_One["height"] = 300;	    
+	}
+	
+	this.MotifsArray.push({
+	    Name: "New Motif ("+qty_new+")",
+	    Params: {
+		"links": [],
+		"random": [],
+		"CP_picks": []
+	    },
+	    Elements: [Motif_Element_One]
+	});
+    },
+
+    duplicateRow_motif: function(index_dupl){
+	var new_motif = jQuery.extend(true, {}, this.MotifsArray[index_dupl]);
+	new_motif.Name += " - copy";
+	this.MotifsArray.splice(index_dupl+1, 0, new_motif);
+    },
+
+
     
     PGTuid_counter: 0,
     Motif_newElement_data: function(PropsObj){

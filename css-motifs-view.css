@@ -1,12 +1,14 @@
 /* Specific to Motifs VIEW table */
 
 #motifs-view .user-data-table tbody{
-    height: 165px;
+    height: 170px;
 }
 
 #motifs-view .user-data-table .col-1{
     width: 20px;
 }
+
+/* Col 2*/
 
 #motifs-view .user-data-table .col-2{
     width: 100px;
@@ -21,19 +23,31 @@
 }
 
 #motifs-view .user-data-table input.blue-cell{
-    width: 264px;
+    width: 94px;
+    height: 39px
 }
 
-#motifs-view .user-data-table th.col-3{
-    width: 10px;
+/* Col 3*/
+#motifs-view .user-data-table .col-3{
+    width: 18px;
 }
 
+#motifs-view .user-data-table td.col-3{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Col 4*/
 #motifs-view .user-data-table th.col-4{
     width: 60px;
 }
 
 #motifs-view .user-data-table td.col-4{
-    padding: 1px;
+    padding: 0px;
+}
+
+#motifs-view .user-data-table td.col-4 div{
+    font-size: 0;
 }
 
 #motifs-view .preview{
@@ -73,7 +87,7 @@
 
 #motifs-view .table-buttons{
     position: relative;
-    left: 12px;
+    left: 32px;
     top: -2px;
 }
 
