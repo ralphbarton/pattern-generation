@@ -168,13 +168,13 @@ var motifs_edit_init = {
 
 	// 4. Initialise ACTION LINKS
 
-	// 4.1 - Toolbox: draw one vs. draw many
-	var draw_many = true;
-	widgets.actionLink_init("#motifs-edit .tools .shapes .act-mutex#draw-one-many",[
+	// 4.1 - Toolbox: draw one vs. draw many (default is draw one)
+	var draw_many = false;
+	$("#motifs-edit .tools .act-mutex#draw-one-many").MutexActionLink([0,1], [
 	    function(){draw_many = false;},
 	    function(){draw_many = true;}
 	]);
-
+	
 
 	// 4.2 - Above Motif: Choose background type
 	// (todo alter other 'theme' aspects based upon dark/light background 
@@ -188,7 +188,8 @@ var motifs_edit_init = {
 	    $("#Motif").toggleClass("dark", (options.ly2_col == "black") );
 
 	};
-	widgets.actionLink_init("#motifs-edit .act-mutex#background-w-1-2-b",[
+
+	$("#motifs-edit .act-mutex#background-w-1-2-b").MutexActionLink([0, 1, 1, 1], [
 	    function(){  set_bg_layer_config({ly2_col: "white", ly3_opac: 0});  },
 	    function(){  set_bg_layer_config({ly2_col: "white", ly3_opac: 1});  },
 	    function(){  set_bg_layer_config({ly2_col: "none",  ly3_opac: 0});  },
@@ -201,24 +202,25 @@ var motifs_edit_init = {
 		.css("opacity", options.opac);
 	};
 
-	widgets.actionLink_init("#motifs-edit .act-mutex#motif-axes",[
+	$("#motifs-edit .act-mutex#motif-axes").MutexActionLink([1,0], [
 	    function(){set_svgGrp_opac(".axes", {opac:0});},
 	    function(){set_svgGrp_opac(".axes", {opac:1});}
 	]);
 
 
+	
 	// 4.4 Gridlines Options
-	widgets.actionLink_init("#motifs-edit .act-mutex#motif-grid",[
-	    function(){
-		$(".dropdown#grid-settings").addClass("disabled");
-		set_svgGrp_opac(".gridlines", {opac:0});
-	    },
-	    function(){
-		$(".dropdown#grid-settings").removeClass("disabled");
-		set_svgGrp_opac(".gridlines", {opac:1});
-	    }
+	var GridlinesEnable = function(en){
+	    $(".dropdown#grid-settings").toggleClass("disabled", !en);
+	    set_svgGrp_opac(".gridlines", {opac: en?1:0 });
+	};
+
+	$("#motifs-edit .act-mutex#motif-grid").MutexActionLink([1,0], [
+	    function(){ GridlinesEnable(false); },
+	    function(){ GridlinesEnable(true); }
 	]);
 
+	
 	
 	// 4.4.1 - Controlling line faintness
 	$("#motifs-edit #grid-settings .btn-set.weight > button").click(function(){

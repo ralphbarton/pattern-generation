@@ -311,36 +311,30 @@ var cpot_edit_init = {
 
 	
 	// 2.4 - Change SIZE of the colour picker
-	widgets.actionLink_init("#bgrins-actions #normal-large.act-mutex",[
-	    function(){
-		$("#bgrins-container").removeClass("large");
-		//to allow the expansion animation to finish...
-		setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},410);
-	    },
-	    function(){
-		$("#bgrins-container").addClass("large");
-		setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},410);
-	    }
+	var large_BGrins = function(make_large){
+	    $("#bgrins-container").toggleClass("large", make_large);
+	    setTimeout(function(){$("#bgrins-colour-picker").spectrum("reflow");},410);
+	}
+
+	$("#bgrins-actions #normal-large.act-mutex").MutexActionLink([0,1], [
+	    function(){large_BGrins(false);},
+	    function(){large_BGrins(true);},
 	]);
-	widgets.actionLink_unset("#normal-large.act-mutex", 0);//show normal
 
 
 	
 	// 2.5 - Change format (HEX v. RGB v. HSL) of the colour string provided in the colour picker
-	var poke = function(){
+	var setStringFormat_BGrins = function(format){
+	    $("#bgrins-colour-picker").spectrum("option", "preferredFormat", format);
 	    var w = $("#bgrins-colour-picker").spectrum("get");
 	    $("#bgrins-colour-picker").spectrum("set", w);
 	};
 
-	widgets.actionLink_init("#bgrins-actions #hex-rgb-hsl.act-mutex",[
-	    function(){$("#bgrins-colour-picker").spectrum("option", "preferredFormat", "hex3"); poke();},
-	    function(){$("#bgrins-colour-picker").spectrum("option", "preferredFormat", "rgb"); poke();},
-	    function(){$("#bgrins-colour-picker").spectrum("option", "preferredFormat", "hsl"); poke();},
+	$("#bgrins-actions #hex-rgb-hsl.act-mutex").MutexActionLink([1,1,1], [//show all as available
+	    function(){ setStringFormat_BGrins("hex3")},
+	    function(){ setStringFormat_BGrins("rgb")},
+	    function(){ setStringFormat_BGrins("hsl")}
 	]);
-	widgets.actionLink_unset("#bgrins-actions #hex-rgb-hsl.act-mutex", null);//show all as available
-
-
-
 
 
 
@@ -544,7 +538,7 @@ var cpot_edit_init = {
 	// 6. Controls for editing a C-Pot element; RANGE->Subspace
 
 	// 6.1 - Choose between  1D and 4D
-	widgets.actionLink_init("#space-1d-4d.act-mutex",[
+	$("#space-1d-4d.act-mutex").MutexActionLink([1,1], [
 	    function(){
 		console.log("link X");
 	    },

@@ -7,7 +7,7 @@ var grids = {
 
     enable_Iso_Square_Hex_for_current_grid: function(){
 	var my_i = this.selected_row_i;
-	widgets.actionLink_unset("#preset-grid.act-mutex", null);//make all options "enabled" initially
+	$("#preset-grid.act-mutex").MutexActionLink([1, 1, 1]);//make all options "enabled" initially
 	if(my_i != undefined){
 	    var LS = DM.GridsArray[my_i].line_sets;
 	    // disable "diamond" if (1) angles already equal => no effect, or (2) angle zero => cannot be applied
@@ -58,7 +58,10 @@ var grids = {
 
 			    // 3.1 - update action links
 			    grids.enable_Iso_Square_Hex_for_current_grid();
-			    widgets.actionLink_unset("#lines-v-grid.act-mutex", Grid_i.n_dimentions == 2);
+
+			    // "make 1d vs 2d" link reflects what this grid is...
+			    var is_2d = Grid_i.n_dimentions == 2;
+			    $("#lines-v-grid.act-mutex").MutexActionLink([is_2d, !is_2d]);
 
 			    // set correct state for SPACING UNITS MutexActionLink
 			    [0,1].forEach(function(ls) {

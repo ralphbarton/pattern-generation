@@ -79,11 +79,12 @@ var plots = {
 	    }
 	};
 
-	widgets.actionLink_init("#colouring.act-mutex", [
+	$("#colouring.act-mutex").MutexActionLink([1, 1, 1], [//make all options "enabled" initially
 	    function(){change_colouring(1);},
 	    function(){change_colouring(2);},
-	    function(){change_colouring(3);}    ]);
-	widgets.actionLink_unset("#colouring.act-mutex", null);//make all options "enabled" initially
+	    function(){change_colouring(3);}
+	]);
+
 
 	$("#z-3.zone .comment").hide();
  

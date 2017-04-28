@@ -181,12 +181,12 @@ var grids_init = {
 		}
 		LS[1].angle = 60 - LS[0].angle;
 		grids.lock_angles = false;//resets lock		
-		widgets.actionLink_unset("#link-angles.act-mutex", 1);//show unlinked
+		$("#link-angles.act-mutex").MutexActionLink([1, 0]);//show unlinked
 	    }
 	    if(type == "squ"){
 		LS[1].angle = 90 - LS[0].angle;
 		grids.lock_angles = false;//resets lock		
-		widgets.actionLink_unset("#link-angles.act-mutex", 1);//show unlinked
+		$("#link-angles.act-mutex").MutexActionLink([1, 0]);//show unlinked
 	    }
 	    if(type == "dia"){
 		if(grids.lock_angles){

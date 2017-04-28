@@ -52,40 +52,8 @@ var widgets = {
 
     },
 
-    SmartInput_step: 0,
-    
-    
-    //this assumes an array of 2 functions as second parameter.
-    actionLink_init: function(select, fn_listeners_array){
-	
-	$(select).find("div").each(function(i_div){
-	    $(this).click(function(){
-		
-		// 1. instigate listener function if allowed
-		if($(this).hasClass("action-link")){
-		    fn_listeners_array[i_div]();
-		    //2. upon clicking it, unset the link clicked as active
-		    widgets.actionLink_unset(select, i_div)
-		}
-	    });
-	});
+    SmartInput_step: 0
 
-	//initially, set left one as active.
-	widgets.actionLink_unset(select, 1);
-    },
-
-    //using "activate_i" = "all" will put both links in a disabled state
-    actionLink_unset: function(select, activate_i){
-	$(select).find("div").each(function(i){
-	    if((i == activate_i)||(activate_i === "all")){
-		$(this).removeClass("action-link");
-	    }else{
-		$(this).addClass("action-link");
-	    }
-	});
-    }
-
-    
 };
 
 
