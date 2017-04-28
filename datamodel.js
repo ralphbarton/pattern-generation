@@ -286,19 +286,29 @@ var DM = {
 
     add_grid: function(){
 	var qty_new = $.grep(this.GridsArray, function(e){ return e.description.includes("New Grid"); }).length + 1;
+
+	//we will create a new grid with random parameters...
+	function getRandomInt(min, max) {
+	    return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	//50% channce of square, otherwise a long rectangle...
+	var square_side = Math.random() > 0.5 ? getRandomInt(40, 120) : undefined;
+	var cell_W = square_side || getRandomInt(120, 240);
+	var cell_H = square_side || getRandomInt(20,  80);
+
 	this.GridsArray.push({
 	    type: "std",
 	    description: "New Grid ("+qty_new+")",
 	    n_dimentions: 2,
 	    line_sets:[
 		{// set 1
-		    spacing: 50,
+		    spacing: cell_H,
 		    spacing_unit: 'pixels',
 		    shift: 0,
 		    angle: 0
 		},
 		{// set 2
-		    spacing: 200,
+		    spacing: cell_W,
 		    spacing_unit: 'pixels',
 		    shift: 0,
 		    angle: 90
