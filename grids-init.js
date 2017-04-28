@@ -175,6 +175,8 @@ var grids_init = {
 	var AdjustGridToPresetType = function(type){
 	    var Grid_i = DM.GridsArray[grids.selected_row_i];
 	    var LS = Grid_i.line_sets
+
+	    // (1.) Manage angles...
 	    if(type == "iso"){
 		if(LS[0].angle > 60){
 		    LS[0].angle -=60;//rotating back by 60 keeps within range...
@@ -189,7 +191,10 @@ var grids_init = {
 		$("#link-angles.act-mutex").MutexActionLink([1, 0]);//show unlinked
 	    }
 	    if(type == "dia"){
-		if(grids.lock_angles){
+
+		var isRect = ((LS[0].angle == 0) && (LS[1].angle == 90)) || ((LS[0].angle == 90) && (LS[1].angle == 0));
+
+		if(grids.lock_angles || isRect){
 		    var ave_angle = (LS[0].angle + LS[1].angle)/2;
 		    LS[0].angle = ave_angle;
 		    LS[1].angle = ave_angle;
@@ -200,11 +205,17 @@ var grids_init = {
 		}
 	    }
 
-	    //rhomboid. (And its getting crazy if we do this with equal line quantities)
-	    if(LS[0].spacing_unit == "quantity"){GAu_mod(0, 'pixels');}
-	    if(LS[1].spacing_unit == "quantity"){GAu_mod(1, 'pixels');}
-	    LS[1].spacing = LS[0].spacing; 
-	    LS[1].spacing_unit = LS[0].spacing_unit; // important to set units same (e.g. both to %).
+	    // (2.) Manage spacings. All options involve setting them to equal.
+	    // we cannot possibly use spacing units of quantity.
+	    // So unless both dimentions are in units of percent, set them both to pixels:
+	    if((LS[0].spacing_unit != "percent")||(LS[1].spacing_unit != "percent")){
+		GAu_mod(0, 'pixels');
+		GAu_mod(1, 'pixels');
+	    }
+	    // set spacings equal, and set spacing units equal.
+	    var av_spacing = (LS[0].spacing + LS[1].spacing)/2; 
+	    LS[0].spacing = av_spacing;
+	    LS[1].spacing = av_spacing;
 
 	    //update display. Input elems and grid.
 	    grids.update_all_input_elements_values(Grid_i);

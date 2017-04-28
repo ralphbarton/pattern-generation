@@ -7,16 +7,22 @@ var grids = {
 
     enable_Iso_Square_Hex_for_current_grid: function(){
 	var my_i = this.selected_row_i;
-	$("#preset-grid.act-mutex").MutexActionLink([1, 1, 1]);//make all options "enabled" initially
+	var en_state = [1, 1, 1];//initial assumption: all options "enabled"
 	if(my_i != undefined){
 	    var LS = DM.GridsArray[my_i].line_sets;
-	    // disable "diamond" if (1) angles already equal => no effect, or (2) angle zero => cannot be applied
-	    if((LS[0].angle == LS[1].angle) || (LS[0].angle == 0)){
-		$($("#preset-grid.act-mutex div")[2]).removeClass("action-link");
-	    }
+	    // disable "diamond" if (1) angles already equal => no effect
+	    var equal_spacings = LS[0].spacing == LS[1].spacing;
+	    var en_diamond = LS[0].angle != LS[1].angle;
+	    var en_square = (Math.abs(LS[1].angle - LS[0].angle) != 90) || (!equal_spacings);
+	    en_state = [1, en_square, en_diamond];
 	}
+	
+	//apply whatever "Enablement" state we decided upon
+	$("#preset-grid.act-mutex").MutexActionLink(en_state);
     },
 
+    Set_Grid_iso_squ_dia_EN: function(){},
+    
 
     regenerate_table: function(){
 
