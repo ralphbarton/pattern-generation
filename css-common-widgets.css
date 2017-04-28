@@ -57,11 +57,18 @@
 }
 
 
+
+
+
 /* 03 styling Action Links (mutex links) */
 
 .act-mutex{/*Mutex action link pairs...*/
     cursor:pointer;
     font-size: 11px;
+}
+
+.act-mutex.ui-disabled{
+    opacity: 0.5
 }
 
 /* creates the bar between the links*/
@@ -95,6 +102,10 @@ div.action-link{
     cursor:pointer;
 }
 
+.act-mutex.ui-disabled div.action-link{
+    color: #1c737c;
+    text-shadow: none;
+}
 
 /* non-selectable content... */
 

@@ -170,6 +170,18 @@ var grids = {
 	grids.grid_change();
 	$("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !is_2D);
 	$("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !is_2D);   //Disable input
+
+	// these should be enabled only for case is 2D
+	$("#preset-grid.act-mutex").MutexActionLink("enable", is_2D);
+	$("#link-angles.act-mutex").MutexActionLink("enable", is_2D);
+	$("#show-points.act-mutex").MutexActionLink("enable", is_2D);
+
+	// additionally, switching to 1D must remove all points.
+	if(!is_2D){
+	    grids.update_grid_intersection_points({display: false});
+	    $("#show-points.act-mutex").MutexActionLink([0, 1]);
+	}
+	
     },
     
    
@@ -333,8 +345,9 @@ var grids = {
 
 
     showingIntersectionPoints: false,
-    update_grid_intersection_points: function(display){
-
+    update_grid_intersection_points: function(options){
+	options = options || {};
+	
 	// 1. All the existing dots just need to fade out. get rid of them all.
 	d3.select("#svg-bg-fullscreen").selectAll(".dot")
 	    .attr("class","vanishing")
@@ -344,7 +357,7 @@ var grids = {
 	    .remove();
 
 	// 2. get the new data. This may mean an empty array depending upon boolean 'display'
-	display = display !== undefined ? display : this.showingIntersectionPoints;
+	var display = options.display !== undefined ? options.display : this.showingIntersectionPoints;
 	this.showingIntersectionPoints = display;
 	
 	var myIntersectionPoints = display ? this.calc_grid_intersection_points() : [];

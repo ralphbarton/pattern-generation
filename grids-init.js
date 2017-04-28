@@ -239,8 +239,8 @@ var grids_init = {
 
 	// 2.4.1 - Show vs hide intersection points...
 	$("#show-points.act-mutex").MutexActionLink([0, 1], [
-	    function(){ grids.update_grid_intersection_points(false); },
-	    function(){ grids.update_grid_intersection_points(true); }
+	    function(){ grids.update_grid_intersection_points({display: false}); },
+	    function(){ grids.update_grid_intersection_points({display: true }); }
 	]);
 
 

@@ -53,7 +53,6 @@ var widgets = {
     },
 
     SmartInput_step: 0
-
 };
 
 
@@ -78,7 +77,8 @@ jQuery.fn.extend({
 
 	var fn1 = typeof(param1[0]) == "function";
 	var fn2 = param2 && typeof(param2[0]) == "function";
-	var action = (fn1 || fn2) ? "initialise" : "update";
+	var other = (param1 == "enable") ? "enable" : "update";
+	var action = (fn1 || fn2) ? "initialise" : other;
 	
 	var fn_arr = (fn1 && param1) || (fn2 && param2);
 	var en_arr = (!fn1 && param1);
@@ -87,13 +87,19 @@ jQuery.fn.extend({
 
 	    //code run on every matched element	    
 	    var $LinkSet = $(this);
+
 	    
 	    if (action == "initialise"){//apply callbacks to links
 
 		$LinkSet.find("div").each(function(i_div){
+		    
 		    // On click for the DIV: no effect unless it has the "action-link" class...
 		    $(this).click(function(){
-			if($(this).hasClass("action-link")){
+
+			// no on-click response if UI is disabled...
+			var ui_disabled = $(this).parent().hasClass("ui-disabled");
+
+			if( $(this).hasClass("action-link") && (!ui_disabled)){
 			    
 			    // 1. Trigger the function
 			    fn_arr[i_div]();
@@ -114,11 +120,17 @@ jQuery.fn.extend({
 		    $LinkSet.MutexActionLink(en_arr);
 		}
 		
-	    }else if (action == "update"){//change visual appearance of links
+	    }else if(action == "update"){//change visual appearance of links
 
 		$LinkSet.find("div").each(function(i_div){
 		    $(this).toggleClass("action-link", en_arr[i_div]==1);
 		});
+
+
+	    }else if(action == "enable"){//change visual appearance of links
+
+		// param2 is a boolean - turn the class "ON" or "OFF"
+		$LinkSet.toggleClass("ui-disabled", !param2);
 		
 	    }else{
 		Error("MutexActionLink called with an unknown function commanded");
