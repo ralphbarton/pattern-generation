@@ -152,11 +152,10 @@ var grids_init = {
 
 
 	$("#lines-v-grid.act-mutex").MutexActionLink([1, 0], [
-	    function(){grids.set_grid_to_2D(false);},
-	    function(){grids.set_grid_to_2D(true);}
+	    function(){  grids.set_grid_to_2D(false);   grids.grid_change();  },
+	    function(){  grids.set_grid_to_2D(true);    grids.grid_change();  } 
 	]);
-
-
+	
 
 	
 

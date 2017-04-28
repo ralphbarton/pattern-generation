@@ -167,7 +167,7 @@ var grids = {
 	
 	var Grid_i = DM.GridsArray[grids.selected_row_i];
 	Grid_i.n_dimentions = is_2D ? 2 : 1;
-	grids.grid_change();
+
 	$("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !is_2D);
 	$("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !is_2D);   //Disable input
 
@@ -244,13 +244,14 @@ var grids = {
 	
 	var Grid_i = DM.GridsArray[this.selected_row_i];
 	var LineSet = Grid_i.line_sets[line_set_index];
+	
 	var prev_LineSet = this.previousGrid.line_sets[line_set_index];
 	
 	var Dia = Math.sqrt(W*W + H*H);
 	var origX = W/2;
 	var origY = H/2;
 	var Radius = Dia/2;
-	var first = prev_LineSet == undefined;
+	var first = (prev_LineSet === undefined) || (line_set_index==1 && this.previousGrid.n_dimentions==1);
 	var neg_ang = (line_set_index == 0 ? -1 : 1);
 
 	var LineSet_px = grids.spacing_unit_objectUpdater(LineSet, "pixels", true);
@@ -287,10 +288,7 @@ var grids = {
 	// Perform a JOIN opeation between data and lines
 	var selection = d3.select("#svg-bg-fullscreen")
 	    .selectAll("."+lines_class).data(lines_indices_list);
-
-	//if no lines have been selected....
-	first = first || selection.size() == 0;
-
+	
 	// 3. First pass of D3, runs unconditionally: change the set to contain the correct (final) number of lines
 	
 	// 3.1 CREATE any lines which are absent
