@@ -3,25 +3,6 @@ var grids = {
     showing_preview: false,
     lock_angles: false,
     selected_row_i: 0,//let's have the top row selected by default
-
-
-    enable_Iso_Square_Hex_for_current_grid: function(){
-	var my_i = this.selected_row_i;
-	var en_state = [1, 1, 1];//initial assumption: all options "enabled"
-	if(my_i != undefined){
-	    var LS = DM.GridsArray[my_i].line_sets;
-	    // disable "diamond" if (1) angles already equal => no effect
-	    var equal_spacings = LS[0].spacing == LS[1].spacing;
-	    var en_diamond = LS[0].angle != LS[1].angle;
-	    var en_square = (Math.abs(LS[1].angle - LS[0].angle) != 90) || (!equal_spacings);
-	    en_state = [1, en_square, en_diamond];
-	}
-	
-	//apply whatever "Enablement" state we decided upon
-	$("#preset-grid.act-mutex").MutexActionLink(en_state);
-    },
-
-    Set_Grid_iso_squ_dia_EN: function(){},
     
 
     regenerate_table: function(){
@@ -58,17 +39,17 @@ var grids = {
 			    var Grid_i = DM.GridsArray[i];
 
 			    // 2. update the background (this checks if grid-showing is active)
-			    grids.update_bg_grid(Grid_i);
+			    grids.grid_change(Grid_i);
 
 			    // 3. Update the panel to reflect the selected grid...
 
 			    // 3.1 - update action links
-			    grids.enable_Iso_Square_Hex_for_current_grid();
+			    grids.set_grid_ISO_SQU_DIA_enabled();
 
 			    // "make 1d vs 2d" link reflects what this grid is...
-			    var is_2d = Grid_i.n_dimentions == 2;
-			    $("#lines-v-grid.act-mutex").MutexActionLink([is_2d, !is_2d]);
-
+			    // likewise some other features of the UI...
+			    grids.set_grid_to_2D(Grid_i.n_dimentions == 2);
+			    
 			    // set correct state for SPACING UNITS MutexActionLink
 			    [0,1].forEach(function(ls) {
 				var uu = Grid_i.line_sets[ls].spacing_unit;
@@ -178,39 +159,66 @@ var grids = {
 	    .attr("transform", "translate(8 "+dy+") rotate("+angle+")");
     },
 
+
+    //this function both changes the grid data, and updates UI to match the new state.
+    set_grid_to_2D: function(is_2D){
+
+	$("#lines-v-grid.act-mutex").MutexActionLink([is_2D, !is_2D]);
+	
+	var Grid_i = DM.GridsArray[grids.selected_row_i];
+	Grid_i.n_dimentions = is_2D ? 2 : 1;
+	grids.grid_change();
+	$("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !is_2D);
+	$("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !is_2D);   //Disable input
+    },
+    
+   
+    set_grid_ISO_SQU_DIA_enabled: function(){
+	if (this.selected_row_i == undefined){return;}
+
+	// 1. Calculate the "Enablement State"...
+	var LS = DM.GridsArray[this.selected_row_i].line_sets;
+	// disable "diamond" if (1) angles already equal => no effect
+	var equal_spacings = LS[0].spacing == LS[1].spacing;
+	var en_isometric = (LS[1].angle + LS[0].angle != 60) || (!equal_spacings);
+	var en_diamond = (LS[0].angle != LS[1].angle) || (!equal_spacings);;
+	var en_square = (LS[1].angle + LS[0].angle != 90) || (!equal_spacings);
+	en_state = [en_isometric, en_square, en_diamond];
+
+	// 2. Apply the "Enablement State"...
+	$("#preset-grid.act-mutex").MutexActionLink(en_state);
+	
+    },
+    
     
     previousGrid: {line_sets:[]},
-    update_bg_grid: function (){
+    grid_change: function (options){
+	options = options || {};
 
+	//Adjust the appearance of the 'action links'...
+	//postpone function call, so it overrides the MutexActionLink default behaviour
+	setTimeout(function(){
+	    grids.set_grid_ISO_SQU_DIA_enabled();
+	}, 10);
+	    
 	if(grids.showing_preview){
 
 	    var Grid_i = DM.GridsArray[this.selected_row_i];
 
-	    this.screen_update_line_set(0);
-	    this.screen_update_line_set(1, Grid_i.n_dimentions == 1);
+	    this.screen_update_line_set(0, options.hide);
+	    this.screen_update_line_set(1, options.hide || Grid_i.n_dimentions == 1);
 
 	    //produce a deep copy of the old grid, for saving...
 	    // i'm thinking this may prevent errors
 	    // OK - it does not prevent errors.
 
 	    // Why does the line below work???!!
-	    this.previousGrid = Grid_i;
+	    this.previousGrid = options.hide ? {line_sets:[]} : Grid_i;
 //	    this.previousGrid = jQuery.extend(true, {}, Grid_i);
 
 	    this.update_grid_intersection_points();
 	    
 	}
-    },
-
-
-    clear_bg_grid: function (){
-
-	if(grids.showing_preview){
-	    //remove both line sets...
-	    this.screen_update_line_set(0, true);
-	    this.screen_update_line_set(1, true);
-	    this.previousGrid = {line_sets:[]};
-	}	
     },
 
     

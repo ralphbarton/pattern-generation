@@ -549,7 +549,7 @@ var DM = {
     },
     
     addRow_motif: function(){
-	var qty_new = $.grep(this.MotifsArray, function(e){ return e.Name.includes("New Motif"); }).length + 1;
+	var qty_new = $.grep(this.MotifsArray, function(e){ return e.Name.includes("New Mtf"); }).length + 1;
 
 	//it will be 50% a circle, 50% a rectangle...
 	var isCircle = Math.random() > 0.5;
@@ -571,7 +571,7 @@ var DM = {
 	}
 	
 	this.MotifsArray.push({
-	    Name: "New Motif ("+qty_new+")",
+	    Name: "New Mtf "+qty_new,
 	    Params: {
 		"links": [],
 		"random": [],

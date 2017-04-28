@@ -59,7 +59,7 @@ var motifs_view = {
 				underlying_obj: DM.MotifsArray[i],
 				underlying_key: "Name",
 				data_class: "text",
-				text_length: 8,//max name length 8 char
+				text_length: 10,//max name length 10 char
 				click_filter: function(){return motifs_view.selected_row_i == i;}
 			    })
 			),

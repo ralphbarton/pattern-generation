@@ -59,7 +59,7 @@ var grids_init = {
 	// 2.1.2 - Functionality of ALL of the Grid Properties SmartInput Boxes
 
 	// Part A - Define the generalised on_Change callback
-	var GA_mod = function(obj, ls, key){
+	var GA_mod = function(ls, key){
 	    if(grids.selected_row_i != undefined){
 		var Grid_i = DM.GridsArray[grids.selected_row_i];
 		var old_val = Grid_i.line_sets[ls][key];
@@ -78,9 +78,7 @@ var grids_init = {
 		}
 		
 		//animated grid change...
-		grids.update_bg_grid();
-		//reset the Isometric / Square / Diamond so all are available as options
-		grids.enable_Iso_Square_Hex_for_current_grid();
+		grids.grid_change();
 	    }
 	};
 	
@@ -89,6 +87,7 @@ var grids_init = {
 	    [{k:"spacing", u:"pixels"}, /*{k:"shift", u:"percent"},*/ {k:"angle", u:"degrees"}].forEach(function(TY) {
 
 		//whether %, px or qty, minimum value of 1 for spacing. It prevents script freezing.
+		// however, I don't really like the offset of 1 this causes on the steps.
 		var dco = TY.k == "spacing" ? {min: 1} : undefined;
 		
 		//INITIATE
@@ -99,7 +98,7 @@ var grids_init = {
 		    data_class: TY.u, // TODO - this is not necesarily correct. Interval may NOT be px!
 		    data_class_override: dco,
 		    underlying_from_DOM_onChange: false, // cannot do this - full logic uses old value
-		    cb_change: function(){GA_mod($input[0], ls, TY.k);}//all the graphical change...
+		    cb_change: function(){GA_mod(ls, TY.k);}//all the graphical change...
 		});
 	    });
 	});
@@ -150,17 +149,11 @@ var grids_init = {
 	// 2.2 - above line sets control boxes
 
 	// 2.2.1 - switch between 1D and 2D grid
-	var set_2D = function(make_2d){
-	    var Grid_i = DM.GridsArray[grids.selected_row_i];
-	    Grid_i.n_dimentions = make_2d ? 2 : 1;
-	    grids.update_bg_grid();
-	    $("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !make_2d);
-	    $("#Tab-grid #line-set-2.boxie vinput").prop('disabled', !make_2d);   //Disable input
-	};
+
 
 	$("#lines-v-grid.act-mutex").MutexActionLink([1, 0], [
-	    function(){set_2D(false);},
-	    function(){set_2D(true);}
+	    function(){grids.set_grid_to_2D(false);},
+	    function(){grids.set_grid_to_2D(true);}
 	]);
 
 
@@ -219,7 +212,7 @@ var grids_init = {
 
 	    //update display. Input elems and grid.
 	    grids.update_all_input_elements_values(Grid_i);
-	    grids.update_bg_grid();
+	    grids.grid_change();
 	};
 
 	// Part B - Apply function to the 3-way MutexActionLink
@@ -228,11 +221,6 @@ var grids_init = {
 	    function(){AdjustGridToPresetType("squ")},
 	    function(){AdjustGridToPresetType("dia")}
 	]);
-
-	//this may disable the 'diamond' link, in scenarios when it could not be applied.
-	grids.enable_Iso_Square_Hex_for_current_grid();
-
-	
 
 	
 	// 2.3.2 - Lock & Unlock angles
@@ -262,14 +250,14 @@ var grids_init = {
 	$("#Tab-grid .button#show").click(function(){
 	    if((grids.selected_row_i != undefined) && (!$(this).hasClass("ui-disabled"))){
 		grids.showing_preview = true;
-		grids.update_bg_grid();
+		grids.grid_change();
 		$(this).addClass("ui-disabled");
 	    }
 	});
 
 	// Action Link Handler: HIDE
 	$("#Tab-grid .action-link#hide").click(function(){
-	    grids.clear_bg_grid();
+	    grids.grid_change({hide: true});
 	    grids.showing_preview = false;
 	    $("#Tab-grid .button#show").removeClass("ui-disabled");
 	});
