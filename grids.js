@@ -269,14 +269,14 @@ var grids = {
 
 	// interval & angle - starting & target
 	var inte_target = LineSet_px.spacing;
+	var shift_target = LineSet_px.shift * 0.01 * inte_target;//convert to pixels (frac of inte, in px)
 	var angle_target = LineSet.angle * neg_ang;
-	var inte_starting = inte_target; // may reassign just below... hmm... consideration needed.
 	if(prev_LineSet){
 	    var prev_LineSet_px = grids.spacing_unit_objectUpdater(prev_LineSet, "pixels", true);
-	    var inte_starting = first ? inte_target : prev_LineSet_px.spacing;
 	}
+	var inte_starting = first ?  inte_target  : prev_LineSet_px.spacing;
 	var angle_starting = first ? angle_target : (prev_LineSet.angle * neg_ang);
-
+	var shift_starting = first ? shift_target : (prev_LineSet.shift * 0.01 * inte_starting);//convert to pixels
 
 	// N1 is the number of lines in just the upper half
 	// this is the 'target' quantity of lines.
@@ -309,8 +309,8 @@ var grids = {
 	    .append("line").attr("class", lines_class)
 	    .attr("x1", -Radius)
 	    .attr("x2", +Radius)
-	    .attr("y1", function(d){return d*inte_starting;})
-	    .attr("y2", function(d){return d*inte_starting;})
+	    .attr("y1", function(d){return d*inte_starting + shift_starting;})
+	    .attr("y2", function(d){return d*inte_starting + shift_starting;})
 	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_starting+")")
 	    .attr("stroke","rgba(0,0,0,0)")
 	    .attr("stroke-width","1");
@@ -346,8 +346,8 @@ var grids = {
 		return (i / N1) * (grids.lock_angles ? 0 : 250);
 	    })
 	    .duration(500)
-	    .attr("y1", function(d){return d*inte_target;})
-	    .attr("y2", function(d){return d*inte_target;})
+	    .attr("y1", function(d){return d*inte_target + shift_target;})
+	    .attr("y2", function(d){return d*inte_target + shift_target;})
 	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_target+")");
 
     },
@@ -403,7 +403,9 @@ var grids = {
 
 	var ang1 = S1.angle * 2 * Math.PI / 360;
 	var ang2 = S2.angle * 2 * Math.PI / 360;
-
+	var inte1 = S1.shift * 0.01;
+	var inte2 = S2.shift * 0.01;
+	
 	//vector parallel to a LS 1 lines
 	var q = S2.spacing / Math.sin(ang1 + ang2);
 	var Q_x = q * Math.cos(ang1);
@@ -431,6 +433,8 @@ var grids = {
 	var origY = winH/2;
 
  	var convert = function(Pi,Qi){
+	    Pi += inte1;
+	    Qi -= inte2;
 	    return {x: (origX + P_x*Pi + Q_x*Qi), y: (origY + P_y*Pi + Q_y*Qi)};
 	};
 
