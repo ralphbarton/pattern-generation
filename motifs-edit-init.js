@@ -4,16 +4,18 @@ var motifs_edit_init = {
 
 	// 1. Add handlers for the "main" (Done / Cancel) buttons...
 
-	// 1.1 - Done
-	$("#motifs-edit .main-buttons #done").click(function(){
-	    motifs_edit.hide();
-	});
-
-	// 1.2 - Cancel
+	// 1.1 - Cancel
 	$("#motifs-edit .main-buttons #cancel").click(function(){
 	    motifs_edit.hide();
 	});
-
+	
+	// 1.2 - Done
+	$("#motifs-edit .main-buttons #done").click(function(){
+	    DM.save_editing_Motif(motif_view.selected_row_i);
+	    motifs_edit.hide();
+	    motifs_view.regenerate_table(); // Visual update
+	});
+	
 
 	//initiate tabs...
 	$("#motifs-edit .tabs").tabs();

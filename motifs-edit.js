@@ -9,6 +9,9 @@ var motifs_edit = {
 	$("#motifs-view").hide();
 	$("#motifs-edit").show();
 	this.active = true;
+
+	//now load the motif data
+
     },
 
 

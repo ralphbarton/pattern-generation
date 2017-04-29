@@ -507,7 +507,6 @@ var motifs_props = {
 	});
 
 
-    },
-
+    }
 
 };

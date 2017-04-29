@@ -421,25 +421,6 @@ var DM = {
 
 
 
-    MotifDummy: {
-	Name: "Glowing target",
-	Params: {
-	    links: [],
-	    random: [],
-	    CP_picks: [],
-	},
-	Elements: [
-		/*
-		  {placement: ...}
-		  0 = top-left (cartesian)
-		  1 = center (cartesian)
-		  2 = center (polar)
-		  3 = Other...
-
-		*/
-	]
-    },
-
     MotifsArray: [
 	{// 1st dummy motif...
 	    Name: "Molecule",
@@ -544,6 +525,7 @@ var DM = {
     ],
 
 
+    // These functions deal with entire Motif objects.
     deleteRow_motif: function(index){
 	this.MotifsArray.splice(index, 1);
     },
@@ -588,21 +570,32 @@ var DM = {
     },
 
 
+    editing_Motif: undefined,
+    edit_Motif: function(index){
+	this.editing_Motif = jQuery.extend(true, {}, this.MotifArray[index]);
+    },
+
+    save_editing_Motif: function(replace_me_index){
+	this.MotifArray[replace_me_index] = this.editing_Motif;
+	this.editing_Motif = null;
+    },
     
+
+    // These functions deal deal with "Motif Elements" of the "editing_Motif"
     PGTuid_counter: 0,
     Motif_newElement_data: function(PropsObj){
 	var new_uid = this.PGTuid_counter;
 	this.PGTuid_counter++
 	PropsObj.PGTuid = new_uid;
 
-	DM.MotifDummy.Elements.push(PropsObj);
+	DM.editing_Motif.Elements.push(PropsObj);
 	return new_uid;
     },
 
     Motif_deleteElement_data: function(PGTuid){
 	var new_uid = this.PGTuid_counter;
-	var El_index = DM.MotifDummy.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});
-	DM.MotifDummy.Elements.splice(El_index, 1);
+	var El_index = DM.editing_Motif.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});
+	DM.editing_Motif.Elements.splice(El_index, 1);
     },
 
 
@@ -610,7 +603,7 @@ var DM = {
 
 	// the jQuery grep function which searches array for elements that match a filter function
 	// note how grep returns an ARRAY of the matched elements, so I must select the actual element using [0]
-	var Updating_Element = $.grep(DM.MotifDummy.Elements, function(El){return El.PGTuid == PGTuid;})[0];
+	var Updating_Element = $.grep(DM.editing_Motif.Elements, function(El){return El.PGTuid == PGTuid;})[0];
 
 	//use jQuery to iterate over elements of 'PropsObj'
 	$.each( PropsObj, function( key, value ) {

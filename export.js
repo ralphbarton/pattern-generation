@@ -41,7 +41,7 @@ var export_pat = {
 	$("#export-buttons .button#moti").click(function(){
 	    $("#json-text").val(
 //		JSON.stringify(DM.MotifsArray, null, 2)
-		JSON.stringify(DM.MotifDummy, null, 2)
+		JSON.stringify(DM.editing_Motif, null, 2)
 	    );
 	});
 
