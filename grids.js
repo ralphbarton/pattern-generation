@@ -44,7 +44,7 @@ var grids = {
 			    // 3. Update the panel to reflect the selected grid...
 
 			    // 3.1 - update action links
-			    grids.set_grid_ISO_SQU_DIA_enabled();
+			    grids.setMutexState_iso_squ_dia();
 
 			    // "make 1d vs 2d" link reflects what this grid is...
 			    // likewise some other features of the UI...
@@ -55,7 +55,6 @@ var grids = {
 				var uu = Grid_i.line_sets[ls].spacing_unit;
 				var en_state = [uu != 'pixels', uu != 'percent', uu != 'quantity'];
 				$("#line-set-"+(ls+1)+" .px-pc-qty.act-mutex").MutexActionLink(en_state);
-
 			    });
 
 			    
@@ -64,13 +63,18 @@ var grids = {
 
 			    //update referenced underlying data of 6 input boxes in this way...
 			    [0,1].forEach(function(ls) {
-				[{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
+				[{k:"spacing"}, {k:"shift"}, {k:"angle"}].forEach(function(TY) {
 
 				    //UPDATE
-				    var uu_set = TY.k == "spacing" ? Grid_i.line_sets[ls].spacing_unit : undefined;
+				    var uu_dict = {
+					"spacing": Grid_i.line_sets[ls].spacing_unit,
+					"angle": "degrees",
+					"shift": "percent"
+				    };
+
 				    $("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input").SmartInput("update", {
 					underlying_obj: Grid_i.line_sets[ls],
-					new_dc_key: uu_set
+					new_dc_key: uu_dict[TY.k]
 				    });
 				});
 			    });
@@ -97,7 +101,7 @@ var grids = {
 
 	[0,1].forEach(function(ls) {
 	    grids.update_preview_svg_angle(ls, grid_obj.line_sets[ls]["angle"]);//update the SVG
-	    [{k:"spacing"}, {k:"angle"}].forEach(function(TY) {
+	    [{k:"spacing"}, {k:"shift"}, {k:"angle"}].forEach(function(TY) {
 		//UPDATE
 		$("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input").SmartInput("update", {data_change: true});
 	    });
@@ -174,18 +178,23 @@ var grids = {
 	// these should be enabled only for case is 2D
 	$("#preset-grid.act-mutex").MutexActionLink("enable", is_2D);
 	$("#link-angles.act-mutex").MutexActionLink("enable", is_2D);
-	$("#show-points.act-mutex").MutexActionLink("enable", is_2D);
+	grids.setMutexState_intersection_points();
 
 	// additionally, switching to 1D must remove all points.
 	if(!is_2D){
 	    grids.update_grid_intersection_points({display: false});
-	    $("#show-points.act-mutex").MutexActionLink([0, 1]);
 	}
 	
     },
+
+    setMutexState_intersection_points: function(){
+	var Grid_i = DM.GridsArray[grids.selected_row_i];
+	var is_2D = Grid_i.n_dimentions == 2;
+	$("#show-points.act-mutex").MutexActionLink("enable", is_2D && grids.showing_preview);
+    },
     
    
-    set_grid_ISO_SQU_DIA_enabled: function(){
+    setMutexState_iso_squ_dia: function(){
 	if (this.selected_row_i == undefined){return;}
 
 	// 1. Calculate the "Enablement State"...
@@ -210,7 +219,7 @@ var grids = {
 	//Adjust the appearance of the 'action links'...
 	//postpone function call, so it overrides the MutexActionLink default behaviour
 	setTimeout(function(){
-	    grids.set_grid_ISO_SQU_DIA_enabled();
+	    grids.setMutexState_iso_squ_dia();
 	}, 10);
 	    
 	if(grids.showing_preview){
@@ -228,7 +237,9 @@ var grids = {
 	    this.previousGrid = options.hide ? {line_sets:[]} : Grid_i;
 //	    this.previousGrid = jQuery.extend(true, {}, Grid_i);
 
-	    this.update_grid_intersection_points();
+	    //may update points, and will certainly hide them if required.
+	    var ops = options.hide ? {display: false} : undefined;
+	    this.update_grid_intersection_points(ops);
 	    
 	}
     },
@@ -353,6 +364,10 @@ var grids = {
 	    .duration(500)
 	    .attr("r", 0)
 	    .remove();
+
+	if(options.display === false){
+	    $("#show-points.act-mutex").MutexActionLink([0, 1]);
+	}
 
 	// 2. get the new data. This may mean an empty array depending upon boolean 'display'
 	var display = options.display !== undefined ? options.display : this.showingIntersectionPoints;

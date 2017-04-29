@@ -84,19 +84,23 @@ var grids_init = {
 	
 	// Part B - Apply it in SmartInput initialisation for each (of the 6) elements
 	[0,1].forEach(function(ls) {
-	    [{k:"spacing", u:"pixels"}, /*{k:"shift", u:"percent"},*/ {k:"angle", u:"degrees"}].forEach(function(TY) {
+	    [{k:"spacing"}, {k:"shift"}, {k:"angle"}].forEach(function(TY) {
 
 		//whether %, px or qty, minimum value of 1 for spacing. It prevents script freezing.
 		// however, I don't really like the offset of 1 this causes on the steps.
-		var dco = TY.k == "spacing" ? {min: 1} : undefined;
+		var dco_dict = {
+		    "spacing": {min: 1},
+		    "angle": undefined,
+		    "shift": {steps: [1, 10, 25]}
+		};
 		
 		//INITIATE
 		var $input = $("#line-set-"+(ls+1)+" .ls-param."+TY.k+" input");
 		$input.SmartInput({
 		    //underlying_obj: - this property set on row-select, it varies with row...
 		    underlying_key: TY.k,
-		    data_class: TY.u, // TODO - this is not necesarily correct. Interval may NOT be px!
-		    data_class_override: dco,
+		    data_class: "dimentionless", // Must supply something. Correct unit set on row-select
+		    data_class_override: dco_dict[TY.k],
 		    underlying_from_DOM_onChange: false, // cannot do this - full logic uses old value
 		    cb_change: function(){GA_mod(ls, TY.k);}//all the graphical change...
 		});
@@ -123,6 +127,11 @@ var grids_init = {
 		    data_change: true,
 		    new_dc_key: units_new // is there a way this parameter could not be passed. It is in the data?
 		});
+
+		//also set the relevant action-link...
+		var en_state = [units_new != 'pixels', units_new != 'percent', units_new != 'quantity'];
+		$("#line-set-"+(ls+1)+" .px-pc-qty.act-mutex").MutexActionLink(en_state);
+
 	    }
 	};
 
@@ -237,10 +246,12 @@ var grids_init = {
 	// 2.4 - Preview Options box
 
 	// 2.4.1 - Show vs hide intersection points...
-	$("#show-points.act-mutex").MutexActionLink([0, 1], [
+	$("#show-points.act-mutex").MutexActionLink([0, 1], [//firstly initialise
 	    function(){ grids.update_grid_intersection_points({display: false}); },
 	    function(){ grids.update_grid_intersection_points({display: true }); }
 	]);
+	grids.setMutexState_intersection_points();//disable the dots
+
 
 
 	// 2.4.2 - Overall visibility controls
@@ -251,6 +262,7 @@ var grids_init = {
 		grids.showing_preview = true;
 		grids.grid_change();
 		$(this).addClass("ui-disabled");
+		grids.setMutexState_intersection_points();//allow the dots
 	    }
 	});
 
@@ -259,6 +271,7 @@ var grids_init = {
 	    grids.grid_change({hide: true});
 	    grids.showing_preview = false;
 	    $("#Tab-grid .button#show").removeClass("ui-disabled");
+	    grids.setMutexState_intersection_points();//disable the dots
 	});
 
 

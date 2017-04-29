@@ -260,13 +260,13 @@ var DM = {
 		{// set 1
 		    spacing: 5,
 		    spacing_unit: 'percent',
-		    shift: 0.3,
+		    shift: 30,
 		    angle: 45
 		},
 		{// set 2
 		    spacing: 12.5,
 		    spacing_unit: 'quantity',
-		    shift: 0.5,
+		    shift: 50,
 		    angle: 55
 		}
 	    ]
