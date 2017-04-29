@@ -51,6 +51,7 @@
     <link rel="stylesheet" href="css-motifs-bg-svg.css" />
 
     <link rel="stylesheet" href="css-paintings.css" />
+    <link rel="stylesheet" href="css-patterns.css" />
 
     <!-- JS -->
     <script src="global.js"></script>
@@ -80,6 +81,8 @@
     <script src="motifs-edit.js"></script>
     <script src="motifs-edit-init.js"></script>
     <script src="motifs-props.js"></script>
+
+    <script src="patterns.js"></script>
 
   </head>
 
@@ -198,7 +201,7 @@
 		    <span id="sum" class="A">x</span> (<span id="delta" class="A">x</span>)
 		  </div>
 
-		  <div class="dropdown summing plain">
+		  <div class="dropdown plain summing">
 		    <button class="dropbtn">Summing Tools</button>
 		    <div class="dropdown-content">
 		      <a href="#" id="delta-to-selection">sum to 100% (adjust selected)</a>
@@ -207,7 +210,7 @@
 		    </div>
 		  </div>
 
-		  <div class="dropdown elem-type plain">
+		  <div class="dropdown plain elem-type">
 		    <button class="dropbtn">Solid (non-static)</button>
 		    <div class="dropdown-content">
 		      <a id="conv-to-solid" href="#">Solid</a>
@@ -1052,7 +1055,70 @@
 	  
 	  <!-- == Tab: Patterns == -->
 	  <div id="Tab-patt">
-	    Placeholder for "Patterns" tab. I formerly called this "layers". It's where the components get brought together.
+
+	    <!-- 1. [Patterns] Table -->
+	    <table class="user-data-table" id="patterns-table">
+	      <thead>
+		<tr>
+		  <th class="col-1">#</th>
+		  <th class="col-2">Name</th>
+		</tr>
+	      </thead>
+	      <tbody>
+	      </tbody>
+	    </table>
+
+	    <div id="patterns-table-buttons">
+	      <div class="button s" id="add">Add</div>
+	      <div class="button s" id="delete">Delete</div>
+	    </div>
+
+	    <div id="pattern-controls-pane">
+
+	      <!-- Box 1: Patterns Drive -->	      
+	      <div class="boxie" id="pattern-drive">
+		<div class="title">Pattern Drive</div>
+
+		  <!-- Dropdown: Grid -->	      		
+		  <div class="dropdown plain pdrive grid">
+		    <button class="dropbtn">Grid</button>
+		    <div class="dropdown-content">
+		      <a href="#" id="x1">Grid 1</a>
+		      <a href="#" id="x2">Grid 2</a>
+		    </div>
+		  </div>
+
+		  <!-- Dropdown: Density -->	      		
+		  <div class="dropdown plain pdrive density">
+		    <button class="dropbtn">Density</button>
+		    <div class="dropdown-content">
+		      <a href="#" id="x1">Density 1</a>
+		      <a href="#" id="x2">Density 2</a>
+		    </div>
+		  </div>
+
+		  <!-- Table -->	      		
+		  <table class="user-data-table">
+		    <tr>
+		      <td class="col-1"><div class="arrow"><img src="icons/arrow-right-s.png"/></div></td>
+		      <td class="col-2">Name</td>
+		    </tr>
+		  </table>
+
+		  
+	      </div>
+
+	      <div class="boxie" id="include-motifs">
+		<div class="title">Include Motifs</div>
+	      </div>
+
+	      <div class="boxie" id="motif-linking">
+		<div class="title">Motif Linking</div>
+	      </div>
+
+	      <div class="button" id="go">Go</div>
+	      
+	    </div>
 	  </div>
 
 
