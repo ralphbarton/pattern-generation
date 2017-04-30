@@ -297,7 +297,19 @@ jQuery.fn.extend({
 		// properties class for input data
 		var data_props = widgets.data_classes_list[$(this).data("data_class_key")];
 
-		if(data_props.type == "number"){
+		if(data_props.type == "text"){
+
+		    //this logic below allows text to be update via 'data_change' flag.
+		    // The overall flow of this Widget really needs reviewing, it is very messy now
+		    // and I think this may be repetition
+		    if(options.data_change === true){
+			var o = $(this).data("U_obj");
+			var k = $(this).data("U_key");
+			$(this).val(o[k]);			
+		    }
+		    
+		    
+		}else if(data_props.type == "number"){
 		    // Worth noting:  Number("sdf") = NaN     (which is different to: Number("") = 0 )!!!
 		    // lines below handle prepping the string-with-units back to being a pure number and interpreting
 		    // the val of a <input type="number">

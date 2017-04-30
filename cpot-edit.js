@@ -19,13 +19,11 @@ var cpot_edit = {
 
 	//create backup in data model - to be done before accessing the copy created...
 	DM.edit_ColourPot(index);
-	var POT = DM.editing_ColourPot;
 
-	//this initiates the SmartInput for the Title, only
-	$("#colour-pots-edit input.cpot-title").SmartInput({
-	    underlying_obj: POT,
-	    underlying_key: "description",
-	    data_class: "text",
+	//Update Title (SmartInput) for this colour pot
+	$("#colour-pots-edit input.cpot-title").SmartInput("update", {
+	    underlying_obj: DM.editing_ColourPot,
+	    data_change: true
 	});
 
 	//put the preview area into its expanded state...

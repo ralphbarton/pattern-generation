@@ -82,7 +82,7 @@ var motifs_props = {
 	var props_list_Ellipse = jQuery.extend(true, {}, this.props_list_generic);
 
 	props_list_Ellipse.name = "Ellipse";
-	props_list_Ellipse.shape_type = "obj-ellipse";
+	props_list_Ellipse.shape = "obj-ellipse";
 	props_list_Ellipse.shape_constructor = fabric.Ellipse;
 
 	// 1.2 - edit data structure
@@ -98,7 +98,7 @@ var motifs_props = {
 	var props_list_Rect = jQuery.extend(true, {}, this.props_list_generic);
 
 	props_list_Rect.name = "Rectangle";
-	props_list_Rect.shape_type = "obj-rectangle";
+	props_list_Rect.shape = "obj-rectangle";
 	props_list_Rect.shape_constructor = fabric.Rect;
 
 	// 2.2 - edit data structure
@@ -115,7 +115,7 @@ var motifs_props = {
 	var props_list_Triangle = jQuery.extend(true, {}, this.props_list_generic);
 
 	props_list_Triangle.name = "Triangle";
-	props_list_Triangle.shape_type = "obj-triangle";
+	props_list_Triangle.shape = "obj-triangle";
 	props_list_Triangle.shape_constructor = fabric.Triangle;
 
 	// 3.2 - edit data structure
@@ -130,7 +130,7 @@ var motifs_props = {
 	var props_list_Hexagon = jQuery.extend(true, {}, this.props_list_generic);
 
 	props_list_Hexagon.name = "Hexagon";
-	props_list_Hexagon.shape_type = "obj-hexagon";
+	props_list_Hexagon.shape = "obj-hexagon";
 	props_list_Hexagon.shape_constructor = fabric.Polygon;
 
 	// 4.2 - edit data structure
@@ -179,7 +179,7 @@ var motifs_props = {
 	// 3. Create and populate the tables html...
 
 	// 3.1 Get the set of props which applies for this shape...
-	var ShapeProps = $.grep(this.props_lists_per_shape, function(e){ return e.shape_type == DM_instance_props.shape; })[0];
+	var ShapeProps = $.grep(this.props_lists_per_shape, function(e){ return e.shape == DM_instance_props.shape; })[0];
 	$ME_plist.find(".heading-bar .name").text(ShapeProps.name + " " + PGTuid);
 
 	var SetName = {
@@ -277,40 +277,32 @@ var motifs_props = {
 
 
     /*
-      shape_type: rect, ellipse, triangle, hexagon, line, circle, square
+      shape: rect, ellipse, triangle, hexagon, line, circle, square
 
-     */
-    AddShape: function(shape_type, props_TLWH){
-
-
-
-	var fill_col = $("#motifs-edit .fill .mini-picker").colorpicker().toCssString('rgba');
-	var outl_col = $("#motifs-edit .outl .mini-picker").colorpicker().toCssString('rgba');
-
-
-
-
-
+    */
+    Fabric_AddShape: function(PGTuid, props){
+	
+	
 	// create a rectangle object
 	var new_shape = undefined;
-	if(shape_type == "obj-ellipse"){//circle
+	if(props.shape == "obj-ellipse"){//circle
 	    new_shape = new fabric.Ellipse({
-		left: props_TLWH.left,
-		top: props_TLWH.top,
-		fill: fill_col,
-		rx: (props_TLWH.width/2),
-		ry: (props_TLWH.height/2)		
+		left: props.left,
+		top: props.top,
+		fill: props.fill,
+		rx: props.rx,
+		ry: props.ry		
 	    });
 
-	}else if(shape_type == "obj-rectangle"){//rectangle
+	}else if(props.shape == "obj-rectangle"){//rectangle
 	    new_shape = new fabric.Rect();
 
-	}else if(shape_type == "obj-triangle"){//triangle
+	}else if(props.shape == "obj-triangle"){//triangle
 	    new_shape = new fabric.Triangle();
 
-	}else if(shape_type == "obj-hexagon"){//hexagon
-	    var W1 = 0.5 * props_TLWH.width;
-	    var W2 = 0.5 * props_TLWH.height / 0.866;
+	}else if(props.shape == "obj-hexagon"){//hexagon
+	    var W1 = 0.5 * props.width;
+	    var W2 = 0.5 * props.height / 0.866;
 	    var Wm = Math.min(W1, W2);
 	    var Wh = Wm * 0.866;
 
@@ -328,184 +320,51 @@ var motifs_props = {
 		    OC(0.5*Wm, 2*Wh),
 		    OC(0, Wh)
 		], {
-		    left: props_TLWH.left,
-		    top: props_TLWH.top,
+		    left: props.left,
+		    top: props.top,
 //		    angle: 0,
-		    fill: fill_col
+		    fill: props.fill
 		}
 	    );
 
 
-	}else if(shape_type == "obj-line"){//line
+	}else if(props.shape == "obj-line"){//line
 	    new_shape = new fabric.Line();
 	    new_shape.set({
-		strokeWidth: 1,
+		strokeWidth: props.strokeWidth,
 		stroke: 'black'
 	    });
 
 	}
 
-	if((shape_type == "obj-rectangle")||(shape_type == "obj-triangle")||(shape_type == "obj-line")){
+	if((props.shape == "obj-rectangle")||(props.shape == "obj-triangle")||(props.shape == "obj-line")){
 	    new_shape.set({
-		left: props_TLWH.left,
-		top: props_TLWH.top,
-		fill: fill_col,
-		stroke: outl_col,
-		width: props_TLWH.width,
-		height: props_TLWH.height,
-		strokeWidth: 4
+		left: props.left,
+		top: props.top,
+		fill: props.fill,
+		stroke: (props.strokeWidth != undefined) ? props.stroke : null, //Fabric assumes strokeWidth 1 if stroke supplied
+		strokeWidth: props.strokeWidth || null,// undefined causes problems but null OK!
+		width: props.width,
+		height: props.height,
+
 	    });
 	}
 
+	//set UID according to value provided.
+	new_shape.PGTuid = PGTuid;
+	
 	// "add" rectangle onto canvas
 	var canvas = motifs_edit.Fabric_Canvas;
 	canvas.add(new_shape);
 
-	var DM_props = {
-	    shape: shape_type,
-	    left: new_shape.left,
-	    top: new_shape.top,
-	    width: new_shape.width,
-	    height: new_shape.height,
-	    fill: new_shape.fill,
-	    stroke: new_shape.stroke,
-	    rx: new_shape.rx,
-	    ry: new_shape.ry,
-	};
-
-	var new_uid = DM.Motif_newElement_data(DM_props);
-
-	new_shape.PGTuid = new_uid;
-
-	// Add the properties listing for the added shape...
-	this.AddMotifElem_itemHTML(new_uid, DM_props);
-
+	
     },
     
-    DeleteShape: function(){
-
-    },
-    
-    OnScreenAdjust: function(){
-
-    },
-    
-    ExternalAdjust: function(){},
-
-
-
     RenderMotif: function(){
 
     },
     
     DerenderMotif: function(){
-
-    },
-
-    init_canvas_selection_events: function(){
-
-	var canvas = motifs_edit.Fabric_Canvas;
-
-	var props_snapshot = function(fObj){
-	    fObj.props_preTransform = {
-		left: fObj.left,
-		top: fObj.top,
-		width: fObj.width,
-		height: fObj.height,
-		angle: fObj.angle,
-		rx: fObj.rx,
-		ry: fObj.ry
-	    };
-	};
-
-	canvas.on('object:selected', function(options) {
-
-	    if (options.target) {
-
-		var fObj = options.target;
-
-		// scroll to and highlight the item in the list
-		var PGTuid = fObj.PGTuid;
-		
-		// note that a group may get selected, but this will not have a PGTuid defined.
-		// In this case, no autoscroll/highlight (although I will want these later).
-		if(PGTuid !== undefined){
-
-		    props_snapshot(fObj);
-
-		    motifs_props.MotifElem_focusListing(PGTuid, {
-			autoScroll: true,
-			focusHighlight: true
-		    });
-		}
-
-	    }
-	});
-
-
-	canvas.on('before:selection:cleared', function(options) {
-	    if (options.target) {
-
-		// de-highlight item in list
-		var PGTuid = options.target.PGTuid;
-		motifs_props.MotifElem_focusListing(PGTuid, {
-		    focusHighlight: true,
-		    removeHighlight: true
-		});
-	    }
-	});
-
-	// this event is triggerd one the modification activity is completed.
-	canvas.on('object:modified', function(options) {
-	    if (options.target) {
-
-		var fObj = options.target;
-		var PGTuid = fObj.PGTuid;
-
-		
-		// use scale change to directly change with width/height rather than holding
-		$.each({
-		    "ellipse":  {Qx: "rx", Qy: "ry" },
-		    "rect":     {Qx: "width", Qy: "height" },
-		    "triangle": {Qx: "width", Qy: "height" },
-		    "polygon":  {},
-		    "line":     {Qx: "width", Qy: "height" }
-		}, function( shape_type, props ) {//applied for each shape type
-
-		    if(fObj.type == shape_type){
-			if(fObj.scaleX != 1){
-			    fObj[props.Qx] = Math.round(fObj[props.Qx] * fObj.scaleX, 0);
-			    fObj.scaleX = 1;
-			}
-			if(fObj.scaleY != 1){
-			    fObj[props.Qy] = Math.round(fObj[props.Qy] * fObj.scaleY, 0);
-			    fObj.scaleY = 1;
-			}
-		    }
-
-		});
-
-		//iterate through the properties that *may* be modified
-		var cng = {};
-		$.each(fObj.props_preTransform, function( key, value ) {
-		    //determine which *were* modified
-		    if(value != fObj[key]){
-
-			//We don't particularly care about accuracy loss for a manually created motif, and 1 d.p. precision is
-			// fine for pixels and angles...
-			cng[key] = Math.round(10 * fObj[key]) / 10;
-		    }
-		});
-
-		// this does (re)edit Fabric Object properties too, but this is at worst harmless
-		motifs_edit.updateMotifElement(PGTuid, cng);
-
-		props_snapshot(fObj);
-
-		console.log('object:modified', options.target.PGTuid);
-	    }
-	});
-
 
     }
 

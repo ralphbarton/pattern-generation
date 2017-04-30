@@ -10,8 +10,39 @@ var motifs_edit = {
 	$("#motifs-edit").show();
 	this.active = true;
 
-	//now load the motif data
+	// 1. Load Selected Motif (A side effect in the datamodel)
+	DM.edit_Motif(motifs_view.selected_row_i);
 
+	// 2. Update Title SmartInput
+	$("#motifs-edit .motif-title input").SmartInput("update", {
+	    underlying_obj: DM.editing_Motif,
+	    data_change: true
+	});
+
+	// 3. Clear old data: canvas objects & HTML
+	var canvas = this.Fabric_Canvas;
+
+	// 3.1 remove canvas elements
+	for (var i = canvas._objects.length -1; i >= 0; i--){//start at the top element...
+	    Fabric_Object = canvas._objects[i];
+	    canvas.remove(Fabric_Object);   // remove from canvas	    
+	}
+
+	// 3.2 remove all old HTML
+	$(".m-elem").each(function(index, $Elem) {
+	    if($(this).attr("id") == "m-elem-template"){
+		return;
+	    }
+	    $(this).remove();
+	});
+	
+	// 4. Load all new elements (canvas & HTML)
+	$.each(DM.editing_Motif.Elements, function(index, Properties) {
+	    var uid = Properties.PGTuid;
+	    motifs_props.Fabric_AddShape(uid, Properties);        // Add to Fabric Canvas
+	    motifs_props.AddMotifElem_itemHTML(uid, Properties);  // Add to HTML	    
+	});
+	
     },
 
 
@@ -125,6 +156,7 @@ var motifs_edit = {
 
     },
 
+    
     // Function acts upon 1. Fabric;  2. DM;  3. HTML
     updateMotifElement: function(uid, propsCng){
 	
@@ -139,14 +171,6 @@ var motifs_edit = {
 
 	DM.Motif_updateElement_data(uid, propsCng);   // 2. update in DM structure
 	motifs_props.UpdateMotifElem_itemHTML(uid, propsCng);// 3. update in HTML
-
-    },
-
-    regenerateMotifPropsList: function(){
-
-	//this function will become relevant once I actually start to utilise multiple motifs.
-
-	//this will need to do something like calling " motifs_props.AddMotifElem_itemHTML() " for each motif element
 
     }
 

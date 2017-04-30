@@ -21,6 +21,14 @@ var cpot_edit_init = {
 	    }
 	});
 
+
+	// 1.1.1 Initiate SmartInput for the Title (no specific pot set)
+	$("#colour-pots-edit input.cpot-title").SmartInput({
+	    underlying_key: "description",
+	    data_class: "text",
+	});
+
+
 	
 	// 1.2 - jQueryUI initialisation command for the "range" tabs (i.e. Central / Boundaries / Subspace)
 	$("#cp-edit-tabs").tabs();

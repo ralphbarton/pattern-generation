@@ -518,6 +518,7 @@ var DM = {
 		    "height": 75,
 		    "fill": "rgba(24, 83, 244, 0.04)",
 		    "stroke": "rgba(0, 0, 0, 1.00)",
+		    strokeWidth: 6,
 		    "PGTuid": 9
 		}
 	    ]
@@ -561,7 +562,9 @@ var DM = {
 	    },
 	    Elements: [Motif_Element_One]
 	});
+	return this.MotifsArray.length - 1;//return index of newly added element
     },
+    
 
     duplicateRow_motif: function(index_dupl){
 	var new_motif = jQuery.extend(true, {}, this.MotifsArray[index_dupl]);
@@ -571,27 +574,37 @@ var DM = {
 
 
     editing_Motif: undefined,
+    PGTuid_counter: 0,
     edit_Motif: function(index){
-	this.editing_Motif = jQuery.extend(true, {}, this.MotifArray[index]);
+	this.editing_Motif = jQuery.extend(true, {}, this.MotifsArray[index]);
+
+	//upon "load", set the PGTuid counter to one greater than the largest UID present.
+	var max_PGTuid = 0;
+	$.each( DM.editing_Motif.Elements, function( index, element ) {
+	    max_PGTuid = Math.max(element.PGTuid, max_PGTuid);
+	});
+	this.PGTuid_counter = max_PGTuid + 1;
+	
     },
 
+    
     save_editing_Motif: function(replace_me_index){
-	this.MotifArray[replace_me_index] = this.editing_Motif;
+	this.MotifsArray[replace_me_index] = this.editing_Motif;
 	this.editing_Motif = null;
     },
     
 
     // These functions deal deal with "Motif Elements" of the "editing_Motif"
-    PGTuid_counter: 0,
     Motif_newElement_data: function(PropsObj){
 	var new_uid = this.PGTuid_counter;
 	this.PGTuid_counter++
 	PropsObj.PGTuid = new_uid;
 
-	DM.editing_Motif.Elements.push(PropsObj);
+	this.editing_Motif.Elements.push(PropsObj);
 	return new_uid;
     },
 
+    
     Motif_deleteElement_data: function(PGTuid){
 	var new_uid = this.PGTuid_counter;
 	var El_index = DM.editing_Motif.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});

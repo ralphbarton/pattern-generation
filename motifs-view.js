@@ -15,7 +15,7 @@ var motifs_view = {
 
 	// 1.2 - Add
 	$("#motifs-view .table-buttons #add").click(function(){
-	    DM.addRow_motif(); // Mutate
+	    motifs_view.selected_row_i = DM.addRow_motif(); // Mutate
 	    motifs_view.regenerate_table(); // Visual update
 	});
 
@@ -89,6 +89,14 @@ var motifs_view = {
 		    })
 	    );
 	});
+
+	// use click handler to achieve re-selection
+	if(this.selected_row_i != undefined){
+	    var click_me_i = this.selected_row_i;
+	    this.selected_row_i = undefined;//necessary for this dummy click to cause an action.
+	    $($("#motifs-view tbody tr")[click_me_i]).click();
+	}
+
     },
 
 

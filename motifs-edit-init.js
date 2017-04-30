@@ -11,17 +11,20 @@ var motifs_edit_init = {
 	
 	// 1.2 - Done
 	$("#motifs-edit .main-buttons #done").click(function(){
-	    DM.save_editing_Motif(motif_view.selected_row_i);
+	    DM.save_editing_Motif(motifs_view.selected_row_i);
 	    motifs_edit.hide();
 	    motifs_view.regenerate_table(); // Visual update
 	});
 	
 
+	// 1.3 Initiate SmartInput for the Title (no specific pot set)
+	$("#motifs-edit .motif-title input").SmartInput({
+	    underlying_key: "Name",
+	    data_class: "text",
+	});
+	
 	//initiate tabs...
 	$("#motifs-edit .tabs").tabs();
-
-	this.init_SVG_gridlines_under_canvas();
-
 
 	// 2. Designing additional interaction with the canvas
 	// this is the DIV which *contains* the canvas element...
@@ -81,15 +84,44 @@ var motifs_edit_init = {
 		var canv_mou_x = event.pageX - canv_page_coords.left;
 		var canv_mou_y = event.pageY - canv_page_coords.top;
 
-		var USR = rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y);
+		var MyShapeProps = rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y);
 
 		//shape is larger that the minimum acceptable size threshold
-		if((USR.width >= 3) && (USR.height >= 3)){
-		    //Function to Add a shape (Element) via Fabric canvas and via Datamodel...
-		    motifs_props.AddShape(Tool_selected, USR);
+		if((MyShapeProps.width >= 3) && (MyShapeProps.height >= 3)){
+
+		    //Extend the shape properties object...
+		    $.extend(MyShapeProps, {
+			shape: Tool_selected,
+			fill:   $("#motifs-edit .fill .mini-picker").colorpicker().toCssString('rgba'),
+			stroke: $("#motifs-edit .outl .mini-picker").colorpicker().toCssString('rgba'),
+			strokeWidth: 4
+		    });
+
+		    if(MyShapeProps.shape == "obj-ellipse"){//circle
+
+			$.extend(MyShapeProps, {
+			    rx: (MyShapeProps.width/2),
+			    ry: (MyShapeProps.height/2)		
+			});
+
+			delete MyShapeProps.width;
+			delete MyShapeProps.height;
+		    }
+
+		    // 1. Add the shape to the data model
+		    var new_uid = DM.Motif_newElement_data(MyShapeProps);
+
+		    // 2. Add to the Fabric Canvas
+		    motifs_props.Fabric_AddShape(new_uid, MyShapeProps);
+
+		    // 3. Add it to the properties listing
+		    motifs_props.AddMotifElem_itemHTML(new_uid, MyShapeProps);
+
+		    
 		    if(!draw_many){
 			set_Tool(undefined);// if a shape has been drawn...
 		    }
+
 		}else{
 		    //this stops the drawing of shapes
 		    set_Tool(undefined);
@@ -296,17 +328,129 @@ var motifs_edit_init = {
 	// 6.1. Generate in-memory the property sets relevant to the different shapes (triange circle etc.)
 	motifs_props.init_props_lists_per_shape();
 
+
+
+
+
+
+
+
+
+
+	
+	
 	// 6.2. Add listeners for object selection events happening on the canvas
-	motifs_props.init_canvas_selection_events();
+	var canvas = motifs_edit.Fabric_Canvas;
+
+	var props_snapshot = function(fObj){
+	    fObj.props_preTransform = {
+		left: fObj.left,
+		top: fObj.top,
+		width: fObj.width,
+		height: fObj.height,
+		angle: fObj.angle,
+		rx: fObj.rx,
+		ry: fObj.ry
+	    };
+	};
+
+	canvas.on('object:selected', function(options) {
+
+	    if (options.target) {
+
+		var fObj = options.target;
+
+		// scroll to and highlight the item in the list
+		var PGTuid = fObj.PGTuid;
+		
+		// note that a group may get selected, but this will not have a PGTuid defined.
+		// In this case, no autoscroll/highlight (although I will want these later).
+		if(PGTuid !== undefined){
+
+		    props_snapshot(fObj);
+
+		    motifs_props.MotifElem_focusListing(PGTuid, {
+			autoScroll: true,
+			focusHighlight: true
+		    });
+		}
+
+	    }
+	});
+
+
+	canvas.on('before:selection:cleared', function(options) {
+	    if (options.target) {
+
+		// de-highlight item in list
+		var PGTuid = options.target.PGTuid;
+		motifs_props.MotifElem_focusListing(PGTuid, {
+		    focusHighlight: true,
+		    removeHighlight: true
+		});
+	    }
+	});
+
+	// this event is triggerd one the modification activity is completed.
+	canvas.on('object:modified', function(options) {
+	    if (options.target) {
+
+		var fObj = options.target;
+		var PGTuid = fObj.PGTuid;
+
+		
+		// use scale change to directly change with width/height rather than holding
+		$.each({
+		    "ellipse":  {Qx: "rx", Qy: "ry" },
+		    "rect":     {Qx: "width", Qy: "height" },
+		    "triangle": {Qx: "width", Qy: "height" },
+		    "polygon":  {},
+		    "line":     {Qx: "width", Qy: "height" }
+		}, function( shape_type, props ) {//applied for each shape type
+
+		    if(fObj.type == shape_type){
+			if(fObj.scaleX != 1){
+			    fObj[props.Qx] = Math.round(fObj[props.Qx] * fObj.scaleX, 0);
+			    fObj.scaleX = 1;
+			}
+			if(fObj.scaleY != 1){
+			    fObj[props.Qy] = Math.round(fObj[props.Qy] * fObj.scaleY, 0);
+			    fObj.scaleY = 1;
+			}
+		    }
+
+		});
+
+		//iterate through the properties that *may* be modified
+		var cng = {};
+		$.each(fObj.props_preTransform, function( key, value ) {
+		    //determine which *were* modified
+		    if(value != fObj[key]){
+
+			//We don't particularly care about accuracy loss for a manually created motif, and 1 d.p. precision is
+			// fine for pixels and angles...
+			cng[key] = Math.round(10 * fObj[key]) / 10;
+		    }
+		});
+
+		// this does (re)edit Fabric Object properties too, but this is at worst harmless
+		motifs_edit.updateMotifElement(PGTuid, cng);
+
+		props_snapshot(fObj);
+
+		console.log('object:modified', options.target.PGTuid);
+	    }
+	});
 
 
 
-    },
 
 
-    
-    init_SVG_gridlines_under_canvas: function(){
 
+
+
+
+	// INITIATE the SVG gridlines under the canvas... 
 	var draw_4_lines = function(my_set, offset){
 	    d3.select('#Motif svg '+my_set)
 		.append('line')// pos vertical
@@ -380,6 +524,7 @@ var motifs_edit_init = {
 	draw_diagonal_lines(15, "small");
 	draw_diagonal_lines(45, "medium");
 	draw_diagonal_lines(90, "large");
+
 
     }
 
