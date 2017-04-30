@@ -14,7 +14,7 @@ var motifs_edit = {
 	DM.edit_Motif(motifs_view.selected_row_i);
 
 	// 2. Update Title SmartInput
-	$("#motifs-edit .motif-title input").SmartInput("update", {
+	$("#motifs-edit .motif-title input#motif-name").SmartInput("update", {
 	    underlying_obj: DM.editing_Motif,
 	    data_change: true
 	});

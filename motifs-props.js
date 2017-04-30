@@ -40,6 +40,9 @@ var motifs_props = {
 	    {ab:"fill", key: "fill"},
 	    {ab:"outline", key: "stroke"},
 
+	    {ab:"outl thick", key: "strokeWidth"},
+	    {ab:"outl pat", key: "strokeDashArray"},
+
 	    {ab:"opacity", key: "opacity"},
 	    {ab:"shadow", key: "CUS-"},
 
@@ -49,8 +52,6 @@ var motifs_props = {
 	    {ab:"shad x", key: "CUS-"},
 	    {ab:"shad y", key: "CUS-"},
 
-	    {ab:"outl thick", key: "strokeWidth"},
-	    {ab:"outl pat", key: "strokeDashArray"},
 	],
 	repetition:[
 	    {ab:"qty i-reps", key: "CUS-i-reps"},
@@ -73,17 +74,13 @@ var motifs_props = {
 
     init_props_lists_per_shape: function(){
 	
-	/* Deep copy
-	   var newObject = jQuery.extend(true, {}, oldObject);
-	*/
 
-
-	// 1. Ellipse - copy generic, then manipulate it to suit...
-	var props_list_Ellipse = jQuery.extend(true, {}, this.props_list_generic);
-
-	props_list_Ellipse.name = "Ellipse";
-	props_list_Ellipse.shape = "obj-ellipse";
-	props_list_Ellipse.shape_constructor = fabric.Ellipse;
+	// 1. Ellipse - copy/extend general properties, add those specific to this shape
+	var props_list_Ellipse = jQuery.extend(true, {}, this.props_list_generic, {
+	    name: "Ellipse",
+	    shape: "obj-ellipse",
+	    shape_constructor: fabric.Ellipse
+	});
 
 	// 1.2 - edit data structure
 	props_list_Ellipse.pos_size[2] = {ab:"radius x", key: "rx"},
@@ -93,13 +90,13 @@ var motifs_props = {
 	this.props_lists_per_shape.push(props_list_Ellipse);
 
 
+	// 2. Rectangle - copy/extend general properties, add those specific to this shape
+	var props_list_Rect = jQuery.extend(true, {}, this.props_list_generic, {
+	    name: "Rectangle",
+	    shape: "obj-rectangle",
+	    shape_constructor: fabric.Rect
+	});
 
-	// 2. Rectangle
-	var props_list_Rect = jQuery.extend(true, {}, this.props_list_generic);
-
-	props_list_Rect.name = "Rectangle";
-	props_list_Rect.shape = "obj-rectangle";
-	props_list_Rect.shape_constructor = fabric.Rect;
 
 	// 2.2 - edit data structure
 	props_list_Rect.appearance.push(
@@ -111,12 +108,12 @@ var motifs_props = {
 
 
 
-	// 3. Triangle
-	var props_list_Triangle = jQuery.extend(true, {}, this.props_list_generic);
-
-	props_list_Triangle.name = "Triangle";
-	props_list_Triangle.shape = "obj-triangle";
-	props_list_Triangle.shape_constructor = fabric.Triangle;
+	// 3. Triangle - copy/extend general properties, add those specific to this shape
+	var props_list_Triangle = jQuery.extend(true, {}, this.props_list_generic, {
+	    name: "Triangle",
+	    shape: "obj-triangle",
+	    shape_constructor: fabric.Triangle
+	});
 
 	// 3.2 - edit data structure
 	// (none)
@@ -126,20 +123,41 @@ var motifs_props = {
 
 
 
-	// 4. Hexagon
-	var props_list_Hexagon = jQuery.extend(true, {}, this.props_list_generic);
-
-	props_list_Hexagon.name = "Hexagon";
-	props_list_Hexagon.shape = "obj-hexagon";
-	props_list_Hexagon.shape_constructor = fabric.Polygon;
+	// 4. Hexagon - copy/extend general properties, add those specific to this shape
+	var props_list_Hexagon = jQuery.extend(true, {}, this.props_list_generic, {
+	    name: "Hexagon",
+	    shape: "obj-hexagon",
+	    shape_constructor: fabric.Polygon
+	});
 
 	// 4.2 - edit data structure
-	props_list_Hexagon.pos_size[2] = "side len";
-	props_list_Hexagon.pos_size[3] = "";
+	props_list_Hexagon.pos_size[2] = {ab:"side len", key: "var"};
+	props_list_Hexagon.pos_size[3] = {ab:"", key: "var"};
 
 	// 4.3 - "Submit"
 	this.props_lists_per_shape.push(props_list_Hexagon);
 
+
+
+	// 5. Line - copy/extend general properties, add those specific to this shape
+	var props_list_Line = jQuery.extend(true, {}, this.props_list_generic, {
+	    name: "Line",
+	    shape: "obj-line",
+	    shape_constructor: fabric.Line
+	});
+
+
+	// 5.1 - edit data structure - quite a number of props need REMOVING here...
+	props_list_Line.pos_size[0] = {ab:"x1", key: "var"};
+	props_list_Line.pos_size[1] = {ab:"y1", key: "var"};
+	props_list_Line.pos_size[2] = {ab:"x2", key: "var"};
+	props_list_Line.pos_size[3] = {ab:"y2", key: "var"};
+
+	props_list_Line.appearance[0] = {ab:"colour", key: "var"};
+	props_list_Line.appearance[1] = {ab:"", key: "var"};
+
+	this.props_lists_per_shape.push(props_list_Line);
+	
     },
 
 
@@ -179,7 +197,7 @@ var motifs_props = {
 	// 3. Create and populate the tables html...
 
 	// 3.1 Get the set of props which applies for this shape...
-	var ShapeProps = $.grep(this.props_lists_per_shape, function(e){ return e.shape == DM_instance_props.shape; })[0];
+	var ShapeProps = $.grep(this.props_lists_per_shape, function(e){return e.shape == DM_instance_props.shape; })[0];
 	$ME_plist.find(".heading-bar .name").text(ShapeProps.name + " " + PGTuid);
 
 	var SetName = {

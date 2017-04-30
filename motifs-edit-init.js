@@ -18,7 +18,7 @@ var motifs_edit_init = {
 	
 
 	// 1.3 Initiate SmartInput for the Title (no specific pot set)
-	$("#motifs-edit .motif-title input").SmartInput({
+	$("#motifs-edit .motif-title input#motif-name").SmartInput({
 	    underlying_key: "Name",
 	    data_class: "text",
 	});
