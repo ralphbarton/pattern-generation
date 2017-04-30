@@ -354,6 +354,7 @@ var motifs_edit_init = {
 	    };
 	};
 
+	// Fabric Object Event 1: Select
 	canvas.on('object:selected', function(options) {
 
 	    if (options.target) {
@@ -378,7 +379,8 @@ var motifs_edit_init = {
 	    }
 	});
 
-
+	
+	// Fabric Object Event 2: Clear Selection
 	canvas.on('before:selection:cleared', function(options) {
 	    if (options.target) {
 
@@ -391,13 +393,15 @@ var motifs_edit_init = {
 	    }
 	});
 
+	
+	// Fabric Object Event 3: Modify
 	// this event is triggerd one the modification activity is completed.
 	canvas.on('object:modified', function(options) {
-	    if (options.target) {
-
+	    if (!options.target) {return;}
+	    if (options.target._objects === undefined){//so it's a single shape
+		
 		var fObj = options.target;
 		var PGTuid = fObj.PGTuid;
-
 		
 		// use scale change to directly change with width/height rather than holding
 		$.each({
@@ -423,6 +427,7 @@ var motifs_edit_init = {
 
 		//iterate through the properties that *may* be modified
 		var cng = {};
+		console.log("object mofified:",fObj);
 		$.each(fObj.props_preTransform, function( key, value ) {
 		    //determine which *were* modified
 		    if(value != fObj[key]){
@@ -439,6 +444,11 @@ var motifs_edit_init = {
 		props_snapshot(fObj);
 
 		console.log('object:modified', options.target.PGTuid);
+
+	    }else{//so it's a group
+
+		var fGrp = options.target;
+		console.error("Group modification executed. Unhandled event. Data is now invalid.")
 	    }
 	});
 
