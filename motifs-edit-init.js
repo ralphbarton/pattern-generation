@@ -6,14 +6,14 @@ var motifs_edit_init = {
 
 	// 1.1 - Cancel
 	$("#motifs-edit .main-buttons #cancel").click(function(){
-	    motifs_edit.hide();
+	    motifs_edit.hide({save:false});
 	});
 	
 	// 1.2 - Done
 	$("#motifs-edit .main-buttons #done").click(function(){
-	    DM.save_editing_Motif(motifs_view.selected_row_i);
-	    motifs_edit.hide();
-	    motifs_view.regenerate_table(); // Visual update
+	    //it is inconsistent for the Hide function to do so much work with underlying data
+	    // (i.e. saving) as is happening here...
+	    motifs_edit.hide({save:true});
 	});
 	
 
@@ -352,11 +352,7 @@ var motifs_edit_init = {
 	    }else{//multiple objects
 		var my_cb = cb2 || cb1;
 		$.each(Selection._objects, function(index, element) {
-		    // this "real element" extraction does not seem to add anything or solve the problem.
-		    // Remove it please, and understand the real cause.
-		    var Filter = function(El){return El.PGTuid == element.PGTuid;}
-		    var real_element = $.grep(canvas._objects, Filter)[0];
-		    my_cb(real_element);
+		    my_cb(element);
 		});
 	    }
 	    return multiple;
@@ -375,6 +371,7 @@ var motifs_edit_init = {
 	};
 
 	var Save_Fabric_Obj_Transform = function(fObj){
+
 	    // 1. set scaleX & scaleY params to 1, and rescale size properties directly
 	    $.each({
 		"ellipse":  {Qx: "rx", Qy: "ry" },
@@ -401,7 +398,7 @@ var motifs_edit_init = {
 		    cng[key] = Math.round(10 * fObj[key]) / 10;// 1dp precision fine for px and angles
 		}
 	    });
-	    
+
 	    // 3. Enact change (acts upon 1. Fabric;  2. DM;  3. HTML  (n.b. (re)editing Fabric Obj is harmless))
 	    motifs_edit.updateMotifElement(fObj.PGTuid, cng);
 	    // 4. it *IS* necessary to re-snapshot after transform, because multiple transforms can follow a selection...
@@ -433,14 +430,22 @@ var motifs_edit_init = {
 
 	
 	// Fabric Object Event 2: Clear Selection
+	/*
+	  before:selection:cleared — fired before selection is cleared (before active group is destroyed)
+	  selection:cleared — fired after selection is cleared (after active group is destroyed)
+	*/
 	canvas.on('before:selection:cleared', function(options) {
 	    if(!options.target) {return;}
 	    var multiple = (options.target.PGTuid === undefined);
 	    // 1. Save changes
-	    console.log("canvas state at deselection:", canvas._objects);
 	    ApplyToSelectedFabricObjects(
 		options.target,
-		function(fObj){Save_Fabric_Obj_Transform(fObj);}
+		function(fObj){
+		    //defer the action by 1ms, to allow the selection clear to complete.
+		    setTimeout(function(){
+			Save_Fabric_Obj_Transform(fObj);
+		    }, 1);
+		}
 	    );
 	    // 2. Defocus the selected element in the list	    
 	    if(!multiple){

@@ -18,25 +18,8 @@ var motifs_edit = {
 	    underlying_obj: DM.editing_Motif,
 	    data_change: true
 	});
-
-	// 3. Clear old data: canvas objects & HTML
-	var canvas = this.Fabric_Canvas;
-
-	// 3.1 remove canvas elements
-	for (var i = canvas._objects.length -1; i >= 0; i--){//start at the top element...
-	    Fabric_Object = canvas._objects[i];
-	    canvas.remove(Fabric_Object);   // remove from canvas	    
-	}
-
-	// 3.2 remove all old HTML
-	$(".m-elem").each(function(index, $Elem) {
-	    if($(this).attr("id") == "m-elem-template"){
-		return;
-	    }
-	    $(this).remove();
-	});
 	
-	// 4. Load all new elements (canvas & HTML)
+	// 3. Load all new elements (canvas & HTML)
 	$.each(DM.editing_Motif.Elements, function(index, Properties) {
 	    var uid = Properties.PGTuid;
 	    motifs_props.Fabric_AddShape(uid, Properties);        // Add to Fabric Canvas
@@ -46,12 +29,44 @@ var motifs_edit = {
     },
 
 
-    hide: function(){
+    hide: function(options){
+	options = options || {};
 	$(".cpanel#main").removeClass("cpanel-main-size3").addClass("cpanel-main-size1");//change window size
 	$("#cpanel-main-tabs").tabs("option", "disabled", false); // Enable main tab set
 	$("#motifs-view").show();
 	$("#motifs-edit").hide();
 	this.active = false;
+	
+	// Clear old data in motifs edit: canvas objects & HTML
+
+	// (A) remove canvas elements
+	var canvas = this.Fabric_Canvas;
+	// this includes clearing any selections on canvas, and associated events
+	// (which I think is not correctly achieved when cycling canvas._objects and removing)
+
+	// this method fires both "before:selection:cleared" and "selection:cleared" events.
+	canvas.deactivateAllWithDispatch();
+
+	//defer the action by 8ms, allowing callbacks on selection clear (i.e. save transforms) to complete.
+	setTimeout(function(){
+	    canvas.clear();
+	    if(options.save){
+		//these functions would normally be part of the button click handler...
+		// i.e. cb atached to #motifs-edit .main-buttons #done
+		DM.save_editing_Motif(motifs_view.selected_row_i);
+		motifs_view.regenerate_table(); // Visual update
+	    }
+	}, 8);
+
+
+	// (B) remove old motif element properties table HTML
+	$(".m-elem").each(function(index, $Elem) {
+	    if($(this).attr("id") == "m-elem-template"){
+		return;
+	    }
+	    $(this).remove();
+	});
+
     },
 
     keyStrokeHandler: function(myKeycode, keyPressed, keyEvent){
