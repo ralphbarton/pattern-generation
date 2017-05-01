@@ -342,49 +342,65 @@ var motifs_edit_init = {
 	// 6.2. Add listeners for object selection events happening on the canvas
 	var canvas = motifs_edit.Fabric_Canvas;
 
-	var props_snapshot = function(fObj){
-	    fObj.props_preTransform = {
-		left: fObj.left,
-		top: fObj.top,
-		width: fObj.width,
-		height: fObj.height,
-		angle: fObj.angle,
-		rx: fObj.rx,
-		ry: fObj.ry
-	    };
+	// cb2, optional parameter, an alternative callback to apply if there are multiple objects
+	// return value: Boolean - is it a group?
+	var ApplyToSelectedFabricObjects = function(Selection, cb1, cb2){
+	    var multiple = (Selection.PGTuid === undefined);
+
+	    if(!multiple){//its a single object
+		cb1(Selection);
+	    }else{//multiple objects
+		var my_cb = cb2 || cb1;
+		$.each(Selection._objects, function(index, element) {
+		    // this "real element" extraction does not seem to add anything or solve the problem.
+		    // Remove it please, and understand the real cause.
+		    var Filter = function(El){return El.PGTuid == element.PGTuid;}
+		    var real_element = $.grep(canvas._objects, Filter)[0];
+		    my_cb(real_element);
+		});
+	    }
+	    return multiple;
 	};
 
+	
 	// Fabric Object Event 1: Select
 	canvas.on('object:selected', function(options) {
-
-	    if (options.target) {
-
-		var fObj = options.target;
-
-		// scroll to and highlight the item in the list
-		var PGTuid = fObj.PGTuid;
-		
-		// note that a group may get selected, but this will not have a PGTuid defined.
-		// In this case, no autoscroll/highlight (although I will want these later).
-		if(PGTuid !== undefined){
-
-		    props_snapshot(fObj);
-
-		    motifs_props.MotifElem_focusListing(PGTuid, {
-			autoScroll: true,
-			focusHighlight: true
-		    });
+	    if (!options.target) {return;}
+	    // 1. Snapshot selected element
+	    var multiple = ApplyToSelectedFabricObjects(
+		options.target,
+		function(fObj){// Take props Snapshot
+		    console.log("snapshotting:", fObj.PGTuid);
+		    fObj.props_preTransform = {
+			left: fObj.left,
+			top: fObj.top,
+			width: fObj.width,
+			height: fObj.height,
+			angle: fObj.angle,
+			rx: fObj.rx,
+			ry: fObj.ry
+		    };
 		}
-
-	    }
+	    );
+	    // 2. Focus the selected element in the list
+	    if(multiple){
+		global.toast("Group selection made");
+	    }else{
+		var PGTuid = options.target.PGTuid;
+		motifs_props.MotifElem_focusListing(PGTuid, {
+		    autoScroll: true,
+		    focusHighlight: true
+		});
+	    }	    
 	});
 
 	
 	// Fabric Object Event 2: Clear Selection
 	canvas.on('before:selection:cleared', function(options) {
-	    if (options.target) {
-
-		// de-highlight item in list
+	    if(!options.target) {return;}
+	    var multiple = (Selection.PGTuid === undefined);
+	    // 2. Defocus the selected element in the list	    
+	    if(multiple){
 		var PGTuid = options.target.PGTuid;
 		motifs_props.MotifElem_focusListing(PGTuid, {
 		    focusHighlight: true,
@@ -396,23 +412,20 @@ var motifs_edit_init = {
 	
 	// Fabric Object Event 3: Modify
 	// this event is triggerd one the modification activity is completed.
-	canvas.on('object:modified', function(options) {
+	canvas.on('object:modified', function(options) {	    
 	    if (!options.target) {return;}
-	    if (options.target._objects === undefined){//so it's a single shape
-		
-		var fObj = options.target;
-		var PGTuid = fObj.PGTuid;
-		
-		// use scale change to directly change with width/height rather than holding
-		$.each({
-		    "ellipse":  {Qx: "rx", Qy: "ry" },
-		    "rect":     {Qx: "width", Qy: "height" },
-		    "triangle": {Qx: "width", Qy: "height" },
-		    "polygon":  {},
-		    "line":     {Qx: "width", Qy: "height" }
-		}, function( shape_type, props ) {//applied for each shape type
-
-		    if(fObj.type == shape_type){
+	    ApplyToSelectedFabricObjects(
+		options.target,
+		function(fObj){
+		    // 1. set scaleX & scaleY params to 1, and rescale size properties directly
+		    $.each({
+			"ellipse":  {Qx: "rx", Qy: "ry" },
+			"rect":     {Qx: "width", Qy: "height" },
+			"triangle": {Qx: "width", Qy: "height" },
+			"polygon":  {},
+			"line":     {Qx: "width", Qy: "height" }
+		    }, function( shape_type, props ) {//applied for each shape type
+			if(fObj.type != shape_type){return;}
 			if(fObj.scaleX != 1){
 			    fObj[props.Qx] = Math.round(fObj[props.Qx] * fObj.scaleX, 0);
 			    fObj.scaleX = 1;
@@ -421,39 +434,23 @@ var motifs_edit_init = {
 			    fObj[props.Qy] = Math.round(fObj[props.Qy] * fObj.scaleY, 0);
 			    fObj.scaleY = 1;
 			}
-		    }
+		    });
 
-		});
-
-		//iterate through the properties that *may* be modified
-		var cng = {};
-		console.log("object mofified:",fObj);
-		$.each(fObj.props_preTransform, function( key, value ) {
-		    //determine which *were* modified
-		    if(value != fObj[key]){
-
-			//We don't particularly care about accuracy loss for a manually created motif, and 1 d.p. precision is
-			// fine for pixels and angles...
-			cng[key] = Math.round(10 * fObj[key]) / 10;
-		    }
-		});
-
-		// this does (re)edit Fabric Object properties too, but this is at worst harmless
-		motifs_edit.updateMotifElement(PGTuid, cng);
-
-		props_snapshot(fObj);
-
-		console.log('object:modified', options.target.PGTuid);
-
-	    }else{//so it's a group
-
-		var fGrp = options.target;
-		console.error("Group modification executed. Unhandled event. Data is now invalid.")
-	    }
+		    // 2. What changed? iterate through the properties that *may* be modified
+		    var cng = {};
+		    console.log("fobj:", fObj.PGTuid, " - fObj.props_preTransform:", fObj.props_preTransform);
+		    $.each(fObj.props_preTransform, function( key, value ) {
+			if(value != fObj[key]){// property is changed.
+			    cng[key] = Math.round(10 * fObj[key]) / 10;// 1dp precision fine for px and angles
+			}
+		    });
+		    console.log("transforming:", fObj.PGTuid, "; change:", cng);
+		    
+		    // 3. Enact change (acts upon 1. Fabric;  2. DM;  3. HTML  (n.b. (re)editing Fabric Obj is harmless))
+		    motifs_edit.updateMotifElement(fObj.PGTuid, cng);
+		}
+	    );
 	});
-
-
-
 
 
 
