@@ -362,6 +362,53 @@ var motifs_edit_init = {
 	    return multiple;
 	};
 
+	var Fabric_Obj_Snapshot = function(fObj){// Take props Snapshot
+	    fObj.props_preTransform = {
+		left: fObj.left,
+		top: fObj.top,
+		width: fObj.width,
+		height: fObj.height,
+		angle: fObj.angle,
+		rx: fObj.rx,
+		ry: fObj.ry
+	    };
+	};
+
+	var Save_Fabric_Obj_Transform = function(fObj){
+	    // 1. set scaleX & scaleY params to 1, and rescale size properties directly
+	    $.each({
+		"ellipse":  {Qx: "rx", Qy: "ry" },
+		"rect":     {Qx: "width", Qy: "height" },
+		"triangle": {Qx: "width", Qy: "height" },
+		"polygon":  {},
+		"line":     {Qx: "width", Qy: "height" }
+	    }, function( shape_type, props ) {//applied for each shape type
+		if(fObj.type != shape_type){return;}
+		if(fObj.scaleX != 1){
+		    fObj[props.Qx] = Math.round(fObj[props.Qx] * fObj.scaleX, 0);
+		    fObj.scaleX = 1;
+		}
+		if(fObj.scaleY != 1){
+		    fObj[props.Qy] = Math.round(fObj[props.Qy] * fObj.scaleY, 0);
+		    fObj.scaleY = 1;
+		}
+	    });
+
+	    // 2. What changed? iterate through the properties that *may* be modified
+	    var cng = {};
+	    $.each(fObj.props_preTransform, function( key, value ) {
+		if(value != fObj[key]){// property is changed.
+		    cng[key] = Math.round(10 * fObj[key]) / 10;// 1dp precision fine for px and angles
+		}
+	    });
+	    
+	    // 3. Enact change (acts upon 1. Fabric;  2. DM;  3. HTML  (n.b. (re)editing Fabric Obj is harmless))
+	    motifs_edit.updateMotifElement(fObj.PGTuid, cng);
+	    // 4. it *IS* necessary to re-snapshot after transform, because multiple transforms can follow a selection...
+	    Fabric_Obj_Snapshot(fObj);
+	};
+
+	
 	
 	// Fabric Object Event 1: Select
 	canvas.on('object:selected', function(options) {
@@ -369,19 +416,9 @@ var motifs_edit_init = {
 	    // 1. Snapshot selected element
 	    var multiple = ApplyToSelectedFabricObjects(
 		options.target,
-		function(fObj){// Take props Snapshot
-		    console.log("snapshotting:", fObj.PGTuid);
-		    fObj.props_preTransform = {
-			left: fObj.left,
-			top: fObj.top,
-			width: fObj.width,
-			height: fObj.height,
-			angle: fObj.angle,
-			rx: fObj.rx,
-			ry: fObj.ry
-		    };
-		}
+		function(fObj){Fabric_Obj_Snapshot(fObj);}
 	    );
+
 	    // 2. Focus the selected element in the list
 	    if(multiple){
 		global.toast("Group selection made");
@@ -398,9 +435,15 @@ var motifs_edit_init = {
 	// Fabric Object Event 2: Clear Selection
 	canvas.on('before:selection:cleared', function(options) {
 	    if(!options.target) {return;}
-	    var multiple = (Selection.PGTuid === undefined);
+	    var multiple = (options.target.PGTuid === undefined);
+	    // 1. Save changes
+	    console.log("canvas state at deselection:", canvas._objects);
+	    ApplyToSelectedFabricObjects(
+		options.target,
+		function(fObj){Save_Fabric_Obj_Transform(fObj);}
+	    );
 	    // 2. Defocus the selected element in the list	    
-	    if(multiple){
+	    if(!multiple){
 		var PGTuid = options.target.PGTuid;
 		motifs_props.MotifElem_focusListing(PGTuid, {
 		    focusHighlight: true,
@@ -410,47 +453,20 @@ var motifs_edit_init = {
 	});
 
 	
-	// Fabric Object Event 3: Modify
-	// this event is triggerd one the modification activity is completed.
-	canvas.on('object:modified', function(options) {	    
-	    if (!options.target) {return;}
+    // Fabric Object Event 3: Modify
+    // this event is triggerd one the modification activity is completed.
+    canvas.on('object:modified', function(options) {	    
+	if (!options.target) {return;}
+	var multiple = (options.target.PGTuid === undefined);
+	if(!multiple){
 	    ApplyToSelectedFabricObjects(
 		options.target,
-		function(fObj){
-		    // 1. set scaleX & scaleY params to 1, and rescale size properties directly
-		    $.each({
-			"ellipse":  {Qx: "rx", Qy: "ry" },
-			"rect":     {Qx: "width", Qy: "height" },
-			"triangle": {Qx: "width", Qy: "height" },
-			"polygon":  {},
-			"line":     {Qx: "width", Qy: "height" }
-		    }, function( shape_type, props ) {//applied for each shape type
-			if(fObj.type != shape_type){return;}
-			if(fObj.scaleX != 1){
-			    fObj[props.Qx] = Math.round(fObj[props.Qx] * fObj.scaleX, 0);
-			    fObj.scaleX = 1;
-			}
-			if(fObj.scaleY != 1){
-			    fObj[props.Qy] = Math.round(fObj[props.Qy] * fObj.scaleY, 0);
-			    fObj.scaleY = 1;
-			}
-		    });
-
-		    // 2. What changed? iterate through the properties that *may* be modified
-		    var cng = {};
-		    console.log("fobj:", fObj.PGTuid, " - fObj.props_preTransform:", fObj.props_preTransform);
-		    $.each(fObj.props_preTransform, function( key, value ) {
-			if(value != fObj[key]){// property is changed.
-			    cng[key] = Math.round(10 * fObj[key]) / 10;// 1dp precision fine for px and angles
-			}
-		    });
-		    console.log("transforming:", fObj.PGTuid, "; change:", cng);
-		    
-		    // 3. Enact change (acts upon 1. Fabric;  2. DM;  3. HTML  (n.b. (re)editing Fabric Obj is harmless))
-		    motifs_edit.updateMotifElement(fObj.PGTuid, cng);
-		}
+		function(fObj){Save_Fabric_Obj_Transform(fObj);}
 	    );
-	});
+	}else{
+	    global.toast("Transformation og multiple objects will be saved upon de-selection");
+	}
+    });
 
 
 
