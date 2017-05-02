@@ -191,13 +191,88 @@ var motifs_edit_init = {
 
 
 	/// 3.x colour pickers...
-	$("#motifs-edit .fill .mini-picker").colorpicker({
-	    color: 'rgba(255, 179, 0, 0.5)'
+	var $FillPicker = $("#motifs-edit .fill .mini-picker");
+	var $OutlPicker = $("#motifs-edit .outl .mini-picker");
+	
+	var Init_picker = function(fill_outl, colourStr){
+	    var isFill = fill_outl == "fill";
+	    var $Picker = isFill ? $FillPicker : $OutlPicker;
+	    var key = isFill ? "fill" : "stroke";
+
+	    if($Picker.hasClass("colorpicker")){
+		$Picker.colorpicker().destroy();//destroy existing
+	    }
+	    $Picker.colorpicker({color: colourStr});//create new
+	    $Picker.on('newcolor', function (ev, colorpicker) {
+		chg = {};
+		chg[key] = colorpicker.toCssString();
+		// Update affects: 1. Fabric;  2. DM;  3. HTML
+		motifs_edit.updateMotifElement(SelectedFabricObject.PGTuid, chg);
+	    });
+	};
+
+	//use this function to actually initiate the two pickers...
+	Init_picker("fill", 'rgba(255, 82, 35, 0.74)');
+	Init_picker("outl", 'rgb(86, 26, 216)');
+
+	var stored_fill = null;
+	var stored_outl = null;
+	var MiniColourPickers_LoadfromObj = function(fObj){
+	    
+	    if(fObj){
+		// (1.) Swap Colour-Pot for Hide links
+		$("#motifs-edit #choose-cpot").fadeOut();
+		$("#motifs-edit #selection-col-hold").fadeIn();
+		$("#motifs-edit #selection-col-hold").fadeIn();
+		$("#motifs-edit #selection-col-hold > .action-link").removeClass("ui-disabled");
+		
+		// (2.) store old colours
+		stored_fill = $FillPicker.colorpicker().toCssString('rgba');
+		stored_outl = $OutlPicker.colorpicker().toCssString('rgba');
+
+		// (3.) Load Object Colours
+		var obj_fill = fObj.fill;
+		var obj_outl = fObj.stroke;
+		
+		// (4.) Load Object Colours
+		// (set a new colour by destroying and recreating)
+		if(obj_fill){
+		    Init_picker("fill", obj_fill);
+		}else{
+		    $("#motifs-edit #selection-col-hold > .action-link.fill").addClass("ui-disabled");
+		}
+		if(obj_outl){
+		    Init_picker("outl", obj_outl);
+		}else{
+		    $("#motifs-edit #selection-col-hold > .action-link.outl").addClass("ui-disabled");
+		}
+
+	    }else{
+		// (1.) Swap Colour-Pot for Hide links
+		$("#motifs-edit #choose-cpot").fadeIn();
+		$("#motifs-edit #selection-col-hold").fadeOut();
+
+		// (2.) restore old colours
+		if(stored_fill != $FillPicker.colorpicker().toCssString('rgba')){
+		    Init_picker("fill", stored_fill);
+		}
+		if(stored_outl != $OutlPicker.colorpicker().toCssString('rgba')){
+		    Init_picker("outl", stored_outl);
+		}
+	    }
+	};
+
+	$("#motifs-edit #selection-col-hold > .action-link").click(function(){
+	    $(this).addClass("ui-disabled");
+	    if($(this).hasClass("fill")){
+		stored_fill = $FillPicker.colorpicker().toCssString('rgba');
+	    }else{
+		stored_outl = $OutlPicker.colorpicker().toCssString('rgba');
+	    }
 	});
 
-	$("#motifs-edit .outl .mini-picker").colorpicker({
-	    color: 'rgb(86, 26, 216)'
-	});
+
+
 
 	// 3.x Initialise CPOT dropdown
 	// this could be either the "Fill" or "Outline" button...
@@ -227,69 +302,10 @@ var motifs_edit_init = {
 	    $("#cpot-available").hide();
 	});
 
-	var stored_fill = null;
-	var stored_outl = null;
-	var $FillPicker = $("#motifs-edit .fill .mini-picker");
-	var $OutlPicker = $("#motifs-edit .outl .mini-picker");
 
-	var MiniColourPickers_LoadfromObj = function(fObj){
-	    
-	    if(fObj){
-		// (1.) Swap Colour-Pot for Hide links
-		$("#motifs-edit #choose-cpot").fadeOut();
-		$("#motifs-edit #selection-col-hold").fadeIn();
-		$("#motifs-edit #selection-col-hold").fadeIn();
-		$("#motifs-edit #selection-col-hold > .action-link").removeClass("ui-disabled");
-		
-		// (2.) store old colours
-		stored_fill = $FillPicker.colorpicker().toCssString('rgba');
-		stored_outl = $OutlPicker.colorpicker().toCssString('rgba');
 
-		// (3.) Load Object Colours
-		var obj_fill = fObj.fill;
-		var obj_outl = fObj.stroke;
-		
-		// (4.) Load Object Colours
-		// (set a new colour by destroying and recreating)
-		if(obj_fill){
-		    $FillPicker.colorpicker().destroy();
-		    $FillPicker.colorpicker({color: obj_fill});
-		}else{
-		    $("#motifs-edit #selection-col-hold > .action-link.fill").addClass("ui-disabled");
-		}
-		if(obj_outl){
-		    $OutlPicker.colorpicker().destroy();
-		    $OutlPicker.colorpicker({color: obj_outl});
-		}else{
-		    $("#motifs-edit #selection-col-hold > .action-link.outl").addClass("ui-disabled");
-		}
-
-	    }else{
-		// (1.) Swap Colour-Pot for Hide links
-		$("#motifs-edit #choose-cpot").fadeIn();
-		$("#motifs-edit #selection-col-hold").fadeOut();
-
-		// (2.) restore old colours
-		if(stored_fill != $FillPicker.colorpicker().toCssString('rgba')){
-		    $FillPicker.colorpicker().destroy();
-		    $FillPicker.colorpicker({color: stored_fill});
-		}
-		if(stored_outl != $OutlPicker.colorpicker().toCssString('rgba')){
-		    $OutlPicker.colorpicker().destroy();
-		    $OutlPicker.colorpicker({color: stored_outl});
-		}
-	    }
-	};
-
-	$("#motifs-edit #selection-col-hold > .action-link").click(function(){
-	    $(this).addClass("ui-disabled");
-	    if($(this).hasClass("fill")){
-		stored_fill = $FillPicker.colorpicker().toCssString('rgba');
-	    }else{
-		stored_outl = $OutlPicker.colorpicker().toCssString('rgba');
-	    }
-	});
-
+	
+	
 	
 
 
@@ -542,6 +558,7 @@ var motifs_edit_init = {
 
 	    //Restore Old colours
 	    MiniColourPickers_LoadfromObj(false);
+	    SelectedFabricObject = null;
 	    
 	    // 2. Defocus the selected element in the list	    
 	    if(!multiple){
