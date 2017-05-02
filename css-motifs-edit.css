@@ -334,6 +334,13 @@ table td.recent-change{
 
 
 /* 5.2 - Customise layout: gridlines settings dropdown*/
+.dropdown#grid-settings .btn-set{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    margin-bottom: 5px;
+    padding: 0px 4px;
+    padding-bottom: 1px;
+}
+
 .dropdown#grid-settings .dropbtn{
     width: 80px;
 }
@@ -457,6 +464,7 @@ table td.recent-change{
     border-bottom: 1px solid rgba(0,0,0,0.5);
     margin-top: 4px;
     position: absolute;
+    height: 66px;
 }
 
 .tools .colours > div{
@@ -486,6 +494,48 @@ table td.recent-change{
     box-shadow: 0 .07em .4em rgba(0,0,0,.8);
 }
 
+.dropdown#choose-cpot{
+    margin: 0px 10px;
+}
+
+.dropdown#choose-cpot .dropbtn{
+    width: 80px;
+}
+
+.dropdown#choose-cpot .dropdown-content{
+    width: 131px;
+}
+
+.dropdown#choose-cpot button{
+    width: 58px;
+}
+
+.dropdown#choose-cpot .j-note{
+    padding: 4px 12px;
+}
+
+.dropdown#choose-cpot #cpot-fill-vs-outl{
+    padding: 4px;
+    padding-bottom: 2px;
+}
+
+.dropdown#choose-cpot .choose-fill-outl{
+    margin-left: 4px;
+    font-weight: bold;
+}
+
+.tools .colours #selection-col-hold > div{
+    position: absolute;
+    top: 43px;
+}
+
+.tools .colours .fill{
+    left: 14px;
+}
+
+.tools .colours .outl{
+    left: 63px;
+}
 
 
 

@@ -504,13 +504,6 @@ text-decoration: underline;
 
 
 /* 8.3 styling elements inside dropdown: Buttons */
-.dropdown.plain .btn-set{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
-    margin-bottom: 5px;
-    padding: 0px 4px;
-    padding-bottom: 1px;
-}
-
 .dropdown.plain .dropdown-content button{
     border: none;
     margin: 2px 1px;
@@ -542,6 +535,11 @@ text-decoration: underline;
     color: rgba(39, 58, 124, 0.65);
 }
 
+.dropdown.plain .dropdown-content div.j-note{
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(39, 58, 124, 0.65);
+}
 
 
 /* 8.5 styling elements inside dropdown: Inputs */

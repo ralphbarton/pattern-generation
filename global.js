@@ -160,11 +160,6 @@ $(document).ready(function() {
     //go straight to CP edit
     $("#view-cp-table tbody tr").first().click();
     $("#cp-view-table-buttons #edit").click();
-
-    //go straight to Motifs ( = 6th tab...)
-    $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click();
-    // --> and into Motif EDIT
-    $("#motifs-view .table-buttons #edit").click();
 */
 
     //go straight to a particular tab...
@@ -180,6 +175,7 @@ $(document).ready(function() {
     // 9 - Options
     // 10 - Tutorial
     $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click();
+    $("#motifs-view .table-buttons #edit").click();    // --> and into Motif EDIT
     
 });
 

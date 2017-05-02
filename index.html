@@ -711,7 +711,7 @@
 
 
 		  <div id="motif-grid-lock" class="act-mutex">
-		    Lock to Grid:<div>Off</div><div>On</div>
+		    Snap to Grid:<div>Off</div><div>On</div>
 		  </div>
 		  <div id="motif-axes" class="act-mutex">
 		    Axes:<div>Off</div><div>On</div>
@@ -736,7 +736,7 @@
 		<div class="shapes">
 
 		  <div id="draw-one-many" class="act-mutex">
-		    Dw:<div>one</div><div>many</div>
+		    Draww:<div>one</div><div>many</div>
 		  </div>
 
 		  <div class="button sqr-but" id="obj-ellipse"><img src="icons/motif/shape-icon-ellipse.png"/></div>
@@ -758,6 +758,27 @@
 		    <div class="mini-picker"></div>
 		  </div>
 
+		  <div class="dropdown plain" id="choose-cpot">
+		    <button class="dropbtn">Colour Pot</button>
+		    <div class="dropdown-content">
+		      <div class="j-note">
+			Using this tool colour pot pick is made at draw-time. From then it is a static colour.
+		      </div>
+		      <div id="cpot-fill-vs-outl">
+			<div>Choose for:</div>
+			<button class="fill">Fill</button>
+			<button class="outl">Outline</button>
+		      </div>
+		      <div id="cpot-available" style="display:none;"></div>
+		    </div>
+		  </div>
+
+		  <div id="selection-col-hold" style="display:none;">
+		    <div class="action-link fill">Hold</div>
+		    <div class="action-link outl">Hold</div>
+		  </div>
+
+		  
 		</div>
 
 

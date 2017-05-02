@@ -192,12 +192,90 @@ var motifs_edit_init = {
 
 	/// 3.x colour pickers...
 	$("#motifs-edit .fill .mini-picker").colorpicker({
-	    color: 'rgba(255, 179, 0, 0.5)',
+	    color: 'rgba(255, 179, 0, 0.5)'
 	});
 
 	$("#motifs-edit .outl .mini-picker").colorpicker({
-	    color: 'rgb(86, 26, 216)',
+	    color: 'rgb(86, 26, 216)'
 	});
+
+	// 3.x Initialise CPOT dropdown
+	// this could be either the "Fill" or "Outline" button...
+	$("#motifs-edit #choose-cpot .dropdown-content button").click(function(){
+	    $("#cpot-fill-vs-outl").slideUp();
+	    var button_class = $(this).attr("class");
+	    button_class = (button_class == "outl") ? "Outline" : "Fill";
+	    $("#cpot-available")
+		.html("")
+		.append(
+		    $("<div/>")
+			.addClass("choose-fill-outl")
+			.text("Choose " + button_class),
+		    DM.ColourPotArray.map(function(POT, i){
+			return $("<a/>")
+		    	    .attr("class","motif-static-cpot")
+			    .attr("href","#")
+		    	    .attr("id","cpot-#"+i)
+			    .text(POT.description);
+		    })
+		)
+		.slideDown();
+	});
+
+	$("#motifs-edit #choose-cpot").on("mouseleave", function(){
+	    $("#cpot-fill-vs-outl").show();
+	    $("#cpot-available").hide();
+	});
+
+	var stored_fill = null;
+	var stored_outl = null;
+	var MiniColourPickers_LoadfromObj = function(fObj){	    
+
+	    var $FillPicker = $("#motifs-edit .fill .mini-picker");
+	    var $OutlPicker = $("#motifs-edit .outl .mini-picker");
+	    
+	    if(fObj){
+		// (1.) Swap Colour-Pot for Hide links
+		$("#motifs-edit #choose-cpot").fadeOut();
+		$("#motifs-edit #selection-col-hold").fadeIn();
+
+		// (2.) store old colours
+		stored_fill = $FillPicker.colorpicker().toCssString('rgba');
+		stored_outl = $OutlPicker.colorpicker().toCssString('rgba');
+
+		// (3.) Load Object Colours
+		var obj_fill = fObj.fill;
+		var obj_outl = fObj.stroke;
+		
+		// (4.) Load Object Colours
+		// (set a new colour by destroying and recreating)
+		if(obj_fill){
+		    $FillPicker.colorpicker().destroy();
+		    $FillPicker.colorpicker({color: obj_fill});
+		}
+		if(obj_outl){
+		    $OutlPicker.colorpicker().destroy();
+		    $OutlPicker.colorpicker({color: obj_outl});
+		}
+
+	    }else{
+		// (1.) Swap Colour-Pot for Hide links
+		$("#motifs-edit #choose-cpot").fadeIn();
+		$("#motifs-edit #selection-col-hold").fadeOut();
+
+		// (2.) restore old colours
+		if(stored_fill != $FillPicker.colorpicker().toCssString('rgba')){
+		    $FillPicker.colorpicker().destroy();
+		    $FillPicker.colorpicker({color: stored_fill});
+		}
+		if(stored_outl != $OutlPicker.colorpicker().toCssString('rgba')){
+		    $OutlPicker.colorpicker().destroy();
+		    $OutlPicker.colorpicker({color: stored_outl});
+		}
+	    }
+	};
+
+	
 
 
 	// 4. Initialise ACTION LINKS
@@ -308,7 +386,7 @@ var motifs_edit_init = {
 	$("#motifs-edit #grid-settings .btn-set.system > button.cartesian").click();
 
 
-
+	
 
 
 	// 5. FABRIC...
@@ -320,15 +398,6 @@ var motifs_edit_init = {
 
 	// Disables the locked aspect ratio scaling when dragging corner-points, which is the default behaviour
 	canvas.uniScaleTransform = true;
-
-
-
-	// 6. Other initialisation steps relating to the Motif
-
-	// 6.1. Generate in-memory the property sets relevant to the different shapes (triange circle etc.)
-	motifs_props.init_props_lists_per_shape();
-
-
 
 
 
@@ -413,7 +482,10 @@ var motifs_edit_init = {
 	    // 1. Snapshot selected element
 	    var multiple = ApplyToSelectedFabricObjects(
 		options.target,
-		function(fObj){Fabric_Obj_Snapshot(fObj);}
+		function(fObj){
+		    Fabric_Obj_Snapshot(fObj);
+		    MiniColourPickers_LoadfromObj(fObj);//Load Object colours
+		}
 	    );
 
 	    // 2. Focus the selected element in the list
@@ -425,7 +497,7 @@ var motifs_edit_init = {
 		    autoScroll: true,
 		    focusHighlight: true
 		});
-	    }	    
+	    }
 	});
 
 	
@@ -444,9 +516,12 @@ var motifs_edit_init = {
 		    //defer the action by 1ms, to allow the selection clear to complete.
 		    setTimeout(function(){
 			Save_Fabric_Obj_Transform(fObj);
+			MiniColourPickers_LoadfromObj(false);//Restore Old colours
 		    }, 1);
 		}
 	    );
+
+
 	    // 2. Defocus the selected element in the list	    
 	    if(!multiple){
 		var PGTuid = options.target.PGTuid;
@@ -552,6 +627,12 @@ var motifs_edit_init = {
 	draw_diagonal_lines(15, "small");
 	draw_diagonal_lines(45, "medium");
 	draw_diagonal_lines(90, "large");
+
+
+	// X. Other initialisation steps relating to the Motif
+
+	// X.x Generate in-memory the property sets relevant to the different shapes (triange circle etc.)
+	motifs_props.init_props_lists_per_shape();
 
 
     }
