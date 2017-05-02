@@ -41,9 +41,9 @@ var motifs_edit_init = {
 	};
 
 	var tool_selection_message_strings = {
-	    "obj-ellipse": "Ellipse Tool. Hold CTRL to draw a circle",
-	    "obj-rectangle": "Rectangle Tool. Hold CTRL to draw a square",
-	    "obj-triangle": "Isosceles Triangle Tool. Hold CTRL to draw an equilateral triangle",
+	    "obj-ellipse": "Ellipse Tool. Hold CTRL to draw circle",
+	    "obj-rectangle": "Rectangle Tool. Hold CTRL to draw square",
+	    "obj-triangle": "Triangle Tool. Hold CTRL to draw equilateral triangle",
 	};
 	$("#motifs-edit .tools .button").click(function(){
 	    var was_on = $(this).hasClass("sel");
@@ -70,14 +70,15 @@ var motifs_edit_init = {
 	    var w = Math.abs(now_x - start_x);
 	    var h = Math.abs(now_y - start_y)
 	    var AR = tool_id == "obj-triangle" ? 0.866 : 1;
-	    w = bRegular ? Math.min(w, h/AR) : w;
-	    h = bRegular ? Math.min(h, w*AR) : h;
+	    var dim = (w+h/AR)/2
+	    w = bRegular ? dim : w;
+	    h = bRegular ? dim*AR : h;
 	    
 	    return {
 		width: w,
-		left: (start_x < now_x ? start_x : now_x),
-		height: w,
-		top: (start_y < now_y ? start_y : now_y)
+		left: (start_x < now_x ? start_x : (start_x-w)),
+		height: h,
+		top: (start_y < now_y ? start_y : (start_y-h))
 	    };
 	};
 
@@ -599,22 +600,31 @@ var motifs_edit_init = {
 	});
 
 	
-    // Fabric Object Event 3: Modify
-    // this event is triggerd one the modification activity is completed.
-    canvas.on('object:modified', function(options) {	    
-	if (!options.target) {return;}
-	var multiple = (options.target.PGTuid === undefined);
-	if(!multiple){
-	    ApplyToSelectedFabricObjects(
-		options.target,
-		function(fObj){Save_Fabric_Obj_Transform(fObj);}
-	    );
-	}else{
-	    global.toast("Transformation og multiple objects will be saved upon de-selection");
-	}
-    });
+	// Fabric Object Event 3: Modification (Object Transformation) completed
+	// this event is triggerd one the modification activity is completed.
+	canvas.on('object:modified', function(options) {	    
+	    if (!options.target) {return;}
+	    var multiple = (options.target.PGTuid === undefined);
+	    if(!multiple){
+		ApplyToSelectedFabricObjects(
+		    options.target,
+		    function(fObj){Save_Fabric_Obj_Transform(fObj);}
+		);
+	    }else{
+		global.toast("Transformation of multiple objects will be saved only upon group de-selection");
+	    }
+	    bRescalingToastShownAlready = false;
+	});
 
-
+	
+	// Fabric Object Event 4: Rescale in-progress
+	// fired continuously during object scaling
+	var bRescalingToastShownAlready = false;
+	canvas.on('object:scaling', function(options) {	    
+	    if (!options.target || bRescalingToastShownAlready) {return;}
+	    global.toast("Hold CTRL to lock aspect-ratio during rescaling")
+	    bRescalingToastShownAlready = true;
+	});
 
 
 
