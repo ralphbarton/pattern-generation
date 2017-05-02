@@ -40,11 +40,19 @@ var motifs_edit_init = {
 	    }
 	};
 
+	var tool_selection_message_strings = {
+	    "obj-ellipse": "Ellipse Tool. Hold CTRL to draw a circle",
+	    "obj-rectangle": "Rectangle Tool. Hold CTRL to draw a square",
+	    "obj-triangle": "Isosceles Triangle Tool. Hold CTRL to draw an equilateral triangle",
+	};
 	$("#motifs-edit .tools .button").click(function(){
 	    var was_on = $(this).hasClass("sel");
 	    $("#motifs-edit .tools .button").removeClass("sel");
 	    $(this).toggleClass("sel", !was_on);// now either 1 or 0 of the buttons is lit up
-	    set_Tool( $("#motifs-edit .tools .button.sel").attr("id") );
+	    var tool_id = $("#motifs-edit .tools .button.sel").attr("id");
+	    set_Tool( tool_id );
+	    var tool_msg = tool_selection_message_strings[ tool_id ];
+	    if(tool_msg){global.toast(tool_msg);}
 	});
 
 
@@ -57,12 +65,18 @@ var motifs_edit_init = {
 	});
 
 
-	var rect_params = function(start_x, start_y, now_x, now_y){
+	var rect_params = function(start_x, start_y, now_x, now_y, bRegular, tool_id){
 	    // Logic here to handle when the mouse moves above/left of the point clicked...
+	    var w = Math.abs(now_x - start_x);
+	    var h = Math.abs(now_y - start_y)
+	    var AR = tool_id == "obj-triangle" ? 0.866 : 1;
+	    w = bRegular ? Math.min(w, h/AR) : w;
+	    h = bRegular ? Math.min(h, w*AR) : h;
+	    
 	    return {
-		width: Math.abs(now_x - start_x),
+		width: w,
 		left: (start_x < now_x ? start_x : now_x),
-		height: Math.abs(now_y - start_y),
+		height: w,
 		top: (start_y < now_y ? start_y : now_y)
 	    };
 	};
@@ -84,7 +98,14 @@ var motifs_edit_init = {
 		var canv_mou_x = event.pageX - canv_page_coords.left;
 		var canv_mou_y = event.pageY - canv_page_coords.top;
 
-		var MyShapeProps = rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y);
+		var MyShapeProps = rect_params(
+		    mousedown_left,
+		    mousedown_top,
+		    canv_mou_x,
+		    canv_mou_y,
+		    global.keys.CTRL,
+		    Tool_selected
+		);
 
 		//shape is larger that the minimum acceptable size threshold
 		if((MyShapeProps.width >= 3) && (MyShapeProps.height >= 3)){
@@ -140,13 +161,20 @@ var motifs_edit_init = {
 	    
 	    //this coordinates are relative to the Document (i.e. (I think) the window)
 	    var canv_page_coords = $("#motifs-edit .interceptor").offset();
+	    
 	    var canv_mou_x = event.pageX - canv_page_coords.left;
 	    var canv_mou_y = event.pageY - canv_page_coords.top;
-
+	    
 	    //only do when mouse is clicked...
 	    if(mousedown_left != undefined){
 		$("#motifs-edit .interceptor > div").css(
-		    rect_params(mousedown_left, mousedown_top, canv_mou_x, canv_mou_y)
+		    rect_params(mousedown_left,
+				mousedown_top,
+				canv_mou_x,
+				canv_mou_y,
+				global.keys.CTRL,
+				Tool_selected
+			       )
 		);
 	    }
 
