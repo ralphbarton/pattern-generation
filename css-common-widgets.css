@@ -82,7 +82,11 @@
 
 /*greyish colour for disabled link*/
 .act-mutex div{
-    padding: 0px 4px;
+    padding: 0px 4px; 
+}
+
+.act-mutex div,
+div.action-link.ui-disabled{
     display: inline-block;
     text-decoration: underline;
     color: rgba(0,30,70,0.5);

@@ -229,16 +229,18 @@ var motifs_edit_init = {
 
 	var stored_fill = null;
 	var stored_outl = null;
-	var MiniColourPickers_LoadfromObj = function(fObj){	    
+	var $FillPicker = $("#motifs-edit .fill .mini-picker");
+	var $OutlPicker = $("#motifs-edit .outl .mini-picker");
 
-	    var $FillPicker = $("#motifs-edit .fill .mini-picker");
-	    var $OutlPicker = $("#motifs-edit .outl .mini-picker");
+	var MiniColourPickers_LoadfromObj = function(fObj){
 	    
 	    if(fObj){
 		// (1.) Swap Colour-Pot for Hide links
 		$("#motifs-edit #choose-cpot").fadeOut();
 		$("#motifs-edit #selection-col-hold").fadeIn();
-
+		$("#motifs-edit #selection-col-hold").fadeIn();
+		$("#motifs-edit #selection-col-hold > .action-link").removeClass("ui-disabled");
+		
 		// (2.) store old colours
 		stored_fill = $FillPicker.colorpicker().toCssString('rgba');
 		stored_outl = $OutlPicker.colorpicker().toCssString('rgba');
@@ -252,10 +254,14 @@ var motifs_edit_init = {
 		if(obj_fill){
 		    $FillPicker.colorpicker().destroy();
 		    $FillPicker.colorpicker({color: obj_fill});
+		}else{
+		    $("#motifs-edit #selection-col-hold > .action-link.fill").addClass("ui-disabled");
 		}
 		if(obj_outl){
 		    $OutlPicker.colorpicker().destroy();
 		    $OutlPicker.colorpicker({color: obj_outl});
+		}else{
+		    $("#motifs-edit #selection-col-hold > .action-link.outl").addClass("ui-disabled");
 		}
 
 	    }else{
@@ -274,6 +280,15 @@ var motifs_edit_init = {
 		}
 	    }
 	};
+
+	$("#motifs-edit #selection-col-hold > .action-link").click(function(){
+	    $(this).addClass("ui-disabled");
+	    if($(this).hasClass("fill")){
+		stored_fill = $FillPicker.colorpicker().toCssString('rgba');
+	    }else{
+		stored_outl = $OutlPicker.colorpicker().toCssString('rgba');
+	    }
+	});
 
 	
 
@@ -477,6 +492,7 @@ var motifs_edit_init = {
 	
 	
 	// Fabric Object Event 1: Select
+	var SelectedFabricObject = null;
 	canvas.on('object:selected', function(options) {
 	    if (!options.target) {return;}
 	    // 1. Snapshot selected element
@@ -484,7 +500,6 @@ var motifs_edit_init = {
 		options.target,
 		function(fObj){
 		    Fabric_Obj_Snapshot(fObj);
-		    MiniColourPickers_LoadfromObj(fObj);//Load Object colours
 		}
 	    );
 
@@ -497,6 +512,11 @@ var motifs_edit_init = {
 		    autoScroll: true,
 		    focusHighlight: true
 		});
+
+		//Load Object colours - we only execute in the case of single-object selection.
+		MiniColourPickers_LoadfromObj(options.target);
+		//hold object reference, to suppor colour change...
+		SelectedFabricObject = options.target;
 	    }
 	});
 
@@ -516,12 +536,13 @@ var motifs_edit_init = {
 		    //defer the action by 1ms, to allow the selection clear to complete.
 		    setTimeout(function(){
 			Save_Fabric_Obj_Transform(fObj);
-			MiniColourPickers_LoadfromObj(false);//Restore Old colours
 		    }, 1);
 		}
 	    );
 
-
+	    //Restore Old colours
+	    MiniColourPickers_LoadfromObj(false);
+	    
 	    // 2. Defocus the selected element in the list	    
 	    if(!multiple){
 		var PGTuid = options.target.PGTuid;
