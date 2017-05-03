@@ -433,7 +433,12 @@ var motifs_edit_init = {
 	    function(){ GridlinesEnable(true); }
 	]);
 
-	
+	var GridSnappingActive = false;
+	$("#motifs-edit .act-mutex#motif-grid-snap").MutexActionLink([0,1], [
+	    function(){ GridSnappingActive = false; },
+	    function(){ GridSnappingActive = true; }
+	]);
+
 	
 	// 4.4.1 - Controlling line faintness
 	$("#motifs-edit #grid-settings .btn-set.weight > button").click(function(){
@@ -443,6 +448,7 @@ var motifs_edit_init = {
 	});
 
 	// 4.4.2 - Controlling grid size
+	var CartesianGridSizes = [10, 25, 50];
 	$("#motifs-edit #grid-settings .btn-set.size > button").click(function(){
 	    var btn_class = $(this).attr("class");
 
@@ -450,6 +456,10 @@ var motifs_edit_init = {
 	    d3.selectAll("#Motif svg g.gridlines g.small").classed("hidden", btn_class != "small");
 	    d3.selectAll("#Motif svg g.gridlines g.medium").classed("hidden", btn_class != "medium");
 	    d3.selectAll("#Motif svg g.gridlines g.large").classed("hidden", btn_class != "large");
+
+	    //change the variable used for snapping...
+	    var size_index = (btn_class == "small") ? 0 : ((btn_class == "medium") ? 1 : 2);
+	    GridSize = CartesianGridSizes[size_index];
 	});
 
 	//auto-click the medium button (necessary to hide the other two grids).
@@ -551,12 +561,21 @@ var motifs_edit_init = {
 		"line":     {Qx: "width", Qy: "height" }
 	    }, function( shape_type, props ) {//applied for each shape type
 		if(fObj.type != shape_type){return;}
+		if(fObj.type == "polygon"){
+		    // polygon points cannot be dynamically changed.
+		    // So, we deleted and redrawn on Canvas?
+		    // this does raise the question, might scaleX and scaleY be of some use...
+		    
+		    return;
+		}
+
 		if(fObj.scaleX != 1){
-		    fObj[props.Qx] = Math.round(fObj[props.Qx] * fObj.scaleX, 0);
+		    // 0 d.p. here seems inconsistent
+		    fObj[props.Qx] = Math.round(fObj[props.Qx] * fObj.scaleX);
 		    fObj.scaleX = 1;
 		}
 		if(fObj.scaleY != 1){
-		    fObj[props.Qy] = Math.round(fObj[props.Qy] * fObj.scaleY, 0);
+		    fObj[props.Qy] = Math.round(fObj[props.Qy] * fObj.scaleY);
 		    fObj.scaleY = 1;
 		}
 	    });
@@ -662,12 +681,36 @@ var motifs_edit_init = {
 	// fired continuously during object scaling
 	var bRescalingToastShownAlready = false;
 	canvas.on('object:scaling', function(options) {	    
-	    if (!options.target || bRescalingToastShownAlready) {return;}
-	    global.toast("Hold CTRL to lock aspect-ratio during rescaling")
-	    bRescalingToastShownAlready = true;
+	    //show a toast, once.
+	    if(options.target && (!bRescalingToastShownAlready)){
+		global.toast("Hold CTRL to lock aspect-ratio during rescaling")
+		bRescalingToastShownAlready = true;
+	    }
+
+	    // snapping the size...
+	    // for now, let's only do this for Rectangle...
+	    var fObj = options.target;
+	    if((fObj.type == "rect") && GridSnappingActive){
+		var expanded_rounded_w = Math.round((fObj.width * fObj.scaleX) / GridSize) * GridSize;
+		var expanded_rounded_h = Math.round((fObj.height * fObj.scaleY) / GridSize) * GridSize; 
+		fObj.set({
+		    scaleX: (expanded_rounded_w / fObj.width),
+		    scaleY: (expanded_rounded_h / fObj.height)
+		});
+	    }
+
 	});
 
 
+	// snapping position to grid
+	canvas.on('object:moving', function(options) {
+	    if(GridSnappingActive){
+		options.target.set({
+		    left: Math.round(options.target.left / GridSize) * GridSize,
+		    top: Math.round(options.target.top / GridSize) * GridSize
+		});
+	    }
+	});
 
 
 	// INITIATE the SVG gridlines under the canvas... 
@@ -710,9 +753,9 @@ var motifs_edit_init = {
 	    }
 	};
 
-	draw_grid(10, "small");
-	draw_grid(25, "medium");
-	draw_grid(50, "large");
+	draw_grid(CartesianGridSizes[0], "small");
+	draw_grid(CartesianGridSizes[1], "medium");
+	draw_grid(CartesianGridSizes[2], "large");
 
 
 	var draw_circles = function(size, size_str){
