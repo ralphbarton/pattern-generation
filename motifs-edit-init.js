@@ -114,8 +114,8 @@ var motifs_edit_init = {
 		    //Extend the shape properties object...
 		    $.extend(MyShapeProps, {
 			shape: Tool_selected,
-			fill:   $("#motifs-edit .fill .mini-picker").colorpicker().toCssString('rgba'),
-			stroke: $("#motifs-edit .outl .mini-picker").colorpicker().toCssString('rgba'),
+			fill:   getUserColour("fill"),
+			stroke: getUserColour("outl"),
 			strokeWidth: 4
 		    });
 
@@ -222,6 +222,7 @@ var motifs_edit_init = {
 	/// 3.x colour pickers...
 	var $FillPicker = $("#motifs-edit .fill .mini-picker");
 	var $OutlPicker = $("#motifs-edit .outl .mini-picker");
+	var CPOT_override = [null, null]; // El 0 is outl, EL 1 is fill.
 	
 	var Init_picker = function(fill_outl, colourStr){
 	    var isFill = fill_outl == "fill";
@@ -231,12 +232,24 @@ var motifs_edit_init = {
 	    if($Picker.hasClass("colorpicker")){
 		$Picker.colorpicker().destroy();//destroy existing
 	    }
-	    $Picker.colorpicker({color: colourStr});//create new
+
+	    var X = tinycolor(colourStr).toRgb();// I think the mini-picker is extremely fussy on colour format...
+	    $Picker.colorpicker({//create new picker...
+		color: {r: (X.r/255), g: (X.g/255), b: (X.b/255), a: X.a}
+	    });
+	    CPOT_override[(isFill+0)] = null;// Reset Picker Colour => clear any colour pots
+	    
+	    //Add the 'onmove' callback function to the Picker
+	    // -> Fabric Object colour may be changed with picker colour move
 	    $Picker.on('newcolor', function (ev, colorpicker) {
-		chg = {};
-		chg[key] = colorpicker.toCssString();
-		// Update affects: 1. Fabric;  2. DM;  3. HTML
-		motifs_edit.updateMotifElement(SelectedFabricObject.PGTuid, chg);
+		if(SelectedFabricObject){
+		    chg = {};
+		    chg[key] = colorpicker.toCssString();
+		    // Update affects: 1. Fabric;  2. DM;  3. HTML
+		    motifs_edit.updateMotifElement(SelectedFabricObject.PGTuid, chg);
+		}
+		// Move Picker Colour => clear any colour pots
+		CPOT_override[(isFill+0)] = null;
 	    });
 	};
 
@@ -249,7 +262,7 @@ var motifs_edit_init = {
 	var MiniColourPickers_LoadfromObj = function(fObj){
 	    
 	    if(fObj){
-		// (1.) Swap Colour-Pot for Hide links
+		// (1.) Hide "Colour-Pot" and show instead 2x "Hold" links
 		$("#motifs-edit #choose-cpot").fadeOut();
 		$("#motifs-edit #selection-col-hold").fadeIn();
 		$("#motifs-edit #selection-col-hold").fadeIn();
@@ -277,16 +290,18 @@ var motifs_edit_init = {
 		}
 
 	    }else{
-		// (1.) Swap Colour-Pot for Hide links
+		// (1.) Show "Colour-Pot" and hide the 2x "Hold" links
 		$("#motifs-edit #choose-cpot").fadeIn();
 		$("#motifs-edit #selection-col-hold").fadeOut();
 
 		// (2.) restore old colours
 		if(stored_fill != $FillPicker.colorpicker().toCssString('rgba')){
 		    Init_picker("fill", stored_fill);
+		    stored_fill = null;
 		}
 		if(stored_outl != $OutlPicker.colorpicker().toCssString('rgba')){
 		    Init_picker("outl", stored_outl);
+		    stored_outl = null;
 		}
 	    }
 	};
@@ -301,6 +316,21 @@ var motifs_edit_init = {
 	});
 
 
+	var getUserColour = function(fill_key){
+	    var isFill = (fill_key == "fill") + 0;
+	    var chk_key = isFill ? "fill" : "outl";
+	    
+	    if (CPOT_override[isFill] === null){ // case 1: return the const. colour from picker.
+		return $("#motifs-edit ."+chk_key+" .mini-picker").colorpicker().toCssString('rgba');
+
+	    }else{ // case 2: draw from colour pot
+		var POT = DM.ColourPotArray[ CPOT_override[isFill] ];
+		return cpot_util.DrawFromColourPot( POT );
+	    }
+
+	};
+
+
 
 
 	// 3.x Initialise CPOT dropdown
@@ -308,12 +338,14 @@ var motifs_edit_init = {
 	$("#motifs-edit #choose-cpot .dropdown-content button").click(function(){
 	    $("#cpot-fill-vs-outl").slideUp();
 	    var button_class = $(this).attr("class");
-	    button_class = (button_class == "outl") ? "Outline" : "Fill";
+	    var isFill = button_class == "fill";
+	    button_class = isFill ? "Fill" : "Outline";
 	    $("#cpot-available")
 		.html("")
 		.append(
 		    $("<div/>")
 			.addClass("choose-fill-outl")
+			.data({isFill: isFill})
 			.text("Choose " + button_class),
 		    DM.ColourPotArray.map(function(POT, i){
 			return $("<a/>")
@@ -331,7 +363,16 @@ var motifs_edit_init = {
 	    $("#cpot-available").hide();
 	});
 
-
+	$("#motifs-edit #choose-cpot #cpot-available").click(function(ev){
+	    var $target = $(ev.target);
+	    if( $target.is('a') ){
+		var isFill = $(this).find(".choose-fill-outl").data("isFill");
+		var cpot_index = parseInt( $target.attr("id").replace("cpot-#", "") );
+		var POT = DM.ColourPotArray[ cpot_index ];
+		global.toast('Colour pot "'+POT.description+'" chosen as '+(isFill?"fill":"outline")+' colour');
+		CPOT_override[(isFill+0)] = cpot_index;
+	    }
+	});
 
 	
 	
