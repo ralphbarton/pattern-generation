@@ -116,17 +116,19 @@ var motifs_view = {
 	    
 	    //Create an Ellipse
 	    if(E.shape == "obj-ellipse"){
-		
+
+		//an angle may not be in data passed...
 		d3_svg.append("ellipse").attr("class","some-obj")
 		    .attr("cx", E.left + E.rx)
 		    .attr("cy", E.top + E.ry)
 		    .attr("rx", E.rx)
 		    .attr("ry", E.ry)
 		    .style("fill", E.fill)
+		    .attr("transform", "rotate("+(E.angle||0)+", "+E.left+", "+E.top+")")
 		    .style("stroke", E.stroke);
-
+		
 	    }else if(E.shape == "obj-rectangle"){
-
+		
 		//Create a Rectangle
 		d3_svg.append("rect").attr("class","some-obj")
 		    .attr("x", E.left)
@@ -134,6 +136,7 @@ var motifs_view = {
 		    .attr("width", E.width)
 		    .attr("height", E.height)
 		    .style("fill", E.fill)
+		    .attr("transform", "rotate("+(E.angle||0)+", "+E.left+", "+E.top+")")
 		    .style("stroke", E.stroke);
 
 	    }

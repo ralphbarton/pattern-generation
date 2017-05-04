@@ -316,7 +316,7 @@ var motifs_props = {
 		top: props.top,
 		fill: props.fill,
 		rx: props.rx,
-		ry: props.ry		
+		ry: props.ry,
 	    });
 
 	}else if(props.shape == "obj-rectangle"){//rectangle
@@ -347,8 +347,7 @@ var motifs_props = {
 		], {
 		    left: props.left,
 		    top: props.top,
-//		    angle: 0,
-		    fill: props.fill
+		    fill: props.fill,
 		}
 	    );
 
@@ -357,7 +356,7 @@ var motifs_props = {
 	    new_shape = new fabric.Line();
 	    new_shape.set({
 		strokeWidth: props.strokeWidth,
-		stroke: 'black'
+		stroke: 'black',
 	    });
 
 	}
@@ -370,9 +369,12 @@ var motifs_props = {
 		stroke: (props.strokeWidth != undefined) ? props.stroke : null, //Fabric assumes strokeWidth 1 if stroke supplied
 		strokeWidth: props.strokeWidth || null,// undefined causes problems but null OK!
 		width: props.width,
-		height: props.height,
-
+		height: props.height
 	    });
+	}
+
+	if(props.angle){
+	    new_shape.set({angle: props.angle});
 	}
 
 	//set UID according to value provided.
