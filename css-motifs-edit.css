@@ -31,7 +31,7 @@
 }
 
 #Motif .bg-layer.ly2{
-   background: white;
+    background: white;
 }
 
 #Motif .bg-layer.ly3{
@@ -80,7 +80,7 @@
 }
 
 #motifs-edit #params th{
-      padding: 0px 10px;
+    padding: 0px 10px;
 }
 
 
@@ -193,7 +193,7 @@ img.delete-m-elem{
 
 img.delete-m-elem:hover{
     opacity: 1;
-  filter: saturate(8) hue-rotate(120deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
+    filter: saturate(8) hue-rotate(120deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
 }
 
 
@@ -412,8 +412,13 @@ table td.recent-change{
     font-size: 0;
 }
 
-.tools .shapes{
-    padding: 0px 3px;
+#motifs-edit .tools .subcat{
+    padding: 3px;
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+}
+
+#motifs-edit .tools .shapes{
+    padding-top: 0px;
 }
 
 .shapes .act-mutex#draw-one-many{
@@ -458,10 +463,46 @@ table td.recent-change{
     opacity: 1;
 }
 
+/* Line Thickness Picker */
+#motifs-edit .sqr-but#line-width img{
+    top: 1px;
+    left: -1px;
+}
 
-.tools .colours{
-    border-top: 1px solid rgba(0,0,0,0.5);
-    border-bottom: 1px solid rgba(0,0,0,0.5);
+.hoverbutton{
+    position: relative;
+    margin: 2px;
+}
+
+.hoverbutton .menu-content{
+    display: none;
+    position: absolute;
+    left: 26px;
+    top: 0px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 0px 4px 4px 4px;
+    font-size: 12px;
+    z-index: 1;
+    background: #ddd;
+}
+
+.hoverbutton:hover .menu-content{
+    display: block;
+}
+
+#motifs-edit .hoverbutton .sqr-but{
+    margin: 0px;
+}
+
+#motifs-edit .line-width:hover .sqr-but{
+    border-radius: 4px 0px 0px 4px;
+}
+
+
+
+#motifs-edit .tools .colours{
+    padding: 0px;
     margin-top: 4px;
     position: absolute;
     height: 66px;
@@ -485,12 +526,12 @@ table td.recent-change{
 }
 
 .mini-picker .maximize-wrapper {
-  padding: 0;
-  transition: padding 0.5s, border-radius 0.5s;
+    padding: 0;
+    transition: padding 0.5s, border-radius 0.5s;
 }
 
 .mini-picker.expanded .maximize-wrapper {
-  padding: 0.4em;
+    padding: 0.4em;
     box-shadow: 0 .07em .4em rgba(0,0,0,.8);
 }
 
