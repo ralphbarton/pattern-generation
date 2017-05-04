@@ -192,7 +192,14 @@ var motifs_props = {
 	    motifs_edit.deleteMotifElement(PGTuid);
 	});
 
+	// 2.3 - Clicking the heading bar selects item on canvas
+	$ME_plist.find(".heading-bar").click(function(){
+	    var canvas = motifs_edit.Fabric_Canvas;
+	    var fObj = $.grep(canvas._objects, function(El){return El.PGTuid == PGTuid;})[0];
+	    canvas.setActiveObject(fObj);
+	});
 
+	
 
 	// 3. Create and populate the tables html...
 
