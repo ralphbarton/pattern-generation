@@ -47,16 +47,13 @@ var motifs_edit = {
 	// this method fires both "before:selection:cleared" and "selection:cleared" events.
 	canvas.deactivateAllWithDispatch();
 
-	//defer the action by 8ms, allowing callbacks on selection clear (i.e. save transforms) to complete.
-	setTimeout(function(){
-	    canvas.clear();
-	    if(options.save){
-		//these functions would normally be part of the button click handler...
-		// i.e. cb atached to #motifs-edit .main-buttons #done
-		DM.save_editing_Motif(motifs_view.selected_row_i);
-		motifs_view.regenerate_table(); // Visual update
-	    }
-	}, 8);
+	canvas.clear();
+	if(options.save){
+	    //these functions would normally be part of the button click handler...
+	    // i.e. cb atached to #motifs-edit .main-buttons #done
+	    DM.save_editing_Motif(motifs_view.selected_row_i);
+	    motifs_view.regenerate_table(); // Visual update
+	}
 
 
 	// (B) remove old motif element properties table HTML

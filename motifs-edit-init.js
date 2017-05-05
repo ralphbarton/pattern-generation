@@ -678,19 +678,24 @@ var motifs_edit_init = {
 	  before:selection:cleared — fired before selection is cleared (before active group is destroyed)
 	  selection:cleared — fired after selection is cleared (after active group is destroyed)
 	*/
+	var selection_cleared_target = null;
 	canvas.on('before:selection:cleared', function(options) {
-	    if(!options.target || options.target.deleting===true) {return;}
-	    var multiple = (options.target.PGTuid === undefined);
+	    if(!options.target) {return;}
+	    selection_cleared_target = options.target;
+	});
+
+	
+	canvas.on('selection:cleared', function(options) {
+	    var fObj = selection_cleared_target;
+	    selection_cleared_target = null;
+	    if(!fObj || fObj.deleting===true) {return;}
 	    // 1. Save changes
 	    ApplyToSelectedFabricObjects(
-		options.target,
+		fObj,
 		function(fObj){
-		    //defer the action by 1ms, to allow the selection clear to complete.
-		    setTimeout(function(){
-			// if the selection clear CB only called due to Obj delete, "save" is not required.
-			if(fObj.deleting===true) {return;}
-			Save_Fabric_Obj_Transform(fObj);
-		    }, 1);
+		    // if the selection clear CB only called due to Obj delete, "save" is not required.
+		    if(fObj.deleting===true) {return;}
+		    Save_Fabric_Obj_Transform(fObj);
 		}
 	    );
 
@@ -699,8 +704,9 @@ var motifs_edit_init = {
 	    SelectedFabricObject = null;
 	    
 	    // 2. Defocus the selected element in the list	    
+	    var multiple = (fObj.PGTuid === undefined);
 	    if(!multiple){
-		var PGTuid = options.target.PGTuid;
+		var PGTuid = fObj.PGTuid;
 		motifs_props.MotifElem_focusListing(PGTuid, {
 		    focusHighlight: true,
 		    removeHighlight: true
