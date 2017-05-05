@@ -425,7 +425,7 @@ table td.recent-change{
     margin-bottom: 2px;
 }
 
-#motifs-edit .sqr-but{
+#motifs-edit .tools .shapes .sqr-but{
     vertical-align: bottom;
     margin: 2px;
 }
@@ -464,42 +464,40 @@ table td.recent-change{
 }
 
 /* Line Thickness Picker */
-#motifs-edit .sqr-but#line-width img{
-    top: 1px;
-    left: -1px;
-}
-
-.hoverbutton{
-    position: relative;
-    margin: 2px;
-}
-
-.hoverbutton .menu-content{
-    display: none;
-    position: absolute;
-    left: 26px;
+#motifs-edit .line-width .hov-btn img{
     top: 0px;
-    height: 60px;
-    border: 1px solid black;
-    border-radius: 0px 4px 4px 4px;
-    font-size: 12px;
-    z-index: 1;
-    background: #ddd;
+    left: 0px;
 }
 
-.hoverbutton:hover .menu-content{
-    display: block;
+#motifs-edit .line-width .menu-content{
+    width: 70px;
+    font-size: 11px;
+    padding-bottom: 3px;
 }
 
-#motifs-edit .hoverbutton .sqr-but{
-    margin: 0px;
-}
-
-#motifs-edit .line-width:hover .sqr-but{
-    border-radius: 4px 0px 0px 4px;
+.line-width .menu-content .title{
+    padding: 2px 6px;
+    font-weight: bold;
 }
 
 
+
+.line-width .menu-content svg{
+    margin-left: 5px;
+    position: relative;
+    top: 4px;
+}
+
+.line-width .menu-content .cmt{
+    display: inline-block;
+    position: relative;
+    left: 5px;
+    top: -2px;
+}
+
+.line-width .menu-content .row:hover{
+    background: rgba(255,255,255,0.3);
+}
 
 #motifs-edit .tools .colours{
     padding: 0px;

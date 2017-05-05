@@ -19,23 +19,25 @@
 
 /* 02 styling for Buttons */
 
-.button{
+.button,
+.hoverbutton .hov-btn{
     transition: all 0.2s;
     display: inline-block;
     border: 1px solid;
     border-radius: 4px;
-    padding: 3px 14px;
-    margin: 0px 5px;
     cursor:pointer;
-}
-
-.button{
     color: black;
     background: rgba(0,30,70,0.1);
     border-color: rgba(0,30,70,0.4);
 }
 
-.button:hover{
+.button{
+    padding: 3px 14px;
+    margin: 0px 5px;
+}
+
+.button:hover,
+.hoverbutton:hover .hov-btn{
     transition: background 0.2s;
     background: rgba(0,70,180,0.3);
     text-decoration: underline;
@@ -52,9 +54,108 @@
 
 .button.s{
     font-size: 75%;
-      padding: 2px 9px;
+    padding: 2px 9px;
     margin: 0px 1px;  
 }
+
+
+/* These button styles are Fixed Size;
+   contain a single image or text */
+
+.sqr-but, .tiny-btn{
+    padding:0px;
+    color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.sqr-but{
+    width: 25px;
+    height: 25px;
+    margin: 1px;
+}
+
+.tiny-btn{
+    border-radius: 3px;
+    width: 15px;
+    height: 12px;
+    margin: 0px;
+}
+
+.sqr-but > span,
+.tiny-btn span{
+    font-weight: bold;
+    font-size: 33px;
+    position: relative;
+}
+
+.tiny-btn > span{
+    font-size: 15px;
+}
+
+
+.sqr-but img{
+    position: relative;
+    width: 18px;
+    top: 1px;
+    left: -0px;
+    margin: 3px;
+    opacity: 0.3;
+}
+
+.sqr-but:hover,
+.tiny-btn:hover{
+    text-decoration: none;
+}
+
+.sqr-but:hover img{
+    opacity: 0.6;
+}
+
+
+
+
+
+
+.hoverbutton{
+    position: relative;
+    margin: 2px;
+    cursor:pointer;
+}
+
+.hoverbutton .hov-btn{
+    margin: 0px;
+}
+
+.hoverbutton .menu-content{
+    display: none;
+    position: absolute;
+    left: 26px;
+    top: 0px;
+    font-size: 12px;
+    z-index: 1;
+    background: #99A7AE;
+    border: 1px solid #004370;
+    color: #004370;
+    border-radius: 0px 4px 4px 4px;
+}
+
+.hoverbutton:hover .menu-content{
+    display: block;
+
+}
+
+.hoverbutton:hover .sqr-but{
+    border-radius: 4px 0px 0px 4px;
+}
+
+.hoverbutton:hover .sqr-but img{
+    opacity: 0.6;
+}
+
+
+
+
+
 
 
 
@@ -152,7 +253,7 @@ div.boxie.no-title{
     padding-top: 0px;
 }
 
-div.boxie div.title{
+div.boxie > div.title{
     position: absolute;
     display: inline-block;
     top: -10px;
@@ -163,7 +264,7 @@ div.boxie div.title{
     text-align: left;
 }
 
-div.boxie.s div.title{
+div.boxie.s > div.title{
     font-size: 13px;
     top: -9px;
     left: 6px;

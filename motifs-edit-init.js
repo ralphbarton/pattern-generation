@@ -116,7 +116,7 @@ var motifs_edit_init = {
 			shape: Tool_selected,
 			fill:   getUserColour("fill"),
 			stroke: getUserColour("outl"),
-			strokeWidth: 4
+			strokeWidth: MyStrokeThickness
 		    });
 
 		    if(MyShapeProps.shape == "obj-ellipse"){//circle
@@ -217,7 +217,35 @@ var motifs_edit_init = {
 
 
 
+	// Line Thickness picker....
+	var MyStrokeThickness = null;
+	$.each([1,2,3,5,10], function(i, t){
 
+	    var $new_row = $("<div/>").addClass("row");
+	    var hh = 5 + (t%2)/2; // either 5.5 or 5..
+	    
+	    //add the svg
+	    d3.select($new_row[0]).append("svg")
+		.attr("width", 30)
+		.attr("height", 15)
+		.append("line")
+		.attr("x1", 0)
+		.attr("y1", hh)
+		.attr("x2", 30)
+		.attr("y2", hh)
+	    	.attr("stroke", "black")
+	    	.attr("stroke-width", t);
+
+	    $new_row
+		.append( $("<div/>").addClass("cmt").text(t+"px") )
+		.click(function(){
+		    MyStrokeThickness = t;
+		});
+	    
+	    $("#motifs-edit .line-width .menu-content").append($new_row);
+
+	});
+	
 
 	/// 3.x colour pickers...
 	var $FillPicker = $("#motifs-edit .fill .mini-picker");
@@ -319,6 +347,9 @@ var motifs_edit_init = {
 	var getUserColour = function(fill_key){
 	    var isFill = (fill_key == "fill") + 0;
 	    var chk_key = isFill ? "fill" : "outl";
+
+	    //use null Outline colour when stroke thickness is null...
+	    if ( !isFill && (MyStrokeThickness==null) ){return null;}
 	    
 	    if (CPOT_override[isFill] === null){ // case 1: return the const. colour from picker.
 		return $("#motifs-edit ."+chk_key+" .mini-picker").colorpicker().toCssString('rgba');
