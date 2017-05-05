@@ -540,6 +540,8 @@ var motifs_edit_init = {
 
 	// Disables the locked aspect ratio scaling when dragging corner-points, which is the default behaviour
 	canvas.uniScaleTransform = true;
+	//changes "selection key from Shift (default) to CTRL
+	canvas.selectionKey = "ctrlKey";
 
 
 
@@ -627,8 +629,14 @@ var motifs_edit_init = {
 
 	
 	
-	// Fabric Object Event 1: Select
+
+	/*
+	  This variable will be null unless a SINGLE fabric object is selected.
+	  it is accessed when the colourMove event is triggered, changing colour on the selected object
+	 */
 	var SelectedFabricObject = null;
+
+	// Fabric Object Event 1: Select	
 	canvas.on('object:selected', function(options) {
 	    if (!options.target) {return;}
 	    // 1. Snapshot selected element
@@ -641,7 +649,7 @@ var motifs_edit_init = {
 
 	    // 2. Focus the selected element in the list
 	    if(multiple){
-		global.toast("Group selection made");
+		global.toast("Group selection...");
 	    }else{
 		var PGTuid = options.target.PGTuid;
 		motifs_props.MotifElem_focusListing(PGTuid, {
@@ -652,6 +660,7 @@ var motifs_edit_init = {
 		//Load Object colours - we only execute in the case of single-object selection.
 		MiniColourPickers_LoadfromObj(options.target);
 		//hold object reference, to suppor colour change...
+		global.toast("Use CTRL key to select additional objects.");
 		SelectedFabricObject = options.target;
 	    }
 	});
