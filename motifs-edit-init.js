@@ -219,7 +219,6 @@ var motifs_edit_init = {
 
 
 	$("#motif-props-zone .contents").scroll(function() {
-	    console.log("scroll detected...");
 	    $(".m-elem td.bgrins-cell input").spectrum("hide");
 	});
 

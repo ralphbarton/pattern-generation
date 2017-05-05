@@ -245,7 +245,14 @@ var motifs_props = {
 			selectionPalette: [ ],
 			maxSelectionSize: 18,
 			showInitial: true,
-			preferredFormat: "hsl"
+			preferredFormat: "hsl",
+			//Called after the colorpicker is hidden
+			hide: function(tinycolor){
+			    chg = {};
+			    chg[key] = tinycolor.toRgbString()
+			    // Update affects: 1. Fabric;  2. DM;  3. HTML
+			    motifs_edit.updateMotifElement(PGTuid, chg);
+			}
 		    })
 		}, 0);
 		
@@ -302,12 +309,25 @@ var motifs_props = {
 	
 	//use jQuery to iterate over elements of 'DM_changed_props'
 	$.each( DM_changed_props, function( key, value ) {
-	    $ME_plist.find("td.col-valu." + key).text(value);// HTML update
+
+	    $value_cell = $ME_plist.find("td.col-valu." + key);
+	    if($value_cell.hasClass("bgrins-cell")){
+		//Case 1: updating a colour cell...
+		$value_cell.find("input").spectrum("set", value);
+		
+	    }else{
+		//Case 2: updating a text cell...
+		$value_cell.text(value);// HTML update
+
+	    }
+
+	    // Apply highlighting effect (all cases)
 	    $ME_plist.find("td." + key).addClass("recent-change");
 	    //and hold the class for 1 seconds
 	    setTimeout(function(){
 		$ME_plist.find("td." + key).removeClass("recent-change");
 	    }, 1000);
+
 	});
 
     },
