@@ -140,7 +140,7 @@ var motifs_edit_init = {
 		    motifs_props.Fabric_AddShape(new_uid, MyShapeProps);
 
 		    // 3. Add it to the properties listing
-		    motifs_props.AddMotifElem_itemHTML(new_uid, MyShapeProps);
+		    motifs_props.AddMotifElem_itemHTML(new_uid, MyShapeProps, {autoScroll: true});
 
 		    
 		    if(!draw_many){

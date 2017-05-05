@@ -23,7 +23,7 @@ var motifs_edit = {
 	$.each(DM.editing_Motif.Elements, function(index, Properties) {
 	    var uid = Properties.PGTuid;
 	    motifs_props.Fabric_AddShape(uid, Properties);        // Add to Fabric Canvas
-	    motifs_props.AddMotifElem_itemHTML(uid, Properties);  // Add to HTML	    
+	    motifs_props.AddMotifElem_itemHTML(uid, Properties, {autoScroll: false});  // Add to HTML	    
 	});
 	
     },

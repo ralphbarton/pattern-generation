@@ -166,7 +166,7 @@ var motifs_props = {
     },
     
 
-    AddMotifElem_itemHTML: function(PGTuid, properties){
+    AddMotifElem_itemHTML: function(PGTuid, properties, options){
 	
 	// 1. Clone HTML content (from template) to create a new Motif Element properties list
 	var $ME_plist = $( "#motif-props-zone #m-elem-template" ).clone()
@@ -268,7 +268,7 @@ var motifs_props = {
 	$ME_plist.appendTo("#motif-props-zone .contents");
 
 	// 5. auto scroll to the new element
-	this.MotifElem_focusListing(PGTuid, {autoScroll: true});
+	this.MotifElem_focusListing(PGTuid, {autoScroll: options.autoScroll});
     },
 
 
@@ -297,9 +297,16 @@ var motifs_props = {
 
 	// 1. Auto scroll to the Motif Element's Propery Listing
 	if(options.autoScroll){
+	    // (a.) record initial position
+	    var old_elem_TOP = $(".listing-box .contents").scrollTop();
+
+	    // (b.) calculate final position
 	    $(".listing-box .contents").scrollTop(0);
 	    var new_elem_TOP = $ME_plist.position().top - 28;// height offset of 27 pixels...
-	    $(".listing-box .contents").scrollTop(new_elem_TOP);
+
+	    // (c.) animate movement from initial to final...
+	    $(".listing-box .contents").scrollTop(old_elem_TOP);
+	    $(".listing-box .contents").animate({ scrollTop: new_elem_TOP }, 200);
 	}
 
 	// 2. Change styling
