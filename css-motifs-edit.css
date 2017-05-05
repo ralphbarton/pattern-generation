@@ -274,20 +274,27 @@ img.delete-m-elem:hover{
 }
 
 
-table td.recent-change{
+.m-elem table td.recent-change{
     color: #b20000;
     background-color: #fff8a7;
 }
 
-table td div.colour-value{
-    border: 1px solid black;
-    width: 30px;
-    height: 10px;
+.m-elem table .sp-replacer{
+    background: white;
+    border: none;
+    padding: 0px;
+    height: 13px;
 }
 
+.m-elem table .sp-replacer .sp-preview{
+    width: 40px;
+    height: 11px;
+}
 
-
-
+.m-elem table .sp-dd{
+    position: relative;
+    top: -3px;
+}
 
 
 

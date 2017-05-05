@@ -225,12 +225,20 @@ var motifs_props = {
 		return $td.text(val);
 
 	    }else if(PropertyInfo.fn === "col"){// colour properties are like this
+		var bgrins_id = "bgrins-uid_"+PGTuid+"-prop_"+key;
+
+		// actual initialisation of the BGrins picker must be deferred...
+		setTimeout(function(){
+		    $("#"+bgrins_id).spectrum({
+			color: val
+		    })
+		}, 0);
+		
 		return $td.append(
-		    $("<div\>").addClass("colour-value")
-			.css("background-color", val)
-			.click(function(){
-			    console.log("hi there...");
-		    }));
+		    $("<input\>")
+			.attr("id",bgrins_id)
+			.addClass("item-prop-bgrins")
+		);
 	    }
 
 	};

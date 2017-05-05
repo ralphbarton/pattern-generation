@@ -236,7 +236,10 @@ var cpot_edit_init = {
 		showInitial: true, // show the original (starting) colour alongside the new one
 		showButtons: false, //do not require OK and Cancel buttons
 		preferredFormat: original_format, // for the input box...
-		clickoutFiresChange: true, // cause a change event upon clickout
+
+		// this is irrelivant because the picker is 'flat'
+		//		clickoutFiresChange: true, // cause a change event upon clickout
+		
 		move: onColourMove
 	    });
 	    if(was_large){
