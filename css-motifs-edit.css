@@ -279,6 +279,12 @@ table td.recent-change{
     background-color: #fff8a7;
 }
 
+table td div.colour-value{
+    border: 1px solid black;
+    width: 30px;
+    height: 10px;
+}
+
 
 
 

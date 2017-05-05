@@ -37,14 +37,14 @@ var motifs_props = {
 	],
 	appearance:[
 
-	    {ab:"fill", key: "fill"},
-	    {ab:"outline", key: "stroke"},
+	    {ab:"fill", key: "fill", fn: "col"},
+	    {ab:"outline", key: "stroke", fn: "col"},
 
 	    {ab:"outl thick", key: "strokeWidth"},
 	    {ab:"outl pat", key: "strokeDashArray"},
 
 	    {ab:"opacity", key: "opacity"},
-	    {ab:"shadow", key: "CUS-"},
+	    {ab:"shadow", key: "CUS-", fn:"col"},
 
 	    {ab:"shad opac", key: "CUS-"},
 	    {ab:"shad blur", key: "CUS-"},
@@ -70,9 +70,9 @@ var motifs_props = {
     },
 
     
-    props_lists_per_shape: [],
+    props_perShapeType: [],
 
-    init_props_lists_per_shape: function(){
+    init_props_perShapeType: function(){
 	
 
 	// 1. Ellipse - copy/extend general properties, add those specific to this shape
@@ -87,7 +87,7 @@ var motifs_props = {
 	props_list_Ellipse.pos_size[3] = {ab:"radius y", key: "ry"},
 
 	// 1.3 - "Submit"
-	this.props_lists_per_shape.push(props_list_Ellipse);
+	this.props_perShapeType.push(props_list_Ellipse);
 
 
 	// 2. Rectangle - copy/extend general properties, add those specific to this shape
@@ -104,7 +104,7 @@ var motifs_props = {
 	    {ab:"corner ry", key: "var"}
 	);
 
-	this.props_lists_per_shape.push(props_list_Rect);
+	this.props_perShapeType.push(props_list_Rect);
 
 
 
@@ -119,7 +119,7 @@ var motifs_props = {
 	// (none)
 
 	// 3.3 - "Submit"
-	this.props_lists_per_shape.push(props_list_Triangle);
+	this.props_perShapeType.push(props_list_Triangle);
 
 
 
@@ -135,7 +135,7 @@ var motifs_props = {
 	props_list_Hexagon.pos_size[3] = {ab:"", key: "var"};
 
 	// 4.3 - "Submit"
-	this.props_lists_per_shape.push(props_list_Hexagon);
+	this.props_perShapeType.push(props_list_Hexagon);
 
 
 
@@ -156,7 +156,7 @@ var motifs_props = {
 	props_list_Line.appearance[0] = {ab:"colour", key: "var"};
 	props_list_Line.appearance[1] = {ab:"", key: "var"};
 
-	this.props_lists_per_shape.push(props_list_Line);
+	this.props_perShapeType.push(props_list_Line);
 	
     },
 
@@ -166,8 +166,8 @@ var motifs_props = {
     },
     
 
-    AddMotifElem_itemHTML: function(PGTuid, DM_instance_props){
-
+    AddMotifElem_itemHTML: function(PGTuid, properties){
+	
 	// 1. Clone HTML content (from template) to create a new Motif Element properties list
 	var $ME_plist = $( "#motif-props-zone #m-elem-template" ).clone()
 	    .attr('id',('m-elem-' + PGTuid))
@@ -204,45 +204,60 @@ var motifs_props = {
 	// 3. Create and populate the tables html...
 
 	// 3.1 Get the set of props which applies for this shape...
-	var ShapeProps = $.grep(this.props_lists_per_shape, function(e){return e.shape == DM_instance_props.shape; })[0];
-	$ME_plist.find(".heading-bar .name").text(ShapeProps.name + " " + PGTuid);
+	var props_thisShapeType = $.grep(this.props_perShapeType, function(e){return e.shape == properties.shape; })[0];
+	$ME_plist.find(".heading-bar .name").text(props_thisShapeType.name + " " + PGTuid);
 
-	var SetName = {
+	var PropGroupNames = {
             "set-1": "pos_size",
             "set-2": "appearance",
             "set-3": "repetition",
             "set-4": "more"
 	};
 
+
+	var Create_$td_valueCell = function(PropertyInfo){
+	    var key = PropertyInfo.key;
+	    var $td = $("<td\>").addClass("col-valu " + key);
+	    var val = properties[key];
+	    
+	    //default option is to fill cell with text...
+	    if(PropertyInfo.fn === undefined || val === undefined){// most properties are like this
+		return $td.text(val);
+
+	    }else if(PropertyInfo.fn === "col"){// colour properties are like this
+		return $td.append(
+		    $("<div\>").addClass("colour-value")
+			.css("background-color", val)
+			.click(function(){
+			    console.log("hi there...");
+		    }));
+	    }
+
+	};
+
+	
 	$ME_plist.find(".props-table-chunk").each(function(){
 	    var myClass = $(this).attr("class").replace("props-table-chunk ", "");
-	    var props_set = ShapeProps[SetName[myClass]];
+	    var GroupName = PropGroupNames[myClass];
+	    var PropertyGroup = props_thisShapeType[GroupName];
 
 	    // Create the table (of which there are 4) row by row here
-	    for (var i = 0; i < props_set.length; i+=2){
+	    for (var i = 0; i < PropertyGroup.length; i+=2){
 
 		//the two properties in this row of the table, by ref'd by internal key..
-		var key1 = props_set[i].key;
-		var key2 = props_set[i+1].key;
+		var myProp1 = PropertyGroup[i];
+		var myProp2 = PropertyGroup[i+1];
 
 		$(this).find("table").append(
 		    $("<tr\>").append(
 			// First Prop
-			$("<td\>").addClass("col-prop " + key1).text(props_set[i].ab),
-			$("<td\>").addClass("col-valu " + key1).text(
-			    DM_instance_props[
-				props_set[i].key
-			    ]
-			),
-			$("<td\>").addClass("col-more " + key1).text("..."),
+			$("<td\>").addClass("col-prop " + myProp1.key).text(myProp1.ab),
+			Create_$td_valueCell(myProp1),
+			$("<td\>").addClass("col-more " + myProp1.key).text("..."),
 			// Second Prop
-			$("<td\>").addClass("col-prop " + key2).text(props_set[i+1].ab),
-			$("<td\>").addClass("col-valu " + key2).text(
-			    DM_instance_props[
-				props_set[i+1].key
-			    ]
-			),
-			$("<td\>").addClass("col-more " + key2).text("...")
+			$("<td\>").addClass("col-prop " + myProp2.key).text(myProp2.ab),
+			Create_$td_valueCell(myProp2),
+			$("<td\>").addClass("col-more " + myProp2.key).text("...")
 		    )
 		);
 	    }

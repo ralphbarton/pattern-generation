@@ -837,7 +837,7 @@ var motifs_edit_init = {
 	// X. Other initialisation steps relating to the Motif
 
 	// X.x Generate in-memory the property sets relevant to the different shapes (triange circle etc.)
-	motifs_props.init_props_lists_per_shape();
+	motifs_props.init_props_perShapeType();
 
 
     }
