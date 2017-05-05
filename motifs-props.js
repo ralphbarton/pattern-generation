@@ -317,6 +317,8 @@ var motifs_props = {
 		fill: props.fill,
 		rx: props.rx,
 		ry: props.ry,
+		stroke: (props.strokeWidth != undefined) ? props.stroke : null,
+		strokeWidth: props.strokeWidth || null
 	    });
 
 	}else if(props.shape == "obj-rectangle"){//rectangle

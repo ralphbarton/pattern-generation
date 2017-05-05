@@ -146,14 +146,16 @@ var motifs_edit = {
 	}
 	// 2. a group selected
 	else if (activeGroup) {
+
 	    if(options.groupDiscard){
 		canvas.discardActiveGroup();
 	    }
-
+	    
 	    var objectsInGroup = activeGroup.getObjects();
 	    objectsInGroup.forEach(function(object) {
 		CB_per_object(object, object.PGTuid);
 	    });
+
 	}
 
     },
@@ -165,6 +167,9 @@ var motifs_edit = {
 	var canvas = this.Fabric_Canvas;
 	var Fabric_Object = $.grep(motifs_edit.Fabric_Canvas._objects, function(fObj){return fObj.PGTuid == uid;})[0];
 
+	Fabric_Object.deleting = true; // removal from canvas triggers callbacks, which test for this...
+
+	
 	canvas.remove(Fabric_Object);   // 1. remove from canvas
 	DM.Motif_deleteElement_data(uid);   // 2. remove from DM structure
 	motifs_props.DeleteMotifElem_itemHTML(uid);// 3. remove from HTML

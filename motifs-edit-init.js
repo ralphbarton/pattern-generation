@@ -53,6 +53,9 @@ var motifs_edit_init = {
 	    set_Tool( tool_id );
 	    var tool_msg = tool_selection_message_strings[ tool_id ];
 	    if(tool_msg){global.toast(tool_msg);}
+
+	    // Deselect any selected objects... (both groups and indiv; all relevant events fired...)
+	    canvas.deactivateAllWithDispatch();
 	});
 
 
@@ -672,7 +675,7 @@ var motifs_edit_init = {
 	  selection:cleared — fired after selection is cleared (after active group is destroyed)
 	*/
 	canvas.on('before:selection:cleared', function(options) {
-	    if(!options.target) {return;}
+	    if(!options.target || options.target.deleting===true) {return;}
 	    var multiple = (options.target.PGTuid === undefined);
 	    // 1. Save changes
 	    ApplyToSelectedFabricObjects(
@@ -680,6 +683,8 @@ var motifs_edit_init = {
 		function(fObj){
 		    //defer the action by 1ms, to allow the selection clear to complete.
 		    setTimeout(function(){
+			// if the selection clear CB only called due to Obj delete, "save" is not required.
+			if(fObj.deleting===true) {return;}
 			Save_Fabric_Obj_Transform(fObj);
 		    }, 1);
 		}
