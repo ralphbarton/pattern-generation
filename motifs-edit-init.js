@@ -216,7 +216,12 @@ var motifs_edit_init = {
 	    $(".m-elem:not(#m-elem-template) .props-table-chunk").show();
 	    $(".m-elem:not(#m-elem-template) .props-tables-vis-buttons button").addClass("sel");
 	});
-	
+
+
+	$("#motif-props-zone .contents").scroll(function() {
+	    console.log("scroll detected...");
+	    $(".m-elem td.bgrins-cell input").spectrum("hide");
+	});
 
 
 

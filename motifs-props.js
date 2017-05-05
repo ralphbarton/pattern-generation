@@ -230,11 +230,27 @@ var motifs_props = {
 		// actual initialisation of the BGrins picker must be deferred...
 		setTimeout(function(){
 		    $("#"+bgrins_id).spectrum({
-			color: val
+			color: val,
+//			appendTo: "parent",
+			
+			// below is copied from "BGrinsShow" of cpot-edit-init
+			showInput: true, 
+			showAlpha: true,
+
+			//for "palette"
+			localStorageKey: "spectrum.ralph-patterns-program",
+			showPalette: true,
+			palette: [ ],
+			showSelectionPalette: true,
+			selectionPalette: [ ],
+			maxSelectionSize: 18,
+			showInitial: true,
+			preferredFormat: "hsl"
 		    })
 		}, 0);
 		
-		return $td.append(
+		return $td.addClass("bgrins-cell")
+		    .append(
 		    $("<input\>")
 			.attr("id",bgrins_id)
 			.addClass("item-prop-bgrins")

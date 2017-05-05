@@ -279,21 +279,30 @@ img.delete-m-elem:hover{
     background-color: #fff8a7;
 }
 
-.m-elem table .sp-replacer{
-    background: white;
+/* Customisations of the bgrins pickers in the listing */
+
+.m-elem td.bgrins-cell .sp-replacer{
+    background: none;
     border: none;
     padding: 0px;
-    height: 13px;
-}
-
-.m-elem table .sp-replacer .sp-preview{
-    width: 40px;
     height: 11px;
+    position: relative;
+    top: -1px;
 }
 
-.m-elem table .sp-dd{
+.m-elem td.bgrins-cell .sp-replacer .sp-preview{
+    width: 40px;
+    height: 9px;
+}
+
+.m-elem td.bgrins-cell .sp-dd{
     position: relative;
-    top: -3px;
+    top: -4px;
+    left: -2px;
+}
+
+.sp-palette{
+    width: 40px;
 }
 
 
