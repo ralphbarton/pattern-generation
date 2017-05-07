@@ -88,8 +88,9 @@
 
   <body>
 
-    <svg id="svg-bg-fullscreen"></svg>
-
+    <svg class="fullscreen-bg-svg" id="grids-bg-svg"></svg>
+    <svg class="fullscreen-bg-svg" id="patterns-bg-svg"></svg>
+    
     <div id="backgrounds"></div>
 
     <div id="toast-box">Dummy Toast Text here...</div>
@@ -1139,6 +1140,9 @@
 
 	      <div class="boxie" id="include-motifs">
 		<div class="title">Include Motifs</div>
+		motif ID:<input id="motif-index" /><br>
+		grid ID:<input id="grid-index" /><br>
+		<div class="button" id="make-pattern">Generate</div>		
 	      </div>
 
 	      <div class="boxie" id="motif-linking">

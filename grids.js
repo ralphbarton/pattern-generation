@@ -251,7 +251,7 @@ var grids = {
 	// 1. Setting the variables. "Diameter" is of a circle containing the rectangle of the screen. 
 	var W = $(window).width();
 	var H = $(window).height();	
-	$("#svg-bg-fullscreen").css("width", W).css("height", H);
+	$("#grids-bg-svg").css("width", W).css("height", H);
 	
 	var Grid_i = DM.GridsArray[this.selected_row_i];
 	var LineSet = Grid_i.line_sets[line_set_index];
@@ -297,7 +297,7 @@ var grids = {
 	}
 
 	// Perform a JOIN opeation between data and lines
-	var selection = d3.select("#svg-bg-fullscreen")
+	var selection = d3.select("#grids-bg-svg")
 	    .selectAll("."+lines_class).data(lines_indices_list);
 	
 	// 3. First pass of D3, runs unconditionally: change the set to contain the correct (final) number of lines
@@ -328,7 +328,7 @@ var grids = {
 	
 	// Perform another JOIN opeation between data and lines. This will pick up every line, newly added and old.
 	// joining the new data is necessary because what we don't want to pick up is old lines that are fading out
-	var reselection = d3.select("#svg-bg-fullscreen")
+	var reselection = d3.select("#grids-bg-svg")
 	    .selectAll("."+lines_class).data(lines_indices_list);
 
 	//first run a transition to instantaneously make them all black
@@ -358,7 +358,7 @@ var grids = {
 	options = options || {};
 	
 	// 1. All the existing dots just need to fade out. get rid of them all.
-	d3.select("#svg-bg-fullscreen").selectAll(".dot")
+	d3.select("#grids-bg-svg").selectAll(".dot")
 	    .attr("class","vanishing")
 	    .transition()
 	    .duration(500)
@@ -377,7 +377,7 @@ var grids = {
 
 
 	// 3. Animate in the appearance of all the new dots... ( 'enter()', because all will be new.)
-	d3.select("#svg-bg-fullscreen").selectAll(".dot").data(myIntersectionPoints).enter()
+	d3.select("#grids-bg-svg").selectAll(".dot").data(myIntersectionPoints).enter()
 	    .append("circle").attr("class","dot")
 	    .attr("cx", function(d){return d.x;})
 	    .attr("cy", function(d){return d.y;})

@@ -153,6 +153,7 @@ $(document).ready(function() {
     motifs_view.init();
     motifs_edit_init.init();
 
+    patterns.init();
     //code to auto enter CP edit and speed up testing...
 
 
@@ -174,8 +175,8 @@ $(document).ready(function() {
     // 8 - Examples
     // 9 - Options
     // 10 - Tutorial
-    $("#cpanel-main-tabs > ul > li:nth-of-type(3) a").click();
-    $("#motifs-view .table-buttons #edit").click();    // --> and into Motif EDIT
+    $("#cpanel-main-tabs > ul > li:nth-of-type(7) a").click();
+//    $("#motifs-view .table-buttons #edit").click();    // --> and into Motif EDIT
     
 });
 

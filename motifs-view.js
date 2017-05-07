@@ -65,7 +65,7 @@ var motifs_view = {
 			),
 			$('<td/>').addClass("col-3").text("2D"),
 			$('<td/>').addClass("col-4").append(
-			    motifs_view.CreateMotifSVG(DM.MotifsArray[i], 45)
+			    motifs_view.CreateMotifSVG(DM.MotifsArray[i], {dim: 45})
 			)
 		    ).on("click",function(){ //click on the row
 			if(motifs_view != $(this).data("index")){ // selecting this row is a CHANGE. 
@@ -81,7 +81,7 @@ var motifs_view = {
 			    var $pic_box = $("#Tab-motf .preview .pic-box");
 			    var dim = parseInt($pic_box.css("height"));
 			    $("#Tab-motf .preview .pic-box").html("").append(
-				motifs_view.CreateMotifSVG(Motif, dim)
+				motifs_view.CreateMotifSVG(Motif, {dim: dim})
 			    );
     			    $("#motifs-view .preview .title").text(Motif.Name);
 			    
@@ -102,41 +102,53 @@ var motifs_view = {
 
 
     
-    CreateMotifSVG: function(Motif, dim){
+    CreateMotifSVG: function(Motif, options){
 
-	var $svg_container = $("<div/>")
-	var d3_svg = d3.select($svg_container[0]).append("svg")
-	    .attr("width", dim)
-	    .attr("height", dim)
-	    .attr("viewBox", "0 0 400 400");
+	options = options || {};
 
+	var d3_selection;
+	var center_zero = false;
+	if(options.d3_selection != undefined){
+	    d3_selection = options.d3_selection
+	    center_zero = true;
+	    
+	}else{
+	    var $svg_container = $("<div/>")
+	    d3_selection = d3.select($svg_container[0]).append("svg")
+		.attr("width", options.dim)
+		.attr("height", options.dim)
+		.attr("viewBox", "0 0 400 400");
+	}
+	    
 	$.each( Motif.Elements, function(i, E) {//E is element properties object
 
 	    //	    console.log(i, JSON.stringify(E, null, 2));
+	    var E_x = E.left + (center_zero ? -200 : 0);
+	    var E_y = E.top + (center_zero ? -200 : 0);
 	    
 	    //Create an Ellipse
 	    if(E.shape == "obj-ellipse"){
-
+		
 		//an angle may not be in data passed...
-		d3_svg.append("ellipse").attr("class","some-obj")
-		    .attr("cx", E.left + E.rx)
-		    .attr("cy", E.top + E.ry)
+		d3_selection.append("ellipse").attr("class","some-obj")
+		    .attr("cx", E_x + E.rx)
+		    .attr("cy", E_y + E.ry)
 		    .attr("rx", E.rx)
 		    .attr("ry", E.ry)
 		    .style("fill", E.fill)
-		    .attr("transform", "rotate("+(E.angle||0)+", "+E.left+", "+E.top+")")
+		    .attr("transform", "rotate("+(E.angle||0)+", "+E_x+", "+E_y+")")
 		    .style("stroke", E.stroke);
 		
 	    }else if(E.shape == "obj-rectangle"){
 		
 		//Create a Rectangle
-		d3_svg.append("rect").attr("class","some-obj")
-		    .attr("x", E.left)
-		    .attr("y", E.top)
+		d3_selection.append("rect").attr("class","some-obj")
+		    .attr("x", E_x)
+		    .attr("y", E_y)
 		    .attr("width", E.width)
 		    .attr("height", E.height)
 		    .style("fill", E.fill)
-		    .attr("transform", "rotate("+(E.angle||0)+", "+E.left+", "+E.top+")")
+		    .attr("transform", "rotate("+(E.angle||0)+", "+E_x+", "+E_y+")")
 		    .style("stroke", E.stroke);
 
 	    }

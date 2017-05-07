@@ -113,3 +113,21 @@
     font-weight: bold;
     color: rgba(4, 50, 63, 0.9);
 }
+
+
+
+
+
+
+
+
+
+
+/* 3. Underlying SVGs */
+
+.fullscreen-bg-svg{
+    z-index: -1;
+    position: absolute;
+    top:0;
+    left: 0;
+}
