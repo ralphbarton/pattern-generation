@@ -15,11 +15,9 @@ var patterns = {
 	var motif_definitions = d3.select("#patterns-bg-svg").append("defs");
 	var pattern_svg = d3.select("#patterns-bg-svg");
 
-	$(".button#make-pattern").click(function(){
+	$(".button#make-grid-pattern").click(function(){
 	    var M_index = $("#motif-index").val();
 	    var G_index = $("#grid-index").val();
-
-	    console.log("hello. M="+M_index+" G="+G_index);
 
 	    var mID = "my-motif-id-" + M_index;
 	    var Motif = DM.MotifsArray[M_index];
@@ -54,9 +52,116 @@ var patterns = {
 
 	    //clear
 	    my_join.exit().remove();
+
+	});
+
+
+
+	var plot_cumulation = undefined;
+	var W = undefined;
+	var H = undefined;
+
+	$(".button#calc-dens-pattern").click(function(){
+	    console.log("Dens: generating array");
+	    var $c = $("#plot-canv");
+	    W = $c.width();
+	    H = $c.height();
+	    var ctx = $c[0].getContext('2d');
+
+	    var Arr = ctx.getImageData(0,0, W, H).data;
+
+	    console.log("wp2", Arr.length);
+
+
+	    plot_cumulation = [];
+	    var acc = 0;
+	    //there are 4 array elements for every 1 pixel
+	    for (var i = 0; i < Arr.length; i+=4){
+		acc += Arr[i];
+		plot_cumulation.push(acc);
+	    }
+	    console.log("wp3", plot_cumulation.length);
+	    console.log(plot_cumulation);	    
 	    
 	});
 
+	
+	// plot 100 points....
+	var pointSet = [];
+	$(".button#make-dens-pattern").click(function(){
+
+	    var i_max = plot_cumulation.length - 1;
+	    var v_max = plot_cumulation[i_max];
+
+
+	    for (var i = 0; i < 100; i++){
+
+		var rVal = Math.random() * v_max;
+
+		var random_pixel_index = BinarySearch(0, i_max, rVal);
+
+		//i'm assuming scanning left-to-right in horizontal lines starting from top
+		var myPoint = {
+		    x: (random_pixel_index % W),
+		    y: Math.floor(random_pixel_index / W)
+
+		};
+
+		pointSet.push(myPoint);
+		
+	    }
+
+
+	    //now plot it all...
+	    
+	    var my_join = pattern_svg.selectAll(".dot").data(pointSet);
+
+	    //update
+	    my_join
+		.attr("cx", function(d){return d.x;})
+		.attr("cy", function(d){return d.y;});
+
+	    //add new
+	    my_join.enter()
+		.append("circle").attr("class","dot")
+		.attr("cx", function(d){return d.x;})
+		.attr("cy", function(d){return d.y;})
+		.attr("r", 5)
+		.attr("fill", "yellow")
+		.attr("stroke","black")
+		.attr("stroke-width","1");
+
+	    //clear
+	    my_join.exit().remove();
+
+
+	    
+	    
+	    
+	});
+	
+	//this returns the index in the array...
+	var BinarySearch = function(i_min, i_max, val){
+
+	    if(i_min == i_max){return i_min;}
+	    var i_ave = Math.ceil((i_min + i_max)/2);
+	    var njgt = plot_cumulation[i_ave -1] > val;
+	    var   gt = plot_cumulation[i_ave   ] > val;
+
+	    if(!gt){
+		// Drill into upper part of range
+		return BinarySearch(i_ave, i_max, val);
+	    }else{
+		if(njgt){
+		    // Drill into lower part of range
+		    return BinarySearch(i_min, i_ave - 1, val);
+		}else{
+		    // we hit it!
+		    return i_ave;
+		}
+	    }
+	};
+	
     },
 
     
