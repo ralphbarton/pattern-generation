@@ -391,13 +391,13 @@ var grids = {
 	
     },
     
-    calc_grid_intersection_points: function(){
+    calc_grid_intersection_points: function(grid_index){
 
 	// function can only operate if a Grid is selected...
-	if(this.selected_row_i === undefined){return;}
+	if(grid_index === undefined && this.selected_row_i === undefined){return;}
 	
 	// 1. Calculate the Basis vectors
-	var grid_obj = DM.GridsArray[this.selected_row_i];
+	var grid_obj = DM.GridsArray[ grid_index || this.selected_row_i ];
 	var S1 = this.spacing_unit_objectUpdater(grid_obj.line_sets[0], "pixels", true);
 	var S2 = this.spacing_unit_objectUpdater(grid_obj.line_sets[1], "pixels", true);
 
