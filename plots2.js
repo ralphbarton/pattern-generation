@@ -78,7 +78,7 @@ var plots2 = {
 
 	this.wcx.start_time = new Date();
 
-	var Plot_i = DM.PlotsArray[plots.selected_row_i];
+	var Plot_i = DM.plotArray[plots.selected_row_i];
 	this.wcx.compilled_formula = math.compile(Plot_i.formula);
 
 	//assume 1 otherwise

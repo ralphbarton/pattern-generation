@@ -20,7 +20,7 @@ var patterns = {
 	    var G_index = $("#grid-index").val();
 
 	    var mID = "my-motif-id-" + M_index;
-	    var Motif = DM.MotifsArray[M_index];
+	    var Motif = DM.motiArray[M_index];
 
 	    //clear the old defn.
 	    motif_definitions.select("g#"+ mID).remove();

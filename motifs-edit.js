@@ -11,16 +11,16 @@ var motifs_edit = {
 	this.active = true;
 
 	// 1. Load Selected Motif (A side effect in the datamodel)
-	DM.edit_Motif(motifs_view.selected_row_i);
+	DM.EDmoti_LoadFrom(motifs_view.selected_row_i);
 
 	// 2. Update Title SmartInput
 	$("#motifs-edit .motif-title input#motif-name").SmartInput("update", {
-	    underlying_obj: DM.editing_Motif,
+	    underlying_obj: DM.EDITINGmoti,
 	    data_change: true
 	});
 	
 	// 3. Load all new elements (canvas & HTML)
-	$.each(DM.editing_Motif.Elements, function(index, Properties) {
+	$.each(DM.EDITINGmoti.Elements, function(index, Properties) {
 	    var uid = Properties.PGTuid;
 	    motifs_props.Fabric_AddShape(uid, Properties);        // Add to Fabric Canvas
 	    motifs_props.AddMotifElem_itemHTML(uid, Properties, {autoScroll: false});  // Add to HTML	    
@@ -51,7 +51,7 @@ var motifs_edit = {
 	if(options.save){
 	    //these functions would normally be part of the button click handler...
 	    // i.e. cb atached to #motifs-edit .main-buttons #done
-	    DM.save_editing_Motif(motifs_view.selected_row_i);
+	    DM.EDmoti_Save(motifs_view.selected_row_i);
 	    motifs_view.regenerate_table(); // Visual update
 	}
 
@@ -168,7 +168,7 @@ var motifs_edit = {
 
 	
 	canvas.remove(Fabric_Object);   // 1. remove from canvas
-	DM.Motif_deleteElement_data(uid);   // 2. remove from DM structure
+	DM.EDmoti_DeleteElement(uid);   // 2. remove from DM structure
 	motifs_props.DeleteMotifElem_itemHTML(uid);// 3. remove from HTML
 
     },
@@ -186,7 +186,7 @@ var motifs_edit = {
 	Fabric_Object.setCoords(); // to recalculate Fabric's click detection for the object.
 	canvas.renderAll(); // n.b. setCoords() doesn't negate the need for this!
 
-	DM.Motif_updateElement_data(uid, propsCng);   // 2. update in DM structure
+	DM.EDmoti_UpdateElement(uid, propsCng);   // 2. update in DM structure
 	motifs_props.UpdateMotifElem_itemHTML(uid, propsCng);// 3. update in HTML
 
     }

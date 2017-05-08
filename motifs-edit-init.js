@@ -134,7 +134,7 @@ var motifs_edit_init = {
 		    }
 
 		    // 1. Add the shape to the data model
-		    var new_uid = DM.Motif_newElement_data(MyShapeProps);
+		    var new_uid = DM.EDmoti_NewElement(MyShapeProps);
 
 		    // 2. Add to the Fabric Canvas
 		    motifs_props.Fabric_AddShape(new_uid, MyShapeProps);
@@ -362,7 +362,7 @@ var motifs_edit_init = {
 		return $("#motifs-edit ."+chk_key+" .mini-picker").colorpicker().toCssString('rgba');
 
 	    }else{ // case 2: draw from colour pot
-		var POT = DM.ColourPotArray[ CPOT_override[isFill] ];
+		var POT = DM.cpotArray[ CPOT_override[isFill] ];
 		return cpot_util.DrawFromColourPot( POT );
 	    }
 
@@ -385,7 +385,7 @@ var motifs_edit_init = {
 			.addClass("choose-fill-outl")
 			.data({isFill: isFill})
 			.text("Choose " + button_class),
-		    DM.ColourPotArray.map(function(POT, i){
+		    DM.cpotArray.map(function(POT, i){
 			return $("<a/>")
 		    	    .attr("class","motif-static-cpot")
 			    .attr("href","#")
@@ -406,7 +406,7 @@ var motifs_edit_init = {
 	    if( $target.is('a') ){
 		var isFill = $(this).find(".choose-fill-outl").data("isFill");
 		var cpot_index = parseInt( $target.attr("id").replace("cpot-#", "") );
-		var POT = DM.ColourPotArray[ cpot_index ];
+		var POT = DM.cpotArray[ cpot_index ];
 		global.toast('Colour pot "'+POT.description+'" chosen as '+(isFill?"fill":"outline")+' colour');
 		CPOT_override[(isFill+0)] = cpot_index;
 	    }

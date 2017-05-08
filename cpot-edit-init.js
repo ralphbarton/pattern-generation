@@ -12,7 +12,7 @@ var cpot_edit_init = {
 
 	    if(!$(this).hasClass("ui-disabled")){
 		//first save data...
-		DM.save_editing_ColourPot(cpot_view.selected_cp_index);//return value is the index of the colour-pot just saved
+		DM.EDcpot_Save(cpot_view.selected_cp_index);//return value is the index of the colour-pot just saved
 		cpot_edit.hide();
 
 		//redraws the table and the preview on the View tab, with the latest data...
@@ -38,7 +38,7 @@ var cpot_edit_init = {
 
 	// 1.3.1 - change the selected row from type 'range' to type 'solid' (dropdown item)
 	$("#cp-edit-actions #conv-to-solid").click(function(){
-	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 
 	    // mutate data
 	    pot_elem.type = "solid";
@@ -51,7 +51,7 @@ var cpot_edit_init = {
 	// 1.3.2 - change the selected row from type 'solid' to type 'range' (dropdown item)
 	$("#cp-edit-actions #conv-to-range").click(function(){
 
-	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 	    var adjustment = tinycolor(pot_elem.solid).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
 	    
 	    pot_elem.type = "range";
@@ -72,12 +72,12 @@ var cpot_edit_init = {
 	$("#cp-edit-actions #sum100").click(function(){
 
 	    // may fail if all probabilities are zero...
-	    DM.sum100_editing_ColourPot();
+	    DM.EDcpot_sum100();
 
 	    // view update required now...
 	    cpot_edit.check_valid_probs();//this has the side effect of recolouring 'done' button.
 	    //unconditional - and probably duplicate - preview redraw...
-	    cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+	    cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.EDITINGcpot);
 
 	    // update the view to match the underlying data
 	    // note how ref is already known by SmartInput("update", {...})
@@ -90,7 +90,7 @@ var cpot_edit_init = {
 	// 1.3.4 - set all probabilities equal (dropdown item)
 	$("#cp-edit-actions #all-eq").click(function(){
 	    //underlying data change
-	    DM.allEqualProbs_editing_ColourPot();
+	    DM.EDcpot_AllEqualProbs();
 
 	    //just click the other button, and have it do all the work, including view update.
 	    $("#cp-edit-actions #sum100").click();
@@ -102,8 +102,8 @@ var cpot_edit_init = {
 	$("#cp-edit-actions #delta-to-selection").click(function(){
 
 	    //underlying data change
-	    var delta = DM.sumProbs_editing_ColourPot() - 100;
-	    var ED_pot_row_i = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var delta = DM.EDcpot_SumProbs() - 100;
+	    var ED_pot_row_i = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 	    ED_pot_row_i.prob = Math.max(ED_pot_row_i.prob-delta, 0);
 
 	    cpot_edit.check_valid_probs();//this has the side effect of recolouring 'done' button.
@@ -122,7 +122,7 @@ var cpot_edit_init = {
 
 		var R_col = $("#cp-edit-table-buttons #add #A").css("background-color");
 
-		var rows = DM.newRow_editing_ColourPot(ADD_subOp == "A" ? R_col : undefined );
+		var rows = DM.EDcpot_NewRow(ADD_subOp == "A" ? R_col : undefined );
 		cpot_edit.selected_row_i = rows-1;//select final row...
 		cpot_edit.visual_update(); //refresh view
 		// Disable "done" button if necessary
@@ -151,10 +151,10 @@ var cpot_edit_init = {
 	// 1.4.4 - Delete the selected C-pot element
 	$("#cp-edit-table-buttons #delete").click(function(){
 	    if(cpot_edit.selected_row_i != undefined){
-		DM.deleteRow_editing_ColourPot(cpot_edit.selected_row_i);
+		DM.EDcpot_DeleteRow(cpot_edit.selected_row_i);
 
 		//now, leave selected either replacing row in same position, or final row
-		cpot_edit.selected_row_i = Math.min(cpot_edit.selected_row_i, DM.editing_ColourPot.contents.length-1);
+		cpot_edit.selected_row_i = Math.min(cpot_edit.selected_row_i, DM.EDITINGcpot.contents.length-1);
 
 		cpot_edit.visual_update(); //refresh view
 		// Disable "done" button if necessary
@@ -173,7 +173,7 @@ var cpot_edit_init = {
 
 	// 1.5.2 - re-randomise the preview area
 	$("#colour-pots-edit #preview-area #re-randomise").click(function(){
-	    cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+	    cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.EDITINGcpot);
 	});
 
 	// 1.5.3 - Expand the preview area
@@ -257,7 +257,7 @@ var cpot_edit_init = {
 	    $("#bgrins-container").hide({duration: 400});
 
 	    //Restore original colour
-	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 
 	    if(pot_elem.type == "solid"){
 		var old_colour = $("#bgrins-colour-picker").spectrum("option","color");
@@ -283,7 +283,7 @@ var cpot_edit_init = {
 		var col_chosen = $("#bgrins-colour-picker").spectrum("get").toRgbString();
 
 		//mutate the data
-		var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+		var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 		
 		if(pot_elem.type == "solid"){// either 'solid' or 'range'
 		    // Mutate the solid colour
@@ -371,7 +371,7 @@ var cpot_edit_init = {
 		cb_change: function(){
 		    // Logic here is to create a new colour by applying the numeric change (HSLA) of the input element
 		    // to the original solid colour
-		    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+		    var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 		    var my_hsla = tinycolor(pot_elem.solid).toHsl();
 
 		    var my_attr = myKey.replace("sld ", "")[0]; //This should be a 1-letter string "h", "s" etc...
@@ -459,7 +459,7 @@ var cpot_edit_init = {
 		    var adjustment = {};
 		    adjustment[shortKey] = cpot_edit.InputsValues[myKey] * fac;
 
-		    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+		    var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 		    var new_range = cpot_util.range_set(adjustment, pot_elem.range);
 
 		    //mutate underlying data - 'saves' the change instigated by the interaction with the Input
@@ -479,7 +479,7 @@ var cpot_edit_init = {
 
 	// 4.4 - Click the "Colour Sun"
 	$("#tabs-e1 .colour-sun.s").click(function (){
-	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 	    var mySolid_colour = cpot_util.range_unpack(pot_elem.range).tiny_av.toRgbString();
 	    BGrinsShow(mySolid_colour, function(tinycolor) {
 		//this is the callback for RANGE changes (live-update range boundary colour pieces)
@@ -529,7 +529,7 @@ var cpot_edit_init = {
 
 	// 5.3 - click the "reverse hue" link
 	$("#reverse-hue .action-link").click(function (){
-	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 	    pot_elem.range.h = (pot_elem.range.h + 180) % 360;
 	    pot_elem.range.dh = 180 - pot_elem.range.dh;
 	    cpot_edit.visual_update();
@@ -538,7 +538,7 @@ var cpot_edit_init = {
 	// 5.4 - click the "permute sla" link
 	var permutation_N = 0;
 	$("#permute-sla .action-link").click(function (){
-	    var pot_elem = DM.editing_ColourPot.contents[cpot_edit.selected_row_i];
+	    var pot_elem = DM.EDITINGcpot.contents[cpot_edit.selected_row_i];
 	    var X = cpot_util.range_unpack( pot_elem.range );
 	    pot_elem.range.sla_perm = (pot_elem.range.sla_perm + (X.a3==X.a1?2:1)) % 8;//increment by 2 if alphas same
 	    cpot_edit.update_range_boundaries_pane(pot_elem.range);

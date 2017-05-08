@@ -15,7 +15,7 @@ var grids_init = {
 	$("#grids-buttons #add").click(function(){
 	    if(grids.selected_row_i != undefined){
 		//add new grid and select its (new) row index...
-		grids.selected_row_i = DM.add_grid();
+		grids.selected_row_i = DM.grid_Add();
 		grids.regenerate_table(); //refresh view
 	    }
 	});
@@ -24,9 +24,9 @@ var grids_init = {
 	// removes selected
 	$("#grids-buttons #delete").click(function(){
 	    if(grids.selected_row_i != undefined){
-		DM.deleteRow_grid(grids.selected_row_i);
+		DM.grid_Delete(grids.selected_row_i);
 		//now, leave selected either replacing row in same position, or final row
-		grids.selected_row_i = Math.min(grids.selected_row_i, DM.GridsArray.length-1);
+		grids.selected_row_i = Math.min(grids.selected_row_i, DM.gridArray.length-1);
 		grids.regenerate_table(); //refresh view
 	    }
 	});
@@ -61,7 +61,7 @@ var grids_init = {
 	// Part A - Define the generalised on_Change callback
 	var GA_mod = function(ls, key){
 	    if(grids.selected_row_i != undefined){
-		var Grid_i = DM.GridsArray[grids.selected_row_i];
+		var Grid_i = DM.gridArray[grids.selected_row_i];
 		var old_val = Grid_i.line_sets[ls][key];
 		$("#line-set-"+(ls+1)+" .ls-param."+key+" input").SmartInput("update", {change_underlying_from_DOM: true});
 		var new_val = Grid_i.line_sets[ls][key];
@@ -119,7 +119,7 @@ var grids_init = {
 
 		// CONVERT the spacing value (such that it is equivalent with new units)
 		// This function updates the object it is passed by reference ("side-effect")
-		var Grid_i = DM.GridsArray[grids.selected_row_i];
+		var Grid_i = DM.gridArray[grids.selected_row_i];
 		grids.spacing_unit_objectUpdater(Grid_i.line_sets[ls], units_new);
 
 		$("#line-set-"+(ls+1)+" .ls-param.spacing input").SmartInput("update", {
@@ -139,7 +139,7 @@ var grids_init = {
 	[0,1].forEach(function(ls) {
 
 	    //determine starting state
-	    var Grid_i = DM.GridsArray[grids.selected_row_i];
+	    var Grid_i = DM.gridArray[grids.selected_row_i];
 	    var my_unit = Grid_i.line_sets[ls].spacing_unit;
 	    var en_state = [my_unit != 'pixels', my_unit != 'percent', my_unit != 'quantity'];
 	    
@@ -174,7 +174,7 @@ var grids_init = {
 
 	// Part A - Define grid conversion callback
 	var AdjustGridToPresetType = function(type){
-	    var Grid_i = DM.GridsArray[grids.selected_row_i];
+	    var Grid_i = DM.gridArray[grids.selected_row_i];
 	    var LS = Grid_i.line_sets
 
 	    // (1.) Manage angles...

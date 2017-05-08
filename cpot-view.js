@@ -10,7 +10,7 @@ var cpot_view = {
 		    $('<input/>')
 		    	.addClass("blue-cell")//for css styling
 			.SmartInput({
-			underlying_obj: DM.ColourPotArray[i],
+			underlying_obj: DM.cpotArray[i],
 			underlying_key: "description",
 			data_class: "text",
 			text_length: 18,//max name length 18 char
@@ -29,7 +29,7 @@ var cpot_view = {
 
 	this.selected_cp_index = undefined;// re-initialise. Code below may set it.
 
-	DM.ColourPotArray.forEach(function(ColourPot_obj, i){
+	DM.cpotArray.forEach(function(ColourPot_obj, i){
     	    $("#view-cp-table tbody").append(// add a row into table here...
 		TR_with_innerElements(ColourPot_obj, i)
 		    .on("click", function(){
@@ -54,7 +54,7 @@ var cpot_view = {
     fill_preview: function(container_id, POT){
 	var ColourPot = POT;
 	if (POT == undefined){
-	    ColourPot = DM.ColourPotArray[this.selected_cp_index];
+	    ColourPot = DM.cpotArray[this.selected_cp_index];
 	}
 	$(container_id).children().each(function(){
 	    $(this).css("background", cpot_util.DrawFromColourPot(ColourPot))
@@ -83,7 +83,7 @@ var cpot_view = {
 	$("#cp-view-table-buttons #duplicate").click(function(){
 	    var index = cpot_view.selected_cp_index;
 	    if(index !== undefined){
-		DM.duplicate_ColourPot(index);
+		DM.cpot_Duplicate(index);
 		cpot_view.regenerate_table( index+1 );//select the item duplicated
 	    }
 	});
@@ -92,7 +92,7 @@ var cpot_view = {
 	$("#cp-view-table-buttons #delete").click(function(){
 	    var index = cpot_view.selected_cp_index;
 	    if(index !== undefined){
-		var lowest_row = DM.delete_ColourPot(index);
+		var lowest_row = DM.cpot_Delete(index);
 		cpot_view.regenerate_table(index - (lowest_row?1:0));//we now select the next one down...
 	    }
 	});

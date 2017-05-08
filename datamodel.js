@@ -1,7 +1,7 @@
 //data model...
 var DM = {
     
-    ColourPotArray: [
+    cpotArray: [
 	{
 	    description: "Banana Pie",
 	    contents: [
@@ -142,35 +142,35 @@ var DM = {
 	},
     ],
 
-    duplicate_ColourPot: function(index_dupl){
+    cpot_Duplicate: function(index_dupl){
 	/* Deep copy
 	   var newObject = jQuery.extend(true, {}, oldObject);
 	*/
-	var new_pot = jQuery.extend(true, {}, this.ColourPotArray[index_dupl]);
+	var new_pot = jQuery.extend(true, {}, this.cpotArray[index_dupl]);
 	new_pot.description += " - copy";
-	this.ColourPotArray.splice(index_dupl+1, 0, new_pot);
+	this.cpotArray.splice(index_dupl+1, 0, new_pot);
     },
 
-    delete_ColourPot: function(index){
-	this.ColourPotArray.splice(index, 1);
-	return index == this.ColourPotArray.length;//true if "index" now refers to a row that doesn't exist 
+    cpot_Delete: function(index){
+	this.cpotArray.splice(index, 1);
+	return index == this.cpotArray.length;//true if "index" now refers to a row that doesn't exist 
     },
 
-    editing_ColourPot: undefined,
-    edit_ColourPot: function(index){
-	this.editing_ColourPot = jQuery.extend(true, {}, this.ColourPotArray[index]);
+    EDITINGcpot: undefined,
+    EDcpot_LoadFrom: function(index){
+	this.EDITINGcpot = jQuery.extend(true, {}, this.cpotArray[index]);
     },
 
-    save_editing_ColourPot: function(replace_me_index){
-	this.ColourPotArray[replace_me_index] = this.editing_ColourPot;
-	this.editing_ColourPot = null;
+    EDcpot_Save: function(replace_me_index){
+	this.cpotArray[replace_me_index] = this.EDITINGcpot;
+	this.EDITINGcpot = null;
     },
 
 
     // The three functions below are for manipulating the probabilities list
 
-    sumProbs_editing_ColourPot: function(){
-	var items = this.editing_ColourPot.contents;	
+    EDcpot_SumProbs: function(){
+	var items = this.EDITINGcpot.contents;	
 	var accumulator = 0;
 
 	for (var i=0; i < items.length; i++){
@@ -179,8 +179,8 @@ var DM = {
 	return accumulator;
     },
 
-    sum100_editing_ColourPot: function(){
-	var items = this.editing_ColourPot.contents;	
+    EDcpot_sum100: function(){
+	var items = this.EDITINGcpot.contents;	
 	var accumulator = 0;
 
 	//1. sum
@@ -199,26 +199,26 @@ var DM = {
 
     },
 
-    allEqualProbs_editing_ColourPot: function(){
-	var items = this.editing_ColourPot.contents;	
+    EDcpot_AllEqualProbs: function(){
+	var items = this.EDITINGcpot.contents;	
 	for (var i=0; i < items.length; i++){
 	    items[i].prob = 3;//an arbitrary number
 	}
     },
 
-    deleteRow_editing_ColourPot: function(index){
-	this.editing_ColourPot.contents.splice(index, 1);
+    EDcpot_DeleteRow: function(index){
+	this.EDITINGcpot.contents.splice(index, 1);
     },
 
-    newRow_editing_ColourPot: function(row_col){
-	this.editing_ColourPot.contents.push(
+    EDcpot_NewRow: function(row_col){
+	this.EDITINGcpot.contents.push(
 	    {
 		prob: 15,
 		type: "solid",
 		solid: (row_col || "#FF0000")
 	    }
 	);
-	return this.editing_ColourPot.contents.length;
+	return this.EDITINGcpot.contents.length;
     },
 
 
@@ -233,7 +233,7 @@ var DM = {
 
 
     
-    GridsArray: [
+    gridArray: [
 	{
 	    type: "std",
 	    description: "my first grid",
@@ -273,19 +273,22 @@ var DM = {
 	}
     ],
 
-    deleteRow_grid: function(index){
-	this.GridsArray.splice(index, 1);
-    },
     
-    duplicate_grid: function(index_dupl){
-	//deep object copy via jquery
-	var new_grid = jQuery.extend(true, {}, this.GridsArray[index_dupl]);
-	new_grid.description += " - copy";
-	this.GridsArray.splice(index_dupl+1, 0, new_grid);
+    grid_Delete: function(index){
+	this.gridArray.splice(index, 1);
     },
 
-    add_grid: function(){
-	var qty_new = $.grep(this.GridsArray, function(e){ return e.description.includes("New Grid"); }).length + 1;
+    // This function is not called anywhere.
+    // seems not to be much point in duplicating grids...
+    grid_Duplicate: function(index_dupl){
+	//deep object copy via jquery
+	var new_grid = jQuery.extend(true, {}, this.gridArray[index_dupl]);
+	new_grid.description += " - copy";
+	this.gridArray.splice(index_dupl+1, 0, new_grid);
+    },
+
+    grid_Add: function(){
+	var qty_new = $.grep(this.gridArray, function(e){ return e.description.includes("New Grid"); }).length + 1;
 
 	//we will create a new grid with random parameters...
 	function getRandomInt(min, max) {
@@ -296,7 +299,7 @@ var DM = {
 	var cell_W = square_side || getRandomInt(120, 240);
 	var cell_H = square_side || getRandomInt(20,  80);
 
-	this.GridsArray.push({
+	this.gridArray.push({
 	    type: "std",
 	    description: "New Grid ("+qty_new+")",
 	    n_dimentions: 2,
@@ -315,7 +318,7 @@ var DM = {
 		}
 	    ]
 	});
-	return this.GridsArray.length - 1;//return index of newly added element
+	return this.gridArray.length - 1;//return index of newly added element
     },
 
 
@@ -326,7 +329,7 @@ var DM = {
 
 
 
-    PlotsArray: [
+    plotArray: [
 	{
 	    formula: "i*exp(3*z^3)*(z+1.2)^3",
 	    
@@ -378,12 +381,12 @@ var DM = {
 
     ],
 
-    deleteRow_plot: function(index){
-	this.PlotsArray.splice(index, 1);
+    plot_Delete: function(index){
+	this.plotArray.splice(index, 1);
     },
     
-    addRow_plot: function(){
-	this.PlotsArray.push({//default data
+    plot_Add: function(){
+	this.plotArray.push({//default data
 	    formula: "abcdef",
 	    section: {
 		rotation: 0,
@@ -421,7 +424,7 @@ var DM = {
 
 
 
-    MotifsArray: [
+    motiArray: [
 	{// 1st dummy motif...
 	    Name: "Molecule",
 	    Params: {
@@ -527,12 +530,12 @@ var DM = {
 
 
     // These functions deal with entire Motif objects.
-    deleteRow_motif: function(index){
-	this.MotifsArray.splice(index, 1);
+    moti_Delete: function(index){
+	this.motiArray.splice(index, 1);
     },
     
-    addRow_motif: function(){
-	var qty_new = $.grep(this.MotifsArray, function(e){ return e.Name.includes("New Mtf"); }).length + 1;
+    moti_Add: function(){
+	var qty_new = $.grep(this.motiArray, function(e){ return e.Name.includes("New Mtf"); }).length + 1;
 
 	//it will be 50% a circle, 50% a rectangle...
 	var isCircle = Math.random() > 0.5;
@@ -553,7 +556,7 @@ var DM = {
 	    Motif_Element_One["height"] = 300;	    
 	}
 	
-	this.MotifsArray.push({
+	this.motiArray.push({
 	    Name: "New Mtf "+qty_new,
 	    Params: {
 		"links": [],
@@ -562,25 +565,25 @@ var DM = {
 	    },
 	    Elements: [Motif_Element_One]
 	});
-	return this.MotifsArray.length - 1;//return index of newly added element
+	return this.motiArray.length - 1;//return index of newly added element
     },
     
 
-    duplicateRow_motif: function(index_dupl){
-	var new_motif = jQuery.extend(true, {}, this.MotifsArray[index_dupl]);
+    moti_Duplicate: function(index_dupl){
+	var new_motif = jQuery.extend(true, {}, this.motiArray[index_dupl]);
 	new_motif.Name += " - copy";
-	this.MotifsArray.splice(index_dupl+1, 0, new_motif);
+	this.motiArray.splice(index_dupl+1, 0, new_motif);
     },
 
 
-    editing_Motif: undefined,
+    EDITINGmoti: undefined,
     PGTuid_counter: 0,
-    edit_Motif: function(index){
-	this.editing_Motif = jQuery.extend(true, {}, this.MotifsArray[index]);
+    EDmoti_LoadFrom: function(index){
+	this.EDITINGmoti = jQuery.extend(true, {}, this.motiArray[index]);
 
 	//upon "load", set the PGTuid counter to one greater than the largest UID present.
 	var max_PGTuid = 0;
-	$.each( DM.editing_Motif.Elements, function( index, element ) {
+	$.each( DM.EDITINGmoti.Elements, function( index, element ) {
 	    max_PGTuid = Math.max(element.PGTuid, max_PGTuid);
 	});
 	this.PGTuid_counter = max_PGTuid + 1;
@@ -588,35 +591,35 @@ var DM = {
     },
 
     
-    save_editing_Motif: function(replace_me_index){
-	this.MotifsArray[replace_me_index] = this.editing_Motif;
-	this.editing_Motif = null;
+    EDmoti_Save: function(replace_me_index){
+	this.motiArray[replace_me_index] = this.EDITINGmoti;
+	this.EDITINGmoti = null;
     },
     
 
-    // These functions deal deal with "Motif Elements" of the "editing_Motif"
-    Motif_newElement_data: function(PropsObj){
+    // These functions deal deal with "Motif Elements" of the "EDITINGmoti"
+    EDmoti_NewElement: function(PropsObj){
 	var new_uid = this.PGTuid_counter;
 	this.PGTuid_counter++
 	PropsObj.PGTuid = new_uid;
 
-	this.editing_Motif.Elements.push(PropsObj);
+	this.EDITINGmoti.Elements.push(PropsObj);
 	return new_uid;
     },
 
     
-    Motif_deleteElement_data: function(PGTuid){
+    EDmoti_DeleteElement: function(PGTuid){
 	var new_uid = this.PGTuid_counter;
-	var El_index = DM.editing_Motif.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});
-	DM.editing_Motif.Elements.splice(El_index, 1);
+	var El_index = DM.EDITINGmoti.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});
+	DM.EDITINGmoti.Elements.splice(El_index, 1);
     },
 
 
-    Motif_updateElement_data: function(PGTuid, PropsObj){
+    EDmoti_UpdateElement: function(PGTuid, PropsObj){
 
 	// the jQuery grep function which searches array for elements that match a filter function
 	// note how grep returns an ARRAY of the matched elements, so I must select the actual element using [0]
-	var Updating_Element = $.grep(DM.editing_Motif.Elements, function(El){return El.PGTuid == PGTuid;})[0];
+	var Updating_Element = $.grep(DM.EDITINGmoti.Elements, function(El){return El.PGTuid == PGTuid;})[0];
 
 	//use jQuery to iterate over elements of 'PropsObj'
 	$.each( PropsObj, function( key, value ) {

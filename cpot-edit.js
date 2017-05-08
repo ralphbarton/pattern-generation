@@ -18,11 +18,11 @@ var cpot_edit = {
 	$("#cpanel-main-tabs").tabs("option", "disabled", true);
 
 	//create backup in data model - to be done before accessing the copy created...
-	DM.edit_ColourPot(index);
+	DM.EDcpot_LoadFrom(index);
 
 	//Update Title (SmartInput) for this colour pot
 	$("#colour-pots-edit input.cpot-title").SmartInput("update", {
-	    underlying_obj: DM.editing_ColourPot,
+	    underlying_obj: DM.EDITINGcpot,
 	    data_change: true
 	});
 
@@ -51,7 +51,7 @@ var cpot_edit = {
 
     visual_update: function(){
 
-	var POT = DM.editing_ColourPot;
+	var POT = DM.EDITINGcpot;
 
 	//wipe the entire table of rows...
 	$("#edit-cp-table tbody").html("");
@@ -61,12 +61,12 @@ var cpot_edit = {
 	});
 
 	// update the preview - conditional on its current state being valid...
-	if(DM.sumProbs_editing_ColourPot() == 100){
+	if(DM.EDcpot_SumProbs() == 100){
 	    cpot_view.fill_preview("#colour-pots-edit .preview-container", POT);
 	}
 
 	// use click handler to achieve re-selection
-	if((DM.editing_ColourPot.contents.length > 0)&&(this.selected_row_i != undefined)){
+	if((DM.EDITINGcpot.contents.length > 0)&&(this.selected_row_i != undefined)){
 	    var tr_selected = $("#edit-cp-table tbody tr")[this.selected_row_i];
 	    this.selected_row_i = undefined;//reset selection - necessary for effect of next line
 	    tr_selected.click();
@@ -81,7 +81,7 @@ var cpot_edit = {
     check_valid_probs: function(){
 	var $done_Btn = $("#cp-edit-buttons #done");
 	var $msg_text = $("#cp-edit-actions #probs-sum");
-	var sum_probs = DM.sumProbs_editing_ColourPot();
+	var sum_probs = DM.EDcpot_SumProbs();
 
 	$("#cp-edit-actions #sum").text(sum_probs.toFixed(1)+"%");
 	var delta = sum_probs-100;
@@ -92,7 +92,7 @@ var cpot_edit = {
 	if( sum_probs == 100){
 	    // if it has become re-enabled after disable, refresh the pot-preview
 	    if($done_Btn.hasClass("ui-disabled")){
-		cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+		cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.EDITINGcpot);
 		$done_Btn.removeClass("ui-disabled")
 	    }
 	    $msg_text.addClass("B");//B means show in grey
@@ -150,7 +150,7 @@ var cpot_edit = {
 			);
 
 			// fill all those (slighly wastefully regenerated) new elements with colour...
-			cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.editing_ColourPot);
+			cpot_view.fill_preview("#colour-pots-edit .preview-container", DM.EDITINGcpot);
 		    }
 
 

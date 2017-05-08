@@ -10,7 +10,7 @@ var grids = {
 	//wipe the entire table of rows...
 	$("#grids-table tbody").html("");
 
-	DM.GridsArray.forEach(function(grid_obj, i){
+	DM.gridArray.forEach(function(grid_obj, i){
 
     	    $("#grids-table tbody").append(
 		$('<tr/>')
@@ -21,7 +21,7 @@ var grids = {
 			    $('<input/>')
 			    	.addClass("blue-cell")//for css styling
 				.SmartInput({
-				underlying_obj: DM.GridsArray[i],
+				underlying_obj: DM.gridArray[i],
 				underlying_key: "description",
 				data_class: "text",
 				text_length: 16,//max name length 16 char
@@ -36,7 +36,7 @@ var grids = {
 			    $("#grids-table tr.selected").removeClass("selected");
 			    $(this).addClass("selected");
 
-			    var Grid_i = DM.GridsArray[i];
+			    var Grid_i = DM.gridArray[i];
 
 			    // 2. update the background (this checks if grid-showing is active)
 			    grids.grid_change(Grid_i);
@@ -169,7 +169,7 @@ var grids = {
 
 	$("#lines-v-grid.act-mutex").MutexActionLink([is_2D, !is_2D]);
 	
-	var Grid_i = DM.GridsArray[grids.selected_row_i];
+	var Grid_i = DM.gridArray[grids.selected_row_i];
 	Grid_i.n_dimentions = is_2D ? 2 : 1;
 
 	$("#Tab-grid #line-set-2.boxie").toggleClass("ui-disabled", !is_2D);
@@ -188,7 +188,7 @@ var grids = {
     },
 
     setMutexState_intersection_points: function(){
-	var Grid_i = DM.GridsArray[grids.selected_row_i];
+	var Grid_i = DM.gridArray[grids.selected_row_i];
 	var is_2D = Grid_i.n_dimentions == 2;
 	$("#show-points.act-mutex").MutexActionLink("enable", is_2D && grids.showing_preview);
     },
@@ -198,7 +198,7 @@ var grids = {
 	if (this.selected_row_i == undefined){return;}
 
 	// 1. Calculate the "Enablement State"...
-	var LS = DM.GridsArray[this.selected_row_i].line_sets;
+	var LS = DM.gridArray[this.selected_row_i].line_sets;
 	// disable "diamond" if (1) angles already equal => no effect
 	var equal_spacings = LS[0].spacing == LS[1].spacing;
 	var en_isometric = (LS[1].angle + LS[0].angle != 60) || (!equal_spacings);
@@ -224,7 +224,7 @@ var grids = {
 	    
 	if(grids.showing_preview){
 
-	    var Grid_i = DM.GridsArray[this.selected_row_i];
+	    var Grid_i = DM.gridArray[this.selected_row_i];
 
 	    this.screen_update_line_set(0, options.hide);
 	    this.screen_update_line_set(1, options.hide || Grid_i.n_dimentions == 1);
@@ -253,7 +253,7 @@ var grids = {
 	var H = $(window).height();	
 	$("#grids-bg-svg").css("width", W).css("height", H);
 	
-	var Grid_i = DM.GridsArray[this.selected_row_i];
+	var Grid_i = DM.gridArray[this.selected_row_i];
 	var LineSet = Grid_i.line_sets[line_set_index];
 	
 	var prev_LineSet = this.previousGrid.line_sets[line_set_index];
@@ -397,7 +397,7 @@ var grids = {
 	if(grid_index === undefined && this.selected_row_i === undefined){return;}
 	
 	// 1. Calculate the Basis vectors
-	var grid_obj = DM.GridsArray[ grid_index || this.selected_row_i ];
+	var grid_obj = DM.gridArray[ grid_index || this.selected_row_i ];
 	var S1 = this.spacing_unit_objectUpdater(grid_obj.line_sets[0], "pixels", true);
 	var S2 = this.spacing_unit_objectUpdater(grid_obj.line_sets[1], "pixels", true);
 

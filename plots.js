@@ -30,8 +30,8 @@ var plots = {
 	// Handler for -ADD-
 	$("#Tab-plot #undr-tabl-btns #add").click(function(){
 	    if(plots.selected_row_i != undefined){//create a new row and select it
-		DM.addRow_plot();
-		plots.selected_row_i = DM.PlotsArray.length - 1;
+		DM.plot_Add();
+		plots.selected_row_i = DM.plotArray.length - 1;
 		plots.regenerate_table();
 	    }
 	});
@@ -39,9 +39,9 @@ var plots = {
 	// Handler for -DELETE-
 	$("#Tab-plot #undr-tabl-btns #delete").click(function(){
 	    if(plots.selected_row_i != undefined){//create a new row and select it
-		DM.deleteRow_plot(plots.selected_row_i);
+		DM.plot_Delete(plots.selected_row_i);
 		//"selected" row **may** move up by one
-		plots.selected_row_i = Math.min(plots.selected_row_i, DM.PlotsArray.length-1);
+		plots.selected_row_i = Math.min(plots.selected_row_i, DM.plotArray.length-1);
 		if(plots.selected_row_i < 0){plots.selected_row_i = undefined;}
 		plots.regenerate_table();
 
@@ -101,7 +101,7 @@ var plots = {
 		cb_change: function(){
 		    if(plots.selected_row_i != undefined){
 			// 1. flag as manual (reset to Auto upon)
-			var Plot_iH = DM.PlotsArray[plots.selected_row_i].histogram;
+			var Plot_iH = DM.plotArray[plots.selected_row_i].histogram;
 			Plot_iH.manual = true;
 
 			// 2. Redraw plot
@@ -117,7 +117,7 @@ var plots = {
 	// since the 'val-min' and 'val-max' parameters are used by the software.
 	$("#Tab-plot #z-2 .action-link#hist-reset").click(function(){
 	    // 1. reset to auto.
-	    var Plot_iH = DM.PlotsArray[plots.selected_row_i].histogram;
+	    var Plot_iH = DM.plotArray[plots.selected_row_i].histogram;
 	    Plot_iH.manual = false;
 
 	    // 2. Redraw plot
@@ -182,7 +182,7 @@ var plots = {
 	$("#plots-table tbody").html("");
 
 
-	DM.PlotsArray.forEach(function(plot_obj, i){
+	DM.plotArray.forEach(function(plot_obj, i){
 
     	    $("#plots-table tbody").append(
 		$('<tr/>')
@@ -193,7 +193,7 @@ var plots = {
 			    $('<input/>')
 				.addClass("blue-cell")//for css styling
 				.SmartInput({
-				underlying_obj: DM.PlotsArray[i],
+				underlying_obj: DM.plotArray[i],
 				underlying_key: "formula",
 				data_class: "text",
 				text_length: 120, // setting a 120 char limit on the formula...
@@ -216,7 +216,7 @@ var plots = {
 
 			    set_EQN_type_msg($("#plots-table tr.selected td input"));
 
-			    var Plot_i = DM.PlotsArray[plots.selected_row_i];
+			    var Plot_i = DM.plotArray[plots.selected_row_i];
 
 			    //update the smart inputs to refer to the right underlying data
 			    ["min", "max", "mid"].forEach(function(str) {
@@ -283,7 +283,7 @@ var plots = {
 	};
 
 
-	var Plot_iH = DM.PlotsArray[plots.selected_row_i].histogram;
+	var Plot_iH = DM.plotArray[plots.selected_row_i].histogram;
 
 	if(Plot_iH.manual){
 
