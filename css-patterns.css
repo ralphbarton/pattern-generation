@@ -1,15 +1,15 @@
 /* 1. Table listing the grids */
 
 #Tab-patt #patterns-table tbody{
-     height: 225px;
+    height: 225px;
 }
 
 #Tab-patt #patterns-table .col-1{
-  width: 18px;
+    width: 18px;
 }
 
 #Tab-patt #patterns-table th.col-2{
-  width: 120px;
+    width: 120px;
 }
 
 #Tab-patt #patterns-table td.col-2{
@@ -22,25 +22,25 @@
 }
 
 #patterns-table-buttons{
-  position: relative;
-  top: -1px;
-  left: 50px;
+    position: relative;
+    top: -1px;
+    left: 50px;
 }
 
 
 /* 2. arranging the main boxes */
 
 #Tab-patt .boxie{
-  position: absolute;
-  width: 180px;
+    position: absolute;
+    width: 180px;
 }
 
 #Tab-patt #pattern-controls-pane{
-   position: absolute;
-   left: 163px;
-      top: 110px;
-  width: 536px;
-  height: 285px;
+    position: absolute;
+    left: 163px;
+    top: 110px;
+    width: 536px;
+    height: 285px;
 }
 
 #Tab-patt .boxie#pattern-drive{
@@ -54,56 +54,88 @@
 
 #Tab-patt .boxie#motif-linking{
     left: 199px;
-      height: 250px;
+    height: 250px;
+}
+
+#Tab-patt #pdrive-preview-box{
+    position: absolute;
+    left: 200px;
+    top: 20px;
+    width: 305px;
+    height: 205px;
+    background-color: white;
+    box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
+    border-radius: 3px;
+    padding: 10px;
+    font-size: 20px;
 }
 
 
 /* 3. Patterns Drive Box - arrangement */
-#Tab-patt #pattern-drive .pdrive{
-  position: relative;
-  margin: 1px;
-  left: 2px;
-  top: -5px;
-}
-#Tab-patt #pattern-drive .pdrive button,
-#Tab-patt #pattern-drive .pdrive .dropdown-content{
-  width: 84px;
+#pattern-drive .dropdown.pdrive{
+    position: relative;
+    margin: 1px;
+    left: 2px;
+    top: -5px;
 }
 
+#pattern-drive .dropdown.pdrive button{
+    width: 84px;
+}
+
+#pattern-drive .dropdown.pdrive .dropdown-content{
+    width: 174px;
+}
+
+#pattern-drive .dropdown.density .dropdown-content{
+    left: -90px
+}
+
+#pattern-drive .dropdown.pdrive .dropdown-content > div{
+    font-weight: bold;
+    padding: 3px;
+}
+
+#pattern-drive .pdrive .dropdown-content > div:not(:first-child){
+    padding-top: 10px;
+}
+
+
 #Tab-patt #pattern-drive table{
-  position: absolute;
-  left: 0px;
-  top: 25px;
-  border-width: 2px;
+    position: absolute;
+    left: 0px;
+    top: 25px;
+    border-width: 2px;
 }
 
 #Tab-patt #pattern-drive table td{
-  padding: 1px 5px;
-  border-bottom: none;
-  font-size: 14px;
-  font-weight: bold;
+    padding: 1px 5px;
+    border-bottom: none;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 #Tab-patt #pattern-drive table td.col-1{
-  width: 25px;
-  background-color: #CCC;
+    width: 25px;
+    background-color: #CCC;
 }
 
 #Tab-patt #pattern-drive table td.col-2{
-  width: 200px;
+    width: 200px;
+    text-align: left;
 }
 
 #Tab-patt #pattern-drive td div.arrow{
-  position: absolute;
-  top: 0px;
-  left: 0px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 #Tab-patt #pattern-drive img{
-  position: relative;
-  width: 21px;
-  top: 0px;
-  left: 4px
+    position: relative;
+    width: 21px;
+    top: 0px;
+    left: 4px
 }
 
 /* 4. Include Motifs Box - arrangement */
@@ -112,7 +144,7 @@
 
 
 #Tab-patt .button#go{
-  position: absolute;
-  bottom: 3px;
-  right: 4px;
+    position: absolute;
+    bottom: 3px;
+    right: 4px;
 }

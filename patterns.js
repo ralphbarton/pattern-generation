@@ -20,6 +20,76 @@ var patterns = {
 	});
 
 
+	// Pattern Drive: Grid dropdown - refresh contents from DM (event triggered by hover)
+	$("#Tab-patt .dropdown.pdrive.grid").on("mouseenter", function(){
+	    $(this).find(".dropdown-content")
+		.html("")
+		.append(
+		    DM.gridArray.map(function(grid, i){
+			return $("<a/>")
+			    .attr("href","#")
+		    	    .attr("id","grid-uid-" + grid.uid)
+			    .text(grid.description);
+		    })
+		);
+	    $("#Tab-patt #motif-linking").hide();
+	    $("#Tab-patt #pdrive-preview-box").show();
+	});
+
+	function str_lim(txt, len){return txt.slice(0, len) + (txt.length > len ? "..." : "");}
+	
+	// Pattern Drive: Density dropdown - refresh contents from DM (event triggered by hover)
+	$("#Tab-patt .dropdown.pdrive.density").on("mouseenter", function(){
+	    $(this).find(".dropdown-content")
+		.html("")
+		.append(
+		    $("<div/>").text("Plots"),
+		    DM.plotArray.map(function(plot, i){
+			return $("<a/>")
+			    .attr("href","#")
+		    	    .attr("id","plot-uid-" + plot.uid)
+			    .text(str_lim(plot.formula, 28));//limit to 28 char
+		    }),
+		    $("<div/>").text("Paintings"),
+		    // map any density paintings into the list (feature not yet made...)
+		    $("<a/>").attr("href","#").text("none")
+		);
+	    $("#Tab-patt #motif-linking").hide();
+	    $("#Tab-patt #pdrive-preview-box").show();
+	});
+
+	//apply to both dropdowns...
+	$("#Tab-patt .dropdown.pdrive").on("mouseleave", function(){
+	    $("#Tab-patt #motif-linking").show();
+	    $("#Tab-patt #pdrive-preview-box").hide();
+	});
+
+
+	// Click a grid elem
+	$("#Tab-patt .pdrive .dropdown-content").click(function(ev){
+	    var $target = $(ev.target);
+	    if( $target.is('a') ){
+		if(!$target.attr("id")){return;}// this will be the case for Paintings until inplemented (TODO!)
+		var uid = parseInt( $target.attr("id").replace(/[^0-9]/g,'') );
+
+		var isGrid = $target.attr("id").includes("grid");
+		var type_str = isGrid ? "grid" : "plot";
+
+		var Obj = $.grep(DM[type_str+"Array"], function(e){ return e.uid == uid; })[0];
+
+		var Obj_Name = str_lim(Obj[isGrid?"description":"formula"], isGrid ? 12 : 8);
+		$("#pattern-drive table td.col-2").text((isGrid?"Grid":"Density")+": " + Obj_Name);
+		DM.dummyPattern.type = type_str;
+		DM.dummyPattern.pdrive_uid = uid;
+	    }
+	});
+
+
+
+
+
+
+	// Temporary stuff relating to demonstrating
 	
 	var W = $(window).width();
 	var H = $(window).height();	

@@ -670,7 +670,14 @@ var DM = {
 
 
     pattArray: [],
-
+    dummyPattern: {//default data
+	Name: "Pattern 1",
+	uid: 0,
+	incl_Motif_uids: [],
+	type: undefined,
+	pdrive_uid: undefined
+    },
+    
     patt_Delete: function(index){
 	this.pattArray.splice(index, 1);
     },
