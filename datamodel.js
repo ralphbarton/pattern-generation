@@ -660,8 +660,34 @@ var DM = {
 	    Updating_Element[key] = value;
 	});
 
+    },
+
+
+
+
+
+
+
+
+    pattArray: [],
+
+    patt_Delete: function(index){
+	this.pattArray.splice(index, 1);
+    },
+    
+
+    patt_Add: function(){
+	var qty_new = $.grep(this.pattArray, function(e){ return e.Name.includes("New Pattern"); }).length + 1;
+	this.pattArray.push({//default data
+	    Name: "New Pattern ("+qty_new+")",
+	    uid: this.uid.createNew("patt"),
+	    incl_Motif_uids: [],
+	    grid_uid: undefined,
+	    plot_uid: undefined,
+	    paint_uid: undefined
+	});
+
     }
 
 
-    
 };
