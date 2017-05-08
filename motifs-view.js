@@ -8,21 +8,21 @@ var motifs_view = {
 	// 1.1 - Delete
 	$("#motifs-view .table-buttons #delete").click(function(){
 	    if(motifs_view.selected_row_i !== undefined){
-		DM.moti_Delete(motifs_view.selected_row_i); // Mutate
+		DM.motf_Delete(motifs_view.selected_row_i); // Mutate
 		motifs_view.regenerate_table(); // Visual update
 	    }
 	});
 
 	// 1.2 - Add
 	$("#motifs-view .table-buttons #add").click(function(){
-	    motifs_view.selected_row_i = DM.moti_Add(); // Mutate
+	    motifs_view.selected_row_i = DM.motf_Add(); // Mutate
 	    motifs_view.regenerate_table(); // Visual update
 	});
 
 	// 1.3 - Duplicate
 	$("#motifs-view .table-buttons #duplicate").click(function(){
 	    if(motifs_view.selected_row_i !== undefined){
-		DM.moti_Duplicate(motifs_view.selected_row_i); // Mutate
+		DM.motf_Duplicate(motifs_view.selected_row_i); // Mutate
 		motifs_view.regenerate_table(); // Visual update
 	    }
 	});
@@ -45,7 +45,7 @@ var motifs_view = {
 	//wipe the entire table of rows...
 	$("#motifs-view tbody").html("");
 	
-	DM.motiArray.forEach(function(motif_obj, i){
+	DM.motfArray.forEach(function(motif_obj, i){
 
     	    $("#motifs-view tbody").append(
 		$('<tr/>')
@@ -56,7 +56,7 @@ var motifs_view = {
 			    $('<input/>')
 			    	.addClass("blue-cell")//for css styling
 				.SmartInput({
-				underlying_obj: DM.motiArray[i],
+				underlying_obj: DM.motfArray[i],
 				underlying_key: "Name",
 				data_class: "text",
 				text_length: 10,//max name length 10 char
@@ -65,7 +65,7 @@ var motifs_view = {
 			),
 			$('<td/>').addClass("col-3").text("2D"),
 			$('<td/>').addClass("col-4").append(
-			    motifs_view.CreateMotifSVG(DM.motiArray[i], {dim: 45})
+			    motifs_view.CreateMotifSVG(DM.motfArray[i], {dim: 45})
 			)
 		    ).on("click",function(){ //click on the row
 			if(motifs_view != $(this).data("index")){ // selecting this row is a CHANGE. 
@@ -75,7 +75,7 @@ var motifs_view = {
 			    $("#motifs-view tr.selected").removeClass("selected");
 			    $(this).addClass("selected");
 
-			    var Motif = DM.motiArray[i];
+			    var Motif = DM.motfArray[i];
 
 			    // 2. Detach (bin) any existing SVG and add one for the selected item.
 			    var $pic_box = $("#Tab-motf .preview .pic-box");

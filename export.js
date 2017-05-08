@@ -38,10 +38,10 @@ var export_pat = {
 	});
 
 	// 6. Show Motifs json
-	$("#export-buttons .button#moti").click(function(){
+	$("#export-buttons .button#motf").click(function(){
 	    $("#json-text").val(
-//		JSON.stringify(DM.motiArray, null, 2)
-		JSON.stringify(DM.EDITINGmoti, null, 2)
+//		JSON.stringify(DM.motfArray, null, 2)
+		JSON.stringify(DM.EDITINGmotf, null, 2)
 	    );
 	});
 

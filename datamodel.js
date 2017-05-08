@@ -1,9 +1,26 @@
 //data model...
 var DM = {
+
+    uid: {
+	//these values are based on the size of the dummy data lower down in this file...
+	counters: {
+	    "cpot": 4,
+	    "grid": 2,
+	    "plot": 4,
+	    "motf": 2,
+	    "patt": 0,
+	},
+
+	createNew: function(Object_Type){
+	    return this.counters[Object_Type]++;
+	}
+    },
+    
     
     cpotArray: [
 	{
 	    description: "Banana Pie",
+	    uid: 0,
 	    contents: [
 		{
 		    prob: 80,
@@ -33,7 +50,8 @@ var DM = {
 	    ]
 	},
 	{
-	    "description": "Puddle sky",
+	    description: "Puddle sky",
+	    uid: 1,
 	    "contents": [
 		{
 		    prob: 50,
@@ -92,6 +110,7 @@ var DM = {
 	},	
 	{
 	    description: "Electric paints",
+	    uid: 2,
 	    contents: [
 		{
 		    prob: 21,
@@ -122,6 +141,7 @@ var DM = {
 	},
 	{
 	    description: "Cookie decoration",
+	    uid: 3,
 	    contents: [
 		{
 		    prob: 33.3,
@@ -148,6 +168,7 @@ var DM = {
 	*/
 	var new_pot = jQuery.extend(true, {}, this.cpotArray[index_dupl]);
 	new_pot.description += " - copy";
+	new_pot.uid = this.uid.createNew("cpot");
 	this.cpotArray.splice(index_dupl+1, 0, new_pot);
     },
 
@@ -235,8 +256,9 @@ var DM = {
     
     gridArray: [
 	{
-	    type: "std",
 	    description: "my first grid",
+	    uid: 0,
+	    type: "std",
 	    n_dimentions: 2,
 	    line_sets:[
 		{// set 1
@@ -253,8 +275,9 @@ var DM = {
 		}
 	    ]
 	},{
-	    type: "std",
 	    description: "A square grid",
+	    uid: 1,
+	    type: "std",
 	    n_dimentions: 2,
 	    line_sets:[
 		{// set 1
@@ -284,6 +307,7 @@ var DM = {
 	//deep object copy via jquery
 	var new_grid = jQuery.extend(true, {}, this.gridArray[index_dupl]);
 	new_grid.description += " - copy";
+	new_grid.uid = this.uid.createNew("grid");
 	this.gridArray.splice(index_dupl+1, 0, new_grid);
     },
 
@@ -300,8 +324,9 @@ var DM = {
 	var cell_H = square_side || getRandomInt(20,  80);
 
 	this.gridArray.push({
-	    type: "std",
 	    description: "New Grid ("+qty_new+")",
+	    uid: this.uid.createNew("grid"),
+	    type: "std",
 	    n_dimentions: 2,
 	    line_sets:[
 		{// set 1
@@ -332,7 +357,7 @@ var DM = {
     plotArray: [
 	{
 	    formula: "i*exp(3*z^3)*(z+1.2)^3",
-	    
+	    uid: 0,
 
 	    section: {
 		rotation: 0,
@@ -353,6 +378,8 @@ var DM = {
 	},
 	{
 	    formula: "z^7",
+	    uid: 1,
+	    
 	    histogram: {
 		manual: false,
 		val_min: 0,
@@ -362,6 +389,7 @@ var DM = {
 	},
 	{
 	    formula: "x+y",
+	    uid: 2,
 	    histogram: {
 		manual: false,
 		val_min: 0,
@@ -371,6 +399,7 @@ var DM = {
 	},
 	{
 	    formula: "z*log( (z-0.7)*(z+0.7*i)*(z+0.2*(i+1.3)) )^4",
+	    uid: 3,
 	    histogram: {
 		manual: false,
 		val_min: 0,
@@ -388,6 +417,7 @@ var DM = {
     plot_Add: function(){
 	this.plotArray.push({//default data
 	    formula: "abcdef",
+	    uid: this.uid.createNew("plot"),
 	    section: {
 		rotation: 0,
 		x_zoom: 1,
@@ -424,9 +454,10 @@ var DM = {
 
 
 
-    motiArray: [
+    motfArray: [
 	{// 1st dummy motif...
 	    Name: "Molecule",
+	    uid: 0,
 	    Params: {
 		"links": [],
 		"random": [],
@@ -466,13 +497,14 @@ var DM = {
 	    ]
 	},
 	{// 2nd dummy motif...
-	    "Name": "Tetris went home",
-	    "Params": {
+	    Name: "Tetris went home",
+	    uid: 1,
+	    Params: {
 		"links": [],
 		"random": [],
 		"CP_picks": []
 	    },
-	    "Elements": [
+	    Elements: [
 		{
 		    "shape": "obj-rectangle",
 		    "left": 125,
@@ -530,12 +562,12 @@ var DM = {
 
 
     // These functions deal with entire Motif objects.
-    moti_Delete: function(index){
-	this.motiArray.splice(index, 1);
+    motf_Delete: function(index){
+	this.motfArray.splice(index, 1);
     },
     
-    moti_Add: function(){
-	var qty_new = $.grep(this.motiArray, function(e){ return e.Name.includes("New Mtf"); }).length + 1;
+    motf_Add: function(){
+	var qty_new = $.grep(this.motfArray, function(e){ return e.Name.includes("New Mtf"); }).length + 1;
 
 	//it will be 50% a circle, 50% a rectangle...
 	var isCircle = Math.random() > 0.5;
@@ -556,8 +588,9 @@ var DM = {
 	    Motif_Element_One["height"] = 300;	    
 	}
 	
-	this.motiArray.push({
+	this.motfArray.push({
 	    Name: "New Mtf "+qty_new,
+	    uid: this.uid.createNew("motf"),
 	    Params: {
 		"links": [],
 		"random": [],
@@ -565,25 +598,26 @@ var DM = {
 	    },
 	    Elements: [Motif_Element_One]
 	});
-	return this.motiArray.length - 1;//return index of newly added element
+	return this.motfArray.length - 1;//return index of newly added element
     },
     
 
-    moti_Duplicate: function(index_dupl){
-	var new_motif = jQuery.extend(true, {}, this.motiArray[index_dupl]);
+    motf_Duplicate: function(index_dupl){
+	var new_motif = jQuery.extend(true, {}, this.motfArray[index_dupl]);
 	new_motif.Name += " - copy";
-	this.motiArray.splice(index_dupl+1, 0, new_motif);
+	new_motif.uid = this.uid.createNew("motf");
+	this.motfArray.splice(index_dupl+1, 0, new_motif);
     },
 
 
-    EDITINGmoti: undefined,
+    EDITINGmotf: undefined,
     PGTuid_counter: 0,
-    EDmoti_LoadFrom: function(index){
-	this.EDITINGmoti = jQuery.extend(true, {}, this.motiArray[index]);
+    EDmotf_LoadFrom: function(index){
+	this.EDITINGmotf = jQuery.extend(true, {}, this.motfArray[index]);
 
 	//upon "load", set the PGTuid counter to one greater than the largest UID present.
 	var max_PGTuid = 0;
-	$.each( DM.EDITINGmoti.Elements, function( index, element ) {
+	$.each( DM.EDITINGmotf.Elements, function( index, element ) {
 	    max_PGTuid = Math.max(element.PGTuid, max_PGTuid);
 	});
 	this.PGTuid_counter = max_PGTuid + 1;
@@ -591,35 +625,35 @@ var DM = {
     },
 
     
-    EDmoti_Save: function(replace_me_index){
-	this.motiArray[replace_me_index] = this.EDITINGmoti;
-	this.EDITINGmoti = null;
+    EDmotf_Save: function(replace_me_index){
+	this.motfArray[replace_me_index] = this.EDITINGmotf;
+	this.EDITINGmotf = null;
     },
     
 
-    // These functions deal deal with "Motif Elements" of the "EDITINGmoti"
-    EDmoti_NewElement: function(PropsObj){
+    // These functions deal deal with "Motif Elements" of the "EDITINGmotf"
+    EDmotf_NewElement: function(PropsObj){
 	var new_uid = this.PGTuid_counter;
 	this.PGTuid_counter++
 	PropsObj.PGTuid = new_uid;
 
-	this.EDITINGmoti.Elements.push(PropsObj);
+	this.EDITINGmotf.Elements.push(PropsObj);
 	return new_uid;
     },
 
     
-    EDmoti_DeleteElement: function(PGTuid){
+    EDmotf_DeleteElement: function(PGTuid){
 	var new_uid = this.PGTuid_counter;
-	var El_index = DM.EDITINGmoti.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});
-	DM.EDITINGmoti.Elements.splice(El_index, 1);
+	var El_index = DM.EDITINGmotf.Elements.findIndex(function(El){return El.PGTuid == PGTuid;});
+	DM.EDITINGmotf.Elements.splice(El_index, 1);
     },
 
 
-    EDmoti_UpdateElement: function(PGTuid, PropsObj){
+    EDmotf_UpdateElement: function(PGTuid, PropsObj){
 
 	// the jQuery grep function which searches array for elements that match a filter function
 	// note how grep returns an ARRAY of the matched elements, so I must select the actual element using [0]
-	var Updating_Element = $.grep(DM.EDITINGmoti.Elements, function(El){return El.PGTuid == PGTuid;})[0];
+	var Updating_Element = $.grep(DM.EDITINGmotf.Elements, function(El){return El.PGTuid == PGTuid;})[0];
 
 	//use jQuery to iterate over elements of 'PropsObj'
 	$.each( PropsObj, function( key, value ) {

@@ -134,7 +134,7 @@ var motifs_edit_init = {
 		    }
 
 		    // 1. Add the shape to the data model
-		    var new_uid = DM.EDmoti_NewElement(MyShapeProps);
+		    var new_uid = DM.EDmotf_NewElement(MyShapeProps);
 
 		    // 2. Add to the Fabric Canvas
 		    motifs_props.Fabric_AddShape(new_uid, MyShapeProps);
