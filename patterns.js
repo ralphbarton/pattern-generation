@@ -77,7 +77,10 @@ var patterns = {
 	    var acc = 0;
 	    //there are 4 array elements for every 1 pixel
 	    for (var i = 0; i < Arr.length; i+=4){
-		acc += Arr[i];
+
+		var relative_prob = (Arr[i]/255)**2;
+
+		acc += relative_prob;
 		plot_cumulation.push(acc);
 	    }
 	    console.log("wp3", plot_cumulation.length);
@@ -93,8 +96,8 @@ var patterns = {
 	    var i_max = plot_cumulation.length - 1;
 	    var v_max = plot_cumulation[i_max];
 
-
-	    for (var i = 0; i < 100; i++){
+	    var st = new Date();
+	    for (var i = 0; i < 1000; i++){
 
 		var rVal = Math.random() * v_max;
 
@@ -135,7 +138,7 @@ var patterns = {
 	    my_join.exit().remove();
 
 
-	    
+	    console.log("1000 points plotted and generated (ms):", (new Date()) - st);
 	    
 	    
 	});
