@@ -69,7 +69,7 @@ var motifs_view = {
 			    motifs_view.CreateMotifSVG(DM.motfArray[i], {dim: 45})
 			)
 		    ).on("click",function(){ //click on the row
-			if(motifs_view != $(this).data("index")){ // selecting this row is a CHANGE. 
+			if(motifs_view.selected_row_i != $(this).data("index")){ // selecting this row is a CHANGE. 
 
 			    // 1. manage row selection witin the table itself
 			    motifs_view.selected_row_i = $(this).data("index");

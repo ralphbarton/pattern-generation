@@ -8,7 +8,7 @@ var DM = {
 	    "grid": 2,
 	    "plot": 4,
 	    "motf": 2,
-	    "patt": 0,
+	    "patt": 1,
 	},
 
 	createNew: function(Object_Type){
@@ -669,7 +669,7 @@ var DM = {
 
 
 
-    pattArray: [],
+
     dummyPattern: {//default data
 	Name: "Pattern 1",
 	uid: 0,
@@ -677,9 +677,19 @@ var DM = {
 	type: undefined,
 	pdrive_uid: undefined
     },
+    pattArray: [
+	{
+	    Name: "Tortoise",
+	    uid: 0
+	},
+	{
+	    Name: "Frog Goat",
+	    uid: 0
+	}],
     
     patt_Delete: function(index){
 	this.pattArray.splice(index, 1);
+	return index == this.pattArray.length;//true if "index" now refers to a row that doesn't exist 
     },
     
 
@@ -694,6 +704,7 @@ var DM = {
 	    paint_uid: undefined
 	});
 
+	return this.pattArray.length - 1;//return index of newly added element
     }
 
 

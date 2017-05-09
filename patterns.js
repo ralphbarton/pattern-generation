@@ -5,18 +5,18 @@ var patterns = {
 
 	// Add button
 	$("#Tab-patt .button#add").click(function(){
-
-	    DM.patt_Add();
+	    patterns.selected_row_i = DM.patt_Add();
+	    patterns.regenerate_table(); // Visual update
 	});
 
 	// Delete button
 	$("#Tab-patt .button#delete").click(function(){
-
-	    //TODO...
-	    console.log("todo");
-	    DM.patt_Delete(9999);
-
-	    
+	    var index = patterns.selected_row_i;
+	    if(index !== undefined){
+		var lowest_row = DM.patt_Delete(index);
+		patterns.selected_row_i = index - (lowest_row?1:0);
+		patterns.regenerate_table();
+	    }
 	});
 
 
@@ -117,12 +117,69 @@ var patterns = {
 	    patterns.Display_density_driven_pattern();
 	    
 	});
-		
+
+
+	this.regenerate_table();
+	
     },
 
-    
+    selected_row_i: undefined,
     regenerate_table: function(){
 
+	//wipe the entire table of rows...
+
+	// the following 50-odd lines of code are very much copy-pasted on many tabs.
+	// can it be made a jQuery widget???
+	
+	$("#patterns-table tbody").html("");
+	
+	DM.pattArray.forEach(function(pattern_obj, i){
+
+    	    $("#patterns-table tbody").append(
+		$('<tr/>')
+		    .data({index:i})
+		    .append(
+			$('<td/>').addClass("col-1").text(i+1),
+			$('<td/>').addClass("col-2").append(
+			    $('<input/>')
+			    	.addClass("blue-cell")//for css styling
+				.SmartInput({
+				    underlying_obj: DM.pattArray[i],
+				    underlying_key: "Name",
+				    data_class: "text",
+				    text_length: 20,//max name length 10 char
+				    click_filter: function(){return patterns.selected_row_i == i;}
+				})
+			)
+		    ).on("click",function(){ //click on the row
+			if(patterns.selected_row_i != $(this).data("index")){ // selecting this row is a CHANGE. 
+
+			    // 1. manage row selection witin the table itself
+			    patterns.selected_row_i = $(this).data("index");
+			    $("#patterns-table tr.selected").removeClass("selected");
+			    $(this).addClass("selected");
+
+			    var Pattern = DM.pattArray[i];
+
+			    // 2. Re-prep screen...
+			    //var $something
+
+			    /*
+			      Potentially, a lot goes here...
+			     */
+			    
+			}
+		    })
+	    );
+	});
+
+	// use click handler to achieve re-selection
+	if(this.selected_row_i != undefined){
+	    var click_me_i = this.selected_row_i;
+	    this.selected_row_i = undefined;//necessary for this dummy click to cause an action.
+	    $($("#patterns-table tbody tr")[click_me_i]).click();
+	}
+	
     },
 
     

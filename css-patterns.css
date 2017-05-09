@@ -21,6 +21,10 @@
     padding-right: 1px;
 }
 
+#Tab-patt #patterns-table input.blue-cell{
+    width: 97px;
+}
+
 #patterns-table-buttons{
     position: relative;
     top: -1px;
