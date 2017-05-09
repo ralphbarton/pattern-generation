@@ -1119,8 +1119,6 @@
 		  <div class="dropdown plain pdrive grid">
 		    <button class="dropbtn">Grid</button>
 		    <div class="dropdown-content">
-		      <a href="#" id="x1">Grid 1</a>
-		      <a href="#" id="x2">Grid 2</a>
 		    </div>
 		  </div>
 
@@ -1128,8 +1126,6 @@
 		  <div class="dropdown plain pdrive density">
 		    <button class="dropbtn">Density</button>
 		    <div class="dropdown-content">
-		      <a href="#" id="x1">Density 1</a>
-		      <a href="#" id="x2">Density 2</a>
 		    </div>
 		  </div>
 
@@ -1146,17 +1142,53 @@
 
 	      <div class="boxie" id="include-motifs">
 		<div class="title">Include Motifs</div>
-		motif ID:<input id="motif-index" /><br>
-		grid/density ID:<input id="grid-index" /><br>
-		<div class="button" id="make-grid-pattern">Grid Generate</div>
-		<div class="button" id="calc-dens-pattern">Density Calculate</div>
-		<div class="button" id="make-dens-pattern">Density 1000 points</div>		
+
+		<!-- table (for motifs) -->
+		<table class="user-data-table" id="motifs-incl">
+		  <thead>
+		    <tr>
+		      <th class="col-1">Motifs</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  </tbody>
+		</table>
+		
+
+		
+		<div class="controls">		
+
+		  <div class="dropdown plain load">
+		    <button class="dropbtn">Load...</button>
+		    <div class="dropdown-content">
+		      Hello.
+		    </div>
+		  </div>
+
+		  <div class="dropdown plain props">
+		    <button class="dropbtn">Properties</button>
+		    <div class="dropdown-content">
+		      Hello.
+		    </div>
+		  </div>
+
+		  <div class="button s" id="alternate">Alternate</div>
+
+		</div>
+		
 	      </div>
 
 	      <div class="boxie" id="motif-linking">
 		<div class="title">Motif Linking</div>
+		motif ID:<input id="motif-index" /><br>
+		grid/density ID:<input id="grid-index" /><br>
+		<div class="button" id="make-grid-pattern">Grid Generate</div>
+		<div class="button" id="calc-dens-pattern">Density Calculate</div>
+		<div class="button" id="make-dens-pattern">Density 1000 pts</div>		
+
 	      </div>
 
+	      
 	      
 	      <div id="pdrive-preview-box" style="display: none;">
 		A small preview of the particular Grid or Density Plot can go here

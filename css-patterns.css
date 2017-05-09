@@ -144,6 +144,62 @@
 
 /* 4. Include Motifs Box - arrangement */
 
+#include-motifs table{
+    font-size: 13px;
+    margin: 3px;
+    margin-top: 0px;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+#include-motifs table tbody{
+    height: 147px;
+}
+
+/* There is 1 column only */
+#include-motifs table th,
+#include-motifs table td{
+    width: 95px;
+}
+
+#include-motifs table td{
+    height: 40px;
+}
+
+
+#include-motifs .controls{
+    position: absolute;
+    bottom: 0px;
+    right: 1px;
+    width: 75px;
+    text-align: center;
+}
+
+#include-motifs .dropbtn{
+    width: 65px;
+}
+
+#include-motifs .dropdown{
+    margin-bottom: 4px;
+}
+
+#include-motifs .dropdown-content{
+    left: 65px;
+    bottom: 0px;
+    height: 100px;
+    width: 60px;
+}
+
+
+
+#include-motifs .controls .button{
+    text-align: center;
+    width: 60px;
+    padding: 2px 0px;
+    margin-top: 2px;
+    margin-bottom: 8px;
+}
+
 /* 5. Motif Linking Box - arrangement */
 
 

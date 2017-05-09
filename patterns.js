@@ -120,7 +120,8 @@ var patterns = {
 
 
 	this.regenerate_table();
-	
+	this.regenerate_IM_table();
+
     },
 
     selected_row_i: undefined,
@@ -182,6 +183,23 @@ var patterns = {
 	
     },
 
+
+    regenerate_IM_table: function(){
+
+	$("#include-motifs table tbody").html("");
+
+	DM.dummyPattern.incl_Motif_uids.forEach(function(M_uid, i){
+    	    $("#include-motifs table tbody").append(
+		$('<tr/>').append(
+		    $('<td/>')
+			.text("uid = " + M_uid)
+		)
+	    );
+	});
+
+
+		
+    },    
     
 
     Display_grid_driven_pattern: function(M_index, G_index){
