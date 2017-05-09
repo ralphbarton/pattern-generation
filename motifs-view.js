@@ -22,8 +22,9 @@ var motifs_view = {
 	// 1.3 - Duplicate
 	$("#motifs-view .table-buttons #duplicate").click(function(){
 	    if(motifs_view.selected_row_i !== undefined){
-		DM.motf_Duplicate(motifs_view.selected_row_i); // Mutate
-		motifs_view.regenerate_table(); // Visual update
+		var index = motifs_view.selected_row_i;
+		DM.motf_Duplicate(index); // Mutate
+		motifs_view.regenerate_table(index+1); // Visual update
 	    }
 	});
 
@@ -40,7 +41,7 @@ var motifs_view = {
     },
 
 
-    regenerate_table: function(){
+    regenerate_table: function(select_index){
 
 	//wipe the entire table of rows...
 	$("#motifs-view tbody").html("");
@@ -87,6 +88,12 @@ var motifs_view = {
 			    
 			}
 		    })
+		    .on("my_onLoad", function(){
+			// this ineligant code may "click" one of the table rows, upon generation...
+			if((select_index !== undefined) &&((i == select_index))){
+			    $(this).click();
+			}
+		    }).trigger("my_onLoad")
 	    );
 	});
 
