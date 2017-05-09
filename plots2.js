@@ -5,6 +5,7 @@ var plots2 = {
     //context information for a broken up piece of (plotting) Work
     wcx: {
 	compilled_formula: undefined,
+	isComplex: undefined,
 	canvas_ctx: undefined,
 	samples_sets: [],
 	winW: undefined,
@@ -80,7 +81,9 @@ var plots2 = {
 
 	var Plot_i = DM.plotArray[plots.selected_row_i];
 	this.wcx.compilled_formula = math.compile(Plot_i.formula);
-
+	// note that this test for string contains 'z' is different to the test used elsewhere...
+	this.wcx.isComplex = Plot_i.formula.includes("z");
+	
 	//assume 1 otherwise
 	this.wcx.res_lim = parseInt($("#Tab-plot #z-5 #res-lim input").val()) || 1;
 
@@ -226,12 +229,14 @@ var plots2 = {
 	    var random_x = this.wcx.x_randomise[this.wcx.x].i; // this is an ACCESS operation on an array of randomised
 
 
-	    // 1. calculating the sample
-	    var x_location = (random_x - this.wcx.n_steps_xH) * this.wcx.interval_size;
-	    var y_location = (this.wcx.y - this.wcx.n_steps_yH) * this.wcx.interval_size;
-	    var my_z = math.complex(x_location, y_location)
-	    var my_fz = this.wcx.compilled_formula.eval({z: my_z});/////MATHS EVALUATION AT POINT
-	    var my_h = my_fz.re;
+	    // 1. calculating the sample (_Lc is abbreviation for 'location')
+	    var x_Lc = (random_x - this.wcx.n_steps_xH) * this.wcx.interval_size;
+	    var y_Lc = (this.wcx.y - this.wcx.n_steps_yH) * this.wcx.interval_size;
+
+	    //this 2D variable may be a cartesian coordinate or a complex value
+	    var indep_variable = this.wcx.isComplex ? {z: math.complex(x_Lc, y_Lc)} : {x: x_Lc, y: y_Lc};
+	    var my_fz = this.wcx.compilled_formula.eval(indep_variable);/////MATHS EVALUATION AT POINT
+	    var my_h = this.wcx.isComplex ? my_fz.re : my_fz;
 
 	    // 2.store calculated value....
 	    samples.push(my_h);
