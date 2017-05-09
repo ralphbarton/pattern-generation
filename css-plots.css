@@ -63,10 +63,10 @@
     box-shadow: 0px 0px 7px 0px rgba(0,0,0,1);
     border-radius: 2px;
     z-index: 1;
-    top: 125px;
-    left: 444px;
+    top: 122px;
+    left: 441px;
     height: 45px;
-    width: 244px
+    width: 251px
 }
 
 .zone#z-3 .comment{
@@ -112,38 +112,50 @@
 /* 3. Zoom + Rotation block (zone-4) */
 
 #Tab-plot .act-mutex{
-    margin-bottom: 2px;
-    display: inline-block;
-}
-
-#mouse-zoom{
-    margin-top: 6px;
+    margin-bottom: 4px;
     position: relative;
-    left: 3px
 }
 
-#reset-zoom{
+#Tab-plot #z-4 .chunk{
     position: absolute;
-    right: 5px;
-    top: 2px;
+    /* this will show up what's going on!
+    border: 1px solid red;*/
 }
 
-#square-axes{
-    position: absolute;
-    right: 5px;
-    top: 18px;
+#Tab-plot #z-4 .chunk.n1{
+    top: 10px;
+    width: 140px;
 }
 
-#more-brack{
-    position: absolute;
-    right: 5px;
-    top: 34px;
+#Tab-plot #lock-aspects{
+    left: 6px;
 }
 
-
-#zoom-both-x-y{
-    margin-top: 7px;
+#Tab-plot #zoom-both-x-y{
+    left: 36px; 
 }
+
+#Tab-plot #steps-SML{
+    left: 36px;
+}
+
+#Tab-plot #z-4 .chunk.n2{
+    width: 70px;
+    right: 3px;
+}
+
+#Tab-plot #z-4 .chunk.n2 > div{
+    text-align: right;
+    margin-bottom: 4px;
+    display: block;
+}
+
+#Tab-plot #z-4 .chunk.n3{
+    bottom: 0px;
+    width: 100%;
+    height: 45px;
+}
+
 
 .sqr-but.plus span{
     top: -6px;
@@ -202,11 +214,14 @@
     height: 68px; 
 }
 
+#hist-stats > div{
+    margin-top: 3px;
+    margin: 2px;
+}
+
 #hist-stats div span{
     font-weight: bold;
-    font-family: sans;
     color: rgba(0, 0, 70, 0.5);
-    font-size: 10px;
 }
 
 #z-2 #hist-flatten {
@@ -245,20 +260,25 @@
 }
 
 #hist-adjust #ops > div{
-    margin: 3px 0px;
+    margin: 2px 0px;
+    margin-bottom: 5px;
     width: 150px;
 }
 
 #hist-adjust #ops > div > span{
     position: absolute;
-    left: 52px;
+    left: 44px;
 }
 
 #Tab-plot input.plain-cell{
     position: relative;
     top: -2px;
     height: 12px;
-    width: 40px;
+
+}
+
+#Tab-plot #ops input.plain-cell{
+    width: 50px;
 }
 
 #brightness > div,
@@ -266,6 +286,12 @@
     display: inline-block;
     position: absolute;
     left: 55px;
+}
+
+#brightness .tiny-btn,
+#contrast .tiny-btn{
+    position: relative;
+    top: -1px;
 }
 
 .tiny-btn.plus span{
@@ -289,14 +315,14 @@
 
 #hist-adjust #hist-reset{
     position: absolute;
-    left: 104px;  
-    top: 73px;
+    left: 106px;  
+    top: 74px;
 }
 
 #hist-adjust #hist-more{
     position: absolute;
-    left: 146px;  
-    top: 73px;
+    left: 148px;  
+    top: 74px;
 }
 
 
@@ -321,13 +347,13 @@
 
 /* 6. Preview Options - zone 5 */
 
-.zone#z-5 .act-mutex{
-    margin-top: 3px;
+.zone#z-5 .act-mutex#colouring{
+    top: 3px;
+    left: 17px;
 }
 
 .zone#z-5 .act-mutex#cv-contours{
-    position: relative;
-    top: -3px;
+    top: 5px;
 }
 
 .zone#z-5 #contours{

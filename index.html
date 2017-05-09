@@ -1013,15 +1013,20 @@
 	      <!-- 4. d -->
 	      <div class="zone boxie s" id="z-4">
 		<div class="title">Zoom&amp;Rotation</div>
-		<div class="act-mutex" id="mouse-zoom">Mouse Zoom:<div>On</div><div>Off</div></div>
-		<div class="act-mutex" id="lock-aspects">Aspect ratio:<div>lock</div><div>unlock</div></div>
-		<div class="action-link" id="reset-zoom">Reset Zoom</div>
-		<div class="action-link" id="square-axes">Square Axes</div>
-		<div class="mini-text" id="more-brack">[<div class="action-link" id="more">More...</div>]</div>
-		<div class="act-mutex" id="zoom-both-x-y">Zoom:<div>x, y</div><div>x only</div><div>y only</div></div>
-		<div class="act-mutex" id="steps-SML">Steps:<div>S</div><div>M</div><div>L</div></div>
+		<div class="chunk n1">
+		  <div class="act-mutex" id="mouse-zoom">Mouse Zoom:<div>On</div><div>Off</div></div>
+		  <div class="act-mutex" id="lock-aspects">Aspect ratio:<div>lock</div><div>unlock</div></div>
+		  <div class="act-mutex" id="zoom-both-x-y">Zoom:<div>x, y</div><div>x only</div><div>y only</div></div>
+		  <div class="act-mutex" id="steps-SML">Steps:<div>S</div><div>M</div><div>L</div></div>
+		</div>
 
-		<div class="mini-text" id="ztr-btns">
+		<div class="chunk n2">
+		  <div class="action-link" id="reset-zoom">Reset Zoom</div>
+		  <div class="action-link" id="square-axes">Square Axes</div>
+		  <div class="mini-text" id="more-brack">[<div class="action-link" id="more">More...</div>]</div>
+		</div>
+
+		<div class="chunk n3 mini-text" id="ztr-btns">
 		  <div id="zoom">
 		    <div class="b-label">Zoom:</div>
 		    <div class="button sqr-but minus"><span>–</span></div><div class="button sqr-but plus"><span>+</span></div>
@@ -1039,8 +1044,9 @@
 
 	      <!-- 5. d -->
 	      <div class="zone boxie s" id="z-5">
+		<div class="title">Preview Options</div>
+
 		<div class="mini-text">
-		  <div class="title">Preview Options</div>
 		  <div class="act-mutex" id="colouring">Colouring:<div>greyscale</div><div>posi-negi</div><div>heatmap</div></div>
 		  <div class="act-mutex" id="cv-contours">CV-Contours:<div>Show</div><div>Hide</div></div>
 		  <div id="contours">Qty.cvc:<span><input class="plain-cell s"/></div></span>
