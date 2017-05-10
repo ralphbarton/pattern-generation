@@ -1126,7 +1126,11 @@
 		  <div class="dropdown plain pdrive density">
 		    <button class="dropbtn">Density</button>
 		    <div class="dropdown-content">
-		    </div>
+		      <div class="dynamic"></div>
+		      <div class="placement-intensity">
+			<button>Placement Intensity</button>
+		      </div>
+		      </div>
 		  </div>
 
 		  <!-- Table -->	      		
@@ -1178,7 +1182,8 @@
 		
 	      </div>
 
-	      <div class="boxie" id="motif-linking">
+	      <!-- 'r-space' class are all alternative things to show in the same space -->	      
+	      <div class="boxie r-space" id="motif-linking">
 		<div class="title">Motif Linking</div>
 		motif ID:<input id="motif-index" /><br>
 		grid/density ID:<input id="grid-index" /><br>
@@ -1190,8 +1195,18 @@
 
 	      
 	      
-	      <div id="pdrive-preview-box" style="display: none;">
+	      <div class="pdrive-preview-box r-space" style="display: none;">
 		A small preview of the particular Grid or Density Plot can go here
+	      </div>
+
+	      
+	      <div class="boxie placement-intensity r-space" style="display: none;">
+		<div class="title">Placement Intensity</div>
+		Todo: design layout for this.
+
+		<!-- stuff here -->
+		
+		<div class="action-link" id="hide-pl-intens">Hide Placement Intensity</div>
 	      </div>
 
 	      

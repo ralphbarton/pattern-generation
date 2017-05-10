@@ -32,15 +32,22 @@ var patterns = {
 			    .text(grid.description);
 		    })
 		);
-	    $("#Tab-patt #motif-linking").hide();
-	    $("#Tab-patt #pdrive-preview-box").show();
+	    show_intens = false;
+	    $("#Tab-patt .r-space").hide();
+	    $("#Tab-patt .pdrive-preview-box").show();
 	});
 
-	function str_lim(txt, len){return txt.slice(0, len) + (txt.length > len ? "..." : "");}
+	function str_lim(txt, len){return txt.slice(0, len) + (txt.length > len ? "..." : "");};
+	function unDrop($El){
+	    $El.css("display", "none");
+	    setTimeout(function(){
+		$El.css("display", "");
+	    }, 300);//300 ms to guarentee the vanish is captured...
+	};
 	
 	// Pattern Drive: Density dropdown - refresh contents from DM (event triggered by hover)
 	$("#Tab-patt .dropdown.pdrive.density").on("mouseenter", function(){
-	    $(this).find(".dropdown-content")
+	    $(this).find(".dropdown-content .dynamic")
 		.html("")
 		.append(
 		    $("<div/>").text("Plots"),
@@ -54,21 +61,25 @@ var patterns = {
 		    // map any density paintings into the list (feature not yet made...)
 		    $("<a/>").attr("href","#").text("none")
 		);
-	    $("#Tab-patt #motif-linking").hide();
-	    $("#Tab-patt #pdrive-preview-box").show();
+	    show_intens = false;
+	    $("#Tab-patt .r-space").hide();
+	    $("#Tab-patt .pdrive-preview-box").show();
 	});
 
 	//apply to both dropdowns...
 	$("#Tab-patt .dropdown.pdrive").on("mouseleave", function(){
-	    $("#Tab-patt #motif-linking").show();
-	    $("#Tab-patt #pdrive-preview-box").hide();
+	    if(!show_intens){
+		$("#Tab-patt .r-space").hide();
+		$("#Tab-patt #motif-linking").show();
+	    }
 	});
 
 
-	// Click a grid elem
+	// Click any Pattern-Drive dropdown Element (Grid / Density)
 	$("#Tab-patt .pdrive .dropdown-content").click(function(ev){
 	    var $target = $(ev.target);
 	    if( $target.is('a') ){
+		unDrop($(this));//since we have selected, the menu disappears...
 		if(!$target.attr("id")){return;}// this will be the case for Paintings until inplemented (TODO!)
 		var uid = parseInt( $target.attr("id").replace(/[^0-9]/g,'') );
 
@@ -84,8 +95,19 @@ var patterns = {
 	    }
 	});
 
+	var show_intens = false;
+	$("#pattern-drive .pdrive.density .dropdown-content button").click(function(){
+	    show_intens = true;
+	    $("#Tab-patt .r-space").hide();
+	    $("#Tab-patt .placement-intensity").show();
+	});
 
 
+	$("#Tab-patt .action-link#hide-pl-intens").click(function(){
+	    show_intens = false;
+	    $("#Tab-patt .r-space").hide();
+	    $("#Tab-patt #motif-linking").show();
+	});
 
 
 

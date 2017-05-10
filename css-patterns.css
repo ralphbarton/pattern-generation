@@ -61,7 +61,13 @@
     height: 250px;
 }
 
-#Tab-patt #pdrive-preview-box{
+#Tab-patt .boxie.placement-intensity{
+    left: 199px;
+    height: 250px;
+}
+
+
+#Tab-patt .pdrive-preview-box{
     position: absolute;
     left: 200px;
     top: 20px;
@@ -73,6 +79,9 @@
     padding: 10px;
     font-size: 20px;
 }
+
+
+
 
 
 /* 3. Patterns Drive Box - arrangement */
@@ -95,15 +104,25 @@
     left: -90px
 }
 
-#pattern-drive .dropdown.pdrive .dropdown-content > div{
+#pattern-drive .dropdown.pdrive .dynamic > div{
     font-weight: bold;
     padding: 3px;
 }
 
-#pattern-drive .pdrive .dropdown-content > div:not(:first-child){
+#pattern-drive .pdrive .dynamic > div:not(:first-child){
     padding-top: 10px;
 }
 
+#pattern-drive .pdrive.density .dropdown-content .placement-intensity{
+    text-align: center;
+}
+
+#pattern-drive .pdrive.density .dropdown-content button{
+    width: 140px;
+    margin: 4px;
+}
+
+/* 3.1 Patterns Drive - that little table... */
 
 #Tab-patt #pattern-drive table{
     position: absolute;
@@ -141,6 +160,14 @@
     top: 0px;
     left: 4px
 }
+
+
+
+
+
+
+
+
 
 /* 4. Include Motifs Box - arrangement */
 
@@ -203,6 +230,15 @@
 /* 5. Motif Linking Box - arrangement */
 
 
+/* 6. Placement Intensity */
+#Tab-patt .placement-intensity #hide-pl-intens{
+    position: absolute;
+    bottom: 3px;
+    
+}
+
+
+/* 7. Beyond... */
 #Tab-patt .button#go{
     position: absolute;
     bottom: 3px;
