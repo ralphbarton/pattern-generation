@@ -348,18 +348,18 @@
 /* 6. Preview Options - zone 5 */
 
 .zone#z-5 .act-mutex#colouring{
-    top: 3px;
+    top: 0px;
     left: 17px;
 }
 
 .zone#z-5 .act-mutex#cv-contours{
-    top: 5px;
+    top: 0px;
 }
 
 .zone#z-5 #contours{
     position: absolute;
-    top: 24px;
-    left: 165px;
+    top: 17px;
+    right: 5px;
 }
 
 .zone#z-5 #contours span{
@@ -385,6 +385,9 @@
 }
 
 #z-5 #plot-status{
+    position: absolute;
+    top: 34px;
+    right: 5px;
     font-weight: bold;
     color: rgba(0,0,0,0.3);
 }

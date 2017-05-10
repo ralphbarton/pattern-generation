@@ -129,14 +129,17 @@ var patterns = {
 
 
 	$(".button#calc-dens-pattern").click(function(){
-	    patterns.Prepare_density_driven_pattern();
+
+	    //squaring function: squaring probability seems better visually
+	    density_render.Create_density_CDF($("#plot-canv"), function(x){return x**2});
 
 	});
 
 
 
 	$(".button#make-dens-pattern").click(function(){
-	    patterns.Display_density_driven_pattern();
+	    var pattern_svg = d3.select("#patterns-bg-svg");
+	    density_render.Draw_points_from_CDF(pattern_svg, 1000);
 	    
 	});
 
@@ -270,103 +273,7 @@ var patterns = {
 	//clear
 	my_join.exit().remove();
 	
-    },
-
-    
-    plot_cumulation: undefined,
-    Prepare_density_driven_pattern: function(){
-
-	var W = $(window).width();
-	var H = $(window).height();	
-
-	var $c = $("#plot-canv");
-	W = $c.width();
-	H = $c.height();
-	var ctx = $c[0].getContext('2d');
-
-	var Arr = ctx.getImageData(0,0, W, H).data;
-
-
-	this.plot_cumulation = [];
-	var acc = 0;
-	//there are 4 array elements for every 1 pixel
-	for (var i = 0; i < Arr.length; i+=4){
-	    var relative_prob = (Arr[i]/255)**2;//squaring probability seems better visually
-	    acc += relative_prob;
-	    this.plot_cumulation.push(acc);
-	}
-    },
-
-
-    pointSet: [],
-    Display_density_driven_pattern: function(){
-
-	//huh declare the function on every call of the outer function?
-
-	//this returns the index in the array...
-	var BinarySearch = function(i_min, i_max, val){
-
-	    if(i_min == i_max){return i_min;}
-	    var i_ave = Math.ceil((i_min + i_max)/2);
-	    var njgt = patterns.plot_cumulation[i_ave -1] > val;
-	    var   gt = patterns.plot_cumulation[i_ave   ] > val;
-
-	    if(!gt){
-		// Drill into upper part of range
-		return BinarySearch(i_ave, i_max, val);
-	    }else{
-		if(njgt){
-		    // Drill into lower part of range
-		    return BinarySearch(i_min, i_ave - 1, val);
-		}else{
-		    // we hit it!
-		    return i_ave;
-		}
-	    }
-	};	
-
-
-
-	var i_max = this.plot_cumulation.length - 1;
-	var v_max = this.plot_cumulation[i_max];
-
-	var W = $(window).width();
-	
-	for (var i = 0; i < 1000; i++){
-	    var rVal = Math.random() * v_max;
-	    var random_pixel_index = BinarySearch(0, i_max, rVal);
-
-	    //i'm assuming scanning left-to-right in horizontal lines starting from top
-	    var myPoint = {
-		x: (random_pixel_index % W),
-		y: Math.floor(random_pixel_index / W)
-
-	    };
-	    this.pointSet.push(myPoint);
-	}
-
-	//now plot it all...
-	var pattern_svg = d3.select("#patterns-bg-svg");
-	var my_join = pattern_svg.selectAll(".dot").data(this.pointSet);
-
-	//update
-	my_join
-	    .attr("cx", function(d){return d.x;})
-	    .attr("cy", function(d){return d.y;});
-
-	//add new
-	my_join.enter()
-	    .append("circle").attr("class","dot")
-	    .attr("cx", function(d){return d.x;})
-	    .attr("cy", function(d){return d.y;})
-	    .attr("r", 5)
-	    .attr("fill", "yellow")
-	    .attr("stroke","black")
-	    .attr("stroke-width","1");
-
-	//clear
-	my_join.exit().remove();
-
     }
+
     
 };
