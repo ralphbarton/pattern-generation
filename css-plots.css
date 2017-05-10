@@ -89,7 +89,8 @@
     width: 250px
 }
 
-.zone#z-5{
+.zone#z-5,
+.zone#z-6{
     top: 308px;
     left: 437px;
     height: 68px;
@@ -396,6 +397,40 @@
     font-family: sans;
     color: rgba(0,70,180,0.5);
 }
+
+
+/* 7. Render Pointset - zone 6 */
+#z-6 .button{
+    font-size: 12px;
+    padding: 2px 7px;
+}
+
+#z-6 .chunk1{
+    font-size: 14px;
+    position: relative;
+    top: 7px;
+    left: 3px;
+}
+
+#z-6 #prom-factor{
+    position: absolute;
+    top: 38px;
+    left: 6px;
+}
+
+#z-6 #clear-points{
+    position: absolute;
+    top: 38px;
+    right: 6px;
+}
+
+#z-6 #close-pointset-p{
+    position: absolute;
+    bottom: 2px;
+    right: 6px;
+}
+
+
 
 /**/
 #backgrounds{

@@ -67,6 +67,24 @@ var plots = {
 
 	});
 
+	$("#Tab-plot #z-5 .action-link#open-pointset-p").click(function(){
+	    $(".zone#z-5").fadeOut({duration: 400, easing: "linear"});
+	    $(".zone#z-6").fadeIn({duration: 400, easing: "linear"});
+	});
+
+	$("#Tab-plot #z-6 .action-link#close-pointset-p").click(function(){
+	    $(".zone#z-6").fadeOut({duration: 400, easing: "linear"});
+	    $(".zone#z-5").fadeIn({duration: 400, easing: "linear"});
+	});
+
+
+	// Within Pointset Preview...
+
+
+
+
+	
+	
 
 	// == Within Preview Options ==
 
@@ -86,6 +104,7 @@ var plots = {
 	]);
 
 
+	// this hides multiple comments of class 'comment'. Using ID, they will get individually shown
 	$("#z-3.zone .comment").hide();
  
 	//set an assumed res-limit value of 3 pixels
