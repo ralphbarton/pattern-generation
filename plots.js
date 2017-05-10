@@ -2,7 +2,8 @@ var plots = {
 
     selected_row_i: undefined,
     showing_plot_active: false,
-
+    InputsValues: {"prom-factor": 2},
+    
     UI_props: {
 	//properties of the PREVIEW tab
 	prev: {
@@ -72,18 +73,67 @@ var plots = {
 	    $(".zone#z-6").fadeIn({duration: 400, easing: "linear"});
 	});
 
+	// Within Pointset Preview...
+
+	// Numeric button
+	var qty_pnts = undefined;
+	$("#Tab-plot #z-6 .button").click(function(){
+	    if($(this).hasClass("ui-disabled")){return;}
+	    
+	    //show buttons in disabled state
+	    $("#Tab-plot #z-6 .button").addClass("ui-disabled");
+	    qty_pnts = parseInt( $(this).attr("id").replace(/[^0-9]/g,'') );
+
+	    //Regenerate the CDF for the plot, using the desired Prominence
+	    var Prom_function = function(x){return x ** plots.InputsValues["prom-factor"]};
+	    density_util.Create_density_CDF($("#plot-canv"), Prom_function);
+
+	    // Timeout is necessary because clicking must trigger a UI change (buttons disable)
+	    setTimeout(function(){
+
+		// this function may do a lot of work
+		density_util.Draw_many_using_CDF(qty_pnts, {clearAllExisting: true, dotAsMotif: true});
+
+		//show buttons in disabled state
+		$("#Tab-plot #z-6 .button").removeClass("ui-disabled");
+
+		
+	    }, 200);
+	});
+
+	
+	// "clear points" link
+	$("#Tab-plot #z-6 .action-link#clear-points").click(function(){
+	    // remove all points
+	    density_util.Draw_many_using_CDF(0, {clearAllExisting: true, dotAsMotif: true});
+	});
+	
+
+	// Initialise SmartInput for "Prominence Factor"
+	$("#Tab-plot #z-6 #prom-factor input").SmartInput({
+	    data_class: "dimentionless",
+	    data_class_override: {min: 1, max:8, steps:[0.1, 0.5, 1]},
+	    underlying_obj: plots.InputsValues,
+	    underlying_key: "prom-factor",
+	    underlying_from_DOM_onChange: true,
+	    cb_focusout: function(){// responsing to the change event can cause system to hang...
+		if(qty_pnts > 200){return;}
+		//Regenerate the CDF for the plot, using the desired Prominence
+		var Prom_function = function(x){return x ** plots.InputsValues["prom-factor"]};
+		density_util.Create_density_CDF($("#plot-canv"), Prom_function);
+
+		// this function may do a lot of work
+		density_util.Draw_many_using_CDF(qty_pnts, {clearAllExisting: true, dotAsMotif: true});
+	    }
+	});
+
+	
+	// "close" link
 	$("#Tab-plot #z-6 .action-link#close-pointset-p").click(function(){
 	    $(".zone#z-6").fadeOut({duration: 400, easing: "linear"});
 	    $(".zone#z-5").fadeIn({duration: 400, easing: "linear"});
 	});
 
-
-	// Within Pointset Preview...
-
-
-
-
-	
 	
 
 	// == Within Preview Options ==

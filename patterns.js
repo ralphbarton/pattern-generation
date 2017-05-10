@@ -131,7 +131,7 @@ var patterns = {
 	$(".button#calc-dens-pattern").click(function(){
 
 	    //squaring function: squaring probability seems better visually
-	    density_render.Create_density_CDF($("#plot-canv"), function(x){return x**2});
+	    density_util.Create_density_CDF($("#plot-canv"), function(x){return x**2});
 
 	});
 
@@ -139,8 +139,7 @@ var patterns = {
 
 	$(".button#make-dens-pattern").click(function(){
 	    var pattern_svg = d3.select("#patterns-bg-svg");
-	    density_render.Draw_points_from_CDF(pattern_svg, 1000);
-	    
+	    density_util.Draw_many_using_CDF(pattern_svg, 1000);
 	});
 
 

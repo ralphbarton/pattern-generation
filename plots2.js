@@ -79,6 +79,9 @@ var plots2 = {
 
 	this.wcx.start_time = new Date();
 
+	// remove all displaying "Rendered Pointset" points
+	density_util.Draw_many_using_CDF(0, {clearAllExisting: true, dotAsMotif: true});
+	
 	var Plot_i = DM.plotArray[plots.selected_row_i];
 	this.wcx.compilled_formula = math.compile(Plot_i.formula);
 	// note that this test for string contains 'z' is different to the test used elsewhere...

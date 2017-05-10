@@ -1,4 +1,4 @@
-var density_render = {
+var density_util = {
 
     density_CDF_Array: undefined,
     Create_density_CDF: function($D_canvas, fn_prob_rescale){
@@ -26,8 +26,39 @@ var density_render = {
 
 
     pointSet: [],
-    Draw_points_from_CDF: function(d3_svg, n_points){
+    Draw_many_using_CDF: function(n_points, options){
+	if(!this.density_CDF_Array){return;}
+	options = options || {};
 
+	//do not attempt to animate a large number of points
+	// (is this logic necessary - doesn't d3 already gracefully degrade animation??)
+	var AN = n_points < 200 && this.pointSet.length < 200;
+	
+	var d3_svg = undefined;
+	if(options.dotAsMotif){
+	    d3_svg = d3.select("#patterns-bg-svg");
+	}
+	
+	if(options.clearAllExisting){
+
+	    if(AN){
+		d3_svg.selectAll(".dot")
+		    .attr("class","vanishing")
+		    .transition()
+		    .duration(500)
+		    .attr("r", 0)
+		    .remove();
+	    }
+	    else{
+		d3_svg.selectAll(".dot")
+		    .remove();
+	    }
+		
+	    this.pointSet = [];
+	}
+
+
+	
 	var i_max = this.density_CDF_Array.length - 1;
 	var v_max = this.density_CDF_Array[i_max];
 
@@ -49,24 +80,41 @@ var density_render = {
 	//now plot it all...
 	var my_join = d3_svg.selectAll(".dot").data(this.pointSet);
 
+	/* this is a waste of time
 	//update
 	my_join
 	    .attr("cx", function(d){return d.x;})
 	    .attr("cy", function(d){return d.y;});
+	*/
 
 	//add new
-	my_join.enter()
+	var my_enter = my_join.enter()
 	    .append("circle").attr("class","dot")
 	    .attr("cx", function(d){return d.x;})
 	    .attr("cy", function(d){return d.y;})
-	    .attr("r", 5)
-	    .attr("fill", "yellow")
+	    .attr("r", (AN?0:3))
+	    .attr("fill", "red")
 	    .attr("stroke","black")
 	    .attr("stroke-width","1");
 
+	if(AN){
+	    my_enter
+	    	.transition()
+		.duration(500)
+		.attr("r", 3);
+	}
+	
+	// this is only relevant specifically to a case where n-points is reduced without clearing existing...
 	//clear
-	my_join.exit().remove();
-
+	if(AN){
+	    my_join.exit()
+		.transition()
+		.duration(500)
+		.attr("r", 0)
+		.remove();
+	}else{
+	    my_join.exit().remove();
+	}
     },
 
     
