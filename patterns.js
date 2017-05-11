@@ -151,7 +151,6 @@ var patterns = {
 		//disabling for now, this is just too annoying!!!
 		//		global.toast("Mouse scroll-wheel can be used on this list");
 	    }
-	    console.log("#Tab-patt .dropdown.load  -->  mouseenter was triggered. Rgen list");
 	});
 
 
@@ -163,19 +162,20 @@ var patterns = {
 	    
 	    var uid = parseInt( $target_clos_a.attr("id").replace(/[^0-9]/g,'') );
 
-	    $target_clos_a.remove();
-	    DM.dummyPattern.incl_Motif_uids.push(uid);
+	    var UID_list = DM.dummyPattern.incl_Motif_uids;
+	    if (UID_list.indexOf(uid) > -1) {return;}//already in the table...
+
+	    $target_clos_a.slideUp();
+	    UID_list.push(uid);
 	    patterns.regenerate_IM_table();	    
 	});
 
 	
 	$("#include-motifs table").click(function(ev){
-
 	    var $target = $(ev.target);
 	    if (!$target.hasClass("dustbin")){return;}
 	    
 	    var uid = $target.closest("td").data("uid");
-	    console.log("deletion of ", uid);
 
 	    var index = DM.dummyPattern.incl_Motif_uids.indexOf(uid);
 	    if (index > -1) {
@@ -287,8 +287,9 @@ var patterns = {
     regenerate_IM_table: function(){
 
 	$("#include-motifs table tbody").html("");
-
-	DM.dummyPattern.incl_Motif_uids.forEach(function(M_uid, i){
+	var UID_list = DM.dummyPattern.incl_Motif_uids;
+	
+	UID_list.forEach(function(M_uid, i){
 	    var Motif = $.grep(DM.motfArray, function(e){ return e.uid == M_uid })[0];
     	    $("#include-motifs table tbody").append(
 		$('<tr/>').append(
@@ -303,7 +304,8 @@ var patterns = {
 	    );
 	});
 
-
+	//disable 'properties' button if listing empty.
+	$("#include-motifs .dropdown.props").toggleClass("disabled", UID_list.length == 0);
 		
     },    
     
