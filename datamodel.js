@@ -673,7 +673,7 @@ var DM = {
     dummyPattern: {//default data
 	Name: "Pattern 1",
 	uid: 0,
-	incl_Motif_uids: [532, 127, 229],
+	incl_Motif_uids: [1],
 	type: undefined,
 	pdrive_uid: undefined
     },

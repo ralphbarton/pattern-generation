@@ -184,13 +184,27 @@
 }
 
 /* There is 1 column only */
-#include-motifs table th,
-#include-motifs table td{
+#include-motifs table th{
     width: 95px;
 }
 
 #include-motifs table td{
     height: 40px;
+    padding: 0px;
+    text-align: left;
+}
+
+#include-motifs table td > div {
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#include-motifs table td > div.title{
+    width: 40px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 12px;
+    font-size: 11px;
 }
 
 
@@ -252,7 +266,11 @@
     text-decoration: underline;
 }
 
-
+#include-motifs .load .dropdown-content div.comment{
+    padding: 5px;
+    font-style: italic;
+    color: rgba(0,0,0,0.5)
+}
 
 
 

@@ -114,11 +114,15 @@ var patterns = {
 
 	// Motifs selection list
 	$("#Tab-patt .dropdown.load").on("mouseenter", function(){
-	    global.toast("Mouse scroll-wheel can be used on this list");
+	    var UID_list = DM.dummyPattern.incl_Motif_uids;
+	    var a_count = 0;
 	    $(this).find(".dropdown-content")
 		.html("")
 		.append(
 		    DM.motfArray.map(function(Motif, i){
+			//if the motif is already there, don't put it in the list...
+			if ( UID_list.includes(Motif.uid) ){return;}
+			a_count ++;
 			return $("<a/>")
 			    .attr("href","#")
 		    	    .attr("id","motif-uid-" + Motif.uid)
@@ -126,20 +130,32 @@ var patterns = {
 				motifs_view.CreateMotifSVG(Motif, {dim: 45} ),
 				$("<div/>").addClass("title").text(Motif.Name)
 			    )
-		    })
+		    }),
+		    a_count > 0 ? null : $("<div/>").addClass("comment").text("(Empty List)")
 		)
+	    // This toast may get annoying...
+	    // TODO: mechanism to identify toasts (hash the message string?) and limit freqency / occurance.
+	    if(a_count > 3){
+		global.toast("Mouse scroll-wheel can be used on this list");
+	    }
 	});
 
 
 	
 	$("#Tab-patt .load .dropdown-content").click(function(ev){
-	    var $target = $(ev.target);
 
 	    //we may need to get closest <a> element, if target itself is not <a>
+	    var $target_clos_a = $(ev.target).closest("a");
 	    
-	    var uid = parseInt( $target.attr("id").replace(/[^0-9]/g,'') );
-	    console.log("Motif UID", uid);
-	    //	    if( $target.is('a') ){
+	    var uid = parseInt( $target_clos_a.attr("id").replace(/[^0-9]/g,'') );
+
+
+	    console.log($target_clos_a[0]);
+
+	    $target_clos_a.remove();
+	    DM.dummyPattern.incl_Motif_uids.push(uid);
+	    patterns.regenerate_IM_table();
+	    
 	});
 
 
@@ -250,10 +266,14 @@ var patterns = {
 	$("#include-motifs table tbody").html("");
 
 	DM.dummyPattern.incl_Motif_uids.forEach(function(M_uid, i){
+	    var Motif = $.grep(DM.motfArray, function(e){ return e.uid == M_uid })[0];
     	    $("#include-motifs table tbody").append(
 		$('<tr/>').append(
 		    $('<td/>')
-			.text("uid = " + M_uid)
+		    	.append(
+			    motifs_view.CreateMotifSVG(Motif, {dim: 45} ),
+			    $("<div/>").addClass("title").text(Motif.Name)
+			)
 		)
 	    );
 	});
