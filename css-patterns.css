@@ -285,12 +285,63 @@
 
 
 
-
+/*Styling STATIC PROPERTIES dropdown */
 
 #include-motifs .props .dropdown-content{
-    height: 160px;
-    width: 160px;
+    display: block;
+    height: 370px;
+    width: 220px;
+    bottom: -30px;
 }
+
+
+
+#include-motifs .props .dynamic{
+    text-align: center;
+}
+
+#include-motifs .props .dynamic .title{
+    padding: 3px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#include-motifs .props .m-box{
+    display: inline-block;
+    background-color: white;
+    width: 200px;
+    box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.6);
+}
+
+#include-motifs .props .static{
+    padding: 4px;
+    text-align: left;
+}
+
+#include-motifs .props .static .title{
+    padding: 4px 0px;
+}
+
+#include-motifs .props .i-note {
+    margin-left: 4px;
+
+    display: inline-block;
+}
+
+#include-motifs .props input{
+    position: absolute;
+    left: 65px;
+}
+
+#include-motifs .props .slider{
+    height: 10px;
+    width: 200px;
+    margin: 5px;
+    border: 1px solid blue;
+    background-color: rgba(255,255,0,0.1)
+}
+
+
 
 #include-motifs .controls .button{
     text-align: center;

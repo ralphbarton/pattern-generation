@@ -148,8 +148,7 @@ var patterns = {
 	    // This toast may get annoying...
 	    // TODO: mechanism to identify toasts (hash the message string?) and limit freqency / occurance.
 	    if(a_count > 3){
-		//disabling for now, this is just too annoying!!!
-		//		global.toast("Mouse scroll-wheel can be used on this list");
+		global.toast("Mouse scroll-wheel can be used on this list");
 	    }
 	});
 
@@ -185,6 +184,28 @@ var patterns = {
 	});
 
 
+
+
+
+
+
+
+	// Motifs Static Properties (just Scale, Angle, Opacity)
+	$("#include-motifs .dropdown.props").on("mouseenter", function(){
+	    var M_uid = $("#include-motifs table").find("tr.selected td").data("uid");
+	    if (M_uid == undefined){return;}
+	    var Motif = $.grep(DM.motfArray, function(e){ return e.uid == M_uid })[0];
+	    $(this).find(".dynamic")
+		.html("")
+		.append(
+		    $("<div/>").addClass("title").text(Motif.Name),
+		    motifs_view.CreateMotifSVG(Motif, {dim: 200} ).addClass("m-box")
+		);
+	    
+	});
+
+	$("#include-motifs .dropdown.props .slider").slider();
+	
 	
 
 	// Temporary stuff relating to demonstrating
@@ -300,7 +321,10 @@ var patterns = {
 			    $("<img/>").addClass("dustbin").attr("src", "icons/dustbin-100.png")
 			)
 			.data({uid: M_uid})
-		)
+		).on("click",function(){ //click on the row
+		    $("#include-motifs table tr.selected").removeClass("selected");
+		    $(this).addClass("selected");
+		})
 	    );
 	});
 
