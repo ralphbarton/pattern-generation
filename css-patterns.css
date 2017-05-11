@@ -213,11 +213,55 @@
 #include-motifs .dropdown-content{
     left: 65px;
     bottom: 0px;
-    height: 100px;
-    width: 60px;
 }
 
 
+
+
+
+/*Styling specific to LOAD MOTIF dropdown */
+
+#include-motifs .load .dropdown-content{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 160px;
+    width: 160px;
+}
+
+#include-motifs .load .dropdown-content a{
+    position: relative;
+    height: 45px;
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+    text-align: left;
+    padding: 2px;
+}
+
+#include-motifs .load .dropdown-content a:last-child{
+    border: none;
+}
+
+#include-motifs .load .dropdown-content a > div {
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+#include-motifs .load .dropdown-content a > div.title{
+    /*text-align: center;*/
+    margin-left: 4px;
+    width: 97px;
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+#include-motifs .props .dropdown-content{
+    height: 160px;
+    width: 160px;
+}
 
 #include-motifs .controls .button{
     text-align: center;

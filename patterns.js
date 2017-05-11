@@ -95,6 +95,7 @@ var patterns = {
 	    }
 	});
 
+	// "Placement Intensity" pane - 'show' button within the dropdown
 	var show_intens = false;
 	$("#pattern-drive .pdrive.density .dropdown-content button").click(function(){
 	    show_intens = true;
@@ -102,7 +103,7 @@ var patterns = {
 	    $("#Tab-patt .placement-intensity").show();
 	});
 
-
+	// "Placement Intensity" pane - 'hide' button within the pane itself
 	$("#Tab-patt .action-link#hide-pl-intens").click(function(){
 	    show_intens = false;
 	    $("#Tab-patt .r-space").hide();
@@ -110,6 +111,42 @@ var patterns = {
 	});
 
 
+
+	// Motifs selection list
+	$("#Tab-patt .dropdown.load").on("mouseenter", function(){
+	    global.toast("Mouse scroll-wheel can be used on this list");
+	    $(this).find(".dropdown-content")
+		.html("")
+		.append(
+		    DM.motfArray.map(function(Motif, i){
+			return $("<a/>")
+			    .attr("href","#")
+		    	    .attr("id","motif-uid-" + Motif.uid)
+			    .append(
+				motifs_view.CreateMotifSVG(Motif, {dim: 45} ),
+				$("<div/>").addClass("title").text(Motif.Name)
+			    )
+		    })
+		)
+	});
+
+
+	
+	$("#Tab-patt .load .dropdown-content").click(function(ev){
+	    var $target = $(ev.target);
+
+	    //we may need to get closest <a> element, if target itself is not <a>
+	    
+	    var uid = parseInt( $target.attr("id").replace(/[^0-9]/g,'') );
+	    console.log("Motif UID", uid);
+	    //	    if( $target.is('a') ){
+	});
+
+
+
+
+
+	
 
 	// Temporary stuff relating to demonstrating
 	

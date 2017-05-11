@@ -111,6 +111,15 @@ var motifs_view = {
     
     CreateMotifSVG: function(Motif, options){
 
+	/*
+	  Options:
+
+	  d3_selection - a new SVG element (within a DIV) gets created and returned, if 
+	  no d3 selection is provided...
+	  
+	  dim - the dimention...
+	*/
+	
 	options = options || {};
 
 	var d3_selection;
