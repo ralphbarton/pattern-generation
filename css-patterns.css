@@ -66,6 +66,12 @@
     height: 250px;
 }
 
+#Tab-patt .boxie.motif-alternate{
+    left: 199px;
+    height: 200px;
+    width: 318px;
+}
+
 
 #Tab-patt .pdrive-preview-box{
     position: absolute;
@@ -192,6 +198,7 @@
     height: 40px;
     padding: 0px;
     text-align: left;
+    position: relative;
 }
 
 #include-motifs table td > div {
@@ -205,6 +212,12 @@
     overflow-x: hidden;
     height: 12px;
     font-size: 11px;
+}
+
+#include-motifs table td .dustbin{
+    height: 25px;
+    right: 2px;
+    bottom: 3px;
 }
 
 
@@ -228,8 +241,6 @@
     left: 65px;
     bottom: 0px;
 }
-
-
 
 
 
@@ -293,10 +304,11 @@
 
 
 /* 6. Placement Intensity */
-#Tab-patt .placement-intensity #hide-pl-intens{
+#Tab-patt .placement-intensity #hide-pl-intens,
+#Tab-patt .motif-alternate #hide-motif-alternate{
     position: absolute;
     bottom: 3px;
-    
+    right: 6px;
 }
 
 

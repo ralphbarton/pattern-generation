@@ -656,3 +656,16 @@ text-decoration: underline;
     border-color: rgba(53, 72, 143, 0.8);
     box-shadow: 0px 0px 3px 1px rgba(37, 71, 193, 0.42);
 }
+
+
+
+/* 9. Dustbin icon (against white background)*/
+img.dustbin{
+    position: absolute;
+    opacity: 0.5;
+}
+
+img.dustbin:hover{
+    opacity: 1;
+    filter: saturate(8) hue-rotate(120deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
+}

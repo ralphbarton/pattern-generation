@@ -183,19 +183,11 @@
 }
 
 
-img.delete-m-elem{
-    position: absolute;
+.dustbin.delete-m-elem{
     height: 32px;
     right: 1px;
     top:  5px;
-    opacity: 0.5;
 }
-
-img.delete-m-elem:hover{
-    opacity: 1;
-    filter: saturate(8) hue-rotate(120deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
-}
-
 
 .heading-bar .props-tables-vis-buttons{
     position: absolute;

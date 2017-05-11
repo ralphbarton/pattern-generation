@@ -110,7 +110,19 @@ var patterns = {
 	    $("#Tab-patt #motif-linking").show();
 	});
 
+	
+	// "Motif Alternate" - hide
+	$("#Tab-patt .action-link#hide-motif-alternate").click(function(){
+	    $("#Tab-patt .r-space").hide();
+	    $("#Tab-patt #motif-linking").show();
+	});
 
+	// "Motif Alternate" - show
+	$("#Tab-patt #include-motifs .button#alternate").click(function(){
+	    $("#Tab-patt .r-space").hide();
+	    $("#Tab-patt .motif-alternate").show();
+	});
+	
 
 	// Motifs selection list
 	$("#Tab-patt .dropdown.load").on("mouseenter", function(){
@@ -136,12 +148,14 @@ var patterns = {
 	    // This toast may get annoying...
 	    // TODO: mechanism to identify toasts (hash the message string?) and limit freqency / occurance.
 	    if(a_count > 3){
-		global.toast("Mouse scroll-wheel can be used on this list");
+		//disabling for now, this is just too annoying!!!
+		//		global.toast("Mouse scroll-wheel can be used on this list");
 	    }
+	    console.log("#Tab-patt .dropdown.load  -->  mouseenter was triggered. Rgen list");
 	});
 
 
-	
+	// Selecting a motif from the available motifs list (triggers deletion from this list...)
 	$("#Tab-patt .load .dropdown-content").click(function(ev){
 
 	    //we may need to get closest <a> element, if target itself is not <a>
@@ -149,17 +163,26 @@ var patterns = {
 	    
 	    var uid = parseInt( $target_clos_a.attr("id").replace(/[^0-9]/g,'') );
 
-
-	    console.log($target_clos_a[0]);
-
 	    $target_clos_a.remove();
 	    DM.dummyPattern.incl_Motif_uids.push(uid);
-	    patterns.regenerate_IM_table();
-	    
+	    patterns.regenerate_IM_table();	    
 	});
 
+	
+	$("#include-motifs table").click(function(ev){
 
+	    var $target = $(ev.target);
+	    if (!$target.hasClass("dustbin")){return;}
+	    
+	    var uid = $target.closest("td").data("uid");
+	    console.log("deletion of ", uid);
 
+	    var index = DM.dummyPattern.incl_Motif_uids.indexOf(uid);
+	    if (index > -1) {
+		DM.dummyPattern.incl_Motif_uids.splice(index, 1);
+	    }
+	    patterns.regenerate_IM_table();
+	});
 
 
 	
@@ -272,8 +295,10 @@ var patterns = {
 		    $('<td/>')
 		    	.append(
 			    motifs_view.CreateMotifSVG(Motif, {dim: 45} ),
-			    $("<div/>").addClass("title").text(Motif.Name)
+			    $("<div/>").addClass("title").text(Motif.Name),
+			    $("<img/>").addClass("dustbin").attr("src", "icons/dustbin-100.png")
 			)
+			.data({uid: M_uid})
 		)
 	    );
 	});
