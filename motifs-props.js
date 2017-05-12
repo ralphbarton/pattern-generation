@@ -195,8 +195,9 @@ var motifs_props = {
 	// 2.3 - Clicking the heading bar selects item on canvas
 	$ME_plist.find(".heading-bar").click(function(){
 	    var canvas = motifs_edit.Fabric_Canvas;
-	    var fObj = $.grep(canvas._objects, function(El){return El.PGTuid == PGTuid;})[0];
-	    canvas.setActiveObject(fObj);
+	    var Fabric_Object = DM.GetByKey_( canvas._objects, "PGTuid", PGTuid);
+	    
+	    canvas.setActiveObject(Fabric_Object);
 	});
 
 	
@@ -204,7 +205,8 @@ var motifs_props = {
 	// 3. Create and populate the tables html...
 
 	// 3.1 Get the set of props which applies for this shape...
-	var props_thisShapeType = $.grep(this.props_perShapeType, function(e){return e.shape == properties.shape; })[0];
+	var props_thisShapeType = DM.GetByKey_( this.props_perShapeType, "shape", properties.shape);
+
 	$ME_plist.find(".heading-bar .name").text(props_thisShapeType.name + " " + PGTuid);
 
 	var PropGroupNames = {

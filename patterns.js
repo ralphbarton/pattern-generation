@@ -86,8 +86,8 @@ var patterns = {
 		var isGrid = $target.attr("id").includes("grid");
 		var type_str = isGrid ? "grid" : "plot";
 
-		var Obj = $.grep(DM[type_str+"Array"], function(e){ return e.uid == uid; })[0];
-
+		var Obj = DM.GetByKey_(DM[type_str+"Array"], "uid", uid);
+		
 		var Obj_Name = str_lim(Obj[isGrid?"description":"formula"], isGrid ? 12 : 8);
 		$("#pattern-drive table td.col-2").text((isGrid?"Grid":"Density")+": " + Obj_Name);
 		DM.dummyPattern.type = type_str;
@@ -194,7 +194,9 @@ var patterns = {
 	$("#include-motifs .dropdown.props").on("mouseenter", function(){
 	    var M_uid = $("#include-motifs table").find("tr.selected td").data("uid");
 	    if (M_uid == undefined){return;}
-	    var Motif = $.grep(DM.motfArray, function(e){ return e.uid == M_uid })[0];
+
+	    var Motif = DM.GetByKey_( DM.motfArray, "uid", M_uid);
+	    
 	    $(this).find(".dynamic")
 		.html("")
 		.append(
@@ -379,8 +381,9 @@ var patterns = {
 	var UID_list = DM.dummyPattern.incl_Motif_uids;
 	
 	UID_list.forEach(function(M_uid, i){
-	    var Motif = $.grep(DM.motfArray, function(e){ return e.uid == M_uid })[0];
-    	    $("#include-motifs table tbody").append(
+	    var Motif = DM.GetByKey_( DM.motfArray, "uid", M_uid);
+
+	    $("#include-motifs table tbody").append(
 		$('<tr/>').append(
 		    $('<td/>')
 		    	.append(

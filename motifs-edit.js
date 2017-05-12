@@ -162,8 +162,7 @@ var motifs_edit = {
 	
 	// get Fabric object via its PGTuid
 	var canvas = this.Fabric_Canvas;
-	var Fabric_Object = $.grep(motifs_edit.Fabric_Canvas._objects, function(fObj){return fObj.PGTuid == uid;})[0];
-
+	var Fabric_Object = DM.GetByKey_( canvas._objects, "PGTuid", uid);
 	Fabric_Object.deleting = true; // removal from canvas triggers callbacks, which test for this...
 
 	
@@ -179,7 +178,7 @@ var motifs_edit = {
 	
 	// get Fabric object via its PGTuid
 	var canvas = this.Fabric_Canvas;
-	var Fabric_Object = $.grep(motifs_edit.Fabric_Canvas._objects, function(fObj){return fObj.PGTuid == uid;})[0];
+	var Fabric_Object = DM.GetByKey_( canvas._objects, "PGTuid", uid);
 
 	// 1. update in canvas
 	Fabric_Object.set(propsCng);

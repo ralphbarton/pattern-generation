@@ -1,6 +1,15 @@
 //data model...
 var DM = {
 
+    // Pass this function an Array of Objects (dictionaries).
+    // It will return first object which contains a key value pair matching that supplied
+    GetByKey_: function(Array, key, value){
+
+	// the jQuery grep function which searches array for elements that match a filter function
+	// note how grep returns an ARRAY of the matched elements, so I must select the actual element using [0]
+	return $.grep(Array, function(e){ return e[key] == value; })[0];
+    },
+    
     uid: {
 	//these values are based on the size of the dummy data lower down in this file...
 	counters: {
@@ -776,11 +785,8 @@ var DM = {
 
 
     EDmotf_UpdateElement: function(PGTuid, PropsObj){
-
-	// the jQuery grep function which searches array for elements that match a filter function
-	// note how grep returns an ARRAY of the matched elements, so I must select the actual element using [0]
-	var Updating_Element = $.grep(DM.EDITINGmotf.Elements, function(El){return El.PGTuid == PGTuid;})[0];
-
+	var Updating_Element = DM.GetByKey_( DM.EDITINGmotf.Elements, "PGTuid", PGTuid);
+	
 	//use jQuery to iterate over elements of 'PropsObj'
 	$.each( PropsObj, function( key, value ) {
 	    Updating_Element[key] = value;
