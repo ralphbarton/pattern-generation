@@ -160,7 +160,8 @@ var patterns = {
 
 	    //we may need to get closest <a> element, if target itself is not <a>
 	    var $target_clos_a = $(ev.target).closest("a");
-	    
+
+	    if( !$target_clos_a.attr("id") ){return;}// I don't think this is watertight...
 	    var uid = parseInt( $target_clos_a.attr("id").replace(/[^0-9]/g,'') );
 
 	    // Motif already in the table (no need to add it => return)...
