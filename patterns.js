@@ -126,14 +126,16 @@ var patterns = {
 
 	// Motifs selection list
 	$("#Tab-patt .dropdown.load").on("mouseenter", function(){
-	    var UID_list = DM.dummyPattern.incl_Motif_uids;
+
+	    var patt_M_set = DM.dummyPattern.Motif_set;// motif set of this pattern
+
 	    var a_count = 0;
 	    $(this).find(".dropdown-content")
 		.html("")
 		.append(
 		    DM.motfArray.map(function(Motif, i){
-			//if the motif is already there, don't put it in the list...
-			if ( UID_list.includes(Motif.uid) ){return;}
+			//if motif already in this Pattern, don't put in selection list...
+			if ( DM.GetByKey_( patt_M_set, "uid", Motif.uid) !== undefined ){return;}
 			a_count ++;
 			return $("<a/>")
 			    .attr("href","#")
@@ -161,11 +163,11 @@ var patterns = {
 	    
 	    var uid = parseInt( $target_clos_a.attr("id").replace(/[^0-9]/g,'') );
 
-	    var UID_list = DM.dummyPattern.incl_Motif_uids;
-	    if (UID_list.indexOf(uid) > -1) {return;}//already in the table...
+	    // Motif already in the table (no need to add it => return)...
+	    if ( DM.GetByKey_( DM.dummyPattern.Motif_set, "uid", Motif.uid) !== undefined ){return;}
 
 	    $target_clos_a.slideUp();
-	    UID_list.push(uid);
+	    DM.EDIT_patt_pushMotif(DM.dummyPattern, uid);
 	    patterns.regenerate_IM_table();	    
 	});
 
@@ -176,10 +178,18 @@ var patterns = {
 	    
 	    var uid = $target.closest("td").data("uid");
 
-	    var index = DM.dummyPattern.incl_Motif_uids.indexOf(uid);
+	    var patt_M_set = DM.dummyPattern.Motif_set;// motif set of this pattern
+
+	    // remove matching object from array (turn into reusable function?)
+	    var index = -1;
+	    $.each(patt_M_set, function( i, Object ) {
+		if(Object["uid"] == uid){index = i;}
+	    });	    
 	    if (index > -1) {
-		DM.dummyPattern.incl_Motif_uids.splice(index, 1);
+		patt_M_set.splice(index, 1);
 	    }
+
+	    
 	    patterns.regenerate_IM_table();
 	});
 
@@ -191,6 +201,7 @@ var patterns = {
 
 
 	// Motifs Static Properties (just Scale, Angle, Opacity)
+	var M_Props = undefined;
 	$("#include-motifs .dropdown.props").on("mouseenter", function(){
 	    var M_uid = $("#include-motifs table").find("tr.selected td").data("uid");
 	    if (M_uid == undefined){return;}
@@ -212,60 +223,57 @@ var patterns = {
 	    var d3_motif_definition = d3_svg.append("defs").append("g").attr("id", "M-defn");
 	    motifs_view.CreateMotifSVG(Motif, {d3_selection: d3_motif_definition});
 
+	    //Properties of THIS motif in the context of THIS pattern...
+	    M_Props = DM.GetByKey_( DM.dummyPattern.Motif_set, "uid", M_uid);
+	    
 	    d3_svg
 		.append("use")
-		.attr("xlink:href", "#M-defn")
-		.attr("transform", "translate(100 100) rotate("+0+") scale("+0.5+")");
+		.attr("xlink:href", "#M-defn");
+
+	    ApplyDropdownTransform(M_Props);
+
+	    //set sliders to the relevant percentages!
+	    var scale_PC = 25 * ( Math.log2(M_Props.scale) + 3);
+	    $("#include-motifs .props .scale .slider").slider({value: scale_PC});
+	    var angle_PC = (50/180) * (M_Props.angle + 180);
+	    $("#include-motifs .props .angle .slider").slider({value: angle_PC});
+	    var opacity_PC = M_Props.opacity * 100;
+	    $("#include-motifs .props .opacity .slider").slider({value: opacity_PC});
+
 	});
 
-	$("#include-motifs .dropdown.props .slider").slider();
 
+	var ApplyDropdownTransform = function(mp){
+	    d3.select("#include-motifs .dropdown.props .m-box")
+		.select("use")// the single 'use' element is the Motif
+		.attr("transform", "translate(100 100) rotate(" + mp.angle + ") scale(" + mp.scale + ")")
+		.attr("opacity", mp.opacity);
+	};
+	
 	//Slider: SCALE
 	$("#include-motifs .props .scale .slider").slider({
-	    //starting value on initialisation (should be loaded from DM...)
-	    value: 50,
-	    //callback function
 	    slide: function(event, ui) {
-		var pos = ui.value; // this scales 0 to 100
-		var scale = 2 ** ((pos/25) - 3);
-		
-		var d3_svg = d3.select("#include-motifs .dropdown.props .m-box");
-		d3_svg.select("use")
-		    .attr("transform", "translate(100 100) rotate("+0+") scale("+scale+")");
-		
+		M_Props.scale = 2 ** (( ui.value / 25 ) - 3);// ui.value ranges 0 to 100
+		ApplyDropdownTransform(M_Props);
 	    }
 	});
 	
 
 	//Slider: ANGLE
 	$("#include-motifs .props .angle .slider").slider({
-	    //starting value on initialisation (should be loaded from DM...)
-	    value: 50,
-	    //callback function
 	    slide: function(event, ui) {
-		var pos = ui.value; // this scales 0 to 100
-		var angle = (pos - 50) * (180/50);
-		
-		var d3_svg = d3.select("#include-motifs .dropdown.props .m-box");
-		d3_svg.select("use")
-		    .attr("transform", "translate(100 100) rotate("+angle+") scale("+0.5+")");
-		
+		M_Props.angle = (ui.value - 50) * (180/50);
+		ApplyDropdownTransform(M_Props);
 	    }
 	});
 
 
 	//Slider: OPACITY
 	$("#include-motifs .props .opacity .slider").slider({
-	    //starting value on initialisation (should be loaded from DM...)
-	    value: 100,
 	    //callback function
 	    slide: function(event, ui) {
-		var pos = ui.value; // this scales 0 to 100
-		
-		var d3_svg = d3.select("#include-motifs .dropdown.props .m-box");
-		d3_svg.select("use")
-		    .attr("opacity", (pos/100));
-		
+		M_Props.opacity = ui.value / 100;
+		ApplyDropdownTransform(M_Props);
 	    }
 	});
 
@@ -378,10 +386,10 @@ var patterns = {
     regenerate_IM_table: function(){
 
 	$("#include-motifs table tbody").html("");
-	var UID_list = DM.dummyPattern.incl_Motif_uids;
+	var patt_M_set = DM.dummyPattern.Motif_set;// motif set of this pattern
 	
-	UID_list.forEach(function(M_uid, i){
-	    var Motif = DM.GetByKey_( DM.motfArray, "uid", M_uid);
+	patt_M_set.forEach(function(M_Props, i){
+	    var Motif = DM.GetByKey_( DM.motfArray, "uid", M_Props.uid);
 
 	    $("#include-motifs table tbody").append(
 		$('<tr/>').append(
@@ -391,7 +399,7 @@ var patterns = {
 			    $("<div/>").addClass("title").text(Motif.Name),
 			    $("<img/>").addClass("dustbin").attr("src", "icons/dustbin-100.png")
 			)
-			.data({uid: M_uid})
+			.data({uid: M_Props.uid})
 		).on("click",function(){ //click on the row
 		    $("#include-motifs table tr.selected").removeClass("selected");
 		    $(this).addClass("selected");
@@ -400,7 +408,7 @@ var patterns = {
 	});
 
 	//disable 'properties' button if listing empty.
-	$("#include-motifs .dropdown.props").toggleClass("disabled", UID_list.length == 0);
+	$("#include-motifs .dropdown.props").toggleClass("disabled", patt_M_set.length == 0);
 		
     },    
     

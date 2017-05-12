@@ -805,10 +805,16 @@ var DM = {
     dummyPattern: {//default data
 	Name: "Pattern 1",
 	uid: 0,
-	incl_Motif_uids: [1],
+	Motif_set: [{
+	    uid: 1,
+	    scale: 0.5,
+	    angle: 0,
+	    opacity: 1
+	}],
 	type: undefined,
 	pdrive_uid: undefined
     },
+    
     pattArray: [
 	{
 	    Name: "Tortoise",
@@ -830,14 +836,23 @@ var DM = {
 	this.pattArray.push({//default data
 	    Name: "New Pattern ("+qty_new+")",
 	    uid: this.uid.createNew("patt"),
-	    incl_Motif_uids: [],
+	    Motif_set: [],
 	    grid_uid: undefined,
 	    plot_uid: undefined,
 	    paint_uid: undefined
 	});
 
 	return this.pattArray.length - 1;//return index of newly added element
-    }
+    },
+    
 
+    EDIT_patt_pushMotif: function(Pattern, motif_uid){
+	Pattern.Motif_set.push({
+	    uid: motif_uid,
+	    scale: 0.5,
+	    angle: 0,
+	    opacity: 1
+	});
+    }
 
 };
