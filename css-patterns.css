@@ -289,9 +289,9 @@
 
 #include-motifs .props .dropdown-content{
     display: block;
-    height: 380px;
+    height: 385px;
     width: 220px;
-    bottom: -34px;
+    bottom: -37px;
 }
 
 #include-motifs .props .dynamic{
@@ -338,7 +338,6 @@
     margin-bottom: 13px;
     border: 1px solid rgba(0,0,0,0.1);
     background-color: rgba(255,255,255,0.2);
-
 }
 
 #include-motifs .slider .ui-slider-handle{

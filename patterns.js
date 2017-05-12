@@ -199,15 +199,83 @@ var patterns = {
 		.html("")
 		.append(
 		    $("<div/>").addClass("title").text(Motif.Name),
-		    motifs_view.CreateMotifSVG(Motif, {dim: 200} ).addClass("m-box")
+		    $("<div/>").addClass("m-box") // container for svg
 		);
-	    
+
+	    var d3_svg = d3.select("#include-motifs .dropdown.props .m-box")
+		.append("svg")
+		.attr("width", 200)
+		.attr("height", 200);
+
+	    var d3_motif_definition = d3_svg.append("defs").append("g").attr("id", "M-defn");
+	    motifs_view.CreateMotifSVG(Motif, {d3_selection: d3_motif_definition});
+
+	    d3_svg
+		.append("use")
+		.attr("xlink:href", "#M-defn")
+		.attr("transform", "translate(100 100) rotate("+0+") scale("+0.5+")");
 	});
 
 	$("#include-motifs .dropdown.props .slider").slider();
-	
+
+	//Slider: SCALE
+	$("#include-motifs .props .scale .slider").slider({
+	    //starting value on initialisation (should be loaded from DM...)
+	    value: 50,
+	    //callback function
+	    slide: function(event, ui) {
+		var pos = ui.value; // this scales 0 to 100
+		var scale = 2 ** ((pos/25) - 3);
+		
+		var d3_svg = d3.select("#include-motifs .dropdown.props .m-box");
+		d3_svg.select("use")
+		    .attr("transform", "translate(100 100) rotate("+0+") scale("+scale+")");
+		
+	    }
+	});
 	
 
+	//Slider: ANGLE
+	$("#include-motifs .props .angle .slider").slider({
+	    //starting value on initialisation (should be loaded from DM...)
+	    value: 50,
+	    //callback function
+	    slide: function(event, ui) {
+		var pos = ui.value; // this scales 0 to 100
+		var angle = (pos - 50) * (180/50);
+		
+		var d3_svg = d3.select("#include-motifs .dropdown.props .m-box");
+		d3_svg.select("use")
+		    .attr("transform", "translate(100 100) rotate("+angle+") scale("+0.5+")");
+		
+	    }
+	});
+
+
+	//Slider: OPACITY
+	$("#include-motifs .props .opacity .slider").slider({
+	    //starting value on initialisation (should be loaded from DM...)
+	    value: 100,
+	    //callback function
+	    slide: function(event, ui) {
+		var pos = ui.value; // this scales 0 to 100
+		
+		var d3_svg = d3.select("#include-motifs .dropdown.props .m-box");
+		d3_svg.select("use")
+		    .attr("opacity", (pos/100));
+		
+	    }
+	});
+
+
+
+
+
+
+
+
+
+	
 	// Temporary stuff relating to demonstrating
 	
 	var W = $(window).width();
