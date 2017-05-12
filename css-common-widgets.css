@@ -440,7 +440,6 @@ input.plain-cell.s{
 }
 
 input.plain-cell:hover{
-    transition: all 0.2s;
     border-color: rgba(0,70,180,0.5);
     background: rgba(255,255,255,0.4);
     color: rgba(0,0,0,0.7);
@@ -668,4 +667,23 @@ img.dustbin{
 img.dustbin:hover{
     opacity: 1;
     filter: saturate(8) hue-rotate(120deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
+}
+
+/* 10. Some generic slider styling...*/
+.ui-slider {
+    position: relative;
+}
+
+.ui-slider .ui-slider-handle{
+    position: absolute;
+    z-index: 1;
+    width: 4px;
+    height: 30px;
+    border: 1px solid blueviolet;
+    margin-left: -3px; /*half of w incl. border*/
+    cursor: default;
+    -ms-touch-action: none;
+    touch-action: none;
+    background: #f6f6f6;
+    top: -1px;
 }

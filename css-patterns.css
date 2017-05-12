@@ -289,12 +289,10 @@
 
 #include-motifs .props .dropdown-content{
     display: block;
-    height: 370px;
+    height: 380px;
     width: 220px;
-    bottom: -30px;
+    bottom: -34px;
 }
-
-
 
 #include-motifs .props .dynamic{
     text-align: center;
@@ -319,7 +317,7 @@
 }
 
 #include-motifs .props .static .title{
-    padding: 4px 0px;
+    padding: 2px 0px;
 }
 
 #include-motifs .props .i-note {
@@ -334,12 +332,52 @@
 }
 
 #include-motifs .props .slider{
-    height: 10px;
+    height: 5px;
     width: 200px;
-    margin: 5px;
-    border: 1px solid blue;
-    background-color: rgba(255,255,0,0.1)
+    margin: 12px 5px;
+    margin-bottom: 13px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: rgba(255,255,255,0.2);
+
 }
+
+#include-motifs .slider .ui-slider-handle{
+    position: absolute;
+    z-index: 1;
+    width: 5px;
+    height: 17px;
+    top: -7px;
+    border: 1px solid rgba(0,0,0,0.4);
+    background-color: #F2EEE0;
+    border-radius: 3px;
+    margin-left: -4px; /*half of w incl. border*/
+    cursor: default;
+    -ms-touch-action: none;
+    touch-action: none;
+    transition: background-color 0.1s, border-color 0.1s;
+}
+
+#include-motifs .slider .ui-slider-handle.ui-state-hover{
+    background-color: #CDCBDA;
+    border-color: rgba(0,0,220,0.6);
+}
+
+
+
+#include-motifs .slider .ui-slider-handle.ui-state-focus{
+    background-color: rgba(200, 199, 211, 0.9);
+    border-color: rgba(0,0,110,0.7);
+}
+
+#include-motifs .slider .ui-slider-handle.ui-state-active{
+    background-color: rgba(176, 171, 210, 0.9);
+    border-color: rgba(0,0,220,0.9);
+}
+
+
+
+
+
 
 
 
