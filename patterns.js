@@ -1,5 +1,6 @@
 var patterns = {
 
+    InputsValues: {},
     
     init: function(){
 
@@ -236,11 +237,19 @@ var patterns = {
 	    //set sliders to the relevant percentages!
 	    var scale_PC = 25 * ( Math.log2(M_Props.scale) + 3);
 	    $("#include-motifs .props .scale .slider").slider({value: scale_PC});
-	    var angle_PC = (50/180) * (M_Props.angle + 180);
+	    var angle_PC = (50/180) * ( M_Props.angle + 180);
 	    $("#include-motifs .props .angle .slider").slider({value: angle_PC});
 	    var opacity_PC = M_Props.opacity * 100;
 	    $("#include-motifs .props .opacity .slider").slider({value: opacity_PC});
 
+	    //set smart inputs. We cannot assign entire new object.
+	    // (note about SCALE): this is a different percentage to the slider, whose value is log...
+	    patterns.InputsValues.scale = M_Props.scale * 100;
+	    patterns.InputsValues.angle = M_Props.angle
+	    patterns.InputsValues.opacity = M_Props.opacity * 100;
+
+	    $("#include-motifs .props .opacity input").SmartInput("update", {data_change: true});
+	    
 	});
 
 
@@ -250,6 +259,8 @@ var patterns = {
 		.attr("transform", "translate(100 100) rotate(" + mp.angle + ") scale(" + mp.scale + ")")
 		.attr("opacity", mp.opacity);
 	};
+
+	//TODO: condense these 3 into a single statement.
 	
 	//Slider: SCALE
 	$("#include-motifs .props .scale .slider").slider({
@@ -275,11 +286,26 @@ var patterns = {
 	    slide: function(event, ui) {
 		M_Props.opacity = ui.value / 100;
 		ApplyDropdownTransform(M_Props);
+		patterns.InputsValues.opacity = ui.value;
+		$("#include-motifs .props .opacity input").SmartInput("update", {data_change: true});
 	    }
 	});
 
-
-
+	
+	//Smart Inputs....
+	$("#include-motifs .props .opacity input").SmartInput({
+	    underlying_obj: patterns.InputsValues,
+	    underlying_key: "opacity",
+	    data_class: "percent",
+	    data_class_override: {steps:[10, 1]},//change the order....
+	    underlying_from_DOM_onChange: true,
+	    cb_change: function(){
+		var inp_val = patterns.InputsValues.opacity;
+		M_Props.opacity = inp_val / 100;
+		$("#include-motifs .props .opacity .slider").slider({value: inp_val});
+		ApplyDropdownTransform(M_Props);
+	    }//all the graphical change...
+	});
 
 
 
@@ -404,13 +430,14 @@ var patterns = {
 		).on("click",function(){ //click on the row
 		    $("#include-motifs table tr.selected").removeClass("selected");
 		    $(this).addClass("selected");
+		    $("#include-motifs .dropdown.props").removeClass("disabled");
 		})
 	    );
 	});
 
-	//disable 'properties' button if listing empty.
-	$("#include-motifs .dropdown.props").toggleClass("disabled", patt_M_set.length == 0);
-		
+	//on table Creation, no row is selected (keeps things relatively simple)-> Disable 'props' button
+	$("#include-motifs .dropdown.props").addClass("disabled");
+
     },    
     
 
