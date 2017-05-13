@@ -511,13 +511,12 @@ var patterns = {
 
 	var mID = "my-motif-id-" + motif_props.uid;
 	var d3_svg = d3.select("#patterns-bg-svg");
-	
-	var d3_mot_defn = d3_svg.append("defs");
 
-	d3_mot_defn.select("g#"+ mID).remove();	//clear any old defn.
+	//clear any old defn.
+	d3_svg.selectAll("defs").remove();
 
 	motifs_view.CreateMotifSVG(Motif, {
-	    d3_selection: d3_mot_defn.append("g").attr("id", mID) // add new definition
+	    d3_selection: d3_svg.append("defs").append("g").attr("id", mID) // add new definition
 	});
 
 	//this is hacky, the true causes 2nd param to be used...
