@@ -131,6 +131,9 @@ var patterns = {
 	$("#Tab-patt .dropdown.load").on("mouseenter", function(){
 
 	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
+
+	    if (!Pattern_i){return;}
+	    
 	    var patt_M_set = Pattern_i.Motif_set;// motif set of this pattern
 
 	    var a_count = 0;
@@ -334,7 +337,7 @@ var patterns = {
 	$(".button#make-grid-pattern").click(function(){
 	    var M_index = $("#motif-index").val();
 	    var G_index = $("#grid-index").val();
-	    patterns.Display_grid_driven_pattern(M_index, G_index);
+
 
 	});
 
@@ -352,6 +355,40 @@ var patterns = {
 	$(".button#make-dens-pattern").click(function(){
 	    var pattern_svg = d3.select("#patterns-bg-svg");
 	    density_util.Draw_many_using_CDF(pattern_svg, 1000);
+	});
+
+
+
+
+	$(".button#generate").click(function(){
+
+	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
+
+	    if (Pattern_i === undefined){
+		global.toast("No pattern selected for rendering");//TODO... will this be unreachable?
+		return;
+	    }
+	    
+	    var patt_M_set = Pattern_i.Motif_set;
+
+	    if (patt_M_set.length < 1){
+		global.toast("Select Motif(s) to pattern");
+		return;
+	    }
+
+	    var motif_props = patt_M_set[0];
+	    
+	    if(Pattern_i.type == "grid"){
+
+		// draw the grid...
+		patterns.Display_grid_driven_pattern(motif_props, Pattern_i.pdrive_uid);
+		
+	    }else if(Pattern_i.type == "plot"){
+		console.log("need to write plot handling...");
+
+	    }
+
+
 	});
 
 
@@ -468,53 +505,37 @@ var patterns = {
     },    
     
 
-    Display_grid_driven_pattern: function(M_index, G_index){
+    Display_grid_driven_pattern: function(motif_props, grid_uid){
 
-	var motif_definitions = d3.select("#patterns-bg-svg").append("defs");
-	var pattern_svg = d3.select("#patterns-bg-svg");
+	var Motif   = DM.GetByKey_( DM.motfArray, "uid", motif_props.uid);
+
+	var mID = "my-motif-id-" + motif_props.uid;
+	var d3_svg = d3.select("#patterns-bg-svg");
 	
-	
-	var mID = "my-motif-id-" + M_index;
-	var Motif = DM.motfArray[M_index];
+	var d3_mot_defn = d3_svg.append("defs");
 
-	//clear the old defn.
-	motif_definitions.select("g#"+ mID).remove();
-	var d3_selector = motif_definitions.append("g").attr("id", mID);	    
+	d3_mot_defn.select("g#"+ mID).remove();	//clear any old defn.
 
-	motifs_view.CreateMotifSVG(Motif, {d3_selection: d3_selector});
+	motifs_view.CreateMotifSVG(Motif, {
+	    d3_selection: d3_mot_defn.append("g").attr("id", mID) // add new definition
+	});
 
-	myIntersectionPoints = grids.calc_grid_intersection_points(G_index);
+	//this is hacky, the true causes 2nd param to be used...
+	myIntersectionPoints = grids.calc_grid_intersection_points(true, grid_uid);
 
-/*
-  DEMONSTRATES RANDOM TRANSFORMS...
-	var W = $(window).width();
-	var H = $(window).height();
+	//scrap everything of old pattern
+	d3_svg.selectAll(".live").remove();
 
-	var r1 = Math.random() * W;
-	var r2 = Math.random() * H;
-	var r3 = Math.random();
-	var r4 = -30 + Math.random()*60;
-	.attr("transform", "translate("+r1+" "+r2+") rotate("+r4+") scale("+r3+")");
-*/
-
-	//The items in the transform list are separated by whitespace and/or commas, and are applied from right to left
-	// "translate(<x> [<y>]) rotate(<a> [<x> <y>]) scale(<x> [<y>])"
-	var my_join = pattern_svg.selectAll(".live").data(myIntersectionPoints);
-
-	//update
-	my_join.attr("transform", function(d){return "translate("+d.x+" "+d.y+") scale(0.2)";});
-
-	//add new
-	my_join.enter()
+	//Add all data afresh...
+	d3_svg.selectAll(".live").data(myIntersectionPoints)
+	    .enter()
 	    .append("use")
 	    .attr("class","live")
 	    .attr("xlink:href", "#"+mID)
-	    .attr("transform", function(d){return "translate("+d.x+" "+d.y+") scale(0.2)";});
-
-	//clear
-	my_join.exit().remove();
-	
+	    .attr("transform", function(d){
+		return "translate("+d.x+" "+d.y+") rotate(" + motif_props.angle + ") scale(" + motif_props.scale + ")";
+	    })
+	    .attr("opacity", motif_props.opacity);
     }
-
     
 };

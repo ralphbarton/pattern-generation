@@ -390,14 +390,22 @@ var grids = {
 	    .attr("r", 3);
 	
     },
-    
-    calc_grid_intersection_points: function(grid_index){
 
+    //todo - only use uid???
+    calc_grid_intersection_points: function(grid_index, grid_uid){
+
+	
 	// function can only operate if a Grid is selected...
+	// note how grid_index is optional and 'selected_row_i' is the fallback.
 	if(grid_index === undefined && this.selected_row_i === undefined){return;}
 	
-	// 1. Calculate the Basis vectors
+
 	var grid_obj = DM.gridArray[ grid_index || this.selected_row_i ];
+	if(grid_uid !== undefined){
+	    grid_obj = DM.GetByKey_( DM.gridArray, "uid", grid_uid );
+	}
+
+	// 1. Calculate the Basis vectors
 	var S1 = this.spacing_unit_objectUpdater(grid_obj.line_sets[0], "pixels", true);
 	var S2 = this.spacing_unit_objectUpdater(grid_obj.line_sets[1], "pixels", true);
 
