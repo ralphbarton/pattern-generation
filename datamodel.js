@@ -801,29 +801,27 @@ var DM = {
 
 
 
-
-    dummyPattern: {//default data
-	Name: "Pattern 1",
-	uid: 0,
-	Motif_set: [{
-	    uid: 1,
-	    scale: 0.5,
-	    angle: 0,
-	    opacity: 1
-	}],
-	type: undefined,
-	pdrive_uid: undefined
-    },
-    
     pattArray: [
 	{
-	    Name: "Tortoise",
-	    uid: 0
+	    Name: "Pattern 1",
+	    uid: 0,
+	    Motif_set: [{
+		uid: 1,
+		scale: 0.5,
+		angle: 0,
+		opacity: 1
+	    }],
+	    type: "grid",
+	    pdrive_uid: 0
 	},
 	{
 	    Name: "Frog Goat",
-	    uid: 0
-	}],
+	    uid: 1,
+	    Motif_set: [],
+	    type: undefined,
+	    pdrive_uid: undefined
+	}
+    ],
     
     patt_Delete: function(index){
 	this.pattArray.splice(index, 1);

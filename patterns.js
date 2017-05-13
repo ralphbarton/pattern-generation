@@ -82,19 +82,21 @@ var patterns = {
 	    if( $target.is('a') ){
 		unDrop($(this));//since we have selected, the menu disappears...
 		if(!$target.attr("id")){return;}// this will be the case for Paintings until inplemented (TODO!)
-		var uid = parseInt( $target.attr("id").replace(/[^0-9]/g,'') );
 
+		// get uid of the pattern drive...
+		var pd_uid = parseInt( $target.attr("id").replace(/[^0-9]/g,'') );
 		var isGrid = $target.attr("id").includes("grid");
-		var type_str = isGrid ? "grid" : "plot";
 
-		var Obj = DM.GetByKey_(DM[type_str+"Array"], "uid", uid);
-		
-		var Obj_Name = str_lim(Obj[isGrid?"description":"formula"], isGrid ? 12 : 8);
-		$("#pattern-drive table td.col-2").text((isGrid?"Grid":"Density")+": " + Obj_Name);
-		DM.dummyPattern.type = type_str;
-		DM.dummyPattern.pdrive_uid = uid;
+		var Pattern_i = DM.pattArray[patterns.selected_row_i];
+		Pattern_i.type = isGrid ? "grid" : "plot";
+		Pattern_i.pdrive_uid = pd_uid;
+
+		//this references the DM data, so call last...
+		patterns.UIsetPatternDriveName();
 	    }
 	});
+	
+	
 
 	// "Placement Intensity" pane - 'show' button within the dropdown
 	var show_intens = false;
@@ -128,7 +130,8 @@ var patterns = {
 	// Motifs selection list
 	$("#Tab-patt .dropdown.load").on("mouseenter", function(){
 
-	    var patt_M_set = DM.dummyPattern.Motif_set;// motif set of this pattern
+	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
+	    var patt_M_set = Pattern_i.Motif_set;// motif set of this pattern
 
 	    var a_count = 0;
 	    $(this).find(".dropdown-content")
@@ -159,6 +162,8 @@ var patterns = {
 	// Selecting a motif from the available motifs list (triggers deletion from this list...)
 	$("#Tab-patt .load .dropdown-content").click(function(ev){
 
+	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
+	    
 	    //we may need to get closest <a> element, if target itself is not <a>
 	    var $target_clos_a = $(ev.target).closest("a");
 
@@ -166,10 +171,10 @@ var patterns = {
 	    var uid = parseInt( $target_clos_a.attr("id").replace(/[^0-9]/g,'') );
 
 	    // Motif already in the table (no need to add it => return)...
-	    if ( DM.GetByKey_( DM.dummyPattern.Motif_set, "uid", Motif.uid) !== undefined ){return;}
+	    if ( DM.GetByKey_( Pattern_i.Motif_set, "uid", Motif.uid) !== undefined ){return;}
 
 	    $target_clos_a.slideUp();
-	    DM.EDIT_patt_pushMotif(DM.dummyPattern, uid);
+	    DM.EDIT_patt_pushMotif(Pattern_i, uid);
 	    patterns.regenerate_IM_table();	    
 	});
 
@@ -180,7 +185,8 @@ var patterns = {
 	    
 	    var uid = $target.closest("td").data("uid");
 
-	    var patt_M_set = DM.dummyPattern.Motif_set;// motif set of this pattern
+	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
+	    var patt_M_set = Pattern_i.Motif_set;// motif set of this pattern
 
 	    // remove matching object from array (turn into reusable function?)
 	    var index = -1;
@@ -225,8 +231,12 @@ var patterns = {
 	    var d3_motif_definition = d3_svg.append("defs").append("g").attr("id", "M-defn");
 	    motifs_view.CreateMotifSVG(Motif, {d3_selection: d3_motif_definition});
 
+
+	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
+	    var patt_M_set = Pattern_i.Motif_set;// motif set of this pattern
+
 	    //Properties of THIS motif in the context of THIS pattern...
-	    M_Props = DM.GetByKey_( DM.dummyPattern.Motif_set, "uid", M_uid);
+	    M_Props = DM.GetByKey_( patt_M_set, "uid", M_uid);
 	    
 	    d3_svg
 		.append("use")
@@ -346,7 +356,6 @@ var patterns = {
 
 
 	this.regenerate_table();
-	this.regenerate_IM_table();
 
     },
 
@@ -388,12 +397,9 @@ var patterns = {
 
 			    var Pattern = DM.pattArray[i];
 
-			    // 2. Re-prep screen...
-			    //var $something
-
-			    /*
-			      Potentially, a lot goes here...
-			     */
+			    // 2. Rerender screen for this row...
+			    patterns.UIsetPatternDriveName();
+			    patterns.regenerate_IM_table();
 			    
 			}
 		    })
@@ -410,10 +416,31 @@ var patterns = {
     },
 
 
+    UIsetPatternDriveName: function(){
+
+	var Pattern_i = DM.pattArray[patterns.selected_row_i];
+	if( Pattern_i.pdrive_uid === undefined){//no pattern drive set
+	    $("#pattern-drive table td.col-2 .title").text("");
+	    $("#pattern-drive table td.col-2 .none").show();
+	    return;
+	}
+
+	function str_lim(txt, len){return txt.slice(0, len) + (txt.length > len ? "..." : "");};
+	var isGrid = Pattern_i.type == "grid";
+
+	var Obj = DM.GetByKey_( DM[Pattern_i.type+"Array"], "uid", Pattern_i.pdrive_uid);
+	var Obj_Name = str_lim(Obj[isGrid?"description":"formula"], isGrid ? 12 : 8);
+	$("#pattern-drive table td.col-2 .none").hide();
+	$("#pattern-drive table td.col-2 .title").text((isGrid?"Grid":"Density")+": " + Obj_Name);
+    },
+
+
+    
     regenerate_IM_table: function(){
+	var Pattern_i = DM.pattArray[patterns.selected_row_i];
+	var patt_M_set = Pattern_i.Motif_set;// motif set of this pattern
 
 	$("#include-motifs table tbody").html("");
-	var patt_M_set = DM.dummyPattern.Motif_set;// motif set of this pattern
 	
 	patt_M_set.forEach(function(M_Props, i){
 	    var Motif = DM.GetByKey_( DM.motfArray, "uid", M_Props.uid);
