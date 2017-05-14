@@ -75,25 +75,39 @@ var patterns = {
 	    }
 	});
 
-
-	// Click any Pattern-Drive dropdown Element (Grid / Density)
-	$("#Tab-patt .pdrive .dropdown-content").click(function(ev){
+	var AelemInfo = function(ev, cb){
 	    var $target = $(ev.target);
 	    if( $target.is('a') ){
-		unDrop($(this));//since we have selected, the menu disappears...
 		if(!$target.attr("id")){return;}// this will be the case for Paintings until inplemented (TODO!)
 
 		// get uid of the pattern drive...
 		var pd_uid = parseInt( $target.attr("id").replace(/[^0-9]/g,'') );
 		var isGrid = $target.attr("id").includes("grid");
+		var type = isGrid ? "grid" : "plot";
+		cb(pd_uid, type);
+	    }
+	};
 
+	// Click any Pattern-Drive dropdown Element (Grid / Density)
+	$("#Tab-patt .pdrive .dropdown-content").click(function(ev){
+
+	    unDrop($(this));//since we have selected, the menu disappears...
+
+	    AelemInfo(ev, function(pd_uid, type){
 		var Pattern_i = DM.pattArray[patterns.selected_row_i];
-		Pattern_i.type = isGrid ? "grid" : "plot";
+		Pattern_i.type = type;
 		Pattern_i.pdrive_uid = pd_uid;
 
 		//this references the DM data, so call last...
 		patterns.UIsetPatternDriveName();
-	    }
+	    });
+	});
+
+	// mouseover is in this case preferred to mouseenter. Need to retrigger for different child elems!
+	$("#Tab-patt .pdrive .dropdown-content").on("mouseover", function(ev){
+	    AelemInfo(ev, function(pd_uid, type){
+		console.log(pd_uid, type);
+	    });
 	});
 	
 	
@@ -452,18 +466,25 @@ var patterns = {
 			    // 2. Rerender screen for this row...
 			    patterns.UIsetPatternDriveName();
 			    patterns.regenerate_IM_table();
-			    
+
+			    //un disable on row click...
+			    $("#pattern-drive .dropdown.pdrive").removeClass("disabled");
 			}
 		    })
 	    );
 	});
 
+	//on table Creation, no row is selected (keeps things relatively simple)-> Disable 'props' button
+	$("#pattern-drive .dropdown.pdrive").addClass("disabled");
+	
 	// use click handler to achieve re-selection
 	if(this.selected_row_i != undefined){
 	    var click_me_i = this.selected_row_i;
 	    this.selected_row_i = undefined;//necessary for this dummy click to cause an action.
 	    $($("#patterns-table tbody tr")[click_me_i]).click();
 	}
+
+	
 	
     },
 
