@@ -123,9 +123,10 @@
 
 
 
-/* 3. Underlying SVGs */
+/* 3. Backgrounds */
 
-.fullscreen-bg-svg{
+/* 3.1 - Underlying SVGs */
+body > #backgrounds > svg {
     z-index: -1;
     position: absolute;
     top:0;

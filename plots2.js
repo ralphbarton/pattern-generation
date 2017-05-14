@@ -31,43 +31,8 @@ var plots2 = {
 	val_lower_saturate_colour: -2
     },
 
-    plotting_canv: function(clear){
 
-	//get or create new canvas for the plot...
-	//TODO - use multiple canvases, one for each plot...
-
-	//sets the global this.wcx.canvas_ctx
-	this.wcx.winW = $(window).width();
-	this.wcx.winH = $(window).height();
-
-	var my_W = this.wcx.winW;
-	var my_H = this.wcx.winH;
-
-	var canv_ctx = undefined;
-
-	if($("#plot-canv").length > 0){
-	    canv_ctx = $("#plot-canv")[0].getContext('2d');
-	    $("#plot-canv").attr("width", my_W)
-		.attr("height", my_H);
-
-	}else{
-	    var $pc = $('<canvas/>')
-		.attr("width", my_W)
-		.attr("height", my_H)
-		.attr("id", "plot-canv");
-	    $("#backgrounds").append($pc);
-	    canv_ctx = $pc[0].getContext('2d');
-	}
-
-	if(clear){
-	    canv_ctx.clearRect(0, 0, my_W, my_H);
-	}
-
-	return canv_ctx;
-
-    },
-
-    draw_job: function(){
+    draw_job: function(plot_uid, options){
 
 	// Cancel any pre-existing draw job
 	if(this.wcx.recursive_timeoutID != null){
@@ -83,6 +48,14 @@ var plots2 = {
 	density_util.Draw_many_using_CDF(0, {clearAllExisting: true, dotAsMotif: true});
 	
 	var Plot_i = DM.plotArray[plots.selected_row_i];
+	if(plot_uid !== undefined){
+	    Plot_i = DM.GetByKey_( DM.plotArray, "uid", plot_uid)
+	}else{
+	    //this needs to be set...
+	    plot_uid = Plot_i.uid;
+	}
+	options = options || {visible: true};//by default, make the current one visible...
+
 	this.wcx.compilled_formula = math.compile(Plot_i.formula);
 	// note that this test for string contains 'z' is different to the test used elsewhere...
 	this.wcx.isComplex = Plot_i.formula.includes("z");
@@ -90,7 +63,35 @@ var plots2 = {
 	//assume 1 otherwise
 	this.wcx.res_lim = parseInt($("#Tab-plot #z-5 #res-lim input").val()) || 1;
 
-	this.wcx.canvas_ctx = this.plotting_canv(false);
+	this.wcx.winW = $(window).width();
+	this.wcx.winH = $(window).height();
+
+	
+	// Add a new canvas for the required plot into the dom, if it does not already exist
+	var pID = "plot-" + plot_uid;
+	var $c = $("body > #backgrounds canvas#" + pID)
+	if( $c.length > 0 ){
+	    // if so, just update its dimentions
+	    $c.attr("width", this.wcx.winW)
+		.attr("height", this.wcx.winH);
+	}else{
+	    // otherwise, create it and append to backgounds...
+	    $c = $('<canvas/>')
+		.attr("width", this.wcx.winW)
+		.attr("height", this.wcx.winH)
+		.addClass("plot")
+		.attr("id", pID);
+	    $("#backgrounds").append( $c );
+	}
+
+	// make all plot canvases hidden, except maybe the current one...
+	$("body > #backgrounds canvas.plot").hide();
+	if(options.visible){
+	    $("body > #backgrounds canvas#" + pID).show();
+	}
+	
+	this.wcx.canvas_ctx = $c[0].getContext('2d');
+
 
 	//function calls
 	this.wcx.iterations_counted = 0;

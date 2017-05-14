@@ -9,8 +9,10 @@ var plots = {
 	prev: {
 	    contours: 3,
 	    res_limit: 3,
-	    colouring: 0
+	    colouring: 1 /* 0  would be rainbow... */
 	},
+
+	plots_canvas_qualities: {},
 
 	zoom: {
 	    mouse_zoom: undefined,
@@ -58,12 +60,15 @@ var plots = {
 
 	$("#Tab-plot #z-5 .action-link#clear").click(function(){
 	    plots2.abort_recursive_work();
-	    plots2.plotting_canv(true);//clear the canvas...
+
+	    // hide all plot canvases...
+	    $("body > #backgrounds canvas.plot").hide();
+
 	    plots.showing_plot_active = false;
 
 	    //Delete all the bars of the barchart.
 	    d3.select("#hist svg")
-	    .selectAll("rect").remove();
+		.selectAll("rect").remove();
 	    plots.first_hist = true;
 
 	});
@@ -295,7 +300,19 @@ var plots = {
 			    });
 
 			    if(plots.showing_plot_active){
-				plots2.draw_job();//this will abort the existing job and start afresh
+				
+				//only initiate redrawing if there isn't a canvas there for this plot...
+				var pID = "plot-" + Plot_i.uid;
+				var $c = $("body > #backgrounds canvas#" + pID);
+				console.log($c);
+				if( $c.length == 0 ){
+				    plots2.draw_job();//this will abort the existing job and start afresh
+				}else{
+				    // simply show the relevant canvas.
+
+				    $("body > #backgrounds canvas.plot").hide();
+				    $("body > #backgrounds canvas#" + pID).show();
+				}
 			    }
 
 			}
