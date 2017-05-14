@@ -68,7 +68,7 @@ var plots2 = {
 	this.wcx.plot_uid = Plot_i.uid
 
 
-	this.wcx.callback = options.callback || function(){console.log("'draw_job()' completed (no futher callback)")};
+	this.wcx.callback = options.callback || function(){};
 	
 	this.wcx.compilled_formula = math.compile(Plot_i.formula);
 	// note that this test for string contains 'z' is different to the test used elsewhere...

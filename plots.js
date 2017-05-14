@@ -273,6 +273,7 @@ var plots = {
 	    }			    
 	};
 
+	var prevFormula = undefined;
 
 	//wipe the entire table of rows...
 	$("#plots-table tbody").html("");
@@ -296,11 +297,17 @@ var plots = {
 				    click_filter: function(){return plots.selected_row_i == i;},
 				    cb_focusout: function(el){
 					set_EQN_row_class(el);
-					if(plots.showing_plot_active){
-					    plots2.draw_job();//this will abort the existing job and start afresh
-					}else{
-					    //hidden regen, for the sake of the thumbnails..
-					    plots2.draw_job(plot_obj.uid, {visible: false, res_lim: 1});
+
+					var latestFormula = DM.plotArray[plots.selected_row_i].formula;
+
+					//if the formula is changed, on focusout, recalculation is necessary.
+					if(prevFormula != latestFormula){
+					    if(plots.showing_plot_active){
+						plots2.draw_job();
+					    }else{
+						//hidden regen, for the sake of the thumbnails..
+						plots2.draw_job(plot_obj.uid, {visible: false, res_lim: 1});
+					    }
 					}
 				    },
 				    //defer call:  <input> doesn't have the right parent elems until Append call finishes
@@ -334,6 +341,8 @@ var plots = {
 				    underlying_obj: Plot_i.histogram
 				});
 			    });
+
+			    prevFormula = Plot_i.formula;
 
 			    if(plots.showing_plot_active){
 				
