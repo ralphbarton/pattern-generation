@@ -170,7 +170,7 @@ var plots = {
 	var change_colouring = function(i){
 	    plots.UI_props.prev.colouring = i;
 	    if(plots.showing_plot_active){
-		plots2.draw_job();//this will abort the existing job and start afres
+		plots2.draw_job();//this will abort the existing job and start afresh
 	    }
 	};
 
@@ -279,7 +279,7 @@ var plots = {
 
 
 	DM.plotArray.forEach(function(plot_obj, i){
-
+	    
     	    $("#plots-table tbody").append(
 		$('<tr/>')
 		    .data({index:i})
@@ -289,18 +289,32 @@ var plots = {
 			    $('<input/>')
 				.addClass("blue-cell")//for css styling
 				.SmartInput({
-				underlying_obj: DM.plotArray[i],
-				underlying_key: "formula",
-				data_class: "text",
-				text_length: 120, // setting a 120 char limit on the formula...
-				click_filter: function(){return plots.selected_row_i == i;},
-				cb_focusout: set_EQN_row_class,
-				//defer call because of <input> doesn't have the right parent elems until Append call finishes
-				cb_init: function(el){setTimeout(function(){set_EQN_row_class(el);},10)},
+				    underlying_obj: DM.plotArray[i],
+				    underlying_key: "formula",
+				    data_class: "text",
+				    text_length: 120, // setting a 120 char limit on the formula...
+				    click_filter: function(){return plots.selected_row_i == i;},
+				    cb_focusout: function(el){
+					set_EQN_row_class(el);
+					if(plots.showing_plot_active){
+					    plots2.draw_job();//this will abort the existing job and start afresh
+					}else{
+					    //hidden regen, for the sake of the thumbnails..
+					    plots2.draw_job(plot_obj.uid, {visible: false, res_lim: 1});
+					}
+				    },
+				    //defer call:  <input> doesn't have the right parent elems until Append call finishes
+				    cb_init: function(el){setTimeout(function(){set_EQN_row_class(el);},10);},
 			    })
 			),
 			$('<td/>').addClass("col-3").text("x"),
-			$('<td/>').addClass("col-4").text("x"),
+			$('<td/>').addClass("col-4").append(//Preview column
+			    $('<canvas/>')
+				.attr("width", 40)
+				.attr("height", 40)
+				.attr("id", "th-pl-"+ plot_obj.uid)
+			    	.addClass("thumb")
+			),
 			$('<td/>').addClass("col-5").text("x")
 		    ).on("click",function(){ //click on the row
 			if(plots.selected_row_i != $(this).data("index")){//no action if row already selected

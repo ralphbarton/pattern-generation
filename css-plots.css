@@ -25,6 +25,10 @@
     width: 59px;
 }
 
+#plots-table .col-4 canvas.thumb{
+/*important to prevent thin bar of space underneath canvas*/
+    display: block;
+}
 
 /* 1.2 other table formats... */
 

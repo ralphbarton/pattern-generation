@@ -63,10 +63,10 @@ var plots2 = {
 	var Plot_i = DM.plotArray[plots.selected_row_i];
 	if(plot_uid !== undefined){
 	    Plot_i = DM.GetByKey_( DM.plotArray, "uid", plot_uid)
-	}else{
-	    //this needs to be set...
-	    plot_uid = Plot_i.uid;
 	}
+
+	this.wcx.plot_uid = Plot_i.uid
+
 
 	this.wcx.callback = options.callback || function(){console.log("'draw_job()' completed (no futher callback)")};
 	
@@ -82,7 +82,7 @@ var plots2 = {
 
 	
 	// Add a new canvas for the required plot into the dom, if it does not already exist
-	var pID = "plot-" + plot_uid;
+	var pID = "plot-" + this.wcx.plot_uid;
 	var $c = $("body > #backgrounds canvas#" + pID)
 	if( $c.length > 0 ){
 	    // if so, just update its dimentions
@@ -180,6 +180,26 @@ var plots2 = {
 	    this.wcx.x_randomise.sort(compare);
 
 	    $("#Tab-plot #z-5 #working #res-cur").text(this.wcx.cell_size);
+
+	    //Additional code here to update the thumbails..
+	    var uid = this.wcx.plot_uid;
+	    var $MainPlot = $("#backgrounds canvas#plot-"+uid);
+	    var $ThumbPlot = $("#plots-table td.col-4 canvas#th-pl-"+uid);
+	    var mW = $MainPlot.width();
+	    var mH = $MainPlot.height();
+	    var isP = mH > mW; //portrait
+	    
+	    var th_W = 45 * (isP ? mW/mH : 1);
+	    var th_H = 45 * (isP ? 1 : mH/mW);
+	    
+	    $ThumbPlot
+		.attr("width", th_W)
+		.attr("height", th_H);
+	    
+	    var thumb_ctx = $ThumbPlot[0].getContext("2d");
+	    
+	    thumb_ctx.drawImage( $MainPlot[0], 0,0, th_W, th_H);
+	    
 	}
     },
 
