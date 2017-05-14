@@ -17,7 +17,7 @@ var DM = {
 	    "grid": 2,
 	    "plot": 4,
 	    "motf": 2,
-	    "patt": 1,
+	    "patt": 2,
 	},
 
 	createNew: function(Object_Type){

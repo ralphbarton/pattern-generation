@@ -78,12 +78,13 @@
     left: 200px;
     top: 20px;
     width: 305px;
-    height: 205px;
+    height: 210px;
     background-color: white;
     box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
     border-radius: 3px;
     padding: 10px;
     font-size: 20px;
+    z-index: 1;
 }
 
 
@@ -404,4 +405,10 @@
     position: absolute;
     bottom: 3px;
     right: 4px;
+}
+
+#Tab-patt .action-link#pattern-clear{
+    position: absolute;
+    bottom: 32px;
+    right: 10px;
 }

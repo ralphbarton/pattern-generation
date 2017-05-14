@@ -380,8 +380,8 @@ var patterns = {
 	    
 	    if(Pattern_i.type == "grid"){
 
-		// draw the grid...
-		patterns.Display_grid_driven_pattern(motif_props, Pattern_i.pdrive_uid);
+		// draw the grid driven pattern...
+		patterns.Display_grid_driven_pattern(Pattern_i.uid, motif_props, Pattern_i.pdrive_uid);
 		
 	    }else if(Pattern_i.type == "plot"){
 		console.log("need to write plot handling...");
@@ -392,6 +392,21 @@ var patterns = {
 	});
 
 
+	$("#Tab-patt .action-link#pattern-clear").click(function(){
+
+	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
+
+	    if (Pattern_i === undefined){
+		global.toast("No pattern to clear selected");
+		return;
+	    }
+
+	    // clear content for pattern identified by the uid...
+	    patterns.clear_pattern(Pattern_i.uid);
+	    
+	});
+	    
+	
 	this.regenerate_table();
 
     },
@@ -505,28 +520,33 @@ var patterns = {
     },    
     
 
-    Display_grid_driven_pattern: function(motif_props, grid_uid){
+    Display_grid_driven_pattern: function(pattern_uid, motif_props, grid_uid){
 
-	var Motif   = DM.GetByKey_( DM.motfArray, "uid", motif_props.uid);
+	//remove any old pattern that may exist...
+	this.clear_pattern(pattern_uid);
+	
+	var Motif = DM.GetByKey_( DM.motfArray, "uid", motif_props.uid);
 
 	var mID = "my-motif-id-" + motif_props.uid;
+	var pID = "patt-" + pattern_uid;
+	
 	var d3_svg = d3.select("#patterns-bg-svg");
 
-	//clear any old defn.
-	d3_svg.selectAll("defs").remove();
+	// Create a new definition element relating to this pattern
+	var d3_defs = d3_svg.append("defs").attr("class", pID);
 
+	// add a single Motif into this definition...
 	motifs_view.CreateMotifSVG(Motif, {
-	    d3_selection: d3_svg.append("defs").append("g").attr("id", mID) // add new definition
+	    d3_selection: d3_defs.append("g").attr("id", mID)
 	});
 
-	//this is hacky, the true causes 2nd param to be used...
+	//this is hacky, the 'true' causes 2nd param to be used...
 	myIntersectionPoints = grids.calc_grid_intersection_points(true, grid_uid);
 
-	//scrap everything of old pattern
-	d3_svg.selectAll(".live").remove();
-
 	//Add all data afresh...
-	d3_svg.selectAll(".live").data(myIntersectionPoints)
+	d3_svg.append("g").attr("class", pID)
+	    .selectAll("use") //there will, however, be none
+	    .data(myIntersectionPoints)
 	    .enter()
 	    .append("use")
 	    .attr("class","live")
@@ -535,6 +555,18 @@ var patterns = {
 		return "translate("+d.x+" "+d.y+") rotate(" + motif_props.angle + ") scale(" + motif_props.scale + ")";
 	    })
 	    .attr("opacity", motif_props.opacity);
+    },
+
+    
+    clear_pattern: function(pattern_uid){
+	var d3_svg = d3.select("#patterns-bg-svg");
+	var pID = "patt-" + pattern_uid;
+
+	//clear any old defn for this pattern
+	d3_svg.select("defs." + pID).remove();
+
+	//clear any old content for this pattern
+	d3_svg.select("g." + pID).remove();
     }
     
 };
