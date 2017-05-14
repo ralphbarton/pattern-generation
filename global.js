@@ -176,7 +176,8 @@ $(document).ready(function() {
     // 9 - Options
     // 10 - Tutorial
     $("#cpanel-main-tabs > ul > li:nth-of-type(5) a").click();
-//    $("#motifs-view .table-buttons #edit").click();    // --> and into Motif EDIT
+//    $("#motifs-view .table-buttons #edit").click();    // --> and into Motif EDIT    
+
     
 });
 

@@ -25,6 +25,8 @@ var plots2 = {
 	recursive_timeoutID: null,
 	start_time: undefined,
 	res_start_time: undefined,
+	callback: undefined,
+	background: false,
 	iterations_expected: 0,
 	iterations_counted: 0,
 	val_upper_saturate_colour: 2,
@@ -34,12 +36,23 @@ var plots2 = {
 
     draw_job: function(plot_uid, options){
 
+	/*
+	  options are:
+	  "visible" - boolean
+	  "callback" - function
+	  "res_lim" - integer
+	*/
+	options = options || {visible: true};//by default, make the current one visible...
+	this.wcx.background = !options.visible;
+
 	// Cancel any pre-existing draw job
 	if(this.wcx.recursive_timeoutID != null){
 	    clearTimeout(this.wcx.recursive_timeoutID);
 	}else{
-	    $("#Tab-plot #z-5 #plot-status div").hide();
-	    $("#Tab-plot #z-5 #working").show();
+	    if(!this.wcx.background){
+		$("#Tab-plot #z-5 #plot-status div").hide();
+		$("#Tab-plot #z-5 #working").show();
+	    }
 	}
 
 	this.wcx.start_time = new Date();
@@ -54,14 +67,15 @@ var plots2 = {
 	    //this needs to be set...
 	    plot_uid = Plot_i.uid;
 	}
-	options = options || {visible: true};//by default, make the current one visible...
 
+	this.wcx.callback = options.callback || function(){console.log("'draw_job()' completed (no futher callback)")};
+	
 	this.wcx.compilled_formula = math.compile(Plot_i.formula);
 	// note that this test for string contains 'z' is different to the test used elsewhere...
 	this.wcx.isComplex = Plot_i.formula.includes("z");
 	
 	//assume 1 otherwise
-	this.wcx.res_lim = parseInt($("#Tab-plot #z-5 #res-lim input").val()) || 1;
+	this.wcx.res_lim = options.res_lim || parseInt($("#Tab-plot #z-5 #res-lim input").val()) || 1;
 
 	this.wcx.winW = $(window).width();
 	this.wcx.winH = $(window).height();
@@ -109,9 +123,10 @@ var plots2 = {
 	clearTimeout(this.wcx.recursive_timeoutID);
 	this.wcx.recursive_timeoutID = null;	
 
-	$("#Tab-plot #z-5 #plot-status div").hide();
-	$("#Tab-plot #z-5 #aborted").show();
-
+	if(!this.wcx.background){
+	    $("#Tab-plot #z-5 #plot-status div").hide();
+	    $("#Tab-plot #z-5 #aborted").show();
+	}
 
     },
 
@@ -204,16 +219,20 @@ var plots2 = {
 
 
 	}else{// COMPLETE
-	    $("#Tab-plot #z-5 #plot-status div").hide();
-	    $("#Tab-plot #z-5 #complete").show();
-
-	    var t_now = new Date();
-	    var t_overall = t_now - this.wcx.start_time;
-	    var t_final = t_now - this.wcx.res_start_time;
-	    $("#Tab-plot #z-5 #complete #t-overall").text((t_overall/1000).toFixed(1));
-	    $("#Tab-plot #z-5 #complete #t-final").text((t_final/1000).toFixed(1));
-
 	    this.wcx.recursive_timeoutID = null;
+
+	    if(!this.wcx.background){
+		$("#Tab-plot #z-5 #plot-status div").hide();
+		$("#Tab-plot #z-5 #complete").show();
+
+		var t_now = new Date();
+		var t_overall = t_now - plots2.wcx.start_time;
+		var t_final = t_now - plots2.wcx.res_start_time;
+		$("#Tab-plot #z-5 #complete #t-overall").text((t_overall/1000).toFixed(1));
+		$("#Tab-plot #z-5 #complete #t-final").text((t_final/1000).toFixed(1));
+	    }
+		
+	    this.wcx.callback();
 	}
     },
 
@@ -267,8 +286,10 @@ var plots2 = {
 		    this.wcx.res++;
 
 		    // now we have a complete point-set, draw histogram.
-		    plots.histogram_stats(samples);
-
+		    if(!this.wcx.background){
+			plots.histogram_stats(samples);
+		    }
+			
 		    // (A) Test if completely finished drawing at the finest resolution
 		    var job_done = (this.wcx.res >= this.CellSizes.length) || (this.CellSizes[this.wcx.res] < this.wcx.res_lim);
 
