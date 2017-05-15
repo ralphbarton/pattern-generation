@@ -100,6 +100,9 @@ var plots = {
 	    $(".zone#z-6").fadeIn({duration: 400, easing: "linear"});
 	});
 
+
+
+	
 	// Within Pointset Preview...
 
 	// Numeric button
@@ -136,6 +139,14 @@ var plots = {
 	    // remove all points
 	    density_util.Draw_many_using_CDF(0, {clearAllExisting: true, dotAsMotif: true});
 	});
+
+
+	//moving between main tabs must also clear the pointset pane and any points
+	$("#cpanel-main-tabs li").click(function(){
+	    density_util.Draw_many_using_CDF(0, {clearAllExisting: true, dotAsMotif: true});
+	    $(".zone#z-6").hide();
+	    $(".zone#z-5").show();
+	});
 	
 
 	// Initialise SmartInput for "Prominence Factor"
@@ -158,6 +169,20 @@ var plots = {
 	    }
 	});
 
+	//Hide/show underlying density
+	$("#Tab-plot #z-6 .act-mutex.underyling-density").MutexActionLink([1, 0], [
+	    function(){//hide it
+		$("body > #backgrounds canvas.plot").hide();
+		plots.showing_plot_active = false;
+	    },
+	    function(){//show it
+		var Plot_i = DM.plotArray[plots.selected_row_i];
+		var pID = "plot-" + Plot_i.uid;
+		$("body > #backgrounds canvas.plot").hide();
+		$("body > #backgrounds canvas#" + pID).show();
+		plots.showing_plot_active = true;
+	    }
+	]);
 	
 	// "close" link
 	$("#Tab-plot #z-6 .action-link#close-pointset-p").click(function(){
@@ -165,6 +190,9 @@ var plots = {
 	    $(".zone#z-5").fadeIn({duration: 400, easing: "linear"});
 	});
 
+
+
+	
 	
 	
 
