@@ -1083,7 +1083,7 @@
 		  <div class="button s" id="Q10000">10000</div>
 		</div>
 		
-		<div id="prom-factor">Prominence Factor: <span><input class="plain-cell s"/></div></span>
+		<div id="prom-factor">Prominence Factor: <input class="plain-cell s"/></div>
 		<div class="action-link" id="clear-points">Clear</div>
 		<div class="action-link" id="close-pointset-p">Close Pointset Previewer</div>
 		
@@ -1243,9 +1243,53 @@
 	      <!-- RS-3 - Placement Intensity -->	      
 	      <div class="boxie placement-intensity r-space" style="display: none;">
 		<div class="title">Placement Intensity</div>
-		Todo: design layout for this.
 
-		<!-- stuff here -->
+		<div class="qty-points">
+		  Qty. Points <input class="plain-cell" />
+		</div>
+		
+		<div class="action-link" id="placement-rerandomise">Rerandomise</div>
+
+		<div class="b-pair q10">
+		  <div class="button minus">-10</div>
+		  <div class="button minus">+10</div>
+		</div>
+
+		<div class="b-pair q30">
+		  <div class="button minus">-30</div>
+		  <div class="button minus">+30</div>
+		</div>
+
+		<div class="b-pair q100">
+		  <div class="button minus">-100</div>
+		  <div class="button minus">+100</div>
+		</div>
+
+		<div class="b-pair q300">
+		  <div class="button minus">-300</div>
+		  <div class="button minus">+300</div>
+		</div>
+
+		<div class="b-pair q1000">
+		  <div class="button minus">-1000</div>
+		  <div class="button minus">+1000</div>
+		</div>
+
+		<div class="b-pair q3000">
+		  <div class="button minus">-3000</div>
+		  <div class="button minus">+3000</div>
+		</div>
+
+		<div class="mini-text prom-factor">Prominence Factor: <input class="plain-cell s"/></div>
+
+		<div id="underyling-density" class="act-mutex">
+		  Underlying density:<div>OFF</div><div>ON</div>
+		</div>
+
+		<div id="show-raw-points" class="act-mutex">
+		  Show raw points:<div>OFF</div><div>ON</div>
+		</div>
+
 		
 		<div class="action-link" id="hide-pl-intens">Hide Placement Intensity</div>
 	      </div>

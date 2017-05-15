@@ -394,6 +394,7 @@
 /* 5. Motif Linking Box - arrangement */
 
 
+
 /* 6. Placement Intensity */
 #Tab-patt .placement-intensity #hide-pl-intens,
 #Tab-patt .motif-alternate #hide-motif-alternate{
@@ -401,6 +402,60 @@
     bottom: 3px;
     right: 6px;
 }
+
+.placement-intensity .qty-points{
+    position: relative;
+    top: -3px;
+    left: 10px;
+    margin-bottom: 11px;
+        font-size: 15px;
+}
+
+.placement-intensity .qty-points input{
+    width: 70px;
+    font-size: 18px;
+}
+
+.placement-intensity .action-link#placement-rerandomise{
+    position: absolute;
+right: 6px;
+    top: 35px;
+}
+
+.placement-intensity .b-pair{
+    position: relative;
+    left: 4px;
+}
+
+.placement-intensity .button{
+    margin: 1px;
+    margin-bottom: 2px;
+    width: 75px;
+    padding: 2px;
+    text-align: center;
+}
+
+.placement-intensity .prom-factor{
+        position: relative;
+    left: 35px;
+     margin-bottom: 1px;
+}
+
+.placement-intensity .prom-factor input{
+    width: 40px;
+    height: 12px;
+}
+
+.placement-intensity .act-mutex{
+    position: relative;
+    left: 12px;
+     margin-bottom: 1px;
+}
+
+.placement-intensity .act-mutex#show-raw-points{
+    left: 22px;
+}
+
 
 
 /* 7. Beyond... */
