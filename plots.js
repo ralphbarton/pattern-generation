@@ -27,27 +27,7 @@ var plots = {
 
 	plots2.load_colours_prelookup();
 
-	var pre_calc_plots_ts = new Date();
-	// initiate all the plots
-	var genPlotArray = function(plot_index, res_index){
-	    var res_px = plots2.CellSizes[res_index];
-	    var Plot_i = DM.plotArray[plot_index];
-	    if(!Plot_i){
-		console.log("Completed plot precalc at res "+res_px+"px. Elapsed: "+((new Date())-pre_calc_plots_ts)/1000+"s");
-		if(res_index < 4){
-		    genPlotArray(0, res_index+1);
-		}
-		return;
-	    }else{
-		plots2.draw_job(Plot_i.uid, {
-		    visible: false,
-		    callback: function(){genPlotArray(plot_index+1, res_index)},
-		    res_lim: res_px,
-		});
-	    }
-	};
-	genPlotArray(0,0);
-
+	plots2.render_plot_canvases_background();
 	
 	//swathes of code are being copy-pasted here, for similiar functionality accross different tabs.
 	// aaargh!!

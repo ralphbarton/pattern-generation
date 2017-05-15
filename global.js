@@ -181,3 +181,7 @@ $(document).ready(function() {
     
 });
 
+
+$(window).on("resize", function(){
+    plots2.render_plot_canvases_background();
+});

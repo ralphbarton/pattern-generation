@@ -17,7 +17,7 @@ var DM = {
 	    "grid": 2,
 	    "plot": 4,
 	    "motf": 2,
-	    "patt": 2,
+	    "patt": 3,
 	},
 
 	createNew: function(Object_Type){
@@ -803,7 +803,7 @@ var DM = {
 
     pattArray: [
 	{
-	    Name: "Pattern 1",
+	    Name: "Playpen",
 	    uid: 0,
 	    Motif_set: [{
 		uid: 1,
@@ -815,8 +815,22 @@ var DM = {
 	    pdrive_uid: 0
 	},
 	{
-	    Name: "Frog Goat",
+	    Name: "Bubbles",
 	    uid: 1,
+	    Motif_set: [
+		{
+		    uid: 3,
+		    scale: 0.21,
+		    angle: 0,
+		    opacity: 0.33
+		}
+	    ],
+	    type: "plot",
+	    pdrive_uid: 2
+	},
+	{
+	    Name: "Frog Goat",
+	    uid: 2,
 	    Motif_set: [],
 	    type: undefined,
 	    pdrive_uid: undefined

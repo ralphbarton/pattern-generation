@@ -112,6 +112,8 @@ var patterns = {
 		    var $PreviewDiv = $("#Tab-patt .pdrive-preview-box");
 		    var $PreviewPlot = $PreviewDiv.find("canvas");
 
+		    var $MainPlot = $("#backgrounds canvas#plot-" + pd_uid);
+		    
 		    //container dimentions
 		    var pW = $PreviewDiv.width();
 		    var pH = $PreviewDiv.height();
@@ -367,38 +369,7 @@ var patterns = {
 
 
 
-	
-	// Temporary stuff relating to demonstrating	
-
-
-	$(".button#make-grid-pattern").click(function(){
-	    var M_index = $("#motif-index").val();
-	    var G_index = $("#grid-index").val();
-
-
-	});
-
-
-
-	$(".button#calc-dens-pattern").click(function(){
-
-	    //squaring function: squaring probability seems better visually
-	    density_util.Create_density_CDF($("#plot-canv"), function(x){return x**2});
-
-	});
-
-
-
-	$(".button#make-dens-pattern").click(function(){
-	    var pattern_svg = d3.select("#patterns-bg-svg");
-	    density_util.Draw_many_using_CDF(pattern_svg, 1000);
-	});
-
-
-
-
 	$(".button#generate").click(function(){
-
 	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
 
 	    if (Pattern_i === undefined){
@@ -418,16 +389,25 @@ var patterns = {
 	    if(Pattern_i.type == "grid"){
 
 		// draw the grid driven pattern...
-		patterns.Display_grid_driven_pattern(Pattern_i.uid, motif_props, Pattern_i.pdrive_uid);
+		var myPoints = grids.calc_grid_intersection_points(true, Pattern_i.pdrive_uid);
+		patterns.Display_grid_driven_pattern(Pattern_i.uid, motif_props, myPoints);
 		
+
 	    }else if(Pattern_i.type == "plot"){
-		console.log("need to write plot handling...");
+
+		var Prom_function = density_util.get_Pfun(4);
+		density_util.Create_density_CDF(Pattern_i.pdrive_uid, Prom_function);
+
+		//clear old point-set...
+		density_util.pointSet = [];
+		var myPoints = density_util.Calc_pointCloud_using_CDF(120);
+		patterns.Display_grid_driven_pattern(Pattern_i.uid, motif_props, myPoints);
 
 	    }
 
-
 	});
 
+	
 
 	$("#Tab-patt .action-link#pattern-clear").click(function(){
 
@@ -442,12 +422,13 @@ var patterns = {
 	    patterns.clear_pattern(Pattern_i.uid);
 	    
 	});
-	    
 	
 	this.regenerate_table();
 
     },
 
+
+    
     selected_row_i: undefined,
     regenerate_table: function(){
 
@@ -564,7 +545,7 @@ var patterns = {
     },    
     
 
-    Display_grid_driven_pattern: function(pattern_uid, motif_props, grid_uid){
+    Display_grid_driven_pattern: function(pattern_uid, motif_props, PointSet){
 
 	//remove any old pattern that may exist...
 	this.clear_pattern(pattern_uid);
@@ -573,9 +554,14 @@ var patterns = {
 
 	var mID = "my-motif-id-" + motif_props.uid;
 	var pID = "patt-" + pattern_uid;
-	
-	var d3_svg = d3.select("#patterns-bg-svg");
 
+	var W = $(window).width();
+	var H = $(window).height();
+	
+	var d3_svg = d3.select("#patterns-bg-svg")
+	    .attr("width", W)
+	    .attr("height", H);
+	
 	// Create a new definition element relating to this pattern
 	var d3_defs = d3_svg.append("defs").attr("class", pID);
 
@@ -584,13 +570,10 @@ var patterns = {
 	    d3_selection: d3_defs.append("g").attr("id", mID)
 	});
 
-	//this is hacky, the 'true' causes 2nd param to be used...
-	myIntersectionPoints = grids.calc_grid_intersection_points(true, grid_uid);
-
 	//Add all data afresh...
 	d3_svg.append("g").attr("class", pID)
 	    .selectAll("use") //there will, however, be none
-	    .data(myIntersectionPoints)
+	    .data(PointSet)
 	    .enter()
 	    .append("use")
 	    .attr("class","live")

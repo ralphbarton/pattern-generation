@@ -1,5 +1,10 @@
 var density_util = {
 
+    
+    get_Pfun: function(power){
+	return function(x){return x ** power};
+    },
+    
     density_CDF_Array: undefined,
     Create_density_CDF: function(uid, fn_prob_rescale){
 
@@ -22,6 +27,31 @@ var density_util = {
 	    acc += relative_prob;
 	    this.density_CDF_Array.push(acc);
 	}
+    },
+
+
+    Calc_pointCloud_using_CDF: function(n_points){
+	var i_max = this.density_CDF_Array.length - 1;
+	var v_max = this.density_CDF_Array[i_max];
+	var W = $(window).width();
+	
+	//this needs to compensate for any pre-existing points...
+	// it will determine how many NEW points are needed, or splice away excess points...
+	
+	for (var i = 0; i < n_points; i++){
+	    var rVal = Math.random() * v_max;
+	    var random_pixel_index = this.BinarySearch(0, i_max, rVal);
+
+	    //i'm assuming scanning left-to-right in horizontal lines starting from top
+	    var myPoint = {
+		x: (random_pixel_index % W),
+		y: Math.floor(random_pixel_index / W)
+
+	    };
+	    this.pointSet.push(myPoint);
+	}
+
+	return this.pointSet;
     },
 
 
@@ -62,33 +92,11 @@ var density_util = {
 	    this.pointSet = [];
 	}
 
-
-	
-	var i_max = this.density_CDF_Array.length - 1;
-	var v_max = this.density_CDF_Array[i_max];
-	
-	for (var i = 0; i < n_points; i++){
-	    var rVal = Math.random() * v_max;
-	    var random_pixel_index = this.BinarySearch(0, i_max, rVal);
-
-	    //i'm assuming scanning left-to-right in horizontal lines starting from top
-	    var myPoint = {
-		x: (random_pixel_index % W),
-		y: Math.floor(random_pixel_index / W)
-
-	    };
-	    this.pointSet.push(myPoint);
-	}
+	this.Calc_pointCloud_using_CDF(n_points);
 
 	//now plot it all...
 	var my_join = d3_svg.selectAll(".dot").data(this.pointSet);
 
-	/* this is a waste of time
-	//update
-	my_join
-	    .attr("cx", function(d){return d.x;})
-	    .attr("cy", function(d){return d.y;});
-	*/
 
 	//add new
 	var my_enter = my_join.enter()
