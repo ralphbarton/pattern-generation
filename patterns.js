@@ -108,7 +108,7 @@ var patterns = {
 	    AelemInfo(ev, function(pd_uid, type){
 
 		if(type == "plot"){
-		    var $MainPlot = $("#backgrounds canvas#plot-"+pd_uid);
+
 		    var $PreviewDiv = $("#Tab-patt .pdrive-preview-box");
 		    var $PreviewPlot = $PreviewDiv.find("canvas");
 
@@ -368,12 +368,7 @@ var patterns = {
 
 
 	
-	// Temporary stuff relating to demonstrating
-	
-	var W = $(window).width();
-	var H = $(window).height();	
-	$("#patterns-bg-svg").css("width", W).css("height", H);
-
+	// Temporary stuff relating to demonstrating	
 
 
 	$(".button#make-grid-pattern").click(function(){

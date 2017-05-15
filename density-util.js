@@ -1,13 +1,13 @@
 var density_util = {
 
     density_CDF_Array: undefined,
-    Create_density_CDF: function($D_canvas, fn_prob_rescale){
+    Create_density_CDF: function(uid, fn_prob_rescale){
 
-	var W = $(window).width();
-	var H = $(window).height();	
-
-	W = $D_canvas.width();
-	H = $D_canvas.height();
+	//at this point, we are assuming the density is of a Ploy (and not a painting; todo)
+	var $D_canvas = $("#backgrounds canvas#plot-" + uid);
+	
+	var W = $D_canvas.width();
+	var H = $D_canvas.height();
 	var ctx = $D_canvas[0].getContext('2d');
 
 	var Arr = ctx.getImageData(0,0, W, H).data;
@@ -33,10 +33,15 @@ var density_util = {
 	//do not attempt to animate a large number of points
 	// (is this logic necessary - doesn't d3 already gracefully degrade animation??)
 	var AN = n_points < 200 && this.pointSet.length < 200;
+
+	var W = $(window).width();
+	var H = $(window).height();
 	
 	var d3_svg = undefined;
 	if(options.dotAsMotif){
-	    d3_svg = d3.select("#patterns-bg-svg");
+	    d3_svg = d3.select("#patterns-bg-svg")
+		.attr("width", W)
+		.attr("height", H);
 	}
 	
 	if(options.clearAllExisting){
@@ -61,8 +66,6 @@ var density_util = {
 	
 	var i_max = this.density_CDF_Array.length - 1;
 	var v_max = this.density_CDF_Array[i_max];
-
-	var W = $(window).width();
 	
 	for (var i = 0; i < n_points; i++){
 	    var rVal = Math.random() * v_max;

@@ -111,9 +111,11 @@ var plots = {
 	    $("#Tab-plot #z-6 .button").addClass("ui-disabled");
 	    qty_pnts = parseInt( $(this).attr("id").replace(/[^0-9]/g,'') );
 
+	    var Plot_i = DM.plotArray[plots.selected_row_i];
+	    
 	    //Regenerate the CDF for the plot, using the desired Prominence
 	    var Prom_function = function(x){return x ** plots.InputsValues["prom-factor"]};
-	    density_util.Create_density_CDF($("#plot-canv"), Prom_function);
+	    density_util.Create_density_CDF(Plot_i.uid, Prom_function);
 
 	    // Timeout is necessary because clicking must trigger a UI change (buttons disable)
 	    setTimeout(function(){
@@ -144,9 +146,12 @@ var plots = {
 	    underlying_key: "prom-factor",
 	    cb_focusout: function(){// responsing to the change event can cause system to hang...
 		if(qty_pnts > 200){return;}
+		
+		var Plot_i = DM.plotArray[plots.selected_row_i];
+
 		//Regenerate the CDF for the plot, using the desired Prominence
 		var Prom_function = function(x){return x ** plots.InputsValues["prom-factor"]};
-		density_util.Create_density_CDF($("#plot-canv"), Prom_function);
+		density_util.Create_density_CDF(Plot_i.uid, Prom_function);
 
 		// this function may do a lot of work
 		density_util.Draw_many_using_CDF(qty_pnts, {clearAllExisting: true, dotAsMotif: true});
@@ -160,6 +165,7 @@ var plots = {
 	    $(".zone#z-5").fadeIn({duration: 400, easing: "linear"});
 	});
 
+	
 	
 
 	// == Within Preview Options ==
@@ -340,6 +346,12 @@ var plots = {
 				});
 			    });
 
+			    // Hide the "Render Pointset" pane when a new row is selected.
+			    $(".zone#z-6").hide();
+			    $(".zone#z-5").show();
+			    // remove all points
+			    density_util.Draw_many_using_CDF(0, {clearAllExisting: true, dotAsMotif: true});
+			    
 			    prevFormula = Plot_i.formula;
 
 			    if(plots.showing_plot_active){

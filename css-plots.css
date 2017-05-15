@@ -425,13 +425,19 @@
 #z-6 #clear-points{
     position: absolute;
     top: 38px;
-    right: 6px;
+    right: 5px;
+}
+
+#z-6 .underyling-density{
+    position: absolute;
+    bottom: 5px;
+    left: 7px;
 }
 
 #z-6 #close-pointset-p{
     position: absolute;
-    bottom: 2px;
-    right: 6px;
+    bottom: 3px;
+    right: 5px;
 }
 
 
