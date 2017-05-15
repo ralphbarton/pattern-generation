@@ -106,7 +106,36 @@ var patterns = {
 	// mouseover is in this case preferred to mouseenter. Need to retrigger for different child elems!
 	$("#Tab-patt .pdrive .dropdown-content").on("mouseover", function(ev){
 	    AelemInfo(ev, function(pd_uid, type){
+
+		if(type == "plot"){
+		    var $MainPlot = $("#backgrounds canvas#plot-"+pd_uid);
+		    var $PreviewDiv = $("#Tab-patt .pdrive-preview-box");
+		    var $PreviewPlot = $PreviewDiv.find("canvas");
+
+		    //container dimentions
+		    var pW = $PreviewDiv.width();
+		    var pH = $PreviewDiv.height();
+
+		    //original (large) plot dimentions
+		    var mW = $MainPlot.width();
+		    var mH = $MainPlot.height();
+
+		    // portrait in this case means canvas will be vertically skinny within its div container
+		    var isP = (mH/mW) > (pH/pW);
+		
+		    var pv_W = isP ? (pH * mW/mH) : pW;
+		    var pv_H = isP ? pH : (pW * mH/mW);
+		
+		    $PreviewPlot
+			.attr("width", pv_W)
+			.attr("height", pv_H)
+
+		    $PreviewPlot[0].getContext("2d").drawImage( $MainPlot[0], 0,0, pv_W, pv_H);
+
+		}else{
+		    //handling for previewing a grid...
 		console.log(pd_uid, type);
+		}
 	    });
 	});
 	
