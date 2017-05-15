@@ -114,7 +114,6 @@ var cpot_edit = {
 			underlying_obj: pot_elem,
 			underlying_key: "prob",
 			data_class: "percent",
-			underlying_from_DOM_onChange: true,
 			cb_change: function(){cpot_edit.check_valid_probs();},//all the graphical change...
 			cb_focusout: function(){cpot_edit.check_valid_probs();}//may disable "done" btn
 		    })

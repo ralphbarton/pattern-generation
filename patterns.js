@@ -354,7 +354,6 @@ var patterns = {
 	    underlying_key: "opacity",
 	    data_class: "percent",
 	    data_class_override: {steps:[10, 1]},//change the order....
-	    underlying_from_DOM_onChange: true,
 	    cb_change: function(){
 		var inp_val = patterns.InputsValues.opacity;
 		M_Props.opacity = inp_val / 100;

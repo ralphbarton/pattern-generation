@@ -367,7 +367,6 @@ var cpot_edit_init = {
 		data_class_override: dco,
 		underlying_obj: cpot_edit.InputsValues,
 		underlying_key: myKey,
-		underlying_from_DOM_onChange: true,
 		cb_change: function(){
 		    // Logic here is to create a new colour by applying the numeric change (HSLA) of the input element
 		    // to the original solid colour
@@ -449,7 +448,6 @@ var cpot_edit_init = {
 		data_class_override: dco,
 		underlying_obj: cpot_edit.InputsValues,
 		underlying_key: myKey,
-		underlying_from_DOM_onChange: true,
 		cb_change: function(){
 		    // "shortKey" takes X.* values * such as X.h, X.dh
 		    var shortKey = myKey.includes("mid") ? myKey[0]: "d"+myKey[0];

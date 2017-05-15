@@ -237,7 +237,7 @@ jQuery.fn.extend({
 
 		    })
 		    .on("change", function(){
-			if(options.underlying_from_DOM_onChange){
+			if(options.underlying_from_DOM_onChange !== false){
 			    $(this).SmartInput("update", {change_underlying_from_DOM: true});
 			}
 			if(options.cb_change != undefined){options.cb_change();}//execute callback if defined.

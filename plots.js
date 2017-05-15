@@ -142,7 +142,6 @@ var plots = {
 	    data_class_override: {min: 1, max:8, steps:[0.1, 0.5, 1]},
 	    underlying_obj: plots.InputsValues,
 	    underlying_key: "prom-factor",
-	    underlying_from_DOM_onChange: true,
 	    cb_focusout: function(){// responsing to the change event can cause system to hang...
 		if(qty_pnts > 200){return;}
 		//Regenerate the CDF for the plot, using the desired Prominence
@@ -192,7 +191,6 @@ var plots = {
 
 	    $("#Tab-plot #value-"+str+" input").SmartInput({
 		underlying_key: "val_"+str,
-		underlying_from_DOM_onChange: true,
 		data_class: "dimentionless",
 		cb_change: function(){
 		    if(plots.selected_row_i != undefined){
