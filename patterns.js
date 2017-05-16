@@ -150,14 +150,7 @@ var patterns = {
 	    $("#Tab-patt .r-space").hide();
 	    $("#Tab-patt .placement-intensity").show();
 	});
-
-	// "Placement Intensity" pane - 'hide' button within the pane itself
-	$("#Tab-patt .action-link#hide-pl-intens").click(function(){
-	    show_intens = false;
-	    $("#Tab-patt .r-space").hide();
-	    $("#Tab-patt #motif-linking").show();
-	});
-
+	
 	
 	// "Motif Alternate" - hide
 	$("#Tab-patt .action-link#hide-motif-alternate").click(function(){
@@ -369,6 +362,88 @@ var patterns = {
 
 
 
+
+
+
+	//
+	// Placement Intensity Pane...
+	//
+
+
+	// "Placement Intensity" pane - 'hide' button within the pane itself
+	$("#Tab-patt .action-link#hide-pl-intens").click(function(){
+	    show_intens = false;
+	    $("#Tab-patt .r-space").hide();
+	    $("#Tab-patt #motif-linking").show();
+	});
+
+
+	//Smart Inputs....
+	$(".placement-intensity .qty-points input").SmartInput({
+	    underlying_key: "plot_qty",
+	    data_class: "dimentionless",
+	    data_class_override: {steps:[1, 10, 100, 1000], min: 0, max: 20000},
+	    cb_change: function(){
+
+	    }//all the graphical change...
+	});
+
+	$(".placement-intensity .prom-factor input").SmartInput({
+	    underlying_key: "prom_factor",
+	    data_class: "dimentionless",
+	    data_class_override: {min: 1, max:8, steps:[0.1, 0.5, 1]},
+	    cb_focusout: function(){
+	    }
+	});
+
+	
+
+	$(".placement-intensity .button").click(function(){
+	    var positive = $(this).hasClass("plus");
+	    var qty_pnts = parseInt( $(this).parent().attr("class").replace(/[^0-9]/g,'') );
+
+	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
+
+	    function bound(lo,hi,x){return Math.min(Math.max(x,lo),hi);}
+	    
+	    Pattern_i.plot_qty += (positive ? 1 : -1) * qty_pnts;
+	    Pattern_i.plot_qty = bound(0, 20000, Pattern_i.plot_qty);
+
+	    $(".placement-intensity .qty-points input").SmartInput("update", {
+		data_change: true
+	    });
+
+
+
+
+	    
+	    //this is ALL copy-pasted...
+	    var patt_M_set = Pattern_i.Motif_set;
+	    var motif_props = patt_M_set[0];
+
+	    
+
+
+	    var Prom_function = density_util.get_Pfun(Pattern_i.prom_factor);
+	    density_util.Create_density_CDF(Pattern_i.pdrive_uid, Prom_function);
+
+	    //clear old point-set...
+	    var myPoints = density_util.Calc_pointCloud_using_CDF(Pattern_i.plot_qty);
+	    patterns.Display_grid_driven_pattern(Pattern_i.uid, motif_props, myPoints);
+
+	    
+	});
+
+
+
+
+
+
+
+	
+
+
+
 	$(".button#generate").click(function(){
 	    var Pattern_i = DM.pattArray[patterns.selected_row_i];
 
@@ -395,12 +470,14 @@ var patterns = {
 
 	    }else if(Pattern_i.type == "plot"){
 
-		var Prom_function = density_util.get_Pfun(4);
+		Pattern_i.prom_factor = Pattern_i.prom_factor || 4;
+		var Prom_function = density_util.get_Pfun(Pattern_i.prom_factor);
 		density_util.Create_density_CDF(Pattern_i.pdrive_uid, Prom_function);
 
 		//clear old point-set...
 		density_util.pointSet = [];
-		var myPoints = density_util.Calc_pointCloud_using_CDF(120);
+		Pattern_i.plot_qty = Pattern_i.plot_qty || 100;
+		var myPoints = density_util.Calc_pointCloud_using_CDF(Pattern_i.plot_qty);
 		patterns.Display_grid_driven_pattern(Pattern_i.uid, motif_props, myPoints);
 
 	    }
@@ -473,6 +550,9 @@ var patterns = {
 
 			    //un disable on row click...
 			    $("#pattern-drive .dropdown.pdrive").removeClass("disabled");
+
+			    $(".placement-intensity .qty-points input").SmartInput("update", {underlying_obj: Pattern});
+			    $(".placement-intensity .prom-factor input").SmartInput("update", {underlying_obj: Pattern});
 			}
 		    })
 	    );

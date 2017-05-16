@@ -826,7 +826,9 @@ var DM = {
 		}
 	    ],
 	    type: "plot",
-	    pdrive_uid: 2
+	    pdrive_uid: 2,
+	    plot_qty: 100,
+	    prom_factor: 4,
 	},
 	{
 	    Name: "Frog Goat",

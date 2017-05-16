@@ -34,21 +34,29 @@ var density_util = {
 	var i_max = this.density_CDF_Array.length - 1;
 	var v_max = this.density_CDF_Array[i_max];
 	var W = $(window).width();
-	
-	//this needs to compensate for any pre-existing points...
-	// it will determine how many NEW points are needed, or splice away excess points...
-	
-	for (var i = 0; i < n_points; i++){
-	    var rVal = Math.random() * v_max;
-	    var random_pixel_index = this.BinarySearch(0, i_max, rVal);
 
-	    //i'm assuming scanning left-to-right in horizontal lines starting from top
-	    var myPoint = {
-		x: (random_pixel_index % W),
-		y: Math.floor(random_pixel_index / W)
+	var old_len = this.pointSet.length;
+	var q_needed = n_points - old_len;
+	
+	//now, either add or remove points. This avoids rerandomising
+	if(q_needed <= 0){
+	    //there are too many points!
+	    this.pointSet.splice(n_points, -q_needed);
+	    
+	}else{
+	    
+	    for (var i = 0; i < q_needed; i++){
+		var rVal = Math.random() * v_max;
+		var random_pixel_index = this.BinarySearch(0, i_max, rVal);
 
-	    };
-	    this.pointSet.push(myPoint);
+		//i'm assuming scanning left-to-right in horizontal lines starting from top
+		var myPoint = {
+		    x: (random_pixel_index % W),
+		    y: Math.floor(random_pixel_index / W)
+
+		};
+		this.pointSet.push(myPoint);
+	    }
 	}
 
 	return this.pointSet;

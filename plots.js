@@ -2,7 +2,7 @@ var plots = {
 
     selected_row_i: undefined,
     showing_plot_active: false,
-    InputsValues: {"prom-factor": 2},
+    InputsValues: {"prom_factor": 2},
     
     UI_props: {
 	//properties of the PREVIEW tab
@@ -97,7 +97,7 @@ var plots = {
 	    var Plot_i = DM.plotArray[plots.selected_row_i];
 	    
 	    //Regenerate the CDF for the plot, using the desired Prominence
-	    var Prom_function = function(x){return x ** plots.InputsValues["prom-factor"]};
+	    var Prom_function = function(x){return x ** plots.InputsValues["prom_factor"]};
 	    density_util.Create_density_CDF(Plot_i.uid, Prom_function);
 
 	    // Timeout is necessary because clicking must trigger a UI change (buttons disable)
@@ -134,14 +134,14 @@ var plots = {
 	    data_class: "dimentionless",
 	    data_class_override: {min: 1, max:8, steps:[0.1, 0.5, 1]},
 	    underlying_obj: plots.InputsValues,
-	    underlying_key: "prom-factor",
+	    underlying_key: "prom_factor",
 	    cb_focusout: function(){// responsing to the change event can cause system to hang...
 		if(qty_pnts > 200){return;}
 		
 		var Plot_i = DM.plotArray[plots.selected_row_i];
 
 		//Regenerate the CDF for the plot, using the desired Prominence
-		var Prom_function = function(x){return x ** plots.InputsValues["prom-factor"]};
+		var Prom_function = function(x){return x ** plots.InputsValues["prom_factor"]};
 		density_util.Create_density_CDF(Plot_i.uid, Prom_function);
 
 		// this function may do a lot of work
