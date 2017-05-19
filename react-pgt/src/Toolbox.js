@@ -8,6 +8,9 @@ import TabStrip from './TabStrip';
 import './Toolbox.css';
 
 import PaneColourPots from './PaneColourPots';
+import cpotArray from './cpotArray';
+
+
 
 class Toolbox extends Component {
 
@@ -15,9 +18,17 @@ class Toolbox extends Component {
 	super();
 	this.state = {
 	    selectedTabIndex: 0,
+	    cpotArray: cpotArray,
 	};
     }
-    
+
+    handleCpotNameChange(index, new_description){
+	const cpotArray = this.state.cpotArray;
+	cpotArray[index].description = new_description;
+	this.setState({
+	    cpotArray: cpotArray
+	})
+    }
     
     render() {
 	return (
@@ -52,7 +63,9 @@ class Toolbox extends Component {
 		(() => {
 		    switch (this.state.selectedTabIndex) {
 		    case 0:
-			return <PaneColourPots />;
+			return <PaneColourPots
+			data={this.state.cpotArray}
+			onCpotNameChange={(a,b)=>{this.handleCpotNameChange(a,b);}}/>;
 		    case 1:
 			return <span> Tab 1  </span>;
 		    default:

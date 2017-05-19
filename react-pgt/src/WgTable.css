@@ -1,4 +1,4 @@
-/* WGTable.css */
+/* WgTable.css */
 
 .WgTable{
     margin: 6px;
@@ -36,7 +36,7 @@
     border-right: none;
 }
 
-.WgTable tr:hover{
+.WgTable > tbody > tr:hover{
     background: #E1EFF5;
 }
 
@@ -48,7 +48,7 @@
     background: #e4f1f1;
 }
 
-.WgTable tr.selected{
+.WgTable > tbody > tr.selected{
     background: #7DC8EC;
 }
 

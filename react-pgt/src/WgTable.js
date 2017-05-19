@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './WgTable.css';
 
+// for colour pot preview rendering...
+import CpotCellBlock from './CpotCellBlock';
+
+
 class WgTable extends Component {
 
     constructor() {
@@ -9,6 +13,7 @@ class WgTable extends Component {
 	    selectedRowIndex: 0
 	};
     }
+    
     
     render() {
 	return (
@@ -40,13 +45,15 @@ class WgTable extends Component {
 				<td className="col-2">
 				<input className="blue-cell"
 			    value={cpot.description} 
+			    onChange={ event =>{ this.props.onCpotNameChange(index, event.target.value) }}
 				/>
 				
 			    </td>
 				<td className="col-3">
-				Prev s
-			    </td>
-				</tr>);
+				<CpotCellBlock
+			    cpot={cpot}
+			    nX={8}
+			    nY={2} /></td></tr>);
 		    })
 		}
 		</tbody>

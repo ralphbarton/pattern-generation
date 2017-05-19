@@ -1,6 +1,6 @@
 /* PaneColourPots.css  */
 
-.PaneColourPots > .WgTable tbody{
+.PaneColourPots > .WgTable > tbody{
     height: 205px;
 }
 
@@ -30,4 +30,9 @@
 
 .PaneColourPots > .WgTable td.col-3{
     padding: 1px;
+}
+
+table.CpotCellBlock td{
+    width: 8px;
+    height: 8px;
 }

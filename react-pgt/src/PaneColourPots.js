@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './PaneColourPots.css';
 
 import WgTable from './WgTable';
-import cpotArray from './cpotArray';
 
 
 class PaneColourPots extends Component {
@@ -16,7 +15,8 @@ class PaneColourPots extends Component {
 		{name: "Description"},
 		{name: "Preview"}
 	    ]}
-	    data={cpotArray}
+	    data={this.props.data}
+	    onCpotNameChange={this.props.onCpotNameChange}
 		/>
 	    </div>
 	);
