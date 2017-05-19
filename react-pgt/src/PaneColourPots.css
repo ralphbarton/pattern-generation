@@ -1,0 +1,33 @@
+/* PaneColourPots.css  */
+
+.PaneColourPots > .WgTable tbody{
+    height: 205px;
+}
+
+.PaneColourPots > .WgTable .col-1{
+    width: 20px;
+}
+
+.PaneColourPots > .WgTable .col-2{
+    width: 270px;
+}
+
+.PaneColourPots > .WgTable td.col-2{
+    text-align: left;
+}
+
+.PaneColourPots > .WgTable .col-2{
+    padding: 0px;
+}
+
+.PaneColourPots > .WgTable input.blue-cell{
+    width: 264px;
+}
+
+.PaneColourPots > .WgTable th.col-3{
+    width: 97px;
+}
+
+.PaneColourPots > .WgTable td.col-3{
+    padding: 1px;
+}

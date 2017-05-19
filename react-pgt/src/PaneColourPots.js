@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import './PaneColourPots.css';
 
+import WgTable from './WgTable';
+import cpotArray from './cpotArray';
+
+
 class PaneColourPots extends Component {
     
     render() {
 	return (
-		<div>
-		Now, a listbox of sorts needs to go here!!
+		<div className="PaneColourPots">
+		<WgTable
+	    columns={[
+		{name: "#"},
+		{name: "Description"},
+		{name: "Preview"}
+	    ]}
+	    data={cpotArray}
+		/>
 	    </div>
 	);
     }

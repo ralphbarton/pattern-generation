@@ -14,10 +14,10 @@ class Toolbox extends Component {
     constructor() {
 	super();
 	this.state = {
-	    selectedTabIndex: 3,
+	    selectedTabIndex: 0,
 	};
     }
-   
+    
     
     render() {
 	return (
@@ -65,7 +65,7 @@ class Toolbox extends Component {
 	    </div>
 		</Draggable>
 	);
-  }
+    }
 }
 
 export default Toolbox;

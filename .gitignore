@@ -13,3 +13,8 @@ deploy.sh
 public/include/jquery-1.11.1.js
 public/include/socket.io-1.2.0.js
 public/sandbox/
+
+
+react-pgt/.gitignore
+react-pgt/README.md
+react-pgt/deploy-react.sh
