@@ -4,11 +4,12 @@ import './Toolbox.css';
 
 //libraries
 import Draggable from 'react-draggable';
+import update from 'immutability-helper';
 
 //custom
 import TabStrip from './TabStrip';
 import PaneColourPots from './PaneColourPots';
-import cpotArray from './cpotArray';
+import {cpotArray, nextUidOf} from './sampleData';
 
 
 
@@ -24,9 +25,39 @@ class Toolbox extends Component {
 	};
     }
 
-    handleCpotNameChange(index, new_description){
+    handleCpotChange(type, details){
 	const cpotArray = this.state.cpotArray;
-	cpotArray[index].description = new_description;
+	const i = details.index;
+	switch (type) {
+
+	case "name":
+	    cpotArray[i].description = details.new_description;
+	    break;
+
+	case "duplicate":
+	    // this will inject only a shallow copy.
+	    const cpot_copy = update(cpotArray[i], {
+		description: {$set: cpotArray[i].description + "(copy)"},
+		uid: {$set: nextUidOf("cpot")}
+	    });
+	    cpotArray.splice(i+1, 0, cpot_copy);
+	    break;
+
+	case "delete":
+	    cpotArray.splice(i, 1);
+	    break;
+
+	case "update":
+	    //because of shallow copying, cleverness is required in modification. For this, see:
+
+	    // import update from 'react-addons-update';
+	    // https://facebook.github.io/react/docs/update.html
+	    break;	    
+
+	default: break;
+	}
+
+	//all switch cases update cpotArray
 	this.setState({
 	    cpotArray: cpotArray
 	});
@@ -79,7 +110,7 @@ class Toolbox extends Component {
 			      return (
 				  <PaneColourPots					    
 				     cpotArray={this.state.cpotArray}
-				     onCpotNameChange={this.handleCpotNameChange.bind(this)}
+				     onCpotChange={this.handleCpotChange.bind(this)}
 				     onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
 				    />
 			      );

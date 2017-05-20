@@ -143,4 +143,16 @@ const cpotArray = [
     },
 ];
 
-export {cpotArray as default};
+const uidCounters = {
+    "cpot": 4,
+    "grid": 2,
+    "plot": 4,
+    "motf": 2,
+    "patt": 3,
+};
+
+function nextUidOf(Object_Type){
+    return uidCounters[Object_Type]++;
+};
+
+export {cpotArray, nextUidOf};

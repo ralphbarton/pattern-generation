@@ -13,9 +13,11 @@ class PaneColourPots extends Component {
 	    selectedRowIndex: 2,
 	    isEditing: false
 	};
+	console.log("PaneColourPots constructor called");
     }
 
     handleRowSelectedChange(index){
+	if (index === this.state.selectedRowIndex){return;}
 	this.setState({
 	    selectedRowIndex: index
 	});
@@ -38,7 +40,7 @@ class PaneColourPots extends Component {
 		     {name: "Preview"}
 		 ]}
 		 cpotArray={this.props.cpotArray}
-		 onCpotNameChange={this.props.onCpotNameChange}
+		 onCpotNameChange={(i,v)=>{this.props.onCpotChange("name", {index: i, new_description: v});}}
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		/>
@@ -57,12 +59,21 @@ class PaneColourPots extends Component {
 		     />
 		  <WgButton
 		     name="Duplicate"
-		     onClick={null}
+		     onClick={()=>{
+			 const i = this.state.selectedRowIndex;
+			 this.props.onCpotChange("duplicate", {index: i});
+			 this.handleRowSelectedChange(i+1);
+		    }}
 		     enabled={true}
 		     />
 		  <WgButton
 		     name="Delete"
-		     onClick={null}
+		     onClick={()=>{
+			 const i = this.state.selectedRowIndex;
+			 const i_new = Math.min(this.props.cpotArray.length -2, i);
+			 this.props.onCpotChange("delete", {index: i});
+			 this.handleRowSelectedChange(i_new);
+		    }}
 		     enabled={true}
 		     />
 

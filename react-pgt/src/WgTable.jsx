@@ -28,12 +28,7 @@ function WgTable(props) {
 		    return (
 			<tr className={index === props.selectedRowIndex ? "selected" : null}
 			    key={cpot.uid}
-			    onClick={() => {
-				if(index !== props.selectedRowIndex){
-				    props.onRowSelectedChange(index);
-				}
-			      }
-			  }
+			    onClick={props.onRowSelectedChange.bind(null, index)}
 			  >
 			  <td className="col-1">
 			    {index+1}
