@@ -32,7 +32,23 @@
     padding: 1px;
 }
 
-table.CpotCellBlock td{
+.PaneColourPots > .CpotCellBlock td{
+    width: 18px;
+    height: 18px;
+}
+
+.WgTable table.CpotCellBlock td{
     width: 8px;
     height: 8px;
 }
+
+table.WgTable table.CpotCellBlock {
+    display: block;
+}
+
+.PaneColourPots > table.CpotCellBlock{
+    position: absolute;
+top: 129px;
+right: 14px;
+}
+

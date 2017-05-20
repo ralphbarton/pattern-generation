@@ -1,17 +1,15 @@
 /* CpotCellBlock.css */
 
 table.CpotCellBlock{
-    display: block;
+    display: inline-block;
     margin: 0px;
     background-color: white;
-}
-
-table.CpotCellBlock tbody{
     border: 1px solid black;
     border-spacing: 0px;
 }
 
-table.CpotCellBlock *{
+table.CpotCellBlock tbody{
+    border-spacing: 0px;
     border: none;
 }
 
