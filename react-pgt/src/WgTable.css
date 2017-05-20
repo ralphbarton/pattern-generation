@@ -31,8 +31,8 @@
 
 }
 
-.WgTable > thead > th:last-child,
-.WgTable > tbody > td:last-child {
+.WgTable > thead > tr > th:last-child,
+.WgTable > tbody > tr > td:last-child {
     border-right: none;
 }
 
