@@ -9,7 +9,8 @@ class PaneColourPots extends Component {
     constructor() {
 	super();
 	this.state = {
-	    selectedRowIndex: 2
+	    selectedRowIndex: 2,
+	    isEditing: false
 	};
     }
 
@@ -18,8 +19,8 @@ class PaneColourPots extends Component {
 	    selectedRowIndex: index
 	});
     }
-    
-    render() {
+
+    renderCpotView(){
 	return (
 	    <div className="PaneColourPots">
 	      <WgTable
@@ -32,17 +33,36 @@ class PaneColourPots extends Component {
 		 onCpotNameChange={this.props.onCpotNameChange}
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
-		 />
-	      <CpotCellBlock
-		 cpot={this.props.cpotArray[this.state.selectedRowIndex]}
-		 nX={13}
-		 nY={13}
-		 chequerSize="normal"
-		 />
+		/>
+		<CpotCellBlock
+		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
+		   nX={13}
+		   nY={13}
+		   chequerSize="normal"
+		   />
 
 	    </div>
 	);
     }
+
+    
+    renderCpotEdit(){
+	return (
+	    <div className="PaneEditColourPots">
+	      Edit Pane...
+	    </div>
+	);
+    }
+    
+    render() {
+	switch (this.state.isEditing) {
+	case false:
+	    return this.renderCpotView();
+	case default:
+	    return this.renderCpotEdit();
+	}
+    }
+    
 }
 
 
