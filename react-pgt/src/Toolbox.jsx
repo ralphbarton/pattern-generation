@@ -17,8 +17,10 @@ class Toolbox extends Component {
     constructor() {
 	super();
 	this.state = {
+	    toolboxSize: 1, /*options ae 1,2,3*/
 	    selectedTabIndex: 0,
-	    cpotArray: cpotArray,
+	    tabsEnabled: true,
+	    cpotArray: cpotArray
 	};
     }
 
@@ -29,11 +31,21 @@ class Toolbox extends Component {
 	    cpotArray: cpotArray
 	});
     }
+
+    
+    handleToolboxSizeChange(newSize){
+	this.setState({
+	    toolboxSize: newSize,
+	    tabsEnabled: (newSize === 1) /* There may be other conditions for disabling main strip...*/
+	});
+    }
+
     
     render() {
+	const toolboxDivClasses = "BeigeWindow Toolbox size-" + this.state.toolboxSize;
 	return (
 	    <Draggable handle=".handle">
-	      <div className="BeigeWindow Toolbox">
+	      <div className={toolboxDivClasses}>
 		<div className="Title-Strip handle">
 		  Re-Implementing the Toolbox in React...
 		</div>
@@ -53,6 +65,7 @@ class Toolbox extends Component {
 			      ]
 			  }
 			  selected={this.state.selectedTabIndex}
+			  enabled={this.state.tabsEnabled}
 			  onTabSelect={(i) => {this.setState({
 			      selectedTabIndex: i
 		  });}}
@@ -63,11 +76,13 @@ class Toolbox extends Component {
 		      (() => {
 			  switch (this.state.selectedTabIndex) {
 			  case 0:
-			      return <PaneColourPots
-					    
-					    cpotArray={this.state.cpotArray}
-					    onCpotNameChange={(a,b)=>{this.handleCpotNameChange(a,b);}}
-				  />;
+			      return (
+				  <PaneColourPots					    
+				     cpotArray={this.state.cpotArray}
+				     onCpotNameChange={this.handleCpotNameChange.bind(this)}
+				     onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
+				    />
+			      );
 			  case 1:
 			      return <span> Tab 1  </span>;
 			  default:

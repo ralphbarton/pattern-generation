@@ -28,6 +28,13 @@
     color: #004370;
 }
 
+.Tab-Strip.disabled > div{
+    background: rgba(210,210,210,0.4);
+    color: rgba(0,30,70,0.4);
+    border-color: rgba(0,30,70,0.3);
+    cursor: not-allowed;
+}
+
 .Tab-Strip > div.active{
     background: rgba(0,30,70,0.25);
 }
