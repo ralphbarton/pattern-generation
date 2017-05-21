@@ -3,6 +3,7 @@ import './PaneColourPots.css';
 
 import WgTable from './WgTable';
 import WgButton from './WgButton';
+import WgGradientCell from './WgGradientCell';
 import CpotCellBlock from './CpotCellBlock';
 
 class PaneColourPots extends Component {
@@ -64,20 +65,42 @@ class PaneColourPots extends Component {
 			 this.props.onCpotChange("duplicate", {index: i});
 			 this.handleRowSelectedChange(i+1);
 		    }}
-		     enabled={true}
-		     />
-		  <WgButton
-		     name="Delete"
-		     onClick={()=>{
-			 const i = this.state.selectedRowIndex;
-			 const i_new = Math.min(this.props.cpotArray.length -2, i);
-			 this.props.onCpotChange("delete", {index: i});
-			 this.handleRowSelectedChange(i_new);
-		    }}
-		     enabled={true}
-		     />
-
+		    enabled={true}
+		    />
+		    <WgButton
+		       name="Delete"
+		       onClick={()=>{
+			   const i = this.state.selectedRowIndex;
+			   const i_new = Math.min(this.props.cpotArray.length -2, i);
+			   this.props.onCpotChange("delete", {index: i});
+			   this.handleRowSelectedChange(i_new);
+		      }}
+		      enabled={true}
+		      />
 		</div>
+
+		{/*Test code for Gradient Cell*/} 
+		<WgGradientCell
+		   dim={25}
+		   elemRange={this.props.cpotArray[1].contents[0].range}
+		   gradientConfig={{H:0, S:"y", L:"x"}}
+		   />
+		<WgGradientCell
+		   dim={25}
+		   elemRange={this.props.cpotArray[1].contents[0].range}
+		   gradientConfig={{H:1, S:"y", L:"x"}}
+		   />
+		<WgGradientCell
+		   dim={25}
+		   elemRange={this.props.cpotArray[1].contents[0].range}
+		   gradientConfig={{H:"x", S:0, L:"y"}}
+		   />
+		<WgGradientCell
+		   dim={25}
+		   elemRange={this.props.cpotArray[1].contents[0].range}
+		   gradientConfig={{H:"x", S:1, L:"y"}}
+		   />
+
 	    </div>
 	);
     }

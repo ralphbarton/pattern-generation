@@ -8,7 +8,9 @@ include/
 hand-drawing/
 pattern-generation-launch.sh
 deploy.sh
-*.js~
+react-PGT-launch.sh
+*.*~
+*#*.*#
 
 public/include/jquery-1.11.1.js
 public/include/socket.io-1.2.0.js
