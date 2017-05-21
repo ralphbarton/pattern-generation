@@ -9,7 +9,7 @@
 }
 
 
-/* Contents table */
+/* WgTable of Cpot Items */
 .PaneEditColourPots  tbody{
     height: 364px;
 }
@@ -22,7 +22,7 @@
     width: 58px;/*6 px larger than cell width below*/
 }
 
-.PaneEditColourPots  th.col-3{
+.PaneEditColourPots th.col-3{
     width: 157px;
 }
 
@@ -38,30 +38,118 @@
     padding:0px;
 }
 
+
+
+
+/* Column 3 contents - item preview */
 .PaneEditColourPots .itemType{
     text-align: left;
+    width: 140px;
     font-size: 10px;
 }
 
 .PaneEditColourPots .WgTable .WgGradientCell{
-    margin: 0px 1px;
+    margin: 1px;
     border: 1px solid black;
 }
 
-.PaneEditColourPots .WgTable .threeCells{
+.PaneEditColourPots div .itemDemo{
+    position: relative;
+}
+
+.PaneEditColourPots .WgTable .WgColourPill{
+    position: absolute;
+    height: 15px;
+    border-radius: 10px;
+    border: 2px solid black;   
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0,1);
+    left: 6px;
+    width: 69px;
+    z-index: 1;
+}
+
+.PaneEditColourPots .WgAlphaSwatch{
+    position: absolute;
+    background-color: white;
+    right: 2px;
+    height: 15px;
+    width: 49px;
+}
+
+.PaneEditColourPots .WgAlphaSwatch .chequer{
+    position: absolute;
+    right: 0px;
+    width: 25px;
+}
+
+.PaneEditColourPots .WgAlphaSwatch .swatch{
+    position: absolute;
+    width: 34px;
+    height: 15px;
+    right: 12px;
+}
+
+
+
+
+/* Item preview: Range */
+.PaneEditColourPots .range .itemDemo{
+    height: 68px;
+}
+
+.PaneEditColourPots .range .threeCells{
+    position: absolute;
     display: block;
     font-size: 0px;
 }
 
+.PaneEditColourPots .range .WgColourPill{
+    top: 25px;
+}
+
+.PaneEditColourPots .range .threeCells.n2{
+    top: 39px;
+}
+
+.PaneEditColourPots .range .WgAlphaSwatch{
+    top: 6px;
+    height: 57px;
+}
+
+.PaneEditColourPots .range .WgAlphaSwatch .chequer{
+    height: 55px;
+}
+
+.PaneEditColourPots .range .WgAlphaSwatch .swatch.n1{
+    top: 10px;
+}
+
+.PaneEditColourPots .range .WgAlphaSwatch .swatch.n2{
+    bottom: 10px;
+}
 
 
+/* Item preview: Solid */
+.PaneEditColourPots .solid .itemDemo{
+    height: 26px;
+}
 
+.PaneEditColourPots .solid .WgColourPill{
+    top: 4px;
+}
 
+.PaneEditColourPots .solid .WgAlphaSwatch{
+    top: 2px;
+    height: 21px;
+}
 
+.PaneEditColourPots .solid .WgAlphaSwatch .chequer{
+    height: 19px;
+}
 
-
-
-
+.PaneEditColourPots .solid .WgAlphaSwatch .swatch{
+    top: 3px;
+}
 
 
 

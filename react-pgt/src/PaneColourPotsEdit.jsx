@@ -7,7 +7,7 @@ import cpot_util from './CpotUtil';
 
 import WgTable from './WgTable';
 //import WgButton from './WgButton';
-import WgGradientCell from './WgGradientCell';
+import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './PaneColourPotsEdit_Util.jsx';
 //import CpotCellBlock from './CpotCellBlock';
 
 class PaneColourPotsEdit extends Component {
@@ -65,20 +65,25 @@ class PaneColourPotsEdit extends Component {
 		    case "range":
 			var xpRange = cpot_util.range_unpack( item.range );
 			return (
-			    <div>
-
+			    <div className="range">
 			      <div className="itemType">range</div>
-			      
-			      <div className="threeCells n1">
-				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:0, S:"y", L:"x"}}/>
-				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:0, L:"y"}}/>
-				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:"y", L:0}}/>
-			      </div>
 
-			      <div className="threeCells n2">
-				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:1, S:"y", L:"x"}}/>
-				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:1, L:"y"}}/>
-				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:"y", L:1}}/>
+			      <div className="itemDemo">
+				<WgColourPill expandedRange={xpRange} />
+				
+				<div className="threeCells n1">
+				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:0, S:"y", L:"x"}}/>
+				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:0, L:"y"}}/>
+				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:"y", L:0}}/>
+				</div>
+
+				<div className="threeCells n2">
+				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:1, S:"y", L:"x"}}/>
+				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:1, L:"y"}}/>
+				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:"y", L:1}}/>
+				</div>
+
+				<WgAlphaSwatch type="range" expandedRange={xpRange} />
 			      </div>
 			      
 			    </div>
@@ -86,7 +91,14 @@ class PaneColourPotsEdit extends Component {
 			
 		    default:
 			return (
-			    <div className="itemType">solid</div>
+			    <div className="solid">
+			      <div className="itemType">solid</div>
+
+			      <div className="itemDemo">
+				<WgColourPill colourString={item.solid} />
+				<WgAlphaSwatch type="solid" colourString={item.solid} />
+			      </div>
+			    </div>
 			);
 		    }
 

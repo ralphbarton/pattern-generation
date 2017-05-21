@@ -52,7 +52,7 @@ const cpotArray = [
 	    {
 		prob: 22,
 		type: "solid",
-		solid: "rgb(122, 225, 20)"
+		solid: "rgba(122, 225, 20, 0.5)"
 	    },
 	    {
 		prob: 10,
