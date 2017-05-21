@@ -1,52 +1,45 @@
 import React from 'react';
 import './WgTable.css';
 
-// for colour pot preview rendering...
-import CpotCellBlock from './CpotCellBlock';
-
-
 function WgTable(props) {
     return (
 	<table className="WgTable">
 	  <thead>
 	    <tr>
 	      {
-		  props.columns.map( (column, index) => {
+		  props.columns.map( (column, cIndex) => {
 		      return (
 			  <th
-			     key={index}
-			     className={"col-"+(index+1)} >	
-			    {column.name}
-			  </th>);
+			     key={cIndex}
+			     className={"col-"+(cIndex+1)}
+			     >	
+			    {column.heading}
+			  </th>
+		      );
 		  })
 	      }
 	</tr>
 	    </thead>
 	    <tbody>
 	    {
-		props.cpotArray.map( (cpot, index) => {
+		props.rowRenderingData.map( (rowData, rIndex) => {
 		    return (
-			<tr className={index === props.selectedRowIndex ? "selected" : null}
-			    key={cpot.uid}
-			    onClick={props.onRowSelectedChange.bind(null, index)}
+			<tr className={rIndex === props.selectedRowIndex ? "selected" : null}
+			    key={rowData.uid !== undefined ? rowData.uid : rIndex}
+			    onClick={props.onRowSelectedChange.bind(null, rIndex)}
 			  >
-			  <td className="col-1">
-			    {index+1}
-			  </td>
-			  <td className="col-2">
-			    <input className="blue-cell"
-				   value={cpot.description} 
-				   onChange={ event =>{ props.onCpotNameChange(index, event.target.value); }}
-			      />
-			      
-			  </td>
-			  <td className="col-3">
-			    <CpotCellBlock
-			       cpot={cpot}
-			       nX={8}
-			       nY={2}
-			       />
-			  </td>
+			  {
+			      props.columns.map( (column, cIndex) => {
+				  return (
+				      <td
+					 key={cIndex}
+					 className={"col-"+(cIndex+1)}
+					>
+					{column.renderCellContents(rowData, rIndex)}
+				      </td>
+				  );
+			      })
+			  }
 			</tr>);
 		})
 	    }

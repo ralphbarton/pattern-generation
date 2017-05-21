@@ -31,27 +31,48 @@ class PaneColourPots extends Component {
 	this.props.onToolboxSizeChange(2);
     }
 
+    cpotView_WgTableColumns(){
+	return ([
+	    {
+		heading: "#",
+		renderCellContents: (cpot, i)=>{return (i+1);}
+	    },{
+		heading: "Description",
+		renderCellContents: (cpot, i)=>{return (
+		    <input className="blue-cell"
+			   value={cpot.description} 
+			   onChange={event =>{
+			       this.props.onCpotChange("name", {index: i, new_description: event.target.value});
+		      }}
+		      />);}
+	    },{
+		heading: "Preview",
+		renderCellContents: (cpot, i)=>{return (
+		    <CpotCellBlock
+		       cpot={cpot}
+		       nX={8}
+		       nY={2}
+		       />);}
+	    }
+	]);
+    }
+
     renderCpotView(){
 	return (
 	    <div className="PaneColourPots">
 	      <WgTable
-		 columns={[
-		     {name: "#"},
-		     {name: "Description"},
-		     {name: "Preview"}
-		 ]}
-		 cpotArray={this.props.cpotArray}
-		 onCpotNameChange={(i,v)=>{this.props.onCpotChange("name", {index: i, new_description: v});}}
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
+		rowRenderingData={this.props.cpotArray}
+		columns={this.cpotView_WgTableColumns()}
 		/>
 		<CpotCellBlock
 		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
 		   nX={13}
 		   nY={13}
-		   chequerSize="normal"
+	           chequerSize="normal"
 		   />
-
+		
 		<div className="mainButtons">
 		  <WgButton
 		     name="Edit"
