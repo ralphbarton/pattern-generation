@@ -62,8 +62,7 @@
 
 /* styling the tr>td>input element within a table to indicate when editing*/
 .WgTable .blue-cell{
-    border: 2px solid rgba(0,0,0,0);
-    font: inherit;
+    border: 2px solid transparent;/*for spacing purposes*/
     background: none;
     cursor:default;
 }

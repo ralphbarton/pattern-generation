@@ -7,7 +7,7 @@ function WgTable(props) {
 	  <thead>
 	    <tr>
 	      {
-		  props.columns.map( (column, cIndex) => {
+		  props.columnsRendering.map( (column, cIndex) => {
 		      return (
 			  <th
 			     key={cIndex}
@@ -29,7 +29,7 @@ function WgTable(props) {
 			    onClick={props.onRowSelectedChange.bind(null, rIndex)}
 			  >
 			  {
-			      props.columns.map( (column, cIndex) => {
+			      props.columnsRendering.map( (column, cIndex) => {
 				  return (
 				      <td
 					 key={cIndex}

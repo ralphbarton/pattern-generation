@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './PaneColourPots.css';
 
+import PaneColourPotsEdit from './PaneColourPotsEdit';
+
 import WgTable from './WgTable';
 import WgButton from './WgButton';
-import WgGradientCell from './WgGradientCell';
 import CpotCellBlock from './CpotCellBlock';
 
 class PaneColourPots extends Component {
@@ -11,7 +12,7 @@ class PaneColourPots extends Component {
     constructor() {
 	super();
 	this.state = {
-	    selectedRowIndex: 2,
+	    selectedRowIndex: 1,
 	    isEditing: false
 	};
 	console.log("PaneColourPots constructor called");
@@ -64,7 +65,7 @@ class PaneColourPots extends Component {
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		rowRenderingData={this.props.cpotArray}
-		columns={this.cpotView_WgTableColumns()}
+		columnsRendering={this.cpotView_WgTableColumns()}
 		/>
 		<CpotCellBlock
 		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
@@ -99,46 +100,21 @@ class PaneColourPots extends Component {
 		      enabled={true}
 		      />
 		</div>
-
-		{/*Test code for Gradient Cell*/} 
-		<WgGradientCell
-		   dim={25}
-		   elemRange={this.props.cpotArray[1].contents[0].range}
-		   gradientConfig={{H:0, S:"y", L:"x"}}
-		   />
-		<WgGradientCell
-		   dim={25}
-		   elemRange={this.props.cpotArray[1].contents[0].range}
-		   gradientConfig={{H:1, S:"y", L:"x"}}
-		   />
-		<WgGradientCell
-		   dim={25}
-		   elemRange={this.props.cpotArray[1].contents[0].range}
-		   gradientConfig={{H:"x", S:0, L:"y"}}
-		   />
-		<WgGradientCell
-		   dim={25}
-		   elemRange={this.props.cpotArray[1].contents[0].range}
-		   gradientConfig={{H:"x", S:1, L:"y"}}
-		   />
-
+		
 	    </div>
 	);
     }
 
-    
-    renderCpotEdit(){
-	return (
-	    <div className="PaneEditColourPots">
-	      Edit Pane...
-	    </div>
-	);
-    }
     
     render() {
 	switch (this.state.isEditing) {
 	case true:
-	    return this.renderCpotEdit();
+	    return (
+		<PaneColourPotsEdit
+		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
+		   onSaveEdits={null}
+		   />
+	    );
 	default:
 	    return this.renderCpotView();
 	}
