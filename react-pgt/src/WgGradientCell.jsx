@@ -7,7 +7,7 @@ class WgGradientCell extends Component {
     componentDidMount() {
 	//called by React immediately after render()
 	const canvas = this.refs.canvas;
-	cpot_util.putGradientOnCanvas(canvas, this.props.expandedRange, this.props.gradientConfig);
+	cpot_util.putGradientOnCanvas(canvas, this.props.expandedRange, this.props.gradConf);
     }
 
     render() {

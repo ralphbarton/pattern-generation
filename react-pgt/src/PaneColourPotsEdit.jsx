@@ -52,45 +52,45 @@ class PaneColourPotsEdit extends Component {
 			 });
 			   */
 			   onChange={event =>{
-			       console.log("prob change...")
+			       console.log("prob change...");
 		      }}
 		      />
 		);}
 	    },{
 		heading: "Item",
 		renderCellContents: (item, i)=>{
-		    if(item.range === undefined){
-			return (<span>Solid.</span>);
+		    
+		    switch (item.type) {
+			
+		    case "range":
+			var xpRange = cpot_util.range_unpack( item.range );
+			return (
+			    <div>
+
+			      <div className="itemType">range</div>
+			      
+			      <div className="threeCells n1">
+				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:0, S:"y", L:"x"}}/>
+				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:0, L:"y"}}/>
+				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:"y", L:0}}/>
+			      </div>
+
+			      <div className="threeCells n2">
+				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:1, S:"y", L:"x"}}/>
+				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:1, L:"y"}}/>
+				<WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:"y", L:1}}/>
+			      </div>
+			      
+			    </div>
+			);
+			
+		    default:
+			return (
+			    <div className="itemType">solid</div>
+			);
 		    }
 
-		    
-		    var expandedRange = cpot_util.range_unpack( item.range );
-		    return (
-			<span>{
-			      [0,1].map((val, i)=>{
-
-				  return (<div key={i} className={"threeCells n"+val}>{
-				      [
-					  {H:val, S:"y", L:"x"},
-					  {H:"x", S:val, L:"y"},
-					  {H:"x", S:"y", L:val}
-				      ].map((object, j)=>{
-
-					  return(
-					      <div key={j}>
-						<WgGradientCell
-						   dim={25}
-						   expandedRange={expandedRange}
-						   gradientConfig={object}
-						   />
-					      </div>
-					  );
-				      })
-				  }</div>);
-			      })
-			}
-			</span>
-		    );}
+		}
 	    }
 	]);
     }

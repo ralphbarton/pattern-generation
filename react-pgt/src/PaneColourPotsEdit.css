@@ -38,15 +38,14 @@
     padding:0px;
 }
 
-.PaneEditColourPots .WgTable .WgGradientCell{
-    margin: 0px 1px;
-    border: 1px solid black;    
-    display: block;
+.PaneEditColourPots .itemType{
+    text-align: left;
+    font-size: 10px;
 }
 
-
-.PaneEditColourPots .WgTable .threeCells > div{
-    display: inline-block;
+.PaneEditColourPots .WgTable .WgGradientCell{
+    margin: 0px 1px;
+    border: 1px solid black;
 }
 
 .PaneEditColourPots .WgTable .threeCells{
