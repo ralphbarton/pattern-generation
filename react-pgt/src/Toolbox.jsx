@@ -31,13 +31,13 @@ class Toolbox extends Component {
 	switch (type) {
 
 	case "name":
-	    cpotArray[i].description = details.new_description;
+	    cpotArray[i].name = details.new_name;
 	    break;
 
 	case "duplicate":
 	    // this will inject only a shallow copy.
 	    const cpot_copy = update(cpotArray[i], {
-		description: {$set: cpotArray[i].description + "(copy)"},
+		name: {$set: cpotArray[i].name + "(copy)"},
 		uid: {$set: nextUidOf("cpot")}
 	    });
 	    cpotArray.splice(i+1, 0, cpot_copy);

@@ -23,7 +23,7 @@ class PaneColourPotsEdit extends Component {
     handleEditingCpotChange(changesObject){
 	const cpot_updated = update(this.state.cpot, changesObject);	
 	this.setState({
-	    cpotArray: cpot_updated
+	    cpot: cpot_updated
 	});
     }
     
@@ -38,27 +38,28 @@ class PaneColourPotsEdit extends Component {
 	return ([
 	    {
 		heading: "#",
-		renderCellContents: (item, i)=>{return (i+1);}
+		renderCellContents: (item, rIndex)=>{return (rIndex+1);}
 	    },{
 		heading: "Prob",
-		renderCellContents: (item, i)=>{return (
+		renderCellContents: (item, rIndex)=>{return (
 		    <input className="blue-cell"
 			   value={item.prob} 
 
-			   /*
-			   need to modify this to set the relevant value in array...
-			   this.handleEditingCpotChange({
-			     description: {$set: event.target.value}
-			 });
-			   */
+	
+			   //need to modify this to set the relevant value in array...
+	
 			   onChange={event =>{
-			       console.log("prob change...");
+			       const updatedItem = update(item, {prob: {$set: event.target.value}});
+			       console.log(updatedItem);
+			       this.handleEditingCpotChange({
+				   contents: {$splice: [[rIndex, 1, updatedItem]]}
+			       });
 		      }}
 		      />
 		);}
 	    },{
 		heading: "Item",
-		renderCellContents: (item, i)=>{
+		renderCellContents: (item, rIndex)=>{
 		    
 		    switch (item.type) {
 			
@@ -112,10 +113,10 @@ class PaneColourPotsEdit extends Component {
 	    <div className="PaneEditColourPots">
 
 	      <input className="plain-cell"
-		     value={this.state.cpot.description} 
+		     value={this.state.cpot.name} 
 		     onChange={event => {			 
 			 this.handleEditingCpotChange({
-			     description: {$set: event.target.value}
+			     name: {$set: event.target.value}
 			 });
 		}}
 		/>

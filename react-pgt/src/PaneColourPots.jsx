@@ -41,9 +41,9 @@ class PaneColourPots extends Component {
 		heading: "Description",
 		renderCellContents: (cpot, i)=>{return (
 		    <input className="blue-cell"
-			   value={cpot.description} 
+			   value={cpot.name} 
 			   onChange={event =>{
-			       this.props.onCpotChange("name", {index: i, new_description: event.target.value});
+			       this.props.onCpotChange("name", {index: i, new_name: event.target.value});
 		      }}
 		      />);}
 	    },{

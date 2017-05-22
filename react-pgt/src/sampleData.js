@@ -1,6 +1,6 @@
 const cpotArray = [
     {
-	description: "Banana Pie",
+	name: "Banana Pie",
 	uid: 0,
 	contents: [
 	    {
@@ -31,7 +31,7 @@ const cpotArray = [
 	]
     },
     {
-	description: "Puddle sky",
+	name: "Puddle sky",
 	uid: 1,
 	"contents": [
 	    {
@@ -90,7 +90,7 @@ const cpotArray = [
 	]
     },	
     {
-	description: "Electric paints",
+	name: "Electric paints",
 	uid: 2,
 	contents: [
 	    {
@@ -121,7 +121,7 @@ const cpotArray = [
 	]
     },
     {
-	description: "Cookie decoration",
+	name: "Cookie decoration",
 	uid: 3,
 	contents: [
 	    {
