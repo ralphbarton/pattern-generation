@@ -26,10 +26,27 @@ class Toolbox extends Component {
     }
 
     handleCpotChange(type, details){
+
+	/*
+	 valid keys for the 'details' object:
+	  'index'
+	  'new_name'
+	  'updated_object'
+	 
+	 */
 	const cpotArray = this.state.cpotArray;
 	const i = details.index;
+
+	//unfortunately, the code below *does* mutate the object referenced by cpotArray.
+
+	/*
+	 // here is an example of how it might be done without using mutation
+	 const updatedArray = update(item, {$splice: [[rIndex, 1, updatedItem]]});
+	 */
+	
 	switch (type) {
 
+	    
 	case "name":
 	    cpotArray[i].name = details.new_name;
 	    break;
@@ -48,10 +65,7 @@ class Toolbox extends Component {
 	    break;
 
 	case "update":
-	    //because of shallow copying, cleverness is required in modification. For this, see:
-
-	    // import update from 'react-addons-update';
-	    // https://facebook.github.io/react/docs/update.html
+	    cpotArray.splice(i, 1, details.updated_object);	    
 	    break;	    
 
 	default: break;

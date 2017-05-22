@@ -6,6 +6,7 @@ import update from 'immutability-helper';
 import cpot_util from './CpotUtil';
 
 import WgTable from './WgTable';
+import WgButton from './WgButton';
 //import WgButton from './WgButton';
 import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './PaneColourPotsEdit_Util.jsx';
 //import CpotCellBlock from './CpotCellBlock';
@@ -50,7 +51,6 @@ class PaneColourPotsEdit extends Component {
 	
 			   onChange={event =>{
 			       const updatedItem = update(item, {prob: {$set: event.target.value}});
-			       console.log(updatedItem);
 			       this.handleEditingCpotChange({
 				   contents: {$splice: [[rIndex, 1, updatedItem]]}
 			       });
@@ -127,6 +127,23 @@ class PaneColourPotsEdit extends Component {
 		rowRenderingData={this.state.cpot.contents}
 		columnsRendering={this.cpotEdit_WgTableColumns()}
 		/>
+
+
+		<div className="mainButtons">
+		  <WgButton
+		     name="Cancel"
+		     onClick={null}
+		     enabled={true}
+		     />
+		  <WgButton
+		     name="Done"
+		     onClick={
+			 this.props.onEditingCpotSave.bind(null,this.state.cpot)
+		     }
+		     enabled={true}
+		     />
+		</div>		
+
 
 
 	    </div>

@@ -25,11 +25,11 @@ class PaneColourPots extends Component {
 	});
     }
 
-    handleEditButtonClick(){
+    handleSetEditMode(edit_mode){
 	this.setState({
-	    isEditing: true
+	    isEditing: edit_mode
 	});
-	this.props.onToolboxSizeChange(2);
+	this.props.onToolboxSizeChange(edit_mode ? 2 : 1);
     }
 
     cpotView_WgTableColumns(){
@@ -77,7 +77,7 @@ class PaneColourPots extends Component {
 		<div className="mainButtons">
 		  <WgButton
 		     name="Edit"
-		     onClick={this.handleEditButtonClick.bind(this)}
+		     onClick={this.handleSetEditMode.bind(this, true)}
 		     enabled={true}
 		     />
 		  <WgButton
@@ -113,6 +113,14 @@ class PaneColourPots extends Component {
 		<PaneColourPotsEdit
 		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
 		   onSaveEdits={null}
+		   onEditingCpotSave={updatedCpot =>{
+		       //handle 'editing cpot change' event using function call below
+		       this.props.onCpotChange("update", {
+			   index: this.state.selectedRowIndex,
+			   updated_object: updatedCpot
+		       });
+		       this.handleSetEditMode(false);
+		  }}		   
 		   />
 	    );
 	default:
