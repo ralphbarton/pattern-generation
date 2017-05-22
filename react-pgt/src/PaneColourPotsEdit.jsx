@@ -50,7 +50,10 @@ class PaneColourPotsEdit extends Component {
 			   //need to modify this to set the relevant value in array...
 	
 			   onChange={event =>{
-			       const updatedItem = update(item, {prob: {$set: event.target.value}});
+			       // This ought to be a SmartInput. I don't want to be parsing ints, everywhere....
+			       //
+			       const user_prob = parseInt(event.target.value, 10);
+			       const updatedItem = update(item, {prob: {$set: user_prob}});
 			       this.handleEditingCpotChange({
 				   contents: {$splice: [[rIndex, 1, updatedItem]]}
 			       });
