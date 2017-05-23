@@ -135,14 +135,15 @@ class PaneColourPotsEdit extends Component {
 		<div className="mainButtons">
 		  <WgButton
 		     name="Cancel"
-		     onClick={null}
+		     onClick={this.props.onCloseEditingMode.bind()}
 		     enabled={true}
 		     />
 		  <WgButton
 		     name="Done"
-		     onClick={
-			 this.props.onEditingCpotSave.bind(null,this.state.cpot)
-		     }
+		     onClick={()=>{
+			 this.props.onSaveEdits(this.state.cpot);
+			 this.props.onCloseEditingMode();
+		    }}
 		     enabled={true}
 		     />
 		</div>		

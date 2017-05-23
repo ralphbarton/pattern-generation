@@ -112,16 +112,15 @@ class PaneColourPots extends Component {
 	    return (
 		<PaneColourPotsEdit
 		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
-		   onSaveEdits={null}
-		   onEditingCpotSave={updatedCpot =>{
-		       //handle 'editing cpot change' event using function call below
+		   onSaveEdits={updatedCpot =>{
 		       this.props.onCpotChange("update", {
 			   index: this.state.selectedRowIndex,
 			   updated_object: updatedCpot
 		       });
-		       this.handleSetEditMode(false);
-		  }}		   
-		   />
+		       
+		  }}
+		  onCloseEditingMode={this.handleSetEditMode.bind(this, false)}
+		  />
 	    );
 	default:
 	    return this.renderCpotView();

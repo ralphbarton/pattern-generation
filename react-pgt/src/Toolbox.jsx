@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
+import {sampleData} from './sampleData';
 
 import './Toolbox.css';
 
 //libraries
 import Draggable from 'react-draggable';
-import update from 'immutability-helper';
 
 //custom
 import TabStrip from './TabStrip';
 import PaneColourPots from './PaneColourPots';
-import {cpotArray, nextUidOf} from './sampleData';
 
-
+import DatH from './DatH';
 
 class Toolbox extends Component {
 
@@ -21,62 +20,12 @@ class Toolbox extends Component {
 	    toolboxSize: 1, /*options ae 1,2,3*/
 	    selectedTabIndex: 0,
 	    tabsEnabled: true,
-	    cpotArray: cpotArray
+	    DataArrays: {
+		"cpot": sampleData.cpotArray
+	    }
 	};
     }
-
-    handleCpotChange(type, details){
-
-	/*
-	 valid keys for the 'details' object:
-	  'index'
-	  'new_name'
-	  'updated_object'
-	 
-	 */
-	const cpotArray = this.state.cpotArray;
-	const i = details.index;
-
-	//unfortunately, the code below *does* mutate the object referenced by cpotArray.
-
-	/*
-	 // here is an example of how it might be done without using mutation
-	 const updatedArray = update(item, {$splice: [[rIndex, 1, updatedItem]]});
-	 */
-	
-	switch (type) {
-
-	    
-	case "name":
-	    cpotArray[i].name = details.new_name;
-	    break;
-
-	case "duplicate":
-	    // this will inject only a shallow copy.
-	    const cpot_copy = update(cpotArray[i], {
-		name: {$set: cpotArray[i].name + "(copy)"},
-		uid: {$set: nextUidOf("cpot")}
-	    });
-	    cpotArray.splice(i+1, 0, cpot_copy);
-	    break;
-
-	case "delete":
-	    cpotArray.splice(i, 1);
-	    break;
-
-	case "update":
-	    cpotArray.splice(i, 1, details.updated_object);	    
-	    break;	    
-
-	default: break;
-	}
-
-	//all switch cases update cpotArray
-	this.setState({
-	    cpotArray: cpotArray
-	});
-    }
-
+    
     
     handleToolboxSizeChange(newSize){
 	this.setState({
@@ -123,9 +72,16 @@ class Toolbox extends Component {
 			  case 0:
 			      return (
 				  <PaneColourPots					    
-				     cpotArray={this.state.cpotArray}
-				     onCpotChange={this.handleCpotChange.bind(this)}
-				     onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
+				     cpotArray={this.state.DataArrays.cpot}
+				     onCpotChange={(changeType, details)=>{
+					 // The function call returns an updated Array...
+					 const oldArrs = this.state.DataArrays;
+					 const newArrs = DatH.immutUpdateAllArrays(oldArrs, "cpot", changeType, details);
+					 this.setState({
+					     DataArrays: newArrs
+					 });
+				    }}
+				    onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
 				    />
 			      );
 			  case 1:
