@@ -7,8 +7,8 @@ import cpot_util from './CpotUtil';
 
 import WgTable from './WgTable';
 import WgButton from './WgButton';
-//import WgButton from './WgButton';
-import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './PaneColourPotsEdit_Util.jsx';
+import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './PaneColourPotsEdit_SubComps.jsx';
+import cpotEditPane_util from './PaneColourPotsEdit_util.js';
 //import CpotCellBlock from './CpotCellBlock';
 
 class PaneColourPotsEdit extends Component {
@@ -145,7 +145,7 @@ class PaneColourPotsEdit extends Component {
 			 this.props.onSaveEdits(this.state.cpot);
 			 this.props.onCloseEditingMode();
 		    }}
-		     enabled={true}
+		    enabled={cpotEditPane_util.calcProbsSum(this.state.cpot) === 100}
 		     />
 		</div>		
 
@@ -154,8 +154,6 @@ class PaneColourPotsEdit extends Component {
 	    </div>
 	);
     }
-
-
 
 }
     
