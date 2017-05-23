@@ -53,10 +53,11 @@ class PaneColourPotsEdit extends Component {
 			       // This ought to be a SmartInput. I don't want to be parsing ints, everywhere....
 			       //
 			       const user_prob = parseInt(event.target.value, 10);
-			       const updatedItem = update(item, {prob: {$set: user_prob}});
-			       this.handleEditingCpotChange({
-				   contents: {$splice: [[rIndex, 1, updatedItem]]}
-			       });
+
+			       let $updater = {contents: {}};
+			       $updater.contents[rIndex] = {prob: {$set: user_prob}};
+			       this.handleEditingCpotChange( $updater );
+
 		      }}
 		      />
 		);}
