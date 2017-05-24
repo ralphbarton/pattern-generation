@@ -65,35 +65,36 @@ class Toolbox extends Component {
 		  });}}
 		  />
 
-		  {
-		      //Determine which tab body to show...
-		      (() => {
-			  switch (this.state.selectedTabIndex) {
-			  case 0:
-			      return (
-				  <PaneColourPots					    
-				     cpotArray={this.state.DataArrays.cpot}
-				     onCpotChange={(changeType, details)=>{
-					 // The function call returns an updated Array...
-					 const oldArrs = this.state.DataArrays;
-					 const newArrs = DatH.immutUpdateAllArrays(oldArrs, "cpot", changeType, details);
-					 this.setState({
-					     DataArrays: newArrs
-					 });
-				    }}
-				    onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
-				    />
-			      );
-			  case 1:
-			      return <span> Tab 1  </span>;
-			  default:
-			      return <span> unhandled tab clicked in </span>;
-			      
-			  }
+		  <div className="Tab-Body">
+		    {
+			//Determine which tab body to show...
+			(() => {
+			    switch (this.state.selectedTabIndex) {
+			    case 0:
+				return (
+				    <PaneColourPots					    
+				       cpotArray={this.state.DataArrays.cpot}
+				       onCpotChange={(changeType, details)=>{
+					   // The function call returns an updated Array...
+					   const oldArrs = this.state.DataArrays;
+					   const newArrs = DatH.immutUpdateAllArrays(oldArrs, "cpot", changeType, details);
+					   this.setState({
+					       DataArrays: newArrs
+					   });
+				      }}
+				      onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
+				      />
+				);
+			    case 1:
+				return <span> Tab 1  </span>;
+			    default:
+				return <span> unhandled tab clicked in </span>;
+				
+			    }
 			})()
-
 		    }
-	      </div>
+	    </div>
+		</div>
 	    </Draggable>
 	);
     }

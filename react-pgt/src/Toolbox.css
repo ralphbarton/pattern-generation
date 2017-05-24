@@ -14,15 +14,42 @@
     transition: width 0.7s, height 0.7s;
 }
 
+.Toolbox .Tab-Body{
+    position: absolute;
+    left: 0px;
+}
+
 .Toolbox.size-1{
     width: 700px;
     height: 400px;
 }
 
+.Toolbox.size-1 .Tab-Body{
+    top: 112px;/*this value may be font rendering dependent, which is NOT ideal*/
+    width: 700px;
+    height: 288px
+}
+
+.Toolbox.size-1 .Tab-Strip{
+    width: 700px;
+}
+
+
 .Toolbox.size-2{
     width: 472px;
     height: 700px;
 }
+
+.Toolbox.size-2 .Tab-Body{
+    top: 134px;/*this value may be font rendering dependent, which is NOT ideal*/
+    width: 472px;
+    height: 566px;
+}
+
+.Toolbox.size-2 .Tab-Strip{
+    width: 472px;
+}
+
 
 .Toolbox.size-3{
     width: 1000px;

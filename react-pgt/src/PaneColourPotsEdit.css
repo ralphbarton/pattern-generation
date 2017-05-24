@@ -179,7 +179,7 @@ height: 48px;
 .PaneEditColourPots .Zone{
     transition: opacity 0.4s;
     position: absolute;
-    top: 141px;
+    top: 7px;
     right: 10px;
 }
 
