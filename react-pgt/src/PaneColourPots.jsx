@@ -12,10 +12,16 @@ class PaneColourPots extends Component {
     constructor() {
 	super();
 	this.state = {
-	    selectedRowIndex: 1,
+	    selectedRowIndex: 0,
 	    isEditing: false
 	};
-	console.log("PaneColourPots constructor called");
+
+	//hop straight into "Edit mode".
+	const x = this.handleSetEditMode.bind(this, true);
+	setTimeout(function(){
+	    x();
+	}, 40);
+
     }
 
     handleRowSelectedChange(index){
@@ -59,6 +65,7 @@ class PaneColourPots extends Component {
     }
 
     renderCpotView(){
+	
 	return (
 	    <div className="PaneColourPots">
 	      <WgTable
@@ -67,6 +74,7 @@ class PaneColourPots extends Component {
 		rowRenderingData={this.props.cpotArray}
 		columnsRendering={this.cpotView_WgTableColumns()}
 		/>
+		
 		<CpotCellBlock
 		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
 		   nX={13}

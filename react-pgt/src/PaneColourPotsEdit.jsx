@@ -23,11 +23,15 @@ class PaneColourPotsEdit extends Component {
 
     handleEditingCpotChange(changesObject){
 	const cpot_updated = update(this.state.cpot, changesObject);	
+	const limited_rIndex = Math.min(cpot_updated.contents.length -1, this.state.selectedRowIndex);
 	this.setState({
-	    cpot: cpot_updated
+	    cpot: cpot_updated,
+	    selectedRowIndex: limited_rIndex
 	});
     }
-    
+
+    // this function will be a member of all components containing a WgTable.
+    // it shouldn't appear multiple times...
     handleRowSelectedChange(index){
 	if (index === this.state.selectedRowIndex){return;}
 	this.setState({
@@ -35,6 +39,7 @@ class PaneColourPotsEdit extends Component {
 	});
     }
 
+    
     cpotEdit_WgTableColumns(){
 	return ([
 	    {
@@ -54,6 +59,7 @@ class PaneColourPotsEdit extends Component {
 			       //
 			       const user_prob = parseInt(event.target.value, 10);
 
+			       // Change a CPOT probability
 			       let $updater = {contents: {}};
 			       $updater.contents[rIndex] = {prob: {$set: user_prob}};
 			       this.handleEditingCpotChange( $updater );
@@ -118,7 +124,8 @@ class PaneColourPotsEdit extends Component {
 
 	      <input className="plain-cell"
 		     value={this.state.cpot.name} 
-		     onChange={event => {			 
+		     onChange={event => {
+			 // Change the CPOT title
 			 this.handleEditingCpotChange({
 			     name: {$set: event.target.value}
 			 });
@@ -132,6 +139,29 @@ class PaneColourPotsEdit extends Component {
 		columnsRendering={this.cpotEdit_WgTableColumns()}
 		/>
 
+		<div className="beneathTable">
+		  <div className="mainButtons">
+		    <WgButton
+		       name="Add"
+		       buttonStyle={"small"}
+		       onClick={null}
+		       enabled={true}
+		       />
+		    <WgButton
+		       name="Delete"
+		       buttonStyle={"small"}
+		       onClick={() => {
+			   // Delete a CPOT contents item
+			   this.handleEditingCpotChange({
+			       contents: {$splice: [[this.state.selectedRowIndex, 1]]}
+			   });
+		      }}
+		      enabled={this.state.cpot.contents.length > 0}
+		       />
+
+		  </div>
+		</div>
+		
 
 		<div className="mainButtons">
 		  <WgButton

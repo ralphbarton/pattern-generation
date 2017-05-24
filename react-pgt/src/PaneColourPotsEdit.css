@@ -153,13 +153,50 @@
 
 
 
+/* Space beneath the Table...*/
+
+.PaneEditColourPots > .beneathTable{
+    position: relative;
+margin: 5px;
+margin-top: 1px;
+width: 255px;
+height: 48px;
+}
+
+.PaneEditColourPots .beneathTable .mainButtons{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 58px;
+}
+
+.PaneEditColourPots .beneathTable .mainButtons .button{
+    width: 58px;
+    margin-bottom: 5px;
+}
 
 
+
+
+
+
+
+
+
+
+
+
+.PaneEditColourPots > .mainButtons{
+    position: absolute;
+    bottom: 6px;
+    right: 12px;
+}
 
 
 /*this styling is for INPUTs not embedded in tables*/
 
 /* this needs to go into a more general file...*/
+/* i.e. the SmartInputs css file...*/
 
 input.plain-cell{
     transition: all 0.2s;
@@ -186,3 +223,6 @@ input.plain-cell:focus{
     color: black;
     box-shadow: 0px 0px 5px 1px rgba(36, 166, 191, 0.42);
 }
+
+
+
