@@ -10,7 +10,7 @@
 
 
 /* WgTable of Cpot Items */
-.PaneEditColourPots  tbody{
+.PaneEditColourPots  .WgTable tbody{
     height: 364px;
 }
 
@@ -176,20 +176,32 @@ height: 48px;
 }
 
 
-.PaneEditColourPots .CpotCellBlock{
+.PaneEditColourPots .Zone{
+    transition: opacity 0.4s;
     position: absolute;
-    top: 140px;
-    right: 12px;
-    font-size: 0px;
+    top: 141px;
+    right: 10px;
 }
 
-.PaneEditColourPots > .CpotCellBlock td{
+.PaneEditColourPots .Zone.hide{
+    opacity: 0;
+}
+
+
+.PaneEditColourPots .bigPreview.Zone .CpotCellBlock td{
+    width: 22px;
+    height: 22px;
+}
+
+.PaneEditColourPots .controls.Zone .CpotCellBlock{
+    position: relative;
+    top: 380px;
+}
+
+.PaneEditColourPots .controls.Zone .CpotCellBlock td{
     width: 8px;
-    height: 4px;
-    font-size: 0px;
+    height: 8px;
 }
-
-
 
 
 

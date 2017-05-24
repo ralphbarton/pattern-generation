@@ -18,7 +18,7 @@ class PaneColourPotsEdit extends Component {
 	super(props);
 	this.state = {
 	    cpot: this.props.cpot,
-	    selectedRowIndex: 1
+	    selectedRowIndex: -1 //value of -1 means no row selected and show big preview
 	};
     }
 
@@ -120,6 +120,7 @@ class PaneColourPotsEdit extends Component {
     }
     
     render() {
+	const expanded = this.state.selectedRowIndex === -1;
 	return (
 	    <div className="PaneEditColourPots">
 
@@ -173,13 +174,24 @@ class PaneColourPotsEdit extends Component {
 		  </div>
 		</div>
 
-
-		<CpotCellBlock
-		   cpot={this.state.cpot}
-		   nX={9}
-		   nY={13}
-	           chequerSize="normal"
-		   />
+		<div className={"bigPreview Zone"+(expanded?"":" hide")}>
+		  <CpotCellBlock
+		     cpot={this.state.cpot}
+		     nX={8}
+		     nY={19}
+		     chequerSize="normal"
+		     />
+		</div>
+		  
+		<div className={"controls Zone"+(expanded?" hide":"")}>
+		  <CpotCellBlock
+		     className="mini"
+		     cpot={this.state.cpot}
+		     nX={19}
+		     nY={8}
+		     chequerSize="normal"
+		     />
+		</div>		
 		
 
 		<div className="mainButtons">
@@ -195,7 +207,7 @@ class PaneColourPotsEdit extends Component {
 			 this.props.onCloseEditingMode();
 		    }}
 		    enabled={cpotEditPane_util.calcProbsSum(this.state.cpot) === 100}
-		     />
+		    />
 		</div>		
 
 
