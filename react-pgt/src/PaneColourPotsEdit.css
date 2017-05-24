@@ -176,8 +176,18 @@ height: 48px;
 }
 
 
+.PaneEditColourPots .CpotCellBlock{
+    position: absolute;
+    top: 140px;
+    right: 12px;
+    font-size: 0px;
+}
 
-
+.PaneEditColourPots > .CpotCellBlock td{
+    width: 8px;
+    height: 4px;
+    font-size: 0px;
+}
 
 
 

@@ -86,7 +86,7 @@ class PaneColourPots extends Component {
 		  <WgButton
 		     name="Edit"
 		     onClick={this.handleSetEditMode.bind(this, true)}
-		     enabled={true}
+		     enabled={this.props.cpotArray.length > 0}
 		     />
 		  <WgButton
 		     name="Duplicate"
@@ -95,7 +95,7 @@ class PaneColourPots extends Component {
 			 this.props.onCpotChange("duplicate", {index: i});
 			 this.handleRowSelectedChange(i+1);
 		    }}
-		    enabled={true}
+		    enabled={this.props.cpotArray.length > 0}
 		    />
 		    <WgButton
 		       name="Delete"
@@ -105,7 +105,7 @@ class PaneColourPots extends Component {
 			   this.props.onCpotChange("delete", {index: i});
 			   this.handleRowSelectedChange(i_new);
 		      }}
-		      enabled={true}
+		      enabled={this.props.cpotArray.length > 0}
 		      />
 		</div>
 		

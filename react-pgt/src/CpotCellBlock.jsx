@@ -7,7 +7,10 @@ class CpotCellBlock extends React.PureComponent {
 
     render() {
 	
-	const makeColour = ()=>{return cpot_util.DrawFromColourPot(this.props.cpot);};
+	const makeColour = ()=>{
+	    if (!this.props.cpot){return 'grey';}
+	    return cpot_util.DrawFromColourPot(this.props.cpot);
+	};
 	const tbodyClasses = "chequer "+ (this.props.chequerSize==="normal"?"":"tiny");
 
 	return (

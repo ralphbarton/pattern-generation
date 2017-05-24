@@ -7,9 +7,10 @@ import cpot_util from './CpotUtil';
 
 import WgTable from './WgTable';
 import WgButton from './WgButton';
+import CpotCellBlock from './CpotCellBlock';
 import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './PaneColourPotsEdit_SubComps.jsx';
 import cpotEditPane_util from './PaneColourPotsEdit_util.js';
-//import CpotCellBlock from './CpotCellBlock';
+
 
 class PaneColourPotsEdit extends Component {
 
@@ -144,7 +145,17 @@ class PaneColourPotsEdit extends Component {
 		    <WgButton
 		       name="Add"
 		       buttonStyle={"small"}
-		       onClick={null}
+		       onClick={() => {
+			   // Add a CPOT contents item
+			   const template_item = 	    {
+			       prob: 15,
+			       type: "solid",
+			       solid: (/*random_col || */"#FF0000")
+			   };
+			   this.handleEditingCpotChange({
+			       contents: {$push: [template_item]}
+			   });
+		      }}
 		       enabled={true}
 		       />
 		    <WgButton
@@ -161,6 +172,14 @@ class PaneColourPotsEdit extends Component {
 
 		  </div>
 		</div>
+
+
+		<CpotCellBlock
+		   cpot={this.state.cpot}
+		   nX={9}
+		   nY={13}
+	           chequerSize="normal"
+		   />
 		
 
 		<div className="mainButtons">
