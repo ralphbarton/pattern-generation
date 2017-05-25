@@ -8,6 +8,7 @@ import cpot_util from './CpotUtil';
 import WgTable from './WgTable';
 import WgButton from './WgButton';
 import WgActionLink from './WgActionLink';
+import WgSmartInput from './WgSmartInput';
 import CpotCellBlock from './CpotCellBlock';
 import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './PaneColourPotsEdit_SubComps.jsx';
 import cpotEditPane_util from './PaneColourPotsEdit_util.js';
@@ -51,22 +52,23 @@ class PaneColourPotsEdit extends Component {
 	    },{
 		heading: "Prob",
 		renderCellContents: (item, rIndex)=>{return (
-		    <input className="blue-cell"
-			   value={item.prob} 
-
-	
-			   //need to modify this to set the relevant value in array...
-	
-			   onChange={event =>{
-			       // This ought to be a SmartInput. I don't want to be parsing ints, everywhere....
-			       //
-			       const user_prob = parseInt(event.target.value, 10);
-
-			       // Change a CPOT probability
-			       let $updater = {contents: {}};
-			       $updater.contents[rIndex] = {prob: {$set: user_prob}};
-			       this.handleEditingCpotChange( $updater );
-
+		    <WgSmartInput
+		       className="blue-cell"
+		       value={item.prob}
+		       editEnabled={false}
+		       
+		       //need to modify this to set the relevant value in array...
+		       
+		       onChange={event =>{
+			   // This ought to be a SmartInput. I don't want to be parsing ints, everywhere....
+			   //
+			   const user_prob = parseInt(event.target.value, 10);
+			   
+			   // Change a CPOT probability
+			   let $updater = {contents: {}};
+			   $updater.contents[rIndex] = {prob: {$set: user_prob}};
+			   this.handleEditingCpotChange( $updater );
+			   
 		      }}
 		      />
 		);}

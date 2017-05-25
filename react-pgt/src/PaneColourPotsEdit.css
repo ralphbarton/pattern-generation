@@ -271,36 +271,4 @@ height: 48px;
 }
 
 
-/*this styling is for INPUTs not embedded in tables*/
-
-/* this needs to go into a more general file...*/
-/* i.e. the SmartInputs css file...*/
-
-input.plain-cell{
-    transition: all 0.2s;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(0,0,0,0.1);
-    color: rgba(0,0,0,0.6);
-    font-family: sans; /*don't really want this anymore...*/
-}
-
-input.plain-cell.s{
-    font-size: 12px;
-    width: 40px;
-}
-
-input.plain-cell:hover{
-    border-color: rgba(0,70,180,0.5);
-    background: rgba(255,255,255,0.4);
-    color: rgba(0,0,0,0.7);
-}
-
-input.plain-cell:focus{
-    border-color: rgba(0,70,180,0.8);
-    background: rgba(255,255,255,0.8);
-    color: black;
-    box-shadow: 0px 0px 5px 1px rgba(36, 166, 191, 0.42);
-}
-
-
 

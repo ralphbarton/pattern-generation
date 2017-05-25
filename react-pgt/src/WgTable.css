@@ -60,6 +60,10 @@
     background: #a6c4c4;
 }
 
+
+
+
+
 /* styling the tr>td>input element within a table to indicate when editing*/
 .WgTable .blue-cell{
     border: 2px solid transparent;/*for spacing purposes*/
@@ -84,18 +88,16 @@
     background: rgba(255, 255, 255, 0.4);
 }
 
-.WgTable .blue-cell.ui-enabled,
-.WgTable .blue-cell.ui-enabled:hover{
+.WgTable .blue-cell.synthFocus,
+.WgTable .blue-cell.synthFocus:hover{
     cursor:text;
-    font-family: sans;
     border: 2px solid rgba(2,143,237,1);
     background: rgba(255,255,255,1);
 }
 
-.WgTable .pink .blue-cell.ui-enabled,
-.WgTable .pink .blue-cell.ui-enabled:hover{/*Pink 4*/
+.WgTable .pink .blue-cell.synthFocus,
+.WgTable .pink .blue-cell.synthFocus:hover{/*Pink 4*/
     cursor:text;
-    font-family: sans;
     border: 2px solid rgba(237, 2, 127, 1);
     background: rgba(255,255,255,1);
 }
