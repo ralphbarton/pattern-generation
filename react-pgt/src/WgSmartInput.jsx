@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './WgSmartInput.css';
 
 
-const data_classes_list = {
+const dataUnitTypes = {
     text: {
 	type: "text"
     },
@@ -62,6 +62,7 @@ class WgSmartInput extends Component {
 	    mouseIsEntered: false,
 	    isFocused: false
 	};
+	console.log("SmartInput Constructor called");
     }
 
     isEditable(){ return this.props.editEnabled && (this.state.mouseIsEntered || this.state.isFocused);}
@@ -70,18 +71,28 @@ class WgSmartInput extends Component {
 	let adjustment = {};
 	adjustment[type] = value;
 	this.setState(adjustment);
+	console.log(this.state);
 
-	this.handleUnitDisplayTransition();
+	
+//	const value2 = this.refs.input.value;
+//	console.log(value2);
+//	console.log(this.refs.input.type);
     }
 
-    handleUnitDisplayTransition(){
-	const input = this.refs.input;
+
+    generateUiValue(v_numeric){
 	switch (this.isEditable()){
-
+	    
 	case true:
-
-	    break;
+	    // strip units and return pure number
+//	    const ui_value = this.refs.input.value;
+	    return v_numeric;
+	    
 	default:
+	    const uType = dataUnitTypes[this.props.dataUnit];
+	    const UU = uType.unit;
+	    //parse number and join to it the units
+	    return uType.unit_preceeds ? UU+v_numeric : v_numeric+UU;
 	    
 	}
 	//needs to convert input value to show units and type between text and numeric....
@@ -90,17 +101,18 @@ class WgSmartInput extends Component {
     
     render() {
 	const inputClasses = this.props.className + (this.isEditable() ? " synthFocus" : "");
+	const inputNativeType = this.isEditable()?"number":"text";
 	return (
 	    <input
 	       className={inputClasses}
-	       value={this.props.value} 
+	       value={this.generateUiValue(this.props.value)} 
 	       onChange={this.props.onChange}
 	       onMouseEnter={this.handleMouse.bind(this,"mouseIsEntered", true)}
 	       onMouseLeave={this.handleMouse.bind(this,"mouseIsEntered", false)}
 	       onFocus={this.handleMouse.bind(this,"isFocused", true)}
 	       onBlur={this.handleMouse.bind(this,"isFocused", false)}
-//	       type={"text":"number"}
-	       
+	       type={inputNativeType}//"text"//this does get changed dynamically
+	       ref="input"
 	       />
 	);
     }

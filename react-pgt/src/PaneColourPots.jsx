@@ -42,10 +42,10 @@ class PaneColourPots extends Component {
 	return ([
 	    {
 		heading: "#",
-		renderCellContents: (cpot, i)=>{return (i+1);}
+		renderCellContents: (cpot, i, rowIsSelected)=>{return (i+1);}
 	    },{
 		heading: "Description",
-		renderCellContents: (cpot, i)=>{return (
+		renderCellContents: (cpot, i, rowIsSelected)=>{return (
 		    <input className="blue-cell"
 			   value={cpot.name} 
 			   onChange={event =>{
@@ -54,7 +54,7 @@ class PaneColourPots extends Component {
 		      />);}
 	    },{
 		heading: "Preview",
-		renderCellContents: (cpot, i)=>{return (
+		renderCellContents: (cpot, i, rowIsSelected)=>{return (
 		    <CpotCellBlock
 		       cpot={cpot}
 		       nX={8}

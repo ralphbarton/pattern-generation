@@ -48,14 +48,15 @@ class PaneColourPotsEdit extends Component {
 	return ([
 	    {
 		heading: "#",
-		renderCellContents: (item, rIndex)=>{return (rIndex+1);}
+		renderCellContents: (item, rIndex, rowIsSelected)=>{return (rIndex+1);}
 	    },{
 		heading: "Prob",
-		renderCellContents: (item, rIndex)=>{return (
+		renderCellContents: (item, rIndex, rowIsSelected)=>{return (
 		    <WgSmartInput
 		       className="blue-cell"
 		       value={item.prob}
-		       editEnabled={false}
+		       editEnabled={rowIsSelected}
+		       dataUnit="percent"
 		       
 		       //need to modify this to set the relevant value in array...
 		       
@@ -74,7 +75,7 @@ class PaneColourPotsEdit extends Component {
 		);}
 	    },{
 		heading: "Item",
-		renderCellContents: (item, rIndex)=>{
+		renderCellContents: (item, rIndex, rowIsSelected)=>{
 		    
 		    switch (item.type) {
 			

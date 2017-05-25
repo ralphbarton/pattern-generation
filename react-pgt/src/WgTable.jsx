@@ -29,8 +29,9 @@ function WgTable(props) {
 		    if(props.hashRowDataToKey){
 			rowKey = hashObject(rowData);
 		    }
+		    const rowIsSelected = rIndex === props.selectedRowIndex;
 		    return (
-			<tr className={rIndex === props.selectedRowIndex ? "selected" : null}
+			<tr className={rowIsSelected ? "selected" : null}
 			    key={rowKey}
 			    onClick={props.onRowSelectedChange.bind(null, rIndex)}
 			  >
@@ -41,7 +42,7 @@ function WgTable(props) {
 					 key={cIndex}
 					 className={"col-"+(cIndex+1)}
 					>
-					{column.renderCellContents(rowData, rIndex)}
+					{column.renderCellContents(rowData, rIndex, rowIsSelected)}
 				      </td>
 				  );
 			      })
