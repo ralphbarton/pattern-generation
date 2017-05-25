@@ -12,6 +12,7 @@
     top: 90px;
     left: 6px;
     transition: width 0.7s, height 0.7s;
+    user-select: none; /* this is a cover-all default*/
 }
 
 .Toolbox .Tab-Body{

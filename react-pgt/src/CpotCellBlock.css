@@ -1,7 +1,7 @@
 /* CpotCellBlock.css */
 
 table.CpotCellBlock{
-    display: inline-block;
+    display: block;
     margin: 0px;
     background-color: white;
     border: 1px solid black;
@@ -9,7 +9,6 @@ table.CpotCellBlock{
 }
 
 table.CpotCellBlock tbody{
-    border-spacing: 0px;
     border: none;
 }
 

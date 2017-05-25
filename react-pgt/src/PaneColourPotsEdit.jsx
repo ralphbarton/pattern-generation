@@ -7,6 +7,7 @@ import cpot_util from './CpotUtil';
 
 import WgTable from './WgTable';
 import WgButton from './WgButton';
+import WgActionLink from './WgActionLink';
 import CpotCellBlock from './CpotCellBlock';
 import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './PaneColourPotsEdit_SubComps.jsx';
 import cpotEditPane_util from './PaneColourPotsEdit_util.js';
@@ -18,7 +19,8 @@ class PaneColourPotsEdit extends Component {
 	super(props);
 	this.state = {
 	    cpot: this.props.cpot,
-	    selectedRowIndex: -1 //value of -1 means no row selected and show big preview
+	    selectedRowIndex: -1, //value of -1 means no row selected and show big preview
+	    previewRerandomiseCounter: 0
 	};
     }
 
@@ -124,6 +126,8 @@ class PaneColourPotsEdit extends Component {
 	return (
 	    <div className="PaneEditColourPots">
 
+	      
+	      {/* 1. The <input> for Colour Pot Title*/}
 	      <input className="plain-cell"
 		     value={this.state.cpot.name} 
 		     onChange={event => {
@@ -134,6 +138,9 @@ class PaneColourPotsEdit extends Component {
 		}}
 		/>
 
+
+		
+		{/* 2. The Listing of the items*/}
 	      <WgTable
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
@@ -174,16 +181,37 @@ class PaneColourPotsEdit extends Component {
 		  </div>
 		</div>
 
+
+		
+		{/* 3. The Expanded Preview Zone*/}
 		<div className={"bigPreview Zone"+(expanded?"":" hide")}>
 		  <CpotCellBlock
 		     cpot={this.state.cpot}
 		     nX={8}
 		     nY={19}
 		     chequerSize="normal"
+		     rerandomiseCounter={this.state.previewRerandomiseCounter}
 		     />
+
+		  <div>
+		    <WgActionLink
+		       name="re-randomise"
+		       onClick={() => {
+			   this.setState({
+			       previewRerandomiseCounter: this.state.previewRerandomiseCounter+1
+			   });
+		      }}
+		       enabled={expanded}
+		       />
+		  </div>		  
 		</div>
-		  
+
+
+
+		{/* 4. Other...*/}
 		<div className={"controls Zone"+(expanded?" hide":"")}>
+		  <div className="solid">		  
+		  </div>	  
 		  <CpotCellBlock
 		     className="mini"
 		     cpot={this.state.cpot}
@@ -191,9 +219,23 @@ class PaneColourPotsEdit extends Component {
 		     nY={8}
 		     chequerSize="normal"
 		     />
-		</div>		
-		
+		  <div>
+		    <WgActionLink
+		       name="expand"
+		       onClick={() => {
+			   this.setState({
+			       selectedRowIndex: -1 // this means render expanded state
+			   });
+		      }}
+		       enabled={!expanded}
+		       />
+		  </div>		  
 
+		</div>		
+
+
+		
+		{/* 5. Buttons for Cancel / Done */}
 		<div className="mainButtons">
 		  <WgButton
 		     name="Cancel"
@@ -217,8 +259,6 @@ class PaneColourPotsEdit extends Component {
     }
 
 }
-    
-
 
 
 export default PaneColourPotsEdit;

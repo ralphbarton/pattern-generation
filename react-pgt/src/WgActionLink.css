@@ -1,0 +1,21 @@
+/* WgActionLink.css */
+
+.action-link{
+    display: inline-block;
+    font-size: 11px;
+    text-decoration: underline;
+    color: #0C47B3;
+    text-align: center;
+}
+
+.action-link:hover{
+    color: #000FE6;
+    text-shadow: 0px 0px 3px rgba(150,255,245,1);
+    cursor:pointer;
+}
+
+.action-link.disabled{
+    display: inline-block;
+    text-decoration: underline;
+    color: rgba(0,30,70,0.5);
+}
