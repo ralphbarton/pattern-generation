@@ -123,6 +123,7 @@ class PaneColourPotsEdit extends Component {
     
     render() {
 	const expanded = this.state.selectedRowIndex === -1;
+	const probs_sum = cpotEditPane_util.calcProbsSum(this.state.cpot);
 	return (
 	    <div className="PaneEditColourPots">
 
@@ -140,7 +141,7 @@ class PaneColourPotsEdit extends Component {
 
 
 		
-		{/* 2. The Listing of the items*/}
+		{/* 2. Items Listing -AND- the Zone beneath it */}
 	      <WgTable
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
@@ -149,7 +150,17 @@ class PaneColourPotsEdit extends Component {
 		columnsRendering={this.cpotEdit_WgTableColumns()}
 		/>
 
+		
 		<div className="beneathTable">
+		  <div className={"probsSumText" + (probs_sum===100?" sumIs100":"")}>
+		    <div className="sum">		  
+		      Probabilities sum: <span>{probs_sum.toFixed(1)+"%"}</span>
+		    </div>
+		    <div className={"error" + (probs_sum < 100?" sumLT100":"")}>
+			 (<span>{(probs_sum-100).toFixed(1)+"%"}</span>)
+	    </div>
+		</div>
+		
 		  <div className="mainButtons">
 		    <WgButton
 		       name="Add"
@@ -211,7 +222,7 @@ class PaneColourPotsEdit extends Component {
 
 		{/* 4. Other...*/}
 		<div className={"controls Zone"+(expanded?" hide":"")}>
-		  <div className="solid">		  
+		<div className="solid" onMouseEnter={()=>{console.log("mouse enter!");}}>		  
 		  </div>	  
 		  <CpotCellBlock
 		     className="mini"
@@ -249,7 +260,7 @@ class PaneColourPotsEdit extends Component {
 			 this.props.onSaveEdits(this.state.cpot);
 			 this.props.onCloseEditingMode();
 		    }}
-		    enabled={cpotEditPane_util.calcProbsSum(this.state.cpot) === 100}
+		    enabled={probs_sum === 100}
 		    />
 		</div>		
 
