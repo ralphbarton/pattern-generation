@@ -6,7 +6,9 @@ var PaneColourPotsEdit_util = {
 	for (var i=0; i < cpot.contents.length; i++){
 	    accumulator += cpot.contents[i].prob;
 	}
-	return accumulator;
+
+	//rounding necessary due to floating point lsb accuracy for non-integers.
+	return Number(accumulator.toFixed(3));
     }
 
     /*

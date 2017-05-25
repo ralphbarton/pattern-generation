@@ -16,3 +16,35 @@ table.CpotCellBlock td{
     border: 1px solid black;
     padding: 0px;
 }
+
+
+
+div.CpotCellBlock.invalid{
+    border: 2px solid black;
+    background: linear-gradient(135deg, rgba(49,57,61,0.8) 0%,rgba(84,123,152,0.8) 100%);
+    
+}
+
+div.CpotCellBlock.invalid{
+        display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; /* align horizontal */
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; /* align vertical */
+    flex-direction: column;
+}
+
+div.CpotCellBlock div{
+    width: 80%;
+    text-align: center;
+    font-size: 10px;
+    margin: 5px 0px;
+    color: white;
+    font-weight: bold;
+}
+
+
