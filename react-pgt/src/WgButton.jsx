@@ -8,7 +8,7 @@ function WgButton(props) {
     return (
 	<button
 	   className={buttonClasses}
-	   onClick={props.onClick}
+	   onClick={props.enabled !== false ? props.onClick : null}
 	   >
 	  {props.name}
 	</button>

@@ -1,6 +1,8 @@
 import React from 'react';
 import './WgTable.css';
 
+import hashObject from 'hash-object';
+
 function WgTable(props) {
     return (
 	<table className="WgTable">
@@ -23,9 +25,13 @@ function WgTable(props) {
 	    <tbody>
 	    {
 		props.rowRenderingData.map( (rowData, rIndex) => {
+		    let rowKey = rowData.uid !== undefined ? rowData.uid : rIndex;
+		    if(props.hashRowDataToKey){
+			rowKey = hashObject(rowData);
+		    }
 		    return (
 			<tr className={rIndex === props.selectedRowIndex ? "selected" : null}
-			    key={rowData.uid !== undefined ? rowData.uid : rIndex}
+			    key={rowKey}
 			    onClick={props.onRowSelectedChange.bind(null, rIndex)}
 			  >
 			  {

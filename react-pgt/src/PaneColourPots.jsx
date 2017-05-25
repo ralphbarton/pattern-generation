@@ -105,7 +105,7 @@ class PaneColourPots extends Component {
 			   this.props.onCpotChange("delete", {index: i});
 			   this.handleRowSelectedChange(i_new);
 		      }}
-		      enabled={this.props.cpotArray.length > 0}
+		      enabled={this.props.cpotArray.length > 1}
 		      />
 		</div>
 		

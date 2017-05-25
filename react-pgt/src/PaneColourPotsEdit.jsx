@@ -145,6 +145,7 @@ class PaneColourPotsEdit extends Component {
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		rowRenderingData={this.state.cpot.contents}
+		hashRowDataToKey={true}
 		columnsRendering={this.cpotEdit_WgTableColumns()}
 		/>
 
