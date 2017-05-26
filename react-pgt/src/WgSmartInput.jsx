@@ -56,11 +56,15 @@ const dataUnitTypes = {
 
 class WgSmartInput extends Component {
 
-    constructor() {
-	super();
+    constructor(props) {
+	super(props);
+	const uType = dataUnitTypes[props.dataUnit];
 	this.state = {
 	    mouseIsEntered: false,
-	    isFocused: false
+	    isFocused: false,
+	    min: (props.min !== undefined ? props.min : uType.min),
+	    max: (props.max !== undefined ? props.max : uType.max),
+	    step: (props.step !== undefined ? props.step : uType.std_steps[0])
 	};
 	console.log("SmartInput Constructor called");
     }
@@ -71,12 +75,6 @@ class WgSmartInput extends Component {
 	let adjustment = {};
 	adjustment[type] = value;
 	this.setState(adjustment);
-	console.log(this.state);
-
-	
-//	const value2 = this.refs.input.value;
-//	console.log(value2);
-//	console.log(this.refs.input.type);
     }
 
 
@@ -84,35 +82,48 @@ class WgSmartInput extends Component {
 	switch (this.isEditable()){
 	    
 	case true:
-	    // strip units and return pure number
-//	    const ui_value = this.refs.input.value;
 	    return v_numeric;
 	    
 	default:
 	    const uType = dataUnitTypes[this.props.dataUnit];
 	    const UU = uType.unit;
-	    //parse number and join to it the units
+	    //create a string with number & join to it the units
 	    return uType.unit_preceeds ? UU+v_numeric : v_numeric+UU;
 	    
 	}
 	//needs to convert input value to show units and type between text and numeric....
     }
 
+    handleInputChange(event){
+	const raw_value = event.target.value;
+	const val_str_digits_only = raw_value.replace(/[^0-9.-]/g,'');
+	const v_numeric1 = val_str_digits_only === "" ? NaN : Number(val_str_digits_only);
+	//truncate to required accuracy...
+	const uType = dataUnitTypes[this.props.dataUnit];
+	const v_numeric2 = Number(Number(v_numeric1).toFixed(uType.decimal_places));
+	// Limit to within min & max
+	const v_numeric3 = Math.min(Math.max(v_numeric2, this.state.min), this.state.max);
+	this.props.onChange(v_numeric3);
+    }    
+
     
     render() {
-	const inputClasses = this.props.className + (this.isEditable() ? " synthFocus" : "");
+	const isFocus = this.props.editEnabled && this.state.isFocused;
+	const inputClasses = this.props.className + (isFocus ? " synthFocus" : "");
 	const inputNativeType = this.isEditable()?"number":"text";
 	return (
 	    <input
 	       className={inputClasses}
 	       value={this.generateUiValue(this.props.value)} 
-	       onChange={this.props.onChange}
+	       onChange={(ev)=>{this.handleInputChange(ev);}}
 	       onMouseEnter={this.handleMouse.bind(this,"mouseIsEntered", true)}
 	       onMouseLeave={this.handleMouse.bind(this,"mouseIsEntered", false)}
 	       onFocus={this.handleMouse.bind(this,"isFocused", true)}
 	       onBlur={this.handleMouse.bind(this,"isFocused", false)}
-	       type={inputNativeType}//"text"//this does get changed dynamically
-	       ref="input"
+	       type={inputNativeType}
+	       min={this.state.min}
+	       max={this.state.max}
+	       step={this.state.step}
 	       />
 	);
     }

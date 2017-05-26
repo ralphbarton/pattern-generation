@@ -60,14 +60,10 @@ class PaneColourPotsEdit extends Component {
 		       
 		       //need to modify this to set the relevant value in array...
 		       
-		       onChange={event =>{
-			   // This ought to be a SmartInput. I don't want to be parsing ints, everywhere....
-			   //
-			   const user_prob = parseInt(event.target.value, 10);
-			   
+		       onChange={value =>{
 			   // Change a CPOT probability
 			   let $updater = {contents: {}};
-			   $updater.contents[rIndex] = {prob: {$set: user_prob}};
+			   $updater.contents[rIndex] = {prob: {$set: value}};
 			   this.handleEditingCpotChange( $updater );
 			   
 		      }}
