@@ -122,7 +122,10 @@ class WgSmartInput extends Component {
 	       onMouseEnter={this.handleMouse.bind(this,"mouseIsEntered", true)}
 	       onMouseLeave={this.handleMouse.bind(this,"mouseIsEntered", false)}
 	       onFocus={this.handleMouse.bind(this,"isFocused", true)}
-	       onBlur={this.handleMouse.bind(this,"isFocused", false)}
+	      onBlur={()=>{
+		  this.props.onBlur();		  
+		  this.handleMouse("isFocused", false);
+	      }}
 	       type={inputNativeType}
 	       min={this.state.min}
 	       max={this.state.max}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 //import cpot_util from './CpotUtil';
 import tinycolor from 'tinycolor2';
+import update from 'immutability-helper';
 
 import WgSmartInput from './WgSmartInput';
 
@@ -15,21 +16,21 @@ class CpotEditSolid extends Component {
     constructor(props) {
 	super(props);
 	this.state = {
-	    tinycolour: tinycolor(this.props.colourString)
+	    hslaObj: tinycolor(this.props.colourString).toHsl()
 	};
     }
 
     handleColourChange(key, value){
-	let col_hsla = this.state.tinycolour.toHsl();
-	col_hsla[key] = value;
+	let $Updater = {};
+	$Updater[key] = {$set: value};
 	this.setState({
-	    tinycolour: tinycolor(col_hsla)
+	    hslaObj: update(this.state.hslaObj, $Updater)
 	});
     }
     
     render() {
-	const col_opaque = this.state.tinycolour.toHexString();
-	const col_hsla = this.state.tinycolour.toHsl();
+	const col_opaque = tinycolor(this.state.hslaObj).toHexString();
+	const col_w_alph = tinycolor(this.state.hslaObj).toRgbString();
 	return (
 	    <div className="editZone solid">
 	      <div>
@@ -44,9 +45,10 @@ class CpotEditSolid extends Component {
 		Hue:
 		<WgSmartInput
 		   className="plain-cell"
-		   value={col_hsla.h}
+		   value={this.state.hslaObj.h}
 		   dataUnit="degrees"
 		   onChange={(value)=>{this.handleColourChange("h", value);}}
+		  onBlur={()=>{this.props.onPropagateChange(col_w_alph);}}
 		  />
 	      </div>
 
@@ -55,10 +57,11 @@ class CpotEditSolid extends Component {
 		Saturation:
 		<WgSmartInput
 		   className="plain-cell"
-		   value={col_hsla.s * 100}
+		   value={this.state.hslaObj.s * 100}
 		   dataUnit="percent"
 		   onChange={(value)=>{this.handleColourChange("s", value/100);}}
-		   />
+		  onBlur={()=>{this.props.onPropagateChange(col_w_alph);}}
+		  />
 	      </div>
 
 	      {/* Luminosity */}
@@ -66,23 +69,25 @@ class CpotEditSolid extends Component {
 		Luminosity:
 		<WgSmartInput
 		   className="plain-cell"
-		   value={col_hsla.l * 100}
+		   value={this.state.hslaObj.l * 100}
 		   dataUnit="percent"
 		   onChange={(value)=>{this.handleColourChange("l", value/100);}}
-		   />
+		  onBlur={()=>{this.props.onPropagateChange(col_w_alph);}}
+		  />
 	      </div>
 
 	      {/* Alpha */}
-	      <WgAlphaSwatch type="solid" colourString={this.state.tinycolour.toRgbString()} />
+	      <WgAlphaSwatch type="solid" colourString={col_w_alph} />
 
 	      <div className="inputContainer">
 		Alpha:
 		<WgSmartInput
 		   className="plain-cell"
-		   value={col_hsla.a * 100}
+		   value={this.state.hslaObj.a * 100}
 		   dataUnit="percent"
 		   onChange={(value)=>{this.handleColourChange("a", value/100);}}
-		   />
+		  onBlur={()=>{this.props.onPropagateChange(col_w_alph);}}
+		  />
 	      </div>
 
 	    </div>

@@ -242,14 +242,19 @@ class PaneColourPotsEdit extends Component {
 			    return (
 				<CpotEditSolid
 				   colourString={cpotItem.solid}
-				   onSetChange={null}
+				   onPropagateChange={value =>{
+				       // Change a CPOT item solid colour
+				       let $updater = {contents: {}};
+				       $updater.contents[this.state.selectedRowIndex] = {solid: {$set: value}};
+				       this.handleEditingCpotChange( $updater );			   
+				  }}
 				   />
 			    );
 			default:
 			    return (
 				<CpotEditRange
 				   hslaRange={cpotItem.range}
-				   onSetChange={null}
+				   onPropagateChange={null}
 				   />
 			    );
 
