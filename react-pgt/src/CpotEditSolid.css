@@ -1,0 +1,61 @@
+/* CpotEditSolid.css */
+
+/* these may be more generic... */
+
+.colour-sun{
+    border: 2px solid black;  
+    box-shadow: 0px 0px 3px 0px rgba(0,0,0,1);
+    display:inline-block;
+}
+
+.colour-sun.l{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+
+
+
+
+
+
+
+.editZone.solid{
+    text-align: center;
+}
+
+.editZone.solid .colour-sun{
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.editZone.solid .inputContainer{
+    text-align: right;
+    margin: 6px;
+    margin-right: 25px;
+}
+
+.editZone.solid input.plain-cell{
+    font-size: 18px;
+    width: 60px;
+}
+
+div.editZone.solid .WgAlphaSwatch{
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+    width: 130px;
+    height: 37px;
+}
+
+div.editZone.solid .WgAlphaSwatch .chequer{
+    height: 35px;
+    width: 50%;
+}
+
+div.editZone.solid .WgAlphaSwatch .swatch{
+    width: 120px;
+    height: 19px;
+    right: 5px;
+    top: 9px;
+}

@@ -243,9 +243,8 @@ height: 48px;
 }
 
 
-.PaneEditColourPots .controls.Zone .solid{
-    background: cyan;
-    width: 30px;
+.PaneEditColourPots .controls.Zone .editZone{
+    width: 191px;
     height: 376px;
 }
 

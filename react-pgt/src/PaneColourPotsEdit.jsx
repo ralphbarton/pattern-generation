@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
-import './PaneColourPotsEdit.css';
 
+// externally developed libraries
 import update from 'immutability-helper';
 
-import cpot_util from './CpotUtil';
+// pure javascript functions (i.e. no JSX here)
+import cpot_util from './CpotUtil'; //draw from colourpot; unpack...
+import cpotEditPane_util from './PaneColourPotsEdit_util.js';// probs summing etc
 
+// generic project widgets
 import WgTable from './WgTable';
 import WgButton from './WgButton';
 import WgActionLink from './WgActionLink';
 import WgSmartInput from './WgSmartInput';
+
+// cpot specifc widgets
 import CpotCellBlock from './CpotCellBlock';
-import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './PaneColourPotsEdit_SubComps.jsx';
-import cpotEditPane_util from './PaneColourPotsEdit_util.js';
+import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './CpotEdit_ItemSubComponents.jsx';
+
+// Components of the cpot edit pane...
+import CpotEditSolid from './CpotEditSolid';
+import CpotEditRange from './CpotEditRange';
+
+
+// Styling for THIS content....
+import './PaneColourPotsEdit.css';
+
+
 
 
 class PaneColourPotsEdit extends Component {
@@ -57,15 +71,11 @@ class PaneColourPotsEdit extends Component {
 		       value={item.prob}
 		       editEnabled={rowIsSelected}
 		       dataUnit="percent"
-		       
-		       //need to modify this to set the relevant value in array...
-		       
 		       onChange={value =>{
-			   // Change a CPOT probability
+			   // Change a CPOT item probability
 			   let $updater = {contents: {}};
 			   $updater.contents[rIndex] = {prob: {$set: value}};
-			   this.handleEditingCpotChange( $updater );
-			   
+			   this.handleEditingCpotChange( $updater );			   
 		      }}
 		      />
 		);}
@@ -219,18 +229,42 @@ class PaneColourPotsEdit extends Component {
 
 
 
-		{/* 4. Other...*/}
+		{/* 4. Controls to Edit item (solid or range); mini preview zone*/}
 		<div className={"controls Zone"+(expanded?" hide":"")}>
-		<div className="solid" onMouseEnter={()=>{console.log("mouse enter!");}}>		  
-		  </div>	  
-		  <CpotCellBlock
+		{
+		    //Determine which tab body to show...
+		    (() => {
+			const iIndex = this.state.selectedRowIndex;
+			if(iIndex < 0){return null;}
+			const cpotItem = this.state.cpot.contents[iIndex];
+			switch (cpotItem.type) {
+			case "solid":
+			    return (
+				<CpotEditSolid
+				   colourString={cpotItem.solid}
+				   onSetChange={null}
+				   />
+			    );
+			default:
+			    return (
+				<CpotEditRange
+				   hslaRange={cpotItem.range}
+				   onSetChange={null}
+				   />
+			    );
+
+			}
+		    })()
+		}
+		
+		<CpotCellBlock
 		     className="mini"
 		     cpot={this.state.cpot}
 		     nX={19}
 		     nY={8}
 		     chequerSize="normal"
-		     />
-		  <div>
+		/>
+		<div>
 		    <WgActionLink
 		       name="expand"
 		       onClick={() => {

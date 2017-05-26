@@ -17,7 +17,8 @@ class WgGradientCell extends Component {
 	       className="WgGradientCell"
 	       ref="canvas"
 	       width={this.props.dim}
-	       height={this.props.dim}/>
+	       height={this.props.dim}
+	       />
 	);
     }
 }

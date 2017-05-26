@@ -69,7 +69,7 @@ class WgSmartInput extends Component {
 	console.log("SmartInput Constructor called");
     }
 
-    isEditable(){ return this.props.editEnabled && (this.state.mouseIsEntered || this.state.isFocused);}
+    isEditable(){ return (this.props.editEnabled !== false) && (this.state.mouseIsEntered || this.state.isFocused);}
     
     handleMouse(type, value){
 	let adjustment = {};
@@ -79,16 +79,19 @@ class WgSmartInput extends Component {
 
 
     generateUiValue(v_numeric){
+	const uType = dataUnitTypes[this.props.dataUnit];
+	//truncate to required accuracy...
+	const v_numeric2 = Number(Number(v_numeric).toFixed(uType.decimal_places));
+	
 	switch (this.isEditable()){
 	    
 	case true:
-	    return v_numeric;
+	    return v_numeric2;
 	    
 	default:
-	    const uType = dataUnitTypes[this.props.dataUnit];
 	    const UU = uType.unit;
 	    //create a string with number & join to it the units
-	    return uType.unit_preceeds ? UU+v_numeric : v_numeric+UU;
+	    return uType.unit_preceeds ? UU+v_numeric2 : v_numeric2+UU;
 	    
 	}
 	//needs to convert input value to show units and type between text and numeric....
@@ -108,7 +111,7 @@ class WgSmartInput extends Component {
 
     
     render() {
-	const isFocus = this.props.editEnabled && this.state.isFocused;
+	const isFocus = (this.props.editEnabled !== false) && this.state.isFocused;
 	const inputClasses = this.props.className + (isFocus ? " synthFocus" : "");
 	const inputNativeType = this.isEditable()?"number":"text";
 	return (
