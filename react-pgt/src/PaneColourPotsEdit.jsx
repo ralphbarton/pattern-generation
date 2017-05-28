@@ -3,29 +3,30 @@ import React from 'react';
 // externally developed libraries
 import update from 'immutability-helper';
 
+import Slider, { Range } from 'rc-slider';
+// We can just import Slider or Range to reduce bundle size
+// import Slider from 'rc-slider/lib/Slider';
+// import Range from 'rc-slider/lib/Range';
+import 'rc-slider/assets/index.css';
+
 // pure javascript functions (i.e. no JSX here)
-import cpot_util from './CpotUtil'; //draw from colourpot; unpack...
 import cpotEditPane_util from './PaneColourPotsEdit_util.js';// probs summing etc
 
 // generic project widgets
-import WgTable from './WgTable';
 import WgButton from './WgButton';
 import WgActionLink from './WgActionLink';
-import WgSmartInput from './WgSmartInput';
 
 // cpot specifc widgets
 import CpotCellBlock from './CpotCellBlock';
-import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './CpotEdit_ItemSubComponents.jsx';
 
 // Components of the cpot edit pane...
 import CpotEditSolid from './CpotEditSolid';
 import CpotEditRange from './CpotEditRange';
+import CpotEditItemsWgTable from './CpotEditItemsWgTable';
 
 
 // Styling for THIS content....
 import './PaneColourPotsEdit.css';
-
-
 
 
 class PaneColourPotsEdit extends React.PureComponent {
@@ -58,81 +59,13 @@ class PaneColourPotsEdit extends React.PureComponent {
     }
 
     
-    cpotEdit_WgTableColumns(){
-	return ([
-	    {
-		heading: "#",
-		renderCellContents: (item, rIndex, rowIsSelected)=>{return (rIndex+1);}
-	    },{
-		heading: "Prob",
-		renderCellContents: (item, rIndex, rowIsSelected)=>{return (
-		    <WgSmartInput
-		       className="blue-cell"
-		       value={item.prob}
-		       editEnabled={rowIsSelected}
-		       dataUnit="percent"
-		       onChange={value =>{
-			   // Change a CPOT item probability
-			   let $updater = {contents: {}};
-			   $updater.contents[rIndex] = {prob: {$set: value}};
-			   this.handleEditingCpotChange( $updater );			   
-		      }}
-		      />
-		);}
-	    },{
-		heading: "Item",
-		renderCellContents: (item, rIndex, rowIsSelected)=>{
-		    
-		    switch (item.type) {
-			
-		    case "range":
-			var xpRange = cpot_util.range_unpack( item.range );
-			return (
-			    <div className="range">
-			      <div className="itemType">range</div>
-
-			      <div className="itemDemo">
-				<WgColourPill expandedRange={xpRange} />
-				
-				<div className="threeCells n1">
-				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:0, S:"y", L:"x"}}/>
-				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:0, L:"y"}}/>
-				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:"y", L:0}}/>
-				</div>
-
-				<div className="threeCells n2">
-				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:1, S:"y", L:"x"}}/>
-				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:1, L:"y"}}/>
-				  <WgGradientCell dim={25} expandedRange={xpRange} gradConf={{H:"x", S:"y", L:1}}/>
-				</div>
-
-				<WgAlphaSwatch type="range" expandedRange={xpRange} />
-			      </div>
-			      
-			    </div>
-			);
-			
-		    default:
-			return (
-			    <div className="solid">
-			      <div className="itemType">solid</div>
-
-			      <div className="itemDemo">
-				<WgColourPill colourString={item.solid} />
-				<WgAlphaSwatch type="solid" colourString={item.solid} />
-			      </div>
-			    </div>
-			);
-		    }
-
-		}
-	    }
-	]);
-    }
-    
     render() {
 	const expanded = this.state.selectedRowIndex === -1;
 	const probs_sum = cpotEditPane_util.calcProbsSum(this.state.cpot);
+
+	const iIndex = this.state.selectedRowIndex;
+	const cpotItem = iIndex < 0 ? {type: null} : this.state.cpot.contents[iIndex];
+
 	return (
 	    <div className="PaneEditColourPots">
 
@@ -151,12 +84,10 @@ class PaneColourPotsEdit extends React.PureComponent {
 
 		
 		{/* 2. Items Listing -AND- the Zone beneath it */}
-	      <WgTable
+	      <CpotEditItemsWgTable
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		rowRenderingData={this.state.cpot.contents}
-		hashRowDataToKey={true}
-		columnsRendering={this.cpotEdit_WgTableColumns()}
 		/>
 
 		
@@ -234,9 +165,6 @@ class PaneColourPotsEdit extends React.PureComponent {
 		{
 		    //Determine which tab body to show...
 		    (() => {
-			const iIndex = this.state.selectedRowIndex;
-			if(iIndex < 0){return null;}
-			const cpotItem = this.state.cpot.contents[iIndex];
 			switch (cpotItem.type) {
 			case "solid":
 			    return (
@@ -250,14 +178,16 @@ class PaneColourPotsEdit extends React.PureComponent {
 				  }}
 				   />
 			    );
-			default:
+			case "range":
 			    return (
 				<CpotEditRange
 				   hslaRange={cpotItem.range}
 				   onPropagateChange={null}
 				   />
 			    );
-
+			default:
+			    return null;
+			    
 			}
 		    })()
 		}
@@ -284,8 +214,31 @@ class PaneColourPotsEdit extends React.PureComponent {
 		</div>		
 
 
+		{/* 5. Slider... */}
+		{
+		    //Determine which slider type to show...
+		    (() => {
+			switch (cpotItem.type) {
+			case "solid":
+			    return (
+				<div>
+				  <Slider />
+				</div>
+			    );
+			case "range":
+			    return (
+				<div>
+				  <Range />
+				</div>
+			    );
+			default: return null;
+			    
+			}
+		    })()
+		}
+	    		
 		
-		{/* 5. Buttons for Cancel / Done */}
+		{/* 6. Buttons for Cancel / Done */}
 		<div className="mainButtons">
 		  <WgButton
 		     name="Cancel"

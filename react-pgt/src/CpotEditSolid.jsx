@@ -5,7 +5,6 @@ import tinycolor from 'tinycolor2';
 import update from 'immutability-helper';
 import { SketchPicker } from 'react-color';
 
-
 import WgSmartInput from './WgSmartInput';
 import WgButton from './WgButton';
 
