@@ -16,10 +16,18 @@ class CpotEditSolid extends React.PureComponent {
     constructor(props) {
 	super(props);
 	this.state = {
-	    hslaObj: tinycolor(this.props.colourString).toHsl()
+	    hslaObj: tinycolor(props.colourString).toHsl()
 	};
     }
 
+
+    componentWillReceiveProps(nextProps){
+	this.state = {
+	    hslaObj: tinycolor(nextProps.colourString).toHsl()
+	};
+    }
+
+    
     handleColourChange(key, value){
 	let $Updater = {};
 	$Updater[key] = {$set: value};
