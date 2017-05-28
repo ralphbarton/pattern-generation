@@ -56,7 +56,7 @@ class CpotEditSolid extends React.PureComponent {
 		   value={this.state.hslaObj.h}
 		   dataUnit="degrees"
 		   onChange={(value)=>{this.handleColourChange("h", value);}}
-		  onBlur={()=>{this.props.onPropagateChange(col_w_alph);}}
+		  onComplete={()=>{this.props.onPropagateChange(col_w_alph);}}
 		  />
 	      </div>
 
@@ -68,7 +68,7 @@ class CpotEditSolid extends React.PureComponent {
 		   value={this.state.hslaObj.s * 100}
 		   dataUnit="percent"
 		   onChange={(value)=>{this.handleColourChange("s", value/100);}}
-		  onBlur={()=>{this.props.onPropagateChange(col_w_alph);}}
+		  onComplete={()=>{this.props.onPropagateChange(col_w_alph);}}
 		  />
 	      </div>
 
@@ -80,7 +80,7 @@ class CpotEditSolid extends React.PureComponent {
 		   value={this.state.hslaObj.l * 100}
 		   dataUnit="percent"
 		   onChange={(value)=>{this.handleColourChange("l", value/100);}}
-		  onBlur={()=>{this.props.onPropagateChange(col_w_alph);}}
+		  onComplete={()=>{this.props.onPropagateChange(col_w_alph);}}
 		  />
 	      </div>
 
@@ -94,7 +94,7 @@ class CpotEditSolid extends React.PureComponent {
 		   value={this.state.hslaObj.a * 100}
 		   dataUnit="percent"
 		   onChange={(value)=>{this.handleColourChange("a", value/100);}}
-		  onBlur={()=>{this.props.onPropagateChange(col_w_alph);}}
+		  onComplete={()=>{this.props.onPropagateChange(col_w_alph);}}
 		  />
 	      </div>
 

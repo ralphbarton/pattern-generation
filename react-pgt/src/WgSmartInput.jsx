@@ -123,7 +123,9 @@ class WgSmartInput extends React.PureComponent {
 	       onMouseLeave={this.handleMouse.bind(this,"mouseIsEntered", false)}
 	       onFocus={this.handleMouse.bind(this,"isFocused", true)}
 	      onBlur={()=>{
-		  this.props.onBlur();		  
+		  if(this.props.onComplete !== undefined){
+		      this.props.onComplete();		  
+		  }
 		  this.handleMouse("isFocused", false);
 	      }}
 	       type={inputNativeType}
