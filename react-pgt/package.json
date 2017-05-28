@@ -5,6 +5,7 @@
   "homepage": "http://302.ralphbarton.co.uk/react",
   "dependencies": {
     "react": "^15.5.4",
+    "react-color": "^2.11.7",
     "react-dom": "^15.5.4"
   },
   "devDependencies": {

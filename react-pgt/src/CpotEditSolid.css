@@ -59,3 +59,29 @@ div.editZone.solid .WgAlphaSwatch .swatch{
     right: 5px;
     top: 9px;
 }
+
+
+
+
+
+
+
+.pickerWindow{
+    position: absolute;
+    left: 212px;
+    top: 0px;
+}
+
+.pickerWindow .sketch-picker{
+    margin: 10px;
+    margin-bottom: 0px;
+}
+
+.pickerWindow .mainButtons{
+    text-align: right;
+    margin: 5px;
+}
+
+.pickerWindow .mainButtons .button{
+    margin: 0px 5px;
+}
