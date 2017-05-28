@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './WgSmartInput.css';
 
 
@@ -54,7 +54,7 @@ const dataUnitTypes = {
 };
 
 
-class WgSmartInput extends Component {
+class WgSmartInput extends React.PureComponent {
 
     constructor(props) {
 	super(props);

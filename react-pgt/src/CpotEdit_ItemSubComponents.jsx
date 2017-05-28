@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import cpot_util from './CpotUtil';
 import tinycolor from 'tinycolor2';
 
-class WgGradientCell extends Component {
+class WgGradientCell extends React.PureComponent {
 
     componentDidMount() {
 	//called by React immediately after render()

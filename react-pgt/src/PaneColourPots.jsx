@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './PaneColourPots.css';
 
 import PaneColourPotsEdit from './PaneColourPotsEdit';
@@ -7,7 +7,7 @@ import WgTable from './WgTable';
 import WgButton from './WgButton';
 import CpotCellBlock from './CpotCellBlock';
 
-class PaneColourPots extends Component {
+class PaneColourPots extends React.PureComponent {
 
     constructor() {
 	super();

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 //import cpot_util from './CpotUtil';
 import tinycolor from 'tinycolor2';
@@ -11,7 +11,7 @@ import {WgAlphaSwatch} from './CpotEdit_ItemSubComponents.jsx';
 
 import './CpotEditSolid.css';
 
-class CpotEditSolid extends Component {
+class CpotEditSolid extends React.PureComponent {
 
     constructor(props) {
 	super(props);

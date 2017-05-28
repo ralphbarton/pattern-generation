@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {sampleData} from './sampleData';
 
 import './Toolbox.css';
@@ -12,7 +12,7 @@ import PaneColourPots from './PaneColourPots';
 
 import DatH from './DatH';
 
-class Toolbox extends Component {
+class Toolbox extends React.PureComponent {
 
     constructor() {
 	super();

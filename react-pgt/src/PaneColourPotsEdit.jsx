@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 // externally developed libraries
 import update from 'immutability-helper';
@@ -28,7 +28,7 @@ import './PaneColourPotsEdit.css';
 
 
 
-class PaneColourPotsEdit extends Component {
+class PaneColourPotsEdit extends React.PureComponent {
 
     constructor(props) {
 	super(props);

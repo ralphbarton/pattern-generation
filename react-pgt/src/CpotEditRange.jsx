@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 //import cpot_util from './CpotUtil';
 //import tinycolor from 'tinycolor2';
 
 import './CpotEditRange.css';
 
-class CpotEditRange extends Component {
+class CpotEditRange extends React.PureComponent {
 
     render() {
 	return (
