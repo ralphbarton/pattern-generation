@@ -4,10 +4,6 @@ import React from 'react';
 import update from 'immutability-helper';
 
 import Slider, { Range } from 'rc-slider';
-// We can just import Slider or Range to reduce bundle size
-// import Slider from 'rc-slider/lib/Slider';
-// import Range from 'rc-slider/lib/Range';
-import 'rc-slider/assets/index.css';
 
 // pure javascript functions (i.e. no JSX here)
 import cpotEditPane_util from './PaneColourPotsEdit_util.js';// probs summing etc
@@ -27,6 +23,7 @@ import CpotEditItemsWgTable from './CpotEditItemsWgTable';
 
 // Styling for THIS content....
 import './PaneColourPotsEdit.css';
+import './CpotEditSlider.css';
 
 
 class PaneColourPotsEdit extends React.PureComponent {
@@ -215,6 +212,7 @@ class PaneColourPotsEdit extends React.PureComponent {
 
 
 		{/* 5. Slider... */}
+		<div className="sliderSection">
 		{
 		    //Determine which slider type to show...
 		    (() => {
@@ -236,7 +234,8 @@ class PaneColourPotsEdit extends React.PureComponent {
 			}
 		    })()
 		}
-	    		
+	    </div>
+	    	
 		
 		{/* 6. Buttons for Cancel / Done */}
 		<div className="mainButtons">
