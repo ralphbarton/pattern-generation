@@ -1,0 +1,137 @@
+/* WgDropDown.css */
+
+/* 8. Styling DROPDOWN buttons/menus */
+
+/* 8.1 variants of the 'external' always-visible button */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.plain .dropbtn{
+    background-color: rgba(15, 33, 97, 0.6);
+    color: white;
+    padding: 2px 1px;
+    font-size: 11px;
+}
+
+.dropdown.plain:hover .dropbtn {
+    background-color: rgba(15, 33, 97, 0.75);
+}
+
+.teal .dropbtn{
+    background-color: #4c9dae;
+    padding: 1px 0px;
+    width: 80px;
+    font-size: 12px;
+}
+
+.dropdown.teal:hover .dropbtn {
+    background-color: #3e818e;
+}
+
+.dropdown.disabled .dropbtn,
+.dropdown.disabled.plain:hover .dropbtn{
+    background: rgba(0,0,0,0.25);
+}
+
+
+
+/* 8.2 basic layout of the content / 'menu' */
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    font-size: 12px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+    z-index: 1;
+}
+
+.dropdown.plain .dropdown-content {
+    background-color: #eeead8;
+}
+
+.dropdown.teal .dropdown-content{
+    min-width: 125px;
+    background-color: #eee;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown.disabled:hover .dropdown-content {
+    display: none;
+}
+
+.dropdown .dropdown-content a {
+    color: black;
+    padding: 2px 6px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown.teal .dropdown-content a:hover {
+    background-color: rgba(76, 157, 174, 0.3);
+}
+
+.dropdown.plain .dropdown-content a:hover {
+    background-color: rgba(27, 51, 136, 0.25);
+}
+
+
+
+/* 8.3 styling elements inside dropdown: Buttons */
+.dropdown.plain .dropdown-content button{
+    border: none;
+    margin: 2px 1px;
+    padding: 2px 1px;
+    background: none;
+    border-radius: 2px;
+    font-size: 12px;
+    width: 65px;
+    background: rgba(39, 58, 124, 0.5);
+    color: white;
+    display: inline-block;
+}
+
+.dropdown.plain .dropdown-content button:hover{
+    background: rgba(39, 58, 124, 0.65);
+}
+
+.dropdown.plain .dropdown-content button div.c-note{
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 0.6;
+    padding: 1px;
+}
+
+
+/* 8.4 styling elements inside dropdown: Text */
+.dropdown.plain .dropdown-content div.i-note{
+    font-weight: bold;
+    color: rgba(39, 58, 124, 0.65);
+}
+
+.dropdown.plain .dropdown-content div.j-note{
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(39, 58, 124, 0.65);
+}
+
+
+/* 8.5 styling elements inside dropdown: Inputs */
+.dropdown.plain input.plain-cell:hover{
+    border-color: rgba(53, 72, 143, 0.5);
+}
+
+.dropdown.plain input.plain-cell:focus{
+    border-color: rgba(53, 72, 143, 0.8);
+    box-shadow: 0px 0px 3px 1px rgba(37, 71, 193, 0.42);
+}

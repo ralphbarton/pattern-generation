@@ -11,6 +11,7 @@ import cpotEditPane_util from './PaneColourPotsEdit_util.js';// probs summing et
 // generic project widgets
 import WgButton from './WgButton';
 import WgActionLink from './WgActionLink';
+import WgDropDown from './WgDropDown';
 
 // cpot specifc widgets
 import CpotCellBlock from './CpotCellBlock';
@@ -135,6 +136,44 @@ class PaneColourPotsEdit extends React.PureComponent {
 		       />
 
 		  </div>
+
+		<div className="mainDropdowns">		
+		<WgDropDown
+	    name="Summing Tools"
+	    menuContentList={[{
+		name: "sum to 100% (adjust selected)",
+		onClick: ()=>{console.log("add fn here");}
+	    },{
+		name: "sum to 100% (rescale all)",
+		onClick: ()=>{console.log("add fn here");}
+	    },{
+		name: "sum to 100% (all equal)",
+		onClick: ()=>{console.log("add fn here");}
+	    }]}
+	    enabled={cpotItem}
+	    ddStyle="plain"
+		/>
+
+
+		<WgDropDown
+	    name={cpotItem.type === "solid" ? "Solid" : (cpotItem.type === "range" ? "Range" : "(item type)")}
+	    menuContentList={[{
+		name: "Solid",
+		onClick: ()=>{console.log("add fn here");}
+	    },{
+		name: "Range",
+		onClick: ()=>{console.log("add fn here");}
+	    },{
+		name: "Convert to non-static",
+		onClick: ()=>{console.log("add fn here");}
+	    }]}	    
+	    enabled={cpotItem.type !== null}
+	    ddStyle="plain"
+		/>
+
+		
+		</div>
+		
 		</div>
 
 

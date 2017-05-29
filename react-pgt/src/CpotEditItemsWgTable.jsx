@@ -12,6 +12,8 @@ import WgSmartInput from './WgSmartInput';
 // cpot specifc widgets
 import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './CpotEdit_ItemSubComponents.jsx';
 
+import './CpotEditItemsWgTable.css';
+
 
 class CpotEditItemsWgTable extends React.PureComponent {
 
