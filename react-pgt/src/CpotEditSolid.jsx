@@ -64,6 +64,7 @@ class CpotEditSolid extends React.PureComponent {
 		   className="plain-cell"
 		   value={this.state.hslaObj.h}
 		   dataUnit="degrees"
+		   max={360}
 		   onChange={(value)=>{this.handleColourChange("h", value);}}
 		  onChangeComplete={()=>{this.props.onPropagateChange(col_w_alph);}}
 		  />

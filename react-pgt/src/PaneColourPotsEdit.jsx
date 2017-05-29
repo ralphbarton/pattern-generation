@@ -84,6 +84,13 @@ class PaneColourPotsEdit extends React.PureComponent {
 	      <CpotEditItemsWgTable
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
+		onProbabilityChange={value =>{
+		    // Change a CPOT item probability
+		    let $updater = {contents: {}};
+		    const rIndex = this.state.selectedRowIndex;
+		    $updater.contents[rIndex] = {prob: {$set: value}};
+		    this.handleEditingCpotChange( $updater );			   
+		}}
 		rowRenderingData={this.state.cpot.contents}
 		/>
 
@@ -183,8 +190,9 @@ class PaneColourPotsEdit extends React.PureComponent {
 				   />
 			    );
 			default:
-			    return null;
-			    
+			    return (
+				<div className="editZone null" />
+			    );
 			}
 		    })()
 		}

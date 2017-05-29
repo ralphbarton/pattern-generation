@@ -64,7 +64,8 @@ class WgSmartInput extends React.PureComponent {
 	    isFocused: false,
 	    min: (props.min !== undefined ? props.min : uType.min),
 	    max: (props.max !== undefined ? props.max : uType.max),
-	    step: (props.step !== undefined ? props.step : uType.std_steps[0])
+	    step: (props.step !== undefined ? props.step : uType.std_steps[0]),
+	    prevChangeCompleteValue: this.props.value
 	};
 	console.log("SmartInput Constructor called");
     }
@@ -77,11 +78,24 @@ class WgSmartInput extends React.PureComponent {
 	this.setState(adjustment);
     }
 
+    handleChangeComplete(){
+	//remember how this.props.value is the externally controlled <input> value
+	const valueChange = this.props.value !== this.state.prevChangeCompleteValue;
+	this.setState({prevChangeCompleteValue: this.props.value});	
+	const cb = this.props.onChangeComplete;
+	if((cb !== undefined)&&(valueChange)){
+	    cb();		  
+	}	
+    }
 
     generateUiValue(v_numeric){
 	const uType = dataUnitTypes[this.props.dataUnit];
 	//truncate to required accuracy...
-	const v_numeric2 = Number(Number(v_numeric).toFixed(uType.decimal_places));
+
+	// in fact, the required accuracy is rounding to closest step
+	const v_numeric1p5 = Math.round(Number(v_numeric)/this.state.step) * this.state.step;
+	//due to floating point divide-by-5 is recurring, need to to standard rounding too
+	const v_numeric2 = Number(Number(v_numeric1p5).toFixed(uType.decimal_places));
 	
 	switch (this.isEditable()){
 	    
@@ -120,12 +134,13 @@ class WgSmartInput extends React.PureComponent {
 	       value={this.generateUiValue(this.props.value)} 
 	       onChange={(ev)=>{this.handleInputChange(ev);}}
 	       onMouseEnter={this.handleMouse.bind(this,"mouseIsEntered", true)}
-	       onMouseLeave={this.handleMouse.bind(this,"mouseIsEntered", false)}
-	       onFocus={this.handleMouse.bind(this,"isFocused", true)}
+	      onMouseLeave={()=>{
+		  this.handleChangeComplete();
+		  this.handleMouse.bind(this,"mouseIsEntered", false);
+	      }}
+	      onFocus={this.handleMouse.bind(this,"isFocused", true)}
 	      onBlur={()=>{
-		  if(this.props.onChangeComplete !== undefined){
-		      this.props.onChangeComplete();		  
-		  }
+		  this.handleChangeComplete();
 		  this.handleMouse("isFocused", false);
 	      }}
 	       type={inputNativeType}

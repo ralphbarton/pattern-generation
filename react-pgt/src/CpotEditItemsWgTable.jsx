@@ -28,12 +28,7 @@ class CpotEditItemsWgTable extends React.PureComponent {
 		       value={item.prob}
 		       editEnabled={rowIsSelected}
 		       dataUnit="percent"
-		       onChange={value =>{
-			   // Change a CPOT item probability
-			   let $updater = {contents: {}};
-			   $updater.contents[rIndex] = {prob: {$set: value}};
-			   this.handleEditingCpotChange( $updater );			   
-		      }}
+		       onChange={this.props.onProbabilityChange}
 		      />
 		);}
 	    },{
