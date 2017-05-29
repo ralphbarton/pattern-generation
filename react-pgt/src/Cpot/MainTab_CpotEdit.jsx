@@ -7,6 +7,7 @@ import Slider, { Range } from 'rc-slider';
 
 // pure javascript functions (i.e. no JSX here)
 import CpotEdit_util from './plain-js/CpotEdit_util.js';// probs summing etc
+import Cpot_util from './plain-js/Cpot_util.js';
 
 // generic project widgets
 import WgButton from '../Wg/WgButton';
@@ -40,6 +41,13 @@ class MainTab_CpotEdit extends React.PureComponent {
 	    cpot: cpot_updated,
 	    selectedRowIndex: limited_rIndex
 	});
+    }
+
+    handleEditingCpotSelItemChange(changesObject){
+	let $updater = {contents: {}};
+	const rIndex = this.state.selectedRowIndex;
+	$updater.contents[rIndex] = changesObject;
+	this.handleEditingCpotChange( $updater );			   
     }
 
     // this function will be a member of all components containing a WgTable.
@@ -80,13 +88,7 @@ class MainTab_CpotEdit extends React.PureComponent {
 	      <CpotEdit_Section_ItemsTable
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
-		onProbabilityChange={value =>{
-		    // Change a CPOT item probability
-		    let $updater = {contents: {}};
-		    const rIndex = this.state.selectedRowIndex;
-		    $updater.contents[rIndex] = {prob: {$set: value}};
-		    this.handleEditingCpotChange( $updater );			   
-		}}
+		onProbabilityChange={value =>{this.handleEditingCpotSelItemChange({prob: {$set: value}});}}
 		rowRenderingData={this.state.cpot.contents}
 		/>
 
@@ -154,7 +156,12 @@ class MainTab_CpotEdit extends React.PureComponent {
 	    name={cpotItem.type === "solid" ? "Solid" : (cpotItem.type === "range" ? "Range" : "(item type)")}
 	    menuContentList={[{
 		name: "Solid",
-		onClick: ()=>{console.log("add fn here");}
+		onClick: ()=>{
+		    const av_col = Cpot_util.range_unpack(cpotItem.range).col;
+		    this.handleEditingCpotSelItemChange({
+			type: {$set: "solid"},
+			solid: {$set: av_col}
+		    });}
 	    },{
 		name: "Range",
 		onClick: ()=>{console.log("add fn here");}
@@ -208,12 +215,7 @@ class MainTab_CpotEdit extends React.PureComponent {
 			    return (
 				<CpotEdit_Section_Solid
 				   colourString={cpotItem.solid}
-				   onPropagateChange={value =>{
-				       // Change a CPOT item solid colour
-				       let $updater = {contents: {}};
-				       $updater.contents[this.state.selectedRowIndex] = {solid: {$set: value}};
-				       this.handleEditingCpotChange( $updater );			   
-				  }}
+				   onPropagateChange={value =>{this.handleEditingCpotSelItemChange({solid: {$set: value}});}}
 				   />
 			    );
 			case "range":

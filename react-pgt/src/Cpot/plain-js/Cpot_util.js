@@ -65,10 +65,9 @@ var Cpot_util = {
 	    a3: R.a + R.da,
 	    da: R.da,
 
-//	    tiny_av: tinycolor({h: R.h, s: R.s, l: R.l, a: R.a})
 	    col: tinycolor({h: R.h, s: R.s, l: R.l, a: R.a}).toHslString(),
 	    col_opaque: tinycolor({h: R.h, s: R.s, l: R.l}).toHslString()
-
+	    
 	};	
     }    
     
