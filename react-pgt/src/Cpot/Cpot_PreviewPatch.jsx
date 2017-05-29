@@ -1,24 +1,23 @@
 import React from 'react';
-import './CpotCellBlock.css';
 
-import cpot_util from './CpotUtil';
-import cpotEditPane_util from './PaneColourPotsEdit_util.js';
+import Cpot_util from './plain-js/Cpot_util';
+import CpotEdit_util from './plain-js/CpotEdit_util';
 
-class CpotCellBlock extends React.PureComponent {
+class Cpot_PreviewPatch extends React.PureComponent {
 
     render() {
 
-	const invalid = (!this.props.cpot) || cpotEditPane_util.calcProbsSum(this.props.cpot) !== 100;
+	const invalid = (!this.props.cpot) || CpotEdit_util.calcProbsSum(this.props.cpot) !== 100;
 	const makeColour = ()=>{
 	    if (!this.props.cpot){return 'grey';}
-	    return cpot_util.DrawFromColourPot(this.props.cpot);
+	    return Cpot_util.DrawFromColourPot(this.props.cpot);
 	};
 	const tbodyClasses = "chequer "+ (this.props.chequerSize==="normal"?"":"tiny");
 
 	switch (invalid){
 	case false:
 	    return (
-		<table className="CpotCellBlock"><tbody className={tbodyClasses}>{
+		<table className="Cpot_PreviewPatch"><tbody className={tbodyClasses}>{
 			Array(this.props.nY).fill(null).map( (el,i) => {
 			    return ( <tr key={i}>
 				     {
@@ -37,7 +36,7 @@ class CpotCellBlock extends React.PureComponent {
 	    );
 	default:
 	    return (
-		<div className="CpotCellBlock invalid">
+		<div className="Cpot_PreviewPatch invalid">
 		  <div>Item probabilities must sum to 100% for a valid Colour Pot.</div>
 		  <div>This can be done using "summing tools"</div>
 		</div>
@@ -47,4 +46,4 @@ class CpotCellBlock extends React.PureComponent {
 }
 
 
-export default CpotCellBlock;
+export default Cpot_PreviewPatch;

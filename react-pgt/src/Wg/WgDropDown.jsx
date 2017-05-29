@@ -1,5 +1,4 @@
 import React from 'react';
-import './WgDropDown.css';
 
 
 function WgDropDown(props) {

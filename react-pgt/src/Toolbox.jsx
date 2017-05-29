@@ -1,16 +1,14 @@
 import React from 'react';
-import {sampleData} from './sampleData';
-
-import './Toolbox.css';
+import {sampleData} from './DatH/SampleData_Cpot';
 
 //libraries
 import Draggable from 'react-draggable';
 
 //custom
 import TabStrip from './TabStrip';
-import PaneColourPots from './PaneColourPots';
+import MainTab_CpotView from './Cpot/MainTab_CpotView';
 
-import DatH from './DatH';
+import DatH from './DatH/DatH';
 
 class Toolbox extends React.PureComponent {
 
@@ -72,7 +70,7 @@ class Toolbox extends React.PureComponent {
 			    switch (this.state.selectedTabIndex) {
 			    case 0:
 				return (
-				    <PaneColourPots					    
+				    <MainTab_CpotView					    
 				       cpotArray={this.state.DataArrays.cpot}
 				       onCpotChange={(changeType, details)=>{
 					   // The function call returns an updated Array...

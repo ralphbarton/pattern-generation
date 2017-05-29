@@ -1,5 +1,4 @@
 import React from 'react';
-import './WgActionLink.css';
 
 function WgActionLink(props) {
     const extraClass = props.enabled===false ? " disabled" : "";

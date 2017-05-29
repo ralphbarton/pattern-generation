@@ -1,0 +1,71 @@
+/* MainTab_CpotView.css  */
+
+
+/* Main Table */
+
+.MainTab_CpotView > .WgTable > tbody{
+    height: 205px;
+}
+
+.MainTab_CpotView > .WgTable .col-1{
+    width: 20px;
+}
+
+.MainTab_CpotView > .WgTable .col-2{
+    width: 270px;
+}
+
+.MainTab_CpotView > .WgTable td.col-2{
+    text-align: left;
+}
+
+.MainTab_CpotView > .WgTable .col-2{
+    padding: 0px;
+}
+
+.MainTab_CpotView > .WgTable input.blue-cell{
+    width: 264px;
+}
+
+.MainTab_CpotView > .WgTable th.col-3{
+    width: 97px;
+}
+
+.MainTab_CpotView > .WgTable td.col-3{
+    padding: 1px;
+}
+
+
+
+
+
+/* Main CPOT preview */
+
+.MainTab_CpotView > .Cpot_PreviewPatch td{
+    width: 18px;
+    height: 18px;
+}
+
+.WgTable table.Cpot_PreviewPatch td{
+    width: 8px;
+    height: 8px;
+}
+
+table.WgTable table.Cpot_PreviewPatch {
+    display: block;
+}
+
+.MainTab_CpotView > table.Cpot_PreviewPatch{
+    position: absolute;
+top: 17px;
+right: 14px;
+}
+
+
+/* Main buttons */
+
+.MainTab_CpotView > .mainButtons{
+    position: absolute;
+    bottom: 10px;
+    right: 365px;
+}

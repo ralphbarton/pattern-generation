@@ -1,6 +1,6 @@
-/* CpotCellBlock.css */
+/* Cpot_PreviewPatch.css */
 
-table.CpotCellBlock{
+table.Cpot_PreviewPatch{
     display: block;
     margin: 0px;
     background-color: white;
@@ -8,24 +8,24 @@ table.CpotCellBlock{
     border-spacing: 0px;
 }
 
-table.CpotCellBlock tbody{
+table.Cpot_PreviewPatch tbody{
     border: none;
 }
 
-table.CpotCellBlock td{
+table.Cpot_PreviewPatch td{
     border: 1px solid black;
     padding: 0px;
 }
 
 
 
-div.CpotCellBlock.invalid{
+div.Cpot_PreviewPatch.invalid{
     border: 2px solid black;
     background: linear-gradient(135deg, rgba(49,57,61,0.8) 0%,rgba(84,123,152,0.8) 100%);
     
 }
 
-div.CpotCellBlock.invalid{
+div.Cpot_PreviewPatch.invalid{
         display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -38,7 +38,7 @@ div.CpotCellBlock.invalid{
     flex-direction: column;
 }
 
-div.CpotCellBlock div{
+div.Cpot_PreviewPatch div{
     width: 80%;
     text-align: center;
     font-size: 10px;

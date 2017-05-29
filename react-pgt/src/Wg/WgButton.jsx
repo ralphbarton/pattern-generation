@@ -1,5 +1,4 @@
 import React from 'react';
-import './WgButton.css';
 
 function WgButton(props) {
 

@@ -1,18 +1,16 @@
 import React from 'react';
 
-//import cpot_util from './CpotUtil';
 import tinycolor from 'tinycolor2';
 import update from 'immutability-helper';
 import { SketchPicker } from 'react-color';
 
-import WgSmartInput from './WgSmartInput';
-import WgButton from './WgButton';
+import WgSmartInput from '../Wg/WgSmartInput';
+import WgButton from '../Wg/WgButton';
 
-import {WgAlphaSwatch} from './CpotEdit_ItemSubComponents.jsx';
+import {WgAlphaSwatch} from './Cpot_AtomicComponents.jsx';
 
-import './CpotEditSolid.css';
 
-class CpotEditSolid extends React.PureComponent {
+class CpotEdit_Section_Solid extends React.PureComponent {
 
     constructor(props) {
 	super(props);
@@ -158,4 +156,4 @@ class CpotEditSolid extends React.PureComponent {
     }
 }
 
-export default CpotEditSolid;
+export default CpotEdit_Section_Solid;

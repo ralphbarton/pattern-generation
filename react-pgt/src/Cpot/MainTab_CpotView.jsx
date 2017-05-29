@@ -1,13 +1,12 @@
 import React from 'react';
-import './PaneColourPots.css';
 
-import PaneColourPotsEdit from './PaneColourPotsEdit';
+import MainTab_CpotEdit from './MainTab_CpotEdit';
 
-import WgTable from './WgTable';
-import WgButton from './WgButton';
-import CpotCellBlock from './CpotCellBlock';
+import WgTable from '../Wg/WgTable';
+import WgButton from '../Wg/WgButton';
+import Cpot_PreviewPatch from './Cpot_PreviewPatch';
 
-class PaneColourPots extends React.PureComponent {
+class MainTab_CpotView extends React.PureComponent {
 
     constructor() {
 	super();
@@ -55,7 +54,7 @@ class PaneColourPots extends React.PureComponent {
 	    },{
 		heading: "Preview",
 		renderCellContents: (cpot, i, rowIsSelected)=>{return (
-		    <CpotCellBlock
+		    <Cpot_PreviewPatch
 		       cpot={cpot}
 		       nX={8}
 		       nY={2}
@@ -67,7 +66,7 @@ class PaneColourPots extends React.PureComponent {
     renderCpotView(){
 	
 	return (
-	    <div className="PaneColourPots">
+	    <div className="MainTab_CpotView">
 	      <WgTable
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
@@ -75,7 +74,7 @@ class PaneColourPots extends React.PureComponent {
 		columnsRendering={this.cpotView_WgTableColumns()}
 		/>
 		
-		<CpotCellBlock
+		<Cpot_PreviewPatch
 		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
 		   nX={13}
 		   nY={13}
@@ -118,7 +117,7 @@ class PaneColourPots extends React.PureComponent {
 	switch (this.state.isEditing) {
 	case true:
 	    return (
-		<PaneColourPotsEdit
+		<MainTab_CpotEdit
 		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
 		   onSaveEdits={updatedCpot =>{
 		       this.props.onCpotChange("update", {
@@ -138,4 +137,4 @@ class PaneColourPots extends React.PureComponent {
 }
 
 
-export default PaneColourPots;
+export default MainTab_CpotView;

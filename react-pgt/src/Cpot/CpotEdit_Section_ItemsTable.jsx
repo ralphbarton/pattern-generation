@@ -1,21 +1,19 @@
 import React from 'react';
 
 // pure javascript functions (i.e. no JSX here)
-import cpot_util from './CpotUtil'; //draw from colourpot; unpack...
+import Cpot_util from './plain-js/Cpot_util'; //draw from colourpot; unpack...
 
 
 // generic project widgets
-import WgTable from './WgTable';
-import WgSmartInput from './WgSmartInput';
+import WgTable from '../Wg/WgTable';
+import WgSmartInput from '../Wg/WgSmartInput';
 
 
 // cpot specifc widgets
-import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './CpotEdit_ItemSubComponents.jsx';
-
-import './CpotEditItemsWgTable.css';
+import {WgAlphaSwatch, WgGradientCell, WgColourPill} from './Cpot_AtomicComponents.jsx';
 
 
-class CpotEditItemsWgTable extends React.PureComponent {
+class CpotEdit_Section_ItemsTable extends React.PureComponent {
 
     cpotEdit_WgTableColumns(){
 	return ([
@@ -40,7 +38,7 @@ class CpotEditItemsWgTable extends React.PureComponent {
 		    switch (item.type) {
 			
 		    case "range":
-			var xpRange = cpot_util.range_unpack( item.range );
+			var xpRange = Cpot_util.range_unpack( item.range );
 			return (
 			    <div className="range">
 			      <div className="itemType">range</div>
@@ -99,4 +97,4 @@ class CpotEditItemsWgTable extends React.PureComponent {
 }
 
 
-export default CpotEditItemsWgTable;
+export default CpotEdit_Section_ItemsTable;

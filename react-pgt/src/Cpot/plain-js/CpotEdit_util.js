@@ -1,4 +1,4 @@
-var PaneColourPotsEdit_util = {
+var CpotEdit_util = {
 
     calcProbsSum: function(cpot){
 	var accumulator = 0;
@@ -9,7 +9,7 @@ var PaneColourPotsEdit_util = {
 
 	//rounding necessary due to floating point lsb accuracy for non-integers.
 	return Number(accumulator.toFixed(3));
-    }
+    },
 
     /*
     EDcpot_sum100: function(cpot){
@@ -53,8 +53,9 @@ var PaneColourPotsEdit_util = {
 	);
 	return this.EDITINGcpot.contents.length;
     }
-*/
+    */
+
+    
 };
 
-
-export {PaneColourPotsEdit_util as default};
+export {CpotEdit_util as default};

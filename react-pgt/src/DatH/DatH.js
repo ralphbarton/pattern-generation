@@ -1,6 +1,6 @@
 import update from 'immutability-helper';
 
-import {sampleData} from './sampleData';
+import {sampleData} from './SampleData_Cpot';
 
 const uidCounters = {
     "cpot": sampleData.cpotArray.length,

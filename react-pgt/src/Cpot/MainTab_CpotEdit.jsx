@@ -6,28 +6,23 @@ import update from 'immutability-helper';
 import Slider, { Range } from 'rc-slider';
 
 // pure javascript functions (i.e. no JSX here)
-import cpotEditPane_util from './PaneColourPotsEdit_util.js';// probs summing etc
+import CpotEdit_util from './plain-js/CpotEdit_util.js';// probs summing etc
 
 // generic project widgets
-import WgButton from './WgButton';
-import WgActionLink from './WgActionLink';
-import WgDropDown from './WgDropDown';
+import WgButton from '../Wg/WgButton';
+import WgActionLink from '../Wg/WgActionLink';
+import WgDropDown from '../Wg/WgDropDown';
 
 // cpot specifc widgets
-import CpotCellBlock from './CpotCellBlock';
+import Cpot_PreviewPatch from './Cpot_PreviewPatch';
 
 // Components of the cpot edit pane...
-import CpotEditSolid from './CpotEditSolid';
-import CpotEditRange from './CpotEditRange';
-import CpotEditItemsWgTable from './CpotEditItemsWgTable';
+import CpotEdit_Section_Solid from './CpotEdit_Section_Solid';
+import CpotEdit_Section_Range from './CpotEdit_Section_Range';
+import CpotEdit_Section_ItemsTable from './CpotEdit_Section_ItemsTable';
 
 
-// Styling for THIS content....
-import './PaneColourPotsEdit.css';
-import './CpotEditSlider.css';
-
-
-class PaneColourPotsEdit extends React.PureComponent {
+class MainTab_CpotEdit extends React.PureComponent {
 
     constructor(props) {
 	super(props);
@@ -59,7 +54,7 @@ class PaneColourPotsEdit extends React.PureComponent {
     
     render() {
 	const expanded = this.state.selectedRowIndex === -1;
-	const probs_sum = cpotEditPane_util.calcProbsSum(this.state.cpot);
+	const probs_sum = CpotEdit_util.calcProbsSum(this.state.cpot);
 
 	const iIndex = this.state.selectedRowIndex;
 	const cpotItem = iIndex < 0 ? {type: null} : this.state.cpot.contents[iIndex];
@@ -82,7 +77,7 @@ class PaneColourPotsEdit extends React.PureComponent {
 
 		
 		{/* 2. Items Listing -AND- the Zone beneath it */}
-	      <CpotEditItemsWgTable
+	      <CpotEdit_Section_ItemsTable
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		onProbabilityChange={value =>{
@@ -180,7 +175,7 @@ class PaneColourPotsEdit extends React.PureComponent {
 		
 		{/* 3. The Expanded Preview Zone*/}
 		<div className={"bigPreview Zone"+(expanded?"":" hide")}>
-		  <CpotCellBlock
+		  <Cpot_PreviewPatch
 		     cpot={this.state.cpot}
 		     nX={8}
 		     nY={19}
@@ -211,7 +206,7 @@ class PaneColourPotsEdit extends React.PureComponent {
 			switch (cpotItem.type) {
 			case "solid":
 			    return (
-				<CpotEditSolid
+				<CpotEdit_Section_Solid
 				   colourString={cpotItem.solid}
 				   onPropagateChange={value =>{
 				       // Change a CPOT item solid colour
@@ -223,7 +218,7 @@ class PaneColourPotsEdit extends React.PureComponent {
 			    );
 			case "range":
 			    return (
-				<CpotEditRange
+				<CpotEdit_Section_Range
 				   hslaRange={cpotItem.range}
 				   onPropagateChange={null}
 				   />
@@ -236,7 +231,7 @@ class PaneColourPotsEdit extends React.PureComponent {
 		    })()
 		}
 		
-		<CpotCellBlock
+		<Cpot_PreviewPatch
 		     className="mini"
 		     cpot={this.state.cpot}
 		     nX={19}
@@ -310,4 +305,4 @@ class PaneColourPotsEdit extends React.PureComponent {
 }
 
 
-export default PaneColourPotsEdit;
+export default MainTab_CpotEdit;

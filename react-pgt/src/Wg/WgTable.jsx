@@ -1,5 +1,4 @@
 import React from 'react';
-import './WgTable.css';
 
 import hashObject from 'hash-object';
 

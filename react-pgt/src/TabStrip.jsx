@@ -1,5 +1,4 @@
 import React from 'react';
-import './TabStrip.css';
 
 function TabStrip(props) {
     const tabstripClasses = "Tab-Strip " + (props.enabled === false ? "disabled" : "");
