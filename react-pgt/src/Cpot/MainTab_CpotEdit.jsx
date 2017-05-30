@@ -5,14 +5,12 @@ import update from 'immutability-helper';
 
 import Slider, { Range } from 'rc-slider';
 
-// pure javascript functions (i.e. no JSX here)
 import CpotEdit_util from './plain-js/CpotEdit_util.js';// probs summing etc
-import Cpot_util from './plain-js/Cpot_util.js';
+
 
 // generic project widgets
 import WgButton from '../Wg/WgButton';
 import WgActionLink from '../Wg/WgActionLink';
-import WgDropDown from '../Wg/WgDropDown';
 
 // cpot specifc widgets
 import Cpot_PreviewPatch from './Cpot_PreviewPatch';
@@ -21,6 +19,7 @@ import Cpot_PreviewPatch from './Cpot_PreviewPatch';
 import CpotEdit_Section_Solid from './CpotEdit_Section_Solid';
 import CpotEdit_Section_Range from './CpotEdit_Section_Range';
 import CpotEdit_Section_ItemsTable from './CpotEdit_Section_ItemsTable';
+import CpotEdit_Section_BeneathTable from './CpotEdit_Section_BeneathTable';
 
 
 class MainTab_CpotEdit extends React.PureComponent {
@@ -92,93 +91,12 @@ class MainTab_CpotEdit extends React.PureComponent {
 		rowRenderingData={this.state.cpot.contents}
 		/>
 
-		
-		<div className="beneathTable">
-		  <div className={"probsSumText" + (probs_sum===100?" sumIs100":"")}>
-		    <div className="sum">		  
-		      Probabilities sum: <span>{probs_sum.toFixed(1)+"%"}</span>
-		    </div>
-		    <div className={"error" + (probs_sum < 100?" sumLT100":"")}>
-			 (<span>{(probs_sum-100).toFixed(1)+"%"}</span>)
-	    </div>
-		</div>
-		
-		  <div className="mainButtons">
-		    <WgButton
-		       name="Add"
-		       buttonStyle={"small"}
-		       onClick={() => {
-			   // Add a CPOT contents item
-			   const template_item = 	    {
-			       prob: 15,
-			       type: "solid",
-			       solid: (/*random_col || */"#FF0000")
-			   };
-			   this.handleEditingCpotChange({
-			       contents: {$push: [template_item]}
-			   });
-		      }}
-		       enabled={true}
-		       />
-		    <WgButton
-		       name="Delete"
-		       buttonStyle={"small"}
-		       onClick={() => {
-			   // Delete a CPOT contents item
-			   this.handleEditingCpotChange({
-			       contents: {$splice: [[this.state.selectedRowIndex, 1]]}
-			   });
-		      }}
-		      enabled={this.state.cpot.contents.length > 0}
-		       />
-
-		  </div>
-
-		<div className="mainDropdowns">		
-		<WgDropDown
-	    name="Summing Tools"
-	    menuContentList={[{
-		name: "sum to 100% (adjust selected)",
-		onClick: ()=>{console.log("add fn here");}
-	    },{
-		name: "sum to 100% (rescale all)",
-		onClick: ()=>{console.log("add fn here");}
-	    },{
-		name: "sum to 100% (all equal)",
-		onClick: ()=>{console.log("add fn here");}
-	    }]}
-	    enabled={cpotItem}
-	    ddStyle="plain"
-		/>
-
-
-		<WgDropDown
-	    name={cpotItem.type === "solid" ? "Solid" : (cpotItem.type === "range" ? "Range" : "(item type)")}
-	    menuContentList={[{
-		name: "Solid",
-		onClick: ()=>{
-		    const av_col = Cpot_util.range_unpack(cpotItem.range).col;
-		    this.handleEditingCpotSelItemChange({
-			type: {$set: "solid"},
-			solid: {$set: av_col}
-		    });}
-	    },{
-		name: "Range",
-		onClick: ()=>{console.log("add fn here");}
-	    },{
-		name: "Convert to non-static",
-		onClick: ()=>{console.log("add fn here");}
-	    }]}	    
-	    enabled={cpotItem.type !== null}
-	    ddStyle="plain"
-		/>
-
-		
-		</div>
-		
-		</div>
-
-
+		<CpotEdit_Section_BeneathTable
+		   cpot={this.state.cpot}
+		   selectedRowIndex={this.state.selectedRowIndex}
+		   onEditingCpotChange={this.handleEditingCpotChange.bind(this)}
+		   onEditingCpotSelItemChange={this.handleEditingCpotSelItemChange.bind(this)}
+		   />		
 		
 		{/* 3. The Expanded Preview Zone*/}
 		<div className={"bigPreview Zone"+(expanded?"":" hide")}>
