@@ -89,7 +89,17 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 		    });}
 	    },{
 		name: "Range",
-		onClick: ()=>{console.log("add fn here");}
+		onClick: ()=>{
+		    const synth_range = Cpot_util.range_set(cpotItem.solid, {
+			dh: 15,
+			ds: 0.30,
+			dl: 0.10,
+			da: 0.20
+		    });
+		    this.props.onEditingCpotSelItemChange({
+			type: {$set: "range"},
+			range: {$set: synth_range}
+		    });}
 	    },{
 		name: "Convert to non-static",
 		onClick: ()=>{console.log("add fn here");}
