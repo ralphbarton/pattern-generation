@@ -3,7 +3,7 @@ import React from 'react';
 
 function WgDropDown(props) {
 
-    const extraClass = (props.enabled===false ? "disabled " : "") + props.ddStyle;
+    const extraClass = (props.enabled === false ? "disabled " : "") + props.ddStyle;
     const dropdownClasses = "dropdown " + extraClass;
     return(
 	<div className={dropdownClasses}>
@@ -16,6 +16,7 @@ function WgDropDown(props) {
 			     key={index}
 			     href="#" 
 			     onClick={item.onClick}
+			     className={item.enabled === false ? "disabled" : null}
 			     >
 			    {item.name}
 			    </a>

@@ -77,6 +77,12 @@
     display: block;
 }
 
+.dropdown .dropdown-content a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: rgba(0,0,0,0.5);
+}
+
 .dropdown.teal .dropdown-content a:hover {
     background-color: rgba(76, 157, 174, 0.3);
 }
@@ -85,6 +91,9 @@
     background-color: rgba(27, 51, 136, 0.25);
 }
 
+.dropdown.plain .dropdown-content a.disabled:hover {
+    background-color: rgba(128, 128, 128, 0.15);
+}
 
 
 /* 8.3 styling elements inside dropdown: Buttons */
