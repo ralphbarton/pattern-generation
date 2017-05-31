@@ -33,6 +33,8 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 	const probs_sum = CpotEdit_util.calcProbsSum(this.props.cpot);
 	const iIndex = this.props.selectedRowIndex;
 	const cpotItem = iIndex < 0 ? {type: null} : this.props.cpot.contents[iIndex];
+
+	const enableSum100AllEq = (this.props.cpot.contents.length > 0) && ((!CpotEdit_util.allProbsAreEqual(this.props.cpot)) || (probs_sum !== 100));
 	
 	return (
 
@@ -101,14 +103,14 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 			   }
 		       },{
 			   name: "sum to 100% (all equal)",
-			   enabled: !CpotEdit_util.allProbsAreEqual(this.props.cpot),
+			   enabled: enableSum100AllEq,
 			   onClick: ()=>{
 			       // Change all CPOT probabilities
 			       const $cpotProbsUpdate = CpotEdit_util.calcSum100ProbsSet(this.props.cpot, {all_equal: true});
 			       this.props.onEditingCpotChange($cpotProbsUpdate);
 			   }
 		  }]}
-		  enabled={cpotItem}
+		  enabled={enableSum100AllEq}
 		  ddStyle="plain"
 	      />
 	      
