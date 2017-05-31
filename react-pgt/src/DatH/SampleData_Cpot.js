@@ -39,7 +39,6 @@ const sampleData = {
 		{
 		    prob: 50,
 		    type: "range",
-		    solid: "#02a7eb",
 		    range: {
 			h: 205.05494505494508,
 			s: 0.75,

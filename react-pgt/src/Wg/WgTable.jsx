@@ -25,6 +25,7 @@ function WgTable(props) {
 	    {
 		props.rowRenderingData.map( (rowData, rIndex) => {
 		    let rowKey = rowData.uid !== undefined ? rowData.uid : rIndex;
+		    //this is not a good feature. Any change -> new key -> object binned & regenerated, which is anti-pattern for react...
 		    if(props.hashRowDataToKey){
 			rowKey = hashObject(rowData);
 		    }

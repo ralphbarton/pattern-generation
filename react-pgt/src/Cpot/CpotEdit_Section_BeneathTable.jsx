@@ -50,7 +50,8 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 		       const template_item = {
 			   prob: 15,
 			   type: "solid",
-			   solid: (/*random_col || */"#FF0000")
+			   solid: (/*random_col || */"#FF0000"),
+			   uid: this.props.nextUid()
 		       };
 		       this.props.onEditingCpotChange({
 			   contents: {$push: [template_item]}

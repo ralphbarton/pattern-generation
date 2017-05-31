@@ -26,13 +26,31 @@ class MainTab_CpotEdit extends React.PureComponent {
 
     constructor(props) {
 	super(props);
+
+	//set unique keys
+	let $updater = {contents: {}};
+	this.props.cpot.contents.forEach(function(item, index){
+	    $updater.contents[index] = {uid: {$set: index}};
+	});
+	const cpot_with_uids = update(this.props.cpot, $updater);
+	
 	this.state = {
-	    cpot: this.props.cpot,
+	    cpot: cpot_with_uids,
+	    uidCounter: this.props.cpot.contents.length - 1,
 	    selectedRowIndex: -1, //value of -1 means no row selected and show big preview
 	    previewRerandomiseCounter: 0
 	};
     }
 
+    nextUid(){
+	const nexUid = this.state.uidCounter + 1;
+	//note: the state is not immediately changed, following call of the setState function
+	this.setState({
+	    uidCounter: nexUid
+	});
+	return nexUid;
+    }
+    
     handleEditingCpotChange(changesObject){
 	const cpot_updated = update(this.state.cpot, changesObject);	
 	const limited_rIndex = Math.min(cpot_updated.contents.length -1, this.state.selectedRowIndex);
@@ -95,6 +113,7 @@ class MainTab_CpotEdit extends React.PureComponent {
 		   cpot={this.state.cpot}
 		   selectedRowIndex={this.state.selectedRowIndex}
 		   onEditingCpotChange={this.handleEditingCpotChange.bind(this)}
+		   nextUid={this.nextUid.bind(this)}
 		   onEditingCpotSelItemChange={this.handleEditingCpotSelItemChange.bind(this)}
 		   />		
 		
@@ -209,7 +228,14 @@ class MainTab_CpotEdit extends React.PureComponent {
 		  <WgButton
 		     name="Done"
 		     onClick={()=>{
-			 this.props.onSaveEdits(this.state.cpot);
+			 //remove unique keys
+			 let $updater = {contents: {}};
+			 this.state.cpot.contents.forEach(function(item, index){
+			     $updater.contents[index] = {uid: {$set: undefined}};
+			 });
+			 const cpot_no_uids = update(this.state.cpot, $updater);
+
+			 this.props.onSaveEdits(cpot_no_uids);
 			 this.props.onCloseEditingMode();
 		    }}
 		    enabled={probs_sum === 100}

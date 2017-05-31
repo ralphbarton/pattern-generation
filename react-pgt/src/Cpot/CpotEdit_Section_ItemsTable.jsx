@@ -89,7 +89,6 @@ class CpotEdit_Section_ItemsTable extends React.PureComponent {
 	       selectedRowIndex={this.props.selectedRowIndex}
 	       onRowSelectedChange={this.props.onRowSelectedChange}
 	       rowRenderingData={this.props.rowRenderingData}
-	       hashRowDataToKey={true}
 	       columnsRendering={this.cpotEdit_WgTableColumns()}
 	      />
 	);
