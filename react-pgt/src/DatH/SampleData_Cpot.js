@@ -1,6 +1,6 @@
-const sampleData = {
+const CpotSampleData = {
 
-    cpotArray: [
+    arr: [
 	{
 	    name: "Banana Pie",
 	    uid: 0,
@@ -148,4 +148,4 @@ const sampleData = {
 
 
 
-export {sampleData};
+export {CpotSampleData};

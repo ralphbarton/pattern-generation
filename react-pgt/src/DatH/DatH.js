@@ -1,11 +1,14 @@
 import update from 'immutability-helper';
 
-import {sampleData} from './SampleData_Cpot';
+import {CpotSampleData} from './SampleData_Cpot';
+import {GridSampleData} from './SampleData_Grid';
+import {PlotSampleData} from './SampleData_Plot';
+
 
 const uidCounters = {
-    "cpot": sampleData.cpotArray.length,
-    "grid": 2,
-    "plot": 4,
+    "cpot": CpotSampleData.arr.length,
+    "grid": GridSampleData.arr.length,
+    "plot": PlotSampleData.arr.length,
     "motf": 2,
     "patt": 3,
 };

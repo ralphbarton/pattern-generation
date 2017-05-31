@@ -1,5 +1,6 @@
 import React from 'react';
-import {sampleData} from './DatH/SampleData_Cpot';
+import {CpotSampleData} from './DatH/SampleData_Cpot';
+import {GridSampleData} from './DatH/SampleData_Grid';
 
 //libraries
 import Draggable from 'react-draggable';
@@ -7,6 +8,7 @@ import Draggable from 'react-draggable';
 //custom
 import TabStrip from './TabStrip';
 import MainTab_CpotView from './Cpot/MainTab_CpotView';
+import MainTab_Grid from './Grid/MainTab_Grid';
 
 import DatH from './DatH/DatH';
 
@@ -16,13 +18,25 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 0,
+	    selectedTabIndex: 3,
 	    tabsEnabled: true,
 	    DataArrays: {
-		"cpot": sampleData.cpotArray
+		"cpot": CpotSampleData.arr,
+		"grid": GridSampleData.arr
 	    }
 	};
     }
+
+
+    handleDataChange(dataCategory, changeType, details){
+	const oldArrs = this.state.DataArrays;
+	// This function call returns an updated Array...
+	const newArrs = DatH.immutUpdateAllArrays(oldArrs, dataCategory, changeType, details);
+	this.setState({
+	    DataArrays: newArrs
+	});
+    }
+
     
     
     handleToolboxSizeChange(newSize){
@@ -72,19 +86,33 @@ class Toolbox extends React.PureComponent {
 				return (
 				    <MainTab_CpotView					    
 				       cpotArray={this.state.DataArrays.cpot}
-				       onCpotChange={(changeType, details)=>{
-					   // The function call returns an updated Array...
-					   const oldArrs = this.state.DataArrays;
-					   const newArrs = DatH.immutUpdateAllArrays(oldArrs, "cpot", changeType, details);
-					   this.setState({
-					       DataArrays: newArrs
-					   });
-				      }}
+				       onCpotChange={(arg1, arg2)=>{this.handleDataChange("cpot", arg1, arg2);}}
 				      onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
 				      />
 				);
 			    case 1:
-				return <span> Tab 1  </span>;
+				return <span> ere...  </span>;
+			    case 2:
+				return <span> Motifs here...  </span>;
+			    case 3:
+				return (
+				    <MainTab_Grid
+				       gridArray={this.state.DataArrays.grid}
+				       onGridChange={(arg1, arg2)=>{this.handleDataChange("grid", arg1, arg2);}}
+				      />
+				);
+			    case 4:
+				return <span> Density Plots here...  </span>;
+			    case 5:
+				return <span> Density Paintings here...  </span>;
+			    case 6:
+				return <span> Patterns here...  </span>;
+			    case 7:
+				return <span> Examples here...  </span>;
+			    case 8:
+				return <span> Options here...  </span>;
+			    case 9:
+				return <span> Tutorial here...  </span>;
 			    default:
 				return <span> unhandled tab clicked in </span>;
 				
