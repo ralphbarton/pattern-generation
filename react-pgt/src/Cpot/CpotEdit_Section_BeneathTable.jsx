@@ -83,20 +83,33 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 		   name="Summing Tools"
 		   menuContentList={[
 		       {
-		       name: "sum to 100% (adjust selected)",
-		       enabled: true,
-		       onClick: ()=>{console.log("add fn here");}
-		   },{
-		       name: "sum to 100% (rescale all)",
-		       enabled: true,
-		       onClick: ()=>{console.log("add fn here");}
-		   },{
-		       name: "sum to 100% (all equal)",
-		       enabled: true,
-		       onClick: ()=>{console.log("add fn here");}
-	      }]}
-	      enabled={cpotItem}
-	      ddStyle="plain"
+			   name: "sum to 100% (adjust selected)",
+			   enabled: probs_sum !== 100,
+			   onClick: ()=>{
+			       // Change probability on Selected CPOT
+			       const newProb = Math.max((100 + cpotItem.prob - probs_sum) , 0);
+			       this.props.onEditingCpotSelItemChange({
+				   prob: {$set: newProb}
+			       });}
+		       },{
+			   name: "sum to 100% (rescale all)",
+			   enabled: probs_sum !== 100,
+			   onClick: ()=>{
+			       // Change all CPOT probabilities
+			       const $cpotProbsUpdate = CpotEdit_util.calcSum100ProbsSet(this.props.cpot, {all_equal: false});
+			       this.props.onEditingCpotChange($cpotProbsUpdate);
+			   }
+		       },{
+			   name: "sum to 100% (all equal)",
+			   enabled: !CpotEdit_util.allProbsAreEqual(this.props.cpot),
+			   onClick: ()=>{
+			       // Change all CPOT probabilities
+			       const $cpotProbsUpdate = CpotEdit_util.calcSum100ProbsSet(this.props.cpot, {all_equal: true});
+			       this.props.onEditingCpotChange($cpotProbsUpdate);
+			   }
+		  }]}
+		  enabled={cpotItem}
+		  ddStyle="plain"
 	      />
 	      
 	      {/* Dropdown: Item Type */}

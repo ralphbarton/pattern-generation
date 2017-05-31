@@ -11,51 +11,44 @@ var CpotEdit_util = {
 	return Number(accumulator.toFixed(3));
     },
 
-    /*
-    EDcpot_sum100: function(cpot){
-	var items = this.EDITINGcpot.contents;	
-	var accumulator = 0;
 
+    calcSum100ProbsSet: function(cpot, options){
+	options = options || {};
+	
 	//1. sum
-	for (var i=0; i < items.length; i++){
-	    accumulator += Number(items[i].prob);
+	var accumulator = 0;
+	for (var i = 0; i < cpot.contents.length; i++){
+	    accumulator += Number(cpot.contents[i].prob);
 	}
+	
 
 	//2. rescale (with rounding and guarenteed sum=100)
 	var r_acc = 0;
-	for (var i=0; i < items.length; i++){
-	    var rounded = +((items[i].prob * (100/accumulator)).toFixed(1));
+	let $updater = {contents: {}};
+	
+	for (let i = 0; i < cpot.contents.length; i++){
+	    var weightedShare = +((cpot.contents[i].prob * (100/accumulator)).toFixed(1));
+	    var equalShare = +((100 / cpot.contents.length).toFixed(1));
+	    var rounded = options.all_equal ? equalShare : weightedShare;
+	    
 	    var remainder = +((100-r_acc).toFixed(1));//we assume the %'s have 1.d.p.
-	    items[i].prob = (i == items.length-1 ? remainder : rounded);
+
+	    const new_prob = (i === cpot.contents.length-1 ? remainder : rounded);
+	    $updater.contents[i] = {prob: {$set: new_prob}};
+
 	    r_acc += rounded;
 	}
 
+	return $updater
     },
 
-    EDcpot_AllEqualProbs: function(cpot){
-	var items = this.EDITINGcpot.contents;	
-	for (var i=0; i < items.length; i++){
-	    items[i].prob = 3;//an arbitrary number
+    allProbsAreEqual: function(cpot){
+	for (var i = 1; i < cpot.contents.length; i++){
+	    if (cpot.contents[i].prob !== cpot.contents[0].prob){return false;}
 	}
-    },
-
-    EDcpot_DeleteRow: function(index){
-	this.EDITINGcpot.contents.splice(index, 1);
-    },
-
-    EDcpot_NewRow: function(row_col){
-	this.EDITINGcpot.contents.push(
-	    {
-		prob: 15,
-		type: "solid",
-		solid: (row_col || "#FF0000")
-	    }
-	);
-	return this.EDITINGcpot.contents.length;
+	return true;
     }
-    */
-
-    
+	
 };
 
 export {CpotEdit_util as default};
