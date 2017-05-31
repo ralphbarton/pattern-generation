@@ -35,12 +35,13 @@
 /* Delta for the smaller size of Boxie */
 
 .WgBoxie.s > .upperPadder{
-    height: 7px;
+    height: 8px;
 }
 
 .WgBoxie.s > .upperPadder > .name{
     left: 7px;
     font-size: 13px;
+    padding: 0px 2px;
 }
 
 .WgBoxie.s > .outline{
@@ -49,7 +50,7 @@
 }
 
 .WgBoxie.s > .outline > .contents {
-    margin-top: 7px;
+    margin-top: 6px;
 }
 
 
