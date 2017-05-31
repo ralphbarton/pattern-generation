@@ -2,7 +2,8 @@ import React from 'react';
 
 
 import WgTable from '../Wg/WgTable';
-//import WgButton from '../Wg/WgButton';
+import WgButton from '../Wg/WgButton';
+import WgBoxie from '../Wg/WgBoxie';
 
 class MainTab_Grid extends React.PureComponent {
 
@@ -43,7 +44,9 @@ class MainTab_Grid extends React.PureComponent {
     render(){
 	return (
 	    <div className="MainTab_Grid">
-	      
+
+	      {/* 1. Table & buttons beneath */}
+	      <div className="tableWithButtonsZone">
 	      <WgTable
 		 selectedRowIndex={this.state.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
@@ -51,6 +54,43 @@ class MainTab_Grid extends React.PureComponent {
 		columnsRendering={this.grid_WgTableColumns()}
 		/>
 
+		<div className="mainButtons">
+
+		  <WgButton
+		     name="Add"
+		     buttonStyle={"small"}
+		     onClick={function(){console.log("hi");}
+		     }
+		     enabled={true}
+		     />
+		  <WgButton
+		     name="Delete"
+		     buttonStyle={"small"}
+		     onClick={ function(){console.log("hi");}}
+		     enabled={true}
+		     />
+		  <WgButton
+		     name="Advanced Grid"
+		     buttonStyle={"small"}
+		     onClick={ function(){console.log("hi");}}
+		     enabled={true}
+		     />
+
+		</div>
+	      </div>
+
+
+	      {/* 1. Table & buttons beneath */}
+	      <div className="controlsZone">
+		<div className="part1">Action Links 1</div>
+		<div className="lineSetForms">
+		  <WgBoxie className="um" name="G1">Grid1 - A2</WgBoxie>
+		  <WgBoxie className="um" name="G2">Grid2 - A2</WgBoxie>
+		</div>
+		<div className="part3">Action Links 2</div>
+		<div className="part4">Slider</div>
+		<WgBoxie className="previewOptions" name="Preview Options" boxieStyle={"small"}>A5</WgBoxie>
+	      </div>
 	    </div>
 	);
     }

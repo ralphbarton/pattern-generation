@@ -1,0 +1,72 @@
+/* WgBoxie.css */
+
+.WgBoxie{
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+/* Larger size of Boxie */
+
+.WgBoxie > .upperPadder{
+    height: 8px;
+}
+
+.WgBoxie > .upperPadder > .name{
+    position: absolute;
+    display: inline-block;
+    left: 11px;
+    padding: 0px 4px;
+    background-color: #DBD1AB;
+    color: rgba(0,0,0,0.5);
+}
+
+.WgBoxie > .outline{
+    border: 2px solid rgba(0,0,0,0.3);
+    border-radius: 6px;
+    flex: 1 auto;
+}
+
+.WgBoxie > .outline > .contents {
+    margin-top: 7px;
+}
+
+
+/* Delta for the smaller size of Boxie */
+
+.WgBoxie.s > .upperPadder{
+    height: 7px;
+}
+
+.WgBoxie.s > .upperPadder > .name{
+    left: 7px;
+    font-size: 13px;
+}
+
+.WgBoxie.s > .outline{
+    border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 4px;
+}
+
+.WgBoxie.s > .outline > .contents {
+    margin-top: 7px;
+}
+
+
+
+
+
+/*this is a bit specific, and potentially used only on grids*/
+
+/* This code below needs review / integration testing */
+
+.WgBoxie.disabled{
+    opacity: 0.4;
+    color: rgba(0,30,70,0.7);
+    border-color: rgba(0,30,70,0.3);
+}
+
+.WgBoxie.disabled div.title,
+.WgBoxie.disabled input{
+    color: rgba(0,30,70,0.4);
+}
