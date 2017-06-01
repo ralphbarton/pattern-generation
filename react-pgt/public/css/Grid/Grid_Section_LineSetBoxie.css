@@ -1,0 +1,28 @@
+/* Grid_Section_LineSetBoxie.css */
+
+.MainTab_Grid .controlsZone > .lineSetForms > .WgBoxie{
+    width: 222px;
+    margin: 1px 9px;
+}
+
+.MainTab_Grid .controlsZone > .section2> .WgBoxie .contents{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-around;
+    height: 110px;
+}
+
+
+.MainTab_Grid .controlsZone > .section2> .WgBoxie .contents > div{
+    /*background: rgba(0,255,255,0.1);*/
+    margin: 1px;
+    text-align: right;
+}
+
+.MainTab_Grid .controlsZone > .section2> .WgBoxie .plain-cell{
+    width: 60px;
+}
+
+.MainTab_Grid .controlsZone > .section2> .WgBoxie svg{
+    margin-right: 8px;
+}
