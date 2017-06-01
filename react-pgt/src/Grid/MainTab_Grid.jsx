@@ -6,6 +6,7 @@ import WgTable from '../Wg/WgTable';
 import WgButton from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import WgSmartInput from '../Wg/WgSmartInput';
 
 
 class MainTab_Grid extends React.PureComponent {
@@ -115,7 +116,66 @@ class MainTab_Grid extends React.PureComponent {
 
 		{/* Block 2 */}
 		<div className="section2 lineSetForms">
-		  <WgBoxie className="um" name="G1">Grid1 - A2</WgBoxie>
+		  <WgBoxie className="um" name="G1">
+
+		    <div className="ang">
+		      Angle:
+		      <WgSmartInput
+			 className="plain-cell"
+			 value={34}
+			 dataUnit="degrees"
+			 onChange={null}
+			 onChangeComplete={null}
+			/>
+		    </div>
+
+		    
+		    <div className="inte">
+		      Interval:
+		      <WgSmartInput
+			 className="plain-cell"
+			 value={34}
+			 dataUnit="pixels"
+			 onChange={null}
+			 onChangeComplete={null}
+			/>
+		    </div>
+
+		    
+		    <div className="shift">
+		      Shift:
+		      <WgSmartInput
+			 className="plain-cell"
+			 value={34}
+			 dataUnit="pixels"
+			 onChange={null}
+			 onChangeComplete={null}
+			/>
+		    </div>
+
+		    
+		    <div className="svg">
+		      <svg id="svg-angle-1" width="70" height="70">
+
+			<defs>
+			  <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3"
+				  orient="auto" markerUnits="strokeWidth" viewBox="0 0 10 20">
+			    <path d="M0,0 L0,6 L6,3 z" fill="#1c737c" />
+			  </marker>
+			</defs>
+
+			<line x1="8" y1="0" x2="8" y2="70" stroke="rgba(0,0,0,0.3)" strokeWidth="2"/> {/*vertical*/}
+			<line x1="0" y1="62" x2="70" y2="62" stroke="rgba(0,0,0,0.3)" strokeWidth="2"/> {/*horizontal*/}
+
+			<line x1="-8" y1="0" x2="53" y2="0" stroke="#1c737c" strokeWidth="3" markerEnd="url(#arrow)"
+			      transform="translate(8 62)" id="my_arrow"/>
+		      </svg>
+		    </div>
+		    
+
+
+		  </WgBoxie>
+
 		  <WgBoxie className="um" name="G2">Grid2 - A2</WgBoxie>
 		</div>
 

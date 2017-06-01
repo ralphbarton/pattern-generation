@@ -1,0 +1,145 @@
+/* MainTab_Grid.css */
+
+
+
+
+
+/* 1. Table listing */
+
+.MainTab_Grid .WgTable tbody{
+     height: 197px;
+}
+
+.MainTab_Grid .WgTable .col-1{
+  width: 18px;
+}
+
+.MainTab_Grid .WgTable th.col-2{
+  width: 160px;
+}
+
+.MainTab_Grid .WgTable td.col-2{
+    text-align: left;
+}
+
+.MainTab_Grid .WgTable .col-2{
+    padding: 0px;
+    padding-right: 1px;
+}
+
+.MainTab_Grid .WgTable input.blue-cell{
+    width: 135px;
+}
+
+
+
+
+
+
+
+/* 2. Buttons Beneath Table */
+
+.MainTab_Grid table.WgTable{
+    margin-bottom: 4px;
+}
+
+.MainTab_Grid .tableWithButtonsZone{
+    display: inline-block;
+    text-align: right;
+    /*background: rgba(0,255,255,0.2);*/
+}
+
+.MainTab_Grid .tableWithButtonsZone > .mainButtons{
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    margin-right: 3px;
+}
+
+.MainTab_Grid .tableWithButtonsZone > .mainButtons .button{
+    margin: 2px 4px;
+}
+
+/* widen the 'advanced grid' button */
+.MainTab_Grid .tableWithButtonsZone > .mainButtons .button:last-child{
+    width: 108px;
+}
+
+
+
+
+/* 3. Controls Zone */
+.MainTab_Grid .controlsZone{
+    vertical-align: top;
+    display: inline-flex;
+    flex-flow: column nowrap;
+    width: 498px;
+    height: 288px;
+}
+
+.MainTab_Grid .controlsZone > div{
+    flex: 0 auto;
+}
+
+.MainTab_Grid .controlsZone > .section1{
+    padding: 2px;
+}
+
+
+.MainTab_Grid .controlsZone > .section2.lineSetForms{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.MainTab_Grid .controlsZone > .lineSetForms > .WgBoxie{
+    width: 222px;
+    margin: 1px 9px;
+}
+
+.MainTab_Grid .controlsZone > .section2> .WgBoxie .contents{
+    display: flex;
+    flex-flow: column wrap;
+}
+
+
+.MainTab_Grid .controlsZone > .section2> .WgBoxie .contents > div{
+    background: rgba(0,255,255,0.3);
+    margin: 1px;
+    flex: 1 30%;
+    text-align: right;
+}
+
+.MainTab_Grid .controlsZone > .section2> .WgBoxie .plain-cell{
+    width: 60px;
+}
+
+.MainTab_Grid .controlsZone > .section2> .WgBoxie .contents .svg{
+
+}
+
+
+
+
+
+.MainTab_Grid .controlsZone > .section3{
+    position: relative;
+    height: 15px;
+}
+
+.MainTab_Grid .controlsZone > .section3 .convertTo {
+    position: absolute;
+    left: 0px;
+}
+
+.MainTab_Grid .controlsZone > .section3 .linkAngles {
+    position: absolute;
+    right: 15px;
+}
+
+.MainTab_Grid .controlsZone > .section5.previewOptions{
+    margin: 4px 8px;
+    margin-left: 0px;
+    flex-grow: 0.3;
+}
