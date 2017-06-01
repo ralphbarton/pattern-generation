@@ -1,0 +1,14 @@
+/* WgMutexActionLink.css */
+
+.WgMutexActionLink{
+  font-size: 11px;
+}
+
+.WgMutexActionLink > .action-link{
+  padding: 0px 4px;
+}
+
+/* creates the bar between the links*/
+.WgMutexActionLink > .action-link:not(:last-child){
+    border-right: 2px solid rgba(0,30,70,0.25);
+}

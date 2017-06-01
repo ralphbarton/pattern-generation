@@ -1,6 +1,6 @@
-/* CpotEditSlider.css */
+/* importedSlider.css */
 
-.PaneEditColourPots .sliderSection .rc-slider-handle{
+.sliderSection .rc-slider-handle{
   border-radius: 0px;
   border: 1px solid black;
   height: 30px;
@@ -14,7 +14,7 @@
 }
 
 
-.PaneEditColourPots .sliderSection{
+.sliderSection{
   border: 1px solid black;
   margin: 4px;
   padding: 6px;

@@ -1,9 +1,12 @@
 import React from 'react';
 
+import Slider from 'rc-slider';
 
 import WgTable from '../Wg/WgTable';
 import WgButton from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
+import WgMutexActionLink from '../Wg/WgMutexActionLink';
+
 
 class MainTab_Grid extends React.PureComponent {
 
@@ -80,16 +83,81 @@ class MainTab_Grid extends React.PureComponent {
 	      </div>
 
 
-	      {/* 1. Table & buttons beneath */}
+	      {/* 2. Controls Zone */}
 	      <div className="controlsZone">
-		<div className="part1">Action Links 1</div>
-		<div className="lineSetForms">
+
+		{/* Block 1 */}
+		<div className="section1">
+		  <WgMutexActionLink
+		     name="Change grid type:"
+		     initalEnabledArray={[true, false]}
+		     actions={[
+			 {
+			     name: "1D (=lines)",
+			     cb: ()=>{console.log("hi");}
+			 },{
+			     name: "2D (=grid)",
+			     cb: ()=>{console.log("hi");}
+			 }
+		     ]}
+		     />
+
+		</div>
+
+		{/* Block 2 */}
+		<div className="section2 lineSetForms">
 		  <WgBoxie className="um" name="G1">Grid1 - A2</WgBoxie>
 		  <WgBoxie className="um" name="G2">Grid2 - A2</WgBoxie>
 		</div>
-		<div className="part3">Action Links 2</div>
-		<div className="part4">Slider</div>
-		<WgBoxie className="previewOptions" name="Preview Options" boxieStyle={"small"}>A5</WgBoxie>
+
+		{/* Block 3 */}
+		<div className="section3">
+
+		  <WgMutexActionLink
+		     name="Convert to:"
+		     className="convertTo"
+		     initalEnabledArray={[true, true, true]}
+		     actions={[
+			 {
+			     name: "Isometric (hex)",
+			     cb: ()=>{console.log("hi");}
+			 },{
+			     name: "Square",
+			     cb: ()=>{console.log("hi");}
+			 },{
+			     name: "Diamond",
+			     cb: ()=>{console.log("hi");}
+			 }
+		     ]}
+		    />
+
+		  <WgMutexActionLink
+		     name="Angles 1 & 2:"
+		     className="linkAngles"
+		     initalEnabledArray={[true, false]}
+		     actions={[
+			 {
+			     name: "link",
+			     cb: ()=>{console.log("hi");}
+			 },{
+			     name: "unlink",
+			     cb: ()=>{console.log("hi");}
+			 }
+		     ]}
+		     />		    
+
+		</div>
+
+		{/* Block 4 */}
+		<div className="section4 sliderSection">
+		  <Slider />
+		</div>
+
+		{/* Block 5 */}
+		<WgBoxie className="section5 previewOptions" name="Preview Options" boxieStyle={"small"}>
+		  Preview ops here...
+		</WgBoxie>
+
 	      </div>
 	    </div>
 	);
