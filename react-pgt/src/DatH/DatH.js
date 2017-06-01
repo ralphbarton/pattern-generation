@@ -72,6 +72,11 @@ const DatH = {
 	    $Updater = {$splice: [[i+1, 0, copiedObj]]};
 	    break;
 
+	case "add":
+	    details.new_object.uid = nextUidOf("grid");//doesn't need to be an immutable update
+	    $Updater = {$splice: [[i+1, 0, details.new_object]]};
+	    break;
+	    
 	case "delete":
 	    $Updater = {$splice: [[i, 1]]};
 	    break;

@@ -62,15 +62,24 @@ class MainTab_Grid extends React.PureComponent {
 		  <WgButton
 		     name="Add"
 		     buttonStyle={"small"}
-		     onClick={function(){console.log("hi");}
-		     }
+		     onClick={()=>{
+			 const i = this.state.selectedRowIndex;
+			 const new_grid = {name: "dummy"};
+			 this.props.onGridChange("add", {index: i, new_object: new_grid});
+			 this.handleRowSelectedChange(i+1);
+		    }}
 		     enabled={true}
 		     />
 		  <WgButton
 		     name="Delete"
 		     buttonStyle={"small"}
-		     onClick={ function(){console.log("hi");}}
-		     enabled={true}
+		     onClick={()=>{
+			 const i = this.state.selectedRowIndex;
+			 const i_new = Math.min(this.props.gridArray.length -2, i);
+			 this.props.onGridChange("delete", {index: i});
+			 this.handleRowSelectedChange(i_new);
+		    }}
+		     enabled={this.props.gridArray.length > 0}
 		     />
 		  <WgButton
 		     name="Advanced Grid"
