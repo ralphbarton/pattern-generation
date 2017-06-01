@@ -14,13 +14,22 @@ class WgMutexActionLink extends React.PureComponent {
     }
 
     defaultHandleEnabledClickUpdate(indexClicked){
+	if(this.props.equityTestingForEnabled !== undefined){return;}
 	const qtyActs = this.props.actions.length;
+
 	this.setState({
 	    enabledArray: Array(qtyActs).fill(null).map( (el, i)=>{return i !== indexClicked;})
 	});
     }
 
     render() {
+	
+	let enabledArray = this.state.enabledArray;
+	if(this.props.equityTestingForEnabled){
+	    const eTest = this.props.equityTestingForEnabled;
+	    enabledArray = eTest.representedValuesArray.map( (el)=>{return el !== eTest.newValue;});
+	}
+
 	return (
 	    <div className={"WgMutexActionLink " + this.props.className}>
 	      {this.props.name}
@@ -34,7 +43,7 @@ class WgMutexActionLink extends React.PureComponent {
 				 action.cb();
 				 this.defaultHandleEnabledClickUpdate(i);
 			    }}
-			    enabled={this.state.enabledArray[i]}
+			    enabled={enabledArray[i]}
 			    />
 		      );
 		  })

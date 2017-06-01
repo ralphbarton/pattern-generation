@@ -30,6 +30,13 @@ class MainTab_Grid extends React.PureComponent {
 	});
     }
 
+    handleSelGridChange($change){
+	const rIndex = this.state.selectedRowIndex;
+	const Grid_i = this.props.gridArray[rIndex];
+
+	this.props.onGridChange("update", {index: rIndex, updated_object: update(Grid_i, $change)});
+    }
+    
     handleSelGridLineSetChange(lineSetId, key, value){
 	let $updaterInner = {};
 	$updaterInner[key] = {$set: value};
@@ -37,10 +44,7 @@ class MainTab_Grid extends React.PureComponent {
 	let $updater = {line_sets: {}};
 	$updater.line_sets[lineSetId - 1] = $updaterInner;
 
-	const rIndex = this.state.selectedRowIndex;
-	const Grid_i = this.props.gridArray[rIndex];
-
-	this.props.onGridChange("update", {index: rIndex, updated_object: update(Grid_i, $updater)});
+	this.handleSelGridChange($updater);	    
     }
     
 
@@ -115,6 +119,7 @@ class MainTab_Grid extends React.PureComponent {
 	      {/* 2. Controls Zone */}
 	      <div className="controlsZone">
 
+		
 		{/* Block 1 */}
 		<div className="section1">
 		  <WgMutexActionLink
@@ -123,30 +128,34 @@ class MainTab_Grid extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "1D (=lines)",
-			     cb: ()=>{console.log("hi");}
+			     cb: ()=>{this.handleSelGridChange({n_dimentions: {$set: 1}});}
 			 },{
 			     name: "2D (=grid)",
-			     cb: ()=>{console.log("hi");}
+			     cb: ()=>{this.handleSelGridChange({n_dimentions: {$set: 2}});}
 			 }
 		     ]}
 		     />
 
 		</div>
 
+		
 		{/* Block 2 */}
 		<div className="section2 lineSetForms">
 		  <Grid_Section_LineSetBoxie
 		     lineSetId={1}
 		     lineSetData={Grid_i.line_sets[0]}
 		     onLineSetChange={this.handleSelGridLineSetChange.bind(this)}
+		     enabled={true}
 		     />
 		  <Grid_Section_LineSetBoxie
 		     lineSetId={2}
 		     lineSetData={Grid_i.line_sets[1]}
 		     onLineSetChange={this.handleSelGridLineSetChange.bind(this)}
+		     enabled={Grid_i.n_dimentions > 1}
 		     />
 		</div>
 
+		
 		{/* Block 3 */}
 		<div className="section3">
 

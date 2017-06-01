@@ -6,9 +6,10 @@ import WgSmartInput from '../Wg/WgSmartInput';
 
 function Grid_Section_LineSetBoxie(props) {
 
+    const boxieClasses = props.enabled === false ? "disabled" : "";
     return (
-
-	<WgBoxie className="um" name={"Line Set " + props.lineSetId}>
+	
+	<WgBoxie className={boxieClasses} name={"Line Set " + props.lineSetId}>
 
 	  <div className="ang">
 	    Angle:
@@ -16,9 +17,10 @@ function Grid_Section_LineSetBoxie(props) {
 	       className="plain-cell"
 	       value={props.lineSetData.angle}
 	       dataUnit="degrees"
+	       editEnabled={props.enabled}
 	       onChange={(value)=>{props.onLineSetChange(props.lineSetId, "angle", value);}}
 	       /*onChangeComplete={null}*/
-	       />
+	      />
 	  </div>
 
 	  
@@ -28,6 +30,7 @@ function Grid_Section_LineSetBoxie(props) {
 	       className="plain-cell"
 	       value={props.lineSetData.spacing}
 	       dataUnit={props.lineSetData.spacing_unit}
+	       editEnabled={props.enabled}
 	       onChange={(value)=>{props.onLineSetChange(props.lineSetId, "spacing", value);}}
 	       /*onChangeComplete={null}*/
 	       />
@@ -35,16 +38,20 @@ function Grid_Section_LineSetBoxie(props) {
 	       name="Unit:"
 	       className="intervalUnit"
 	       initalEnabledArray={[true, true, true]}
+	       equityTestingForEnabled={{
+		   newValue: props.lineSetData.spacing_unit,
+		   representedValuesArray: ["pixels", "percent", "quantity"]
+	       }}
 	       actions={[
 		   {
 		       name: "px",
-		       cb: ()=>{console.log("hi");}
+		       cb: ()=>{props.onLineSetChange(props.lineSetId, "spacing_unit", "pixels");}
 		   },{
 		       name: "%",
-		       cb: ()=>{console.log("hi");}
+		       cb: ()=>{props.onLineSetChange(props.lineSetId, "spacing_unit", "percent");}
 		   },{
 		       name: "qty",
-		       cb: ()=>{console.log("hi");}
+		       cb: ()=>{props.onLineSetChange(props.lineSetId, "spacing_unit", "quantity");}
 		   }
 	      ]}
 	      />
@@ -57,6 +64,7 @@ function Grid_Section_LineSetBoxie(props) {
 	       className="plain-cell"
 	       value={props.lineSetData.shift}
 	       dataUnit="percent"
+	       editEnabled={props.enabled}
 	       onChange={(value)=>{props.onLineSetChange(props.lineSetId, "shift", value);}}
 	      /*onChangeComplete={null}*/
 	      />
