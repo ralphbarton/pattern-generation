@@ -1,7 +1,10 @@
 import React from 'react';
 
+// externally developed libraries
+import update from 'immutability-helper';
 import Slider from 'rc-slider';
 
+// generic project widgets
 import WgTable from '../Wg/WgTable';
 import WgButton from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
@@ -9,6 +12,7 @@ import WgMutexActionLink from '../Wg/WgMutexActionLink';
 
 //specific subsections of Grid...
 import Grid_Section_LineSetBoxie from './Grid_Section_LineSetBoxie';
+
 
 class MainTab_Grid extends React.PureComponent {
 
@@ -26,6 +30,19 @@ class MainTab_Grid extends React.PureComponent {
 	});
     }
 
+    handleSelGridLineSetChange(lineSetId, key, value){
+	let $updaterInner = {};
+	$updaterInner[key] = {$set: value};
+	    
+	let $updater = {line_sets: {}};
+	$updater.line_sets[lineSetId - 1] = $updaterInner;
+
+	const rIndex = this.state.selectedRowIndex;
+	const Grid_i = this.props.gridArray[rIndex];
+
+	this.props.onGridChange("update", {index: rIndex, updated_object: update(Grid_i, $updater)});
+    }
+    
 
     grid_WgTableColumns(){
 	return ([
@@ -121,12 +138,12 @@ class MainTab_Grid extends React.PureComponent {
 		  <Grid_Section_LineSetBoxie
 		     lineSetId={1}
 		     lineSetData={Grid_i.line_sets[0]}
-		     onGridChange={this.props.onGridChange}
+		     onLineSetChange={this.handleSelGridLineSetChange.bind(this)}
 		     />
 		  <Grid_Section_LineSetBoxie
 		     lineSetId={2}
 		     lineSetData={Grid_i.line_sets[1]}
-		     onGridChange={this.props.onGridChange}
+		     onLineSetChange={this.handleSelGridLineSetChange.bind(this)}
 		     />
 		</div>
 

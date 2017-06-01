@@ -16,8 +16,8 @@ function Grid_Section_LineSetBoxie(props) {
 	       className="plain-cell"
 	       value={props.lineSetData.angle}
 	       dataUnit="degrees"
-	       onChange={null}
-	       onChangeComplete={null}
+	       onChange={(value)=>{props.onLineSetChange(props.lineSetId, "angle", value);}}
+	       /*onChangeComplete={null}*/
 	       />
 	  </div>
 
@@ -28,8 +28,8 @@ function Grid_Section_LineSetBoxie(props) {
 	       className="plain-cell"
 	       value={props.lineSetData.spacing}
 	       dataUnit={props.lineSetData.spacing_unit}
-	       onChange={null}
-	       onChangeComplete={null}
+	       onChange={(value)=>{props.onLineSetChange(props.lineSetId, "spacing", value);}}
+	       /*onChangeComplete={null}*/
 	       />
 	    <WgMutexActionLink
 	       name="Unit:"
@@ -57,17 +57,9 @@ function Grid_Section_LineSetBoxie(props) {
 	       className="plain-cell"
 	       value={props.lineSetData.shift}
 	       dataUnit="percent"
-/*
-	       onChange={(value)=>{this.handleColourChange("h", value);}}
-
-	      onChange={event =>{
-
-		   this.props.onGridChange("name", {index: i, new_name: event.target.value});
-	      }}
-	       onChange={null}
-*/
-	       onChangeComplete={null}
-	       />
+	       onChange={(value)=>{props.onLineSetChange(props.lineSetId, "shift", value);}}
+	      /*onChangeComplete={null}*/
+	      />
 	  </div>
 
 	  

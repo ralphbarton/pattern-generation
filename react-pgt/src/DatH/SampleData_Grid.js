@@ -6,7 +6,7 @@ const GridSampleData = {
 	    uid: 0,
 	    type: "std",
 	    n_dimentions: 2,
-	    line_sets:[
+	    line_sets: [
 		{// set 1
 		    spacing: 250,
 		    spacing_unit: 'pixels',
@@ -25,7 +25,7 @@ const GridSampleData = {
 	    uid: 1,
 	    type: "std",
 	    n_dimentions: 2,
-	    line_sets:[
+	    line_sets: [
 		{// set 1
 		    spacing: 5,
 		    spacing_unit: 'percent',
