@@ -79,9 +79,8 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 		  <WgMutexActionLink
 		     name="Unit:"
 		     className="intervalUnit"
-		     initalEnabledArray={[true, true, true]}
 		     equityTestingForEnabled={{
-			 newValue: this.props.lineSetData.spacing_unit,
+			 currentValue: this.props.lineSetData.spacing_unit,
 			 representedValuesArray: ["pixels", "percent", "quantity"]
 		     }}
 		     actions={[

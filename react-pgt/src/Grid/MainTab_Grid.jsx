@@ -18,7 +18,8 @@ class MainTab_Grid extends React.PureComponent {
     constructor() {
 	super();
 	this.state = {
-	    selectedRowIndex: 0
+	    selectedRowIndex: 0,
+	    lockAngles: false
 	};
     }
     
@@ -35,11 +36,21 @@ class MainTab_Grid extends React.PureComponent {
     }
     
     handleSelGridLineSetChange(lineSetId, key, value){
+	const ls = lineSetId - 1;
+	
 	let $updater = {
 	    line_sets: {
-		[lineSetId - 1]: {[key]: {$set: value}}
+		[ls]: {[key]: {$set: value}}
 	    }
 	};
+
+	//calc the change and apply to other angle...
+	if((key === "angle") && (this.state.lockAngles)){
+	    const Grid_i = this.props.gridArray[this.state.selectedRowIndex];
+	    const delta = value - Grid_i.line_sets[ls].angle;
+	    const altAngle = Grid_i.line_sets[1-ls].angle - delta;
+	    $updater.line_sets[1-ls] = {angle: {$set: altAngle}};
+	}
 
 	this.handleSelGridChange($updater);	    
     }
@@ -113,6 +124,12 @@ class MainTab_Grid extends React.PureComponent {
 	      </div>
 
 
+
+
+
+
+	      
+
 	      {/* 2. Controls Zone */}
 	      <div className="controlsZone">
 
@@ -121,6 +138,10 @@ class MainTab_Grid extends React.PureComponent {
 		<div className="section1">
 		  <WgMutexActionLink
 		     name="Change grid type:"
+		     equityTestingForEnabled={{
+			 currentValue: Grid_i.n_dimentions,
+			 representedValuesArray: [1,2]
+		     }}
 		     initalEnabledArray={[true, false]}
 		     actions={[
 			 {
@@ -177,14 +198,17 @@ class MainTab_Grid extends React.PureComponent {
 		  <WgMutexActionLink
 		     name="Angles 1 & 2:"
 		     className="linkAngles"
-		     initalEnabledArray={[true, false]}
+		     equityTestingForEnabled={{
+			 currentValue: this.state.lockAngles,
+			 representedValuesArray: [true, false]
+		     }}
 		     actions={[
 			 {
 			     name: "link",
-			     cb: ()=>{console.log("hi");}
+			     cb: ()=>{this.setState({lockAngles: true});}
 			 },{
 			     name: "unlink",
-			     cb: ()=>{console.log("hi");}
+			     cb: ()=>{this.setState({lockAngles: false});}
 			 }
 		     ]}
 		     />		    

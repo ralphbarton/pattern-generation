@@ -27,7 +27,7 @@ class WgMutexActionLink extends React.PureComponent {
 	let enabledArray = this.state.enabledArray;
 	if(this.props.equityTestingForEnabled){
 	    const eTest = this.props.equityTestingForEnabled;
-	    enabledArray = eTest.representedValuesArray.map( (el)=>{return el !== eTest.newValue;});
+	    enabledArray = eTest.representedValuesArray.map( (el)=>{return el !== eTest.currentValue;});
 	}
 
 	return (
