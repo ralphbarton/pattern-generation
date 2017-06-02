@@ -6,10 +6,10 @@ import WgBoxie from '../Wg/WgBoxie';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgSmartInput from '../Wg/WgSmartInput';
 
+import Grid_util from './plain-js/Grid_util';
 
 
 class Grid_Section_LineSetBoxie extends React.PureComponent {
-
 
     transformD3svg(cb_Chain){
 	const ls=0;
@@ -42,11 +42,16 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 	    d3.select(this.refs.svg).attr("transform", "translate(0 70) scale(1 -1)");
 	}
     }
-    
-    
-    render() {
 
-	
+
+    handleSpacingUnitChange(newUnit){
+	const newSpacing = Grid_util.convertSpacingUnit(this.props.lineSetData, newUnit);
+	const lsId = this.props.lineSetId;
+	this.props.onLineSetChange(lsId, "spacing", newSpacing, "spacing_unit", newUnit);
+    }
+    
+    
+    render() {	
 	
 	const boxieClasses = this.props.enabled === false ? "disabled" : "";
 	return (
@@ -86,13 +91,13 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "px",
-			     cb: ()=>{this.props.onLineSetChange(this.props.lineSetId, "spacing_unit", "pixels");}
+			     cb: ()=>{this.handleSpacingUnitChange("pixels");}
 			 },{
 			     name: "%",
-			     cb: ()=>{this.props.onLineSetChange(this.props.lineSetId, "spacing_unit", "percent");}
+			     cb: ()=>{this.handleSpacingUnitChange("percent");}
 			 },{
 			     name: "qty",
-			     cb: ()=>{this.props.onLineSetChange(this.props.lineSetId, "spacing_unit", "quantity");}
+			     cb: ()=>{this.handleSpacingUnitChange("quantity");}
 			 }
 		    ]}
 		    />

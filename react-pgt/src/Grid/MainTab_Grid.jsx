@@ -35,7 +35,7 @@ class MainTab_Grid extends React.PureComponent {
 	this.props.onGridChange("update", {index: rIndex, $Updater: $change});
     }
     
-    handleSelGridLineSetChange(lineSetId, key, value){
+    handleSelGridLineSetChange(lineSetId, key, value, key2, value2){
 	const ls = lineSetId - 1;
 	
 	let $updater = {
@@ -43,6 +43,11 @@ class MainTab_Grid extends React.PureComponent {
 		[ls]: {[key]: {$set: value}}
 	    }
 	};
+
+	//change multiple kv-pairs (assume value2 supplied also).
+	if(key2){
+	    $updater.line_sets[ls][key2] = {$set: value2};
+	}
 
 	//calc the change and apply to other angle...
 	if((key === "angle") && (this.state.lockAngles)){
