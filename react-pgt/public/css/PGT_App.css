@@ -1,0 +1,10 @@
+/* PGT_App.css */
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.PGT_App svg{
+    display: block;
+}

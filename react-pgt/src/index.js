@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Toolbox from './Toolbox';
+import PGT_App from './PGT_App';
 
 ReactDOM.render(
-  <Toolbox />,
+  <PGT_App />,
   document.getElementById('root')
 );

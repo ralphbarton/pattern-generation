@@ -66,7 +66,6 @@ class WgSmartInput extends React.PureComponent {
 	    step: (props.step !== undefined ? props.step : uType.std_steps[0]),
 	    prevChangeCompleteValue: this.props.value
 	};
-	console.log("SmartInput Constructor called");
     }
 
     isEditable(){ return (this.props.editEnabled !== false) && (this.state.mouseIsEntered || this.state.isFocused);}

@@ -1,16 +1,14 @@
 import React from 'react';
-import {CpotSampleData} from './DatH/SampleData_Cpot';
-import {GridSampleData} from './DatH/SampleData_Grid';
 
 //libraries
 import Draggable from 'react-draggable';
+
 
 //custom
 import TabStrip from './TabStrip';
 import MainTab_CpotView from './Cpot/MainTab_CpotView';
 import MainTab_Grid from './Grid/MainTab_Grid';
 
-import DatH from './DatH/DatH';
 
 class Toolbox extends React.PureComponent {
 
@@ -19,24 +17,9 @@ class Toolbox extends React.PureComponent {
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
 	    selectedTabIndex: 3,
-	    tabsEnabled: true,
-	    DataArrays: {
-		"cpot": CpotSampleData.arr,
-		"grid": GridSampleData.arr
-	    }
+	    tabsEnabled: true
 	};
     }
-
-
-    handleDataChange(dataCategory, changeType, details){
-	const oldArrs = this.state.DataArrays;
-	// This function call returns an updated Array...
-	const newArrs = DatH.immutUpdateAllArrays(oldArrs, dataCategory, changeType, details);
-	this.setState({
-	    DataArrays: newArrs
-	});
-    }
-
     
     
     handleToolboxSizeChange(newSize){
@@ -85,8 +68,8 @@ class Toolbox extends React.PureComponent {
 			    case 0:
 				return (
 				    <MainTab_CpotView					    
-				       cpotArray={this.state.DataArrays.cpot}
-				       onCpotChange={(arg1, arg2)=>{this.handleDataChange("cpot", arg1, arg2);}}
+				       cpotArray={this.props.DataArrays.cpot}
+				       onCpotChange={(arg1, arg2)=>{this.props.handleDataChange("cpot", arg1, arg2);}}
 				      onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
 				      />
 				);
@@ -97,8 +80,9 @@ class Toolbox extends React.PureComponent {
 			    case 3:
 				return (
 				    <MainTab_Grid
-				       gridArray={this.state.DataArrays.grid}
-				       onGridChange={(arg1, arg2)=>{this.handleDataChange("grid", arg1, arg2);}}
+				       gridArray={this.props.DataArrays.grid}
+				       onGridChange={(arg1, arg2)=>{this.props.handleDataChange("grid", arg1, arg2);}}
+				      onBgChange={this.props.onBgChange}
 				      />
 				);
 			    case 4:
@@ -120,8 +104,8 @@ class Toolbox extends React.PureComponent {
 			})()
 		    }
 	    </div>
-		</div>
-	    </Draggable>
+	  </div>
+	</Draggable>
 	);
     }
 }

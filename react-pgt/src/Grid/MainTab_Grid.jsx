@@ -28,6 +28,9 @@ class MainTab_Grid extends React.PureComponent {
 	this.setState({
 	    selectedRowIndex: index
 	});
+
+	//test function call...
+	this.props.onBgChange({a: 44});
     }
 
     handleSelGridChange($change){
