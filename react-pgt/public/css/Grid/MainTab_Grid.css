@@ -78,7 +78,7 @@
 }
 
 .MainTab_Grid .controlsZone > div{
-    flex: 0 auto;
+    flex: 0.3 auto;
 }
 
 .MainTab_Grid .controlsZone > .section1{
@@ -90,13 +90,14 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
-    flex: 0 auto;
+    flex: 0.7 auto;
 }
 
 
 .MainTab_Grid .controlsZone > .section3{
     position: relative;
     height: 15px;
+    margin-top: 2px;
 }
 
 .MainTab_Grid .controlsZone > .section3 .convertTo {
@@ -112,5 +113,29 @@
 .MainTab_Grid .controlsZone > .section5.previewOptions{
     margin: 4px 8px;
     margin-left: 0px;
-    flex: 1 auto;
+    flex: 0 auto;
+    display: flex;
+}
+
+.MainTab_Grid .controlsZone > .section5 .contents{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin: 2px; /*may cause conflict with title*/
+}
+
+.MainTab_Grid .controlsZone > .section5 .contents > div{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.MainTab_Grid .controlsZone > .section5 .WgMutexActionLink.showPoints{
+    margin-top: 2px;
+    position: relative;
+    left: 26px;
+}
+
+.MainTab_Grid .controlsZone > .section5 .button{
+    margin-top: 2px;
 }

@@ -8,6 +8,7 @@ import WgTable from '../Wg/WgTable';
 import WgButton from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import WgActionLink from '../Wg/WgActionLink';
 
 //specific subsections of Grid...
 import Grid_Section_LineSetBoxie from './Grid_Section_LineSetBoxie';
@@ -19,7 +20,8 @@ class MainTab_Grid extends React.PureComponent {
 	super();
 	this.state = {
 	    selectedRowIndex: 0,
-	    lockAngles: false
+	    lockAngles: false,
+	    previewActive: false
 	};
     }
     
@@ -30,7 +32,7 @@ class MainTab_Grid extends React.PureComponent {
 	});
 
 	//test function call...
-	this.props.onBgChange({a: 44});
+	this.props.onBgChange({gridIndex: (index && this.state.previewActive)});
     }
 
     handleSelGridChange($change){
@@ -150,7 +152,6 @@ class MainTab_Grid extends React.PureComponent {
 			 currentValue: Grid_i.n_dimentions,
 			 representedValuesArray: [1,2]
 		     }}
-		     initalEnabledArray={[true, false]}
 		     actions={[
 			 {
 			     name: "1D (=lines)",
@@ -230,9 +231,66 @@ class MainTab_Grid extends React.PureComponent {
 
 		{/* Block 5 */}
 		<WgBoxie className="section5 previewOptions" name="Preview Options" boxieStyle={"small"}>
-		  Preview ops <br/>  here...
-		</WgBoxie>
 
+		  <div className="section1">
+		    <WgMutexActionLink
+		       name=""
+		       initalEnabledArray={[false, false]}
+		       className="showAll"
+		       actions={[
+			   {
+			       name: "Show Selected"
+			   },{
+			       name: "Show All"
+			   }
+		       ]}
+		       />
+		  </div>
+		  
+		  <div className="section2">
+		    <WgMutexActionLink
+		       name="Gridlines:"
+		       initalEnabledArray={[false, false]}
+		       className="gridlinesColour"
+		       actions={[
+			   {
+			       name: "Colour"
+			   },{
+			       name: "Monochrome"
+			   }
+		       ]}
+		       />
+		    <WgMutexActionLink
+		       name="Points"
+		       initalEnabledArray={[false, true]}
+		       className="showPoints"
+		       actions={[
+			   {
+			       name: "Hide"
+			   },{
+			       name: "Show"
+			   }
+		       ]}
+		       />
+		  </div>
+
+		    
+		  <div className="section3">
+		    <WgActionLink
+		       name={"Hide Preview"}
+		       onClick={()=>{this.setState({previewActive: false});}}
+		      enabled={this.state.previewActive}
+		      />
+		      
+		      <WgButton
+			 name="Show"
+			 onClick={()=>{this.setState({previewActive: true});}}
+			enabled={!this.state.previewActive}
+			/>
+		  </div>		  
+
+		</WgBoxie>
+		  
 	      </div>
 	    </div>
 	);

@@ -1,7 +1,7 @@
 /* Grid_Section_LineSetBoxie.css */
 
 .MainTab_Grid .controlsZone > .lineSetForms > .WgBoxie{
-    width: 222px;
+    width: 225px;
     margin: 1px 9px;
 }
 
@@ -24,5 +24,6 @@
 }
 
 .MainTab_Grid .controlsZone > .section2> .WgBoxie svg{
+    margin: 4px;
     margin-right: 8px;
 }
