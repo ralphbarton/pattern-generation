@@ -60,8 +60,7 @@ const DatH = {
 	switch (changeType) {
 	    
 	case "name":
-	    $Updater = {};
-	    $Updater[i] = {name: {$set: details.new_name}}	    
+	    $Updater = {[i]: {name: {$set: details.new_name}}};
 	    break;
 
 	case "duplicate":
@@ -81,18 +80,18 @@ const DatH = {
 	    $Updater = {$splice: [[i, 1]]};
 	    break;
 
+	case "replace":
+	    $Updater = {$splice: [[i, 1, details.replacement_object]]};
+	    break;
+
 	case "update":
-	    $Updater = {$splice: [[i, 1, details.updated_object]]};
-	    break;	    
+	    $Updater = {[i]: details.$Updater};
+	    break;
 
 	default: break;
 	}
-
-	const newObjArr = update(oldObjArray, $Updater);
-	let $MainUpdater = {};
-	$MainUpdater[objectType] = {$set: newObjArr}
-	return update(DataArrays, $MainUpdater);
-
+	   
+	return update(DataArrays, {[objectType]: $Updater});	    
     }
 
 };

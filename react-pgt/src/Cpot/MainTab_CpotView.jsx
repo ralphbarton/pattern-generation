@@ -120,9 +120,9 @@ class MainTab_CpotView extends React.PureComponent {
 		<MainTab_CpotEdit
 		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
 		   onSaveEdits={updatedCpot =>{
-		       this.props.onCpotChange("update", {
+		       this.props.onCpotChange("replace", {
 			   index: this.state.selectedRowIndex,
-			   updated_object: updatedCpot
+			   replacement_object: updatedCpot
 		       });
 		       
 		  }}

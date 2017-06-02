@@ -1,7 +1,6 @@
 import React from 'react';
 
 // externally developed libraries
-import update from 'immutability-helper';
 import Slider from 'rc-slider';
 
 // generic project widgets
@@ -32,17 +31,15 @@ class MainTab_Grid extends React.PureComponent {
 
     handleSelGridChange($change){
 	const rIndex = this.state.selectedRowIndex;
-	const Grid_i = this.props.gridArray[rIndex];
-
-	this.props.onGridChange("update", {index: rIndex, updated_object: update(Grid_i, $change)});
+	this.props.onGridChange("update", {index: rIndex, $Updater: $change});
     }
     
     handleSelGridLineSetChange(lineSetId, key, value){
-	let $updaterInner = {};
-	$updaterInner[key] = {$set: value};
-	    
-	let $updater = {line_sets: {}};
-	$updater.line_sets[lineSetId - 1] = $updaterInner;
+	let $updater = {
+	    line_sets: {
+		[lineSetId - 1]: {[key]: {$set: value}}
+	    }
+	};
 
 	this.handleSelGridChange($updater);	    
     }
