@@ -36,6 +36,11 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 	this.transformD3svg(
 	    (d3_chain)=>{return d3_chain;}
 	);
+
+	//vertical reflect if necessary
+	if(this.props.lineSetId === 2){
+	    d3.select(this.refs.svg).attr("transform", "translate(0 70) scale(1 -1)");
+	}
     }
     
     
@@ -109,7 +114,7 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 
 	      
 	      <div className="svg">
-		<svg ref="svg" id="svg-angle-1" width="70" height="70">
+		<svg ref="svg" width="70" height="71">{/* 71 rather than 70 prevents half-pixel blue*/}
 
 		  <defs>
 		    <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3"
