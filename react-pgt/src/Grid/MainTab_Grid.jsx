@@ -31,8 +31,23 @@ class MainTab_Grid extends React.PureComponent {
 	    selectedRowIndex: index
 	});
 
-	//test function call...
-	this.props.onBgChange({gridIndex: (index && this.state.previewActive)});
+	//update which Bg grid is showing
+	this.handleGridPreviewChange({index: index});
+    }
+
+    handleGridPreviewChange(options){
+	let active = options.active;
+	if(options.active !== undefined){
+	    //command to change visible <-> invisible
+	    this.setState({
+		previewActive: options.active
+	    }); 
+	}else{
+	    active = this.state.previewActive;
+	}
+	
+	const gridIndex = options.index !== undefined ? options.index : this.state.selectedRowIndex;
+	this.props.onBgChange({gridIndex: (active ? gridIndex : null)});
     }
 
     handleSelGridChange($change){
@@ -278,13 +293,13 @@ class MainTab_Grid extends React.PureComponent {
 		  <div className="section3">
 		    <WgActionLink
 		       name={"Hide Preview"}
-		       onClick={()=>{this.setState({previewActive: false});}}
+		       onClick={()=>{this.handleGridPreviewChange({active: false});}}
 		      enabled={this.state.previewActive}
 		      />
 		      
 		      <WgButton
 			 name="Show"
-			 onClick={()=>{this.setState({previewActive: true});}}
+			 onClick={()=>{this.handleGridPreviewChange({active: true});}}
 			enabled={!this.state.previewActive}
 			/>
 		  </div>		  

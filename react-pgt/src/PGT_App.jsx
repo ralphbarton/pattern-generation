@@ -45,6 +45,7 @@ class PGT_App extends React.PureComponent {
 	    <div className="PGT_App">
 	      {/* 1. Backgrounds */}
 	      <PGT_Background
+		 DataArrays={this.state.DataArrays}
 		 bgControl={this.state.bgControl}
 		 />
 
