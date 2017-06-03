@@ -20,7 +20,7 @@ class PGT_App extends React.PureComponent {
 		"cpot": CpotSampleData.arr,
 		"grid": GridSampleData.arr
 	    },
-	    bgControl: {}
+	    bgControl: undefined
 	};
     }
 

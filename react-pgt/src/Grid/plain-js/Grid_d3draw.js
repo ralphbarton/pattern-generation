@@ -2,7 +2,7 @@ import * as d3 from "d3";
 
 var Grid_d3draw = {
 
-    /*
+/*
     previousGrid: {line_sets:[]},
     grid_change: function (options){
 	options = options || {};
@@ -36,40 +36,39 @@ var Grid_d3draw = {
     },
 */
     
+    
     // interact with the svg....
-    updatLineset: function (svg, previousGrid, Grid_i, line_set_index, b_remove, options){
+    /*
+      'Grid', 'previousGrid' - these parameters may be null for new appearance / disappearance...
+       */
+    updatLineset: function (svg, Grid, previousGrid, line_set_index, b_remove, options){
 	
 	// 1. Setting the variables. "Diameter" is of a circle containing the rectangle of the screen. 
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
-
-	var LineSet = Grid_i.line_sets[line_set_index];
-
-
-	//////////This ignores that there was a previous lineset...
-	var prev_LineSet = LineSet;///this.previousGrid.line_sets[line_set_index];
+	
+	var prev_LineSet = previousGrid !== null ?  previousGrid.line_sets[line_set_index] : undefined;
+	var LineSet = Grid ? Grid.line_sets[line_set_index] : prev_LineSet;
+	
+	b_remove = b_remove || (!(Grid && true));
 	
 	var Dia = Math.sqrt(winW*winW + winH*winH);
 	var origX = winW/2;
 	var origY = winH/2;
 	var Radius = Dia/2;
-	var first = (prev_LineSet === undefined) || (line_set_index===1 && this.previousGrid.n_dimentions===1);
+	var first = (prev_LineSet === undefined) || (line_set_index === 1 && this.previousGrid.n_dimentions === 1);
 	var neg_ang = (line_set_index === 0 ? -1 : 1);
 
 
 	//this assumes LineSet is always pixels!
 	var LineSet_px = LineSet;////////grids.spacing_unit_objectUpdater(LineSet, "pixels", true);
-
-
-
-
-
+	
 	
 	// interval & angle - starting & target
 	var inte_target = LineSet_px.spacing;
 	var shift_target = LineSet_px.shift * 0.01 * inte_target;//convert to pixels (frac of inte, in px)
 	var angle_target = LineSet.angle * neg_ang;
-
+	
 
 	// commenting herewith assumes LineSet is always pixels!
 	if(prev_LineSet){
@@ -115,7 +114,7 @@ var Grid_d3draw = {
 	    .attr("y1", function(d){return d*inte_starting + shift_starting;})
 	    .attr("y2", function(d){return d*inte_starting + shift_starting;})
 	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_starting+")")
-	    .attr("stroke", "rgba(0,0,0,1)")//"rgba(0,0,0,0)")
+	    .attr("stroke", "rgba(0,0,0,0)")
 	    .attr("stroke-width","1");
 	
 	// 3.2 REMOVE any lines that are excess
@@ -131,7 +130,7 @@ var Grid_d3draw = {
 	
 	// Perform another JOIN opeation between data and lines. This will pick up every line, newly added and old.
 	// joining the new data is necessary because what we don't want to pick up is old lines that are fading out
-	var reselection = d3.select("#grids-bg-svg")
+	var reselection = d3.select(svg)
 	    .selectAll("."+lines_class).data(lines_indices_list);
 
 	//first run a transition to instantaneously make them all black
