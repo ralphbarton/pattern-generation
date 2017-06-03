@@ -35,7 +35,16 @@ class PGT_Background extends React.PureComponent {
 	const Grid = gridArray[this.props.bgControl.gridIndex];
 	const prevGrid = this.state.prevGrid;
 	
-	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, 0, false, {lock_angles: false});
+	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, {lineSetIndex: 0, lock_angles: false});
+	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, {lineSetIndex: 1, lock_angles: false});
+
+
+	/*
+	//may update points, and will certainly hide them if required.
+	var ops = options.hide ? {display: false} : undefined;
+	this.update_grid_intersection_points(ops);
+	 */
+
     }
     
     

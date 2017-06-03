@@ -1,80 +1,53 @@
 import * as d3 from "d3";
+import update from 'immutability-helper';
+import Grid_util from './Grid_util';
 
 var Grid_d3draw = {
 
-/*
-    previousGrid: {line_sets:[]},
-    grid_change: function (options){
-	options = options || {};
-
-	//Adjust the appearance of the 'action links'...
-	//postpone function call, so it overrides the MutexActionLink default behaviour
-	setTimeout(function(){
-	    grids.setMutexState_iso_squ_dia();
-	}, 10);
-	    
-	if(grids.showing_preview){
-
-	    var Grid_i = DM.gridArray[this.selected_row_i];
-
-	    this.screen_update_line_set(0, options.hide);
-	    this.screen_update_line_set(1, options.hide || Grid_i.n_dimentions === 1);
-
-	    //produce a deep copy of the old grid, for saving...
-	    // i'm thinking this may prevent errors
-	    // OK - it does not prevent errors.
-
-	    // Why does the line below work???!!
-	    this.previousGrid = options.hide ? {line_sets:[]} : Grid_i;
-//	    this.previousGrid = jQuery.extend(true, {}, Grid_i);
-
-	    //may update points, and will certainly hide them if required.
-	    var ops = options.hide ? {display: false} : undefined;
-	    this.update_grid_intersection_points(ops);
-	    
-	}
+    lsToPx: function (LineSet){
+	return update(LineSet, {
+	    spacing: {$set: Grid_util.convertSpacingUnit(LineSet, 'pixels')},
+	    spacing_unit: {$set: 'pixels'} 
+	});
     },
-*/
     
     
-    // interact with the svg....
     /*
       'Grid', 'previousGrid' - these parameters may be null for new appearance / disappearance...
-       */
-    updatLineset: function (svg, Grid, previousGrid, line_set_index, b_remove, options){
+    */
+    // use D3 to modify SVG contents from last time...
+    updatLineset: function (svg, Grid, previousGrid, options){
 	
 	// 1. Setting the variables. "Diameter" is of a circle containing the rectangle of the screen. 
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
+
+	const lsIndex = options.lineSetIndex;
+	const b_remove = (!Grid) || (lsIndex === 1 && Grid.n_dimentions === 1);
 	
-	var prev_LineSet = previousGrid !== null ?  previousGrid.line_sets[line_set_index] : undefined;
-	var LineSet = Grid ? Grid.line_sets[line_set_index] : prev_LineSet;
-	
-	b_remove = b_remove || (!(Grid && true));
+	var prev_LineSet = previousGrid !== null ?  previousGrid.line_sets[lsIndex] : undefined;
+	var LineSet = Grid ? Grid.line_sets[lsIndex] : prev_LineSet;
 	
 	var Dia = Math.sqrt(winW*winW + winH*winH);
 	var origX = winW/2;
 	var origY = winH/2;
 	var Radius = Dia/2;
-	var first = (prev_LineSet === undefined) || (line_set_index === 1 && this.previousGrid.n_dimentions === 1);
-	var neg_ang = (line_set_index === 0 ? -1 : 1);
+	var first = (prev_LineSet === undefined) || (lsIndex === 1 && previousGrid.n_dimentions === 1);
+	var neg_ang = (lsIndex === 0 ? -1 : 1);
 
-
-	//this assumes LineSet is always pixels!
-	var LineSet_px = LineSet;////////grids.spacing_unit_objectUpdater(LineSet, "pixels", true);
-	
-	
+	if(LineSet){
+	    var LineSet_px = this.lsToPx(LineSet);
+	}
+	    
 	// interval & angle - starting & target
 	var inte_target = LineSet_px.spacing;
 	var shift_target = LineSet_px.shift * 0.01 * inte_target;//convert to pixels (frac of inte, in px)
 	var angle_target = LineSet.angle * neg_ang;
+
 	
-
-	// commenting herewith assumes LineSet is always pixels!
 	if(prev_LineSet){
-	    var prev_LineSet_px = prev_LineSet;//grids.spacing_unit_objectUpdater(prev_LineSet, "pixels", true);
+	    var prev_LineSet_px = this.lsToPx(prev_LineSet);
 	}
-
 
 	var inte_starting = first ?  inte_target  : prev_LineSet_px.spacing;
 	var angle_starting = first ? angle_target : (prev_LineSet.angle * neg_ang);
@@ -84,7 +57,7 @@ var Grid_d3draw = {
 	// this is the 'target' quantity of lines.
 	var N1 = Math.ceil(Radius / inte_target);
 	
-	var lines_class = "lines-"+(line_set_index + 1);
+	var lines_class = "lines-"+(lsIndex + 1);
 
 	// 2. Generate data to apply the D3 to, for one line set. This is an array of positive and negative indices.
 	// i.e. [0, 1, -1, 2, -2, 3, -3.....]
