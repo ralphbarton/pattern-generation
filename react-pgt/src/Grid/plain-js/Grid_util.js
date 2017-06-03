@@ -22,7 +22,7 @@ var Grid_util = {
 	    spacing_new = L_eff / spacing_px;
 	}
 
-	return spacing_new;
+	return Math.min(spacing_new, 1);// 1px may convert to 0% - Nono!
     }
 
 }

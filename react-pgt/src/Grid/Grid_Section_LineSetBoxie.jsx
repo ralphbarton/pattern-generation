@@ -79,6 +79,7 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 		   dataUnit={this.props.lineSetData.spacing_unit}
 		   editEnabled={this.props.enabled}
 		   onChange={(value)=>{this.props.onLineSetChange(this.props.lineSetId, "spacing", value);}}
+		  min={1}
 		  /*onChangeComplete={null}*/
 		  />
 		  <WgMutexActionLink
