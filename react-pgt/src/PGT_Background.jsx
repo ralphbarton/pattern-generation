@@ -1,43 +1,35 @@
 import React from 'react';
 
+import util from './plain-js/util';
 import Grid_d3draw from './Grid/plain-js/Grid_d3draw';
 
 class PGT_Background extends React.PureComponent {
 
-    //whenever new props are recieved, a 'snapshot' is taken of the requested grid.
+    // Whenever new props recieved, take 'snapshot' of "what grid preview is requested
     componentWillReceiveProps(nextProps){
-	const gIndex = nextProps.bgControl.gridIndex;
+	const gridBg = nextProps.bgControl.grid;
 	const gridArray = nextProps.DataArrays['grid'];
+	const nextGrid = (gridBg.active === true ? util.lookup(gridArray, "uid", gridBg.selGridUid) : undefined);
+	
 	this.setState({
-	    gIndex: gIndex,
-	    Grid: (gIndex !== null ? gridArray[gIndex] : null),
-	    prevGrid: (this.state !== null ? this.state.Grid : null)
+	    Grid: nextGrid,
+	    prevGrid: (this.state !== null ? this.state.Grid : undefined)
 	});
     }
     
     shouldComponentUpdate(nextProps, nextState){
-	//only rerender when there is change in the 'bgControl' property passed.
-	if (this.state === null && nextState.Grid === null){return false;}
-	const firstGridReq = this.state === null && nextState.Grid !== null;
-	const gridChange = (this.state !== null) && (this.state.Grid !== nextState.Grid);
-	const doUpdate = firstGridReq || gridChange;
-
-	//logging message only...
-	const str = "shouldComponentUpdate()? old Grid:";
-	console.log(str, (this.state ? this.state.gIndex : null) , " new Grid:", nextState.gIndex, " doUpdate:", doUpdate);
-
-	return doUpdate;
+	//look at state snapshots only
+	if(this.state === null){return false;}//no constructor, so there won't be any state till 2nd props change
+	return this.state.Grid !== nextState.Grid;
     }
 
     componentDidUpdate(){
 	//place lineset...
-	const gridArray = this.props.DataArrays['grid'];
-	const Grid = gridArray[this.props.bgControl.gridIndex];
+	const Grid = this.state.Grid;
 	const prevGrid = this.state.prevGrid;
-	
+
 	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, {lineSetIndex: 0, lock_angles: false});
 	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, {lineSetIndex: 1, lock_angles: false});
-
 
 	/*
 	//may update points, and will certainly hide them if required.

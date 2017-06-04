@@ -21,8 +21,19 @@ class MainTab_Grid extends React.PureComponent {
 	this.state = {
 	    selectedRowIndex: 0,
 	    lockAngles: false,
-	    previewActive: false
+	    previewActive: false, /* i.e. the grid lines */
+	    pointsActive: false /* i.e. the intersection points */
 	};
+    }
+
+    componentDidMount(){
+	// this lifecycle method is to set a UID default uid of grid index 0.
+	const Grid_i = this.props.gridArray[0];
+	this.props.onBgChange({
+	    selGridUid: {$set: Grid_i.uid},
+	    active: {$set: false}, //this is synchronising state between components, a bad idea in principle and practice!
+	    pointsActive: {$set: false}
+	});
     }
     
     handleRowSelectedChange(index){
@@ -32,22 +43,28 @@ class MainTab_Grid extends React.PureComponent {
 	});
 
 	//update which Bg grid is showing
-	this.handleGridPreviewChange({index: index});
+	const Grid_i = this.props.gridArray[index];
+	this.props.onBgChange({selGridUid: {$set: Grid_i.uid}});
     }
 
     handleGridPreviewChange(options){
-	let active = options.active;
+
+	// command to change ON / OFF state of overall grid preview *may* or may not be in function call
 	if(options.active !== undefined){
-	    //command to change visible <-> invisible
 	    this.setState({
 		previewActive: options.active
 	    }); 
-	}else{
-	    active = this.state.previewActive;
+	    this.props.onBgChange({active: {$set: options.active}});
 	}
-	
-	const gridIndex = options.index !== undefined ? options.index : this.state.selectedRowIndex;
-	this.props.onBgChange({gridIndex: (active ? gridIndex : null)});
+
+	// point visiblity *may* be requested to change.
+	if(options.pointsActive !== undefined){
+	    this.setState({
+		pointsActive: options.pointsActive
+	    });
+	    this.props.onBgChange({pointsActive: {$set: options.pointsActive}});
+	}	
+
     }
 
     handleSelGridChange($change){
@@ -276,14 +293,19 @@ class MainTab_Grid extends React.PureComponent {
 		       ]}
 		       />
 		    <WgMutexActionLink
-		       name="Points"
-		       initalEnabledArray={[false, true]}
+		       name="Points:"
+		       equityTestingForEnabled={{
+			   currentValue: this.state.pointsActive,
+			   representedValuesArray: [false, true]
+		       }}
 		       className="showPoints"
 		       actions={[
 			   {
-			       name: "Hide"
+			       name: "Hide",
+			       cb: ()=>{this.handleGridPreviewChange({pointsActive: false});}
 			   },{
-			       name: "Show"
+			       name: "Show",
+			       cb: ()=>{this.handleGridPreviewChange({pointsActive: true});}
 			   }
 		       ]}
 		       />

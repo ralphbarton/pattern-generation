@@ -1,5 +1,5 @@
 import React from 'react';
-
+import update from 'immutability-helper';
 
 // Underlying data
 import DatH from './DatH/DatH';
@@ -20,7 +20,9 @@ class PGT_App extends React.PureComponent {
 		"cpot": CpotSampleData.arr,
 		"grid": GridSampleData.arr
 	    },
-	    bgControl: undefined
+	    bgControl: {
+		"grid": {}
+	    }
 	};
     }
 
@@ -33,9 +35,9 @@ class PGT_App extends React.PureComponent {
 	});
     }
 
-    handleBgChange(newBgState){
+    handleBgChange($update){
 	this.setState({
-	    bgControl: newBgState
+	    bgControl: update(this.state.bgControl, $update)
 	});
     }
 

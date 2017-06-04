@@ -82,7 +82,7 @@ class Toolbox extends React.PureComponent {
 				    <MainTab_Grid
 				       gridArray={this.props.DataArrays.grid}
 				       onGridChange={(arg1, arg2)=>{this.props.handleDataChange("grid", arg1, arg2);}}
-				      onBgChange={this.props.onBgChange}
+				      onBgChange={($chg)=>{this.props.onBgChange({"grid": $chg});}}
 				      />
 				);
 			    case 4:

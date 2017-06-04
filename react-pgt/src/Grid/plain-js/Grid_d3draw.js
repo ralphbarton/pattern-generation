@@ -13,7 +13,7 @@ var Grid_d3draw = {
     
     
     /*
-      'Grid', 'previousGrid' - these parameters may be null for new appearance / disappearance...
+      'Grid', 'previousGrid' - these parameters may be undefined for new appearance / disappearance...
     */
     // use D3 to modify SVG contents from last time...
     updatLineset: function (svg, Grid, previousGrid, options){
@@ -25,8 +25,8 @@ var Grid_d3draw = {
 	const lsIndex = options.lineSetIndex;
 	const b_remove = (!Grid) || (lsIndex === 1 && Grid.n_dimentions === 1);
 	
-	var prev_LineSet = previousGrid !== null ?  previousGrid.line_sets[lsIndex] : undefined;
-	var LineSet = Grid ? Grid.line_sets[lsIndex] : prev_LineSet;
+	var prev_LineSet = previousGrid !== undefined ?  previousGrid.line_sets[lsIndex] : undefined;
+	var LineSet = Grid ? Grid.line_sets[lsIndex] : prev_LineSet; // I'm not sure about this line....
 	
 	var Dia = Math.sqrt(winW*winW + winH*winH);
 	var origX = winW/2;
@@ -35,10 +35,8 @@ var Grid_d3draw = {
 	var first = (prev_LineSet === undefined) || (lsIndex === 1 && previousGrid.n_dimentions === 1);
 	var neg_ang = (lsIndex === 0 ? -1 : 1);
 
-	if(LineSet){
-	    var LineSet_px = this.lsToPx(LineSet);
-	}
-	    
+	var LineSet_px = this.lsToPx(LineSet);
+	
 	// interval & angle - starting & target
 	var inte_target = LineSet_px.spacing;
 	var shift_target = LineSet_px.shift * 0.01 * inte_target;//convert to pixels (frac of inte, in px)
