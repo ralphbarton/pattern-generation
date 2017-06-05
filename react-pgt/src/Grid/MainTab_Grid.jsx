@@ -32,6 +32,7 @@ class MainTab_Grid extends React.PureComponent {
 	this.props.onBgChange({
 	    selGridUid: {$set: Grid_i.uid},
 	    active: {$set: false}, //this is synchronising state between components, a bad idea in principle and practice!
+	    lockAngles: {$set: false},//this again is synchronising state between components, a bad idea..
 	    pointsActive: {$set: false}
 	});
     }
@@ -235,7 +236,7 @@ class MainTab_Grid extends React.PureComponent {
 			 }
 		     ]}
 		    />
-
+		    
 		  <WgMutexActionLink
 		     name="Angles 1 & 2:"
 		     className="linkAngles"
@@ -246,14 +247,20 @@ class MainTab_Grid extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "link",
-			     cb: ()=>{this.setState({lockAngles: true});}
+			     cb: ()=>{
+				 this.setState({lockAngles: true});
+				 this.props.onBgChange({lockAngles: {$set: true}});//state duplication
+			     }
 			 },{
 			     name: "unlink",
-			     cb: ()=>{this.setState({lockAngles: false});}
+			     cb: ()=>{
+				 this.setState({lockAngles: false});
+				 this.props.onBgChange({lockAngles: {$set: false}});//state duplication!!
+			     }
 			 }
 		     ]}
 		     />		    
-
+		    
 		</div>
 
 		{/* Block 4 */}

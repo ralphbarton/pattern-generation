@@ -27,9 +27,10 @@ class PGT_Background extends React.PureComponent {
 	//place lineset...
 	const Grid = this.state.Grid;
 	const prevGrid = this.state.prevGrid;
-
-	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, {lineSetIndex: 0, lock_angles: false});
-	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, {lineSetIndex: 1, lock_angles: false});
+	const lockAng = this.props.bgControl.grid.lockAngles;//boolean
+	
+	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, {lineSetIndex: 0, lock_angles: lockAng});
+	Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, {lineSetIndex: 1, lock_angles: lockAng});
 
 	/*
 	//may update points, and will certainly hide them if required.
