@@ -243,7 +243,16 @@ class MainTab_Grid extends React.PureComponent {
 		  <WgMutexActionLink
 		     name="Convert to:"
 		     className="convertTo"
-		     initalEnabledArray={[true, true, true]}
+		     applyFunctionForEnabledArray={{
+			 stateObject: Grid_i.line_sets,
+			 arrFn: (LS)=>{
+			     const equal_spacings = LS[0].spacing === LS[1].spacing;
+			     const en_isometric = (LS[1].angle + LS[0].angle !== 60) || (!equal_spacings);
+			     const en_diamond = (LS[0].angle !== LS[1].angle) || (!equal_spacings);;
+			     const en_square = (LS[1].angle + LS[0].angle !== 90) || (!equal_spacings);
+			     return [en_isometric, en_square, en_diamond];
+			 }
+		     }}
 		     actions={[
 			 {
 			     name: "Isometric (hex)",
