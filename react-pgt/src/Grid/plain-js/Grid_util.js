@@ -76,7 +76,7 @@ var Grid_util = {
 	    $LSupd[1].spacing_unit = {$set: 'pixels'};
 	}
 	// set spacings equal
-	var av_spacing = (LS0_spacing + LS1_spacing) / 2; 
+	var av_spacing = Math.round((LS0_spacing + LS1_spacing) / 2);
 
 	$LSupd[0].spacing = {$set: av_spacing};
 	$LSupd[1].spacing = {$set: av_spacing};
