@@ -50,7 +50,7 @@ class PGT_Background extends React.PureComponent {
 	      <svg
 		 className="GridsSVG"
 		 ref="svg"
-		 style={{width:  winW, height:  winH, background: 'cyan',}}>
+		 style={{width:  winW, height:  winH}}>
 	      </svg>
 	    </div>
 	);

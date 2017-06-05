@@ -12,7 +12,7 @@ import WgActionLink from '../Wg/WgActionLink';
 
 //specific subsections of Grid...
 import Grid_Section_LineSetBoxie from './Grid_Section_LineSetBoxie';
-
+import Grid_util from './plain-js/Grid_util';
 
 class MainTab_Grid extends React.PureComponent {
 
@@ -68,11 +68,27 @@ class MainTab_Grid extends React.PureComponent {
 
     }
 
+    //any change to the selected Grid
     handleSelGridChange($change){
 	const rIndex = this.state.selectedRowIndex;
 	this.props.onGridChange("update", {index: rIndex, $Updater: $change});
     }
+
+    // Iso / Squ / Dia
+    handleSelGridToPresetType(toType){
+	const rIndex = this.state.selectedRowIndex;
+	const Grid_i = this.props.gridArray[rIndex];
+	const response = Grid_util.GeneratePresetTypeFromGrid(Grid_i, toType, this.state.lockAngles);
+	this.props.onGridChange("update", {index: rIndex, $Updater: {
+	    line_sets: response.$LSupd
+	}});
+	if(response.changedLockAngles !== undefined){
+	    this.handleLockAnglesChange(response.changedLockAngles);
+	}
+    }
+
     
+    // a change (up to 2x K-V pairs) in a lineset in the selected grid
     handleSelGridLineSetChange(lineSetId, key, value, key2, value2){
 	const ls = lineSetId - 1;
 	
@@ -96,6 +112,11 @@ class MainTab_Grid extends React.PureComponent {
 	}
 
 	this.handleSelGridChange($updater);	    
+    }
+
+    handleLockAnglesChange(newState){
+	this.setState({lockAngles: newState});
+	this.props.onBgChange({lockAngles: {$set: newState}}); // state duplication aaargh!!
     }
     
 
@@ -226,13 +247,13 @@ class MainTab_Grid extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "Isometric (hex)",
-			     cb: ()=>{console.log("hi");}
+			     cb: this.handleSelGridToPresetType.bind(this, "iso")
 			 },{
 			     name: "Square",
-			     cb: ()=>{console.log("hi");}
+			     cb: this.handleSelGridToPresetType.bind(this, "squ")
 			 },{
 			     name: "Diamond",
-			     cb: ()=>{console.log("hi");}
+			     cb: this.handleSelGridToPresetType.bind(this, "dia")
 			 }
 		     ]}
 		    />
@@ -247,16 +268,10 @@ class MainTab_Grid extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "link",
-			     cb: ()=>{
-				 this.setState({lockAngles: true});
-				 this.props.onBgChange({lockAngles: {$set: true}});//state duplication
-			     }
+			     cb: this.handleLockAnglesChange.bind(this, true)
 			 },{
 			     name: "unlink",
-			     cb: ()=>{
-				 this.setState({lockAngles: false});
-				 this.props.onBgChange({lockAngles: {$set: false}});//state duplication!!
-			     }
+			     cb: this.handleLockAnglesChange.bind(this, false)
 			 }
 		     ]}
 		     />		    

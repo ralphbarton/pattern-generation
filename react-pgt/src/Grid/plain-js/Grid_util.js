@@ -23,8 +23,72 @@ var Grid_util = {
 	}
 
 	return Math.max(spacing_new, 1);// 1px may convert to 0% - Nono!
-    }
+    },
 
+
+    GeneratePresetTypeFromGrid: function(oldGrid, toType, lockAngles){
+	var LS = oldGrid.line_sets;
+	var $LSupd = {0:{}, 1:{}};
+	var changedLockAngles = undefined;
+	
+	// (1.) Manage angles...
+	if(toType === "iso"){
+	    //where necessary, rotating back by 60 keeps within range...
+	    const newLS0_angle = LS[0].angle > 60 ? (LS[0].angle - 60) : LS[0].angle;
+	    $LSupd[0].angle = {$set: newLS0_angle};//may be same as before...
+	    $LSupd[1].angle = {$set: (60 - newLS0_angle)};
+	    
+	    changedLockAngles = false; // command a mutation (reset) of lock
+	}
+	if(toType === "squ"){
+	    $LSupd[1].angle = {$set: (90 - LS[0].angle)};
+	    changedLockAngles = false; // command a mutation (reset) of lock
+	}
+	if(toType === "dia"){
+
+	    var isRect = ((LS[0].angle === 0) && (LS[1].angle === 90)) || ((LS[0].angle === 90) && (LS[1].angle === 0));
+
+	    if(lockAngles || isRect){
+		var ave_angle = (LS[0].angle + LS[1].angle)/2;
+		$LSupd[0].angle = {$set: ave_angle};
+		$LSupd[1].angle = {$set: ave_angle};
+	    }else{
+		if(LS[0].angle !== 0){
+		    $LSupd[1].angle = {$set: LS[0].angle};
+		}
+	    }
+	}
+
+
+	// (2.) Manage spacings. All options involve setting them to equal.
+	var LS0_spacing = LS[0].spacing;
+	var LS1_spacing = LS[1].spacing;
+
+	// we cannot possibly use spacing units of quantity.
+	// So unless both dimentions are in units of percent, set them both to pixels:
+	if((LS[0].spacing_unit !== "percent") || (LS[1].spacing_unit !== "percent")){
+
+	    LS0_spacing = this.convertSpacingUnit(LS[0], 'pixels')
+	    LS1_spacing = this.convertSpacingUnit(LS[1], 'pixels')
+
+	    // set spacing units equal (if necessary)
+	    $LSupd[0].spacing_unit = {$set: 'pixels'};
+	    $LSupd[1].spacing_unit = {$set: 'pixels'};
+	}
+	// set spacings equal
+	var av_spacing = (LS0_spacing + LS1_spacing) / 2; 
+
+	$LSupd[0].spacing = {$set: av_spacing};
+	$LSupd[1].spacing = {$set: av_spacing};
+
+	//get rid of non-zero shifts? (leave it for now...)
+	return {
+	    $LSupd: $LSupd,
+	    changedLockAngles: changedLockAngles
+	};
+	
+    }
+    
 }
 
 
