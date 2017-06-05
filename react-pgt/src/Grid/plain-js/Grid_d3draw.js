@@ -10,7 +10,28 @@ var Grid_d3draw = {
 	    spacing_unit: {$set: 'pixels'} 
 	});
     },
-    
+
+
+    randomiseColourSet: function(){
+
+	//these 8 colours are dark enough to show up well on a white background
+	const rColours = ["#009a00","#c6001c","#006ebd","#da7a00","#00b7a3","#7300df","#be00c0","#93ad00"].map((e)=>{
+	    return {
+		col: e,
+		rI: Math.random()
+	    };
+	});
+	
+	//randomise the order...
+	rColours.sort(function (a,b) {
+	    if (a.rI < b.rI){return -1;}
+	    if (a.rI > b.rI){return 1; }
+	    return 0;
+	});
+
+	//set persistent object
+	this.rColours = rColours.map((e)=>{return e.col});
+    },
     
     /*
       'Grid', 'previousGrid' - these parameters may be undefined for new appearance / disappearance...
@@ -54,9 +75,12 @@ var Grid_d3draw = {
 	// N1 is the number of lines in just the upper half
 	// this is the 'target' quantity of lines.
 	var N1 = Math.ceil(Radius / inte_target);
-	
-	var lines_class = "lines-"+(lsIndex + 1);
 
+	const gClass = "grid-" + Grid.uid;
+	const lsClass = "ls-" + lsIndex;
+	const creationClass = gClass + ' ' + lsClass;
+	const selectionClass = (options.showAll ? "" : '.' + gClass) + '.' + lsClass;
+	
 	// 2. Generate data to apply the D3 to, for one line set. This is an array of positive and negative indices.
 	// i.e. [0, 1, -1, 2, -2, 3, -3.....]
 	var lines_indices_list = [];
@@ -71,7 +95,7 @@ var Grid_d3draw = {
 	
 	// Perform a JOIN opeation between data and lines
 	var selection = d3.select(svg)
-	    .selectAll("."+lines_class).data(lines_indices_list);
+	    .selectAll(selectionClass).data(lines_indices_list);
 	
 	// 3. First pass of D3, runs unconditionally: change the set to contain the correct (final) number of lines
 	
@@ -79,13 +103,14 @@ var Grid_d3draw = {
 	// these lines will be created based upon the 'starting', not the 'target' angle and interval.
 	// they will be transparent, animating to solid black
 	selection.enter()
-	    .append("line").attr("class", lines_class)
+	    .append("line").attr("class", creationClass)
 	    .attr("x1", -Radius)
 	    .attr("x2", +Radius)
 	    .attr("y1", function(d){return d*inte_starting + shift_starting;})
 	    .attr("y2", function(d){return d*inte_starting + shift_starting;})
 	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_starting+")")
-	    .attr("stroke", "rgba(0,0,0,0)")
+	    .attr("stroke", options.isSelectedGrid ? "black" : "#cccccc")
+	    .attr("opacity", 0)
 	    .attr("stroke-width","1");
 	
 	// 3.2 REMOVE any lines that are excess
@@ -93,7 +118,7 @@ var Grid_d3draw = {
 	    .transition()
 	    .duration(500)
 	    .ease(d3.easeLinear) //I think 'linear' is best for opacity changes
-	    .attr("stroke", "rgba(0,0,0,0)")
+	    .attr("opacity", 0)
 	    .remove();
 
 	
@@ -102,21 +127,21 @@ var Grid_d3draw = {
 	// Perform another JOIN opeation between data and lines. This will pick up every line, newly added and old.
 	// joining the new data is necessary because what we don't want to pick up is old lines that are fading out
 	var reselection = d3.select(svg)
-	    .selectAll("."+lines_class).data(lines_indices_list);
+	    .selectAll(selectionClass).data(lines_indices_list);
 
 	//first run a transition to instantaneously make them all black
 	reselection
 	    .transition()
 	    .duration(first ? 500 : 0)
 	    .ease(d3.easeLinear)
-	    .attr("stroke", "black")
+	    .attr("opacity", 1)
 	//now run a cascading & non-instantaneous transition on position+angle
 	    .transition()
 	    .delay(function(d, i) {
 		// Cascading the animation (by a variable deley) is a pretty cool effect
 		// for 'locked angle' behaviour, I think it's better if the whole grid rotates rigidly.
 		// The largest "delay multiplier" is (i/N1) = 2
-		return (i / N1) * (options.lock_angles ? 0 : 250);
+		return (i / N1) * (options.lockAngles ? 0 : 250);
 	    })
 	    .duration(500)
 	    .attr("y1", function(d){return d*inte_target + shift_target;})

@@ -22,7 +22,9 @@ class MainTab_Grid extends React.PureComponent {
 	    selectedRowIndex: 0,
 	    lockAngles: false,
 	    previewActive: false, /* i.e. the grid lines */
-	    pointsActive: false /* i.e. the intersection points */
+	    pointsActive: false, /* i.e. the intersection points */
+	    showAllGrids: false, //synchronising state
+	    showColourGrids: false  //synchronising state
 	};
     }
 
@@ -33,7 +35,9 @@ class MainTab_Grid extends React.PureComponent {
 	    selGridUid: {$set: Grid_i.uid},
 	    active: {$set: false}, //this is synchronising state between components, a bad idea in principle and practice!
 	    lockAngles: {$set: false},//this again is synchronising state between components, a bad idea..
-	    pointsActive: {$set: false}
+	    pointsActive: {$set: false}, //synchronising state
+	    showAllGrids: {$set: false}, //synchronising state
+	    showColourGrids: {$set: false}  //synchronising state
 	});
     }
     
@@ -83,7 +87,7 @@ class MainTab_Grid extends React.PureComponent {
 	    line_sets: response.$LSupd
 	}});
 	if(response.changedLockAngles !== undefined){
-	    this.handleLockAnglesChange(response.changedLockAngles);
+	    this.handleSharedStateChange("lockAngles", response.changedLockAngles);
 	}
     }
 
@@ -114,9 +118,9 @@ class MainTab_Grid extends React.PureComponent {
 	this.handleSelGridChange($updater);	    
     }
 
-    handleLockAnglesChange(newState){
-	this.setState({lockAngles: newState});
-	this.props.onBgChange({lockAngles: {$set: newState}}); // state duplication aaargh!!
+    handleSharedStateChange(sharedKey, newValue){
+	this.setState({[sharedKey]: newValue});
+	this.props.onBgChange({[sharedKey]: {$set: newValue}}); // state duplication aaargh!!
     }
     
 
@@ -275,10 +279,11 @@ class MainTab_Grid extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "link",
-			     cb: this.handleLockAnglesChange.bind(this, true)
+			     cb: this.handleSharedStateChange.bind(this, "lockAngles", true)
 			 },{
 			     name: "unlink",
-			     cb: this.handleLockAnglesChange.bind(this, false)
+			     
+			     cb: this.handleSharedStateChange.bind(this, "lockAngles", false)
 			 }
 		     ]}
 		     />		    
@@ -296,13 +301,18 @@ class MainTab_Grid extends React.PureComponent {
 		  <div className="section1">
 		    <WgMutexActionLink
 		       name=""
-		       initalEnabledArray={[false, false]}
+		       equityTestingForEnabled={{
+			   currentValue: this.state.showAllGrids,
+			   representedValuesArray: [false, true]
+		       }}
 		       className="showAll"
 		       actions={[
 			   {
-			       name: "Show Selected"
+			       name: "Show Selected",
+			       cb: this.handleSharedStateChange.bind(this, "showAllGrids", false)
 			   },{
-			       name: "Show All"
+			       name: "Show All",
+			       cb: this.handleSharedStateChange.bind(this, "showAllGrids", true)
 			   }
 		       ]}
 		       />
@@ -311,13 +321,18 @@ class MainTab_Grid extends React.PureComponent {
 		  <div className="section2">
 		    <WgMutexActionLink
 		       name="Gridlines:"
-		       initalEnabledArray={[false, false]}
+		       equityTestingForEnabled={{
+			   currentValue: this.state.showColourGrids,
+			   representedValuesArray: [true, false]
+		       }}
 		       className="gridlinesColour"
 		       actions={[
 			   {
-			       name: "Colour"
+			       name: "Colour",
+			       cb: this.handleSharedStateChange.bind(this, "showColourGrids", true)
 			   },{
-			       name: "Monochrome"
+			       name: "Monochrome",
+			       cb: this.handleSharedStateChange.bind(this, "showColourGrids", false)
 			   }
 		       ]}
 		       />
