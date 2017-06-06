@@ -34,10 +34,14 @@ var Grid_d3draw = {
 	});
     },
 
+    //adds the grids uid and the lineset index into the object returned, if non-null.
     getLS: function (Grid, lsIndex){
 	if(!Grid){return null;}
 	if((Grid.n_dimentions === 1) && (lsIndex === 1)){return null;}
-	return Grid.line_sets[lsIndex];
+	return update(
+	    this.lsToPx(Grid.line_sets[lsIndex]),
+	    {uid: {$set: Grid.uid}, lsIndex: {$set: lsIndex}}
+	);
     },
 
     updateBgGrid: function (svg, Grid, pGrid, options){
@@ -56,81 +60,37 @@ var Grid_d3draw = {
     updateLineset: function (svg, Lineset, prevLineset, options){
 
 	// 1. Determine what kind of update is required...
-	let updateType = "geoTransform";
-	if(Lineset === null){
-	    updateType = "fadeOut";
-	}else if(prevLineset === null){
-	    updateType = "fadeIn";
-	}
+	const fromBlank = prevLineset === null;
+	const fadeOut = Lineset === null;
 
 
-
-	switch (this.state.selectedTabIndex) {
-	case "fadeIn":
-	    
-	    break;
-
-	case "fadeOut":
-	    break;
-
-	case "geoTransform":
-	    break;
-
-	case "cosmeticTransform":
-	    break;
-
-	default: break;
-	}			
-
-
-
-
-	
-	// 1. Setting the variables. "Diameter" is of a circle containing the rectangle of the screen. 
+	// 2. Setting the dimentional. "Diameter" is of a circle containing the rectangle of the screen. 
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
-
-	const b_remove = (!Grid) || (lsIndex === 1 && Grid.n_dimentions === 1);
 	
-	var prev_LineSet = previousGrid !== undefined ?  previousGrid.line_sets[lsIndex] : undefined;
-	var LineSet = Grid ? Grid.line_sets[lsIndex] : prev_LineSet; // I'm not sure about this line....
-	
-	var Dia = Math.sqrt(winW*winW + winH*winH);
-	var origX = winW/2;
-	var origY = winH/2;
-	var Radius = Dia/2;
-	var first = (prev_LineSet === undefined) || (lsIndex === 1 && previousGrid.n_dimentions === 1);
-	var neg_ang = (lsIndex === 0 ? -1 : 1);
-
-	var LineSet_px = this.lsToPx(LineSet);
+	const Dia = Math.sqrt(winW*winW + winH*winH);
+	const origX = winW/2;
+	const origY = winH/2;
+	const Radius = Dia/2;
+	const neg_ang = Lineset.lsIndex === 0 ? -1 : 1;
 	
 	// interval & angle - starting & target
-	var inte_target = LineSet_px.spacing;
-	var shift_target = LineSet_px.shift * 0.01 * inte_target;//convert to pixels (frac of inte, in px)
-	var angle_target = LineSet.angle * neg_ang;
+	const inte_target = Lineset.spacing;
+	const shift_target = Lineset.shift * 0.01 * inte_target;//convert to pixels (frac of inte, in px)
+	const angle_target = Lineset.angle * neg_ang;
 
-	
-	if(prev_LineSet){
-	    var prev_LineSet_px = this.lsToPx(prev_LineSet);
-	}
+	const inte_starting = fromBlank ?  inte_target  : prevLineset.spacing;
+	const angle_starting = fromBlank ? angle_target : (prevLineset.angle * neg_ang);
+	const shift_starting = fromBlank ? shift_target : (prevLineset.shift * 0.01 * inte_starting);//convert to pixels
 
-	var inte_starting = first ?  inte_target  : prev_LineSet_px.spacing;
-	var angle_starting = first ? angle_target : (prev_LineSet.angle * neg_ang);
-	var shift_starting = first ? shift_target : (prev_LineSet.shift * 0.01 * inte_starting);//convert to pixels
 
-	// N1 is the number of lines in just the upper half
-	// this is the 'target' quantity of lines.
+	// 3. Generate data to apply the D3 to, for one line set. This is an array of positive and negative indices.
+	// N1 is the number of lines in just the upper half. It is the 'target' quantity of lines.
 	var N1 = Math.ceil(Radius / inte_target);
 
-	const gClass = "grid-" + Grid.uid;
-	const lsClass = "ls-" + lsIndex;
-	const creationClass = gClass + ' ' + lsClass;
-	const selectionClass = (options.showAll ? '.' + gClass : "") + '.' + lsClass;
-	
-	// 2. Generate data to apply the D3 to, for one line set. This is an array of positive and negative indices.
 	// i.e. [0, 1, -1, 2, -2, 3, -3.....]
 	var lines_indices_list = [];
-	if(b_remove !== true){
+	if(fadeOut !== true){
 	    for (var i = 0; i < N1; i++){
 		lines_indices_list.push(i);
 		if(i !== 0){
@@ -138,14 +98,19 @@ var Grid_d3draw = {
 		}
 	    }
 	}
+
+	const lsClass = "ls-" + Lineset.lsIndex;
+	const creationClass  = fadeOut   ? "no-class" : ("grid-" + Lineset.uid) + ' ' + lsClass;
+	const selectionClass = fromBlank ? "no-class" : (".grid-" + prevLineset.uid) + '.' + lsClass;
+	const reSelectionClass = fadeOut   ? "no-class" : (".grid-" + Lineset.uid) + '.' + lsClass;
+	
+	// 4. First pass of D3, runs unconditionally: change the set to contain the correct (final) number of lines
 	
 	// Perform a JOIN opeation between data and lines
 	var selection = d3.select(svg)
-	    .selectAll(selectionClass).data(lines_indices_list);
+	    .selectAll(selectionClass).data(lines_indices_list);	
 	
-	// 3. First pass of D3, runs unconditionally: change the set to contain the correct (final) number of lines
-	
-	// 3.1 CREATE any lines which are absent
+	// 4.1 CREATE any lines which are absent
 	// these lines will be created based upon the 'starting', not the 'target' angle and interval.
 	// they will be transparent, animating to solid black
 	selection.enter()
@@ -159,7 +124,7 @@ var Grid_d3draw = {
 	    .attr("opacity", 0)
 	    .attr("stroke-width","1");
 	
-	// 3.2 REMOVE any lines that are excess
+	// 4.2 REMOVE any lines that are excess
 	selection.exit()
 	    .transition()
 	    .duration(500)
@@ -168,17 +133,17 @@ var Grid_d3draw = {
 	    .remove();
 
 	
-	// 4. Second pass of D3: Animate (all the lines by now created)
+	// 5. Second pass of D3: Animate (all the lines by now created)
 	
 	// Perform another JOIN opeation between data and lines. This will pick up every line, newly added and old.
 	// joining the new data is necessary because what we don't want to pick up is old lines that are fading out
 	var reselection = d3.select(svg)
-	    .selectAll(selectionClass).data(lines_indices_list);
+	    .selectAll(reSelectionClass).data(lines_indices_list);
 
 	//first run a transition to instantaneously make them all black
 	reselection
 	    .transition()
-	    .duration(first ? 500 : 0)
+	    .duration(fromBlank ? 500 : 0)
 	    .ease(d3.easeLinear)
 	    .attr("opacity", 1)
 	//now run a cascading & non-instantaneous transition on position+angle
@@ -187,7 +152,7 @@ var Grid_d3draw = {
 		// Cascading the animation (by a variable deley) is a pretty cool effect
 		// for 'locked angle' behaviour, I think it's better if the whole grid rotates rigidly.
 		// The largest "delay multiplier" is (i/N1) = 2
-		return (i / N1) * (options.lockAngles ? 0 : 250);
+		return (i / N1) * (options.rigidRotate ? 0 : 250);
 	    })
 	    .duration(500)
 	    .attr("y1", function(d){return d*inte_target + shift_target;})

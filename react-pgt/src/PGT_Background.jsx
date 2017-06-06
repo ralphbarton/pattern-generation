@@ -40,12 +40,12 @@ class PGT_Background extends React.PureComponent {
 	const Grid = this.state.Grid;
 	
 	const gridBg = this.props.bgControl.grid;
-	const lockAngles = gridBg.lockAngles;//boolean
+	const rigidRotate = gridBg.lockAngles;//boolean
 	const showAll = gridBg.showAllGrids;//boolean
 	const colour = gridBg.showColourGrids;//boolean
 
 	const options = {
-	    lock_angles: lockAngles,
+	    rigidRotate: rigidRotate,
 	    showAll: showAll
 	};
 	this.props.DataArrays['grid'].forEach((Grid_i)=>{
@@ -56,6 +56,8 @@ class PGT_Background extends React.PureComponent {
 	    const prevGrid = showAll ? undefined : this.state.prevGrid;
 
 	    options.isSelectedGrid = isSelectedGrid;
+
+	    // Update Grid...
 	    Grid_d3draw.updateBgGrid(this.refs.svg, Grid_i, prevGrid, options);
 	});	
 
