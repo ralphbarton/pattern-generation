@@ -4,13 +4,6 @@ import Grid_util from './Grid_util';
 
 var Grid_d3draw = {
 
-    lsToPx: function (LineSet){
-	return update(LineSet, {
-	    spacing: {$set: Grid_util.convertSpacingUnit(LineSet, 'pixels')},
-	    spacing_unit: {$set: 'pixels'} 
-	});
-    },
-
 
     randomiseColourSet: function(){
 
@@ -32,18 +25,71 @@ var Grid_d3draw = {
 	//set persistent object
 	this.rColours = rColours.map((e)=>{return e.col});
     },
+
+
+    lsToPx: function (LineSet){
+	return update(LineSet, {
+	    spacing: {$set: Grid_util.convertSpacingUnit(LineSet, 'pixels')},
+	    spacing_unit: {$set: 'pixels'} 
+	});
+    },
+
+    getLS: function (Grid, lsIndex){
+	if(!Grid){return null;}
+	if((Grid.n_dimentions === 1) && (lsIndex === 1)){return null;}
+	return Grid.line_sets[lsIndex];
+    },
+
+    updateBgGrid: function (svg, Grid, pGrid, options){
+	
+	const LS0 = this.getLS(Grid, 0);
+	const prevLS0 = this.getLS(pGrid, 0);
+	this.updateLineset(svg, LS0, prevLS0, options);
+
+	const LS1 = this.getLS(Grid, 1);
+	const prevLS1 = this.getLS(pGrid, 1);
+	this.updateLineset(svg, LS1, prevLS1, options);
+    },
+
     
-    /*
-      'Grid', 'previousGrid' - these parameters may be undefined for new appearance / disappearance...
-    */
-    // use D3 to modify SVG contents from last time...
-    updatLineset: function (svg, Grid, previousGrid, options){
+    // D3 modifies SVG contents from last time...
+    updateLineset: function (svg, Lineset, prevLineset, options){
+
+	// 1. Determine what kind of update is required...
+	let updateType = "geoTransform";
+	if(Lineset === null){
+	    updateType = "fadeOut";
+	}else if(prevLineset === null){
+	    updateType = "fadeIn";
+	}
+
+
+
+	switch (this.state.selectedTabIndex) {
+	case "fadeIn":
+	    
+	    break;
+
+	case "fadeOut":
+	    break;
+
+	case "geoTransform":
+	    break;
+
+	case "cosmeticTransform":
+	    break;
+
+	default: break;
+	}			
+
+
+
+
 	
 	// 1. Setting the variables. "Diameter" is of a circle containing the rectangle of the screen. 
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
 
-	const lsIndex = options.lineSetIndex;
 	const b_remove = (!Grid) || (lsIndex === 1 && Grid.n_dimentions === 1);
 	
 	var prev_LineSet = previousGrid !== undefined ?  previousGrid.line_sets[lsIndex] : undefined;
@@ -79,7 +125,7 @@ var Grid_d3draw = {
 	const gClass = "grid-" + Grid.uid;
 	const lsClass = "ls-" + lsIndex;
 	const creationClass = gClass + ' ' + lsClass;
-	const selectionClass = (options.showAll ? "" : '.' + gClass) + '.' + lsClass;
+	const selectionClass = (options.showAll ? '.' + gClass : "") + '.' + lsClass;
 	
 	// 2. Generate data to apply the D3 to, for one line set. This is an array of positive and negative indices.
 	// i.e. [0, 1, -1, 2, -2, 3, -3.....]

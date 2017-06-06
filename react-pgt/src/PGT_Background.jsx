@@ -49,16 +49,14 @@ class PGT_Background extends React.PureComponent {
 	    showAll: showAll
 	};
 	this.props.DataArrays['grid'].forEach((Grid_i)=>{
+
 	    const isSelectedGrid = Grid !== undefined && Grid_i.uid === Grid.uid;
 	    if((!isSelectedGrid) && (!showAll)){return;}
+
 	    const prevGrid = showAll ? undefined : this.state.prevGrid;
 
 	    options.isSelectedGrid = isSelectedGrid;
-	    options.lineSetIndex = 0;
-	    Grid_d3draw.updatLineset(this.refs.svg, Grid_i, prevGrid, options);
-	    options.lineSetIndex = 1;
-	    Grid_d3draw.updatLineset(this.refs.svg, Grid, prevGrid, options);
-
+	    Grid_d3draw.updateBgGrid(this.refs.svg, Grid_i, prevGrid, options);
 	});	
 
 
