@@ -8,3 +8,9 @@ body{
 .PGT_App svg{
     display: block;
 }
+
+.PGT_App .GridsSVGcontainer svg{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}

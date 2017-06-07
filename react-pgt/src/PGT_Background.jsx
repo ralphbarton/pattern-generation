@@ -4,6 +4,41 @@ import util from './plain-js/util';
 import Grid_d3draw from './Grid/plain-js/Grid_d3draw';
 
 
+//
+class SvgGrid extends React.PureComponent {
+
+    
+    componentWillReceiveProps(nextProps){
+	this.setState({
+	    Grid: this.props.gridObj,
+	    prevGrid: (this.state !== null ? this.state.Grid : undefined)
+	});
+    }
+    
+    shouldComponentUpdate(nextProps, nextState){
+	if(this.state === null){return false;} // copy-pasted
+	return this.state.Grid !== nextState.Grid;
+    }
+
+    componentDidUpdate(){
+	Grid_d3draw.updateBgGrid(this.refs.svg, this.props.gridObj, this.state.prevGrid, {});
+    }
+
+    render() {
+	const Grid = this.props.gridObj;
+	const winW = window.innerWidth;
+	const winH = window.innerHeight;
+
+	return(
+	    <svg className={"GridSVG-uid"+Grid.uid} style={{width:  winW, height:  winH}} ref="svg" />
+	);
+    }
+}
+
+
+
+
+
 //this is really a component specifically for GRID background...
 class PGT_Background extends React.PureComponent {
 
@@ -48,6 +83,8 @@ class PGT_Background extends React.PureComponent {
 	    rigidRotate: rigidRotate,
 	    showAll: showAll
 	};
+
+	/*
 	this.props.DataArrays['grid'].forEach((Grid_i)=>{
 
 	    const isSelectedGrid = Grid !== undefined && Grid_i.uid === Grid.uid;
@@ -59,8 +96,8 @@ class PGT_Background extends React.PureComponent {
 
 	    // Update Grid...
 	    Grid_d3draw.updateBgGrid(this.refs.svg, Grid_i, prevGrid, options);
-	});	
-
+	});
+*/
 
 	/*
 	//may update points, and will certainly hide them if required.
@@ -72,16 +109,22 @@ class PGT_Background extends React.PureComponent {
     
     
     render() {
+	console.log("PGT_Background render() called");
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
-	console.log("PGT_Background render() called");
 	return (
 	    <div className="PGT_Background">
-	      <svg
-		 className="GridsSVG"
-		 ref="svg"
-		 style={{width:  winW, height:  winH}}>
-	      </svg>
+	      <div className="GridsSVGcontainer">
+		{/*<svg className="transformingGridSVG" style={{width:  winW, height:  winH}} ref="svg" />*/}
+		{
+		    this.props.DataArrays['grid'].map((Grid)=>{
+			const uid = Grid.uid;
+			return(
+			    <SvgGrid key={Grid.uid} gridObj={Grid}/>
+			);
+		    })
+		}
+	      </div>
 	    </div>
 	);
     }

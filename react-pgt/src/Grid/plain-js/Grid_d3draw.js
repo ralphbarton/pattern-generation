@@ -44,20 +44,23 @@ var Grid_d3draw = {
 	);
     },
 
-    updateBgGrid: function (svg, Grid, pGrid, options){
+    updateBgGrid: function (svgRef, Grid, pGrid, options){
+
+	const svg = d3.select(svgRef);
 	
 	const LS0 = this.getLS(Grid, 0);
 	const prevLS0 = this.getLS(pGrid, 0);
 	this.updateLineset(svg, LS0, prevLS0, options);
-
+/*
 	const LS1 = this.getLS(Grid, 1);
 	const prevLS1 = this.getLS(pGrid, 1);
 	this.updateLineset(svg, LS1, prevLS1, options);
+*/
     },
 
     
     // D3 modifies SVG contents from last time...
-    updateLineset: function (svg, Lineset, prevLineset, options){
+    updateLineset: function (d3_svg, Lineset, prevLineset, options){
 
 	// 1. Determine what kind of update is required...
 	const fromBlank = prevLineset === null;
@@ -98,23 +101,20 @@ var Grid_d3draw = {
 		}
 	    }
 	}
-
-	const lsClass = "ls-" + Lineset.lsIndex;
-	const creationClass  = fadeOut   ? "no-class" : ("grid-" + Lineset.uid) + ' ' + lsClass;
-	const selectionClass = fromBlank ? "no-class" : (".grid-" + prevLineset.uid) + '.' + lsClass;
-	const reSelectionClass = fadeOut   ? "no-class" : (".grid-" + Lineset.uid) + '.' + lsClass;
 	
 	// 4. First pass of D3, runs unconditionally: change the set to contain the correct (final) number of lines
 	
 	// Perform a JOIN opeation between data and lines
-	var selection = d3.select(svg)
-	    .selectAll(selectionClass).data(lines_indices_list);	
+	const lsClass = "ls-" + Lineset.lsIndex;
+
+	var selection = d3_svg
+	    .selectAll('.'+lsClass).data(lines_indices_list);	
 	
 	// 4.1 CREATE any lines which are absent
 	// these lines will be created based upon the 'starting', not the 'target' angle and interval.
 	// they will be transparent, animating to solid black
 	selection.enter()
-	    .append("line").attr("class", creationClass)
+	    .append("line").attr("class", lsClass)
 	    .attr("x1", -Radius)
 	    .attr("x2", +Radius)
 	    .attr("y1", function(d){return d*inte_starting + shift_starting;})
@@ -137,8 +137,8 @@ var Grid_d3draw = {
 	
 	// Perform another JOIN opeation between data and lines. This will pick up every line, newly added and old.
 	// joining the new data is necessary because what we don't want to pick up is old lines that are fading out
-	var reselection = d3.select(svg)
-	    .selectAll(reSelectionClass).data(lines_indices_list);
+	var reselection = d3_svg
+	    .selectAll('.'+lsClass).data(lines_indices_list);
 
 	//first run a transition to instantaneously make them all black
 	reselection
