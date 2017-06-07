@@ -7,6 +7,13 @@ import Grid_d3draw from './Grid/plain-js/Grid_d3draw';
 //
 class SvgGrid extends React.PureComponent {
 
+    constructor(props) {
+	super(props);
+	this.state = {
+	    Grid: props.gridObj,
+	    prevGrid: null
+	};
+    }
     
     componentWillReceiveProps(nextProps){
 	this.setState({
@@ -16,21 +23,25 @@ class SvgGrid extends React.PureComponent {
     }
     
     shouldComponentUpdate(nextProps, nextState){
-	if(this.state === null){return false;} // copy-pasted
-	return this.state.Grid !== nextState.Grid;
+	return this.state.Grid !== nextState.Grid || this.props.bgGridCtrl !== nextProps.bgGridCtrl;
     }
 
     componentDidUpdate(){
+	console.log("Grid_d3draw");
 	Grid_d3draw.updateBgGrid(this.refs.svg, this.props.gridObj, this.state.prevGrid, {});
     }
 
     render() {
 	const Grid = this.props.gridObj;
+
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
+	const visible = this.props.bgGridCtrl.showAllGrids === this.props.isMultiGrid;
 
+	const myStyle = {width:  winW, height:  winH, display: (visible ? "block" : "none")};
+	
 	return(
-	    <svg className={"GridSVG-uid"+Grid.uid} style={{width:  winW, height:  winH}} ref="svg" />
+	    <svg className={"GridSVG-uid"+Grid.uid} style={myStyle} ref="svg" />
 	);
     }
 }
@@ -84,7 +95,7 @@ class PGT_Background extends React.PureComponent {
 	    showAll: showAll
 	};
 
-	/*
+
 	this.props.DataArrays['grid'].forEach((Grid_i)=>{
 
 	    const isSelectedGrid = Grid !== undefined && Grid_i.uid === Grid.uid;
@@ -97,7 +108,7 @@ class PGT_Background extends React.PureComponent {
 	    // Update Grid...
 	    Grid_d3draw.updateBgGrid(this.refs.svg, Grid_i, prevGrid, options);
 	});
-*/
+
 
 	/*
 	//may update points, and will certainly hide them if required.
@@ -112,15 +123,21 @@ class PGT_Background extends React.PureComponent {
 	console.log("PGT_Background render() called");
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
+
+	const bgGridCtrl = this.props.bgControl.grid;
+	const gridArray = this.props.DataArrays['grid'];
+
+	const nextGrid = bgGridCtrl.active ? util.lookup(gridArray, "uid", bgGridCtrl.selGridUid) : undefined;
+		
 	return (
 	    <div className="PGT_Background">
 	      <div className="GridsSVGcontainer">
-		{/*<svg className="transformingGridSVG" style={{width:  winW, height:  winH}} ref="svg" />*/}
+		<svg className="transformingGridSVG" style={{width:  winW, height:  winH}} ref="svg" />
 		{
-		    this.props.DataArrays['grid'].map((Grid)=>{
+		    gridArray.map((Grid)=>{
 			const uid = Grid.uid;
 			return(
-			    <SvgGrid key={Grid.uid} gridObj={Grid}/>
+			    <SvgGrid key={Grid.uid} gridObj={Grid} bgGridCtrl={bgGridCtrl} isMultiGrid={true}/>
 			);
 		    })
 		}

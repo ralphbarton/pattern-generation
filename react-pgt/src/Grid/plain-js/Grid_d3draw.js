@@ -51,11 +51,11 @@ var Grid_d3draw = {
 	const LS0 = this.getLS(Grid, 0);
 	const prevLS0 = this.getLS(pGrid, 0);
 	this.updateLineset(svg, LS0, prevLS0, options);
-/*
+
 	const LS1 = this.getLS(Grid, 1);
 	const prevLS1 = this.getLS(pGrid, 1);
 	this.updateLineset(svg, LS1, prevLS1, options);
-*/
+
     },
 
     

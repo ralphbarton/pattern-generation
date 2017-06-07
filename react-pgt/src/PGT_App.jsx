@@ -21,7 +21,7 @@ class PGT_App extends React.PureComponent {
 		"grid": GridSampleData.arr
 	    },
 	    bgControl: {
-		"grid": {}
+		"grid": {active: false}
 	    }
 	};
     }
