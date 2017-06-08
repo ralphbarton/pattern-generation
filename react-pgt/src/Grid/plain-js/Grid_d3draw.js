@@ -61,7 +61,8 @@ var Grid_d3draw = {
     
     // D3 modifies SVG contents from last time...
     updateLineset: function (d3_svg, Lineset, prevLineset, options){
-
+	if(Lineset === null && prevLineset == null){return;}
+	
 	/*
 	  {options} include:
 

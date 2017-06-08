@@ -255,6 +255,7 @@ class MainTab_Grid extends React.PureComponent {
 			 const en_square = (LS[1].angle + LS[0].angle !== 90) || (!equal_spacings);
 			 return [en_isometric, en_square, en_diamond];
 		    }}
+		    enabled={Grid_i.n_dimentions > 1}
 		    actions={[
 			 {
 			     name: "Isometric (hex)",

@@ -65,7 +65,7 @@
 /* This code below needs review / integration testing */
 
 .WgBoxie.disabled{
-    opacity: 0.4;
+    opacity: 0.5;
     color: rgba(0,30,70,0.7);
     border-color: rgba(0,30,70,0.3);
 }

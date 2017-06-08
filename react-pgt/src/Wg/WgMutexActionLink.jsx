@@ -34,8 +34,10 @@ class WgMutexActionLink extends React.PureComponent {
 	    enabledArray = eTest.representedValuesArray.map( (el)=>{return el !== eTest.currentValue;});
 	}
 
+	const containerExtraClass = this.props.enabled === false ? "disabled " : "";
+	
 	return (
-	    <div className={"WgMutexActionLink " + this.props.className}>
+	    <div className={"WgMutexActionLink " + containerExtraClass+ this.props.className}>
 	      {this.props.name}
 	      {
 		  this.props.actions.map( (action, i) => {

@@ -89,6 +89,7 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 			 currentValue: this.props.lineSetData.spacing_unit,
 			 representedValuesArray: ["pixels", "percent", "quantity"]
 		     }}
+		     enabled={this.props.enabled}
 		     actions={[
 			 {
 			     name: "px",

@@ -12,3 +12,29 @@
 .WgMutexActionLink > .action-link:not(:last-child){
     border-right: 2px solid rgba(0,30,70,0.25);
 }
+
+
+/* normally blue links take a greenish colour when container
+   MutexActionLink is diabled, and thing goes to half opacity 
+   overall.
+*/
+
+.WgMutexActionLink.disabled{
+    opacity: 0.5;
+}
+
+/* this prevents applying half opacity twice!*/
+.disabled .WgMutexActionLink.disabled{
+    opacity: 1;
+}
+
+.WgMutexActionLink.disabled > .action-link{
+    color: #1c737c;
+    text-shadow: none;
+    cursor: default;
+    pointer-events: none;
+}
+
+.WgMutexActionLink.disabled > .action-link.disabled{
+    color: rgba(0,30,70,0.5);
+}

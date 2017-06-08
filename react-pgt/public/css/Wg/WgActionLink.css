@@ -15,8 +15,6 @@
 }
 
 .action-link.disabled{
-    display: inline-block;
-    text-decoration: underline;
     color: rgba(0,30,70,0.5);
     cursor: default;
     text-shadow: unset;

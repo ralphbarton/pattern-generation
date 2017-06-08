@@ -49,9 +49,6 @@ class SvgGrid extends React.PureComponent {
 }
 
 
-
-
-
 //this is really a component specifically for GRID background...
 class PGT_Background extends React.PureComponent {
 
@@ -60,29 +57,18 @@ class PGT_Background extends React.PureComponent {
 	Grid_d3draw.randomiseColourSet();
     }
 
-    /*
-    shouldComponentUpdate(nextProps, nextState){
-	const pGrd = this.props.bgControl.grid;
-	const Grd = nextProps.bgControl.grid;
-	const cfgChange = pGrd.showAllGrids !== Grd.showAllGrids || pGrd.showColourGrids !== Grd.showColourGrids;
-	return this.state.Grid !== nextState.Grid || cfgChange;
-    }*/   
     
     render() {
 	console.log("PGT_Background render() called");
-	const winW = window.innerWidth;
-	const winH = window.innerHeight;
 
 	const bgGridCtrl = this.props.bgControl.grid;
 	const gridArray = this.props.DataArrays['grid'];
-
 	const nextGrid = bgGridCtrl.active ? util.lookup(gridArray, "uid", bgGridCtrl.selGridUid) : null;
 	
 	return (
 	    <div className="PGT_Background">
 	      <div className="GridsSVGcontainer">
 		<SvgGrid gridObj={nextGrid} bgGridCtrl={bgGridCtrl} isMultiGrid={false}/>
-		{/*		<svg className="transformingGridSVG" style={myStyle} ref="svg" />*/}
 		{
 		    gridArray.map((Grid)=>{
 			return(
