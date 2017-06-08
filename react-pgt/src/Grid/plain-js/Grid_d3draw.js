@@ -62,11 +62,24 @@ var Grid_d3draw = {
     // D3 modifies SVG contents from last time...
     updateLineset: function (d3_svg, Lineset, prevLineset, options){
 
+	/*
+	  {options} include:
+
+	  'selGridUid'
+	  'lockAngles'
+	  'showColourGrids'
+	 */
+	
+	
 	// 1. Determine what kind of update is required...
 	const fromBlank = prevLineset === null;
 	const fadeOut = Lineset === null;
-
-
+	const isSelGrid = (!fadeOut) && options.selGridUid === Lineset.uid;
+	const isCol = options.showColourGrids;
+	const strokeColour = ((!fadeOut) && isCol) ? (this.rColours[Lineset.uid % 8]) : (isSelGrid ? "black" : "#cccccc");
+	const strokeTargetOpac = isSelGrid || (! isCol) ? 1 : 0.7;
+	const strokeThickness = (isSelGrid && isCol) ? 1.5 : 1;	
+	
 	// 2. Setting the dimentional. "Diameter" is of a circle containing the rectangle of the screen. 
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
@@ -75,17 +88,19 @@ var Grid_d3draw = {
 	const origX = winW/2;
 	const origY = winH/2;
 	const Radius = Dia/2;
-	const neg_ang = Lineset.lsIndex === 0 ? -1 : 1;
+
 	
 	// interval & angle - starting & target
-	const inte_target = Lineset.spacing;
-	const shift_target = Lineset.shift * 0.01 * inte_target;//convert to pixels (frac of inte, in px)
-	const angle_target = Lineset.angle * neg_ang;
+	if(!fadeOut){
+	    var neg_ang = Lineset.lsIndex === 0 ? -1 : 1;
+	    var inte_target = Lineset.spacing;
+	    var shift_target = Lineset.shift * 0.01 * inte_target;//convert to pixels (frac of inte, in px)
+	    var angle_target = Lineset.angle * neg_ang;
 
-	const inte_starting = fromBlank ?  inte_target  : prevLineset.spacing;
-	const angle_starting = fromBlank ? angle_target : (prevLineset.angle * neg_ang);
-	const shift_starting = fromBlank ? shift_target : (prevLineset.shift * 0.01 * inte_starting);//convert to pixels
-
+	    var inte_starting = fromBlank ?  inte_target  : prevLineset.spacing;
+	    var angle_starting = fromBlank ? angle_target : (prevLineset.angle * neg_ang);
+	    var shift_starting = fromBlank ? shift_target : (prevLineset.shift * 0.01 * inte_starting);//convert to pixels
+	}
 
 	// 3. Generate data to apply the D3 to, for one line set. This is an array of positive and negative indices.
 	// N1 is the number of lines in just the upper half. It is the 'target' quantity of lines.
@@ -105,7 +120,7 @@ var Grid_d3draw = {
 	// 4. First pass of D3, runs unconditionally: change the set to contain the correct (final) number of lines
 	
 	// Perform a JOIN opeation between data and lines
-	const lsClass = "ls-" + Lineset.lsIndex;
+	const lsClass = "ls-" + (fadeOut ? prevLineset.lsIndex : Lineset.lsIndex);
 
 	var selection = d3_svg
 	    .selectAll('.'+lsClass).data(lines_indices_list);	
@@ -120,9 +135,9 @@ var Grid_d3draw = {
 	    .attr("y1", function(d){return d*inte_starting + shift_starting;})
 	    .attr("y2", function(d){return d*inte_starting + shift_starting;})
 	    .attr("transform", "translate("+origX+" "+origY+") rotate("+angle_starting+")")
-	    .attr("stroke", options.isSelectedGrid ? "black" : "#cccccc")
+	    .attr("stroke", strokeColour)
 	    .attr("opacity", 0)
-	    .attr("stroke-width","1");
+	    .attr("stroke-width", strokeThickness);
 	
 	// 4.2 REMOVE any lines that are excess
 	selection.exit()
@@ -140,19 +155,21 @@ var Grid_d3draw = {
 	var reselection = d3_svg
 	    .selectAll('.'+lsClass).data(lines_indices_list);
 
-	//first run a transition to instantaneously make them all black
+	//first run a transition to instantaneously make them all opacity=1
 	reselection
 	    .transition()
 	    .duration(fromBlank ? 500 : 0)
 	    .ease(d3.easeLinear)
-	    .attr("opacity", 1)
+	    .attr("opacity", strokeTargetOpac)
+	    .attr("stroke", strokeColour)
+	    .attr("stroke-width", strokeThickness)
 	//now run a cascading & non-instantaneous transition on position+angle
 	    .transition()
 	    .delay(function(d, i) {
 		// Cascading the animation (by a variable deley) is a pretty cool effect
 		// for 'locked angle' behaviour, I think it's better if the whole grid rotates rigidly.
 		// The largest "delay multiplier" is (i/N1) = 2
-		return (i / N1) * (options.rigidRotate ? 0 : 250);
+		return (i / N1) * (options.lockAngles ? 0 : 250);
 	    })
 	    .duration(500)
 	    .attr("y1", function(d){return d*inte_target + shift_target;})
