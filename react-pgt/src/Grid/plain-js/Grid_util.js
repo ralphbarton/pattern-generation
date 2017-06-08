@@ -87,8 +87,40 @@ var Grid_util = {
 	    changedLockAngles: changedLockAngles
 	};
 	
+    },
+
+    newRandomRectGrid: function(number){
+
+	//we will create a new grid with random parameters...
+	function getRandomInt(min, max) {
+	    return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	//50% channce of square, otherwise a long rectangle...
+	var square_side = Math.random() > 0.5 ? getRandomInt(40, 120) : undefined;
+	var cell_W = square_side || getRandomInt(120, 240);
+	var cell_H = square_side || getRandomInt(20,  80);
+
+	return{
+	    name: "New Grid ("+number+")",
+	    /*uid:  (added later)  */
+	    type: "std",
+	    n_dimentions: 2,
+	    line_sets:[
+		{// set 1
+		    spacing: cell_H,
+		    spacing_unit: 'pixels',
+		    shift: 0,
+		    angle: 0
+		},
+		{// set 2
+		    spacing: cell_W,
+		    spacing_unit: 'pixels',
+		    shift: 0,
+		    angle: 90
+		}
+	    ]
+	};
     }
-    
 }
 
 
