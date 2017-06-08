@@ -213,7 +213,10 @@ class MainTab_Grid extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "1D (=lines)",
-			     cb: ()=>{this.handleSelGridChange({n_dimentions: {$set: 1}});}
+			     cb: ()=>{
+				 this.handleSelGridChange({n_dimentions: {$set: 1}});
+				 this.handleSharedStateChange("lockAngles", false);// will reset locked angles
+			     }
 			 },{
 			     name: "2D (=grid)",
 			     cb: ()=>{this.handleSelGridChange({n_dimentions: {$set: 2}});}
@@ -277,13 +280,13 @@ class MainTab_Grid extends React.PureComponent {
 			 currentValue: this.state.lockAngles,
 			 representedValuesArray: [true, false]
 		     }}
+		     enabled={Grid_i.n_dimentions > 1}
 		     actions={[
 			 {
 			     name: "link",
 			     cb: this.handleSharedStateChange.bind(this, "lockAngles", true)
 			 },{
 			     name: "unlink",
-			     
 			     cb: this.handleSharedStateChange.bind(this, "lockAngles", false)
 			 }
 		     ]}
@@ -307,6 +310,7 @@ class MainTab_Grid extends React.PureComponent {
 			   representedValuesArray: [false, true]
 		       }}
 		       className="showAll"
+		       enabled={this.state.previewActive}
 		       actions={[
 			   {
 			       name: "Show Selected",
@@ -327,6 +331,7 @@ class MainTab_Grid extends React.PureComponent {
 			   representedValuesArray: [true, false]
 		       }}
 		       className="gridlinesColour"
+		       enabled={this.state.previewActive && this.state.showAllGrids}
 		       actions={[
 			   {
 			       name: "Colour",
@@ -344,6 +349,7 @@ class MainTab_Grid extends React.PureComponent {
 			   representedValuesArray: [false, true]
 		       }}
 		       className="showPoints"
+		       enabled={this.state.previewActive && (!this.state.showAllGrids)}
 		       actions={[
 			   {
 			       name: "Hide",

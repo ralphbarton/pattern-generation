@@ -17,7 +17,7 @@ class SvgGrid extends React.PureComponent {
     
     componentWillReceiveProps(nextProps){
 	this.setState({
-	    Grid: nextProps.gridObj,
+	    Grid: (nextProps.bgGridCtrl.active ? nextProps.gridObj : null),
 	    prevGrid: (this.state !== null ? this.state.Grid : null)
 	});
     }
@@ -27,7 +27,7 @@ class SvgGrid extends React.PureComponent {
     }
 
     componentDidUpdate(){
-	Grid_d3draw.updateBgGrid(this.refs.svg, this.props.gridObj, this.state.prevGrid, this.props.bgGridCtrl);
+	Grid_d3draw.updateBgGrid(this.refs.svg, this.state.Grid, this.state.prevGrid, this.props.bgGridCtrl);
     }
 
     render() {
