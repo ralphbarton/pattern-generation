@@ -17,17 +17,17 @@ class SvgGrid extends React.PureComponent {
     
     componentWillReceiveProps(nextProps){
 	this.setState({
-	    Grid: (nextProps.bgGridCtrl.active ? nextProps.gridObj : null),
+	    Grid: (nextProps.gridUIState.active ? nextProps.gridObj : null),
 	    prevGrid: (this.state !== null ? this.state.Grid : null)
 	});
     }
     
     shouldComponentUpdate(nextProps, nextState){
-	return this.state.Grid !== nextState.Grid || this.props.bgGridCtrl !== nextProps.bgGridCtrl;
+	return this.state.Grid !== nextState.Grid || this.props.gridUIState !== nextProps.gridUIState;
     }
 
     componentDidUpdate(){
-	Grid_d3draw.updateBgGrid(this.svgElement, this.state.Grid, this.state.prevGrid, this.props.bgGridCtrl);
+	Grid_d3draw.updateBgGrid(this.svgElement, this.state.Grid, this.state.prevGrid, this.props.gridUIState);
     }
 
     render() {
@@ -35,7 +35,7 @@ class SvgGrid extends React.PureComponent {
 
 	const winW = window.innerWidth;
 	const winH = window.innerHeight;
-	const visible = this.props.bgGridCtrl.showAllGrids === this.props.isMultiGrid;
+	const visible = this.props.gridUIState.showAllGrids === this.props.isMultiGrid;
 
 	const uid = Grid ? Grid.uid : "no-uid";
 	const svgClass = this.props.isMultiGrid ? ("GridSVG-uid" + uid) : "transformingGridSVG";
@@ -67,18 +67,19 @@ class PGT_Background extends React.PureComponent {
     render() {
 	console.log("PGT_Background render() called");
 
-	const bgGridCtrl = this.props.bgControl.grid;
+	const gridUIState = this.props.UIState.grid;
+	
 	const gridArray = this.props.DataArrays['grid'];
-	const nextGrid = bgGridCtrl.active ? util.lookup(gridArray, "uid", bgGridCtrl.selGridUid) : null;
+	const nextGrid = gridUIState.active ? util.lookup(gridArray, "uid", gridUIState.selectedGridUid) : null;
 	
 	return (
 	    <div className="PGT_Background">
 	      <div className="GridsSVGcontainer">
-		<SvgGrid gridObj={nextGrid} bgGridCtrl={bgGridCtrl} isMultiGrid={false}/>
+		<SvgGrid gridObj={nextGrid} gridUIState={gridUIState} isMultiGrid={false}/>
 		{
 		    gridArray.map((Grid)=>{
 			return(
-			    <SvgGrid key={Grid.uid} gridObj={Grid} bgGridCtrl={bgGridCtrl} isMultiGrid={true}/>
+			    <SvgGrid key={Grid.uid} gridObj={Grid} gridUIState={gridUIState} isMultiGrid={true}/>
 			);
 		    })
 		}

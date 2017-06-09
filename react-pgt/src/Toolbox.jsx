@@ -17,7 +17,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 4,
+	    selectedTabIndex: 3,
 	    tabsEnabled: true
 	};
     }
@@ -72,7 +72,7 @@ class Toolbox extends React.PureComponent {
 				return (
 				    <MainTab_CpotView					    
 				       cpotArray={this.props.DataArrays.cpot}
-				       onCpotChange={(arg1, arg2)=>{this.props.handleDataChange("cpot", arg1, arg2);}}
+				       onCpotChange={(arg1, arg2)=>{this.props.onDataChange("cpot", arg1, arg2);}}
 				      onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
 				      />
 				);
@@ -89,8 +89,9 @@ class Toolbox extends React.PureComponent {
 				return (
 				    <MainTab_Grid
 				       gridArray={this.props.DataArrays.grid}
-				       onGridChange={(arg1, arg2)=>{this.props.handleDataChange("grid", arg1, arg2);}}
-				      onBgChange={($chg)=>{this.props.onBgChange({"grid": $chg});}}
+				       onGridChange={(arg1, arg2)=>{this.props.onDataChange("grid", arg1, arg2);}}
+				      gridUIState={this.props.UIState.grid}
+				      setGridUIState={($chg)=>{this.props.onUIStateChange({"grid": $chg});}}
 				      />
 				);
 
@@ -99,7 +100,7 @@ class Toolbox extends React.PureComponent {
 				return (
 				    <MainTab_Plot
 				       plotArray={this.props.DataArrays.grid}
-				       onGridChange={(arg1, arg2)=>{this.props.handleDataChange("plot", arg1, arg2);}}
+				       onGridChange={(arg1, arg2)=>{this.props.onDataChange("plot", arg1, arg2);}}
 				      />
 				);
 

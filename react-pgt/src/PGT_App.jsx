@@ -20,8 +20,10 @@ class PGT_App extends React.PureComponent {
 		"cpot": CpotSampleData.arr,
 		"grid": GridSampleData.arr
 	    },
-	    bgControl: {
-		"grid": {active: false}
+	    UI: {
+		"grid": {
+		    selectedRowIndex: 0
+		}
 	    }
 	};
     }
@@ -35,12 +37,12 @@ class PGT_App extends React.PureComponent {
 	});
     }
 
-    handleBgChange($update){
+    handleUIStateChange($update){
 	this.setState({
-	    bgControl: update(this.state.bgControl, $update)
+	    UI: update(this.state.UI, $update)
 	});
     }
-
+    
     
     render() {
 	return (
@@ -48,14 +50,15 @@ class PGT_App extends React.PureComponent {
 	      {/* 1. Backgrounds */}
 	      <PGT_Background
 		 DataArrays={this.state.DataArrays}
-		 bgControl={this.state.bgControl}
+		 UIState={this.state.UI}
 		 />
 
 	      {/* 2. Floating (draggable) Toolbox */}
 	      <Toolbox
 		 DataArrays={this.state.DataArrays}
-		 handleDataChange={this.handleDataChange.bind(this)}
-		 onBgChange={this.handleBgChange.bind(this)}
+		 onDataChange={this.handleDataChange.bind(this)}
+		 UIState={this.state.UI}
+		 onUIStateChange={this.handleUIStateChange.bind(this)}
 		 />
 	    </div>
 	);

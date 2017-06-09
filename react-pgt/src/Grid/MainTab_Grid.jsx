@@ -16,78 +16,73 @@ import Grid_util from './plain-js/Grid_util';
 
 class MainTab_Grid extends React.PureComponent {
 
-    constructor() {
-	super();
-	this.state = {
-	    selectedRowIndex: 0,
-	    lockAngles: false,
-	    previewActive: false, /* i.e. the grid lines */
-	    pointsActive: false, /* i.e. the intersection points */
-	    showAllGrids: false, //synchronising state
-	    showColourGrids: false  //synchronising state
-	};
+
+    /*
+     All communication via:
+     --
+     this.props.gridUIState
+     this.props.setGridUIState($chg)
+
+
+     default state...
+
+     selectedRowIndex: 0,
+     lockAngles: false,
+     previewActive: false, // i.e. the grid lines
+     pointsActive: false, // i.e. the intersection points
+     showAllGrids: false, //synchronising state
+     showColourGrids: false  //synchronising state
+
+     */
+
+    constructor(props) {
+	super(props);
+	this.UIState = this.props.gridUIState;
+    }
+
+    //any change to the selected Grid
+    handleSelGridChange($change){
+	const rIndex = this.UIState.selectedRowIndex;
+	this.props.onGridChange("update", {index: rIndex, $Updater: $change});
+    }    
+
+    // pass UI state change up to a parent component. It is not stored here...
+    handleUIStateChange(key, value){
+	this.props.setGridUIState({
+	    [key]: {$set: value}
+	});
     }
 
     componentDidMount(){
 	// this lifecycle method is to set a UID default uid of grid index 0.
 	const Grid_i = this.props.gridArray[0];
-	this.props.onBgChange({
-	    selGridUid: {$set: Grid_i.uid},
-	    active: {$set: false}, //this is synchronising state between components, a bad idea in principle and practice!
-	    lockAngles: {$set: false},//this again is synchronising state between components, a bad idea..
-	    pointsActive: {$set: false}, //synchronising state
-	    showAllGrids: {$set: false}, //synchronising state
-	    showColourGrids: {$set: false}  //synchronising state
-	});
+	this.handleUIStateChange("selectedGridUid", Grid_i.uid);
     }
+
     
     handleRowSelectedChange(index){
-	if (index === this.state.selectedRowIndex){return;}
-	this.setState({
-	    selectedRowIndex: index
-	});
+	if (index === this.UIState.selectedRowIndex){return;}
 
-	//update which Bg grid is showing
 	const Grid_i = this.props.gridArray[index];
-	this.props.onBgChange({selGridUid: {$set: Grid_i.uid}});
+
+	//the object is updated to contain both the index and the UID of the grid...
+	this.props.setGridUIState({
+	    selectedRowIndex: {$set: index},
+	    selectedGridUid: {$set: Grid_i.uid}
+	});
     }
 
-    handleGridPreviewChange(options){
-
-	// command to change ON / OFF state of overall grid preview *may* or may not be in function call
-	if(options.active !== undefined){
-	    this.setState({
-		previewActive: options.active
-	    }); 
-	    this.props.onBgChange({active: {$set: options.active}});
-	}
-
-	// point visiblity *may* be requested to change.
-	if(options.pointsActive !== undefined){
-	    this.setState({
-		pointsActive: options.pointsActive
-	    });
-	    this.props.onBgChange({pointsActive: {$set: options.pointsActive}});
-	}	
-
-    }
-
-    //any change to the selected Grid
-    handleSelGridChange($change){
-	const rIndex = this.state.selectedRowIndex;
-	this.props.onGridChange("update", {index: rIndex, $Updater: $change});
-    }
-
+    
     // Iso / Squ / Dia
     handleSelGridToPresetType(toType){
-	const rIndex = this.state.selectedRowIndex;
+	const rIndex = this.UIState.selectedRowIndex;
 	const Grid_i = this.props.gridArray[rIndex];
-	const response = Grid_util.GeneratePresetTypeFromGrid(Grid_i, toType, this.state.lockAngles);
+	const response = Grid_util.GeneratePresetTypeFromGrid(Grid_i, toType, this.UIState.lockAngles);
 	this.props.onGridChange("update", {index: rIndex, $Updater: {
 	    line_sets: response.$LSupd
 	}});
 	if(response.changedLockAngles !== undefined){
-	    this.handleSharedStateChange("lockAngles", response.changedLockAngles);
+	    this.handleUIStateChange("lockAngles", response.changedLockAngles);
 	}
     }
 
@@ -108,8 +103,8 @@ class MainTab_Grid extends React.PureComponent {
 	}
 
 	//calc the change and apply to other angle...
-	if((key === "angle") && (this.state.lockAngles)){
-	    const Grid_i = this.props.gridArray[this.state.selectedRowIndex];
+	if((key === "angle") && (this.UIState.lockAngles)){
+	    const Grid_i = this.props.gridArray[this.UIState.selectedRowIndex];
 	    const delta = value - Grid_i.line_sets[ls].angle;
 	    const altAngle = Grid_i.line_sets[1-ls].angle - delta;
 	    $updater.line_sets[1-ls] = {angle: {$set: altAngle}};
@@ -118,12 +113,7 @@ class MainTab_Grid extends React.PureComponent {
 	this.handleSelGridChange($updater);	    
     }
 
-    handleSharedStateChange(sharedKey, newValue){
-	this.setState({[sharedKey]: newValue});
-	this.props.onBgChange({[sharedKey]: {$set: newValue}}); // state duplication aaargh!!
-    }
     
-
     grid_WgTableColumns(){
 	return ([
 	    {
@@ -144,14 +134,14 @@ class MainTab_Grid extends React.PureComponent {
 
     
     render(){
-	const Grid_i = this.props.gridArray[this.state.selectedRowIndex];
+	const Grid_i = this.props.gridArray[this.UIState.selectedRowIndex];
 	return (
 	    <div className="MainTab_Grid">
 
 	      {/* 1. Table & buttons beneath */}
 	      <div className="tableWithButtonsZone">
 	      <WgTable
-		 selectedRowIndex={this.state.selectedRowIndex}
+		 selectedRowIndex={this.UIState.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		rowRenderingData={this.props.gridArray}
 		columnsRendering={this.grid_WgTableColumns()}
@@ -163,7 +153,7 @@ class MainTab_Grid extends React.PureComponent {
 		     name="Add"
 		     buttonStyle={"small"}
 		     onClick={()=>{
-			 const i = this.state.selectedRowIndex;
+			 const i = this.UIState.selectedRowIndex;
 			 const new_grid = Grid_util.newRandomRectGrid(2); //uid prop will be added later
 			 this.props.onGridChange("add", {index: i, new_object: new_grid});
 			 this.handleRowSelectedChange(i+1);
@@ -174,7 +164,7 @@ class MainTab_Grid extends React.PureComponent {
 		     name="Delete"
 		     buttonStyle={"small"}
 		     onClick={()=>{
-			 const i = this.state.selectedRowIndex;
+			 const i = this.UIState.selectedRowIndex;
 			 const i_new = Math.min(this.props.gridArray.length -2, i);
 			 this.props.onGridChange("delete", {index: i});
 			 this.handleRowSelectedChange(i_new);
@@ -215,7 +205,7 @@ class MainTab_Grid extends React.PureComponent {
 			     name: "1D (=lines)",
 			     cb: ()=>{
 				 this.handleSelGridChange({n_dimentions: {$set: 1}});
-				 this.handleSharedStateChange("lockAngles", false);// will reset locked angles
+				 this.handleUIStateChange("lockAngles", false);// will reset locked angles
 			     }
 			 },{
 			     name: "2D (=grid)",
@@ -277,17 +267,17 @@ class MainTab_Grid extends React.PureComponent {
 		     name="Angles 1 & 2:"
 		     className="linkAngles"
 		     equityTestingForEnabled={{
-			 currentValue: this.state.lockAngles,
+			 currentValue: this.UIState.lockAngles,
 			 representedValuesArray: [true, false]
 		     }}
 		     enabled={Grid_i.n_dimentions > 1}
 		     actions={[
 			 {
 			     name: "link",
-			     cb: this.handleSharedStateChange.bind(this, "lockAngles", true)
+			     cb: this.handleUIStateChange.bind(this, "lockAngles", true)
 			 },{
 			     name: "unlink",
-			     cb: this.handleSharedStateChange.bind(this, "lockAngles", false)
+			     cb: this.handleUIStateChange.bind(this, "lockAngles", false)
 			 }
 		     ]}
 		     />		    
@@ -306,18 +296,18 @@ class MainTab_Grid extends React.PureComponent {
 		    <WgMutexActionLink
 		       name=""
 		       equityTestingForEnabled={{
-			   currentValue: this.state.showAllGrids,
+			   currentValue: this.UIState.showAllGrids,
 			   representedValuesArray: [false, true]
 		       }}
 		       className="showAll"
-		       enabled={this.state.previewActive}
+		       enabled={this.UIState.previewActive}
 		       actions={[
 			   {
 			       name: "Show Selected",
-			       cb: this.handleSharedStateChange.bind(this, "showAllGrids", false)
+			       cb: this.handleUIStateChange.bind(this, "showAllGrids", false)
 			   },{
 			       name: "Show All",
-			       cb: this.handleSharedStateChange.bind(this, "showAllGrids", true)
+			       cb: this.handleUIStateChange.bind(this, "showAllGrids", true)
 			   }
 		       ]}
 		       />
@@ -327,36 +317,36 @@ class MainTab_Grid extends React.PureComponent {
 		    <WgMutexActionLink
 		       name="Gridlines:"
 		       equityTestingForEnabled={{
-			   currentValue: this.state.showColourGrids,
+			   currentValue: this.UIState.showColourGrids,
 			   representedValuesArray: [true, false]
 		       }}
 		       className="gridlinesColour"
-		       enabled={this.state.previewActive && this.state.showAllGrids}
+		       enabled={this.UIState.previewActive && this.UIState.showAllGrids}
 		       actions={[
 			   {
 			       name: "Colour",
-			       cb: this.handleSharedStateChange.bind(this, "showColourGrids", true)
+			       cb: this.handleUIStateChange.bind(this, "showColourGrids", true)
 			   },{
 			       name: "Monochrome",
-			       cb: this.handleSharedStateChange.bind(this, "showColourGrids", false)
+			       cb: this.handleUIStateChange.bind(this, "showColourGrids", false)
 			   }
 		       ]}
 		       />
 		    <WgMutexActionLink
 		       name="Points:"
 		       equityTestingForEnabled={{
-			   currentValue: this.state.pointsActive,
+			   currentValue: this.UIState.pointsActive,
 			   representedValuesArray: [false, true]
 		       }}
 		       className="showPoints"
-		       enabled={this.state.previewActive && (!this.state.showAllGrids)}
+		       enabled={this.UIState.previewActive && (!this.UIState.showAllGrids)}
 		       actions={[
 			   {
 			       name: "Hide",
-			       cb: ()=>{this.handleGridPreviewChange({pointsActive: false});}
+			       cb: this.handleUIStateChange.bind(this, "pointsActive", false)
 			   },{
 			       name: "Show",
-			       cb: ()=>{this.handleGridPreviewChange({pointsActive: true});}
+			       cb: this.handleUIStateChange.bind(this, "pointsActive", true)
 			   }
 		       ]}
 		       />
@@ -366,14 +356,14 @@ class MainTab_Grid extends React.PureComponent {
 		  <div className="section3">
 		    <WgActionLink
 		       name={"Hide Preview"}
-		       onClick={()=>{this.handleGridPreviewChange({active: false});}}
-		      enabled={this.state.previewActive}
+		       onClick={this.handleUIStateChange.bind(this, "previewActive", false)}
+		       enabled={this.UIState.previewActive}
 		      />
 		      
 		      <WgButton
 			 name="Show"
-			 onClick={()=>{this.handleGridPreviewChange({active: true});}}
-			enabled={!this.state.previewActive}
+			 onClick={this.handleUIStateChange.bind(this, "previewActive", true)}
+			 enabled={!this.UIState.previewActive}
 			/>
 		  </div>		  
 
