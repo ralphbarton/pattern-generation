@@ -8,6 +8,7 @@ import Draggable from 'react-draggable';
 import TabStrip from './TabStrip';
 import MainTab_CpotView from './Cpot/MainTab_CpotView';
 import MainTab_Grid from './Grid/MainTab_Grid';
+import MainTab_Plot from './Plot/MainTab_Plot';
 
 
 class Toolbox extends React.PureComponent {
@@ -16,7 +17,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 3,
+	    selectedTabIndex: 4,
 	    tabsEnabled: true
 	};
     }
@@ -65,7 +66,9 @@ class Toolbox extends React.PureComponent {
 			//Determine which tab body to show...
 			(() => {
 			    switch (this.state.selectedTabIndex) {
+
 			    case 0:
+				// Colour Pots
 				return (
 				    <MainTab_CpotView					    
 				       cpotArray={this.props.DataArrays.cpot}
@@ -73,10 +76,15 @@ class Toolbox extends React.PureComponent {
 				      onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
 				      />
 				);
+				
 			    case 1:
+				// Colouring Functions
 				return <span> ere...  </span>;
+
 			    case 2:
+				// Motifs
 				return <span> Motifs here...  </span>;
+
 			    case 3:
 				return (
 				    <MainTab_Grid
@@ -85,10 +93,19 @@ class Toolbox extends React.PureComponent {
 				      onBgChange={($chg)=>{this.props.onBgChange({"grid": $chg});}}
 				      />
 				);
+
 			    case 4:
-				return <span> Density Plots here...  </span>;
+				// Density Plots
+				return (
+				    <MainTab_Plot
+				       plotArray={this.props.DataArrays.grid}
+				       onGridChange={(arg1, arg2)=>{this.props.handleDataChange("plot", arg1, arg2);}}
+				      />
+				);
+
 			    case 5:
 				return <span> Density Paintings here...  </span>;
+
 			    case 6:
 				return <span> Patterns here...  </span>;
 			    case 7:

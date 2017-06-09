@@ -1,1 +1,49 @@
 /* MainTab_Plot.css */
+
+/* 1. Table listing */
+
+.MainTab_Plot .WgTable tbody{
+     height: 160px;
+}
+
+.MainTab_Plot .WgTable .col-1{
+  width: 18px;
+}
+
+
+.MainTab_Plot .WgTable input.blue-cell{
+    width: 135px;
+}
+
+
+
+
+.MainTab_Plot .formulaBar input{
+  width: 600px;
+  font-size: 20px; 
+}
+
+
+.MainTab_Plot .mainFlex{
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.MainTab_Plot .mainFlex > div{
+  margin: 5px;/*ahem*/
+}
+
+.MainTab_Plot .mainFlex .thirdColumnZone{
+  /*background: rgba(0,255,255,0.2);*/
+  flex: 1 auto;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.MainTab_Plot .thirdColumnZone .zoomRotate{
+  flex: 1 auto;
+}
+
+.MainTab_Plot .thirdColumnZone .previewOptions{
+  flex: 1 auto;
+}
