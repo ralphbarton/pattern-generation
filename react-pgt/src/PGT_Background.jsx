@@ -27,7 +27,7 @@ class SvgGrid extends React.PureComponent {
     }
 
     componentDidUpdate(){
-	Grid_d3draw.updateBgGrid(this.refs.svg, this.state.Grid, this.state.prevGrid, this.props.bgGridCtrl);
+	Grid_d3draw.updateBgGrid(this.svgElement, this.state.Grid, this.state.prevGrid, this.props.bgGridCtrl);
     }
 
     render() {
@@ -37,13 +37,19 @@ class SvgGrid extends React.PureComponent {
 	const winH = window.innerHeight;
 	const visible = this.props.bgGridCtrl.showAllGrids === this.props.isMultiGrid;
 
-	const myStyle = {width:  winW, height:  winH, display: (visible ? "block" : "none")};
-
 	const uid = Grid ? Grid.uid : "no-uid";
 	const svgClass = this.props.isMultiGrid ? ("GridSVG-uid" + uid) : "transformingGridSVG";
 	
 	return(
-	    <svg className={svgClass} style={myStyle} ref="svg" />
+	    <svg
+	       className={svgClass}
+	       style={{
+		   width:  winW,
+		   height:  winH,
+		   display: (visible ? "block" : "none")
+	       }}
+	       ref={ (el) => {this.svgElement = el;}}
+	      />
 	);
     }
 }

@@ -47,7 +47,7 @@ class WgGradientCell extends React.PureComponent {
 
     componentDidMount() {
 	//called by React immediately after render()
-	const canvas = this.refs.canvas;
+	const canvas = this.canvasElement;
 	putGradientOnCanvas(canvas, this.props.expandedRange, this.props.gradConf);
     }
 
@@ -55,7 +55,7 @@ class WgGradientCell extends React.PureComponent {
 	return (
 	    <canvas
 	       className="WgGradientCell"
-	       ref="canvas"
+	       ref={ (el) => {this.canvasElement = el;}}
 	       width={this.props.dim}
 	       height={this.props.dim}
 	       />
