@@ -16,7 +16,9 @@
 }
 
 
-
+.MainTab_Plot .formulaBar{
+  margin: 5px;
+}
 
 .MainTab_Plot .formulaBar input{
   width: 600px;
