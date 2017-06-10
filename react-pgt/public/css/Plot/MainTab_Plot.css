@@ -1,9 +1,9 @@
 /* MainTab_Plot.css */
 
-/* 1. Table listing */
+/* 1. Objects Table */
 
 .MainTab_Plot .WgTable tbody{
-     height: 160px;
+     height: 180px;
 }
 
 .MainTab_Plot .WgTable .col-1{
@@ -15,27 +15,85 @@
     width: 135px;
 }
 
+.MainTab_Plot .WgTable{
+  margin-right: 2px;
+}
+
+
+
+
+
+
+
+/* 2. Formula Bar */
 
 .MainTab_Plot .formulaBar{
-  margin: 5px;
+  margin-left: 5px;
+  margin-top: 2px;
 }
 
 .MainTab_Plot .formulaBar input{
-  width: 600px;
+  width: 630px;
   font-size: 20px; 
 }
 
-
-.MainTab_Plot .mainFlex{
+.MainTab_Plot .formulaBar .actionsBar{
+  font-size: 11px;
   display: flex;
   flex-flow: row nowrap;
+  justify-content: space-around;
+  margin-bottom: 2px;
 }
 
-.MainTab_Plot .mainFlex > div{
+.MainTab_Plot .formulaBar span{
+  font-weight: bold;
+}
+
+
+
+
+
+.MainTab_Plot .tableWithButtonsZone{
+  text-align: right;
+}
+
+
+.MainTab_Plot{
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.MainTab_Plot .WgBoxie{
   margin: 5px;/*ahem*/
 }
 
-.MainTab_Plot .mainFlex .thirdColumnZone{
+.MainTab_Plot .WgBoxie .contents{
+  padding: 2px;
+}
+
+.MainTab_Plot .histogram{
+  margin-right: 1px;
+}
+
+.MainTab_Plot .Hblock{
+    display: inline-block;
+    margin: 1px;
+    background-color: rgba(99, 129, 26, 0.59);
+    border: 1px solid rgba(23, 114, 40, 0.81);
+}
+
+.MainTab_Plot .Hblock.hist{
+  width: 147px;
+  height: 78px;
+}
+
+.MainTab_Plot .Hblock.conv{
+  width: 70px;
+  height: 70px;
+}
+
+
+.MainTab_Plot .thirdColumnZone{
   /*background: rgba(0,255,255,0.2);*/
   flex: 1 auto;
   display: flex;
@@ -48,4 +106,9 @@
 
 .MainTab_Plot .thirdColumnZone .previewOptions{
   flex: 1 auto;
+}
+
+.MainTab_Plot .thirdColumnZone span{
+  text-align: right;
+  font-size: 11px;
 }

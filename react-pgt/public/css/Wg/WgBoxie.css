@@ -54,6 +54,7 @@
 
 .WgBoxie.s > .outline > .contents {
     margin-top: 6px;
+    font-size: 11px; /*musch smaller default text size*/
 }
 
 
