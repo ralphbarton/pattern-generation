@@ -1,0 +1,58 @@
+/* WgSpecialButton.css */
+
+.WgSpecialButton {
+    padding: 0px;
+    color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+    vertical-align: top;
+}
+
+.WgSpecialButton:hover {
+    text-decoration: none;
+}
+
+.WgSpecialButton.mediumSquare{
+    width: 25px;
+    height: 25px;
+    margin: 1px;
+}
+
+.WgSpecialButton.mediumSquare span{
+    position: relative;
+}
+
+.WgSpecialButton.mediumSquare span.symbolPlus{
+    font-size: 33px;
+    top: -9px;
+}
+
+.WgSpecialButton.mediumSquare span.symbolMinus{
+        font-size: 28px;
+
+    top: -6px;
+    left: -0px;
+}
+
+.WgSpecialButton.mediumSquare img {
+    position: relative;
+    opacity: 0.3;
+}
+
+.WgSpecialButton.mediumSquare:hover img{
+    opacity: 1;
+    /* This hack of a filter turns black to dark blue!*/
+    filter: invert(1) brightness(0.5) sepia(1) hue-rotate(180deg) saturate(4) brightness(0.45);
+}
+
+.WgSpecialButton.mediumSquare img.arrow {
+    width: 26px;
+    top: -2px;
+    left: -1px;
+
+}
+
+.WgSpecialButton.mediumSquare img.ringArrow {
+    width: 18px;
+    top: 2px;
+    left: -0px;
+}

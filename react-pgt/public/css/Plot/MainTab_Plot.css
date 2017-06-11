@@ -1,31 +1,26 @@
 /* MainTab_Plot.css */
 
-/* 1. Objects Table */
 
-.MainTab_Plot .WgTable tbody{
-     height: 180px;
+/* Arranging overall tab with a flexbox
+  first row= formula bar,
+  BOTTOM row = 3 columns
+*/
+
+.MainTab_Plot{
+  display: flex;
+  flex-flow: row wrap;
 }
 
-.MainTab_Plot .WgTable .col-1{
-  width: 18px;
-}
-
-
-.MainTab_Plot .WgTable input.blue-cell{
-    width: 135px;
-}
-
-.MainTab_Plot .WgTable{
-  margin-right: 2px;
+/* buttons alignment*/
+.MainTab_Plot .tableWithButtonsZone{
+  text-align: right;
 }
 
 
 
 
 
-
-
-/* 2. Formula Bar */
+/* 1. Formula Bar */
 
 .MainTab_Plot .formulaBar{
   margin-left: 5px;
@@ -53,23 +48,56 @@
 
 
 
-.MainTab_Plot .tableWithButtonsZone{
-  text-align: right;
+
+
+/* 2. Left side: Table */
+
+.MainTab_Plot .WgTable tbody{
+     height: 180px;
+}
+
+.MainTab_Plot .WgTable .col-1{
+  width: 18px;
+}
+
+.MainTab_Plot .WgTable .col-2{
+  width: 140px;
+    padding: 0px;
+    padding-right: 1px;
+}
+
+.MainTab_Plot .WgTable input.blue-cell{
+    width: 134px;
+}
+
+.MainTab_Plot .WgTable th.col-3{
+  width: 70px;
+}
+
+.MainTab_Plot .WgTable{
+  margin-right: 2px;
 }
 
 
-.MainTab_Plot{
-  display: flex;
-  flex-flow: row wrap;
-}
+
+
+
+
+/* 3. General styling of 'Boxie elements */
 
 .MainTab_Plot .WgBoxie{
-  margin: 5px;/*ahem*/
+  margin: 1px 5px;
 }
 
 .MainTab_Plot .WgBoxie .contents{
   padding: 2px;
 }
+
+
+
+
+
+/* 4. Histograms box */
 
 .MainTab_Plot .histogram{
   margin-right: 1px;
@@ -93,6 +121,12 @@
 }
 
 
+
+
+
+
+/* 5. Third Column box */
+
 .MainTab_Plot .thirdColumnZone{
   /*background: rgba(0,255,255,0.2);*/
   flex: 1 auto;
@@ -100,15 +134,65 @@
   flex-flow: column nowrap;
 }
 
-.MainTab_Plot .thirdColumnZone .zoomRotate{
-  flex: 1 auto;
+.MainTab_Plot .thirdColumnZone > span{
+  text-align: right;
+  font-size: 11px;
 }
+
+
+
+
+
+
+
+
+
+/* 6. Zoom & Rotate box */
+
+.MainTab_Plot .thirdColumnZone .zoomRotate{
+  flex: 0 auto;
+}
+
+.MainTab_Plot .WgBoxie.zoomRotate .contents{
+  width: 0px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.MainTab_Plot .WgBoxie.zoomRotate .contents > .sectionLinks1{
+  flex: 1 100%;
+  margin-top: -3px;
+  margin-bottom: 3px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.MainTab_Plot .WgBoxie.zoomRotate .contents > .sectionButtons{
+  flex: 0 auto;
+  width: 112px;
+}
+
+.MainTab_Plot .WgBoxie.zoomRotate .contents > .sectionButtons > div{
+  display: inline-block;
+    margin: 1px 1px;
+  margin-top: 0px;
+}
+
+.MainTab_Plot .WgBoxie.zoomRotate .contents > .sectionLinks2{
+  flex: 1 auto;
+  margin-left: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+
+/* 7. Preview Options box */
 
 .MainTab_Plot .thirdColumnZone .previewOptions{
   flex: 1 auto;
 }
 
-.MainTab_Plot .thirdColumnZone span{
-  text-align: right;
-  font-size: 11px;
-}
+
