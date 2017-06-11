@@ -8,6 +8,15 @@ import WgBoxie from '../Wg/WgBoxie';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgActionLink from '../Wg/WgActionLink';
 
+/*
+var MyWorker = require("worker-loader!./plain-js/worker.js");
+//import WorkerLoader from 'worker-loader';//!./plain-js/worker.js';
+
+*/
+
+//main.js
+import worker_script from './plain-js/worker';
+
 
 class MainTab_Plot extends React.PureComponent {
 
@@ -17,6 +26,15 @@ class MainTab_Plot extends React.PureComponent {
 	    selectedRowIndex: 0,
 	    previewActive: false
 	};
+
+	//main.js
+	var myWorker = new Worker(worker_script);
+
+	myWorker.onmessage = (m) => {
+	    console.log("msg from worker: ", m.data);
+	};
+	myWorker.postMessage('im from main');
+	
     }
 
 
