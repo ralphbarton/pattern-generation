@@ -17,7 +17,7 @@ class SvgGrid extends React.PureComponent {
     
     componentWillReceiveProps(nextProps){
 	this.setState({
-	    Grid: (nextProps.gridUIState.active ? nextProps.gridObj : null),
+	    Grid: (nextProps.gridUIState.previewActive ? nextProps.gridObj : null),
 	    prevGrid: (this.state !== null ? this.state.Grid : null)
 	});
     }
@@ -65,12 +65,12 @@ class PGT_Background extends React.PureComponent {
 
     
     render() {
-	console.log("PGT_Background render() called");
-
-	const gridUIState = this.props.UIState.grid;
+	
+	const gridUIState = this.props.UIState['grid'];
+	console.log("PGT_Background render() called", gridUIState);
 	
 	const gridArray = this.props.DataArrays['grid'];
-	const nextGrid = gridUIState.active ? util.lookup(gridArray, "uid", gridUIState.selectedGridUid) : null;
+	const nextGrid = gridUIState.previewActive ? util.lookup(gridArray, "uid", gridUIState.selectedGridUid) : null;
 	
 	return (
 	    <div className="PGT_Background">

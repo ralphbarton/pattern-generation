@@ -15,34 +15,34 @@ import Grid_Section_LineSetBoxie from './Grid_Section_LineSetBoxie';
 import Grid_util from './plain-js/Grid_util';
 
 class MainTab_Grid extends React.PureComponent {
-
-
+    
     /*
-     All communication via:
-     --
-     this.props.gridUIState
+
+     Thie entire Grid tab is one big Controlled Component
+
+     UI State is passed down via:
+     this.props.UI
+
+     UI sub-properties are:
+
+     'selectedRowIndex'
+     'selectedGridUid'
+     'lockAngles'
+     'previewActive'
+     'pointsActive'
+     'showAllGrids'
+     'showColourGrids'
+
+
+     State changes are passed back up via:
+
      this.props.setGridUIState($chg)
-
-
-     default state...
-
-     selectedRowIndex: 0,
-     lockAngles: false,
-     previewActive: false, // i.e. the grid lines
-     pointsActive: false, // i.e. the intersection points
-     showAllGrids: false, //synchronising state
-     showColourGrids: false  //synchronising state
 
      */
 
-    constructor(props) {
-	super(props);
-	this.UIState = this.props.gridUIState;
-    }
-
     //any change to the selected Grid
     handleSelGridChange($change){
-	const rIndex = this.UIState.selectedRowIndex;
+	const rIndex = this.props.UI.selectedRowIndex;
 	this.props.onGridChange("update", {index: rIndex, $Updater: $change});
     }    
 
@@ -54,14 +54,32 @@ class MainTab_Grid extends React.PureComponent {
     }
 
     componentDidMount(){
-	// this lifecycle method is to set a UID default uid of grid index 0.
-	const Grid_i = this.props.gridArray[0];
-	this.handleUIStateChange("selectedGridUid", Grid_i.uid);
+
+	//no action required if a value already set
+	if(this.props.UI.selectedRowIndex !== undefined){return;}
+
+	/* This will set some suitable Default values for
+	   props (previously undefined) on component mount 
+	   the very first rendering prior to this function call is 'sacrificial'
+	 */
+
+	const initialSelectedRowIndex = 0;
+	const Grid_i = this.props.gridArray[initialSelectedRowIndex];
+	
+	this.props.setGridUIState({
+	    selectedRowIndex: {$set: initialSelectedRowIndex},
+	    selectedGridUid: {$set: Grid_i.uid},
+	    lockAngles: {$set: false},
+	    previewActive: {$set: false}, // i.e. the grid lines
+	    pointsActive: {$set: false}, // i.e. the intersection points
+	    showAllGrids: {$set: false},
+	    showColourGrids: {$set: false}
+	});
     }
 
     
     handleRowSelectedChange(index){
-	if (index === this.UIState.selectedRowIndex){return;}
+	if (index === this.props.UI.selectedRowIndex){return;}
 
 	const Grid_i = this.props.gridArray[index];
 
@@ -75,9 +93,9 @@ class MainTab_Grid extends React.PureComponent {
     
     // Iso / Squ / Dia
     handleSelGridToPresetType(toType){
-	const rIndex = this.UIState.selectedRowIndex;
+	const rIndex = this.props.UI.selectedRowIndex;
 	const Grid_i = this.props.gridArray[rIndex];
-	const response = Grid_util.GeneratePresetTypeFromGrid(Grid_i, toType, this.UIState.lockAngles);
+	const response = Grid_util.GeneratePresetTypeFromGrid(Grid_i, toType, this.props.UI.lockAngles);
 	this.props.onGridChange("update", {index: rIndex, $Updater: {
 	    line_sets: response.$LSupd
 	}});
@@ -103,8 +121,8 @@ class MainTab_Grid extends React.PureComponent {
 	}
 
 	//calc the change and apply to other angle...
-	if((key === "angle") && (this.UIState.lockAngles)){
-	    const Grid_i = this.props.gridArray[this.UIState.selectedRowIndex];
+	if((key === "angle") && (this.props.UI.lockAngles)){
+	    const Grid_i = this.props.gridArray[this.props.UI.selectedRowIndex];
 	    const delta = value - Grid_i.line_sets[ls].angle;
 	    const altAngle = Grid_i.line_sets[1-ls].angle - delta;
 	    $updater.line_sets[1-ls] = {angle: {$set: altAngle}};
@@ -134,14 +152,26 @@ class MainTab_Grid extends React.PureComponent {
 
     
     render(){
-	const Grid_i = this.props.gridArray[this.UIState.selectedRowIndex];
+	/*This is a bit hacky, but very first render is designed to do nothing, because:
+	 (1) mounting the component invokes a function which sets state in the parent via a callback
+	 (2) Parent state change triggers re-render in this component
+	 (3) Now with the correct props (including the once tested below) full render can take place
+
+	 The rationale is that it's quite important to me that the controlled component sets its own state
+	 see above 'setGridUIState()' within 'componentDidMount()'
+
+	*/
+	if(this.props.UI.selectedRowIndex === undefined){return null;}
+
+
+	const Grid_i = this.props.gridArray[this.props.UI.selectedRowIndex];
 	return (
 	    <div className="MainTab_Grid">
 
 	      {/* 1. Table & buttons beneath */}
 	      <div className="tableWithButtonsZone">
 	      <WgTable
-		 selectedRowIndex={this.UIState.selectedRowIndex}
+		 selectedRowIndex={this.props.UI.selectedRowIndex}
 		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		rowRenderingData={this.props.gridArray}
 		columnsRendering={this.grid_WgTableColumns()}
@@ -153,7 +183,7 @@ class MainTab_Grid extends React.PureComponent {
 		     name="Add"
 		     buttonStyle={"small"}
 		     onClick={()=>{
-			 const i = this.UIState.selectedRowIndex;
+			 const i = this.props.UI.selectedRowIndex;
 			 const new_grid = Grid_util.newRandomRectGrid(2); //uid prop will be added later
 			 this.props.onGridChange("add", {index: i, new_object: new_grid});
 			 this.handleRowSelectedChange(i+1);
@@ -164,7 +194,7 @@ class MainTab_Grid extends React.PureComponent {
 		     name="Delete"
 		     buttonStyle={"small"}
 		     onClick={()=>{
-			 const i = this.UIState.selectedRowIndex;
+			 const i = this.props.UI.selectedRowIndex;
 			 const i_new = Math.min(this.props.gridArray.length -2, i);
 			 this.props.onGridChange("delete", {index: i});
 			 this.handleRowSelectedChange(i_new);
@@ -267,7 +297,7 @@ class MainTab_Grid extends React.PureComponent {
 		     name="Angles 1 & 2:"
 		     className="linkAngles"
 		     equityTestingForEnabled={{
-			 currentValue: this.UIState.lockAngles,
+			 currentValue: this.props.UI.lockAngles,
 			 representedValuesArray: [true, false]
 		     }}
 		     enabled={Grid_i.n_dimentions > 1}
@@ -296,11 +326,11 @@ class MainTab_Grid extends React.PureComponent {
 		    <WgMutexActionLink
 		       name=""
 		       equityTestingForEnabled={{
-			   currentValue: this.UIState.showAllGrids,
+			   currentValue: this.props.UI.showAllGrids,
 			   representedValuesArray: [false, true]
 		       }}
 		       className="showAll"
-		       enabled={this.UIState.previewActive}
+		       enabled={this.props.UI.previewActive}
 		       actions={[
 			   {
 			       name: "Show Selected",
@@ -317,11 +347,11 @@ class MainTab_Grid extends React.PureComponent {
 		    <WgMutexActionLink
 		       name="Gridlines:"
 		       equityTestingForEnabled={{
-			   currentValue: this.UIState.showColourGrids,
+			   currentValue: this.props.UI.showColourGrids,
 			   representedValuesArray: [true, false]
 		       }}
 		       className="gridlinesColour"
-		       enabled={this.UIState.previewActive && this.UIState.showAllGrids}
+		       enabled={this.props.UI.previewActive && this.props.UI.showAllGrids}
 		       actions={[
 			   {
 			       name: "Colour",
@@ -335,11 +365,11 @@ class MainTab_Grid extends React.PureComponent {
 		    <WgMutexActionLink
 		       name="Points:"
 		       equityTestingForEnabled={{
-			   currentValue: this.UIState.pointsActive,
+			   currentValue: this.props.UI.pointsActive,
 			   representedValuesArray: [false, true]
 		       }}
 		       className="showPoints"
-		       enabled={this.UIState.previewActive && (!this.UIState.showAllGrids)}
+		       enabled={this.props.UI.previewActive && (!this.props.UI.showAllGrids)}
 		       actions={[
 			   {
 			       name: "Hide",
@@ -357,13 +387,13 @@ class MainTab_Grid extends React.PureComponent {
 		    <WgActionLink
 		       name={"Hide Preview"}
 		       onClick={this.handleUIStateChange.bind(this, "previewActive", false)}
-		       enabled={this.UIState.previewActive}
+		       enabled={this.props.UI.previewActive}
 		      />
 		      
 		      <WgButton
 			 name="Show"
 			 onClick={this.handleUIStateChange.bind(this, "previewActive", true)}
-			 enabled={!this.UIState.previewActive}
+			 enabled={!this.props.UI.previewActive}
 			/>
 		  </div>		  
 

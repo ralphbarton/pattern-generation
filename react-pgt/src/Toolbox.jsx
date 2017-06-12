@@ -17,7 +17,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 4,//default Tab selection
+	    selectedTabIndex: 3,//default Tab selection
 	    tabsEnabled: true
 	};
     }
@@ -90,7 +90,7 @@ class Toolbox extends React.PureComponent {
 				    <MainTab_Grid
 				       gridArray={this.props.DataArrays.grid}
 				       onGridChange={(arg1, arg2)=>{this.props.onDataChange("grid", arg1, arg2);}}
-				      gridUIState={this.props.UIState.grid}
+				      UI={this.props.UIState.grid}
 				      setGridUIState={($chg)=>{this.props.onUIStateChange({"grid": $chg});}}
 				      />
 				);
