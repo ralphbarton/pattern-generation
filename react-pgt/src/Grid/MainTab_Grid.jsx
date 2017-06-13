@@ -40,7 +40,7 @@ class MainTab_Grid extends React.PureComponent {
 
      */
 
-    //any change to the selected Grid
+    // An (immutable) change in the selected Grid object
     handleSelGridChange($change){
 	const rIndex = this.props.UI.selectedRowIndex;
 	this.props.onGridChange("update", {index: rIndex, $Updater: $change});

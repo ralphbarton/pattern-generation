@@ -27,24 +27,46 @@ class MainTab_Plot extends React.PureComponent {
 	    previewActive: false
 	};
 
-	//main.js
-	var myWorker = new Worker(worker_script);
+	/*
+	 SAMPLE CODE FOR WORKER....
 
-	myWorker.onmessage = (m) => {
-	    console.log("msg from worker: ", m.data);
-	};
-	myWorker.postMessage('im from main');
-	
+	 var myWorker = new Worker(worker_script);
+
+	 myWorker.onmessage = (m) => {
+	 console.log("msg from worker: ", m.data);
+	 };
+	 myWorker.postMessage('im from main');
+	 */	
     }
 
 
-    //any change to the selected Plot
+    // Copy-pasted, shared with Grid
+    // An (immutable) change in the selected Grid object
     handleSelPlotChange($change){
 	const rIndex = this.state.selectedRowIndex;
 	this.props.onPlotChange("update", {index: rIndex, $Updater: $change});
     }
-    
 
+    // Copy-pasted, shared with Grid / Cpot
+    handleRowSelectedChange(index){
+	if (index === this.state.selectedRowIndex){return;}
+	this.setState({
+	    selectedRowIndex: index
+	});
+	/*
+	const Grid_i = this.props.gridArray[index];
+
+	//the object is updated to contain both the index and the UID of the grid...
+	this.props.setGridUIState({
+	    selectedRowIndex: {$set: index},
+	    selectedGridUid: {$set: Grid_i.uid}
+	});
+*/
+    }
+
+
+
+    
     plot_WgTableColumns(){
 	return ([
 	    {
@@ -56,7 +78,8 @@ class MainTab_Plot extends React.PureComponent {
 		    <input className="blue-cell"
 			   value={plot.formula} 
 			   onChange={event =>{
-			       this.props.onPlotChange("name", {index: i, new_name: event.target.value});
+			       const $change = {formula: {$set: event.target.value}};
+			       this.props.onPlotChange("update", {index: i, $Updater: $change});
 		      }}
 		      />);}
 	    },{
@@ -68,7 +91,8 @@ class MainTab_Plot extends React.PureComponent {
 
     
     render(){
-	const Plot_i = this.props.plotArray[this.state.selectedRowIndex];
+	const rIndex = this.state.selectedRowIndex;
+	const Plot_i = this.props.plotArray[rIndex];
 	return (
 
 	    <div className="MainTab_Plot">
@@ -81,19 +105,19 @@ class MainTab_Plot extends React.PureComponent {
 		  
 		  <WgActionLink
 		     name={"Syntax Guide"}
-		     onClick={null}//{()=>{console.log("no action implemented.");}}
+		     onClick={()=>{console.log("no action implemented.");}}
 		     enabled={true}
 		     />
 
 		    <WgActionLink
 		       name={"Functions Palette"}
-		       onClick={null}
+		       onClick={()=>{console.log("no action implemented.");}}
 		       enabled={true}
 		       />
 
 		    <WgActionLink
 		       name={"Formula Designer"}
-		       onClick={null}
+		       onClick={()=>{console.log("no action implemented.");}}
 		       enabled={true}
 		       />
 
@@ -101,6 +125,9 @@ class MainTab_Plot extends React.PureComponent {
 		<span> f(x,y) = </span>
 		<input className="plain-cell"
 		       value={Plot_i.formula} 		       
+		       onChange={event =>{
+			   this.handleSelPlotChange({formula: {$set: event.target.value}});
+		  }}
 		       />
 	      </div>
 

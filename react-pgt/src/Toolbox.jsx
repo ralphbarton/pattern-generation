@@ -17,7 +17,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 3,//default Tab selection
+	    selectedTabIndex: 4,//default Tab selection
 	    tabsEnabled: true
 	};
     }
@@ -71,7 +71,7 @@ class Toolbox extends React.PureComponent {
 				// Colour Pots
 				return (
 				    <MainTab_CpotView					    
-				       cpotArray={this.props.DataArrays.cpot}
+				       cpotArray={this.props.DataArrays['cpot']}
 				       onCpotChange={(arg1, arg2)=>{this.props.onDataChange("cpot", arg1, arg2);}}
 				      onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
 				      />
@@ -88,9 +88,9 @@ class Toolbox extends React.PureComponent {
 			    case 3:
 				return (
 				    <MainTab_Grid
-				       gridArray={this.props.DataArrays.grid}
+				       gridArray={this.props.DataArrays['grid']}
 				       onGridChange={(arg1, arg2)=>{this.props.onDataChange("grid", arg1, arg2);}}
-				      UI={this.props.UIState.grid}
+				      UI={this.props.UIState['grid']}
 				      setGridUIState={($chg)=>{this.props.onUIStateChange({"grid": $chg});}}
 				      />
 				);
@@ -99,8 +99,10 @@ class Toolbox extends React.PureComponent {
 				// Density Plots
 				return (
 				    <MainTab_Plot
-				       plotArray={this.props.DataArrays.grid}
-				       onGridChange={(arg1, arg2)=>{this.props.onDataChange("plot", arg1, arg2);}}
+				       plotArray={this.props.DataArrays['plot']}
+				       onPlotChange={(arg1, arg2)=>{this.props.onDataChange("plot", arg1, arg2);}}
+				      UI={this.props.UIState['plot']}
+				      setPlotUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
 				      />
 				);
 

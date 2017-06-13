@@ -6,6 +6,7 @@ import DatH from './DatH/DatH';
 
 import {CpotSampleData} from './DatH/SampleData_Cpot';
 import {GridSampleData} from './DatH/SampleData_Grid';
+import {PlotSampleData} from './DatH/SampleData_Plot';
 
 //Custom Components
 import Toolbox from './Toolbox';
@@ -18,7 +19,8 @@ class PGT_App extends React.PureComponent {
 	this.state = {
 	    DataArrays: {
 		"cpot": CpotSampleData.arr,
-		"grid": GridSampleData.arr
+		"grid": GridSampleData.arr,
+		"plot": PlotSampleData.arr
 	    },
 	    UI: {
 		"grid": {}
