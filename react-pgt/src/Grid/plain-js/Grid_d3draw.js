@@ -66,7 +66,7 @@ var Grid_d3draw = {
 	/*
 	  {options} include:
 
-	  'selGridUid'
+	  'selectedGridUid'
 	  'lockAngles'
 	  'showColourGrids'
 	 */
@@ -75,7 +75,7 @@ var Grid_d3draw = {
 	// 1. Determine what kind of update is required...
 	const fromBlank = prevLineset === null;
 	const fadeOut = Lineset === null;
-	const isSelGrid = (!fadeOut) && options.selGridUid === Lineset.uid;
+	const isSelGrid = (!fadeOut) && options.selectedGridUid === Lineset.uid;
 	const isCol = options.showColourGrids;
 	const strokeColour = ((!fadeOut) && isCol) ? (this.rColours[Lineset.uid % 8]) : (isSelGrid ? "black" : "#cccccc");
 	const strokeTargetOpac = isSelGrid || (! isCol) ? 1 : 0.7;
