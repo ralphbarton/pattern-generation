@@ -199,7 +199,8 @@ class MainTab_Grid extends React.PureComponent {
 			 this.props.onGridChange("delete", {index: i});
 			 this.handleRowSelectedChange(i_new);
 		    }}
-		     enabled={this.props.gridArray.length > 0}
+		    // we cannot support zero grids in the list. Causes problems
+		    enabled={this.props.gridArray.length > 1}
 		     />
 		  <WgButton
 		     name="Advanced Grid"
