@@ -10,7 +10,7 @@ import WgActionLink from '../Wg/WgActionLink';
 
 
 //main.js
-//import worker_script from './plain-js/worker';
+
 import Plot_util from './plain-js/Plot_util';
 
 
@@ -23,16 +23,7 @@ class MainTab_Plot extends React.PureComponent {
 	    previewActive: false
 	};
 
-	/*
-	 SAMPLE CODE FOR WORKER....
 
-	 var myWorker = new Worker(worker_script);
-
-	 myWorker.onmessage = (m) => {
-	 console.log("msg from worker: ", m.data);
-	 };
-	 myWorker.postMessage('im from main');
-	 */	
     }
 
 
