@@ -1,7 +1,5 @@
 import React from 'react';
 
-import hashObject from 'hash-object';
-
 function WgTable(props) {
     return (
 	<table className="WgTable">
@@ -25,13 +23,15 @@ function WgTable(props) {
 	    {
 		props.rowRenderingData.map( (rowData, rIndex) => {
 		    let rowKey = rowData.uid !== undefined ? rowData.uid : rIndex;
-		    //this is not a good feature. Any change -> new key -> object binned & regenerated, which is anti-pattern for react...
-		    if(props.hashRowDataToKey){
-			rowKey = hashObject(rowData);
-		    }
+
 		    const rowIsSelected = rIndex === props.selectedRowIndex;
+		    let rowClass = rowIsSelected ? "selected" : "";
+		    if(props.rowClassingFn){
+			rowClass += " " + props.rowClassingFn(rowData, rIndex);
+		    }
+
 		    return (
-			<tr className={rowIsSelected ? "selected" : null}
+			<tr className={rowClass}
 			    key={rowKey}
 			    onClick={props.onRowSelectedChange.bind(null, rIndex)}
 			    >

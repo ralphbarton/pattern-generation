@@ -8,14 +8,10 @@ import WgBoxie from '../Wg/WgBoxie';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgActionLink from '../Wg/WgActionLink';
 
-/*
-var MyWorker = require("worker-loader!./plain-js/worker.js");
-//import WorkerLoader from 'worker-loader';//!./plain-js/worker.js';
-
-*/
 
 //main.js
-import worker_script from './plain-js/worker';
+//import worker_script from './plain-js/worker';
+import Plot_util from './plain-js/Plot_util';
 
 
 class MainTab_Plot extends React.PureComponent {
@@ -141,6 +137,11 @@ class MainTab_Plot extends React.PureComponent {
 		   onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		  rowRenderingData={this.props.plotArray}
 		  columnsRendering={this.plot_WgTableColumns()}
+		  rowClassingFn={(plot, rIndex) => {
+		      const isComplex = Plot_util.check_eqn_type(plot.formula) === "cplx";
+		      const isInvalid = Plot_util.check_eqn_type(plot.formula) === "invalid";
+		      return (isComplex ? "pink" : "") + (isInvalid ? "invalid" : "");
+		  }}
 		  />
 
 		  <div className="mainButtons">
