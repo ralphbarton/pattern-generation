@@ -9,10 +9,35 @@ import WgSmartInput from '../Wg/WgSmartInput';
 import Grid_util from './plain-js/Grid_util';
 
 
+//specifically for the lineset Boxie
+function WgSmartInput_LSB(props) {
+    const isLinkOn = (props.LSB.sliderLink) && (props.LSB.lineSetId === props.LSB.sliderLink.lsId) && (props.item === props.LSB.sliderLink.item);
+    return (
+	<WgSmartInput
+	   className="plain-cell"
+	   value={props.LSB.lineSetData[props.item]}
+	   editEnabled={props.LSB.enabled}
+	   onChange={(value)=>{props.LSB.onLineSetChange(props.LSB.lineSetId, props.item, value);}}
+  	   onClick={()=>{
+	      props.LSB.onSliderLinkChange({
+		  lsId: props.LSB.lineSetId,
+		  item: props.item
+	      });
+	  }}
+	  isLinkOn={isLinkOn}
+	  {...props}
+	   /*onChangeComplete={null}*/
+	  />
+    );
+}
+	   
+
+
+
 class Grid_Section_LineSetBoxie extends React.PureComponent {
 
     transformD3svg(cb_Chain){
-	const ls=0;
+	const ls = 0;
 	var dy = ls ? 8 : 62;
 	var angle = -this.props.lineSetData.angle;//ls ? angle : -angle;
 
@@ -43,7 +68,6 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 	}
     }
 
-
     handleSpacingUnitChange(newUnit){
 	const newSpacing = Grid_util.convertSpacingUnit(this.props.lineSetData, newUnit);
 	const lsId = this.props.lineSetId;
@@ -60,28 +84,23 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 
 	      <div className="ang">
 		Angle:
-		<WgSmartInput
-		   className="plain-cell"
-		   value={this.props.lineSetData.angle}
+		<WgSmartInput_LSB
+		   item={"angle"}
 		   dataUnit="degrees"
-		   editEnabled={this.props.enabled}
-		   onChange={(value)=>{this.props.onLineSetChange(this.props.lineSetId, "angle", value);}}
-		  /*onChangeComplete={null}*/
-		  />
+		   LSB={this.props}
+		   />
 	      </div>
 
 	      
 	      <div className="inte">
 		Interval:
-		<WgSmartInput
-		   className="plain-cell"
-		   value={this.props.lineSetData.spacing}
+		<WgSmartInput_LSB
+		   item={"spacing"}
 		   dataUnit={this.props.lineSetData.spacing_unit}
-		   editEnabled={this.props.enabled}
-		   onChange={(value)=>{this.props.onLineSetChange(this.props.lineSetId, "spacing", value);}}
-		  min={1}
-		  /*onChangeComplete={null}*/
-		  />
+		   LSB={this.props}
+		   min={1}
+		   />
+		
 		  <WgMutexActionLink
 		     name="Unit:"
 		     className="intervalUnit"
@@ -108,14 +127,11 @@ class Grid_Section_LineSetBoxie extends React.PureComponent {
 	      
 	      <div className="shift">
 		Shift:
-		<WgSmartInput
-		   className="plain-cell"
-		   value={this.props.lineSetData.shift}
+		<WgSmartInput_LSB
+		   item={"shift"}
 		   dataUnit="percent"
-		   editEnabled={this.props.enabled}
-		   onChange={(value)=>{this.props.onLineSetChange(this.props.lineSetId, "shift", value);}}
-		  /*onChangeComplete={null}*/
-		  />
+		   LSB={this.props}
+		   />
 	      </div>
 
 	      

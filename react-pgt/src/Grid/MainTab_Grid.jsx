@@ -16,9 +16,17 @@ import Grid_util from './plain-js/Grid_util';
 
 class MainTab_Grid extends React.PureComponent {
     
-    /*
+    constructor() {
+	super();
+	this.state = {
+	    sliderLink: null
+	};
+    }
 
-     Thie entire Grid tab is one big Controlled Component
+    /*
+     (now, with the exception of this.state.sliderLink), the entire
+     Grid tab is one big Controlled Component
+
 
      UI State is passed down via:
      this.props.UI
@@ -44,7 +52,13 @@ class MainTab_Grid extends React.PureComponent {
     handleSelGridChange($change){
 	const rIndex = this.props.UI.selectedRowIndex;
 	this.props.onGridChange("update", {index: rIndex, $Updater: $change});
-    }    
+    }
+
+    handleSliderLinkChange(newSliderLink){
+	this.setState({
+	    sliderLink: newSliderLink
+	});
+    }
 
     // pass UI state change up to a parent component. It is not stored here...
     handleUIStateChange(key, value){
@@ -254,12 +268,16 @@ class MainTab_Grid extends React.PureComponent {
 		     lineSetId={1}
 		     lineSetData={Grid_i.line_sets[0]}
 		     onLineSetChange={this.handleSelGridLineSetChange.bind(this)}
+		     sliderLink={this.state.sliderLink}
+		     onSliderLinkChange={this.handleSliderLinkChange.bind(this)}
 		     enabled={true}
 		     />
 		  <Grid_Section_LineSetBoxie
 		     lineSetId={2}
 		     lineSetData={Grid_i.line_sets[1]}
 		     onLineSetChange={this.handleSelGridLineSetChange.bind(this)}
+		     sliderLink={this.state.sliderLink}
+		     onSliderLinkChange={this.handleSliderLinkChange.bind(this)}
 		     enabled={Grid_i.n_dimentions > 1}
 		     />
 		</div>

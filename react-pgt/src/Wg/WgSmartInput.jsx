@@ -124,11 +124,13 @@ class WgSmartInput extends React.PureComponent {
     
     render() {
 	const isFocus = (this.props.editEnabled !== false) && this.state.isFocused;
-	const inputClasses = this.props.className + (isFocus ? " synthFocus" : "");
+	//the class 'linkOn' is a visual effect to highlight the input element when it is 'linked' to a slider
+	const linkClass = this.props.isLinkOn ? " linkOn" : "";
+	const allClasses = this.props.className + (isFocus ? " synthFocus" : "") + linkClass;
 	const inputNativeType = this.isEditable()?"number":"text";
 	return (
 	    <input
-	       className={inputClasses}
+	       className={allClasses}
 	       value={this.generateUiValue(this.props.value)} 
 	       onChange={(ev)=>{this.handleInputChange(ev);}}
 	       onMouseEnter={this.handleMouse.bind(this,"mouseIsEntered", true)}
@@ -141,6 +143,7 @@ class WgSmartInput extends React.PureComponent {
 		  this.handleChangeComplete();
 		  this.handleMouse("isFocused", false);
 	      }}
+	      onClick={this.props.onClick}
 	       type={inputNativeType}
 	       min={this.state.min}
 	       max={this.state.max}
