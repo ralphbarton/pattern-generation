@@ -335,7 +335,22 @@ class MainTab_Grid extends React.PureComponent {
 
 		{/* Block 4 */}
 		<div className="section4 sliderSection">
-		  <Slider />
+		  <Slider
+//		     disabled={this.state.sliderLink === null}
+		     //assume an angle
+		     step={0.5}
+		     min={0}
+		     max={90}
+//		     value={this.state.sliderLink === null ? 6 : Grid_i.line_sets[this.state.sliderLink.lsId].angle}
+//		     onChange    -- too expensive
+		     onAfterChange={(value)=>{
+			 const linkLsId = this.state.sliderLink.lsId - 1;
+			 this.handleSelGridChange({
+			     line_sets: {[linkLsId]: {angle: {$set: value}}}
+			 });
+
+		    }}
+		     />
 		</div>
 
 		{/* Block 5 */}
