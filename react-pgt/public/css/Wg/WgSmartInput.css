@@ -43,3 +43,27 @@ input.plain-cell:focus{
 }
 
 
+
+
+
+
+/* plain-cell.w is a more prominent version,
+ where we do not require the input to fade int beige
+ when not focussed.
+*/
+
+input.plain-cell.w{
+  border-color: rgba(0,0,0,0.5);
+  background: rgba(255,255,255,0.7);
+  color: rgba(0,0,0,0.7);
+}
+
+input.plain-cell.w:hover{
+    background: rgba(255,255,255,0.8);
+  color: rgba(0,0,0,0.85);
+}
+
+.pink input.plain-cell.w:focus{
+  background: rgba(255,255,255,1);
+      box-shadow: 0px 0px 5px 1px rgba(191, 36, 106, 0.42);
+}

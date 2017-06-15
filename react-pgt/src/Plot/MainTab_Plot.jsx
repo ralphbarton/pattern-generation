@@ -51,7 +51,11 @@ class MainTab_Plot extends React.PureComponent {
 */
     }
 
-
+    rowClassingFn(Plot){
+	const isComplex = Plot_util.check_eqn_type(Plot.formula) === "cplx";
+	const isInvalid = Plot_util.check_eqn_type(Plot.formula) === "invalid";
+	return (isComplex ? "pink" : "") + (isInvalid ? "invalid" : "");
+    }
 
     
     plot_WgTableColumns(){
@@ -85,7 +89,7 @@ class MainTab_Plot extends React.PureComponent {
 	    <div className="MainTab_Plot">
 
 	      {/* 1. Formula Bar */}
-	      <div className="formulaBar">
+	      <div className={"formulaBar "+this.rowClassingFn(Plot_i)}>
 		<div className="actionsBar">
 
 		  <span>Formula Bar</span>
@@ -110,7 +114,7 @@ class MainTab_Plot extends React.PureComponent {
 
 		</div>
 		<span> f(x,y) = </span>
-		<input className="plain-cell"
+		<input className="plain-cell w"
 		       value={Plot_i.formula} 		       
 		       onChange={event =>{
 			   this.handleSelPlotChange({formula: {$set: event.target.value}});
@@ -128,11 +132,7 @@ class MainTab_Plot extends React.PureComponent {
 		   onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
 		  rowRenderingData={this.props.plotArray}
 		  columnsRendering={this.plot_WgTableColumns()}
-		  rowClassingFn={(plot, rIndex) => {
-		      const isComplex = Plot_util.check_eqn_type(plot.formula) === "cplx";
-		      const isInvalid = Plot_util.check_eqn_type(plot.formula) === "invalid";
-		      return (isComplex ? "pink" : "") + (isInvalid ? "invalid" : "");
-		  }}
+		  rowClassingFn={this.rowClassingFn}
 		  />
 
 		  <div className="mainButtons">
