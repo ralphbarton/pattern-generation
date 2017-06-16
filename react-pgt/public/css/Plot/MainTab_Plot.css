@@ -65,7 +65,7 @@
 /* 2. Left side: Table */
 
 .MainTab_Plot .WgTable tbody{
-     height: 175px;
+     height: 181px;
 }
 
 .MainTab_Plot .WgTable .col-1{
@@ -97,11 +97,15 @@
 
 /* 3. General styling of 'Boxie elements */
 
-.MainTab_Plot .WgBoxie{
+.MainTab_Plot > .WgBoxie,
+.MainTab_Plot > .thirdColumnZone > .WgBoxie,
+.MainTab_Plot > .thirdColumnZone > .WgTabbedBoxie
+{
   margin: 1px 5px;
 }
 
-.MainTab_Plot .WgBoxie .contents{
+.MainTab_Plot .WgBoxie .contents,
+.MainTab_Plot .WgTabbedBoxie .WgBoxie > .outline{
   padding: 2px;
 }
 
@@ -149,6 +153,7 @@
 .MainTab_Plot .thirdColumnZone > span{
   text-align: right;
   font-size: 11px;
+  margin-right: 5px;
 }
 
 

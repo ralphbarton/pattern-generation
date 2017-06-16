@@ -5,6 +5,7 @@ import WgTable from '../Wg/WgTable';
 import WgButton from '../Wg/WgButton';
 import WgSpecialButton from '../Wg/WgSpecialButton';
 import WgBoxie from '../Wg/WgBoxie';
+import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgActionLink from '../Wg/WgActionLink';
 
@@ -20,7 +21,8 @@ class MainTab_Plot extends React.PureComponent {
 	super();
 	this.state = {
 	    selectedRowIndex: 0,
-	    previewActive: false
+	    previewActive: false,
+	    previewOptionsTabSelected: 0
 	};
 
 
@@ -319,10 +321,37 @@ class MainTab_Plot extends React.PureComponent {
 		</WgBoxie>
 
 		{/* Bottom: Preview options */}
-		<WgBoxie className="previewOptions" name="Preview Options" boxieStyle={"small"}>
-		  Preview Options...
-		</WgBoxie>
-
+		<WgTabbedBoxie
+		   className="previewOptions"
+		   tabbedBoxieStyle={"small"}
+		   tabSelectedIndex={this.state.previewOptionsTabSelected}
+		   onTabClick={ new_i => {
+		       if (new_i === this.state.previewOptionsTabSelected){return;}
+		       this.setState({
+			   previewOptionsTabSelected: new_i
+		       });
+		   }}
+		  items={
+		      [
+			  {
+			      name: "a1",//"Preview Options",
+			      renderJSX: ()=>{
+				  return(
+				      <div>Hello 1</div>
+				  );
+			      }
+			  },{
+			      name: "a3",//"Pointset Preview",
+			      renderJSX: ()=>{
+				  return(
+				      <div>Hello 2</div>
+				  );
+			      }
+			  }
+		      ]
+		  }
+		/>
+		
 	      </div>
 	      
 

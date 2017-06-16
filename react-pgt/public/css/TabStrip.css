@@ -1,8 +1,5 @@
 /* TabStrip.css */
 
-.Tab-Strip {
-    border-bottom: 1px solid #404040;
-}
 
 .Tab-Strip > div {
     transition: background 0.2s;
@@ -38,4 +35,28 @@
 
 .Tab-Strip > div.active{
     background: rgba(0,30,70,0.25);
+}
+
+
+
+
+
+/* this content below needs to go into a different file,
+
+ WgTabbedBoxie.css
+
+
+*/
+
+.WgTabbedBoxie{
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.WgTabbedBoxie .tabs{
+    margin: 0px 5px;
+}
+
+.WgTabbedBoxie .WgBoxie{
+    flex: 1 auto;
 }

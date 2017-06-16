@@ -28,9 +28,12 @@
     display: flex;
 }
 
+.WgBoxie > .outline > *{
+    flex: 1 auto;
+}
+
 .WgBoxie > .outline > .contents {
     margin-top: 7px;
-    flex: 1 auto;
 }
 
 
@@ -50,11 +53,11 @@
     border: 1px solid rgba(0,0,0,0.4);
     border-radius: 4px;
     display: flex;
+    font-size: 11px; /* this is much smaller default text size*/
 }
 
 .WgBoxie.s > .outline > .contents {
     margin-top: 6px;
-    font-size: 11px; /*musch smaller default text size*/
 }
 
 

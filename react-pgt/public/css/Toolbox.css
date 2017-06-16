@@ -36,8 +36,9 @@
     height: 288px
 }
 
-.Toolbox.size-1 .Tab-Strip{
+.Toolbox.size-1 > .Tab-Strip{
     width: 700px;
+    border-bottom: 1px solid #404040;
 }
 
 
