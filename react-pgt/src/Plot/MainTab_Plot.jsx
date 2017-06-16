@@ -90,30 +90,34 @@ class MainTab_Plot extends React.PureComponent {
 
 	      {/* 1. Formula Bar */}
 	      <div className={"formulaBar "+this.rowClassingFn(Plot_i)}>
-		<div className="actionsBar">
 
-		  <span>Formula Bar</span>
-		  
-		  <WgActionLink
-		     name={"Syntax Guide"}
-		     onClick={()=>{console.log("no action implemented.");}}
-		     enabled={true}
-		     />
+		<div className="upper">
+		  <div className="barTitle">Formula Bar</div>
 
+		  <div className="actionsBar">
 		    <WgActionLink
-		       name={"Functions Palette"}
+		       name={"Syntax Guide"}
 		       onClick={()=>{console.log("no action implemented.");}}
-		       enabled={true}
-		       />
+		      enabled={true}
+		      />
 
-		    <WgActionLink
-		       name={"Formula Designer"}
-		       onClick={()=>{console.log("no action implemented.");}}
-		       enabled={true}
-		       />
+		      <WgActionLink
+			 name={"Functions Palette"}
+			 onClick={()=>{console.log("no action implemented.");}}
+			enabled={true}
+			/>
 
+			<WgActionLink
+			   name={"Formula Designer"}
+			   onClick={()=>{console.log("no action implemented.");}}
+			  enabled={true}
+			  />
+
+		  </div>
 		</div>
-		<span> f(x,y) = </span>
+
+		
+		<span className="text-fxy"> f(x,y) = </span>
 		<input className="plain-cell w"
 		       value={Plot_i.formula} 		       
 		       onChange={event =>{

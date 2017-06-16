@@ -24,24 +24,36 @@
 
 .MainTab_Plot .formulaBar{
   margin-left: 5px;
-  margin-top: 2px;
+    font-size: 11px;
 }
 
 .MainTab_Plot .formulaBar input{
-  width: 630px;
+  width: 625px;
   font-size: 20px;
 }
 
+.MainTab_Plot .formulaBar .upper{
+  margin-top: 1px;
+    color: rgba(0,0,0,0.5);
+  display: flex;
+}
+
 .MainTab_Plot .formulaBar .actionsBar{
-  font-size: 11px;
+  flex: 1 auto;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
   margin-bottom: 2px;
 }
 
-.MainTab_Plot .formulaBar span{
+.MainTab_Plot .formulaBar .barTitle{
+    font-weight: bold;
+}
+
+.MainTab_Plot .formulaBar span.text-fxy{
   font-weight: bold;
+  font-size: 17px;
+  color: rgba(0,0,0,0.7);
 }
 
 
@@ -53,7 +65,7 @@
 /* 2. Left side: Table */
 
 .MainTab_Plot .WgTable tbody{
-     height: 180px;
+     height: 175px;
 }
 
 .MainTab_Plot .WgTable .col-1{
