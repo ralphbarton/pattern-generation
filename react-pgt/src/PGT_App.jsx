@@ -23,7 +23,8 @@ class PGT_App extends React.PureComponent {
 		"plot": PlotSampleData.arr
 	    },
 	    UI: {
-		"grid": {}
+		"grid": {},
+		"plot": {}
 	    }
 	};
     }
@@ -48,18 +49,11 @@ class PGT_App extends React.PureComponent {
 	return (
 	    <div className="PGT_App">
 	      {/* 1. Backgrounds */}
-	      {
-		  //CONDITIONALLY RENDER GRID BACKGROUND COMPONENT...
-		  this.state.UI['grid'].selectedRowIndex === undefined ? null : (
-
-		      <PGT_Background
-			 DataArrays={this.state.DataArrays}
-			 UIState={this.state.UI}
-			 />
-		  )
-	      }
-
-
+	      <PGT_Background
+		 DataArrays={this.state.DataArrays}
+		 UIState={this.state.UI}
+		 />
+	      
 	      {/* 2. Floating (draggable) Toolbox */}
 	      <Toolbox
 		 DataArrays={this.state.DataArrays}

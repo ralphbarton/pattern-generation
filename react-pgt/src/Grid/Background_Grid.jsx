@@ -55,7 +55,6 @@ class SvgGrid extends React.PureComponent {
 }
 
 
-//this is really a component specifically for GRID background...
 class Background_Grid extends React.PureComponent {
 
     constructor() {
