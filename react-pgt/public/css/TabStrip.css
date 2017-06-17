@@ -31,12 +31,14 @@
     color: #004370;
 }
 
-.Tab-Strip.disabled > div{
+.Tab-Strip.disabled > div,
+.Tab-Strip > div.disabled{
     background: rgba(210,210,210,0.4);
     color: rgba(0,30,70,0.4);
     border-color: rgba(0,30,70,0.3);
     text-decoration: none;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
 .Tab-Strip > div.active{

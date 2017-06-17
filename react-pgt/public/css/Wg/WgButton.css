@@ -33,6 +33,7 @@
     border-color: rgba(0,30,70,0.3);
     text-decoration: none;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
 .button.s{

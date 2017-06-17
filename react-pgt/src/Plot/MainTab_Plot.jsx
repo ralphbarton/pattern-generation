@@ -8,7 +8,7 @@ import WgBoxie from '../Wg/WgBoxie';
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgActionLink from '../Wg/WgActionLink';
-
+import WgSmartInput from '../Wg/WgSmartInput';
 
 //main.js
 
@@ -386,14 +386,47 @@ class MainTab_Plot extends React.PureComponent {
 		  items={
 		      [
 			  {
-			      name: "a1",//"Preview Options",
+			      name: "Preview Options",
 			      renderJSX: ()=>{
 				  return(
-				      <div>Hello 1</div>
+				      <div>
+
+					<div className="inputContainer">
+					  Plot Resolution:
+					  <WgSmartInput
+					     className="plain-cell s"
+					     value={27}
+					     dataUnit="pixels"
+					     max={100}
+					     onChange={null}
+					    />
+					</div>
+
+					<WgMutexActionLink
+					   name="Colouring:"
+					   className="colouringFunction"
+					   initalEnabledArray={[false, false]}
+					   actions={[
+					       {
+						   name: "greyscale"
+					       },{
+						   name: "heatmap"
+					       }
+					   ]}
+					   />
+
+					<WgButton
+					   name="Plot Preview"
+					   onClick={null}
+					   />
+					
+				      </div>
+
 				  );
 			      }
 			  },{
-			      name: "a3",//"Pointset Preview",
+			      name: "Pointset Preview",
+			      enabled: this.props.UI.previewActive,
 			      renderJSX: ()=>{
 				  return(
 				      <div>Hello 2</div>
