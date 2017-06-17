@@ -2,8 +2,10 @@ import React from 'react';
 
 function WgBoxie(props) {
 
-    const extraClass = (props.enabled === false ? "disabled " : "") + (props.boxieStyle === "small" ? "s " : "");
-    const allOuterClasses = "WgBoxie " + extraClass + props.className;
+    const extraClass = (props.enabled === false ? "disabled " : "")
+	      + (props.boxieStyle === "small" ? "s " : "")
+	      + (props.className !== undefined ? props.className : "");
+    const allOuterClasses = "WgBoxie " + extraClass;
     if(props.name){
 	return (
 	    <div className={allOuterClasses}>

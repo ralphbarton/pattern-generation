@@ -99,13 +99,13 @@
 
 .MainTab_Plot > .WgBoxie,
 .MainTab_Plot > .thirdColumnZone > .WgBoxie,
-.MainTab_Plot > .thirdColumnZone > .WgTabbedBoxie
+.MainTab_Plot > .thirdColumnZone > .WgTabbedSection
 {
   margin: 1px 5px;
 }
 
 .MainTab_Plot .WgBoxie .contents,
-.MainTab_Plot .WgTabbedBoxie .WgBoxie > .outline{
+.MainTab_Plot .WgTabbedSection .WgBoxie > .outline{
   padding: 2px;
 }
 

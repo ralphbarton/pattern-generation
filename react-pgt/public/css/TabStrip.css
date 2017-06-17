@@ -18,6 +18,12 @@
     cursor: pointer;
 }
 
+.Tab-Strip.s > div{
+    font-size: 12px;
+    border-radius: 7px 7px 0px 0px;
+    padding: 1px 3px;
+}
+
 .Tab-Strip > div:hover{
     transition: background 0.2s;
     background: rgba(0,70,180,0.3);
@@ -41,22 +47,22 @@
 
 
 
+
 /* this content below needs to go into a different file,
 
  WgTabbedBoxie.css
 
 
 */
-
-.WgTabbedBoxie{
+.WgTabbedSection{
     display: flex;
     flex-flow: column nowrap;
 }
 
-.WgTabbedBoxie .tabs{
+.WgTabbedSection .tabs{
     margin: 0px 5px;
 }
 
-.WgTabbedBoxie .WgBoxie{
+.WgTabbedSection .WgBoxie{
     flex: 1 auto;
 }
