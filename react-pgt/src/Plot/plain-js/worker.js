@@ -10,26 +10,27 @@ const workercode = () => {
 
 	const command_info = e.data
 
-	const nPix = command_info.width * command_info.height;
-	
-	const pixelData = new Uint8ClampedArray(4 * nPix);
-	
 
+	const myImg = new ImageData(command_info.width, command_info.height);
+	const pixelData = myImg.data;
+	const nPix = command_info.width * command_info.height;
+	const r = Math.random()*255;
+	const g = Math.random()*255;
+	
 	for (var x = 0; x < nPix; x++){
 
 	    const i = x * 4;
 	    
 	    //const Colour = tinycolor( {h: Hx, s: Sx, l: Lx} ).toRgb();
 
-	    pixelData[i]     = 255;//Colour.r;
-	    pixelData[i + 1] = 128;//Colour.g;
-	    pixelData[i + 2] = 0;//Colour.b;
+	    pixelData[i]     = x%2?0:r; //Colour.r;
+	    pixelData[i + 1] = x%2?0:g;//Colour.g;
+	    pixelData[i + 2] = 128;//Colour.b;
 	    pixelData[i + 3] = 255;//alpha -> fully opaque
 
 	}
-	    
 
-	self.postMessage(pixelData);
+	self.postMessage(myImg);
     }
 };
 

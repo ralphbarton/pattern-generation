@@ -14,3 +14,7 @@ body{
     top: 0px;
     left: 0px;
 }
+
+.Background_Plot .plot-canvas{
+    display: block;
+}
