@@ -148,26 +148,39 @@ class MainTab_Plot extends React.PureComponent {
 		<div className="upper">
 		  <div className="barTitle">Formula Bar</div>
 
-		  <div className="actionsBar">
-		    <WgActionLink
-		       name={"Syntax Guide"}
+		  <WgActionLink
+		       name={"Syntax & Inbuilt functions"}
 		       onClick={()=>{console.log("no action implemented.");}}
 		      enabled={true}
 		      />
 
-		      <WgActionLink
-			 name={"Functions Palette"}
-			 onClick={()=>{console.log("no action implemented.");}}
-			enabled={true}
-			/>
+		  {/* Top: some text about evaluation of formula */}
+		    <div className="evalBrief">
+		      <span className="A">Input: </span>
+		      <span className="B">-1 </span>
+		      &lt; re{'{'}
+		      <span className="C">z</span>		      
+		      {'}'} &lt;
+		      <span className="B"> +1</span>		      
 
-			<WgActionLink
-			   name={"Formula Designer"}
-			   onClick={()=>{console.log("no action implemented.");}}
-			  enabled={true}
-			  />
+		      <span className="A"> and </span>
+		      <span className="B">-1.29 </span>
+		      &lt; im{'{'}
+		      <span className="C">z</span>		      
+		      {'}'} &lt;
+		      <span className="B"> +1.29 </span>		      
 
-		  </div>
+		      <span className="C"> ⟹ </span>
+		      
+		      <span className="A">Output: </span>
+		      min = 
+		      <span className="B"> -0.924</span>
+		      <span className="A"> and </span>
+		      max = 
+		      <span className="B"> -0.924</span>
+
+		    </div>
+
 		</div>
 
 		
@@ -193,8 +206,13 @@ class MainTab_Plot extends React.PureComponent {
 		  rowClassingFn={this.rowClassingFn}
 		  />
 
-		  <div className="mainButtons">
-
+		  <div className="mainButtons">		  
+		    <WgActionLink
+		       name={"Formula Designer"}
+		       onClick={()=>{console.log("no action implemented.");}}
+		      enabled={true}
+		      />
+		    
 		    <WgButton
 		       name="Add"
 		       buttonStyle={"small"}
@@ -205,10 +223,9 @@ class MainTab_Plot extends React.PureComponent {
 		       buttonStyle={"small"}
 		       enabled={true}
 		       />
-
 		  </div>
+		  
 	      </div>
-
 
 
 
@@ -225,10 +242,7 @@ class MainTab_Plot extends React.PureComponent {
 
 
 	      {/* 2.3 Third Column */}
-	      <div className="thirdColumnZone">
-
-		{/* Top: some text about evaluation of formula */}
-		<span> some text about evaluation of formula </span>		  
+	      <div className="thirdColumnZone">		  
 
 		{/* Middle: Zoom Controls */}
 		<WgBoxie className="zoomRotate" name="Zoom & Rotate" boxieStyle={"small"}>

@@ -11,10 +11,6 @@
   flex-flow: row wrap;
 }
 
-/* buttons alignment*/
-.MainTab_Plot .tableWithButtonsZone{
-  text-align: right;
-}
 
 
 
@@ -36,18 +32,50 @@
   margin-top: 1px;
     color: rgba(0,0,0,0.5);
   display: flex;
-}
-
-.MainTab_Plot .formulaBar .actionsBar{
-  flex: 1 auto;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-around;
-  margin-bottom: 2px;
+  align-items: flex-end;
 }
 
 .MainTab_Plot .formulaBar .barTitle{
     font-weight: bold;
+}
+
+.MainTab_Plot .formulaBar .action-link{
+  flex: 1 auto;
+  text-align: center;
+  margin-top: 1px;
+  margin-bottom: 2px;
+}
+
+.MainTab_Plot .formulaBar .upper .evalBrief{
+  opacity: 0.6;
+  transition: all 0.2s;
+  background: rgba(0,0,0,0.27);
+    padding: 0px 5px;
+    border-radius: 4px 4px 0px 0px;
+  color: black;
+  text-shadow: 0px 0px 3px #E4DDC2;
+  z-index: 1;
+}
+
+.MainTab_Plot .formulaBar:hover .upper .evalBrief{
+  opacity: 1;
+}
+
+.MainTab_Plot .evalBrief .A{
+  font-weight: bold;
+  text-shadow: none;
+}
+
+.MainTab_Plot .evalBrief .B{
+  font-weight: bold;
+  text-shadow: 0px 0px 1px rgba(0,0,0,0.6);
+  color: #DDD
+}
+
+.MainTab_Plot .evalBrief .C{
+  font-weight: bold;
+  text-shadow: 0px 0px 3px white;
+  color: blue;
 }
 
 .MainTab_Plot .formulaBar span.text-fxy{
@@ -88,6 +116,16 @@
 
 .MainTab_Plot .WgTable{
   margin-right: 2px;
+}
+
+/* buttons alignment*/
+.MainTab_Plot .mainButtons{
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.MainTab_Plot .mainButtons .action-link{
+  flex: 1 auto;
 }
 
 
@@ -150,14 +188,6 @@
   flex-flow: column nowrap;
 }
 
-.MainTab_Plot .thirdColumnZone > span{
-  text-align: right;
-  font-size: 11px;
-  margin-right: 5px;
-}
-
-
-
 
 
 
@@ -167,7 +197,7 @@
 /* 6. Zoom & Rotate box */
 
 .MainTab_Plot .thirdColumnZone .zoomRotate{
-  flex: 0 auto;
+  flex: 0.05 auto;
 }
 
 .MainTab_Plot .WgBoxie.zoomRotate .contents{
