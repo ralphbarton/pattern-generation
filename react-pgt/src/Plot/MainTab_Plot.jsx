@@ -391,6 +391,8 @@ class MainTab_Plot extends React.PureComponent {
 		   className="previewOptions"
 		   tabbedBoxieStyle={"small"}
 		   tabSelectedIndex={this.state.previewOptionsTabSelected}
+		   // The function below is worth rewriting for every component instance
+		   // it sets the specific state variable associated with the tab choice
 		   onTabClick={ new_i => {
 		       if (new_i === this.state.previewOptionsTabSelected){return;}
 		       this.setState({

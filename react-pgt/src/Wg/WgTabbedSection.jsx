@@ -1,10 +1,24 @@
 import React from 'react';
 
 function WgTabbedSection(props) {
+
+    /*
+     Props are:
+
+     tabSelectedIndex
+     enabled
+     tabsStyle
+     className
+
+     items
+     onTabClick
+     */
+
+
     const selIndex = props.tabSelectedIndex;
 
     const extraTabStripClass = (props.enabled === false ? "disabled " : "")
-	      + (props.tabbedBoxieStyle === "small" ? "s " : "");
+	      + (props.tabsStyle === "small" ? "s " : "");
 
     return (
 	<div className={"WgTabbedSection " + props.className}>
@@ -24,12 +38,13 @@ function WgTabbedSection(props) {
 		})
 	    }
 	  </div>
-
+	    <div className="TabContent">
+	    
 	    {
 		// 2. Render ONE of the actual tabs...
 		props.items[selIndex].renderJSX()
 	    }
-
+	</div>
 	</div>
     );
     

@@ -61,6 +61,11 @@
     flex-flow: column nowrap;
 }
 
+.WgTabbedSection .TabContent{
+    position: relative;
+    flex: 1 auto; /* to uss full HEIGHT of container */
+}
+
 .WgTabbedSection .tabs{
     margin: 0px 5px;
 }

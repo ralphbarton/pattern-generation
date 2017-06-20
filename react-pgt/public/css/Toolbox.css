@@ -18,7 +18,34 @@
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none; /* this is a cover-all default*/
+    display: flex;
+    flex-flow: column nowrap;
 }
+
+.Title-Strip{
+    border-bottom: 2px solid #404040;
+    background: linear-gradient(to right,  #4b9bd8 0%,#a6c8f4 100%);
+    border-radius: 10px 10px 0px 0px;
+    height: 65px;
+}
+
+.Toolbox > .WgTabbedSection{
+    flex: 1 auto; /* to uss full HEIGHT of container */
+}
+
+
+
+
+
+
+/*
+ is it correct that all styling rules below here can be scrapped?
+
+
+*/
+
+
+
 
 .Toolbox .Tab-Body{
     position: absolute;
@@ -65,12 +92,7 @@
 
 
 
-.Title-Strip{
-    border-bottom: 2px solid #404040;
-    background: linear-gradient(to right,  #4b9bd8 0%,#a6c8f4 100%);
-    border-radius: 10px 10px 0px 0px;
-    height: 65px;
-}
+
 
 
 

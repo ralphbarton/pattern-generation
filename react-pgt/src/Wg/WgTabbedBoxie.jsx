@@ -29,7 +29,7 @@ function WgTabbedBoxie(props) {
     return (
 	<WgTabbedSection
 	   items={newItems}
-	   tabbedBoxieStyle={tabbedBoxieStyle}
+	   tabsStyle={tabbedBoxieStyle}
 	   {...restProps}
 	   />
     );
