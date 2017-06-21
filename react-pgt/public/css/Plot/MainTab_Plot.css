@@ -9,6 +9,7 @@
 .MainTab_Plot{
   display: flex;
   flex-flow: row wrap;
+  margin-bottom: 4px;
 }
 
 
@@ -94,7 +95,7 @@
 /* 2. Left side: Table */
 
 .MainTab_Plot .WgTable tbody{
-     height: 181px;
+     height: 182px;
 }
 
 .MainTab_Plot .WgTable .col-1{
@@ -141,6 +142,7 @@
 .MainTab_Plot > .thirdColumnZone > .WgTabbedSection
 {
   margin: 1px 5px;
+  margin-bottom: 0px;
 }
 
 .MainTab_Plot .WgBoxie .contents,
@@ -156,6 +158,7 @@
 
 .MainTab_Plot .histogram{
   margin-right: 1px;
+  flex: 0 auto;
 }
 
 .MainTab_Plot .Hblock{
@@ -198,7 +201,8 @@
 /* 6. Zoom & Rotate box */
 
 .MainTab_Plot .thirdColumnZone .zoomRotate{
-  flex: 0.05 auto;
+  flex: 0.1 auto;
+  margin-bottom: 4px;
 }
 
 .MainTab_Plot .WgBoxie.zoomRotate .contents{

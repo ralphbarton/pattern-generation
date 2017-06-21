@@ -64,6 +64,7 @@
 .WgTabbedSection .TabContent{
     position: relative;
     flex: 1 auto; /* to uss full HEIGHT of container */
+    display: flex; /* child will need to use same trick*/
 }
 
 .WgTabbedSection .tabs{
