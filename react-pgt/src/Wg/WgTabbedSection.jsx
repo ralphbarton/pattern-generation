@@ -21,8 +21,8 @@ function WgTabbedSection(props) {
 	      + (props.tabsStyle === "small" ? "s " : "");
 
     return (
-	<div className={"WgTabbedSection " + props.className}>
-	  <div className={"tabs Tab-Strip " + extraTabStripClass}>
+	<div className={"WgTabbedSection " + (props.WgTabbedBoxie?"WgTabbedBoxie ":" ") + props.className}>
+	  <div className={"TabStrip " + extraTabStripClass}>
 	    {
 		// 1. Generate the tabs headings
 		props.items.map( (item, index) => {

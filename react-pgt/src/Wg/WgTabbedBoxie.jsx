@@ -30,6 +30,7 @@ function WgTabbedBoxie(props) {
 	<WgTabbedSection
 	   items={newItems}
 	   tabsStyle={tabbedBoxieStyle}
+	   WgTabbedBoxie={true}
 	   {...restProps}
 	   />
     );
