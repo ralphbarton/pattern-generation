@@ -10,9 +10,12 @@ import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgActionLink from '../Wg/WgActionLink';
 import WgSmartInput from '../Wg/WgSmartInput';
 
-//main.js
+
 
 import Plot_util from './plain-js/Plot_util';
+
+import Plot_Section_Popout from './Plot_Section_Popout';
+
 
 
 class MainTab_Plot extends React.PureComponent {
@@ -20,7 +23,13 @@ class MainTab_Plot extends React.PureComponent {
     constructor() {
 	super();
 	this.state = {
-	    previewOptionsTabSelected: 0
+	    previewOptionsTabSelected: 0,
+	    /*
+	     1 - Syntax & Inbuilt functions
+	     2 - Formula Designer
+	     3 - Zoom & Rotate -> More
+	     */
+	    showExtraWindow: null
 	};
 
 
@@ -150,7 +159,7 @@ class MainTab_Plot extends React.PureComponent {
 
 		  <WgActionLink
 		       name={"Syntax & Inbuilt functions"}
-		       onClick={()=>{console.log("no action implemented.");}}
+		     onClick={()=>{this.setState({showExtraWindow: "syntaxHelp"});}}
 		      enabled={true}
 		      />
 
@@ -209,7 +218,7 @@ class MainTab_Plot extends React.PureComponent {
 		  <div className="mainButtons">		  
 		    <WgActionLink
 		       name={"Formula Designer"}
-		       onClick={()=>{console.log("no action implemented.");}}
+		       onClick={()=>{this.setState({showExtraWindow: "formulaDesigner"});}}
 		      enabled={true}
 		      />
 		    
@@ -260,7 +269,7 @@ class MainTab_Plot extends React.PureComponent {
 		       />
 		    <WgActionLink
 		       name={"More"}
-		       onClick={null}
+		       onClick={()=>{this.setState({showExtraWindow: "ZR-More"});}}
 		       enabled={true}
 		       />
 		  </div>
@@ -453,10 +462,14 @@ class MainTab_Plot extends React.PureComponent {
 		  }
 		/>
 		
-	      </div>
-	      
-
-
+		</div>
+		{
+		    this.state.showExtraWindow !== null &&
+			<Plot_Section_Popout
+		    popoutType={this.state.showExtraWindow}
+		    handleClose={()=>{this.setState({showExtraWindow: null});}}
+			/>
+		}
 	      
 	    </div>
 

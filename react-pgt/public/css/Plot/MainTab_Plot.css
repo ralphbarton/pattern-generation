@@ -247,4 +247,11 @@
   flex: 1 auto;
 }
 
+.MainTab_Plot .BeigeWindow{
+    position: absolute;
+    right: -250px;
+  width: 240px;
+  height: 400px;
+    top: -111px;
+}
 
