@@ -1,13 +1,22 @@
 // worker.js
 
 //import tinycolor from 'tinycolor2';
+import math from 'mathjs';
+
 
 const workercode = () => {
 
+    console.log('Worker initiated...');
+
+//    importScripts("http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.13.3/math.min.js");
+    
+    
     self.onmessage = function(e) {
 
 	console.log('Worker recieved message...');
+	console.log( math.round(math.e, 3) );// 2.718
 
+	
 	const command_info = e.data
 
 
