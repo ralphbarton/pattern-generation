@@ -52,6 +52,8 @@ class MainTab_Plot extends React.PureComponent {
      'pointsQuantity'
      'pointsProminenceFactor'
      'hideUnderlyingDensity'
+     'showContours'
+     'quantityContours'
 
      State changes are passed back up via:
 
@@ -92,11 +94,14 @@ class MainTab_Plot extends React.PureComponent {
 	    selectedRowIndex: {$set: initialSelectedRowIndex},
 	    selectedPlotUid: {$set: Plot_i.uid},
 	    previewActive: {$set: false},
-	    colouringFunction: {$set: 0},
+	    colouringFunction: {$set: 1},
 	    plotResolution: {$set: 3},
 	    pointsQuantity: {$set: 0},
 	    pointsProminenceFactor: {$set: 2},
-	    hideUnderlyingDensity: {$set: false}
+	    hideUnderlyingDensity: {$set: false},
+	    showContours: {$set: false},
+	    quantityContours: {$set: 6}
+	    
 	});
     }
 
@@ -397,7 +402,7 @@ class MainTab_Plot extends React.PureComponent {
 
 		{/* Bottom: Preview options */}
 		<WgTabbedBoxie
-		   className="previewOptions"
+		   className="allPreviewFeatsContainer"
 		   tabbedBoxieStyle={"small"}
 		   tabSelectedIndex={this.state.previewOptionsTabSelected}
 		   // The function below is worth rewriting for every component instance
@@ -414,7 +419,7 @@ class MainTab_Plot extends React.PureComponent {
 			      name: "Preview Options",
 			      renderJSX: ()=>{
 				  return(
-				      <div>
+				      <div className="previewOptions">
 
 					<div className="inputContainer">
 					  Plot Resolution:
@@ -430,21 +435,70 @@ class MainTab_Plot extends React.PureComponent {
 					<WgMutexActionLink
 					   name="Colouring:"
 					   className="colouringFunction"
-					   initalEnabledArray={[false, false]}
+					   equityTestingForEnabled={{
+					       currentValue: this.props.UI.colouringFunction,
+					       representedValuesArray: [1, 2]
+					   }}
 					   actions={[
 					       {
-						   name: "greyscale"
+						   name: "greyscale",
+						   cb: this.handleUIStateChange.bind(this, "colouringFunction", 1)
 					       },{
-						   name: "heatmap"
+						   name: "heatmap",
+						   cb: this.handleUIStateChange.bind(this, "colouringFunction", 2)
 					       }
 					   ]}
 					   />
 
+				      <div className="mainHideShow">
+
+					<WgActionLink
+					   name={"Hide Preview"}
+					   onClick={this.handleUIStateChange.bind(this, "previewActive", false)}
+					   enabled={this.props.UI.previewActive}
+					   />
+
+					
 					<WgButton
 					   name="Plot Preview"
-					   onClick={null}
+					   onClick={this.handleUIStateChange.bind(this, "previewActive", true)}
 					   />
-					
+				      </div>
+
+				      <div className="innerbox">
+
+					<WgMutexActionLink
+					   name="Contours:"
+					   className="showContours"
+					   equityTestingForEnabled={{
+					       currentValue: this.props.UI.showContours,
+					       representedValuesArray: [true, false]
+					   }}
+					   actions={[
+					       {
+						   name: "show",
+						   cb: this.handleUIStateChange.bind(this, "showContours", true)
+					       },{
+						   name: "hide",
+						   cb: this.handleUIStateChange.bind(this, "showContours", false)
+					       }
+					   ]}
+					   />
+
+					<div className="inputContainer">
+					  Quantity:&nbsp;
+					  <WgSmartInput
+					     className="plain-cell s"
+					     value={this.props.UI.quantityContours}
+					     dataUnit="dimentionless"
+					     step={1}
+					     max={40}
+					     onChange={(value)=>{this.handleUIStateChange("quantityContours", value);}}
+					    />
+					</div>
+
+				      </div>
+
 				      </div>
 
 				  );

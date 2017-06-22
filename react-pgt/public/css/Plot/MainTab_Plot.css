@@ -241,11 +241,50 @@
 }
 
 
+
+
+
+
 /* 7. Preview Options box */
 
-.MainTab_Plot .thirdColumnZone .previewOptions{
+.MainTab_Plot .thirdColumnZone .allPreviewFeatsContainer{
   flex: 1 auto;
 }
+
+.MainTab_Plot .previewOptions .colouringFunction{
+  position: absolute;
+  top: 48px;
+}
+
+.MainTab_Plot .previewOptions .innerbox{
+  margin: 1px;
+  padding: 3px 5px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  border-left: 1px solid rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(0,0,0,0.4);
+  border-bottom-left-radius: 2px;
+}
+
+.MainTab_Plot .previewOptions .innerbox .action-link{
+  margin-bottom: 5px;
+}
+
+
+.MainTab_Plot .previewOptions .mainHideShow{
+  display: flex;
+  flex-flow: column nowrap;
+  position: absolute;
+  bottom: 3px;
+  right: 0px;
+}
+
+.MainTab_Plot .previewOptions .mainHideShow .action-link{
+  margin-bottom: 3px;
+}
+
+
 
 .MainTab_Plot .BeigeWindow{
     position: absolute;

@@ -3,7 +3,7 @@ import React from 'react';
 function WgButton(props) {
 
     const extraClass = (props.enabled === false ? "disabled " : "") + (props.buttonStyle === "small" ? "s" : "");
-    const buttonClasses = "button " + extraClass + " " + props.className;
+    const buttonClasses = "button " + extraClass + " " + (props.className||"");
     return (
 	<button
 	   className={buttonClasses}

@@ -16,10 +16,11 @@ function WgTabbedSection(props) {
 
 
     const selIndex = props.tabSelectedIndex;
-
+    const selItem  = props.items[selIndex];
+    
     const extraTabStripClass = (props.enabled === false ? "disabled " : "")
 	      + (props.tabsStyle === "small" ? "s " : "");
-
+    
     return (
 	<div className={"WgTabbedSection " + (props.WgTabbedBoxie?"WgTabbedBoxie ":" ") + props.className}>
 	  <div className={"TabStrip " + extraTabStripClass}>
@@ -38,11 +39,11 @@ function WgTabbedSection(props) {
 		})
 	    }
 	  </div>
-	    <div className="TabContent">
+	    <div className={"TabContent " + (selItem.className||"")}>
 	    
 	    {
 		// 2. Render ONE of the actual tabs...
-		props.items[selIndex].renderJSX()
+		selItem.renderJSX()
 	    }
 	</div>
 	</div>
