@@ -1,7 +1,8 @@
 import React from 'react';
 
 //import util from '.././plain-js/util';
-import worker_script from './plain-js/worker';
+//import worker_script from './plain-js/worker';
+import util from '.././plain-js/util';
 
 
 class Background_Plot extends React.PureComponent {
@@ -18,10 +19,12 @@ class Background_Plot extends React.PureComponent {
     }
 
     // Pass some activity into the other thread
-    requestWorkerCalc(){
+    requestWorkerCalc(formulaString){
 	this.worker.postMessage({
 	    width: this.winW,
-	    height: this.winH
+	    height: this.winH,
+	    formula: formulaString,
+	    resolution: 4
 	});
     }
 
@@ -34,23 +37,28 @@ class Background_Plot extends React.PureComponent {
     }
 
     
-    componentDidUpdate(){
-	this.requestWorkerCalc();
-	var ctx = this.canvasElement.getContext('2d');
-	ctx.fillRect(20, 20, 20, 20);//x,y,w,h
-	
-    }
-    
-    render() {
-	
-//	const plotUIState = this.props.plotUIState;
-//	console.log("<Background_Plot> render() called", plotUIState);
-	
-//	const plotArray = this.props.plotArray;
 
+    
+
+    render() {
+
+	const plotUIState = this.props.plotUIState;
+	if(!plotUIState.previewActive){return null;}
+
+	//console.log("<Background_Plot> render() called", plotUIState);
+
+	//this update is always important.
 	this.winW = window.innerWidth;
 	this.winH = window.innerHeight;
+	
+	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectedPlotUid);	
+	
+	// This command will trigger the generation of plot-data
+	// it will be slapped onto the canvas when result message is recieced from thread
+	this.requestWorkerCalc(Plot.formula);
 
+	
+	
 
 	
 	return (
