@@ -1,0 +1,23 @@
+/* Plot_Section_Histogram.css */
+
+.MainTab_Plot .Histogram{
+  margin-right: 1px;
+  flex: 0 auto;
+}
+
+.MainTab_Plot .Hblock{
+    display: inline-block;
+    margin: 1px;
+    background-color: rgba(99, 129, 26, 0.59);
+    border: 1px solid rgba(23, 114, 40, 0.81);
+}
+
+.MainTab_Plot .Hblock.hist{
+  width: 147px;
+  height: 78px;
+}
+
+.MainTab_Plot .Hblock.conv{
+  width: 70px;
+  height: 70px;
+}

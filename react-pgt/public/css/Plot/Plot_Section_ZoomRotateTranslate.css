@@ -1,0 +1,42 @@
+/* Plot_Section_ZoomRotateTranslate.css */
+
+
+.MainTab_Plot .thirdColumnZone .ZoomRotateTranslate{
+  flex: 0.1 auto;
+  margin-bottom: 4px;
+}
+
+.MainTab_Plot .ZoomRotateTranslate .contents{
+  width: 0px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.MainTab_Plot .ZoomRotateTranslate .contents > .sectionLinks1{
+  flex: 1 100%;
+  margin-top: -3px;
+  margin-bottom: 3px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.MainTab_Plot .ZoomRotateTranslate .contents > .sectionButtons{
+  flex: 0 auto;
+  width: 112px;
+}
+
+.MainTab_Plot .ZoomRotateTranslate .contents > .sectionButtons > div{
+  display: inline-block;
+    margin: 1px 1px;
+  margin-top: 0px;
+}
+
+.MainTab_Plot .ZoomRotateTranslate .contents > .sectionLinks2{
+  flex: 1 auto;
+  margin-left: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: flex-start;
+}

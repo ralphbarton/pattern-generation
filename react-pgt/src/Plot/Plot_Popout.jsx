@@ -4,7 +4,7 @@ import React from 'react';
 import WgActionLink from '../Wg/WgActionLink';
 
 
-function Plot_Section_Popout(props) {
+function Plot_Popout(props) {
 
     return(
     	<div className="BeigeWindow">
@@ -20,4 +20,4 @@ function Plot_Section_Popout(props) {
 
 }
 
-export default Plot_Section_Popout;
+export default Plot_Popout;

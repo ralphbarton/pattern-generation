@@ -3,18 +3,19 @@ import React from 'react';
 // generic project widgets
 import WgTable from '../Wg/WgTable';
 import WgButton from '../Wg/WgButton';
-import WgSpecialButton from '../Wg/WgSpecialButton';
-import WgBoxie from '../Wg/WgBoxie';
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgActionLink from '../Wg/WgActionLink';
-import WgSmartInput from '../Wg/WgSmartInput';
-
 
 
 import Plot_util from './plain-js/Plot_util';
 
-import Plot_Section_Popout from './Plot_Section_Popout';
+import Plot_Popout from './Plot_Popout';
+import Plot_Section_FormulaBar from './Plot_Section_FormulaBar';
+
+import Plot_Section_Histogram from './Plot_Section_Histogram';
+import Plot_Section_ZoomRotateTranslate from './Plot_Section_ZoomRotateTranslate';
+import Plot_Section_PreviewOptions from './Plot_Section_PreviewOptions';
+import Plot_Section_PointsetPreview from './Plot_Section_PointsetPreview';
 
 
 
@@ -23,7 +24,7 @@ class MainTab_Plot extends React.PureComponent {
     constructor() {
 	super();
 	this.state = {
-	    previewOptionsTabSelected: 0,
+	    previewFeaturesTabSelected: 1,
 	    /*
 	     1 - Syntax & Inbuilt functions
 	     2 - Formula Designer
@@ -93,7 +94,7 @@ class MainTab_Plot extends React.PureComponent {
 	this.props.setPlotUIState({
 	    selectedRowIndex: {$set: initialSelectedRowIndex},
 	    selectedPlotUid: {$set: Plot_i.uid},
-	    previewActive: {$set: false},
+	    previewActive: {$set: true},
 	    colouringFunction: {$set: 1},
 	    plotResolution: {$set: 3},
 	    pointsQuantity: {$set: 0},
@@ -156,61 +157,17 @@ class MainTab_Plot extends React.PureComponent {
 
 	    <div className="MainTab_Plot">
 
-	      {/* 1. Formula Bar */}
-	      <div className={"formulaBar "+this.rowClassingFn(Plot_i)}>
-
-		<div className="upper">
-		  <div className="barTitle">Formula Bar</div>
-
-		  <WgActionLink
-		       name={"Syntax & Inbuilt functions"}
-		     onClick={()=>{this.setState({showExtraWindow: "syntaxHelp"});}}
-		      enabled={true}
-		      />
-
-		  {/* Top: some text about evaluation of formula */}
-		    <div className="evalBrief">
-		      <span className="A">Input: </span>
-		      <span className="B">-1 </span>
-		      &lt; re{'{'}
-		      <span className="C">z</span>		      
-		      {'}'} &lt;
-		      <span className="B"> +1</span>		      
-
-		      <span className="A"> and </span>
-		      <span className="B">-1.29 </span>
-		      &lt; im{'{'}
-		      <span className="C">z</span>		      
-		      {'}'} &lt;
-		      <span className="B"> +1.29 </span>		      
-
-		      <span className="C"> ⟹ </span>
-		      
-		      <span className="A">Output: </span>
-		      min = 
-		      <span className="B"> -0.924</span>
-		      <span className="A"> and </span>
-		      max = 
-		      <span className="B"> -0.924</span>
-
-		    </div>
-
-		</div>
-
-		
-		<span className="text-fxy"> f(x,y) = </span>
-		<input className="plain-cell w"
-		       value={Plot_i.formula} 		       
-		       onChange={event =>{
-			   this.handleSelPlotChange({formula: {$set: event.target.value}});
-		  }}
-		       />
-	      </div>
-
-
-	      {/* 2. Beneath formula bar, 3 main column sections */}
 	      
-	      {/* 2.1 Table & buttons beneath */}
+	      {/* 1.  Formula Bar */}
+	      <Plot_Section_FormulaBar
+		 Plot_i={Plot_i}
+		 handleSelPlotChange={this.handleSelPlotChange}
+		 rowClassingFn={this.rowClassingFn}
+		 />
+
+
+	      
+	      {/* 2.  Table, and accompanying controls (i.e. buttons beneath) */}
 	      <div className="tableWithButtonsZone">
 		<WgTable
 		   selectedRowIndex={this.props.UI.selectedRowIndex}
@@ -244,173 +201,33 @@ class MainTab_Plot extends React.PureComponent {
 
 
 	      
-	      {/* 2.2 Histogram */}
-	      <WgBoxie className="histogram" name="Histogram" boxieStyle={"small"} >
-
-		<div className="Hblock hist">d3 histogram</div>
-		<br/>
-		<div className="Hblock conv">mini graph</div>
-
-	      </WgBoxie>
+	      {/* 3.  Histogram */}
+	      <Plot_Section_Histogram
+		 />
 
 
-
-	      {/* 2.3 Third Column */}
+	      
+	      {/* 4.  Third Column */}
 	      <div className="thirdColumnZone">		  
 
-		{/* Middle: Zoom Controls */}
-		<WgBoxie className="zoomRotate" name="Zoom & Rotate" boxieStyle={"small"}>
-
-		  <div className="sectionLinks1">
-		    <WgActionLink
-		       name={"Reset Zoom"}
-		       onClick={null}
-		       enabled={true}
-		       />
-		    <WgActionLink
-		       name={"Square Axes"}
-		       onClick={null}
-		       enabled={true}
-		       />
-		    <WgActionLink
-		       name={"More"}
-		       onClick={()=>{this.setState({showExtraWindow: "ZR-More"});}}
-		       enabled={true}
-		       />
-		  </div>
+		
+		{/* 4.1.  The Zoom + Rotate + Translate controls section... */}
+		<Plot_Section_ZoomRotateTranslate
+		   onClickMore={()=>{this.setState({showExtraWindow: "ZR-More"});}}
+		  />
 
 		  
-		  <div className="sectionButtons">
-
-		    <div className="btns-zoom">
-		      <div>Zoom:</div>		      
-		      <WgSpecialButton
-			 className="mediumSquare"
-			 iconName="Plus"
-			 onClick={null}
-			 />
-		      <WgSpecialButton
-			 className="mediumSquare"
-			 iconName="Minus"
-			 onClick={null}
-			 />
-		    </div>
-
-		    <div className="btns-rotate">
-		      <div>Rotate:</div>
-		      <WgSpecialButton
-			 className="mediumSquare"
-			 iconName="arrowClockwiseRing"
-			 onClick={null}
-			 />
-		      <WgSpecialButton
-			 className="mediumSquare"
-			 iconName="arrowAnticlockwiseRing"
-			 onClick={null}
-			 />
-		    </div>
-
-		    <div className="btns-translate">
-		      <div>Translate:</div>
-		      <WgSpecialButton
-			 className="mediumSquare"
-			 iconName="arrowUp"
-			 onClick={null}
-			 />
-		      <WgSpecialButton
-			 className="mediumSquare"
-			 iconName="arrowDown"
-			 onClick={null}
-			 />
-		      <WgSpecialButton
-			 className="mediumSquare"
-			 iconName="arrowLeft"
-			 onClick={null}
-			 />
-		      <WgSpecialButton
-			 className="mediumSquare"
-			 iconName="arrowRight"
-			 onClick={null}
-			 />
-		    </div>
-
-		  </div>
-
-		  
-		  <div className="sectionLinks2">
-
-		    <WgMutexActionLink
-		       name="Mouse Zoom:"
-		       className="mouseZoom"
-		       initalEnabledArray={[false, false]}
-		       actions={[
-			   {
-			       name: "On"
-			   },{
-			       name: "Off"
-			   }
-		       ]}
-		       />
-
-		    <WgMutexActionLink
-		       name="Aspect ratio:"
-		       className="aspectRatio"
-		       initalEnabledArray={[false, false]}
-		       actions={[
-			   {
-			       name: "lock"
-			   },{
-			       name: "unlock"
-			   }
-		       ]}
-		       />
-
-		    <WgMutexActionLink
-		       name="Zoom:"
-		       className="zoomXonlyYonly"
-		       initalEnabledArray={[false, false, false]}
-		       actions={[
-			   {
-			       name: "x,y"
-			   },{
-			       name: "x only"
-			   },{
-			       name: "y only"
-			   }
-		       ]}
-		       />
-
-		    <WgMutexActionLink
-		       name="Steps:"
-		       className="stepsSML"
-		       initalEnabledArray={[false, false, false]}
-		       actions={[
-			   {
-			       name: "S"
-			   },{
-			       name: "M"
-			   },{
-			       name: "L"
-			   }
-		       ]}
-		       />
-
-		    
-		  </div>
-
-		</WgBoxie>
-
-		{/* Bottom: Preview options */}
+		{/* 4.2.  Preview Features ( = 'preview options' & 'pointset preview'  */}
 		<WgTabbedBoxie
-		   className="allPreviewFeatsContainer"
+		   className="PreviewFeatures"
 		   tabbedBoxieStyle={"small"}
-		   tabSelectedIndex={this.state.previewOptionsTabSelected}
+		   tabSelectedIndex={this.state.previewFeaturesTabSelected}
 		   // The function below is worth rewriting for every component instance
 		   // it sets the specific state variable associated with the tab choice
 		   onTabClick={ new_i => {
-		       if (new_i === this.state.previewOptionsTabSelected){return;}
+		       if (new_i === this.state.previewFeaturesTabSelected){return;}
 		       this.setState({
-			   previewOptionsTabSelected: new_i
+			   previewFeaturesTabSelected: new_i
 		       });
 		   }}
 		  items={
@@ -419,96 +236,25 @@ class MainTab_Plot extends React.PureComponent {
 			      name: "Preview Options",
 			      renderJSX: ()=>{
 				  return(
-				      <div className="previewOptions">
-
-					<div className="inputContainer">
-					  Plot Resolution:
-					  <WgSmartInput
-					     className="plain-cell s"
-					     value={27}
-					     dataUnit="pixels"
-					     max={100}
-					     onChange={null}
-					    />
-					</div>
-
-					<WgMutexActionLink
-					   name="Colouring:"
-					   className="colouringFunction"
-					   equityTestingForEnabled={{
-					       currentValue: this.props.UI.colouringFunction,
-					       representedValuesArray: [1, 2]
-					   }}
-					   actions={[
-					       {
-						   name: "greyscale",
-						   cb: this.handleUIStateChange.bind(this, "colouringFunction", 1)
-					       },{
-						   name: "heatmap",
-						   cb: this.handleUIStateChange.bind(this, "colouringFunction", 2)
-					       }
-					   ]}
-					   />
-
-				      <div className="mainHideShow">
-
-					<WgActionLink
-					   name={"Hide Preview"}
-					   onClick={this.handleUIStateChange.bind(this, "previewActive", false)}
-					   enabled={this.props.UI.previewActive}
-					   />
-
-					
-					<WgButton
-					   name="Plot Preview"
-					   onClick={this.handleUIStateChange.bind(this, "previewActive", true)}
-					   />
-				      </div>
-
-				      <div className="innerbox">
-
-					<WgMutexActionLink
-					   name="Contours:"
-					   className="showContours"
-					   equityTestingForEnabled={{
-					       currentValue: this.props.UI.showContours,
-					       representedValuesArray: [true, false]
-					   }}
-					   actions={[
-					       {
-						   name: "show",
-						   cb: this.handleUIStateChange.bind(this, "showContours", true)
-					       },{
-						   name: "hide",
-						   cb: this.handleUIStateChange.bind(this, "showContours", false)
-					       }
-					   ]}
-					   />
-
-					<div className="inputContainer">
-					  Quantity:&nbsp;
-					  <WgSmartInput
-					     className="plain-cell s"
-					     value={this.props.UI.quantityContours}
-					     dataUnit="dimentionless"
-					     step={1}
-					     max={40}
-					     onChange={(value)=>{this.handleUIStateChange("quantityContours", value);}}
-					    />
-					</div>
-
-				      </div>
-
-				      </div>
-
-				  );
+				      <Plot_Section_PreviewOptions
+					 UI={this.props.UI}
+					 handleUIStateChange={(a,b) => {
+					     return this.handleUIStateChange.bind(this, a, b);
+					}}
+					 />
+				   );
 			      }
 			  },{
 			      name: "Pointset Preview",
 			      enabled: this.props.UI.previewActive,
 			      renderJSX: ()=>{
 				  return(
-				      <div>Hello 2</div>
+				      <Plot_Section_PointsetPreview
+					 UI={this.props.UI}
+					 handleUIStateChange={(a,b) => {
+					     return this.handleUIStateChange.bind(this, a, b);
+					}}
+					 />
 				  );
 			      }
 			  }
@@ -517,9 +263,12 @@ class MainTab_Plot extends React.PureComponent {
 		/>
 		
 		</div>
+
+
+		{/* 5.  Popout window (it will render conditionally).  */}
 		{
 		    this.state.showExtraWindow !== null &&
-			<Plot_Section_Popout
+			<Plot_Popout
 		    popoutType={this.state.showExtraWindow}
 		    handleClose={()=>{this.setState({showExtraWindow: null});}}
 			/>

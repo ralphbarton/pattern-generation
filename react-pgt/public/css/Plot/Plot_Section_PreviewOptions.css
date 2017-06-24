@@ -1,0 +1,39 @@
+/* Plot_Section_PreviewOptions.css */
+
+
+.MainTab_Plot .thirdColumnZone .PreviewFeatures{
+  flex: 1 auto;
+}
+
+.MainTab_Plot .PreviewOptions .colouringFunction{
+  position: absolute;
+  top: 48px;
+}
+
+.MainTab_Plot .PreviewOptions .innerbox{
+  margin: 1px;
+  padding: 3px 5px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  border-left: 1px solid rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(0,0,0,0.4);
+  border-bottom-left-radius: 2px;
+}
+
+.MainTab_Plot .PreviewOptions .innerbox .action-link{
+  margin-bottom: 5px;
+}
+
+
+.MainTab_Plot .PreviewOptions .mainHideShow{
+  display: flex;
+  flex-flow: column nowrap;
+  position: absolute;
+  bottom: 3px;
+  right: 0px;
+}
+
+.MainTab_Plot .PreviewOptions .mainHideShow .action-link{
+  margin-bottom: 3px;
+}

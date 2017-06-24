@@ -6,88 +6,13 @@
   BOTTOM row = 3 columns
 */
 
+
+/* 1. Overall Tab */
 .MainTab_Plot{
   display: flex;
   flex-flow: row wrap;
   margin-bottom: 4px;
 }
-
-
-
-
-
-
-/* 1. Formula Bar */
-
-.MainTab_Plot .formulaBar{
-  margin-left: 5px;
-    font-size: 11px;
-}
-
-.MainTab_Plot .formulaBar input{
-  width: 625px;
-  font-size: 20px;
-}
-
-.MainTab_Plot .formulaBar .upper{
-  margin-top: 1px;
-    color: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: flex-end;
-}
-
-.MainTab_Plot .formulaBar .barTitle{
-    font-weight: bold;
-}
-
-.MainTab_Plot .formulaBar .action-link{
-  flex: 1 auto;
-  text-align: center;
-  margin-top: 1px;
-  margin-bottom: 2px;
-}
-
-.MainTab_Plot .formulaBar .upper .evalBrief{
-  opacity: 0.6;
-  font-size: 10px;
-  transition: all 0.2s;
-  background: rgba(0,0,0,0.27);
-    padding: 1px 5px;
-    border-radius: 4px 4px 0px 0px;
-  color: black;
-  text-shadow: 0px 0px 3px #E4DDC2;
-  z-index: 1;
-}
-
-.MainTab_Plot .formulaBar:hover .upper .evalBrief{
-  opacity: 1;
-}
-
-.MainTab_Plot .evalBrief .A{
-  font-weight: bold;
-  text-shadow: none;
-}
-
-.MainTab_Plot .evalBrief .B{
-  font-weight: bold;
-  text-shadow: 0px 0px 1px rgba(0,0,0,0.6);
-  color: #DDD
-}
-
-.MainTab_Plot .evalBrief .C{
-  font-weight: bold;
-  text-shadow: 0px 0px 3px white;
-  color: blue;
-}
-
-.MainTab_Plot .formulaBar span.text-fxy{
-  font-weight: bold;
-  font-size: 17px;
-  color: rgba(0,0,0,0.7);
-}
-
-
-
 
 
 
@@ -154,36 +79,10 @@
 
 
 
-/* 4. Histograms box */
-
-.MainTab_Plot .histogram{
-  margin-right: 1px;
-  flex: 0 auto;
-}
-
-.MainTab_Plot .Hblock{
-    display: inline-block;
-    margin: 1px;
-    background-color: rgba(99, 129, 26, 0.59);
-    border: 1px solid rgba(23, 114, 40, 0.81);
-}
-
-.MainTab_Plot .Hblock.hist{
-  width: 147px;
-  height: 78px;
-}
-
-.MainTab_Plot .Hblock.conv{
-  width: 70px;
-  height: 70px;
-}
 
 
 
-
-
-
-/* 5. Third Column box */
+/* 4. Third Column box */
 
 .MainTab_Plot .thirdColumnZone{
   /*background: rgba(0,255,255,0.2);*/
@@ -193,98 +92,7 @@
 }
 
 
-
-
-
-
-
-/* 6. Zoom & Rotate box */
-
-.MainTab_Plot .thirdColumnZone .zoomRotate{
-  flex: 0.1 auto;
-  margin-bottom: 4px;
-}
-
-.MainTab_Plot .WgBoxie.zoomRotate .contents{
-  width: 0px;
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.MainTab_Plot .WgBoxie.zoomRotate .contents > .sectionLinks1{
-  flex: 1 100%;
-  margin-top: -3px;
-  margin-bottom: 3px;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-around;
-}
-
-.MainTab_Plot .WgBoxie.zoomRotate .contents > .sectionButtons{
-  flex: 0 auto;
-  width: 112px;
-}
-
-.MainTab_Plot .WgBoxie.zoomRotate .contents > .sectionButtons > div{
-  display: inline-block;
-    margin: 1px 1px;
-  margin-top: 0px;
-}
-
-.MainTab_Plot .WgBoxie.zoomRotate .contents > .sectionLinks2{
-  flex: 1 auto;
-  margin-left: 10px;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-around;
-  align-items: flex-start;
-}
-
-
-
-
-
-
-/* 7. Preview Options box */
-
-.MainTab_Plot .thirdColumnZone .allPreviewFeatsContainer{
-  flex: 1 auto;
-}
-
-.MainTab_Plot .previewOptions .colouringFunction{
-  position: absolute;
-  top: 48px;
-}
-
-.MainTab_Plot .previewOptions .innerbox{
-  margin: 1px;
-  padding: 3px 5px;
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  border-left: 1px solid rgba(0,0,0,0.4);
-  border-bottom: 1px solid rgba(0,0,0,0.4);
-  border-bottom-left-radius: 2px;
-}
-
-.MainTab_Plot .previewOptions .innerbox .action-link{
-  margin-bottom: 5px;
-}
-
-
-.MainTab_Plot .previewOptions .mainHideShow{
-  display: flex;
-  flex-flow: column nowrap;
-  position: absolute;
-  bottom: 3px;
-  right: 0px;
-}
-
-.MainTab_Plot .previewOptions .mainHideShow .action-link{
-  margin-bottom: 3px;
-}
-
-
+/* 5. Popout */
 
 .MainTab_Plot .BeigeWindow{
     position: absolute;

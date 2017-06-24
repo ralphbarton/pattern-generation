@@ -1,0 +1,70 @@
+/* Plot_Section_FormulaBar.css */
+
+/* 1. Formula Bar */
+
+.MainTab_Plot .formulaBar{
+  margin-left: 5px;
+    font-size: 11px;
+}
+
+.MainTab_Plot .formulaBar input{
+  width: 625px;
+  font-size: 20px;
+}
+
+.MainTab_Plot .formulaBar .upper{
+  margin-top: 1px;
+    color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: flex-end;
+}
+
+.MainTab_Plot .formulaBar .barTitle{
+    font-weight: bold;
+}
+
+.MainTab_Plot .formulaBar .action-link{
+  flex: 1 auto;
+  text-align: center;
+  margin-top: 1px;
+  margin-bottom: 2px;
+}
+
+.MainTab_Plot .formulaBar .upper .evalBrief{
+  opacity: 0.6;
+  font-size: 10px;
+  transition: all 0.2s;
+  background: rgba(0,0,0,0.27);
+    padding: 1px 5px;
+    border-radius: 4px 4px 0px 0px;
+  color: black;
+  text-shadow: 0px 0px 3px #E4DDC2;
+  z-index: 1;
+}
+
+.MainTab_Plot .formulaBar:hover .upper .evalBrief{
+  opacity: 1;
+}
+
+.MainTab_Plot .evalBrief .A{
+  font-weight: bold;
+  text-shadow: none;
+}
+
+.MainTab_Plot .evalBrief .B{
+  font-weight: bold;
+  text-shadow: 0px 0px 1px rgba(0,0,0,0.6);
+  color: #DDD
+}
+
+.MainTab_Plot .evalBrief .C{
+  font-weight: bold;
+  text-shadow: 0px 0px 3px white;
+  color: blue;
+}
+
+.MainTab_Plot .formulaBar span.text-fxy{
+  font-weight: bold;
+  font-size: 17px;
+  color: rgba(0,0,0,0.7);
+}
