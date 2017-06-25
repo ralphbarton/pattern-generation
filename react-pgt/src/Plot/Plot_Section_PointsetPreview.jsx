@@ -11,11 +11,14 @@ class Plot_Section_PointsetPreview extends React.PureComponent {
     
     render(){
 	
+/*
+// this is sure to be needed later
 	const handleUIStateChange = this.props.handleUIStateChange;
+ */
 	
 	return (
 	    <div className="PointsetPreview">
-	      hello world 2
+	      UI widgets for "pointset preview" to go here...
 	    </div>
 
 	);

@@ -19,10 +19,10 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		Plot Resolution:
 		<WgSmartInput
 		   className="plain-cell s"
-		   value={27}
+		   value={this.props.UI.plotResolution}
 		   dataUnit="pixels"
 		   max={100}
-		   onChange={null}
+		   onChange={(value)=>{handleUIStateChange("plotResolution", value);}}
 		   />
 	      </div>
 

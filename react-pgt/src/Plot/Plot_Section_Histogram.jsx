@@ -6,7 +6,7 @@ class Plot_Section_Histogram extends React.PureComponent {
     
     render(){
 	
-	const handleUIStateChange = this.props.handleUIStateChange;
+//	const handleUIStateChange = this.props.handleUIStateChange;
 	
 	return (
 	    <WgBoxie className="Histogram" name="Histogram" boxieStyle={"small"} >

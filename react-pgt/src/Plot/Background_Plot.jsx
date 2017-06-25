@@ -19,12 +19,12 @@ class Background_Plot extends React.PureComponent {
     }
 
     // Pass some activity into the other thread
-    requestWorkerCalc(formulaString){
+    requestWorkerCalc(formulaString, resolution){
 	this.worker.postMessage({
 	    width: this.winW,
 	    height: this.winH,
 	    formula: formulaString,
-	    resolution: 4
+	    resolution: resolution
 	});
     }
 
@@ -55,7 +55,7 @@ class Background_Plot extends React.PureComponent {
 	
 	// This command will trigger the generation of plot-data
 	// it will be slapped onto the canvas when result message is recieced from thread
-	this.requestWorkerCalc(Plot.formula);
+	this.requestWorkerCalc(Plot.formula, plotUIState.plotResolution);
 
 	
 	
