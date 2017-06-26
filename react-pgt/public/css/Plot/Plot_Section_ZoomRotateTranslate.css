@@ -2,7 +2,7 @@
 
 
 .MainTab_Plot .thirdColumnZone .ZoomRotateTranslate{
-  flex: 0.1 auto;
+  flex: 0 auto;
   margin-bottom: 4px;
 }
 

@@ -15,17 +15,38 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 	return (
 	    <div className="PreviewOptions">
 
-	      <div className="inputContainer">
+	      <div className="inputContainer plotResolution">
 		Plot Resolution:
 		<WgSmartInput
 		   className="plain-cell s"
 		   value={this.props.UI.plotResolution}
 		   dataUnit="pixels"
-		   max={100}
-		   onChange={(value)=>{handleUIStateChange("plotResolution", value);}}
-		   />
+		   max={160}
+		   onChange={(value)=>{
+		       console.log("call 'handleUIStateChange' with", value);
+		  handleUIStateChange("plotResolution", value);}}
+		  />
 	      </div>
 
+	      <WgMutexActionLink
+		 name="Scale:"
+		 className="overlayAxesScale"
+		 equityTestingForEnabled={{
+		     currentValue: this.props.UI.overlayAxesScale,
+		     representedValuesArray: [true, false]
+		 }}
+		 actions={[
+		     {
+			 name: "show",
+			 cb: handleUIStateChange.bind(null, "overlayAxesScale", true)
+		     },{
+			 name: "hide",
+			 cb: handleUIStateChange.bind(null, "overlayAxesScale", false)
+		     }
+		 ]}
+		 />
+	      
+	      
 	      <WgMutexActionLink
 		 name="Colouring:"
 		 className="colouringFunction"
@@ -36,10 +57,10 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		 actions={[
 		     {
 			 name: "greyscale",
-			 cb: handleUIStateChange("colouringFunction", 1)
+			 cb: handleUIStateChange.bind(null, "colouringFunction", 1)
 		     },{
 			 name: "heatmap",
-			 cb: handleUIStateChange("colouringFunction", 2)
+			 cb: handleUIStateChange.bind(null, "colouringFunction", 2)
 		     }
 		 ]}
 		 />
@@ -48,14 +69,14 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 
 		<WgActionLink
 		   name={"Hide Preview"}
-		   onClick={handleUIStateChange("previewActive", false)}
+		   onClick={handleUIStateChange.bind(null, "previewActive", false)}
 		   enabled={this.props.UI.previewActive}
 		   />
 
 		
 		<WgButton
 		   name="Plot Preview"
-		   onClick={handleUIStateChange("previewActive", true)}
+		   onClick={handleUIStateChange.bind(null, "previewActive", true)}
 		   />
 	      </div>
 
@@ -71,10 +92,10 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		   actions={[
 		       {
 			   name: "show",
-			   cb: handleUIStateChange("showContours", true)
+			   cb: handleUIStateChange.bind(null, "showContours", true)
 		       },{
 			   name: "hide",
-			   cb: handleUIStateChange("showContours", false)
+			   cb: handleUIStateChange.bind(null, "showContours", false)
 		       }
 		   ]}
 		   />

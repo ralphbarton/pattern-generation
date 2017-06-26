@@ -1,1 +1,30 @@
 /* Plot_Section_PointsetPreview.css */
+
+.MainTab_Plot .PointsetPreview{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+}
+
+.MainTab_Plot .PointsetPreview .row1{
+  flex: 0 auto;
+  font-size: 14px;
+  position: relative;
+  height: 56px;
+    display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.MainTab_Plot .PointsetPreview .button{
+    font-size: 12px;
+  padding: 4px 7px;
+}
+
+.MainTab_Plot .PointsetPreview .row1 .action-link{
+  position: absolute;
+  bottom: 0px;
+  right: 4px;
+}
+

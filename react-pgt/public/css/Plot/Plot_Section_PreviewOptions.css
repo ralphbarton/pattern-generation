@@ -10,6 +10,11 @@
   top: 48px;
 }
 
+.MainTab_Plot .PreviewOptions .plotResolution{
+  position: absolute;
+  bottom: 4px;
+}
+
 .MainTab_Plot .PreviewOptions .innerbox{
   margin: 1px;
   padding: 3px 5px;

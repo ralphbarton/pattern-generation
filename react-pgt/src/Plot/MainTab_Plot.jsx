@@ -23,6 +23,7 @@ class MainTab_Plot extends React.PureComponent {
 
     constructor() {
 	super();
+	this.handleUIStateChange = this.handleUIStateChange.bind(this);
 	this.state = {
 	    previewFeaturesTabSelected: 1,
 	    /*
@@ -55,6 +56,7 @@ class MainTab_Plot extends React.PureComponent {
      'hideUnderlyingDensity'
      'showContours'
      'quantityContours'
+     'overlayAxesScale'
 
      State changes are passed back up via:
 
@@ -75,6 +77,7 @@ class MainTab_Plot extends React.PureComponent {
 	this.props.setPlotUIState({
 	    [key]: {$set: value}
 	});
+	console.log("Maintab", key, value);
     }
 
     
@@ -101,8 +104,8 @@ class MainTab_Plot extends React.PureComponent {
 	    pointsProminenceFactor: {$set: 2},
 	    hideUnderlyingDensity: {$set: false},
 	    showContours: {$set: false},
-	    quantityContours: {$set: 6}
-	    
+	    quantityContours: {$set: 6},
+	    overlayAxesScale: {$set: false}
 	});
     }
 
@@ -238,9 +241,7 @@ class MainTab_Plot extends React.PureComponent {
 				  return(
 				      <Plot_Section_PreviewOptions
 					 UI={this.props.UI}
-					 handleUIStateChange={(a,b) => {
-					     return this.handleUIStateChange.bind(this, a, b);
-					}}
+					 handleUIStateChange={this.handleUIStateChange}
 					 />
 				   );
 			      }
@@ -251,9 +252,7 @@ class MainTab_Plot extends React.PureComponent {
 				  return(
 				      <Plot_Section_PointsetPreview
 					 UI={this.props.UI}
-					 handleUIStateChange={(a,b) => {
-					     return this.handleUIStateChange.bind(this, a, b);
-					}}
+					 handleUIStateChange={this.handleUIStateChange}
 					 />
 				  );
 			      }
