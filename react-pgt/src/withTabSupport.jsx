@@ -19,7 +19,6 @@ function withTabSupport(WrappedComponent) {
 	// An (immutable) change in the selected object
 	// this wraps 'onPGTobjModify'
 	handleModifySelPGTobj($change){
-	    console.log("handleModifySelPGTobj", this);
 	    const rIndex = this.props.UI.selectedRowIndex;
 	    this.props.onPGTobjModify("update", {index: rIndex, $Updater: $change});
 	}

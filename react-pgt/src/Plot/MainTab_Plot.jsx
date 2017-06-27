@@ -23,14 +23,18 @@ class MainTab_Plot extends React.PureComponent {
 
     constructor() {
 	super();
+	//the state here is purely UI-display-state
+	// than user-settings-state,  held at a higher level, gets different treatment...
 	this.state = {
-	    previewFeaturesTabSelected: 1,
+	    previewFeaturesTabSelected: 0,
+	    showExtraWindow: null
 	    /*
+	     'showExtraWindow' - options
 	     1 - Syntax & Inbuilt functions
 	     2 - Formula Designer
 	     3 - Zoom & Rotate -> More
 	     */
-	    showExtraWindow: null
+
 	};
     }
 
@@ -39,7 +43,7 @@ class MainTab_Plot extends React.PureComponent {
 	this.props.fn.defaultUIStateConfiguration({
 	    previewActive: true,
 	    colouringFunction: 1,
-	    plotResolution: 3,
+	    plotResolution: 1,
 	    pointsQuantity: 0,
 	    pointsProminenceFactor: 2,
 	    hideUnderlyingDensity: false,
