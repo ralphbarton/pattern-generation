@@ -11,6 +11,10 @@ import MainTab_CpotView from './Cpot/MainTab_CpotView';
 import MainTab_Grid from './Grid/MainTab_Grid';
 import MainTab_Plot from './Plot/MainTab_Plot';
 
+import withTabSupport from './withTabSupport';
+
+const TS_MainTab_Plot = withTabSupport(MainTab_Plot);
+
 
 class Toolbox extends React.PureComponent {
 
@@ -34,6 +38,9 @@ class Toolbox extends React.PureComponent {
     
     render() {
 	const toolboxDivClasses = "BeigeWindow Toolbox size-" + this.state.toolboxSize;
+
+
+
 	return (
 	    <Draggable handle=".handle">
 	      <div className={toolboxDivClasses}>
@@ -103,11 +110,11 @@ class Toolbox extends React.PureComponent {
 			      name: "Density Plots",
 			      renderJSX: ()=>{
 				  return (
-				      <MainTab_Plot
-					 plotArray={this.props.DataArrays['plot']}
-					 onPlotChange={(arg1, arg2)=>{this.props.onDataChange("plot", arg1, arg2);}}
+				      <TS_MainTab_Plot
+					 PGTobjArray={this.props.DataArrays['plot']}
+					 onPGTobjModify={(arg1, arg2)=>{this.props.onDataChange("plot", arg1, arg2);}}
 					UI={this.props.UIState['plot']}
-					setPlotUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
+					setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
 					/>
 				  );
 			      }

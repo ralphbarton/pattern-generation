@@ -23,7 +23,6 @@ class MainTab_Plot extends React.PureComponent {
 
     constructor() {
 	super();
-	this.handleUIStateChange = this.handleUIStateChange.bind(this);
 	this.state = {
 	    previewFeaturesTabSelected: 1,
 	    /*
@@ -33,92 +32,20 @@ class MainTab_Plot extends React.PureComponent {
 	     */
 	    showExtraWindow: null
 	};
-
-
     }
 
-
-    /*
-     Controlled Component Pattern for 'Plot', as with 'Grid'
-
-     UI State is passed down via:
-     this.props.UI
-
-     UI sub-properties are:
-
-     'selectedRowIndex'
-     'selectedPlotUid'
-     'previewActive'
-     'colouringFunction'
-     'plotResolution'
-     'pointsQuantity'
-     'pointsProminenceFactor'
-     'hideUnderlyingDensity'
-     'showContours'
-     'quantityContours'
-     'overlayAxesScale'
-
-     State changes are passed back up via:
-
-     this.props.setPlotUIState($chg)
-
-     */    
-
-    // Copy-pasted, shared with Grid
-    // An (immutable) change in the selected Grid object
-    handleSelPlotChange($change){
-	const rIndex = this.props.UI.selectedRowIndex;
-	this.props.onPlotChange("update", {index: rIndex, $Updater: $change});
-    }
-
-
-    // pass UI state change up to a parent component. It is not stored here...
-    handleUIStateChange(key, value){
-	this.props.setPlotUIState({
-	    [key]: {$set: value}
-	});
-	console.log("Maintab", key, value);
-    }
-
-    
     componentDidMount(){
-
-	//no action required if a value already set
-	if(this.props.UI.selectedRowIndex !== undefined){return;}
-
-	/* This will set some suitable Default values for
-	 props (previously undefined) on component mount 
-	 the very first rendering prior to this function call is 'sacrificial'
-	 */
-
-	const initialSelectedRowIndex = 0;
-	const Plot_i = this.props.plotArray[initialSelectedRowIndex];
-	
-	this.props.setPlotUIState({
-	    selectedRowIndex: {$set: initialSelectedRowIndex},
-	    selectedPlotUid: {$set: Plot_i.uid},
-	    previewActive: {$set: true},
-	    colouringFunction: {$set: 1},
-	    plotResolution: {$set: 3},
-	    pointsQuantity: {$set: 0},
-	    pointsProminenceFactor: {$set: 2},
-	    hideUnderlyingDensity: {$set: false},
-	    showContours: {$set: false},
-	    quantityContours: {$set: 6},
-	    overlayAxesScale: {$set: false}
-	});
-    }
-
-    
-    // Copy-pasted, shared with Grid / Cpot
-    handleRowSelectedChange(index){
-
-	const Plot_i = this.props.plotArray[index];
-
-	//the object is updated to contain both the index and the UID of the plot...
-	this.props.setPlotUIState({
-	    selectedRowIndex: {$set: index},
-	    selectedPlotUid: {$set: Plot_i.uid}
+	// set state of parent component...
+	this.props.fn.defaultUIStateConfiguration({
+	    previewActive: true,
+	    colouringFunction: 1,
+	    plotResolution: 3,
+	    pointsQuantity: 0,
+	    pointsProminenceFactor: 2,
+	    hideUnderlyingDensity: false,
+	    showContours: false,
+	    quantityContours: 6,
+	    overlayAxesScale: false
 	});
     }
 
@@ -141,8 +68,9 @@ class MainTab_Plot extends React.PureComponent {
 		    <input className="blue-cell"
 			   value={plot.formula} 
 			   onChange={event =>{
-			       const $change = {formula: {$set: event.target.value}};
-			       this.props.onPlotChange("update", {index: i, $Updater: $change});
+			       this.props.fn.handleModifySelPGTobj(
+				   {formula: {$set: event.target.value}}
+			       );
 		      }}
 		      />);}
 	    },{
@@ -154,8 +82,10 @@ class MainTab_Plot extends React.PureComponent {
 
     
     render(){
+
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
-	const Plot_i = this.props.plotArray[this.props.UI.selectedRowIndex];
+	const Plot_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
+
 	return (
 
 	    <div className="MainTab_Plot">
@@ -164,7 +94,7 @@ class MainTab_Plot extends React.PureComponent {
 	      {/* 1.  Formula Bar */}
 	      <Plot_Section_FormulaBar
 		 Plot_i={Plot_i}
-		 handleSelPlotChange={this.handleSelPlotChange}
+		 handleSelPlotChange={this.props.fn.handleModifySelPGTobj}
 		 rowClassingFn={this.rowClassingFn}
 		 />
 
@@ -174,8 +104,8 @@ class MainTab_Plot extends React.PureComponent {
 	      <div className="tableWithButtonsZone">
 		<WgTable
 		   selectedRowIndex={this.props.UI.selectedRowIndex}
-		   onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
-		  rowRenderingData={this.props.plotArray}
+		   onRowSelectedChange={(i)=>{this.props.fn.handleRowSelectedChange(i);}}
+		  rowRenderingData={this.props.PGTobjArray}
 		  columnsRendering={this.plot_WgTableColumns()}
 		  rowClassingFn={this.rowClassingFn}
 		  />
@@ -241,7 +171,7 @@ class MainTab_Plot extends React.PureComponent {
 				  return(
 				      <Plot_Section_PreviewOptions
 					 UI={this.props.UI}
-					 handleUIStateChange={this.handleUIStateChange}
+					 handleUIStateChange={this.props.fn.handleUIStateChange}
 					 />
 				   );
 			      }
@@ -252,7 +182,7 @@ class MainTab_Plot extends React.PureComponent {
 				  return(
 				      <Plot_Section_PointsetPreview
 					 UI={this.props.UI}
-					 handleUIStateChange={this.handleUIStateChange}
+					 handleUIStateChange={this.props.fn.handleUIStateChange}
 					 />
 				  );
 			      }

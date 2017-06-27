@@ -45,13 +45,13 @@ class Background_Plot extends React.PureComponent {
 	const plotUIState = this.props.plotUIState;
 	if(!plotUIState.previewActive){return null;}
 
-	//console.log("<Background_Plot> render() called", plotUIState);
+//	console.log("<Background_Plot> render() called", plotUIState);
 
 	//this update is always important.
 	this.winW = window.innerWidth;
 	this.winH = window.innerHeight;
 	
-	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectedPlotUid);	
+	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);	
 	
 	// This command will trigger the generation of plot-data
 	// it will be slapped onto the canvas when result message is recieced from thread
