@@ -27,6 +27,7 @@ class PGT_App extends React.PureComponent {
 		"plot": {}
 	    }
 	};
+	this.latestUI = this.state.UI;
     }
 
     handleDataChange(dataCategory, changeType, details){
@@ -39,8 +40,24 @@ class PGT_App extends React.PureComponent {
     }
 
     handleUIStateChange($update){
+
+	/*
+	 if I have this function 'handleUIStateChange' calculate new state as a function of 'this.state',
+	 then after multiple calls (between the Component itself Updating), only the most recent call makes an impact.
+
+	 Responses to events can seem to fail to occur in the Software.
+
+	 This is due to the fact that 'this.state' only consolidates (i.e. actually changes) when the the component,
+	 updates, so after the first call (within a response to handling one single event) state state information
+	 starts to be used.
+
+	 to get round this, I am declaring some new 'member data' for the component/class, 'latestUI'. This will
+	 accumulate all change requests. I cannot work out if doing this is somehow an anti-pattern for React.
+
+	 */
+	this.latestUI = update(this.latestUI, $update);
 	this.setState({
-	    UI: update(this.state.UI, $update)
+	    UI: this.latestUI
 	});
     }
     

@@ -368,7 +368,11 @@ class MainTab_Grid extends React.PureComponent {
 		       actions={[
 			   {
 			       name: "Show Selected",
-			       cb: this.handleUIStateChange.bind(this, "showAllGrids", false)
+			       cb: ()=>{
+				   // as a side effect, turn off colour when switching to just one grid...
+				   this.handleUIStateChange("showAllGrids", false);
+				   this.handleUIStateChange("showColourGrids", false);
+			       }
 			   },{
 			       name: "Show All",
 			       cb: this.handleUIStateChange.bind(this, "showAllGrids", true)
