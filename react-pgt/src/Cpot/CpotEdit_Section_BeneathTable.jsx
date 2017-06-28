@@ -86,7 +86,7 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 		   menuContentList={[
 		       {
 			   name: "sum to 100% (adjust selected)",
-			   enabled: probs_sum !== 100,
+			   enabled: (probs_sum !== 100) && (iIndex >= 0),
 			   onClick: ()=>{
 			       // Change probability on Selected CPOT
 			       const newProb = Math.max((100 + cpotItem.prob - probs_sum) , 0);
