@@ -3,14 +3,17 @@ import update from 'immutability-helper';
 import {CpotSampleData} from './SampleData_Cpot';
 import {GridSampleData} from './SampleData_Grid';
 import {PlotSampleData} from './SampleData_Plot';
-
+import {MotfSampleData} from './SampleData_Motf';
+import {PattSampleData} from './SampleData_Patt';
+import {CfunSampleData} from './SampleData_Cfun';
 
 const uidCounters = {
     "cpot": CpotSampleData.arr.length,
     "grid": GridSampleData.arr.length,
     "plot": PlotSampleData.arr.length,
-    "motf": 2,
-    "patt": 3,
+    "motf": MotfSampleData.arr.length,
+    "patt": PattSampleData.arr.length,
+    "cfun": CfunSampleData.arr.length,
 };
 
 
@@ -31,6 +34,7 @@ const DatH = {
 	  "plot"
 	  "motf"
 	  "patt"
+	  "cfun"
 	*/
 
 	

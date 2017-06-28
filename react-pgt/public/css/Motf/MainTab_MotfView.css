@@ -1,0 +1,48 @@
+/* MainTab_MotfView.css */
+
+
+/* 1. Table listing */
+
+.MainTab_MotfView .WgTable tbody{
+    height: 170px;
+}
+
+.MainTab_MotfView .WgTable .col-1{
+    width: 18px;
+}
+
+.MainTab_MotfView .WgTable .col-2{
+    width: 100px;
+}
+
+.MainTab_MotfView .WgTable td.col-2{
+    text-align: left;
+}
+
+.MainTab_MotfView .WgTable .col-2{
+    padding: 0px;
+    padding-right: 1px;
+}
+
+.MainTab_MotfView .WgTable input.blue-cell{
+    width: 94px;
+    height: 39px
+}
+
+.MainTab_MotfView .WgTable .col-3{
+    width: 18px;
+}
+
+.MainTab_MotfView .WgTable td.col-3{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+.MainTab_MotfView .WgTable th.col-4{
+    width: 60px;
+}
+
+.MainTab_MotfView .WgTable td.col-4{
+    padding: 0px;
+}

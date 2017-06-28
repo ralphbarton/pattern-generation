@@ -7,6 +7,9 @@ import DatH from './DatH/DatH';
 import {CpotSampleData} from './DatH/SampleData_Cpot';
 import {GridSampleData} from './DatH/SampleData_Grid';
 import {PlotSampleData} from './DatH/SampleData_Plot';
+import {MotfSampleData} from './DatH/SampleData_Motf';
+import {PattSampleData} from './DatH/SampleData_Patt';
+import {CfunSampleData} from './DatH/SampleData_Cfun';
 
 //Custom Components
 import Toolbox from './Toolbox';
@@ -20,11 +23,16 @@ class PGT_App extends React.PureComponent {
 	    DataArrays: {
 		"cpot": CpotSampleData.arr,
 		"grid": GridSampleData.arr,
-		"plot": PlotSampleData.arr
+		"plot": PlotSampleData.arr,
+		"motf": MotfSampleData.arr,
+		"patt": PattSampleData.arr,
+		"cfun": CfunSampleData.arr
 	    },
 	    UI: {
 		"grid": {},
-		"plot": {}
+		"plot": {},
+		"motf": {},
+		"patt": {}
 	    }
 	};
 	this.latestUI = this.state.UI;

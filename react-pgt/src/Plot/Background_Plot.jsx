@@ -73,7 +73,7 @@ class Background_Plot extends React.PureComponent {
 	const plotUIState = this.props.plotUIState;
 	if(!plotUIState.previewActive){return null;}
 
-//	console.log("<Background_Plot> render() called", plotUIState);
+	console.log("<Background_Plot> render() called", plotUIState);
 
 	//this update is always important.
 	this.winW = window.innerWidth;

@@ -41,7 +41,7 @@ class MainTab_Plot extends React.PureComponent {
     componentDidMount(){
 	// set state of parent component...
 	this.props.fn.defaultUIStateConfiguration({
-	    previewActive: true,
+	    previewActive: false,
 	    colouringFunction: 1,
 	    plotResolution: 1,
 	    pointsQuantity: 0,

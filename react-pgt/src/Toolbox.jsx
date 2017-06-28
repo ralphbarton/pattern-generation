@@ -10,10 +10,13 @@ import WgTabbedSection from './Wg/WgTabbedSection';
 import MainTab_CpotView from './Cpot/MainTab_CpotView';
 import MainTab_Grid from './Grid/MainTab_Grid';
 import MainTab_Plot from './Plot/MainTab_Plot';
+import MainTab_MotfView from './Motf/MainTab_MotfView';
 
 import withTabSupport from './withTabSupport';
 
+
 const TS_MainTab_Plot = withTabSupport(MainTab_Plot);
+const TS_MainTab_MotfView = withTabSupport(MainTab_MotfView);
 
 
 class Toolbox extends React.PureComponent {
@@ -22,7 +25,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 4,//default Tab selection
+	    selectedTabIndex: 2,//default Tab selection
 	    tabsEnabled: true
 	};
     }
@@ -89,7 +92,12 @@ class Toolbox extends React.PureComponent {
 			      name: "Motifs",
 			      renderJSX: ()=>{
 				  return(
-				      <span> Motifs JSX to go here... </span>
+				      <TS_MainTab_MotfView
+					 PGTobjArray={this.props.DataArrays['motf']}
+					 onPGTobjModify={(arg1, arg2)=>{this.props.onDataChange("motf", arg1, arg2);}}
+					UI={this.props.UIState['motf']}
+					setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"motf": $chg});}}
+					 />
 				  );
 			      }
 
