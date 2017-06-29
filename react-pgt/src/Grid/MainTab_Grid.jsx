@@ -198,7 +198,10 @@ class MainTab_Grid extends React.PureComponent {
 		     buttonStyle={"small"}
 		     onClick={()=>{
 			 const i = this.props.UI.selectedRowIndex;
-			 const new_grid = Grid_util.newRandomRectGrid(2); //uid prop will be added later
+
+			 // The parameter passed to 'newRandomRectGrid()' is used only in name creation
+			 // uid prop is not contained in object returned; it is added later
+			 const new_grid = Grid_util.newRandomRectGrid(2); 
 			 this.props.onGridChange("add", {index: i, new_object: new_grid});
 			 this.handleRowSelectedChange(i+1);
 		    }}

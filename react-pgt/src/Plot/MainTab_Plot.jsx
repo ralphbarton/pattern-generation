@@ -124,12 +124,24 @@ class MainTab_Plot extends React.PureComponent {
 		    <WgButton
 		       name="Add"
 		       buttonStyle={"small"}
+		       onClick={()=>{
+			   const i = this.props.UI.selectedRowIndex;
+			   const new_grid = Plot_util.newRandomRectPlot(2); 
+			   this.props.onPlotChange("add", {index: i, new_object: new_grid});
+		       }}
 		       enabled={true}
-		       />
+		      />
+		      
 		    <WgButton
 		       name="Delete"
 		       buttonStyle={"small"}
-		       enabled={true}
+		       onClick={()=>{
+			   const i = this.props.UI.selectedRowIndex;
+			   const i_new = Math.min(this.props.PGTobjArray.length -2, i);
+			   this.props.onPGTobjArrayChange("delete", {index: i});
+			   this.props.fn.handleRowSelectedChange(i_new);
+		      }}
+		      enabled={this.props.PGTobjArray.length > 1}
 		       />
 		  </div>
 		  

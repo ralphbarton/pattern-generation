@@ -17,12 +17,12 @@ function withTabSupport(WrappedComponent) {
 	}
 
 	// An (immutable) change in the selected object
-	// this wraps 'onPGTobjModify'
+	// this is a specific case of 'onPGTobjArrayChange'
 	handleModifySelPGTobj($change){
 	    const rIndex = this.props.UI.selectedRowIndex;
-	    this.props.onPGTobjModify("update", {index: rIndex, $Updater: $change});
+	    this.props.onPGTobjArrayChange("update", {index: rIndex, $Updater: $change});
 	}
-
+	
 
 	// pass UI state change up to a parent component. It is not stored here...
 	//this wraps 'setPGTtabUIState'
@@ -66,7 +66,7 @@ function withTabSupport(WrappedComponent) {
 	}	
 
 	render() {
-	    const { onPGTobjModify, setPGTtabUIState, ...restProps } = this.props;//pull off some props...
+	    const { /*onPGTobjArrayChange, */ setPGTtabUIState, ...restProps } = this.props;//pull off some props...
 	    return <WrappedComponent fn={this.fn} {...restProps} />;
 	}
     };

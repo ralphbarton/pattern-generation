@@ -25,7 +25,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 2,//default Tab selection
+	    selectedTabIndex: 4,//default Tab selection
 	    tabsEnabled: true
 	};
     }
@@ -94,7 +94,7 @@ class Toolbox extends React.PureComponent {
 				  return(
 				      <TS_MainTab_MotfView
 					 PGTobjArray={this.props.DataArrays['motf']}
-					 onPGTobjModify={(arg1, arg2)=>{this.props.onDataChange("motf", arg1, arg2);}}
+					 onPGTobjArrayChange={(arg1, arg2)=>{this.props.onDataChange("motf", arg1, arg2);}}
 					UI={this.props.UIState['motf']}
 					setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"motf": $chg});}}
 					 />
@@ -120,7 +120,7 @@ class Toolbox extends React.PureComponent {
 				  return (
 				      <TS_MainTab_Plot
 					 PGTobjArray={this.props.DataArrays['plot']}
-					 onPGTobjModify={(arg1, arg2)=>{this.props.onDataChange("plot", arg1, arg2);}}
+					 onPGTobjArrayChange={(arg1, arg2)=>{this.props.onDataChange("plot", arg1, arg2);}}
 					UI={this.props.UIState['plot']}
 					setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
 					/>
