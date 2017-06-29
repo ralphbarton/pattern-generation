@@ -135,13 +135,8 @@ class MainTab_Plot extends React.PureComponent {
 		    <WgButton
 		       name="Delete"
 		       buttonStyle={"small"}
-		       onClick={()=>{
-			   const i = this.props.UI.selectedRowIndex;
-			   const i_new = Math.min(this.props.PGTobjArray.length -2, i);
-			   this.props.onPGTobjArrayChange("delete", {index: i});
-			   this.props.fn.handleRowSelectedChange(i_new);
-		      }}
-		      enabled={this.props.PGTobjArray.length > 1}
+		       onClick={this.props.fn.handleDeleteSelPGTobj}
+		       enabled={this.props.PGTobjArray.length > 1}
 		       />
 		  </div>
 		  

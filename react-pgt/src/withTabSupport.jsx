@@ -12,18 +12,50 @@ function withTabSupport(WrappedComponent) {
 		handleModifySelPGTobj: this.handleModifySelPGTobj.bind(this),
 		handleUIStateChange: this.handleUIStateChange.bind(this),
 		defaultUIStateConfiguration: this.defaultUIStateConfiguration.bind(this),
-		handleRowSelectedChange: this.handleRowSelectedChange.bind(this)
+		handleRowSelectedChange: this.handleRowSelectedChange.bind(this),
+		handleDeleteSelPGTobj: this.handleDeleteSelPGTobj.bind(this),
+		hocHandleAddPGTobj: this.hocHandleAddPGTobj.bind(this)
 	    };
 	}
 
+	
+	// Copy-pasted, shared with Grid / Cpot
+	handleRowSelectedChange(index){
+	    const PGTobj_i = this.props.PGTobjArray[index];
+	    
+	    //the object is updated to contain both the index and the UID of the PGTobj...
+	    this.props.setPGTtabUIState({
+		selectedRowIndex: {$set: index},
+		selectionUid: {$set: PGTobj_i.uid}
+	    });
+	}	
+
+	
 	// An (immutable) change in the selected object
 	// this is a specific case of 'onPGTobjArrayChange'
 	handleModifySelPGTobj($change){
 	    const rIndex = this.props.UI.selectedRowIndex;
 	    this.props.onPGTobjArrayChange("update", {index: rIndex, $Updater: $change});
 	}
-	
 
+	// delete the selected item in the array
+	handleDeleteSelPGTobj(){
+	    const i = this.props.UI.selectedRowIndex;
+	    const i_new = Math.min(this.props.PGTobjArray.length -2, i);
+	    this.props.onPGTobjArrayChange("delete", {index: i});
+	    this.handleRowSelectedChange(i_new);
+	}
+
+	// add a new item into the array
+	hocHandleAddPGTobj(createPGTobj){
+	    return function (){
+		//the actual function returned will not have side effects
+		return null;
+	    };
+	}
+
+
+	
 	// pass UI state change up to a parent component. It is not stored here...
 	//this wraps 'setPGTtabUIState'
 	handleUIStateChange(key, value){
@@ -53,18 +85,7 @@ function withTabSupport(WrappedComponent) {
 
 	}
 
-	// Copy-pasted, shared with Grid / Cpot
-	handleRowSelectedChange(index){
-
-	    const PGTobj_i = this.props.PGTobjArray[index];
-	    
-	    //the object is updated to contain both the index and the UID of the PGTobj...
-	    this.props.setPGTtabUIState({
-		selectedRowIndex: {$set: index},
-		selectionUid: {$set: PGTobj_i.uid}
-	    });
-	}	
-
+	
 	render() {
 	    const { /*onPGTobjArrayChange, */ setPGTtabUIState, ...restProps } = this.props;//pull off some props...
 	    return <WrappedComponent fn={this.fn} {...restProps} />;
