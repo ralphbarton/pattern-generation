@@ -14,7 +14,7 @@ function withTabSupport(WrappedComponent) {
 		defaultUIStateConfiguration: this.defaultUIStateConfiguration.bind(this),
 		handleRowSelectedChange: this.handleRowSelectedChange.bind(this),
 		handleDeleteSelPGTobj: this.handleDeleteSelPGTobj.bind(this),
-		hocHandleAddPGTobj: this.hocHandleAddPGTobj.bind(this)
+		hofHandleAddPGTobj: this.hofHandleAddPGTobj.bind(this)
 	    };
 	}
 
@@ -47,7 +47,7 @@ function withTabSupport(WrappedComponent) {
 	}
 
 	// add a new item into the array
-	hocHandleAddPGTobj(createPGTobj){
+	hofHandleAddPGTobj(createPGTobj){
 	    return function (){
 		//the actual function returned will not have side effects
 		return null;

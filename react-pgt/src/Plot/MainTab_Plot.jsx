@@ -9,6 +9,10 @@ import WgActionLink from '../Wg/WgActionLink';
 
 import Plot_util from './plain-js/Plot_util';
 
+//these two are for Thumbnail generation...
+import Plot_render from './plain-js/Plot_render2';
+import util from '.././plain-js/util';
+
 import Plot_Popout from './Plot_Popout';
 import Plot_Section_FormulaBar from './Plot_Section_FormulaBar';
 
@@ -36,6 +40,8 @@ class MainTab_Plot extends React.PureComponent {
 	     */
 
 	};
+	//References to DOM elements:
+	this.canvasEl_ThumbRefs={};	
     }
 
     componentDidMount(){
@@ -51,13 +57,44 @@ class MainTab_Plot extends React.PureComponent {
 	    quantityContours: 6,
 	    overlayAxesScale: false
 	});
+	this.plot_WgTable_rerenderAllThumbs();
     }
 
+    componentDidUpdate(){
+	this.plot_WgTable_rerenderAllThumbs();
+    }
     
     rowClassingFn(Plot){
 	const isComplex = Plot_util.check_eqn_type(Plot.formula) === "cplx";
 	const isInvalid = Plot_util.check_eqn_type(Plot.formula) === "invalid";
 	return (isComplex ? "pink" : "") + (isInvalid ? "invalid" : "");
+    }
+
+    //regenerate all plot thumbs upon update
+    plot_WgTable_rerenderAllThumbs(){
+	console.log("All thumbs regen...");
+	const timer = new Date();
+	const thumbElRefs = this.canvasEl_ThumbRefs;
+	const plotArray = this.props.PGTobjArray;
+
+	Object.keys(thumbElRefs).forEach(function(key, index) {
+	    const plot_uid = Number(key); //the dictionary has keys of type Number
+	    const canv_el = thumbElRefs[plot_uid];
+	    const Plot = util.lookup(plotArray, "uid", plot_uid);
+	    
+	    const thumb_img = Plot_render.GenerateImageData(
+		Plot.formula,
+		55, //w
+		55, //h
+		1 // res
+	    );
+
+	    var ctx = canv_el.getContext('2d');
+	    ctx.putImageData(thumb_img, 0, 0);
+	});
+
+	this.canvasEl_ThumbRefs = {};//reset for next time...
+	console.log("Took:", (new Date() - timer));
     }
 
     
@@ -79,7 +116,16 @@ class MainTab_Plot extends React.PureComponent {
 		      />);}
 	    },{
 		heading: "Thumb.",
-		renderCellContents: (plot, i, rowIsSelected)=>{return ("x");}
+		renderCellContents: (plot, i, rowIsSelected)=>{
+		    return (		
+			<canvas
+			className={"plot-thumb uid-"+plot.uid}
+			width={55}
+			height={55}
+			style={{background:"cyan"}}
+			   ref={ (el) => {this.canvasEl_ThumbRefs[plot.uid] = el;}}
+			  />
+		    );}
 	    },
 	]);
     }

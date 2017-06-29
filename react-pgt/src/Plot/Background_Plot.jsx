@@ -49,7 +49,7 @@ class Background_Plot extends React.PureComponent {
 	    Plot.formula,
 	    this.winW,
 	    this.winH,
-	    12 // - this seems a reasonable crude level of detail for the basic plot
+	    40 // - this seems a reasonable crude level of detail for the basic plot
 	);
 	
 	//put the returned data onto the canvas element...

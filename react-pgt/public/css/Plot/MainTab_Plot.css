@@ -45,6 +45,18 @@
   margin-right: 2px;
 }
 
+.MainTab_Plot .WgTable td.col-3{
+  padding: 1px;
+}
+  
+
+.MainTab_Plot .WgTable canvas{
+  display: block;
+}
+
+
+
+
 /* buttons alignment*/
 .MainTab_Plot .mainButtons{
   display: flex;
@@ -54,6 +66,8 @@
 .MainTab_Plot .mainButtons .action-link{
   flex: 1 auto;
 }
+
+
 
 
 
