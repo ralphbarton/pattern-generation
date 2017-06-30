@@ -1,3 +1,5 @@
+//import math from 'mathjs';
+
 var Plot_render = {
 
     FillRectangle_ImgData: function (ImgData, x, y, w, h, raw){
@@ -124,3 +126,5 @@ var Plot_render = {
     }
     
 }
+
+//export default Plot_render2;

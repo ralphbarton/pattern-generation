@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 var Grid_util = {
 
     convertSpacingUnit: function(LineSet, units_new){
@@ -91,16 +93,20 @@ var Grid_util = {
 
     newRandomRectGrid: function(number){
 
+	/*
+	// see - https://lodash.com/docs/4.17.4#random
+	_.random(0, 5);   // => an integer between 0 and 5
+	_.random(5);      // => also an integer between 0 and 5
+	*/
+	
 	//we will create a new grid with random parameters...
-	function getRandomInt(min, max) {
-	    return Math.floor(Math.random() * (max - min + 1)) + min;
-	}
-	//50% channce of square, otherwise a long rectangle...
-	var square_side = Math.random() > 0.5 ? getRandomInt(40, 120) : undefined;
-	var cell_W = square_side || getRandomInt(120, 240);
-	var cell_H = square_side || getRandomInt(20,  80);
+	//50% channce of square, otherwise a long-horizontal-side rectangle...
 
-	return{
+	var square_side = Math.random() > 0.5 ? _.random(40, 120) : undefined;
+	var cell_W = square_side || _.random(120, 240);
+	var cell_H = square_side || _.random(20,  80);
+
+	return {
 	    name: "New Grid ("+number+")",
 	    /*uid:  (added later)  */
 	    type: "std",

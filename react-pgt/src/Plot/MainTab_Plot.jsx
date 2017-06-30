@@ -172,8 +172,8 @@ class MainTab_Plot extends React.PureComponent {
 		       buttonStyle={"small"}
 		       onClick={()=>{
 			   const i = this.props.UI.selectedRowIndex;
-			   const new_grid = Plot_util.newRandomRectPlot(2); 
-			   this.props.onPlotChange("add", {index: i, new_object: new_grid});
+			   const new_grid = Plot_util.newPlot();
+			   this.props.onPGTobjArrayChange("add", {index: i, new_object: new_grid});
 		       }}
 		       enabled={true}
 		      />

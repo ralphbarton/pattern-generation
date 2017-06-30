@@ -1,4 +1,5 @@
 import math from 'mathjs';
+var _ = require('lodash');
 
 var Plot_util = {
 
@@ -42,8 +43,44 @@ var Plot_util = {
 	
 
 	return OK_real ? "real" : "cplx";
-    }
+    },
 
+    newPlot: function(myFormula){
+
+	/*
+	// see - https://lodash.com/docs/4.17.4#random
+	_.random(0, 5);   // => an integer between 0 and 5
+	_.random(5);      // => also an integer between 0 and 5
+	*/
+
+	//plot may be real (50%) or imaginary (50%) with some randomisation of values...
+
+	var formula = "";
+	if(myFormula !== undefined){
+	    formula = myFormula;
+	    
+	}else if(Math.random()>0.5){ // real
+	    const Cx = _.random(2, 6); // x-coefficient
+	    const Cy = _.random(2, 6); // y-coefficient
+	    const Sg = Math.random()>0.5 ? "+" : "-"; // sign (plus or minus)
+	    formula = Cx+"x"+Sg+Cy+"y";
+
+	}else{ //imaginary
+	    const Pz = _.random(1, 12); // z-power
+	    const Sg = Math.random()>0.5 ? "" : "-"; // sign (nothing, or minus)
+	    formula = Sg+"z^"+Pz;	    
+	}	
+	
+	return {
+	    formula: formula,
+	    /*uid:  (added later)  */   
+	    histogram: {
+		val_min: 0,
+		val_max: 0,
+	    }
+	};
+    }
+    
 }
 
 
