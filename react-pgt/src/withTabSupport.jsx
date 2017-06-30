@@ -47,13 +47,14 @@ function withTabSupport(WrappedComponent) {
 	}
 
 	// add a new item into the array
-	hofHandleAddPGTobj(createPGTobj){
+	hofHandleAddPGTobj(createPGTobj_Fn){
+	    const TSprops = this.props;
 	    return function (){
-		//the actual function returned will not have side effects
-		return null;
+		const i = TSprops.UI.selectedRowIndex;
+		const new_PGTobj = createPGTobj_Fn();
+		TSprops.onPGTobjArrayChange("add", {index: i, new_object: new_PGTobj});
 	    };
 	}
-
 
 	
 	// pass UI state change up to a parent component. It is not stored here...
@@ -87,7 +88,7 @@ function withTabSupport(WrappedComponent) {
 
 	
 	render() {
-	    const { /*onPGTobjArrayChange, */ setPGTtabUIState, ...restProps } = this.props;//pull off some props...
+	    const { onPGTobjArrayChange, setPGTtabUIState, ...restProps } = this.props;//pull off some props...
 	    return <WrappedComponent fn={this.fn} {...restProps} />;
 	}
     };

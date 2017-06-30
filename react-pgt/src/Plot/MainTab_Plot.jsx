@@ -170,11 +170,7 @@ class MainTab_Plot extends React.PureComponent {
 		    <WgButton
 		       name="Add"
 		       buttonStyle={"small"}
-		       onClick={()=>{
-			   const i = this.props.UI.selectedRowIndex;
-			   const new_grid = Plot_util.newPlot();
-			   this.props.onPGTobjArrayChange("add", {index: i, new_object: new_grid});
-		       }}
+		       onClick={this.props.fn.hofHandleAddPGTobj(Plot_util.newPlot)}
 		       enabled={true}
 		      />
 		      
