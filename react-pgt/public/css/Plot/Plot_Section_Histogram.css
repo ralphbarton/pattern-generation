@@ -13,11 +13,19 @@
 }
 
 .MainTab_Plot .Hblock.hist{
-  width: 147px;
-  height: 78px;
+  width: 165px;
+  height: 70px;
 }
 
 .MainTab_Plot .Hblock.conv{
   width: 70px;
   height: 70px;
+}
+
+
+.MainTab_Plot .link.sample{
+  bottom: 0px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }

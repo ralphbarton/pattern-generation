@@ -14,7 +14,13 @@ class Plot_Section_Histogram extends React.PureComponent {
 	      <div className="Hblock hist">d3 histogram</div>
 	      <br/>
 	      <div className="Hblock conv">mini graph</div>
-
+	      
+	      <div className="link sample">
+		<div>flatten histogram</div>
+		<div>reset</div>
+		<div>more</div>
+	      </div>
+	      
 	    </WgBoxie>
 	);
     }
