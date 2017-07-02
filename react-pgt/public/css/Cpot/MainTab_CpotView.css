@@ -46,19 +46,19 @@
     height: 18px;
 }
 
-.WgTable table.Cpot_PreviewPatch td{
+.WgTable .Cpot_PreviewPatch td{
     width: 8px;
     height: 8px;
 }
 
-table.WgTable table.Cpot_PreviewPatch {
+table.WgTable .Cpot_PreviewPatch {
     display: block;
 }
 
-.MainTab_CpotView > table.Cpot_PreviewPatch{
+.MainTab_CpotView > .Cpot_PreviewPatch{
     position: absolute;
-top: 17px;
-right: 14px;
+    top: 17px;
+    right: 14px;
 }
 
 

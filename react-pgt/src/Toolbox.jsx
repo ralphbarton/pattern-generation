@@ -14,6 +14,7 @@ import MainTab_MotfView from './Motf/MainTab_MotfView';
 
 import withTabSupport from './withTabSupport';
 
+const TS_MainTab_CpotView = withTabSupport(MainTab_CpotView);
 
 const TS_MainTab_Plot = withTabSupport(MainTab_Plot);
 const TS_MainTab_MotfView = withTabSupport(MainTab_MotfView);
@@ -25,7 +26,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 4,//default Tab selection
+	    selectedTabIndex: 0,//default Tab selection
 	    tabsEnabled: true
 	};
     }
@@ -52,7 +53,7 @@ class Toolbox extends React.PureComponent {
 		</div>
 
 
-
+		
 		<WgTabbedSection
 		   className="previewOptions"
 		   enabled={this.state.tabsEnabled}
@@ -71,9 +72,12 @@ class Toolbox extends React.PureComponent {
 			      name: "Colour Pots",
 			      renderJSX: ()=>{
 				return (
-				    <MainTab_CpotView					    
-				       cpotArray={this.props.DataArrays['cpot']}
-				       onCpotChange={(arg1, arg2)=>{this.props.onDataChange("cpot", arg1, arg2);}}
+				    <TS_MainTab_CpotView
+				       PGTobjArray={this.props.DataArrays['cpot']}
+				       onPGTobjArrayChange={(arg1, arg2)=>{this.props.onDataChange("cpot", arg1, arg2);}}
+				      UI={this.props.UIState['cpot']}
+				      setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"cpot": $chg});}}
+				      //Additional Prop, as this tab can change Toolbox size
 				      onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
 				      />
 				);

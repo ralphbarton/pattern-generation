@@ -70,7 +70,7 @@ const DatH = {
 	case "duplicate":
 	    let copiedObj = update(oldObjArray[i], {
 		name: {$set: oldObjArray[i].name + "(copy)"},
-		uid: {$set: nextUidOf("cpot")}
+		uid: {$set: nextUidOf(objectType)}
 	    });
 	    $Updater = {$splice: [[i+1, 0, copiedObj]]};
 	    break;

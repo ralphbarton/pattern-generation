@@ -11,25 +11,25 @@ class MainTab_CpotView extends React.PureComponent {
     constructor() {
 	super();
 	this.state = {
-	    selectedRowIndex: 0,
 	    isEditing: false
 	};
 
 	//hop straight into "Edit mode".
+/*
 	const x = this.handleSetEditMode.bind(this, true);
 	setTimeout(function(){
 	    x();
 	}, 40);
-
+*/
     }
 
-    handleRowSelectedChange(index){
-	if (index === this.state.selectedRowIndex){return;}
-	this.setState({
-	    selectedRowIndex: index
-	});
+    componentDidMount(){
+	// set state of parent component...
+	//in the case of cpot, this is just to set selected row...
+	this.props.fn.defaultUIStateConfiguration({});
     }
 
+    
     handleSetEditMode(edit_mode){
 	this.setState({
 	    isEditing: edit_mode
@@ -48,7 +48,9 @@ class MainTab_CpotView extends React.PureComponent {
 		    <input className="blue-cell"
 			   value={cpot.name} 
 			   onChange={event =>{
-			       this.props.onCpotChange("name", {index: i, new_name: event.target.value});
+			       this.props.fn.handleModifySelPGTobj(
+				   {name: {$set: event.target.value}}
+			       );
 		      }}
 		      />);}
 	    },{
@@ -65,17 +67,18 @@ class MainTab_CpotView extends React.PureComponent {
 
     renderCpotView(){
 	
+	if(this.props.UI.selectedRowIndex === undefined){return null;}	
 	return (
 	    <div className="MainTab_CpotView">
 	      <WgTable
-		 selectedRowIndex={this.state.selectedRowIndex}
-		 onRowSelectedChange={(i)=>{this.handleRowSelectedChange(i);}}
-		rowRenderingData={this.props.cpotArray}
+		 selectedRowIndex={this.props.UI.selectedRowIndex}
+		 onRowSelectedChange={(i)=>{this.props.fn.handleRowSelectedChange(i);}}
+		rowRenderingData={this.props.PGTobjArray}
 		columnsRendering={this.cpotView_WgTableColumns()}
 		/>
 		
 		<Cpot_PreviewPatch
-		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
+		   cpot={this.props.PGTobjArray[this.props.UI.selectedRowIndex]}
 		   nX={13}
 		   nY={13}
 	           chequerSize="normal"
@@ -85,27 +88,18 @@ class MainTab_CpotView extends React.PureComponent {
 		  <WgButton
 		     name="Edit"
 		     onClick={this.handleSetEditMode.bind(this, true)}
-		     enabled={this.props.cpotArray.length > 0}
-		     />
-		  <WgButton
-		     name="Duplicate"
-		     onClick={()=>{
-			 const i = this.state.selectedRowIndex;
-			 this.props.onCpotChange("duplicate", {index: i});
-			 this.handleRowSelectedChange(i+1);
-		    }}
-		    enabled={this.props.cpotArray.length > 0}
+		     enabled={this.props.PGTobjArray.length > 0}
 		    />
 		    <WgButton
-		       name="Delete"
-		       onClick={()=>{
-			   const i = this.state.selectedRowIndex;
-			   const i_new = Math.min(this.props.cpotArray.length -2, i);
-			   this.props.onCpotChange("delete", {index: i});
-			   this.handleRowSelectedChange(i_new);
-		      }}
-		      enabled={this.props.cpotArray.length > 1}
+		       name="Duplicate"
+		       onClick={this.props.fn.handleDuplicateSelPGTobj}
+		       enabled={this.props.PGTobjArray.length > 0}
 		      />
+		      <WgButton
+			 name="Delete"
+			 onClick={this.props.fn.handleDeleteSelPGTobj}
+			 enabled={this.props.PGTobjArray.length > 1}
+			/>
 		</div>
 		
 	    </div>
@@ -118,15 +112,9 @@ class MainTab_CpotView extends React.PureComponent {
 	case true:
 	    return (
 		<MainTab_CpotEdit
-		   cpot={this.props.cpotArray[this.state.selectedRowIndex]}
-		   onSaveEdits={updatedCpot =>{
-		       this.props.onCpotChange("replace", {
-			   index: this.state.selectedRowIndex,
-			   replacement_object: updatedCpot
-		       });
-		       
-		  }}
-		  onCloseEditingMode={this.handleSetEditMode.bind(this, false)}
+		   cpot={this.props.PGTobjArray[this.props.UI.selectedRowIndex]}
+		   onSaveEdits={this.props.fn.handleReplaceSelPGTobj}
+		   onCloseEditingMode={this.handleSetEditMode.bind(this, false)}
 		  />
 	    );
 	default:
