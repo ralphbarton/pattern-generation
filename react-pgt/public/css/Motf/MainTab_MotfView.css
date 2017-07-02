@@ -1,14 +1,51 @@
 /* MainTab_MotfView.css */
 
+/* 1. Overall Flexbox layout */
+.MainTab_MotfView {
+    flex: 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
+}
 
-/* 1. Table listing */
+.MainTab_MotfView .column1 .WgBoxie.stats{
+    margin-left: 6px;
+    width: 220px;
+    height: 52px;
+}
+
+.MainTab_MotfView .column2{
+    flex: 1 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+
+
+
+
+/* 2. General styling of 'Boxie elements */
+
+.MainTab_MotfView .WgBoxie {
+  margin: 1px 5px;
+}
+
+.MainTab_MotfView .WgBoxie .contents{
+  padding: 2px;
+}
+
+
+
+
+
+/* 3. Table listing */
 
 .MainTab_MotfView .WgTable tbody{
     height: 170px;
 }
 
 .MainTab_MotfView .WgTable .col-1{
-    width: 18px;
+    width: 20px;
 }
 
 .MainTab_MotfView .WgTable .col-2{
@@ -45,4 +82,54 @@
 
 .MainTab_MotfView .WgTable td.col-4{
     padding: 0px;
+}
+
+.MainTab_MotfView .tableWithButtonsZone{
+    text-align: right;
+}
+.mainButtons{
+    margin-right: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+/* 4. Preview */
+
+.MainTab_MotfView .column3{
+        padding: 12px;
+    padding-top: 18px;
+    padding-left: 7px;
+}
+
+
+.MainTab_MotfView .preview{
+    box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
+    border-radius: 7px 7px 0px 0px;
+    width: 235px;
+    right: 12px;
+    bottom: 12px;
+}
+
+.MainTab_MotfView .preview svg{
+    background-color: white;
+    width: 235px;
+    height: 235px;
+}
+
+.MainTab_MotfView .preview .title{
+    background-color: #444;
+    border-radius: 7px 7px 0px 0px;
+    color: white;
+    font-weight: bold;
+    font-family: sans;
+    text-align: center;
+    padding: 2px;
+    
 }
