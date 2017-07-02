@@ -69,7 +69,7 @@ class Background_Grid extends React.PureComponent {
 	console.log("<Background_Grid> render() called", gridUIState);
 	
 	const gridArray = this.props.gridArray;
-	const nextGrid = gridUIState.previewActive ? util.lookup(gridArray, "uid", gridUIState.selectedGridUid) : null;
+	const nextGrid = gridUIState.previewActive ? util.lookup(gridArray, "uid", gridUIState.selectionUid) : null;
 	
 	return (
 	    <div className="Background_Grid">

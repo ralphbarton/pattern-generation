@@ -15,7 +15,7 @@ import MainTab_MotfView from './Motf/MainTab_MotfView';
 import withTabSupport from './withTabSupport';
 
 const TS_MainTab_CpotView = withTabSupport(MainTab_CpotView);
-
+const TS_MainTab_Grid = withTabSupport(MainTab_Grid);
 const TS_MainTab_Plot = withTabSupport(MainTab_Plot);
 const TS_MainTab_MotfView = withTabSupport(MainTab_MotfView);
 
@@ -26,7 +26,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 0,//default Tab selection
+	    selectedTabIndex: 3,//default Tab selection
 	    tabsEnabled: true
 	};
     }
@@ -74,7 +74,7 @@ class Toolbox extends React.PureComponent {
 				return (
 				    <TS_MainTab_CpotView
 				       PGTobjArray={this.props.DataArrays['cpot']}
-				       onPGTobjArrayChange={(arg1, arg2)=>{this.props.onDataChange("cpot", arg1, arg2);}}
+				       onPGTobjArrayChange={this.props.onDataChange.bind(null, "cpot")}
 				      UI={this.props.UIState['cpot']}
 				      setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"cpot": $chg});}}
 				      //Additional Prop, as this tab can change Toolbox size
@@ -98,9 +98,9 @@ class Toolbox extends React.PureComponent {
 				  return(
 				      <TS_MainTab_MotfView
 					 PGTobjArray={this.props.DataArrays['motf']}
-					 onPGTobjArrayChange={(arg1, arg2)=>{this.props.onDataChange("motf", arg1, arg2);}}
-					UI={this.props.UIState['motf']}
-					setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"motf": $chg});}}
+					 onPGTobjArrayChange={this.props.onDataChange.bind(null, 'motf')}
+					 UI={this.props.UIState['motf']}
+					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"motf": $chg});}}
 					 />
 				  );
 			      }
@@ -109,11 +109,11 @@ class Toolbox extends React.PureComponent {
 			      name: "Grids",
 			      renderJSX: ()=>{
 				  return(
-				    <MainTab_Grid
-				       gridArray={this.props.DataArrays['grid']}
-				       onGridChange={(arg1, arg2)=>{this.props.onDataChange("grid", arg1, arg2);}}
-				      UI={this.props.UIState['grid']}
-				      setGridUIState={($chg)=>{this.props.onUIStateChange({"grid": $chg});}}
+				      <TS_MainTab_Grid
+				       PGTobjArray={this.props.DataArrays['grid']}
+				       onPGTobjArrayChange={this.props.onDataChange.bind(null, 'grid')}
+				       UI={this.props.UIState['grid']}
+				       setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"grid": $chg});}}
 				      />
 				  );
 			      }
@@ -124,9 +124,9 @@ class Toolbox extends React.PureComponent {
 				  return (
 				      <TS_MainTab_Plot
 					 PGTobjArray={this.props.DataArrays['plot']}
-					 onPGTobjArrayChange={(arg1, arg2)=>{this.props.onDataChange("plot", arg1, arg2);}}
-					UI={this.props.UIState['plot']}
-					setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
+					 onPGTobjArrayChange={this.props.onDataChange.bind(null, "plot")}
+					 UI={this.props.UIState['plot']}
+					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
 					/>
 				  );
 			      }

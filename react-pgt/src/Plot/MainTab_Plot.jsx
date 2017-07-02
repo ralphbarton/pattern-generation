@@ -154,10 +154,10 @@ class MainTab_Plot extends React.PureComponent {
 	      <div className="tableWithButtonsZone">
 		<WgTable
 		   selectedRowIndex={this.props.UI.selectedRowIndex}
-		   onRowSelectedChange={(i)=>{this.props.fn.handleRowSelectedChange(i);}}
-		  rowRenderingData={this.props.PGTobjArray}
-		  columnsRendering={this.plot_WgTableColumns()}
-		  rowClassingFn={this.rowClassingFn}
+		   onRowSelectedChange={this.props.fn.handleRowSelectedChange.bind(null)}//row index passed as single param
+		   rowRenderingData={this.props.PGTobjArray}
+		   columnsRendering={this.plot_WgTableColumns()}
+		   rowClassingFn={this.rowClassingFn}
 		  />
 
 		  <div className="mainButtons">		  
