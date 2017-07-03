@@ -1,4 +1,5 @@
 import React from 'react';
+var _ = require('lodash');
 
 // generic project widgets
 import WgTable from '../Wg/WgTable';
@@ -41,7 +42,7 @@ class MainTab_Plot extends React.PureComponent {
 
 	};
 	//References to DOM elements:
-	this.canvasEl_ThumbRefs={};	
+	this.WgTableThumbCanvas_ElemRefs={};	
     }
 
     componentDidMount(){
@@ -74,12 +75,13 @@ class MainTab_Plot extends React.PureComponent {
     plot_WgTable_rerenderAllThumbs(){
 	console.log("All thumbs regen...");
 	const timer = new Date();
-	const thumbElRefs = this.canvasEl_ThumbRefs;
+	const thumbElRefs = this.WgTableThumbCanvas_ElemRefs;
 	const plotArray = this.props.PGTobjArray;
 
-	Object.keys(thumbElRefs).forEach(function(key, index) {
-	    const plot_uid = Number(key); //the dictionary has keys of type Number
-	    const canv_el = thumbElRefs[plot_uid];
+	
+	_.forEach(thumbElRefs, function(canv_el, uid) {// lodash argument order: (value, key)
+	    
+	    const plot_uid = Number(uid); //the dictionary has keys of type Number
 	    const Plot = util.lookup(plotArray, "uid", plot_uid);
 	    
 	    const thumb_img = Plot_render.GenerateImageData(
@@ -93,7 +95,7 @@ class MainTab_Plot extends React.PureComponent {
 	    ctx.putImageData(thumb_img, 0, 0);
 	});
 
-	this.canvasEl_ThumbRefs = {};//reset for next time...
+	this.WgTableThumbCanvas_ElemRefs = {};//reset for next time...
 	console.log("Took:", (new Date() - timer));
     }
 
@@ -122,8 +124,7 @@ class MainTab_Plot extends React.PureComponent {
 			className={"plot-thumb uid-"+plot.uid}
 			width={55}
 			height={55}
-			style={{background:"cyan"}}
-			   ref={ (el) => {this.canvasEl_ThumbRefs[plot.uid] = el;}}
+			ref={ (el) => {this.WgTableThumbCanvas_ElemRefs[plot.uid] = el;}}
 			  />
 		    );}
 	    },
