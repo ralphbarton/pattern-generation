@@ -11,23 +11,15 @@ import WgBoxie from '../Wg/WgBoxie';
  import WgActionLink from '../Wg/WgActionLink';
  */
 
+import Motf_util from './plain-js/Motf_util';
+
 
 class MainTab_MotfView extends React.PureComponent {
 
     constructor() {
 	super();
-	//the state here is purely UI-display-state
-	// than user-settings-state,  held at a higher level, gets different treatment...
 	this.state = {
-	    previewFeaturesTabSelected: 0,
-	    showExtraWindow: null
-	    /*
-	     'showExtraWindow' - options
-	     1 - Syntax & Inbuilt functions
-	     2 - Formula Designer
-	     3 - Zoom & Rotate -> More
-	     */
-
+	    isEditing: false
 	};
     }
 
@@ -45,6 +37,13 @@ class MainTab_MotfView extends React.PureComponent {
 	    overlayAxesScale: false
 	});
     }
+
+    handleSetEditMode(edit_mode){
+	this.setState({
+	    isEditing: edit_mode
+	});
+	this.props.onToolboxSizeChange(edit_mode ? 3 : 1);
+    }
     
     motf_WgTableColumns(){
 	return ([
@@ -58,7 +57,7 @@ class MainTab_MotfView extends React.PureComponent {
 			   value={motf.name} 
 			   onChange={event =>{
 			       this.props.fn.handleModifySelPGTobj(
-				   {formula: {$set: event.target.value}}
+				   {name: {$set: event.target.value}}
 			       );
 		      }}
 		      />);}
@@ -101,21 +100,24 @@ class MainTab_MotfView extends React.PureComponent {
 		      <WgButton
 			 name="Delete"
 			 buttonStyle={"small"}
-			 enabled={true}
+			 onClick={this.props.fn.handleDeleteSelPGTobj}
+			 enabled={this.props.PGTobjArray.length > 1}
 			 />
 		      <WgButton
 			 name="Add"
 			 buttonStyle={"small"}
+			 onClick={this.props.fn.hofHandleAddPGTobj(Motf_util.newRandomMotif)}
 			 enabled={true}
 			 />
 		      <WgButton
 			 name="Dupl."
 			 buttonStyle={"small"}
-			 enabled={true}
+			 onClick={this.props.fn.handleDuplicateSelPGTobj}
 			 />
 		      <WgButton
 			 name="Edit"
 			 buttonStyle={"small"}
+			 onClick={this.handleSetEditMode.bind(this, true)}
 			 enabled={true}
 			 />
 

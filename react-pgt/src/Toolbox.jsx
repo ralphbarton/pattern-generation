@@ -101,7 +101,8 @@ class Toolbox extends React.PureComponent {
 					 onPGTobjArrayChange={this.props.onDataChange.bind(null, 'motf')}
 					 UI={this.props.UIState['motf']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"motf": $chg});}}
-					 />
+					 onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
+					/>
 				  );
 			      }
 
