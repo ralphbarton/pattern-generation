@@ -49,17 +49,18 @@ const DatH = {
 	
 	
 	/*
-	  keys for the 'details' object:
+	  possible properties for the 'details' object:
 	  'index' (required)
 	  'new_name'
-	  'updated_object'
-	  
+	  'new_object'
+	  'replacement_object'
 	*/
 
 	const oldObjArray = DataArrays[objectType];
 	const i = details.index;
 
 	let $Updater;
+	let newUid;
 	
 	switch (changeType) {
 	    
@@ -68,15 +69,17 @@ const DatH = {
 	    break;
 
 	case "duplicate":
+	    newUid = nextUidOf(objectType);
 	    let copiedObj = update(oldObjArray[i], {
 		name: {$set: oldObjArray[i].name + "(copy)"},
-		uid: {$set: nextUidOf(objectType)}
+		uid: {$set: newUid}
 	    });
 	    $Updater = {$splice: [[i+1, 0, copiedObj]]};
 	    break;
 
 	case "add":
-	    details.new_object.uid = nextUidOf(objectType);//doesn't need to be an immutable update
+	    newUid = nextUidOf(objectType);
+	    details.new_object.uid = newUid;//doesn't need to be an immutable update
 	    $Updater = {$splice: [[i+1, 0, details.new_object]]};
 	    break;
 	    
@@ -95,7 +98,10 @@ const DatH = {
 	default: break;
 	}
 	   
-	return update(DataArrays, {[objectType]: $Updater});	    
+	return {
+	    newArrays: update(DataArrays, {[objectType]: $Updater}),
+	    newPGTobjUid: newUid
+	}
     }
 
 };

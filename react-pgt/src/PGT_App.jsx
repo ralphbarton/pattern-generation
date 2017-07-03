@@ -42,10 +42,11 @@ class PGT_App extends React.PureComponent {
     handleDataChange(dataCategory, changeType, details){
 	const oldArrs = this.state.DataArrays;
 	// This function call returns an updated Array...
-	const newArrs = DatH.immutUpdateAllArrays(oldArrs, dataCategory, changeType, details);
+	const dataUpdate = DatH.immutUpdateAllArrays(oldArrs, dataCategory, changeType, details);
 	this.setState({
-	    DataArrays: newArrs
+	    DataArrays: dataUpdate.newArrays
 	});
+	return dataUpdate.newPGTobjUid;
     }
 
     handleUIStateChange($update){

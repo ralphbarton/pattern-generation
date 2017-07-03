@@ -22,23 +22,10 @@ function withTabSupport(WrappedComponent) {
 
 	
 	// Copy-pasted, shared with Grid / Cpot
-	handleRowSelectedChange(index){
+	handleRowSelectedChange(index, newUid){
 
-	    /*
-	     In the case of a 'duplicate' command, the 'PGTobjArray' will be data version prior to the duplication.
-	     So the [PGTobj] at 'index' may be outside of Array bounds. It certainly will not be a correct uid.
-
-	     This basically doesn't matter, since the uid of the selected CPOT according to controlled UI
-	     state is not used by any 'background rendering' type components higher up the render tree.
-
-	     Nonetheless, this value may be set incorrectly.
-
-	     This also implies that Background-rendering components could not handle a duplicate command.
-
-	     The fundamental issue, I suppose, is calling 2 event handlers for one event which attempt to perform
-	     two state transitions 'in parallel', in the hope that they 'add'. I suppose this is anti-pattern;
-	     */
-	    const PGTobj_uid = this.props.PGTobjArray[index] ? this.props.PGTobjArray[index].uid : null;
+	    const selPGTobj = this.props.PGTobjArray[index];
+	    const PGTobj_uid = typeof(newUid) === "number" ? newUid : (selPGTobj ? selPGTobj.uid : null);
 	    
 	    //the object is updated to contain both the index and the UID of the PGTobj...
 	    this.props.setPGTtabUIState({
@@ -72,17 +59,18 @@ function withTabSupport(WrappedComponent) {
 
 	handleDuplicateSelPGTobj(){
 	    const i = this.props.UI.selectedRowIndex;
-	    this.props.onPGTobjArrayChange("duplicate", {index: i});
-	    this.handleRowSelectedChange(i+1);
+	    const newUid = this.props.onPGTobjArrayChange("duplicate", {index: i});
+	    this.handleRowSelectedChange(i+1, newUid);
 	}
 
 	// add a new item into the array
 	hofHandleAddPGTobj(createPGTobj_Fn){
-	    const TSprops = this.props;
+	    const TS = this;
 	    return function (){
-		const i = TSprops.UI.selectedRowIndex;
+		const i = TS.props.UI.selectedRowIndex;
 		const new_PGTobj = createPGTobj_Fn();
-		TSprops.onPGTobjArrayChange("add", {index: i, new_object: new_PGTobj});
+		const newUid = TS.props.onPGTobjArrayChange("add", {index: i, new_object: new_PGTobj});
+		TS.handleRowSelectedChange(i+1, newUid);
 	    };
 	}
 
