@@ -11,7 +11,7 @@ import WgActionLink from '../Wg/WgActionLink';
 import Plot_util from './plain-js/Plot_util';
 
 //these two are for Thumbnail generation...
-import Plot_render from './plain-js/Plot_render2';
+import Plot_RenderManager from './plain-js/Plot_RenderManager';
 import util from '.././plain-js/util';
 
 import Plot_Popout from './Plot_Popout';
@@ -41,6 +41,10 @@ class MainTab_Plot extends React.PureComponent {
 	     */
 
 	};
+	
+	// not passing a callback means no worker-thread involved here...
+	Plot_RenderManager.init();
+	
 	//References to DOM elements:
 	this.WgTableThumbCanvas_ElemRefs={};	
     }
@@ -84,13 +88,13 @@ class MainTab_Plot extends React.PureComponent {
 	    const plot_uid = Number(uid); //the dictionary has keys of type Number
 	    const Plot = util.lookup(plotArray, "uid", plot_uid);
 	    
-	    const thumb_img = Plot_render.GenerateImageData(
-		Plot.formula,
-		55, //w
-		55, //h
-		1 // res
-	    );
-
+	    const thumb_img = Plot_RenderManager.render({
+		formula: Plot.formula,
+		width: 55,
+		height: 55,
+		resolution: 1
+	    });	
+	    
 	    var ctx = canv_el.getContext('2d');
 	    ctx.putImageData(thumb_img, 0, 0);
 	});

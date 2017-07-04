@@ -1,13 +1,10 @@
-//import math from 'mathjs';
+import math from 'mathjs';
 
 var Plot_render = {
 
-    FillRectangle_ImgData: function (ImgData, x, y, w, h, raw){
+    FillRectangle_ImgData: function (ImgData, x, y, w, h, rgbaArr){
 
-	// 1. Determine RGB values for rectangle colour
-	// scale raw of [-3, +3] to range[0, 255]
-	const val = (raw+3)*(255/6);
-
+	
 	// 2. Dimention checks / cropping
 	// Measures to ensure rectangle fully contained within canvas dimentions...
 	if(x < 0){
@@ -48,16 +45,16 @@ var Plot_render = {
 		const xa = x + xr;	
 		const i_base = (y_base + xa) * 4;
 
-		pixelData[i_base    ] = val; // red
-		pixelData[i_base + 1] = val; // green
-		pixelData[i_base + 2] = val; // blue
-		pixelData[i_base + 3] = 255; // fully opaque	    
+		pixelData[i_base    ] = rgbaArr[0]; // red
+		pixelData[i_base + 1] = rgbaArr[1]; // green
+		pixelData[i_base + 2] = rgbaArr[2]; // blue
+		pixelData[i_base + 3] = rgbaArr[3]; // fully opaque	    
 	    }
 	}
     },
 
 
-    GenerateImageData: function(formula, winW, winH, cell_size){
+    GenerateImageData: function(formula, winW, winH, cell_size, heatmap_lookup){
 	//this is where I calculate all the set-up variables, the work-context variables of before...
 
 	// note that this test for string contains 'z' is different to the test used elsewhere...
@@ -117,7 +114,19 @@ var Plot_render = {
 		const x_location_px = Math.round((winW / 2) + (x - n_steps_xH - 0.5) * cell_size);
 		const y_location_px = Math.round((winH / 2) + (y - n_steps_yH - 0.5) * cell_size);
 
-		this.FillRectangle_ImgData(myImg, x_location_px, y_location_px, cell_size, cell_size, my_h);
+
+		// 1. Determine RGB values for rectangle colour
+		// scale raw of [-3, +3] to range[0, 255]
+		var raw = Math.max(Math.min(my_h, 3), -3);
+		const val = (raw+3)*(255/6);
+
+		const ari = (raw+3)*(500/6);
+
+		const tiny = heatmap_lookup[Math.floor(ari)];
+
+		var col = [tiny._r, tiny._g, tiny._b, 255];
+		
+		this.FillRectangle_ImgData(myImg, x_location_px, y_location_px, cell_size, cell_size, col);
 		
 	    }
 	}
@@ -127,4 +136,5 @@ var Plot_render = {
     
 }
 
-//export default Plot_render2;
+
+export default Plot_render;

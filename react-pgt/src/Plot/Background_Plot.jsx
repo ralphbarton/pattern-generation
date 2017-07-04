@@ -1,9 +1,11 @@
 import React from 'react';
 
+import Plot_RenderManager from './plain-js/Plot_RenderManager';
+
 // this is the 'util' module for the overall project
 import util from '.././plain-js/util';
 
-import Plot_render from './plain-js/Plot_render2';
+
 
 
 class Background_Plot extends React.PureComponent {
@@ -11,21 +13,9 @@ class Background_Plot extends React.PureComponent {
 
     constructor() {
 	super();
-
-	const workerURL = process.env.PUBLIC_URL + "/worker/plot_worker.js";
-
-
-	this.worker = new Worker(workerURL);
-	this.worker.onmessage = this.handleWorkerMessage.bind(this);
-    }
-
-    // Pass some activity into the other thread
-    requestWorkerCalc(formulaString, resolution){
-	this.worker.postMessage({
-	    width: this.winW,
-	    height: this.winH,
-	    formula: formulaString,
-	    resolution: resolution
+	
+	Plot_RenderManager.init({
+	    onRenderComplete: this.handleWorkerMessage.bind(this)
 	});
     }
 
@@ -45,12 +35,13 @@ class Background_Plot extends React.PureComponent {
 	if(!plotUIState.previewActive){return null;}
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);
 	
-	const rendered_image = Plot_render.GenerateImageData(
-	    Plot.formula,
-	    this.winW,
-	    this.winH,
-	    40 // - this seems a reasonable crude level of detail for the basic plot
-	);
+	const rendered_image = Plot_RenderManager.render({
+	    useWorker: false,
+	    formula: Plot.formula,
+	    width: this.winW,
+	    height: this.winH,
+	    resolution: 40 // - this seems a reasonable crude level of detail for the basic plot
+	});
 	
 	//put the returned data onto the canvas element...
 	var ctx = this.canvasElement.getContext('2d');
@@ -80,12 +71,17 @@ class Background_Plot extends React.PureComponent {
 	this.winH = window.innerHeight;
 	
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);	
+
 	
 	// This command will trigger the generation of plot-data
 	// it will be slapped onto the canvas when result message is recieced from thread
-	this.requestWorkerCalc(Plot.formula, plotUIState.plotResolution);
-
-	
+	Plot_RenderManager.render({
+	    useWorker: true,
+	    formula: Plot.formula,
+	    width: this.winW,
+	    height: this.winH,
+	    resolution: plotUIState.plotResolution
+	});	
 	
 
 	
