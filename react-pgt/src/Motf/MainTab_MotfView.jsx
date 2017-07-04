@@ -15,6 +15,9 @@ import WgBoxie from '../Wg/WgBoxie';
 import Motf_util from './plain-js/Motf_util';
 import util from '.././plain-js/util'; // for lookup by uid
 
+
+import MainTab_MotfEdit from './MainTab_MotfEdit';
+
 class MainTab_MotfView extends React.PureComponent {
 
     constructor() {
@@ -23,6 +26,16 @@ class MainTab_MotfView extends React.PureComponent {
 	    isEditing: false
 	};
 	this.WgTableThumbSVG_ElemRefs={};
+
+	//hop straight into "Edit mode".
+
+	const x = this.handleSetEditMode.bind(this, true);
+	setTimeout(function(){
+	    x();
+	}, 400);
+
+
+
     }
 
     componentDidMount(){
@@ -116,7 +129,7 @@ class MainTab_MotfView extends React.PureComponent {
     }
 
     
-    render(){
+    renderMotfView(){
 
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
 	const Motif_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
@@ -211,6 +224,21 @@ class MainTab_MotfView extends React.PureComponent {
 	    </div>
 
 	);
+    }
+
+    render() {
+	switch (this.state.isEditing) {
+	case true:
+	    return (
+		<MainTab_MotfEdit
+		   motf={this.props.PGTobjArray[this.props.UI.selectedRowIndex]}
+		   onSaveEdits={this.props.fn.handleReplaceSelPGTobj}
+		   onCloseEditingMode={this.handleSetEditMode.bind(this, false)}
+		  />
+	    );
+	default:
+	    return this.renderMotfView();
+	}
     }
     
 }

@@ -1,1 +1,60 @@
 /* MainTab_MotfEdit.css */
+
+.MainTab_MotfEdit {
+  flex: 1 auto;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+
+
+/* 1. setting up Two columns of block-content */
+
+.MainTab_MotfEdit > .column1,
+.MainTab_MotfEdit > .column2{
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.MainTab_MotfEdit > .column1{
+  width: 470px;
+}
+
+.MainTab_MotfEdit > .column2{
+  flex: 1 auto;
+}
+
+
+
+/* 2. height sub-division within those two columns */
+
+.MainTab_MotfEdit > div > div{
+  border: 1px solid blue;
+}
+
+.MainTab_MotfEdit .parameters{
+  height: 200px;
+}
+
+.MainTab_MotfEdit .properties{
+  flex: 1 auto;
+}
+
+.MainTab_MotfEdit .propertiesButtons{
+  text-align: right;
+}
+
+
+
+
+
+
+
+
+.MainTab_MotfEdit .canvas400{
+  height: 400px;
+}
+
+.MainTab_MotfEdit .advancedFeatures{
+  flex: 1 auto;
+}

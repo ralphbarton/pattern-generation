@@ -85,7 +85,7 @@ class MainTab_CpotEdit extends React.PureComponent {
 	const cpotItem = iIndex < 0 ? {type: null} : this.state.cpot.contents[iIndex];
 
 	return (
-	    <div className="PaneEditColourPots">
+	    <div className="MainTab_CpotEdit">
 
 	      
 	      {/* 1. The <input> for Colour Pot Title*/}
