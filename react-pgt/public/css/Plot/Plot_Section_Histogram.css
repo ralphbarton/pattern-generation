@@ -1,8 +1,9 @@
 /* Plot_Section_Histogram.css */
 
 .MainTab_Plot .Histogram{
-  margin-right: 1px;
-  flex: 0 auto;
+    width: 173px;
+    margin-right: 1px;
+    flex: 0 auto;
 }
 
 .MainTab_Plot .Hblock{
@@ -12,20 +13,55 @@
     border: 1px solid rgba(23, 114, 40, 0.81);
 }
 
-.MainTab_Plot .Hblock.hist{
-  width: 165px;
-  height: 70px;
+.MainTab_Plot .pointsEvald{
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin-top: -5px;
 }
+
+.MainTab_Plot .pointsEvald .value{
+    font-size: 14px;
+    color: #809db3;
+}
+
+
+
+.MainTab_Plot svg.hist{
+    padding: 0px 4px;
+}
+
+.MainTab_Plot svg.hist rect{
+    fill: rgba(0, 0, 0, 0.4);
+}
+
+.MainTab_Plot .stats{
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.MainTab_Plot .stats > div{
+    width: 81px;
+    margin: 1px;
+    display: flex;
+    justify-content: space-around
+}
+
+.MainTab_Plot .stats > div .value{
+    font-weight: bold;
+    color: #809db3;
+}
+
 
 .MainTab_Plot .Hblock.conv{
-  width: 70px;
-  height: 70px;
+    width: 150px;
+    height: 65px;
 }
 
 
-.MainTab_Plot .link.sample{
-  bottom: 0px;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+.MainTab_Plot .actionLinks{
+    bottom: 0px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 }
