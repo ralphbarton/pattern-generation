@@ -91,7 +91,7 @@ var Grid_util = {
 	
     },
 
-    newRandomRectGrid: function(number){
+    newRandomRectGrid: function(){
 
 	/*
 	// see - https://lodash.com/docs/4.17.4#random
@@ -107,7 +107,7 @@ var Grid_util = {
 	var cell_H = square_side || _.random(20,  80);
 
 	return {
-	    name: "New Grid ("+number+")",
+	    name: "New Grid",
 	    /*uid:  (added later)  */
 	    type: "std",
 	    n_dimentions: 2,

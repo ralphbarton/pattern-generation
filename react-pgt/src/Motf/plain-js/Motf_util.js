@@ -27,7 +27,7 @@ var Motf_util = {
 	}
 	
 	this.motfArray.push({
-	    Name: "New Mtf "+qty_new,
+	    Name: "New Motif",
 	    uid: this.uid.createNew("motf"),
 	    Params: {
 		"links": [],

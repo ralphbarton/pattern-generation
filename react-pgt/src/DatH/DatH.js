@@ -1,4 +1,5 @@
 import update from 'immutability-helper';
+var _ = require('lodash');
 
 import {CpotSampleData} from './SampleData_Cpot';
 import {GridSampleData} from './SampleData_Grid';
@@ -25,6 +26,22 @@ function nextUidOf(Object_Type){
 
 const DatH = {
 
+    newName: function(PGTobjArr, name_i, isDupl){
+
+	const bracket_strip = str => {return str.replace(/ *\([^)]*\) */g, "");};
+	const baseName = bracket_strip(name_i);
+	
+	// (1) Lodash makes array of names only (2) remove all bracketed contents from this 
+	const names = _.map(PGTobjArr, "name").map(bracket_strip);
+	const qty = _.filter(names, nam => {return nam.includes(baseName)}).length;
+
+	if(isDupl){
+	    return baseName + " (copy"+(qty>1 ? " "+qty : "")+")";
+	}else{
+	    return baseName + (qty>0 ? " ("+(qty+1)+")" : "");
+	}
+    },
+    
     immutUpdateAllArrays: function(DataArrays, objectType, changeType, details){
 
 	/*
@@ -70,8 +87,10 @@ const DatH = {
 
 	case "duplicate":
 	    newUid = nextUidOf(objectType);
+	    const newName = this.newName(oldObjArray, oldObjArray[i].name, true);
+	    
 	    let copiedObj = update(oldObjArray[i], {
-		name: {$set: oldObjArray[i].name + "(copy)"},
+		name: {$set: newName},
 		uid: {$set: newUid}
 	    });
 	    $Updater = {$splice: [[i+1, 0, copiedObj]]};
@@ -79,7 +98,13 @@ const DatH = {
 
 	case "add":
 	    newUid = nextUidOf(objectType);
-	    details.new_object.uid = newUid;//doesn't need to be an immutable update
+	    // two changes that mutate the object. There is nothing wrong with mutating the object at this stage,
+	    // it is not yet added as Component state (but will be immediately after mutation)
+	    details.new_object.uid  = newUid;
+
+	    if(details.new_object.name){ // some PGTobj's don't have names (e.g. Plots)
+		details.new_object.name = this.newName(oldObjArray, details.new_object.name, false);
+	    }
 	    $Updater = {$splice: [[i+1, 0, details.new_object]]};
 	    break;
 	    
