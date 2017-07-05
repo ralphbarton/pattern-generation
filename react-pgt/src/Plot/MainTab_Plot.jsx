@@ -46,7 +46,7 @@ class MainTab_Plot extends React.PureComponent {
 		v_max: "-Infinity",
 		v10pc: "-Infinity",
 		v90pc: "-Infinity",
-		median: "-Infinity"
+		median: "0.02"
 	    }
 
 	};
@@ -203,7 +203,7 @@ class MainTab_Plot extends React.PureComponent {
 	      
 	      {/* 3.  Histogram */}
 	      <Plot_Section_Histogram
-		 state={this.state.stats}
+		 stats={this.state.stats}
 		 />
 
 
