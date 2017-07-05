@@ -56,7 +56,7 @@ class Plot_Section_Histogram extends React.PureComponent {
 
 	      <div className="pointsEvald">
 		<span className="name">Points eval'd: </span>
-		<span className="value">2,300,102</span>
+		<span className="value">{this.props.stats.n_points}</span>
 	      </div>
 	      
 	      <svg className="hist"
@@ -69,17 +69,17 @@ class Plot_Section_Histogram extends React.PureComponent {
 
 		<div className="min">
 		  <div className="name">Min: </div>
-		  <div className="value">-Infinity</div>		  
+		  <div className="value">{this.props.stats.v_min}</div>
 		</div>
 
 		<div className="max">
 		  <div className="name">Max: </div>
-		  <div className="value">-Infinity</div>		  
+		  <div className="value">{this.props.stats.v_max}</div>		  
 		</div>
 
 		<div className="median">
 		  <div className="name">Median: </div>
-		  <div className="value">-Infinity</div>		  
+		  <div className="value">{this.props.stats.median}</div>		  
 		</div>
 
 		<div className="empty">
@@ -87,12 +87,12 @@ class Plot_Section_Histogram extends React.PureComponent {
 
 		<div className="cf-10%">
 		  <div className="name">cf-10%: </div>
-		  <div className="value">-Infinity</div>		  
+		  <div className="value">{this.props.stats.v10pc}</div>		  
 		</div>
 
 		<div className="cf-90%">
 		  <div className="name">cf-90%: </div>
-		  <div className="value">-Infinity</div>		  
+		  <div className="value">{this.props.stats.v90pc}</div>		  
 		</div>
 
 		<div className="A">Brightness</div>

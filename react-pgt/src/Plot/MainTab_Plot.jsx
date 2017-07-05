@@ -32,13 +32,22 @@ class MainTab_Plot extends React.PureComponent {
 	// than user-settings-state,  held at a higher level, gets different treatment...
 	this.state = {
 	    previewFeaturesTabSelected: 0,
-	    showExtraWindow: null
+	    showExtraWindow: null,
 	    /*
 	     'showExtraWindow' - options
 	     1 - Syntax & Inbuilt functions
 	     2 - Formula Designer
 	     3 - Zoom & Rotate -> More
 	     */
+
+	    stats: {
+		n_points: "4,125,220",
+		v_min: "-Infinity",
+		v_max: "-Infinity",
+		v10pc: "-Infinity",
+		v90pc: "-Infinity",
+		median: "-Infinity"
+	    }
 
 	};
 	
@@ -194,6 +203,7 @@ class MainTab_Plot extends React.PureComponent {
 	      
 	      {/* 3.  Histogram */}
 	      <Plot_Section_Histogram
+		 state={this.state.stats}
 		 />
 
 
