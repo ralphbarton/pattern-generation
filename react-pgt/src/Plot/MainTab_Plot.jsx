@@ -109,7 +109,7 @@ class MainTab_Plot extends React.PureComponent {
 	});
 
 	this.WgTableThumbCanvas_ElemRefs = {};//reset for next time...
-	console.log("Took:", (new Date() - timer));
+	console.log("rerenderAllThumbs took:", (new Date() - timer));
     }
 
     

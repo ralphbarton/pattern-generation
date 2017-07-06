@@ -167,11 +167,12 @@ var Plot_render = {
 	    
 	});
 		
-	
 	return myImg;
     },
 
 
+    // this returns data from the member variable 'this.fullSamples', which is set with every 'GenerateImageData'
+    // for full-screen rendering, on a hi-res screen, this can take up to 770ms (of 2.8s to calc all the points)
     getLastStatistics: function(){
 
 	function compare(a, b) {
@@ -180,17 +181,18 @@ var Plot_render = {
 	    return 0;
 	}
 
-	this.fullSamples.sort(compare);
+	const Samp = this.fullSamples.sort(compare);
 
 
 	var grab = function(ind_real){
 	    var i = parseInt(ind_real);
-	    return this.fullSamples[i].toFixed(2);
+	    return Samp[i].toFixed(2);
 	};
 
-	var L = this.fullSamples.length;
+	var L = Samp.length;
 
 	return {
+	    type: 'stats',
 	    n_points: L,
 	    v_min: grab(0),
 	    v_max: grab(L-1),

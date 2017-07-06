@@ -1,9 +1,6 @@
 
 
-
-
 import Plot_render from './Plot_render';
-
 import tinycolor from 'tinycolor2';
 
 
@@ -15,14 +12,27 @@ var Plot_RenderManager = {
 
 	// Init step 1: Precalculate colours...
 	this.load_colours_prelookup();
-	console.log(this.colours_prelookup);
+
+
+
+
+
+	// STRIP away unnecessary data here...
+///	console.log(this.colours_prelookup);
 
 	
 	// Init step 2: Initialise worker
 	if(options.onRenderComplete){
 	    const workerURL = process.env.PUBLIC_URL + "/worker/plot_worker_pub.js";
 	    this.worker = new Worker(workerURL);
-	    this.worker.onmessage = options.onRenderComplete;
+	    this.worker.onmessage = function(msg){
+
+		if(msg.data.type === 'stats'){
+		    options.onStatsComplete(msg.data);
+		}else{
+		    options.onRenderComplete(msg.data);
+		}		
+	    };
 
 	    
 	    // Init step 3: pass pre-calc'd colours to worker

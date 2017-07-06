@@ -15,16 +15,17 @@ class Background_Plot extends React.PureComponent {
 	super();
 	
 	Plot_RenderManager.init({
-	    onRenderComplete: this.handleWorkerMessage.bind(this)
+	    onRenderComplete: this.handleRenderComplete.bind(this),
+	    onStatsComplete: obj => {console.log(obj);}
 	});
     }
 
     // Respond to activity completed, in other thread
-    handleWorkerMessage(m){
+    handleRenderComplete(ImgData){
 
 	//put the returned data onto the canvas element...
 	var ctx = this.canvasElement.getContext('2d');
-	ctx.putImageData(m.data, 0, 0);
+	ctx.putImageData(ImgData, 0, 0);
 	console.log("Thread execution complete in: ", ((new Date())-this.t));
     }
 
