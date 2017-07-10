@@ -20,3 +20,12 @@ public/sandbox/
 react-pgt/.gitignore
 react-pgt/README.md
 react-pgt/deploy-react.sh
+
+
+# keep all these file types out of the repo...
+*.png
+*.svg
+*.odt
+*.ods
+*.sh
+*.ico

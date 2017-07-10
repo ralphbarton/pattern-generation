@@ -1,4 +1,4 @@
-import math from 'mathjs';
+// 'Plot_render_pub.js' - for non-compillation...
 
 var Plot_render = {
 
@@ -159,6 +159,7 @@ var Plot_render = {
 	    const R = Math.max(Math.min(Ru, 1), 0);
 
 	    const colObj = heatmapLookup[Math.floor(500 * R)];
+
 	    var col = [colObj.r, colObj.g, colObj.b, 255];
 	    
 	    Plot_render.FillRectangle_ImgData(myImg, x_location_px, y_location_px, cell_size, cell_size, col);
@@ -204,6 +205,3 @@ var Plot_render = {
     }
     
 }
-
-
-export default Plot_render;
