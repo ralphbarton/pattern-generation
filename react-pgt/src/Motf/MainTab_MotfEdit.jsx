@@ -2,17 +2,14 @@ import React from 'react';
 var _ = require('lodash');
 
 // generic project widgets
- import WgButton from '../Wg/WgButton';
+import WgButton from '../Wg/WgButton';
+import WgTable from '../Wg/WgTable';
 
 /*
- import WgTable from '../Wg/WgTable';
-
  import WgBoxie from '../Wg/WgBoxie';
-
 
  import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
  import WgActionLink from '../Wg/WgActionLink';
-
 
  import Motf_util from './plain-js/Motf_util';
  import util from '.././plain-js/util'; // for lookup by uid
@@ -21,6 +18,22 @@ var _ = require('lodash');
 class MainTab_MotfEdit extends React.PureComponent {
 
 
+    MotfEdit_params_WgTableColumns(){
+	return ([
+	    {
+		heading: "Identifier",
+		renderCellContents: (param, i)=>{return "c1";}
+	    },{
+		heading: "Min",
+		renderCellContents: (param, i)=>{return "c2";}
+	    },{
+		heading: "Max",
+		renderCellContents: (param, i)=>{return "c3";}
+	    }
+	]);
+    }
+
+    
     render(){
 	return (
 
@@ -29,7 +42,13 @@ class MainTab_MotfEdit extends React.PureComponent {
 	      {/* Column 1 */}
 	      <div className="column1">
 		<div className="parameters">
-		  params
+		  <WgTable
+		     selectedRowIndex={0}
+		     onRowSelectedChange={()=>{}}
+		     rowRenderingData={[ [], [], [], []]}
+		     columnsRendering={this.MotfEdit_params_WgTableColumns()}
+		    />
+
 		</div>
 
 		<div className="properties">

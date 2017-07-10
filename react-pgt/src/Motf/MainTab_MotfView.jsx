@@ -124,7 +124,7 @@ class MainTab_MotfView extends React.PureComponent {
 
 		    );
 		}
-	    },
+	    }
 	]);
     }
 
