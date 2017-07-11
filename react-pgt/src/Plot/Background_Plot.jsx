@@ -41,7 +41,8 @@ class Background_Plot extends React.PureComponent {
 	    formula: Plot.formula,
 	    width: this.winW,
 	    height: this.winH,
-	    resolution: 40 // - this seems a reasonable crude level of detail for the basic plot
+	    resolution: 40, // - this seems a reasonable crude level of detail for the basic plot
+	    colouringFunction: plotUIState.colouringFunction
 	});
 	
 	//put the returned data onto the canvas element...
@@ -81,7 +82,8 @@ class Background_Plot extends React.PureComponent {
 	    formula: Plot.formula,
 	    width: this.winW,
 	    height: this.winH,
-	    resolution: plotUIState.plotResolution
+	    resolution: plotUIState.plotResolution,
+	    colouringFunction: plotUIState.colouringFunction
 	});	
 	
 

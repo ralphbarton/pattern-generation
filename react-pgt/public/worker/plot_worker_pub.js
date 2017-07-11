@@ -18,8 +18,9 @@ onmessage = function(msg) {
     const winH = msg.data.height
     const formula = msg.data.formula;
     const cell_size = msg.data.resolution;//this.CellSizes[this.wcx.res];
-
-    const rendered_image = Plot_render.GenerateImageData(formula, winW, winH, cell_size, heatmapLookup);
+    const heatmap = msg.data.colouringFunction === 2 ? heatmapLookup : null;
+    
+    const rendered_image = Plot_render.GenerateImageData(formula, winW, winH, cell_size, heatmap);
     postMessage(rendered_image);
 
     const stats = Plot_render.getLastStatistics();

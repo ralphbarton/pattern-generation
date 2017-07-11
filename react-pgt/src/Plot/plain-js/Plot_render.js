@@ -158,9 +158,14 @@ var Plot_render = {
 	    const Ru = (sample - val_saturateLo) / val_deltaLoHi;
 	    const R = Math.max(Math.min(Ru, 1), 0);
 
-	    const colObj = heatmapLookup[Math.floor(500 * R)];
-	    var col = [colObj.r, colObj.g, colObj.b, 255];
-	    
+	    if(heatmapLookup){
+		const colObj = heatmapLookup[Math.floor(500 * R)];
+		var col = [colObj.r, colObj.g, colObj.b, 255];
+	    }else{
+		const r = 255*R;
+		var col = [r, r, r, 255];		
+	    }
+		
 	    Plot_render.FillRectangle_ImgData(myImg, x_location_px, y_location_px, cell_size, cell_size, col);
 
 	    Plot_render.fullSamples.push(sample);

@@ -7,7 +7,14 @@
 
 .MainTab_Plot .PreviewOptions .colouringFunction{
   position: absolute;
-  top: 48px;
+  bottom: 42px;
+}
+
+
+
+.MainTab_Plot .PreviewOptions .overlayAxesScale{
+  position: absolute;
+  bottom: 25px;
 }
 
 .MainTab_Plot .PreviewOptions .plotResolution{

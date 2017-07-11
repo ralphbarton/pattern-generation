@@ -49,7 +49,8 @@ var Plot_RenderManager = {
 		width: options.width,
 		height: options.height,
 		formula: options.formula,
-		resolution: options.resolution
+		resolution: options.resolution,
+		colouringFunction: options.colouringFunction
 	    });
 
 
@@ -62,7 +63,7 @@ var Plot_RenderManager = {
 		options.width,
 		options.height,
 		options.resolution,
-		this.heatmapLookup
+		options.colouringFunction === 2 ? this.heatmapLookup : null
 	    );
 	}
 	    

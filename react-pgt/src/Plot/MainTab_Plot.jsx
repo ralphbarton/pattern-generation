@@ -90,7 +90,7 @@ class MainTab_Plot extends React.PureComponent {
 	const timer = new Date();
 	const thumbElRefs = this.WgTableThumbCanvas_ElemRefs;
 	const plotArray = this.props.PGTobjArray;
-
+	const colouringFunction = this.props.UI.colouringFunction;
 	
 	_.forEach(thumbElRefs, function(canv_el, uid) {// lodash argument order: (value, key)
 	    
@@ -101,7 +101,8 @@ class MainTab_Plot extends React.PureComponent {
 		formula: Plot.formula,
 		width: 55,
 		height: 55,
-		resolution: 1
+		resolution: 1,
+		colouringFunction: colouringFunction
 	    });	
 	    
 	    var ctx = canv_el.getContext('2d');
