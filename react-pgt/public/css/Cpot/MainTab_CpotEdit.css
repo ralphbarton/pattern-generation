@@ -1,7 +1,7 @@
 /* MainTab_CpotEdit.css */
 
 /*  Name Editing Input */
-.PaneEditColourPots > input{
+.MainTab_CpotEdit > input{
     font-size: 24px;
     width: 248px;
     margin: 6px;
@@ -17,40 +17,40 @@
 
 /* Space to the right of the Items listing */
 
-.PaneEditColourPots .Zone{
+.MainTab_CpotEdit .Zone{
     transition: opacity 0.4s;
     position: absolute;
     top: 7px;
     right: 10px;
 }
 
-.PaneEditColourPots .Zone.hide{
+.MainTab_CpotEdit .Zone.hide{
     opacity: 0;
 }
 
 
-.PaneEditColourPots .bigPreview.Zone .Cpot_PreviewPatch td{
+.MainTab_CpotEdit .bigPreview.Zone .Cpot_PreviewPatch td{
     width: 22px;
     height: 22px;
 }
 
-.PaneEditColourPots .bigPreview.Zone div.Cpot_PreviewPatch.invalid{
+.MainTab_CpotEdit .bigPreview.Zone div.Cpot_PreviewPatch.invalid{
     width: 190px;
     height: 454px;
 }
 
 
-.PaneEditColourPots .controls.Zone .editZone{
+.MainTab_CpotEdit .controls.Zone .editZone{
     width: 191px;
     height: 376px;
 }
 
-.PaneEditColourPots .controls.Zone .Cpot_PreviewPatch td{
+.MainTab_CpotEdit .controls.Zone .Cpot_PreviewPatch td{
     width: 8px;
     height: 8px;
 }
 
-.PaneEditColourPots .controls.Zone div.Cpot_PreviewPatch.invalid{
+.MainTab_CpotEdit .controls.Zone div.Cpot_PreviewPatch.invalid{
     width: 188px;
     height: 78px;
 }
@@ -60,7 +60,7 @@
 
 
 
-.PaneEditColourPots > .mainButtons{
+.MainTab_CpotEdit > .mainButtons{
     position: absolute;
     bottom: 6px;
     right: 12px;

@@ -55,7 +55,7 @@ class Toolbox extends React.PureComponent {
 
 		
 		<WgTabbedSection
-		   className="previewOptions"
+		   className="main"
 		   enabled={this.state.tabsEnabled}
 		   tabSelectedIndex={this.state.selectedTabIndex}
 		   // The function below is worth rewriting for every component instance

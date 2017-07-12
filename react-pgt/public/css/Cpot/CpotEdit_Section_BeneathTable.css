@@ -5,11 +5,11 @@
 
 /* Overall Positioning */
 
-.PaneEditColourPots  .WgTable{
+.MainTab_CpotEdit  .WgTable{
     margin-bottom: 0px;
 }
 
-.PaneEditColourPots > .beneathTable{
+.MainTab_CpotEdit > .beneathTable{
     position: relative;
     margin: 5px;
     margin-top: 2px;
@@ -22,14 +22,14 @@
 
 /* Add & Delete buttons... */
 
-.PaneEditColourPots .beneathTable .mainButtons{
+.MainTab_CpotEdit .beneathTable .mainButtons{
     position: absolute;
     top: 3px;
     right: 0px;
     width: 58px;
 }
 
-.PaneEditColourPots .beneathTable .mainButtons .button{
+.MainTab_CpotEdit .beneathTable .mainButtons .button{
     width: 58px;
     margin-bottom: 5px;
 }
@@ -40,28 +40,28 @@
 
 /* "Probabilities Sum" text */
 
-.PaneEditColourPots .probsSumText{
+.MainTab_CpotEdit .probsSumText{
     font-size: 12px;
     color: black;
 }
 
-.PaneEditColourPots .probsSumText.sumIs100{
+.MainTab_CpotEdit .probsSumText.sumIs100{
     color: rgba(0,30,70,0.5);
 }
 
-.PaneEditColourPots .probsSumText span{
+.MainTab_CpotEdit .probsSumText span{
     font-weight: bold;
 }
 
-.PaneEditColourPots .probsSumText .error span{
+.MainTab_CpotEdit .probsSumText .error span{
     color: rgb(222, 100, 29);
 }
 
-.PaneEditColourPots .probsSumText .error.sumLT100 span{
+.MainTab_CpotEdit .probsSumText .error.sumLT100 span{
     color: rgb(121, 70, 179);
 }
 
-.PaneEditColourPots .probsSumText.sumIs100 .error{
+.MainTab_CpotEdit .probsSumText.sumIs100 .error{
     display: none;
 }
 
@@ -71,15 +71,15 @@
 
 /* Dropdown menus */
 
-.PaneEditColourPots .mainDropdowns{
+.MainTab_CpotEdit .mainDropdowns{
     position: absolute;
     bottom: 3px;
 }
 
-.PaneEditColourPots .mainDropdowns .dropbtn{
+.MainTab_CpotEdit .mainDropdowns .dropbtn{
     width: 92px;
 }
 
-.PaneEditColourPots .mainDropdowns .dropdown{
+.MainTab_CpotEdit .mainDropdowns .dropdown{
     margin-right: 5px;
 }

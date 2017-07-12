@@ -1,31 +1,31 @@
 /* CpotEdit_Section_ItemsTable.css */
 
 /* WgTable of Cpot Items */
-.PaneEditColourPots  .WgTable tbody{
+.MainTab_CpotEdit  .WgTable tbody{
     height: 364px;
 }
 
-.PaneEditColourPots  .col-1{
+.MainTab_CpotEdit  .col-1{
     width: 21px;
 }
 
-.PaneEditColourPots  .col-2{
+.MainTab_CpotEdit  .col-2{
     width: 58px;/*6 px larger than cell width below*/
 }
 
-.PaneEditColourPots th.col-3{
+.MainTab_CpotEdit th.col-3{
     width: 157px;
 }
 
 /* width of the edit cell*/
-.PaneEditColourPots .blue-cell{
+.MainTab_CpotEdit .blue-cell{
     width: 52px;
     text-align: center;
     font-weight: bold;
     font-size: 14px;
 }
 
-.PaneEditColourPots  .col-2{
+.MainTab_CpotEdit  .col-2{
     padding:0px;
 }
 
@@ -33,22 +33,22 @@
 
 
 /* Column 3 contents - item preview */
-.PaneEditColourPots .itemType{
+.MainTab_CpotEdit .itemType{
     text-align: left;
     width: 140px;
     font-size: 10px;
 }
 
-.PaneEditColourPots .WgTable .WgGradientCell{
+.MainTab_CpotEdit .WgTable .WgGradientCell{
     margin: 1px;
     border: 1px solid black;
 }
 
-.PaneEditColourPots div .itemDemo{
+.MainTab_CpotEdit div .itemDemo{
     position: relative;
 }
 
-.PaneEditColourPots .WgTable .WgColourPill{
+.MainTab_CpotEdit .WgTable .WgColourPill{
     position: absolute;
     height: 15px;
     border-radius: 10px;
@@ -59,7 +59,7 @@
     z-index: 1;
 }
 
-.PaneEditColourPots .WgAlphaSwatch{
+.MainTab_CpotEdit .WgAlphaSwatch{
     position: absolute;
     background-color: white;
     right: 2px;
@@ -67,13 +67,13 @@
     width: 49px;
 }
 
-.PaneEditColourPots .WgAlphaSwatch .chequer{
+.MainTab_CpotEdit .WgAlphaSwatch .chequer{
     position: absolute;
     right: 0px;
     width: 25px;
 }
 
-.PaneEditColourPots .WgAlphaSwatch .swatch{
+.MainTab_CpotEdit .WgAlphaSwatch .swatch{
     position: absolute;
     width: 34px;
     height: 15px;
@@ -84,60 +84,60 @@
 
 
 /* Item preview: Range */
-.PaneEditColourPots .range .itemDemo{
+.MainTab_CpotEdit .range .itemDemo{
     height: 68px;
 }
 
-.PaneEditColourPots .range .threeCells{
+.MainTab_CpotEdit .range .threeCells{
     position: absolute;
     display: block;
     font-size: 0px;
 }
 
-.PaneEditColourPots .range .WgColourPill{
+.MainTab_CpotEdit .range .WgColourPill{
     top: 25px;
 }
 
-.PaneEditColourPots .range .threeCells.n2{
+.MainTab_CpotEdit .range .threeCells.n2{
     top: 39px;
 }
 
-.PaneEditColourPots .range .WgAlphaSwatch{
+.MainTab_CpotEdit .range .WgAlphaSwatch{
     top: 6px;
     height: 57px;
 }
 
-.PaneEditColourPots .range .WgAlphaSwatch .chequer{
+.MainTab_CpotEdit .range .WgAlphaSwatch .chequer{
     height: 55px;
 }
 
-.PaneEditColourPots .range .WgAlphaSwatch .swatch.n1{
+.MainTab_CpotEdit .range .WgAlphaSwatch .swatch.n1{
     top: 10px;
 }
 
-.PaneEditColourPots .range .WgAlphaSwatch .swatch.n2{
+.MainTab_CpotEdit .range .WgAlphaSwatch .swatch.n2{
     bottom: 10px;
 }
 
 
 /* Item preview: Solid */
-.PaneEditColourPots .solid .itemDemo{
+.MainTab_CpotEdit .solid .itemDemo{
     height: 26px;
 }
 
-.PaneEditColourPots .solid .WgColourPill{
+.MainTab_CpotEdit .solid .WgColourPill{
     top: 4px;
 }
 
-.PaneEditColourPots .solid .WgAlphaSwatch{
+.MainTab_CpotEdit .solid .WgAlphaSwatch{
     top: 2px;
     height: 21px;
 }
 
-.PaneEditColourPots .solid .WgAlphaSwatch .chequer{
+.MainTab_CpotEdit .solid .WgAlphaSwatch .chequer{
     height: 19px;
 }
 
-.PaneEditColourPots .solid .WgAlphaSwatch .swatch{
+.MainTab_CpotEdit .solid .WgAlphaSwatch .swatch{
     top: 3px;
 }
