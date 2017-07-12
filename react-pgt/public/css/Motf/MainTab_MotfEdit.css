@@ -1,9 +1,9 @@
 /* MainTab_MotfEdit.css */
 
 .MainTab_MotfEdit {
-  flex: 1 auto;
-  display: flex;
-  flex-flow: row nowrap;
+    flex: 1 auto;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 
@@ -12,62 +12,56 @@
 
 .MainTab_MotfEdit > .column1,
 .MainTab_MotfEdit > .column2{
-  display: flex;
-  flex-flow: column nowrap;
+    display: flex;
+    flex-flow: column nowrap;
 }
 
 .MainTab_MotfEdit > .column1{
-  width: 470px;
+    width: 470px;
 }
 
 .MainTab_MotfEdit > .column2{
-  flex: 1 auto;
+    flex: 1 auto;
 }
 
 
 
 /* 2. height sub-division within those two columns */
 
-.MainTab_MotfEdit > div > div{
-  border: 1px solid blue;
-}
-
 .MainTab_MotfEdit .parameters{
-  height: 200px;
-}
-
-.MainTab_MotfEdit .properties{
-  flex: 1 auto;
+    flex: 1 auto;
 }
 
 .MainTab_MotfEdit .propertiesButtons{
-  text-align: right;
+    text-align: right;
+    margin-bottom: 4px;
+    margin-right: 6px;
 }
 
 
 
 
 .MainTab_MotfEdit .canvasSection{
-  display: flex;
-  flex-flow: row nowrap;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 .MainTab_MotfEdit .canvasSection .drawingTools{
     flex: 1 auto;
-  border: 1px solid cyan;
+    border: 1px solid cyan;
 }
 
 
 .MainTab_MotfEdit .canvas400{
     box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
-  margin: 8px;
+    margin: 8px;
     width: 399px;
     height: 399px;
-  background-color: white;
+    background-color: white;
 }
 
 .MainTab_MotfEdit .advancedFeatures{
-  flex: 1 auto;
+    flex: 1 auto;
 }
 
 
@@ -75,7 +69,14 @@
 
 
 
-/* 3. Detailed styling of Parameters section (probably needs a separate css) */
+/* 3. Detailed styling of
+--
+PARAMETERS section
+--
+(needs a separate css) */
+.MainTab_MotfEdit .parameters .WgTable{
+    margin-bottom: 0px;
+}
 
 .MainTab_MotfEdit .parameters tbody{
     height: 180px;
@@ -88,4 +89,97 @@
 
 .MainTab_MotfEdit .parameters th{
     padding: 0px 10px;
+}
+
+
+
+
+
+
+/* 4. Detailed styling of
+--
+PROPERTIES section
+--
+(needs a separate css) */
+
+.MainTab_MotfEdit .properties {
+    margin: 6px;
+    border: 3px inset #DBD1AB;
+    background-color: white;
+}
+
+.MainTab_MotfEdit .properties .freezeHeading{
+    text-align: center; 
+    background-color: #CCC;
+    font-weight: bold;
+    padding: 2px;
+    border-bottom: 1px solid black;
+
+}
+
+.MainTab_MotfEdit .properties .scrollableContent{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 380px;
+}
+
+.MainTab_MotfEdit .properties .scrollableContent .blob{
+    background: cyan;
+    border: 1px solid blueviolet;
+    margin: 5px;
+    display: inline-block;
+    height: 410px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 5. Detailed styling of
+--
+CANVAS CONTROLS section
+--
+(needs a separate css) */
+
+.MainTab_MotfEdit .canvasControls > input.plain-cell{
+    font-size: 18px;
+    width: 245px;
+    margin-top: 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* x. Detailed styling of
+--
+advancedFeatures section
+--
+(needs a separate css) */
+
+.MainTab_MotfEdit .advancedFeatures{
+    margin: 4px;
+    margin-left: 0px;
+}
+
+
+.MainTab_MotfEdit .mainButtons{
+    text-align: right;
+    margin-bottom: 4px;
 }

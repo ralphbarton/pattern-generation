@@ -4,11 +4,10 @@ var _ = require('lodash');
 // generic project widgets
 import WgButton from '../Wg/WgButton';
 import WgTable from '../Wg/WgTable';
+import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 
 /*
  import WgBoxie from '../Wg/WgBoxie';
-
- import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
  import WgActionLink from '../Wg/WgActionLink';
 
  import Motf_util from './plain-js/Motf_util';
@@ -17,7 +16,14 @@ import WgTable from '../Wg/WgTable';
 
 class MainTab_MotfEdit extends React.PureComponent {
 
-
+    constructor() {
+	super();
+	this.state = {
+	    advancedFeaturesTabSelected: 0
+	};
+    }
+    
+    
     MotfEdit_params_WgTableColumns(){
 	return ([
 	    {
@@ -41,6 +47,8 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 	      {/* Column 1 */}
 	      <div className="column1">
+
+		{/* >> Parameters */}
 		<div className="parameters">
 		  <WgTable
 		     selectedRowIndex={0}
@@ -51,10 +59,21 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 		</div>
 
+		{/* >> Motif Elements: Properties */}
 		<div className="properties">
-		  properties interactive listing
+		  <div className="freezeHeading">
+		    Motif Elements: Properties
+		  </div>
+		  <div className="scrollableContent">
+		    lots of scrollable items here...
+		    <div className="blob">
+		      blob
+		    </div>
+
+		  </div>
 		</div>
 
+		
 		<div className="propertiesButtons">
 		  <WgButton
 		     name="Contract All"
@@ -85,9 +104,21 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 		
 		<div className="canvasControls">
+		  {/* 1. The <input> for Motif Title*/}
+		    <input className="plain-cell"
+			   value={this.props.motf.name} 
+			   onChange={null/*event => {
+			       // Change the CPOT title
+			       this.handleEditingCpotChange({
+				   name: {$set: event.target.value}
+			       });
+		      }*/}
+		      />
 		  canvasControls
 		</div>
 
+
+		
 		<div className="canvasSection">
 		  <div className="drawingTools">
 		    drawingTools
@@ -97,12 +128,69 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  </div>
 		</div>
 
-		<div className="advancedFeatures">
-		  advancedFeatures
-		</div>
 
+
+		<WgTabbedBoxie
+		   className="advancedFeatures"
+		   tabbedBoxieStyle={"small"}
+		   tabSelectedIndex={this.state.advancedFeaturesTabSelected}
+		   // The function below is worth rewriting for every component instance
+		   // it sets the specific state variable associated with the tab choice
+		   onTabClick={ new_i => {
+		       if (new_i === this.state.advancedFeaturesTabSelected){return;}
+		       this.setState({
+			   advancedFeaturesTabSelected: new_i
+		       });
+		   }}
+		  items={
+		      [
+			  {
+			      name: "Design mode",
+			      renderJSX: ()=>{
+				  return(
+				      <div> [JSX content (Design mode)] <br/>
+					Container class: "advancedFeatures"
+
+				      </div>
+				  );
+			      }
+			  },
+			  {
+			      name: "Macros",
+			      renderJSX: ()=>{
+				  return(
+				      <div> [JSX content (Macros)] </div>
+				  );
+			      }
+			  },
+			  {
+			      name: "Patterning Controls",
+			      renderJSX: ()=>{
+				  return(
+				      <div> [JSX content (Patterning Controls)] </div>
+				  );
+			      }
+			  },
+			  {
+			      name: "Embed Motif",
+			      renderJSX: ()=>{
+				  return(
+				      <div> [JSX content (Embed Motif)] </div>
+				  );
+			      }
+			  }
+		      ]
+		  }
+		/>
+
+		
 		<div className="mainButtons">
-		  mainButtons
+		<WgButton
+	    name="Cancel"
+		/>
+		<WgButton
+	    name="Done"
+		/>
 		</div>
 
 
