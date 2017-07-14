@@ -1,5 +1,8 @@
 import React from 'react';
+
+// externally developed libraries
 var _ = require('lodash');
+import update from 'immutability-helper';
 
 // generic project widgets
 import WgButton from '../Wg/WgButton';
@@ -16,11 +19,20 @@ import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 
 class MainTab_MotfEdit extends React.PureComponent {
 
-    constructor() {
-	super();
+    constructor(props) {
+	super(props);
 	this.state = {
+	    motf: props.motf,
 	    advancedFeaturesTabSelected: 0
 	};
+    }
+
+
+    //This is copy-pasted from 'MainTab_CpotEdit.jsx' - is this an application for another HOC??
+    handleEditingMotfChange(changesObject){
+	this.setState({
+	    motf: update(this.state.motf, changesObject)
+	});
     }
     
     
@@ -106,13 +118,13 @@ class MainTab_MotfEdit extends React.PureComponent {
 		<div className="canvasControls">
 		  {/* 1. The <input> for Motif Title*/}
 		    <input className="plain-cell"
-			   value={this.props.motf.name} 
-			   onChange={null/*event => {
-			       // Change the CPOT title
-			       this.handleEditingCpotChange({
+			   value={this.state.motf.name} 
+			   onChange={event => {
+			       // Change the Motif name...
+			       this.handleEditingMotfChange({
 				   name: {$set: event.target.value}
 			       });
-		      }*/}
+		      }}
 		      />
 		  canvasControls
 		</div>
@@ -187,9 +199,14 @@ class MainTab_MotfEdit extends React.PureComponent {
 		<div className="mainButtons">
 		<WgButton
 	    name="Cancel"
+	    onClick={this.props.onCloseEditingMode.bind()}
 		/>
 		<WgButton
 	    name="Done"
+	    onClick={()=>{
+		this.props.onSaveEdits(this.state.motf);
+		this.props.onCloseEditingMode();
+	    }}
 		/>
 		</div>
 
