@@ -7,7 +7,9 @@ import update from 'immutability-helper';
 // generic project widgets
 import WgButton from '../Wg/WgButton';
 import WgTable from '../Wg/WgTable';
+import WgBoxie from '../Wg/WgBoxie';
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
+import WgMutexActionLink from '../Wg/WgMutexActionLink';
 
 /*
  import WgBoxie from '../Wg/WgBoxie';
@@ -132,9 +134,26 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 		
 		<div className="canvasSection">
-		  <div className="drawingTools">
+
+		  <WgBoxie className="drawingTools" name="Tools" boxieStyle={"small"} >
+
+		    <WgMutexActionLink
+		       name="Draw:"
+		       className="drawOneMany"
+		       initalEnabledArray={[false, false]}
+		       actions={[
+			   {
+			       name: "one"
+			   },{
+			       name: "many"
+			   }
+		       ]}
+		       />
+
 		    drawingTools
-		  </div>
+
+		  </WgBoxie>
+
 		  <div className="canvas400">
 		    canvas400
 		  </div>
