@@ -138,7 +138,7 @@ var Plot_render = {
 	// 3. get the 10% and 90% points...
 	var L = Samples.length;
 	var num_grab = function(ind_real){
-	    var i = parseInt(ind_real);
+	    var i = parseInt(ind_real, 10);//radix parameter 10 means base-10
 	    return Samples[i];
 	};
 	const val_saturateLo =  num_grab(L * 0.1);
@@ -158,12 +158,13 @@ var Plot_render = {
 	    const Ru = (sample - val_saturateLo) / val_deltaLoHi;
 	    const R = Math.max(Math.min(Ru, 1), 0);
 
+	    let col;
 	    if(heatmapLookup){
 		const colObj = heatmapLookup[Math.floor(500 * R)];
-		var col = [colObj.r, colObj.g, colObj.b, 255];
+		col = [colObj.r, colObj.g, colObj.b, 255];
 	    }else{
 		const r = 255*R;
-		var col = [r, r, r, 255];		
+		col = [r, r, r, 255];		
 	    }
 		
 	    Plot_render.FillRectangle_ImgData(myImg, x_location_px, y_location_px, cell_size, cell_size, col);
@@ -190,7 +191,7 @@ var Plot_render = {
 
 
 	var grab = function(ind_real){
-	    var i = parseInt(ind_real);
+	    const i = parseInt(ind_real, 10);//radix parameter 10 means base-10
 	    return Samp[i].toFixed(2);
 	};
 
