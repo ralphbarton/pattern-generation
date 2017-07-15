@@ -37,6 +37,11 @@ class PGT_App extends React.PureComponent {
 	    }
 	};
 	this.latestUI = this.state.UI;
+
+	// these declarations seem to be recommended in React examples, but passing the bound function as a prop
+	// directly also works...
+	this.handleUIStateChange = this.handleUIStateChange.bind(this);
+	this.handleDataChange = this.handleDataChange.bind(this);
     }
 
     handleDataChange(dataCategory, changeType, details){
@@ -79,14 +84,15 @@ class PGT_App extends React.PureComponent {
 	      <PGT_Background
 		 DataArrays={this.state.DataArrays}
 		 UIState={this.state.UI}
+		 onUIStateChange={this.handleUIStateChange}
 		 />
 	      
 	      {/* 2. Floating (draggable) Toolbox */}
 	      <Toolbox
 		 DataArrays={this.state.DataArrays}
-		 onDataChange={this.handleDataChange.bind(this)}
+		 onDataChange={this.handleDataChange}
 		 UIState={this.state.UI}
-		 onUIStateChange={this.handleUIStateChange.bind(this)}
+		 onUIStateChange={this.handleUIStateChange}
 		 />
 	    </div>
 	);

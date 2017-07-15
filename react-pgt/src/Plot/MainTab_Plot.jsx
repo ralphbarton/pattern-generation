@@ -39,16 +39,6 @@ class MainTab_Plot extends React.PureComponent {
 	     2 - Formula Designer
 	     3 - Zoom & Rotate -> More
 	     */
-
-	    stats: {
-		n_points: "4,125,220",
-		v_min: "-Infinity",
-		v_max: "-Infinity",
-		v10pc: "-Infinity",
-		v90pc: "-Infinity",
-		median: "0.02"
-	    }
-
 	};
 	
 	// not passing a callback means no worker-thread involved here...
@@ -69,7 +59,16 @@ class MainTab_Plot extends React.PureComponent {
 	    hideUnderlyingDensity: false,
 	    showContours: false,
 	    quantityContours: 6,
-	    overlayAxesScale: false
+	    overlayAxesScale: false,
+	    // dummy data here. Can probably scrap it...
+	    stats_obj: {
+		n_points: "4,125,220",
+		v_min: "-Infinity",
+		v_max: "-Infinity",
+		v10pc: "-Infinity",
+		v90pc: "-Infinity",
+		median: "0.02"
+	    }
 	});
 	this.plot_WgTable_rerenderAllThumbs();
     }
@@ -204,7 +203,7 @@ class MainTab_Plot extends React.PureComponent {
 	      
 	      {/* 3.  Histogram */}
 	      <Plot_Section_Histogram
-		 stats={this.state.stats}
+		 stats={this.props.UI.stats_obj}
 		 />
 
 

@@ -11,15 +11,19 @@ import util from '.././plain-js/util';
 class Background_Plot extends React.PureComponent {
 
 
-    constructor() {
-	super();
+    constructor(props) {
+	super(props);
 	this.state = {
 	    resolutionChangeOnly: false
 	};
 	
 	Plot_RenderManager.init({
 	    onRenderComplete: this.handleRenderComplete.bind(this),
-	    onStatsComplete: obj => {console.log(obj);}
+	    onStatsComplete: stats_obj => {
+		props.setPlotUIState({
+		    stats_obj: {$set: stats_obj}
+		});
+	    }
 	});
     }
 
@@ -70,9 +74,10 @@ class Background_Plot extends React.PureComponent {
 	const c2 = this.props.plotUIState.colouringFunction !== nextProps.plotUIState.colouringFunction;
 	const c3 = this.props.plotUIState.previewActive     !== nextProps.plotUIState.previewActive;
 	const c4 = this.props.plotUIState.plotResolution    !== nextProps.plotUIState.plotResolution;
-
-	console.log("this.state.resolutionChangeOnly", this.state.resolutionChangeOnly);
-	return c1 || c2 || c3 || c4;
+	// since only the selected plot can change anyway, there is no need to narrow down to testing only this.
+	const c5 = this.props.plotArray                     !== nextProps.plotArray;
+	
+	return c1 || c2 || c3 || c4 || c5;
     }
 
     componentDidUpdate(){
@@ -92,13 +97,6 @@ class Background_Plot extends React.PureComponent {
 
 	const plotUIState = this.props.plotUIState;
 	if(!plotUIState.previewActive){return null;}
-
-
-	//TODO:
-
-	//some effort is required to limit occurances of rerender to when acually necessary
-	
-	console.log("<Background_Plot> render() called", plotUIState);
 
 	//this update is always important.
 	this.winW = window.innerWidth;

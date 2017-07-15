@@ -27,6 +27,7 @@ class PGT_Background extends React.PureComponent {
 			  <Background_Plot
 				 plotUIState={this.props.UIState['plot']}
 				 plotArray={this.props.DataArrays['plot']}
+				 setPlotUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
 				 />
 	      }
 
