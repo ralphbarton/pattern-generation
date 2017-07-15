@@ -39,6 +39,8 @@ class MainTab_Plot extends React.PureComponent {
 	     2 - Formula Designer
 	     3 - Zoom & Rotate -> More
 	     */
+
+	    thumbsUpdate: true
 	};
 	
 	// not passing a callback means no worker-thread involved here...
@@ -73,8 +75,21 @@ class MainTab_Plot extends React.PureComponent {
 	this.plot_WgTable_rerenderAllThumbs();
     }
 
+    componentWillReceiveProps(nextProps){
+
+	// only changes to some specific props should bring about re-generation of all thumbs...
+	const c1 = this.props.UI.colouringFunction !== nextProps.UI.colouringFunction;
+	const c2 = this.props.plotArray            !== nextProps.plotArray;
+
+	this.setState({
+	    thumbsUpdate: c1 || c2
+	});
+    }
+
     componentDidUpdate(){
-	this.plot_WgTable_rerenderAllThumbs();
+	if(this.state.thumbsUpdate){
+	    this.plot_WgTable_rerenderAllThumbs();
+	}
     }
     
     rowClassingFn(Plot){
