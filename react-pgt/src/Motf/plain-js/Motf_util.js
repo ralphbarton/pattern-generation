@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 var _ = require('lodash');
-
+import tinycolor from 'tinycolor2';
 
 import {fabric}  from 'fabric';
 
@@ -8,10 +8,8 @@ import {fabric}  from 'fabric';
 
 
 var Motf_util = {
-
-/*
-    motf_Add: function(){
-	var qty_new = $.grep(this.motfArray, function(e){ return e.Name.includes("New Mtf"); }).length + 1;
+    
+    newRandomMotif: function(){
 
 	//it will be 50% a circle, 50% a rectangle...
 	var isCircle = Math.random() > 0.5;
@@ -32,23 +30,16 @@ var Motf_util = {
 	    Motif_Element_One["height"] = 300;	    
 	}
 	
-	this.motfArray.push({
-	    Name: "New Motif",
-	    uid: this.uid.createNew("motf"),
+
+	return {
+	    name: "New Motif",
 	    Params: {
 		"links": [],
 		"random": [],
 		"CP_picks": []
 	    },
 	    Elements: [Motif_Element_One]
-	});
-	return this.motfArray.length - 1;//return index of newly added element
-    },
-*/
-    
-    newRandomMotif: function(){
-
-	return {};
+	};
     },
 
 
