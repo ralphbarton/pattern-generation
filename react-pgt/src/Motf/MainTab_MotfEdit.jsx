@@ -14,6 +14,9 @@ import WgBoxie from '../Wg/WgBoxie';
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 
+//should I divide up this file into separate categories of function (better modularisation)
+import Motf_util from './plain-js/Motf_util';
+
 /*
  import WgBoxie from '../Wg/WgBoxie';
  import WgActionLink from '../Wg/WgActionLink';
@@ -56,27 +59,25 @@ class MainTab_MotfEdit extends React.PureComponent {
 	]);
     }
 
-    fabricCanvasRegen(){	
+    fabricCanvasRegen(){
 
-	var canvas = new fabric.Canvas(this.fabricCanvasElement);
+	// 1. 'destroy' any pre-existing Fabric initialisation of the canvas
+	if(this.canvas){
+	    this.canvas.dispose();
+	}
 
-
-	// create a rectangle object
-	var rect = new fabric.Rect({
-	    left: 100,
-	    top: 100,
-	    fill: 'red',
-	    width: 20,
-	    height: 20
+	// 2. (re-)initialisate as a blank Fabric canvas
+	this.canvas = new fabric.Canvas(this.fabricCanvasElement);
+	
+	// 3. add all the objects
+	const canvas = this.canvas;
+	_.forEach(this.state.motf.Elements, function(Properties, index) { // (value, key)
+	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
 	});
-
-	// "add" rectangle onto canvas
-	canvas.add(rect);
     }
 
     componentDidUpdate(){
 	    this.fabricCanvasRegen();
-
     }
 
     componentDidMount(){
@@ -269,6 +270,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 	);
     }
+    
 }
 
 export default MainTab_MotfEdit;
