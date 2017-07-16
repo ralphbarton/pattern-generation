@@ -4,6 +4,9 @@ import React from 'react';
 var _ = require('lodash');
 import update from 'immutability-helper';
 
+
+import {fabric}  from 'fabric';
+
 // generic project widgets
 import WgButton from '../Wg/WgButton';
 import WgTable from '../Wg/WgTable';
@@ -53,6 +56,33 @@ class MainTab_MotfEdit extends React.PureComponent {
 	]);
     }
 
+    fabricCanvasRegen(){	
+
+	var canvas = new fabric.Canvas(this.fabricCanvasElement);
+
+
+	// create a rectangle object
+	var rect = new fabric.Rect({
+	    left: 100,
+	    top: 100,
+	    fill: 'red',
+	    width: 20,
+	    height: 20
+	});
+
+	// "add" rectangle onto canvas
+	canvas.add(rect);
+    }
+
+    componentDidUpdate(){
+	    this.fabricCanvasRegen();
+
+    }
+
+    componentDidMount(){
+	this.fabricCanvasRegen();
+    }
+    
     
     render(){
 	return (
@@ -155,7 +185,11 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  </WgBoxie>
 
 		  <div className="canvas400">
-		    canvas400
+		    <canvas
+		       width="399"
+		       height="399"
+		       ref={ (el) => {this.fabricCanvasElement = el;}}
+		       />
 		  </div>
 		</div>
 
