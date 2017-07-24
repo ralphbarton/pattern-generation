@@ -84,8 +84,7 @@
   margin-bottom: 0px;
 }
 
-.MainTab_Plot .WgBoxie .contents,
-.MainTab_Plot .WgTabbedSection .WgBoxie > .outline{
+.MainTab_Plot .WgBoxie .contents{
   padding: 2px;
 }
 
