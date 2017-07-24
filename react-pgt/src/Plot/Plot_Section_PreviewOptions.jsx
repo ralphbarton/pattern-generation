@@ -77,6 +77,7 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		<WgButton
 		   name="Plot Preview"
 		   onClick={handleUIStateChange.bind(null, "previewActive", true)}
+		   enabled={this.props.validFormulaSelected}
 		   />
 	      </div>
 

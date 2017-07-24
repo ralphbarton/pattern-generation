@@ -254,6 +254,7 @@ class MainTab_Plot extends React.PureComponent {
 				  return(
 				      <Plot_Section_PreviewOptions
 					 UI={this.props.UI}
+					 validFormulaSelected={this.rowClassingFn(Plot_i) !== "invalid"}
 					 handleUIStateChange={this.props.fn.handleUIStateChange}
 					 />
 				   );
