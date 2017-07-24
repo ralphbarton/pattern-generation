@@ -1,5 +1,6 @@
 import React from 'react';
 var _ = require('lodash');
+import update from 'immutability-helper';
 
 // generic project widgets
 import WgTable from '../Wg/WgTable';
@@ -40,7 +41,12 @@ class MainTab_Plot extends React.PureComponent {
 	     3 - Zoom & Rotate -> More
 	     */
 
-	    thumbsUpdate: true
+	    thumbsUpdate: true,
+	    timings: {
+		thumbs: "10ms",
+		fast: "10ms",
+		final: "10ms"
+	    }
 	};
 	
 	// not passing a callback means no worker-thread involved here...
@@ -125,7 +131,16 @@ class MainTab_Plot extends React.PureComponent {
 
 	this.WgTableThumbCanvas_ElemRefs = {};//reset for next time...
 	console.log("rerenderAllThumbs took:", (new Date() - timer));
-    }
+/*
+
+ There is a problem with this. The re-render triggered by state change of this components
+ causes an unnecessary and unacceptable delay.
+
+	this.setState({
+	    timings: update(this.state.timings, {thumbs: {$set: (new Date() - timer)}})
+	});
+*/  
+  }
 
     
     plot_WgTableColumns(){
@@ -254,8 +269,9 @@ class MainTab_Plot extends React.PureComponent {
 				  return(
 				      <Plot_Section_PreviewOptions
 					 UI={this.props.UI}
-					 validFormulaSelected={this.rowClassingFn(Plot_i) !== "invalid"}
 					 handleUIStateChange={this.props.fn.handleUIStateChange}
+					 validFormulaSelected={this.rowClassingFn(Plot_i) !== "invalid"}
+					 timings={this.state.timings}
 					 />
 				   );
 			      }
