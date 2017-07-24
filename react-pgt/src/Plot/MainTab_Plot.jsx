@@ -79,8 +79,8 @@ class MainTab_Plot extends React.PureComponent {
 
 	// only changes to some specific props should bring about re-generation of all thumbs...
 	const c1 = this.props.UI.colouringFunction !== nextProps.UI.colouringFunction;
-	const c2 = this.props.plotArray            !== nextProps.plotArray;
-
+	const c2 = this.props.PGTobjArray          !== nextProps.PGTobjArray;
+		
 	this.setState({
 	    thumbsUpdate: c1 || c2
 	});
