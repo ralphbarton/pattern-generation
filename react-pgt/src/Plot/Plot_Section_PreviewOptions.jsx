@@ -2,6 +2,9 @@ import React from 'react';
 
 //import Spinner from 'react-spinkit';
 
+import {Wave} from 'better-react-spinkit';
+
+
 import WgActionLink from '../Wg/WgActionLink';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgButton from '../Wg/WgButton';
@@ -28,9 +31,9 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		  Thumbs: {this.prettyValue("thumbs")} <br/>
 		  Fast Render: {this.prettyValue("fast")} <br/>
 		  {this.props.UI.timings_obj.inProgress?(
-		      <span>calc in progress..</span>
-		      //		      <Spinner name='double-bounce' />
-//		      <Spinner name="ball-pulse-rise" color="olive"/>
+		      <div className="spinner">
+			<Wave size={15} color="#809db3"/>
+		      </div>
 		  ):(
 		      <span>Final Render: {this.prettyValue("final")}</span>
 		  )	      

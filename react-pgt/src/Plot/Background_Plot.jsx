@@ -91,7 +91,7 @@ class Background_Plot extends React.PureComponent {
 	const c5 = this.props.plotArray                     !== nextProps.plotArray;
 
 	const componentUpdate = c1 || c2 || c3 || c4 || c5;
-	if(componentUpdate){
+	if(componentUpdate && nextProps.plotUIState.previewActive){
 	    this.props.setPlotUIState({
 		timings_obj: {
 		    inProgress: {$set: true}

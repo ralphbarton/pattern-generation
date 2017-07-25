@@ -28,25 +28,30 @@
 }
 
 .MainTab_Plot .PreviewOptions .timingContoursStrip > div{
-    padding: 2px 5px;
+    padding: 2px 4px;
     border-bottom: 1px solid rgba(0,0,0,0.4);
     flex: 1 auto;
 }
 
 
-.MainTab_Plot .PreviewOptions .value {
+.MainTab_Plot .PreviewOptions .Timing .value {
     font-weight: bold;
     color: #809db3;
 }
 
+.MainTab_Plot .PreviewOptions .Timing .spinner{
+    display: flex;
+    justify-content: center;
+}
 
 
 .MainTab_Plot .PreviewOptions .Contours{
     border-left: 1px solid rgba(0,0,0,0.4);
+    max-width: 115px;
 }
 
 .MainTab_Plot .PreviewOptions .Contours .action-link{
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 
 .MainTab_Plot .PreviewOptions .unboxedPadder{
