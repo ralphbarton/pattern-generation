@@ -34,7 +34,13 @@ class Background_Plot extends React.PureComponent {
 	//put the returned data onto the canvas element...
 	var ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(ImgData, 0, 0);
-	console.log("Thread execution complete in: ", ((new Date())-this.t));
+
+	//record the time taken in "Global state"
+	const new_timings_obj = update(this.props.plotUIState.timings_obj, {final: {$set: (new Date() - this.t)}});
+	this.props.setPlotUIState({
+	    timings_obj: {$set: new_timings_obj}
+	});
+
     }
 
 
@@ -56,8 +62,8 @@ class Background_Plot extends React.PureComponent {
 	//put the returned data onto the canvas element...
 	var ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(rendered_image, 0, 0);
-	console.log("Fast render complete in: ", ((new Date())-this.t));
 
+	//record the time taken in "Global state"
 	const new_timings_obj = update(this.props.plotUIState.timings_obj, {fast: {$set: (new Date() - this.t)}});
 	this.props.setPlotUIState({
 	    timings_obj: {$set: new_timings_obj}

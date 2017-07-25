@@ -7,6 +7,10 @@ import WgSmartInput from '../Wg/WgSmartInput';
 
 
 class Plot_Section_PreviewOptions extends React.PureComponent {
+
+    prettyValue(key){
+	return <span className="value">{this.props.UI.timings_obj[key]} ms</span>;
+    }
     
     render(){
 	
@@ -19,9 +23,9 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 	      <div className="timingContoursStrip">	      
 
 		<div className="Timing">
-		  Thumbs: {this.props.UI.timings_obj.thumbs}ms <br/>
-		  Fast Render: {this.props.UI.timings_obj.fast}ms<br/>
-		  Final Render: {this.props.UI.timings_obj.final}ms
+		  Thumbs: {this.prettyValue("thumbs")} <br/>
+		  Fast Render: {this.prettyValue("fast")} <br/>
+		  Final Render: {this.prettyValue("final")}
 		</div>
 		
 		<div className="Contours">

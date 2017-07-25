@@ -65,7 +65,7 @@ class MainTab_Plot extends React.PureComponent {
 	    overlayAxesScale: false,
 	    // dummy data here. Can probably scrap it...
 	    stats_obj: {
-		n_points: "4,125,220",
+		n_points: "0",
 		v_min: "-Infinity",
 		v_max: "-Infinity",
 		v10pc: "-Infinity",
@@ -73,9 +73,9 @@ class MainTab_Plot extends React.PureComponent {
 		median: "0.02"
 	    },
 	    timings_obj: { // use type integer (units are ms)
-		thumbs: 10,
-		fast: 10,
-		final: 10
+		thumbs: 0,
+		fast: 0,
+		final: 0
 	    }
 	});
     }
@@ -92,7 +92,7 @@ class MainTab_Plot extends React.PureComponent {
     }
 
     componentDidUpdate(){
-	//this will get exectured upon every mount, because mounting itself triggers update.
+	// This function (thumbs render) will also be called on Component mount, because mounting triggers update.
 	if(this.state.thumbsUpdate){
 	    this.plot_WgTable_rerenderAllThumbs();
 	}
