@@ -44,6 +44,12 @@
     justify-content: center;
 }
 
+.MainTab_Plot .PreviewOptions .Timing .spinner span > div {
+    /* this will cheekily override 'width'
+       property, set in the encapsulated compont as packaged.
+    */
+    min-width: 40px
+}
 
 .MainTab_Plot .PreviewOptions .Contours{
     border-left: 1px solid rgba(0,0,0,0.4);

@@ -32,7 +32,7 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		  Fast Render: {this.prettyValue("fast")} <br/>
 		  {this.props.UI.timings_obj.inProgress?(
 		      <div className="spinner">
-			<Wave size={15} color="#809db3"/>
+			<Wave size={15} columns={8} color="#809db3"/>
 		      </div>
 		  ):(
 		      <span>Final Render: {this.prettyValue("final")}</span>
