@@ -5,6 +5,7 @@ import Plot_RenderManager from './plain-js/Plot_RenderManager';
 // this is the 'util' module for the overall project
 import util from '.././plain-js/util';
 
+import update from 'immutability-helper';
 
 
 
@@ -14,7 +15,7 @@ class Background_Plot extends React.PureComponent {
     constructor(props) {
 	super(props);
 	this.state = {
-	    resolutionChangeOnly: false
+	    resolutionChangeOnly: false //the fast (res=40px) render is not executed for resolution change
 	};
 	
 	Plot_RenderManager.init({
@@ -56,6 +57,11 @@ class Background_Plot extends React.PureComponent {
 	var ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(rendered_image, 0, 0);
 	console.log("Fast render complete in: ", ((new Date())-this.t));
+
+	const new_timings_obj = update(this.props.plotUIState.timings_obj, {fast: {$set: (new Date() - this.t)}});
+	this.props.setPlotUIState({
+	    timings_obj: {$set: new_timings_obj}
+	});	
     }
 
     componentWillReceiveProps(nextProps){
@@ -69,6 +75,8 @@ class Background_Plot extends React.PureComponent {
 
     shouldComponentUpdate(nextProps, nextState){
 
+	// POSITIVE SELECTION to determine update (i.e. test for specific conditions if update is to occur)
+	
 	// only changes to some specific props should bring about re-execution of the render function
 	const c1 = this.props.plotUIState.selectionUid      !== nextProps.plotUIState.selectionUid;
 	const c2 = this.props.plotUIState.colouringFunction !== nextProps.plotUIState.colouringFunction;
@@ -126,11 +134,6 @@ class Background_Plot extends React.PureComponent {
 		 height={this.winH}
 		 ref={ (el) => {this.canvasElement = el;}}
 		/>
-
-
-	      {
-//		  JSON.stringify(plotUIState, null, 2)
-	      }
 	    </div>
 	);
     }

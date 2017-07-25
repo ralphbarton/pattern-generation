@@ -19,9 +19,9 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 	      <div className="timingContoursStrip">	      
 
 		<div className="Timing">
-		  Thumbs: {this.props.timings.thumbs} <br/>
-		  Fast Render: {this.props.timings.fast}<br/>
-		  Final Render: {this.props.timings.final}
+		  Thumbs: {this.props.UI.timings_obj.thumbs}ms <br/>
+		  Fast Render: {this.props.UI.timings_obj.fast}ms<br/>
+		  Final Render: {this.props.UI.timings_obj.final}ms
 		</div>
 		
 		<div className="Contours">

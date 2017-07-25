@@ -41,12 +41,7 @@ class MainTab_Plot extends React.PureComponent {
 	     3 - Zoom & Rotate -> More
 	     */
 
-	    thumbsUpdate: true,
-	    timings: {
-		thumbs: "10ms",
-		fast: "10ms",
-		final: "10ms"
-	    }
+	    thumbsUpdate: true
 	};
 	
 	// not passing a callback means no worker-thread involved here...
@@ -76,9 +71,13 @@ class MainTab_Plot extends React.PureComponent {
 		v10pc: "-Infinity",
 		v90pc: "-Infinity",
 		median: "0.02"
+	    },
+	    timings_obj: { // use type integer (units are ms)
+		thumbs: 10,
+		fast: 10,
+		final: 10
 	    }
 	});
-	this.plot_WgTable_rerenderAllThumbs();
     }
 
     componentWillReceiveProps(nextProps){
@@ -93,6 +92,7 @@ class MainTab_Plot extends React.PureComponent {
     }
 
     componentDidUpdate(){
+	//this will get exectured upon every mount, because mounting itself triggers update.
 	if(this.state.thumbsUpdate){
 	    this.plot_WgTable_rerenderAllThumbs();
 	}
@@ -106,8 +106,7 @@ class MainTab_Plot extends React.PureComponent {
 
     //regenerate all plot thumbs upon update
     plot_WgTable_rerenderAllThumbs(){
-	console.log("All thumbs regen...");
-	const timer = new Date();
+	const t_thumbsStart = new Date();
 	const thumbElRefs = this.WgTableThumbCanvas_ElemRefs;
 	const plotArray = this.props.PGTobjArray;
 	const colouringFunction = this.props.UI.colouringFunction;
@@ -130,17 +129,11 @@ class MainTab_Plot extends React.PureComponent {
 	});
 
 	this.WgTableThumbCanvas_ElemRefs = {};//reset for next time...
-	console.log("rerenderAllThumbs took:", (new Date() - timer));
-/*
 
- There is a problem with this. The re-render triggered by state change of this components
- causes an unnecessary and unacceptable delay.
-
-	this.setState({
-	    timings: update(this.state.timings, {thumbs: {$set: (new Date() - timer)}})
-	});
-*/  
-  }
+	// There may be some kind of problem with this. I do not like the delays onChange of the formula input element
+	const new_timings_obj = update(this.props.UI.timings_obj, {thumbs: {$set: (new Date() - t_thumbsStart)}});
+	this.props.fn.handleUIStateChange("timings_obj", new_timings_obj);
+    }
 
     
     plot_WgTableColumns(){
@@ -271,7 +264,6 @@ class MainTab_Plot extends React.PureComponent {
 					 UI={this.props.UI}
 					 handleUIStateChange={this.props.fn.handleUIStateChange}
 					 validFormulaSelected={this.rowClassingFn(Plot_i) !== "invalid"}
-					 timings={this.state.timings}
 					 />
 				   );
 			      }
