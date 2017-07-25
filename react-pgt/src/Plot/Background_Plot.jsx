@@ -5,9 +5,6 @@ import Plot_RenderManager from './plain-js/Plot_RenderManager';
 // this is the 'util' module for the overall project
 import util from '.././plain-js/util';
 
-import update from 'immutability-helper';
-
-
 
 class Background_Plot extends React.PureComponent {
 
@@ -35,12 +32,14 @@ class Background_Plot extends React.PureComponent {
 	var ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(ImgData, 0, 0);
 
-	//record the time taken in "Global state"
-	const new_timings_obj = update(this.props.plotUIState.timings_obj, {final: {$set: (new Date() - this.t)}});
+	//record time taken in "Global state"
+	const duration_ms = new Date() - this.t;
 	this.props.setPlotUIState({
-	    timings_obj: {$set: new_timings_obj}
+	    timings_obj: {
+		final: {$set: duration_ms},
+		inProgress: {$set: false}
+	    }
 	});
-
     }
 
 
@@ -63,11 +62,11 @@ class Background_Plot extends React.PureComponent {
 	var ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(rendered_image, 0, 0);
 
-	//record the time taken in "Global state"
-	const new_timings_obj = update(this.props.plotUIState.timings_obj, {fast: {$set: (new Date() - this.t)}});
+	//record time taken in "Global state"
+	const duration_ms = new Date() - this.t;
 	this.props.setPlotUIState({
-	    timings_obj: {$set: new_timings_obj}
-	});	
+	    timings_obj: {fast: {$set: duration_ms}}
+	});
     }
 
     componentWillReceiveProps(nextProps){
@@ -90,8 +89,17 @@ class Background_Plot extends React.PureComponent {
 	const c4 = this.props.plotUIState.plotResolution    !== nextProps.plotUIState.plotResolution;
 	// since only the selected plot can change anyway, there is no need to narrow down to testing only this.
 	const c5 = this.props.plotArray                     !== nextProps.plotArray;
-	
-	return c1 || c2 || c3 || c4 || c5;
+
+	const componentUpdate = c1 || c2 || c3 || c4 || c5;
+	if(componentUpdate){
+	    this.props.setPlotUIState({
+		timings_obj: {
+		    inProgress: {$set: true}
+		}
+	    });
+	}
+	    
+	return componentUpdate;
     }
 
     componentDidUpdate(){
@@ -119,7 +127,8 @@ class Background_Plot extends React.PureComponent {
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);	
 
 	
-	// This command will trigger the generation of plot-data
+	
+	// Trigger generation of the Final quality of plot-data
 	// it will be slapped onto the canvas when result message is recieced from thread
 	Plot_RenderManager.render({
 	    useWorker: true,

@@ -1,6 +1,5 @@
 import React from 'react';
 var _ = require('lodash');
-import update from 'immutability-helper';
 
 // generic project widgets
 import WgTable from '../Wg/WgTable';
@@ -73,6 +72,7 @@ class MainTab_Plot extends React.PureComponent {
 		median: "0.02"
 	    },
 	    timings_obj: { // use type integer (units are ms)
+		inProgress: false,
 		thumbs: 0,
 		fast: 0,
 		final: 0
@@ -131,8 +131,13 @@ class MainTab_Plot extends React.PureComponent {
 	this.WgTableThumbCanvas_ElemRefs = {};//reset for next time...
 
 	// There may be some kind of problem with this. I do not like the delays onChange of the formula input element
-	const new_timings_obj = update(this.props.UI.timings_obj, {thumbs: {$set: (new Date() - t_thumbsStart)}});
-	this.props.fn.handleUIStateChange("timings_obj", new_timings_obj);
+
+	//record time taken in "Global state"
+	const duration_ms = new Date() - t_thumbsStart;
+	this.props.setPGTtabUIState({
+	    timings_obj: {thumbs: {$set: duration_ms}}
+	});
+
     }
 
     

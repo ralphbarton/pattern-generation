@@ -1,5 +1,7 @@
 import React from 'react';
 
+//import Spinner from 'react-spinkit';
+
 import WgActionLink from '../Wg/WgActionLink';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgButton from '../Wg/WgButton';
@@ -25,7 +27,15 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		<div className="Timing">
 		  Thumbs: {this.prettyValue("thumbs")} <br/>
 		  Fast Render: {this.prettyValue("fast")} <br/>
-		  Final Render: {this.prettyValue("final")}
+		  {this.props.UI.timings_obj.inProgress?(
+		      <span>calc in progress..</span>
+		      //		      <Spinner name='double-bounce' />
+//		      <Spinner name="ball-pulse-rise" color="olive"/>
+		  ):(
+		      <span>Final Render: {this.prettyValue("final")}</span>
+		  )	      
+		  }
+
 		</div>
 		
 		<div className="Contours">

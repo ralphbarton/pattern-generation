@@ -106,7 +106,8 @@ function withTabSupport(WrappedComponent) {
 
 	
 	render() {
-	    const { onPGTobjArrayChange, setPGTtabUIState, ...restProps } = this.props;//pull off some props...
+	    // I dont pull of 'setPGTtabUIState()' here, because it may be necessary to update nested items.
+	    const { onPGTobjArrayChange, /*setPGTtabUIState,*/ ...restProps } = this.props;//pull off some props...
 	    return <WrappedComponent fn={this.fn} {...restProps} />;
 	}
     };
