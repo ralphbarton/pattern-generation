@@ -12,25 +12,25 @@ class Background_Plot extends React.PureComponent {
     constructor(props) {
 	super(props);
 	this.state = {
-	    resolutionChangeOnly: false //the fast (res=40px) render is not executed for resolution change
+	    resolutionChangeOnly: false, //the fast (res=40px) render is not executed for resolution change
+	    workerRequestToken: 0
 	};
 	
 	Plot_RenderManager.init({
 	    onRenderComplete: this.handleRenderComplete.bind(this),
-	    onStatsComplete: stats_obj => {
-		props.setPlotUIState({
-		    stats_obj: {$set: stats_obj}
-		});
-	    }
+	    onStatsComplete: this.handleStatsComplete.bind(this)
 	});
     }
 
-    // Respond to activity completed, in other thread
-    handleRenderComplete(ImgData){
+    // When the worker delivers the full-detail image data of the render,
+    // this hander slaps it onto the canvas element, accessible via a React ref.
+    handleRenderComplete(msg){
+
+	if(msg.workerRequestToken !== this.state.workerRequestToken){return;}
 
 	//put the returned data onto the canvas element...
 	var ctx = this.canvasElement.getContext('2d');
-	ctx.putImageData(ImgData, 0, 0);
+	ctx.putImageData(msg.ImgData, 0, 0);
 
 	//record time taken in "Global state"
 	const duration_ms = new Date() - this.t;
@@ -39,6 +39,14 @@ class Background_Plot extends React.PureComponent {
 		final: {$set: duration_ms},
 		inProgress: {$set: false}
 	    }
+	});
+    }
+
+    //handler for when worker coughs up the stats...
+    handleStatsComplete(msg){
+	if(msg.workerRequestToken !== this.state.workerRequestToken){return;}
+	this.props.setPlotUIState({
+	    stats_obj: {$set: msg.stats_obj}
 	});
     }
 
@@ -97,8 +105,10 @@ class Background_Plot extends React.PureComponent {
 		    inProgress: {$set: true}
 		}
 	    });
+	    // increment 'workerRequestToken': a new render has been commanded...
+	    this.setState( {workerRequestToken: this.state.workerRequestToken + 1} );
 	}
-	    
+	
 	return componentUpdate;
     }
 
@@ -132,6 +142,7 @@ class Background_Plot extends React.PureComponent {
 	// it will be slapped onto the canvas when result message is recieced from thread
 	Plot_RenderManager.render({
 	    useWorker: true,
+	    workerRequestToken: (this.state.workerRequestToken+1),//messy. State will not yet have updated
 	    formula: Plot.formula,
 	    width: this.winW,
 	    height: this.winH,

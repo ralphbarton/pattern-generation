@@ -22,7 +22,7 @@ var Plot_RenderManager = {
 	    this.worker = new Worker(workerURL);
 	    this.worker.onmessage = function(msg){
 
-		if(msg.data.type === 'stats'){
+		if(msg.data.ImgData === undefined){
 		    options.onStatsComplete(msg.data);
 		}else{
 		    options.onRenderComplete(msg.data);
@@ -42,18 +42,11 @@ var Plot_RenderManager = {
     render: function(options){
 
 	// Case 1: pass the rendering work to the worker. (async)
-	// when data is all generated, the function 'onRenderComplete()', passed in init, will be called
+	// When the rendering is complete, first the function 'onRenderComplete()' (passed in init) will be called.
+	// Then when stats have also been calculated by the worder, 'onStatsComplete()' will be subsequently called
 	if(options.useWorker){
 
-	    this.worker.postMessage({
-		width: options.width,
-		height: options.height,
-		formula: options.formula,
-		resolution: options.resolution,
-		colouringFunction: options.colouringFunction
-	    });
-
-
+	    this.worker.postMessage(options);
 
 	// Case 2: synchronous calculation.
 	// blocks whilst data generated. It is returned by the function

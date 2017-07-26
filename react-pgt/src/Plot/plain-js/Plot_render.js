@@ -198,7 +198,6 @@ var Plot_render = {
 	var L = Samp.length;
 
 	return {
-	    type: 'stats',
 	    n_points: L,
 	    v_min: grab(0),
 	    v_max: grab(L-1),
