@@ -105,6 +105,17 @@ class Background_Plot extends React.PureComponent {
 		    inProgress: {$set: true}
 		}
 	    });
+	    this.props.setPlotUIState({
+		stats_obj: {$set: {
+		    n_points: "calculating...",
+		    v_min: "...",
+		    v_max: "...",
+		    v10pc: "...",
+		    v90pc: "...",
+		    median: "..."
+		}}
+	    });
+		
 	    // increment 'workerRequestToken': a new render has been commanded...
 	    this.setState( {workerRequestToken: this.state.workerRequestToken + 1} );
 	}

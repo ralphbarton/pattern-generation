@@ -54,13 +54,26 @@
 .MainTab_Plot .evalBrief .B{
   font-weight: bold;
   text-shadow: 0px 0px 1px rgba(0,0,0,0.6);
-  color: #DDD
+  color: #DDD;
 }
 
 .MainTab_Plot .evalBrief .C{
   font-weight: bold;
   text-shadow: 0px 0px 3px white;
   color: blue;
+}
+
+.MainTab_Plot .evalBrief .D{
+  font-weight: bold;
+  text-shadow: 0px 0px 3px #ffec9b;
+  color: #cc0000;
+}
+
+.MainTab_Plot .evalBrief .E{
+  font-weight: bold;
+  color: #446800;
+  text-shadow: 0px 0px 3px #ffec9b;
+  font-style: italic;
 }
 
 .MainTab_Plot .formulaBar span.text-fxy{

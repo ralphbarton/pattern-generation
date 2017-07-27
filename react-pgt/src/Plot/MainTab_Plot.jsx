@@ -182,6 +182,8 @@ class MainTab_Plot extends React.PureComponent {
 		 Plot_i={Plot_i}
 		 handleSelPlotChange={this.props.fn.handleModifySelPGTobj}
 		 previewActive={this.props.UI.previewActive}
+		 renderingInProgress={this.props.UI.timings_obj.inProgress}
+		 stats={this.props.UI.stats_obj}
 		 />
 
 

@@ -10,6 +10,8 @@ class Plot_Section_FormulaBar extends React.PureComponent {
     render(){
 	const Plot_i = this.props.Plot_i;
 	const formulaCheck = Plot_util.checkPlotFormula(Plot_i);
+	if (formulaCheck.Error && formulaCheck.Error.name === "SyntaxError"){formulaCheck.Error.name = "Syntax Error";}
+
 	return (
 
 	    <div className={"formulaBar "+formulaCheck.className}>
@@ -30,11 +32,20 @@ class Plot_Section_FormulaBar extends React.PureComponent {
 			//Case: invalid formula
 			if(formulaCheck.determination === "invalid"){
 			    return (
-				<div>invalid: error = x</div>
+				<div><span className="D">{formulaCheck.Error.name}: </span>{
+				      formulaCheck.Error.message
+				  }</div>
 			    );
 
 			}
 
+			//Case: Input/Output information
+			if(this.props.renderingInProgress){
+			    return (
+				<div><span className="E">Rendering Plot to specified resolution...</span></div>
+			    );
+			}
+			
 			//Case: Input/Output information
 			if(this.props.previewActive){
 			    return (
@@ -57,17 +68,22 @@ class Plot_Section_FormulaBar extends React.PureComponent {
 				  
 				  <span className="A">Output: </span>
 				  min = 
-				  <span className="B"> -0.924</span>
+				  <span className="B"> {this.props.stats.v_min}</span>
 				  <span className="A"> and </span>
 				  max = 
-				  <span className="B"> -0.924</span>
+				  <span className="B"> {this.props.stats.v_max}</span>
 				</div>
 			    );
 			}
 
 			//Default case: show a useful tip/cue here
 			return (
-			    <div>a useful tip/cue</div>
+			    <div>formula in {
+				  formulaCheck.determination === "real" ?
+				    <span>real variables <span className="C">x</span> and <span className="C">y</span></span>
+				    :
+				    <span>complex variable <span className="C">z</span></span>
+			      }. Click <span className="A">Plot</span> to render.</div>
 			);
 
 		    })()//function defined and evaluated in-situ, for ternary-operator like effect

@@ -36,10 +36,32 @@ var Plot_util = {
 	    var evaluationErrorCplx = e; // evaluationError is less severe than syntax error.
 	}
 
-	const appearsComplex = Plot.formula.includes("z");
-	const evaluationError = appearsComplex ? evaluationErrorCplx : evaluationErrorReal;
-	
+	// test if it can be evaluated when x,y and z are passed. Valid formulas will not contain all 3 variables.
+	var OK_real_cplx = true;
+	try{
+	    usrFn.eval({x:0, y:0, z:0});
+	}
+	catch (e){
+	    OK_real_cplx = false;
+	}
+
+		
 	if((!OK_real)&&(!OK_cplx)){
+
+	    if(OK_real_cplx){
+		return {
+		    determination: "invalid",
+		    className: "invalid",
+		    Error: {
+			name: "Error",
+			message: "Formula must be in terms of x and y, or in terms of z"
+		    }
+		};
+	    }
+	    
+	    const appearsComplex = Plot.formula.includes("z");
+	    const evaluationError = appearsComplex ? evaluationErrorCplx : evaluationErrorReal;
+
 	    return {
 		determination: "invalid",
 		className: "invalid",
