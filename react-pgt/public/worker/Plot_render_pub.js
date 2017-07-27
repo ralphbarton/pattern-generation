@@ -58,7 +58,29 @@ var Plot_render = {
 
 	// note that this test for string contains 'z' is different to the test used elsewhere...
 	const isComplex = formula.includes("z");
-	const compilled_formula = math.compile(formula);
+
+	let compilled_formula = null;
+
+	// attempt to compile the formula. This will catch syntax errors
+	try{
+	    compilled_formula = math.compile(formula);
+	}
+	catch (e){
+	    //all data points will be set to zero.
+	    compilled_formula = null;
+	}
+
+	// try an evaluation of the formula. This will catch valid syntax with undefined symbols
+	try{
+	    const indep_variable = isComplex ? {z: math.complex(0, 0)} : {x: 0, y: 0};
+	    if(compilled_formula !== null){ compilled_formula.eval(indep_variable); }
+	}
+	catch (e){
+	    compilled_formula = null;// (manages an unusable formula)
+	}
+
+	
+	if(compilled_formula === null){return;}
 	
 	
 	//set up the rendering of 1 canvas at this resolution...
@@ -91,7 +113,7 @@ var Plot_render = {
 		const indep_variable = isComplex ? {z: math.complex(x_Lc, y_Lc)} : {x: x_Lc, y: y_Lc};
 
 		/////MATHS EVALUATION AT POINT
-		const my_fz = compilled_formula.eval(indep_variable);
+		const my_fz =  compilled_formula.eval(indep_variable);
 		const sample = isComplex ? my_fz.re : my_fz;
 
 		per_sample_cb(sample, x, n_steps_xH, y, n_steps_yH);
@@ -185,6 +207,17 @@ var Plot_render = {
 	    return 0;
 	}
 
+	if(this.fullSamples.length < 1){
+	    return {
+		n_points: 0,
+		v_min: "n/a",
+		v_max: "n/a",
+		v10pc: "n/a",
+		v90pc: "n/a",
+		median: "n/a",
+	    };
+	}
+	
 	const Samp = this.fullSamples.sort(compare);
 
 

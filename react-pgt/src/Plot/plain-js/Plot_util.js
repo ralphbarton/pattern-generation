@@ -9,10 +9,7 @@ var Plot_util = {
 	    var usrFn = math.compile(formulaString);
 	}
 	catch (e){
-	    console.log("Cannot compile formula");
-	    console.log("e.name", e.name);
-	    console.log("e.message", e.message);
-	    return "invalid";
+	    return {className: "invalid", Error: e};
 	}
 
 	// test if it can be evaluated as a real formula, fixing values of x and y only
@@ -22,7 +19,7 @@ var Plot_util = {
 	}
 	catch (e){
 	    OK_real = false;
-	    var e1 = e;
+	    var evaluationErrorReal = e; // evaluationError is less severe than syntax error.
 	}
 
 	// test if it can be evaluated as a complex formula, fixing value of z only
@@ -32,17 +29,18 @@ var Plot_util = {
 	}
 	catch (e){
 	    OK_cplx = false;
+	    var evaluationErrorCplx = e; // evaluationError is less severe than syntax error.
 	}
 
+	const appearsComplex = formulaString.includes("z");
+	const evaluationError = appearsComplex ? evaluationErrorCplx : evaluationErrorReal;
+	
 	if((!OK_real)&&(!OK_cplx)){
-	    console.log("There's a problem in the formula!");
-	    console.log("e.name", e1.name);
-	    console.log("e.message", e1.message);
-	    return "invalid";
+	    return {className: "invalid", Error: evaluationError};
 	}
 	
 
-	return OK_real ? "real" : "cplx";
+	return {className: (OK_real ? "real" : "cplx")};
     },
 
     newPlot: function(myFormula){

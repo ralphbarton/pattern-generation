@@ -99,8 +99,15 @@ class MainTab_Plot extends React.PureComponent {
     }
     
     rowClassingFn(Plot){
-	const isComplex = Plot_util.check_eqn_type(Plot.formula) === "cplx";
-	const isInvalid = Plot_util.check_eqn_type(Plot.formula) === "invalid";
+	const formulaTest = Plot_util.check_eqn_type(Plot.formula) ;
+	const isComplex = formulaTest.className === "cplx";
+	const isInvalid = formulaTest.className === "invalid";
+
+	if(isInvalid){
+	    console.log("e.name", formulaTest.Error.name);
+	    console.log("e.message", formulaTest.Error.message);
+	}
+
 	return (isComplex ? "pink" : "") + (isInvalid ? "invalid" : "");
     }
 
