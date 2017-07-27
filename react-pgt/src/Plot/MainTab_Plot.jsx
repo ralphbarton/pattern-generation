@@ -98,19 +98,6 @@ class MainTab_Plot extends React.PureComponent {
 	}
     }
     
-    rowClassingFn(Plot){
-	const formulaTest = Plot_util.check_eqn_type(Plot.formula) ;
-	const isComplex = formulaTest.className === "cplx";
-	const isInvalid = formulaTest.className === "invalid";
-
-	if(isInvalid){
-	    console.log("e.name", formulaTest.Error.name);
-	    console.log("e.message", formulaTest.Error.message);
-	}
-
-	return (isComplex ? "pink" : "") + (isInvalid ? "invalid" : "");
-    }
-
     //regenerate all plot thumbs upon update
     plot_WgTable_rerenderAllThumbs(){
 	const t_thumbsStart = new Date();
@@ -194,7 +181,7 @@ class MainTab_Plot extends React.PureComponent {
 	      <Plot_Section_FormulaBar
 		 Plot_i={Plot_i}
 		 handleSelPlotChange={this.props.fn.handleModifySelPGTobj}
-		 rowClassingFn={this.rowClassingFn}
+		 previewActive={this.props.UI.previewActive}
 		 />
 
 
@@ -206,7 +193,7 @@ class MainTab_Plot extends React.PureComponent {
 		   onRowSelectedChange={this.props.fn.handleRowSelectedChange.bind(null)}//row index passed as single param
 		   rowRenderingData={this.props.PGTobjArray}
 		   columnsRendering={this.plot_WgTableColumns()}
-		   rowClassingFn={this.rowClassingFn}
+		   rowClassingFn={Plot_util.checkPlotFormula}
 		  />
 
 		  <div className="mainButtons">		  
@@ -275,7 +262,7 @@ class MainTab_Plot extends React.PureComponent {
 				      <Plot_Section_PreviewOptions
 					 UI={this.props.UI}
 					 handleUIStateChange={this.props.fn.handleUIStateChange}
-					 validFormulaSelected={this.rowClassingFn(Plot_i) !== "invalid"}
+					 validFormulaSelected={Plot_util.checkPlotFormula(Plot_i).determination !== "invalid"}
 					 />
 				   );
 			      }

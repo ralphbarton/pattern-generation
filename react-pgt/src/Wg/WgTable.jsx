@@ -27,7 +27,7 @@ function WgTable(props) {
 		    const rowIsSelected = rIndex === props.selectedRowIndex;
 		    let rowClass = rowIsSelected ? "selected" : "";
 		    if(props.rowClassingFn){
-			rowClass += " " + props.rowClassingFn(rowData, rIndex);
+			rowClass += " " + props.rowClassingFn(rowData, rIndex).className;
 		    }
 
 		    return (

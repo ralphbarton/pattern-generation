@@ -3,13 +3,17 @@ var _ = require('lodash');
 
 var Plot_util = {
 
-    check_eqn_type: function(formulaString){//check the equation...
+    checkPlotFormula: function(Plot){//check the equation...
 
 	try{
-	    var usrFn = math.compile(formulaString);
+	    var usrFn = math.compile(Plot.formula);
 	}
 	catch (e){
-	    return {className: "invalid", Error: e};
+	    return {
+		determination: "invalid",		
+		className: "invalid",
+		Error: e
+	    };
 	}
 
 	// test if it can be evaluated as a real formula, fixing values of x and y only
@@ -32,15 +36,21 @@ var Plot_util = {
 	    var evaluationErrorCplx = e; // evaluationError is less severe than syntax error.
 	}
 
-	const appearsComplex = formulaString.includes("z");
+	const appearsComplex = Plot.formula.includes("z");
 	const evaluationError = appearsComplex ? evaluationErrorCplx : evaluationErrorReal;
 	
 	if((!OK_real)&&(!OK_cplx)){
-	    return {className: "invalid", Error: evaluationError};
+	    return {
+		determination: "invalid",
+		className: "invalid",
+		Error: evaluationError
+	    };
 	}
 	
-
-	return {className: (OK_real ? "real" : "cplx")};
+	return {
+	    determination: (OK_real ? "real" : "cplx"),
+	    className: (OK_real ? "" : "pink")
+	};
     },
 
     newPlot: function(myFormula){

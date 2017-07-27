@@ -67,3 +67,9 @@ input.plain-cell.w:hover{
   background: rgba(255,255,255,1);
       box-shadow: 0px 0px 5px 1px rgba(191, 36, 106, 0.42);
 }
+
+.invalid input.plain-cell.w{
+    color: red;
+          box-shadow: 0px 0px 5px 1px rgba(0,0,0, 0.42);
+        background: #a6c4c4;
+}
