@@ -10,6 +10,13 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
     
     render(){
 
+	// here we have a Higher Order Function...
+	const fn_onUIchange = (ZRT_key, value)=>{
+	    return this.props.setPGTtabUIState.bind(null, {
+		zoomRT: {[ZRT_key]: {$set: value}}
+	    });
+	};
+	
 	return (
 	    <WgBoxie className="ZoomRotateTranslate" name="Zoom & Rotate" boxieStyle={"small"}>
 
@@ -95,12 +102,18 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		<WgMutexActionLink
 		   name="Mouse Zoom:"
 		   className="mouseZoom"
-		   initalEnabledArray={[false, false]}
+//		   initalEnabledArray={[false, false]}
+		   equityTestingForEnabled={{
+		       currentValue: this.props.zoomRT_UI.mouseZoom,
+		       representedValuesArray: [false, true]
+		   }}
 		   actions={[
 		       {
-			   name: "On"
+			   name: "Off",
+			   cb: fn_onUIchange("mouseZoom", false)
 		       },{
-			   name: "Off"
+			   name: "On",
+			   cb: fn_onUIchange("mouseZoom", true)
 		       }
 		   ]}
 		   />
@@ -108,12 +121,17 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		<WgMutexActionLink
 		   name="Aspect ratio:"
 		   className="aspectRatio"
-		   initalEnabledArray={[false, false]}
+		   equityTestingForEnabled={{
+		       currentValue: this.props.zoomRT_UI.aspectRatioLock,
+		       representedValuesArray: [true, false]
+		   }}
 		   actions={[
 		       {
-			   name: "lock"
+			   name: "lock",
+			   cb: fn_onUIchange("aspectRatioLock", true)
 		       },{
-			   name: "unlock"
+			   name: "unlock",
+			   cb: fn_onUIchange("aspectRatioLock", false)
 		       }
 		   ]}
 		   />
@@ -121,14 +139,20 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		<WgMutexActionLink
 		   name="Zoom:"
 		   className="zoomXonlyYonly"
-		   initalEnabledArray={[false, false, false]}
+		   equityTestingForEnabled={{
+		       currentValue: this.props.zoomRT_UI.zoomXonlyYonly,
+		       representedValuesArray: ['xy', 'x', 'y']
+		   }}
 		   actions={[
 		       {
-			   name: "x,y"
+			   name: "x,y",
+			   cb: fn_onUIchange("zoomXonlyYonly", 'xy')
 		       },{
-			   name: "x only"
+			   name: "x only",
+			   cb: fn_onUIchange("zoomXonlyYonly", 'x')
 		       },{
-			   name: "y only"
+			   name: "y only",
+			   cb: fn_onUIchange("zoomXonlyYonly", 'y')
 		       }
 		   ]}
 		   />
@@ -136,14 +160,20 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		<WgMutexActionLink
 		   name="Steps:"
 		   className="stepsSML"
-		   initalEnabledArray={[false, false, false]}
+		   equityTestingForEnabled={{
+		       currentValue: this.props.zoomRT_UI.stepsSML,
+		       representedValuesArray: ['s', 'm', 'l']
+		   }}
 		   actions={[
 		       {
-			   name: "S"
+			   name: "S",
+			   cb: fn_onUIchange("stepsSML", 's')
 		       },{
-			   name: "M"
+			   name: "M",
+			   cb: fn_onUIchange("stepsSML", 'm')
 		       },{
-			   name: "L"
+			   name: "L",
+			   cb: fn_onUIchange("stepsSML", 'l')
 		       }
 		   ]}
 		   />

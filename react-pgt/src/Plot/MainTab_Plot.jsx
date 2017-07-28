@@ -62,6 +62,12 @@ class MainTab_Plot extends React.PureComponent {
 	    showContours: false,
 	    quantityContours: 6,
 	    overlayAxesScale: false,
+	    zoomRT: {
+		mouseZoom: false,
+		aspectRatioLock: false,
+		zoomXonlyYonly: 'xy',
+		stepsSML: 'm'
+	    },
 	    // dummy data here. Can probably scrap it...
 	    stats_obj: {
 		n_points: "0",
@@ -238,6 +244,9 @@ class MainTab_Plot extends React.PureComponent {
 		
 		{/* 4.1.  The Zoom + Rotate + Translate controls section... */}
 		<Plot_Section_ZoomRotateTranslate
+		   zoomRT_UI={this.props.UI.zoomRT}
+//		   handleUIStateChange={this.props.fn.handleUIStateChange}
+		   setPGTtabUIState={this.props.setPGTtabUIState}
 		   onClickMore={()=>{this.setState({showExtraWindow: "ZR-More"});}}
 		  />
 
