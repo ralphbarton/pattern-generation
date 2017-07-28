@@ -245,8 +245,9 @@ class MainTab_Plot extends React.PureComponent {
 		{/* 4.1.  The Zoom + Rotate + Translate controls section... */}
 		<Plot_Section_ZoomRotateTranslate
 		   zoomRT_UI={this.props.UI.zoomRT}
-//		   handleUIStateChange={this.props.fn.handleUIStateChange}
 		   setPGTtabUIState={this.props.setPGTtabUIState}
+		   Plot_i={Plot_i}
+		   handleSelPlotChange={this.props.fn.handleModifySelPGTobj}
 		   onClickMore={()=>{this.setState({showExtraWindow: "ZR-More"});}}
 		  />
 

@@ -8,15 +8,71 @@ import WgBoxie from '../Wg/WgBoxie';
 
 class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
     
-    render(){
+    hofHandleUIchange(ZRT_key, value){
+	return this.props.setPGTtabUIState.bind(null, {
+	    zoomRT: {[ZRT_key]: {$set: value}}
+	});
+    };
 
-	// here we have a Higher Order Function...
-	const fn_onUIchange = (ZRT_key, value)=>{
-	    return this.props.setPGTtabUIState.bind(null, {
-		zoomRT: {[ZRT_key]: {$set: value}}
-	    });
+    step(){
+	if(this.props.zoomRT_UI.stepsSML === 's'){return 1.1;}
+	if(this.props.zoomRT_UI.stepsSML === 'm'){return 1.3;}
+	return 1.5;
+    }
+    
+    handleReset(){
+	this.props.handleSelPlotChange({
+	    section: {
+		xOffset: {$set: 0},
+		yOffset: {$set: 0},
+		xZoom: {$set: 1},
+		yZoom: {$set: 1},
+		rotation: {$set: 0}
+	    }
+	});
+    }
+
+    hofHandleZoom(zoom_in){
+	const may_reciprocate = x => {return zoom_in ? x : 1/x;};//reciprocation dependent on bool
+	const TS = this;
+	return function (){
+
+	    // if 'handleSelPlotChange()' is called twice, unfortunately the second call erases the effect of the first
+	    // I have got round this problem with immutable data for UI state already, but not-so for PGTobj changes.
+	    
+	    let $chg = {};
+	    // zoom the x value
+	    if(TS.props.zoomRT_UI.zoomXonlyYonly.includes('x')){
+		const new_xZoom = TS.props.Plot_i.section.xZoom * may_reciprocate(TS.step());
+		$chg["xZoom"] = {$set: new_xZoom};
+	    }
+
+	    // zoom the y value
+	    if(TS.props.zoomRT_UI.zoomXonlyYonly.includes('y')){
+		const new_yZoom = TS.props.Plot_i.section.yZoom * may_reciprocate(TS.step());
+		$chg["yZoom"] = {$set: new_yZoom};
+		TS.props.handleSelPlotChange({section: {yZoom: {$set: new_yZoom}}});
+	    }
+
+	    TS.props.handleSelPlotChange({section: $chg});
 	};
-	
+    }
+
+    hofHandleTranslate(axis, direction){
+	const TS = this;
+	return function (){
+	    const axisKey = axis + "Offset"; 
+	    const realIncrement = TS.props.Plot_i.section.xZoom * (TS.step()-1) * (direction ? +1 : -1);
+	    const axisNewValue = TS.props.Plot_i.section[axisKey] + realIncrement;
+	    
+	    const $chg = {[axisKey]: {$set: axisNewValue}};
+	    TS.props.handleSelPlotChange({section: $chg});	    
+	}
+    }
+    
+    
+    render(){
+	console.log(this.props.Plot_i.section);
 	return (
 	    <WgBoxie className="ZoomRotateTranslate" name="Zoom & Rotate" boxieStyle={"small"}>
 
@@ -24,7 +80,7 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 
 		<WgActionLink
 		   name={"Reset Zoom"}
-		   onClick={null}
+		   onClick={this.handleReset.bind(this)}
 		   enabled={true}
 		   />
 		<WgActionLink
@@ -47,12 +103,12 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="Plus"
-		     onClick={null}
+		     onClick={this.hofHandleZoom(true)}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="Minus"
-		     onClick={null}
+		     onClick={this.hofHandleZoom(false)}
 		     />
 		</div>
 
@@ -75,22 +131,22 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="arrowUp"
-		     onClick={null}
+		     onClick={this.hofHandleTranslate('y', true)}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="arrowDown"
-		     onClick={null}
+		     onClick={this.hofHandleTranslate('y', false)}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="arrowLeft"
-		     onClick={null}
+		     onClick={this.hofHandleTranslate('x', false)}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="arrowRight"
-		     onClick={null}
+		     onClick={this.hofHandleTranslate('x', true)}
 		     />
 		</div>
 
@@ -110,10 +166,10 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		   actions={[
 		       {
 			   name: "Off",
-			   cb: fn_onUIchange("mouseZoom", false)
+			   cb: this.hofHandleUIchange("mouseZoom", false)
 		       },{
 			   name: "On",
-			   cb: fn_onUIchange("mouseZoom", true)
+			   cb: this.hofHandleUIchange("mouseZoom", true)
 		       }
 		   ]}
 		   />
@@ -128,10 +184,10 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		   actions={[
 		       {
 			   name: "lock",
-			   cb: fn_onUIchange("aspectRatioLock", true)
+			   cb: this.hofHandleUIchange("aspectRatioLock", true)
 		       },{
 			   name: "unlock",
-			   cb: fn_onUIchange("aspectRatioLock", false)
+			   cb: this.hofHandleUIchange("aspectRatioLock", false)
 		       }
 		   ]}
 		   />
@@ -146,13 +202,13 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		   actions={[
 		       {
 			   name: "x,y",
-			   cb: fn_onUIchange("zoomXonlyYonly", 'xy')
+			   cb: this.hofHandleUIchange("zoomXonlyYonly", 'xy')
 		       },{
 			   name: "x only",
-			   cb: fn_onUIchange("zoomXonlyYonly", 'x')
+			   cb: this.hofHandleUIchange("zoomXonlyYonly", 'x')
 		       },{
 			   name: "y only",
-			   cb: fn_onUIchange("zoomXonlyYonly", 'y')
+			   cb: this.hofHandleUIchange("zoomXonlyYonly", 'y')
 		       }
 		   ]}
 		   />
@@ -167,13 +223,13 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		   actions={[
 		       {
 			   name: "S",
-			   cb: fn_onUIchange("stepsSML", 's')
+			   cb: this.hofHandleUIchange("stepsSML", 's')
 		       },{
 			   name: "M",
-			   cb: fn_onUIchange("stepsSML", 'm')
+			   cb: this.hofHandleUIchange("stepsSML", 'm')
 		       },{
 			   name: "L",
-			   cb: fn_onUIchange("stepsSML", 'l')
+			   cb: this.hofHandleUIchange("stepsSML", 'l')
 		       }
 		   ]}
 		   />
