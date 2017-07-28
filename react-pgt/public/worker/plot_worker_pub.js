@@ -30,13 +30,13 @@ onmessage = function(msg) {
 
 	const winW = msg.data.width;
 	const winH = msg.data.height
-	const formula = msg.data.formula;
+	const Plot = msg.data.Plot;
 	const cell_size = msg.data.resolution;//this.CellSizes[this.wcx.res];
 	const token = msg.data.workerRequestToken;
 	const heatmap = msg.data.colouringFunction === 2 ? heatmapLookup : null;
 
 	
-	const ImgData = Plot_render.GenerateImageData(formula, winW, winH, cell_size, heatmap);
+	const ImgData = Plot_render.GenerateImageData(Plot, winW, winH, cell_size, heatmap);
 	postMessage({
 	    ImgData: ImgData,
 	    workerRequestToken: token

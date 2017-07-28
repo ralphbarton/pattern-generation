@@ -33,7 +33,7 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
     }
 
     hofHandleZoom(zoom_in){
-	const may_reciprocate = x => {return zoom_in ? x : 1/x;};//reciprocation dependent on bool
+	const may_reciprocate = x => {return zoom_in ? 1/x : x;};//reciprocation dependent on bool
 	const TS = this;
 	return function (){
 
@@ -72,7 +72,6 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
     
     
     render(){
-	console.log(this.props.Plot_i.section);
 	return (
 	    <WgBoxie className="ZoomRotateTranslate" name="Zoom & Rotate" boxieStyle={"small"}>
 

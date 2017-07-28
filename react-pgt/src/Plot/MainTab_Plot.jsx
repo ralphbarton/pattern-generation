@@ -117,7 +117,7 @@ class MainTab_Plot extends React.PureComponent {
 	    const Plot = util.lookup(plotArray, "uid", plot_uid);
 	    
 	    const thumb_img = Plot_RenderManager.render({
-		formula: Plot.formula,
+		Plot: Plot,
 		width: 55,
 		height: 55,
 		resolution: 1,

@@ -2,6 +2,8 @@ import math from 'mathjs';
 
 var Plot_render = {
 
+    // This function draws a filled rectangle (a 'cell') onto the ImgData for a canvas.
+    // the nested loops are simply to draw all pixels of that rectangle (may be one pixel)
     FillRectangle_ImgData: function (ImgData, x, y, w, h, rgbaArr){
 
 	
@@ -37,7 +39,7 @@ var Plot_render = {
 	// xa - 'x' absolute coordinate (relative to canvas origin)
 	const pixelData = ImgData.data;
 	
-	for(var yr = 0; yr < w; yr++){
+	for(var yr = 0; yr < h; yr++){////////a BUG I think - this should be an 'h' but there is a 'w'
 	    const ya = y + yr;
 	    const y_base = ya*ImgData.width;
 
@@ -54,18 +56,18 @@ var Plot_render = {
     },
 
 
-    SamplePlaneForImage: function(formula, imageW, imageH, cell_size, per_sample_cb){
+    SamplePlaneForImage: function(Plot, imageW, imageH, cell_size, per_sample_cb){
 
 	//this is where I calculate all the set-up variables, the work-context variables of before...
 
 	// note that this test for string contains 'z' is different to the test used elsewhere...
-	const isComplex = formula.includes("z");
+	const isComplex = Plot.formula.includes("z");
 
 	let compilled_formula = null;
 
 	// attempt to compile the formula. This will catch syntax errors
 	try{
-	    compilled_formula = math.compile(formula);
+	    compilled_formula = math.compile(Plot.formula);
 	}
 	catch (e){
 	    //all data points will be set to zero.
@@ -109,15 +111,22 @@ var Plot_render = {
 
 		// 1. calculating the sample (_Lc is abbreviation for 'location')
 		const x_Lc = (x - n_steps_xH) * interval_size;
-		const y_Lc = (y - n_steps_yH) * interval_size;
+		const y_Lc = -(y - n_steps_yH) * interval_size;//y direction flipped in canvas vs. pure-math coord system 
 
+		// 2. apply a transform
+		const x_LcT = (x_Lc * Plot.section.xZoom) + Plot.section.xOffset;
+		const y_LcT = (y_Lc * Plot.section.yZoom) + Plot.section.yOffset;
+
+		
 		//this 2D variable may be a cartesian coordinate or a complex value
-		const indep_variable = isComplex ? {z: math.complex(x_Lc, y_Lc)} : {x: x_Lc, y: y_Lc};
+		const indep_variable = isComplex ? {z: math.complex(x_LcT, y_LcT)} : {x: x_LcT, y: y_LcT};
 
 		/////MATHS EVALUATION AT POINT
 		const my_fz =  compilled_formula.eval(indep_variable);
 		const sample = isComplex ? my_fz.re : my_fz;
 
+		// This function is responsible for determining canvas draw location, cell colour
+		// and then writing to a ImgData store as the bitmap is built up.
 		per_sample_cb(sample, x, n_steps_xH, y, n_steps_yH);
 	    }
 	}
@@ -127,7 +136,7 @@ var Plot_render = {
     
 
     fullSamples: undefined,
-    GenerateImageData: function(formula, imageW, imageH, cell_size, heatmapLookup){
+    GenerateImageData: function(Plot, imageW, imageH, cell_size, heatmapLookup){
 
 	const myImg = new ImageData(imageW, imageH);
 
@@ -144,7 +153,7 @@ var Plot_render = {
 	// 1. get a relatively small number of samples
 	const sampling_cell = Math.max(imageW / 50, 2);
 	var Samples = [];
-	this.SamplePlaneForImage(formula, imageW, imageH, sampling_cell, function(sample, x, n_steps_xH, y, n_steps_yH){
+	this.SamplePlaneForImage(Plot, imageW, imageH, sampling_cell, function(sample, x, n_steps_xH, y, n_steps_yH){
 	    Samples.push(sample);
 	});
 
@@ -168,7 +177,7 @@ var Plot_render = {
 	const val_deltaLoHi = val_saturateHi - val_saturateLo;
 
 	this.fullSamples = []; // wipe any old data
-	this.SamplePlaneForImage(formula, imageW, imageH, cell_size, function(sample, x, n_steps_xH, y, n_steps_yH){
+	this.SamplePlaneForImage(Plot, imageW, imageH, cell_size, function(sample, x, n_steps_xH, y, n_steps_yH){
 
 	    // 3.2 determine draw location
 	    const x_location_px = Math.round((imageW / 2) + (x - n_steps_xH - 0.5) * cell_size);

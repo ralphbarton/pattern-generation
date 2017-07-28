@@ -84,10 +84,11 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		     className="plain-cell s"
 		     value={this.props.UI.plotResolution}
 		     dataUnit="pixels"
-		     max={160}
+		     min={1}
+	             max={160}
 		     onChange={(value)=>{
-			 console.log("call 'handleUIStateChange' with", value);
-		    handleUIStateChange("plotResolution", value);}}
+			 handleUIStateChange("plotResolution", value);
+		     }}
 		    />
 		</div>
 

@@ -52,7 +52,7 @@ var Plot_RenderManager = {
 	// blocks whilst data generated. It is returned by the function
 	}else{
 	    return Plot_render.GenerateImageData(
-		options.formula,
+		options.Plot,
 		options.width,
 		options.height,
 		options.resolution,

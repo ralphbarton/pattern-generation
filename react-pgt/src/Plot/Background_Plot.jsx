@@ -59,7 +59,7 @@ class Background_Plot extends React.PureComponent {
 	
 	const rendered_image = Plot_RenderManager.render({
 	    useWorker: false,
-	    formula: Plot.formula,
+	    Plot: Plot,
 	    width: this.winW,
 	    height: this.winH,
 	    resolution: 40, // - this seems a reasonable crude level of detail for the basic plot
@@ -154,7 +154,7 @@ class Background_Plot extends React.PureComponent {
 	Plot_RenderManager.render({
 	    useWorker: true,
 	    workerRequestToken: (this.state.workerRequestToken+1),//messy. State will not yet have updated
-	    formula: Plot.formula,
+	    Plot: Plot,
 	    width: this.winW,
 	    height: this.winH,
 	    resolution: plotUIState.plotResolution,
