@@ -32,13 +32,27 @@ class Plot_Section_Histogram extends React.PureComponent {
 	    })
 	    .attr("width", bar_w - barPadding)
 	    .attr("height", function(d) {return d;});
-
     }
 
 
-    updateD3hist(){
+    updateD3hist(unscaled_bars){
 
+	if(!unscaled_bars){return;}//if no data provided. But why would that happen?
 	
+	const h = 72;
+	const scaled_bars = unscaled_bars.map( x => {return 0.97*h*x;});
+	
+	d3.select(this.HistSVG_Ref)
+	    .selectAll("rect")
+	    .data(scaled_bars)
+
+	//update existing hist...
+	    .transition()
+	    .duration(500)
+	    .attr("y", function(d) {
+		return (h - d);
+	    })
+	    .attr("height", function(d) {return d;});
     }
 
 
@@ -46,7 +60,10 @@ class Plot_Section_Histogram extends React.PureComponent {
 	const bar_data = [28.94,4.5,5.57,7.9,11.17,12.87,19.73,75.66,25.93,10.35,6.36,4.81,4.02,3.63,3.25,28.32];
 	this.initD3hist(bar_data);
     }
-    
+
+    componentDidUpdate(){
+	this.updateD3hist(this.props.stats.bar_heights);
+    }
 
     hofSetAutoScale(value){
 	const handleSelPlotChange = this.props.handleSelPlotChange;

@@ -223,7 +223,7 @@ var Plot_render = {
 		v_max: "n/a",
 		v10pc: "n/a",
 		v90pc: "n/a",
-		median: "n/a",
+		median: "n/a"
 	    };
 	}
 	
@@ -237,13 +237,38 @@ var Plot_render = {
 
 	var L = Samp.length;
 
+	//turn the sorted array of values into a set of bins
+	var n_bars = 16;
+	var V_min = Number(grab(L*0.1));//I will want these to be dynamic...
+	var V_max = Number(grab(L*0.9));
+	var value_step = (V_max - V_min) / n_bars;
+	
+	var bar_heights = [0];
+	var bar_counter = 0;
+	var max_bar_height = 0;
+
+	for(var i = 0; i < L; i++){
+	    bar_heights[bar_counter]++;
+	    max_bar_height = Math.max(bar_heights[bar_counter], max_bar_height);
+
+	    //you'd have thought this wouldn't be necessary, but a superflous bin can be created otherwise	    
+	    while((bar_counter < (n_bars-1)) && (Samp[i] > V_min+((bar_counter+1)*value_step))){
+		bar_counter++;
+		bar_heights.push(0);
+	    }
+	}
+
+	// Array of values between 0 and 1.
+	const scaled_bars = bar_heights.map( x => {return x/max_bar_height;});
+	
 	return {
 	    n_points: L,
 	    v_min: grab(0),
 	    v_max: grab(L-1),
 	    v10pc: grab(L*0.1),
 	    v90pc: grab(L*0.9),
-	    median: grab(L*0.5)
+	    median: grab(L*0.5),
+	    bar_heights: scaled_bars
 	};
 
     }
