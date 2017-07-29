@@ -9,6 +9,8 @@ function Plot_Popout(props) {
     return(
     	<div className="BeigeWindow">
 	  Type: {props.popoutType}
+	  <br/>
+	  {props.content}
 	  <WgActionLink
 	     name={"OK"}
 	     onClick={props.handleClose}

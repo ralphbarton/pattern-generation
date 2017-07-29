@@ -4,6 +4,8 @@ import Plot_util from './plain-js/Plot_util';
 
 import WgActionLink from '../Wg/WgActionLink';
 
+import fxyImage from './asset/fxy.png';
+import fzImage from './asset/fz.png';
 
 class Plot_Section_FormulaBar extends React.PureComponent {
     
@@ -92,8 +94,7 @@ class Plot_Section_FormulaBar extends React.PureComponent {
 
 		</div>
 
-	      
-	      <span className="text-fxy"> f(x,y) = </span>
+		<img src={formulaCheck.determination === "cplx" ? fzImage : fxyImage} alt=""/>
 	      <input className="plain-cell w"
 		     value={Plot_i.formula} 		       
 		     onChange={event =>{

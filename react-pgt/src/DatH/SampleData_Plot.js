@@ -5,11 +5,11 @@ const PlotSampleData = {
 	    formula: "i*exp(3*z^3)*(z+1.2)^3",
 	    uid: 0,
 	    section: {
-		xOffset: 0,
-		yOffset: 0,
-		xZoom: 1,
-		yZoom: 1,
-		rotation: 0
+		xOffset: -0.25,
+		yOffset: -0.5,
+		xZoom: 2,
+		yZoom: 0.8,
+		rotation: 30
 	    },
 	    histogram: {
 		manual: false,

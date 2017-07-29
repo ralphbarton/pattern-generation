@@ -104,9 +104,12 @@ var Plot_util = {
 	return {
 	    formula: formula,
 	    /*uid:  (added later)  */   
-	    histogram: {
-		val_min: 0,
-		val_max: 0,
+	    section: {
+		xOffset: 0,
+		yOffset: 0,
+		xZoom: 1,
+		yZoom: 1,
+		rotation: 0
 	    }
 	};
     }

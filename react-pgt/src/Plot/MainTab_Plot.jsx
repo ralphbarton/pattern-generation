@@ -22,8 +22,6 @@ import Plot_Section_ZoomRotateTranslate from './Plot_Section_ZoomRotateTranslate
 import Plot_Section_PreviewOptions from './Plot_Section_PreviewOptions';
 import Plot_Section_PointsetPreview from './Plot_Section_PointsetPreview';
 
-
-
 class MainTab_Plot extends React.PureComponent {
 
     constructor() {
@@ -302,6 +300,21 @@ class MainTab_Plot extends React.PureComponent {
 		    this.state.showExtraWindow !== null &&
 			<Plot_Popout
 		    popoutType={this.state.showExtraWindow}
+		    content={(()=>{
+			if(this.state.showExtraWindow === "ZR-More"){
+			    return(
+				<div className="A">Section:
+				  <div className="B">
+				    {JSON.stringify(Plot_i.section, null, 2).split(',').map( (str, i) => {return(
+					<div key={i}>{str},</div>
+				    );})}
+				  </div>
+				</div>
+			    );
+			}
+			return "no content set...";
+
+		    })()}
 		    handleClose={()=>{this.setState({showExtraWindow: null});}}
 			/>
 		}

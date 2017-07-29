@@ -5,12 +5,20 @@
 .MainTab_Plot .formulaBar{
   margin-left: 5px;
     font-size: 11px;
+  width: 100%;
 }
 
 .MainTab_Plot .formulaBar input{
-  width: 625px;
+  margin-left: 6px;
+  width: 565px;
   font-size: 20px;
+  position: absolute;
+  right: 4px;
 }
+
+.MainTab_Plot .formulaBar.pink input{
+  width: 595px;
+} 
 
 .MainTab_Plot .formulaBar .upper{
   margin-top: 1px;
@@ -76,8 +84,9 @@
   font-style: italic;
 }
 
-.MainTab_Plot .formulaBar span.text-fxy{
-  font-weight: bold;
-  font-size: 17px;
-  color: rgba(0,0,0,0.7);
+.MainTab_Plot .formulaBar img{
+  height: 26px;
+  opacity: 0.7;
+  position: relative;
+  top: 2px;//* hacky, shuffe it down... */
 }
