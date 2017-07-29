@@ -176,7 +176,8 @@ class MainTab_Plot extends React.PureComponent {
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
 	const Plot_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
 	const formulaCheck = Plot_util.checkPlotFormula(Plot_i);
-	
+	const isAdjustable = this.props.UI.previewActive && formulaCheck.determination !== "invalid";
+
 	return (
 
 	    <div className="MainTab_Plot">
@@ -233,6 +234,9 @@ class MainTab_Plot extends React.PureComponent {
 	      {/* 3.  Histogram */}
 	      <Plot_Section_Histogram
 		 stats={this.props.UI.stats_obj}
+		 Plot_i_autoScale={Plot_i.autoScale}
+		 isAdjustable={isAdjustable}
+		 handleSelPlotChange={this.props.fn.handleModifySelPGTobj} // 'autoScale' is a PGTobj property
 		 />
 
 
@@ -244,7 +248,7 @@ class MainTab_Plot extends React.PureComponent {
 		{/* 4.1.  The Zoom + Rotate + Translate controls section... */}
 		<Plot_Section_ZoomRotateTranslate
 		   zoomRT_UI={this.props.UI.zoomRT}
-		   enable={this.props.UI.previewActive && formulaCheck.determination !== "invalid"}
+		   enable={isAdjustable}
 		   setPGTtabUIState={this.props.setPGTtabUIState}
 		   Plot_i={Plot_i}
 		   handleSelPlotChange={this.props.fn.handleModifySelPGTobj}

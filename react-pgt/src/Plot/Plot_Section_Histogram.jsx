@@ -4,6 +4,8 @@ import WgBoxie from '../Wg/WgBoxie';
 import * as d3 from "d3";
 
 import WgActionLink from '../Wg/WgActionLink';
+import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import WgDropDown from '../Wg/WgDropDown';
 
 class Plot_Section_Histogram extends React.PureComponent {
 
@@ -46,6 +48,12 @@ class Plot_Section_Histogram extends React.PureComponent {
     }
     
 
+    hofSetAutoScale(value){
+	const handleSelPlotChange = this.props.handleSelPlotChange;
+	return function (){
+	    handleSelPlotChange({autoScale: {$set: value}});
+	};
+    }
     
     render(){
 	
@@ -67,24 +75,6 @@ class Plot_Section_Histogram extends React.PureComponent {
 
 	      <div className="stats">
 
-		<div className="min">
-		  <div className="name">Min: </div>
-		  <div className="value">{this.props.stats.v_min}</div>
-		</div>
-
-		<div className="max">
-		  <div className="name">Max: </div>
-		  <div className="value">{this.props.stats.v_max}</div>		  
-		</div>
-
-		<div className="median">
-		  <div className="name">Median: </div>
-		  <div className="value">{this.props.stats.median}</div>		  
-		</div>
-
-		<div className="empty">
-		</div>
-
 		<div className="cf-10%">
 		  <div className="name">cf-10%: </div>
 		  <div className="value">{this.props.stats.v10pc}</div>		  
@@ -95,24 +85,65 @@ class Plot_Section_Histogram extends React.PureComponent {
 		  <div className="value">{this.props.stats.v90pc}</div>		  
 		</div>
 
-		<div className="A">Brightness</div>
-		<div className="A">Contrast</div>
+		<div className="median">
+		  <div className="name">Median: </div>
+		  <div className="value">{this.props.stats.median}</div>		  
+		</div>
+
+		<div className="empty">
+		</div>
+
+		<div className="min">
+		  <div className="name">Min: </div>
+		  <div className="value">{this.props.stats.v_min}</div>
+		</div>
+
+		<div className="max">
+		  <div className="name">Max: </div>
+		  <div className="value">{this.props.stats.v_max}</div>		  
+		</div>
 
 	      </div>
+
+
+	      <div className="basicAdj">
+		<WgMutexActionLink
+		   name="Auto scale:"
+		   className="autoScale"
+		   enabled={this.props.isAdjustable}
+		   equityTestingForEnabled={{
+		       currentValue: (this.props.Plot_i_autoScale !== false),//unless explicitly set false, assume true
+		       representedValuesArray: [false, true]
+		   }}
+		   actions={[
+		       {
+			   name: "Off",
+			   cb: this.hofSetAutoScale(false)
+		       },{
+			   name: "On",
+			   cb: this.hofSetAutoScale(true)
+		       }
+		   ]}
+		   />
+
+		<WgDropDown
+		   name="Adjust"
+		   menuContentList={[]}
+		   enabled={this.props.isAdjustable}
+		   ddStyle="plain"
+		   />
+	      </div>
+
 
 	      <div className="Hblock conv">mini graph</div>
 	      
 	      <div className="actionLinks">
 		<WgActionLink
-		   name={"flatten histogram"}
+		   name={"flat histogram"}
 		   onClick={null}
 		   />
 		<WgActionLink
-		   name={"reset"}
-		   onClick={null}
-		   />
-		<WgActionLink
-		   name={"more"}
+		   name={"advanced adjust."}
 		   onClick={null}
 		   />
 

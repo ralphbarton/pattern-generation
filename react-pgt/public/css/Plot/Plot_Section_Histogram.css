@@ -25,8 +25,6 @@
     color: #809db3;
 }
 
-
-
 .MainTab_Plot svg.hist{
     padding: 0px 4px;
 }
@@ -44,7 +42,7 @@
     width: 81px;
     margin: 1px;
     display: flex;
-    justify-content: space-around
+    justify-content: space-around;
 }
 
 .MainTab_Plot .stats > div .value{
@@ -52,10 +50,21 @@
     color: #809db3;
 }
 
+.MainTab_Plot .basicAdj{
+    padding: 2px 0px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.MainTab_Plot .basicAdj .dropbtn{
+    width: 50px;
+}
 
 .MainTab_Plot .Hblock.conv{
-    width: 150px;
-    height: 65px;
+    width: 160px;
+    height: 58px;
 }
 
 
@@ -63,5 +72,5 @@
     bottom: 0px;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
+    justify-content: space-around;
 }
