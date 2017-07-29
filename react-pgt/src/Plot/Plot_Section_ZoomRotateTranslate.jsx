@@ -73,22 +73,22 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
     
     render(){
 	return (
-	    <WgBoxie className="ZoomRotateTranslate" name="Zoom & Rotate" boxieStyle={"small"}>
+	    <WgBoxie className="ZoomRotateTranslate" name="Zoom, Translate & Rotate" boxieStyle={"small"}>
 
 	      <div className="sectionLinks1">
 
 		<WgActionLink
-		   name={"Reset Zoom"}
+		   name={"reset section"}
 		   onClick={this.handleReset.bind(this)}
 		   enabled={true}
 		   />
 		<WgActionLink
-		   name={"Square Axes"}
+		   name={"square axes"}
 		   onClick={null}
 		   enabled={true}
 		   />
 		<WgActionLink
-		   name={"More"}
+		   name={"section details"}
 		   onClick={this.props.onClickMore}
 		  enabled={true}
 		  />
@@ -103,11 +103,13 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		     className="mediumSquare"
 		     iconName="Plus"
 		     onClick={this.hofHandleZoom(true)}
+		     enabled={this.props.enable}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="Minus"
 		     onClick={this.hofHandleZoom(false)}
+		     enabled={this.props.enable}
 		     />
 		</div>
 
@@ -117,11 +119,13 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		     className="mediumSquare"
 		     iconName="arrowClockwiseRing"
 		     onClick={null}
+		     enabled={this.props.enable}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="arrowAnticlockwiseRing"
 		     onClick={null}
+		     enabled={this.props.enable}
 		     />
 		</div>
 
@@ -131,21 +135,25 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 		     className="mediumSquare"
 		     iconName="arrowUp"
 		     onClick={this.hofHandleTranslate('y', true)}
+		     enabled={this.props.enable}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="arrowDown"
 		     onClick={this.hofHandleTranslate('y', false)}
+		     enabled={this.props.enable}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="arrowLeft"
 		     onClick={this.hofHandleTranslate('x', false)}
+		     enabled={this.props.enable}
 		     />
 		  <WgSpecialButton
 		     className="mediumSquare"
 		     iconName="arrowRight"
 		     onClick={this.hofHandleTranslate('x', true)}
+		     enabled={this.props.enable}
 		     />
 		</div>
 

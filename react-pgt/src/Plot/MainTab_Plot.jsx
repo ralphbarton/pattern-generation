@@ -175,7 +175,8 @@ class MainTab_Plot extends React.PureComponent {
 
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
 	const Plot_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
-
+	const formulaCheck = Plot_util.checkPlotFormula(Plot_i);
+	
 	return (
 
 	    <div className="MainTab_Plot">
@@ -243,6 +244,7 @@ class MainTab_Plot extends React.PureComponent {
 		{/* 4.1.  The Zoom + Rotate + Translate controls section... */}
 		<Plot_Section_ZoomRotateTranslate
 		   zoomRT_UI={this.props.UI.zoomRT}
+		   enable={this.props.UI.previewActive && formulaCheck.determination !== "invalid"}
 		   setPGTtabUIState={this.props.setPGTtabUIState}
 		   Plot_i={Plot_i}
 		   handleSelPlotChange={this.props.fn.handleModifySelPGTobj}
@@ -272,7 +274,7 @@ class MainTab_Plot extends React.PureComponent {
 				      <Plot_Section_PreviewOptions
 					 UI={this.props.UI}
 					 handleUIStateChange={this.props.fn.handleUIStateChange}
-					 validFormulaSelected={Plot_util.checkPlotFormula(Plot_i).determination !== "invalid"}
+					 validFormulaSelected={formulaCheck.determination !== "invalid"}
 					 />
 				   );
 			      }
