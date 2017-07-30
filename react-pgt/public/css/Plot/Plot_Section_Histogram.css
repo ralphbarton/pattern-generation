@@ -29,10 +29,6 @@
     padding: 0px 4px;
 }
 
-.MainTab_Plot svg.hist rect{
-    fill: rgba(0, 0, 0, 0.4);
-}
-
 .MainTab_Plot .stats{
     display: flex;
     flex-flow: row wrap;

@@ -9,62 +9,109 @@ import WgDropDown from '../Wg/WgDropDown';
 
 class Plot_Section_Histogram extends React.PureComponent {
 
+    constructor() {
+	super();
+	this.state = {};
+    }
+    
+    updateOrInitD3hist(){
 
-    initD3hist(scaled_bars){
+	if(!this.props.stats.bar_heights){return;}//if no data provided. Happens when stats cleared and new ones not ready...
 
 	const w = 167;
 	const h = 72;
-	const barPadding = 1;
-	const bar_w = Math.floor(w / scaled_bars.length);
+	const scaled_bars = this.props.stats.bar_heights.map( x => {return 0.97*h*x;});
+
+	const d3_bars_selection = d3.select(this.HistSVG_Ref)
+		  .selectAll("rect")
+		  .data(scaled_bars);
+
 	
-	d3.select(this.HistSVG_Ref)
-	    .selectAll("rect")
-	    .data(scaled_bars)
-
-	//create new hist...
-	    .enter()
-	    .append("rect")
-	    .attr("x", function(d, i) {
-		return i * bar_w;
-	    })
-	    .attr("y", function(d) {
-		return (h - d);
-	    })
-	    .attr("width", bar_w - barPadding)
-	    .attr("height", function(d) {return d;});
-    }
+	if(this.histIsInitialised){
 
 
-    updateD3hist(unscaled_bars){
+	    //update existing hist...
+	    d3_bars_selection
+		.transition()
+		.duration(500)
+		.attr("y", function(d) {
+		    return (h - d);
+		})
+		.attr("height", function(d) {return d;});
 
-	if(!unscaled_bars){return;}//if no data provided. But why would that happen?
-	
-	const h = 72;
-	const scaled_bars = unscaled_bars.map( x => {return 0.97*h*x;});
-	
-	d3.select(this.HistSVG_Ref)
-	    .selectAll("rect")
-	    .data(scaled_bars)
+	}else{
 
-	//update existing hist...
-	    .transition()
-	    .duration(500)
-	    .attr("y", function(d) {
-		return (h - d);
-	    })
-	    .attr("height", function(d) {return d;});
-    }
+	    const barPadding = 1;
+	    const bar_w = Math.floor(w / scaled_bars.length);
+
+	    //create new hist...
+	    d3_bars_selection
+		.enter()
+		.append("rect")
+		.attr("x", function(d, i) {
+		    return i * bar_w;
+		})
+		.attr("y", function(d) {
+		    return (h - d);
+		})
+		.attr("width", bar_w - barPadding)
+		.attr("height", function(d) {return d;})
+		.attr("fill", "rgba(0, 0, 0, 0.4)");
 
 
-    componentDidMount(){
-	const bar_data = [28.94,4.5,5.57,7.9,11.17,12.87,19.73,75.66,25.93,10.35,6.36,4.81,4.02,3.63,3.25,28.32];
-	this.initD3hist(bar_data);
+	    this.histIsInitialised = true;
+	}
     }
 
     componentDidUpdate(){
-	this.updateD3hist(this.props.stats.bar_heights);
+	this.updateOrInitD3hist();
     }
 
+    componentDidMount(){
+	this.updateOrInitD3hist();
+    }
+
+    HistInColour (use_colour){
+
+	d3.select(this.HistSVG_Ref)
+	    .selectAll("rect")
+	    .attr("fill", function(d, i) {
+
+		if(use_colour){
+		    return "red";
+		}else{
+		    return "rgba(0, 0, 0, 0.4)";
+		}
+	    });
+
+/*
+		else if (i == 0){
+		    return plots2.HexColour_from_fnValue(0, true);
+		}else if(i == (n_bars-1)){
+		    return plots2.HexColour_from_fnValue(1, true);
+		}else{
+		    return plots2.HexColour_from_fnValue( (i+0.5)/n_bars , true);
+		}
+*/
+    }
+    
+
+    handleMouseEnterHistSVG(){
+	this.HistInColour(true);
+    }
+
+    handleMouseLeaveHistSVG(){
+	if(!this.state.persistent_in_colour){
+	    this.HistInColour(false);
+	}
+    }
+
+    handleClickHistSVG(){
+	this.setState({persistent_in_colour: !this.state.persistent_in_colour});
+    }
+
+
+    
     hofSetAutoScale(value){
 	const handleSelPlotChange = this.props.handleSelPlotChange;
 	return function (){
@@ -87,6 +134,9 @@ class Plot_Section_Histogram extends React.PureComponent {
 	      <svg className="hist"
 		   width={159}//167
 		   height={72}
+		   onMouseEnter={this.handleMouseEnterHistSVG.bind(this)}
+		   onMouseLeave={this.handleMouseLeaveHistSVG.bind(this)}
+		   onClick={this.handleClickHistSVG.bind(this)}
 		   ref={ (el) => {this.HistSVG_Ref = el;}}
 		/>
 
