@@ -1,5 +1,5 @@
 import React from 'react';
-var _ = require('lodash');
+//var _ = require('lodash');
 
 // generic project widgets
 import WgTable from '../Wg/WgTable';
@@ -12,7 +12,6 @@ import Plot_util from './plain-js/Plot_util';
 
 //these two are for Thumbnail generation...
 import Plot_RenderManager from './plain-js/Plot_RenderManager';
-import util from '.././plain-js/util';
 
 import Plot_Popout from './Plot_Popout';
 import Plot_Section_FormulaBar from './Plot_Section_FormulaBar';
@@ -22,6 +21,47 @@ import Plot_Section_ZoomRotateTranslate from './Plot_Section_ZoomRotateTranslate
 import Plot_Section_PreviewOptions from './Plot_Section_PreviewOptions';
 import Plot_Section_PointsetPreview from './Plot_Section_PointsetPreview';
 
+
+class Plot_Thumbnail extends React.PureComponent {
+
+    applyThumbImgData(){
+ 	console.log("regen canvas data for Plot uid = ", this.props.Plot.uid);
+	const thumb_img = Plot_RenderManager.render({
+	    Plot: this.props.Plot,
+	    width: 55,
+	    height: 55,
+	    resolution: 1,
+	    colouringFunction: this.props.colouringFunction
+	});	
+	
+	var ctx = this.ThumbCanvas.getContext('2d');
+	ctx.putImageData(thumb_img, 0, 0);
+    }
+    
+    componentDidUpdate(){
+	this.applyThumbImgData();
+    }
+
+    componentDidMount(){
+	this.applyThumbImgData();
+    }
+    
+    render(){
+	return (
+	    <canvas
+	       className={"plot-thumb uid-" + this.props.Plot.uid}
+	       width={55}
+	       height={55}
+	       ref={ (el) => {this.ThumbCanvas = el;}}
+	      />
+	);
+    }
+}
+
+
+
+	
+
 class MainTab_Plot extends React.PureComponent {
 
     constructor() {
@@ -30,22 +70,17 @@ class MainTab_Plot extends React.PureComponent {
 	// than user-settings-state,  held at a higher level, gets different treatment...
 	this.state = {
 	    previewFeaturesTabSelected: 0,
-	    showExtraWindow: null,
+	    showExtraWindow: null
 	    /*
 	     'showExtraWindow' - options
 	     1 - Syntax & Inbuilt functions
 	     2 - Formula Designer
 	     3 - Zoom & Rotate -> More
 	     */
-
-	    thumbsUpdate: true
 	};
 	
 	// not passing a callback means no worker-thread involved here...
 	Plot_RenderManager.init();
-	
-	//References to DOM elements:
-	this.WgTableThumbCanvas_ElemRefs={};	
     }
 
     componentDidMount(){
@@ -77,67 +112,11 @@ class MainTab_Plot extends React.PureComponent {
 	    },
 	    timings_obj: { // use type integer (units are ms)
 		inProgress: false,
-		thumbs: 0,
 		fast: 0,
 		final: 0
 	    }
 	});
     }
-
-    componentWillReceiveProps(nextProps){
-
-	// only changes to some specific props should bring about re-generation of all thumbs...
-	const c1 = this.props.UI.colouringFunction !== nextProps.UI.colouringFunction;
-	const c2 = this.props.PGTobjArray          !== nextProps.PGTobjArray;
-		
-	this.setState({
-	    thumbsUpdate: c1 || c2
-	});
-    }
-
-    componentDidUpdate(){
-	// This function (thumbs render) will also be called on Component mount, because mounting triggers update.
-	if(this.state.thumbsUpdate){
-	    this.plot_WgTable_rerenderAllThumbs();
-	}
-    }
-    
-    //regenerate all plot thumbs upon update
-    plot_WgTable_rerenderAllThumbs(){
-	const t_thumbsStart = new Date();
-	const thumbElRefs = this.WgTableThumbCanvas_ElemRefs;
-	const plotArray = this.props.PGTobjArray;
-	const colouringFunction = this.props.UI.colouringFunction;
-	
-	_.forEach(thumbElRefs, function(canv_el, uid) {// lodash argument order: (value, key)
-	    
-	    const plot_uid = Number(uid); //the dictionary has keys of type Number
-	    const Plot = util.lookup(plotArray, "uid", plot_uid);
-	    
-	    const thumb_img = Plot_RenderManager.render({
-		Plot: Plot,
-		width: 55,
-		height: 55,
-		resolution: 1,
-		colouringFunction: colouringFunction
-	    });	
-	    
-	    var ctx = canv_el.getContext('2d');
-	    ctx.putImageData(thumb_img, 0, 0);
-	});
-
-	this.WgTableThumbCanvas_ElemRefs = {};//reset for next time...
-
-	// There may be some kind of problem with this. I do not like the delays onChange of the formula input element
-
-	//record time taken in "Global state"
-	const duration_ms = new Date() - t_thumbsStart;
-	this.props.setPGTtabUIState({
-	    timings_obj: {thumbs: {$set: duration_ms}}
-	});
-
-    }
-
     
     plot_WgTableColumns(){
 	return ([
@@ -158,13 +137,11 @@ class MainTab_Plot extends React.PureComponent {
 	    },{
 		heading: "Thumb.",
 		renderCellContents: (plot, i, rowIsSelected)=>{
-		    return (		
-			<canvas
-			className={"plot-thumb uid-"+plot.uid}
-			width={55}
-			height={55}
-			ref={ (el) => {this.WgTableThumbCanvas_ElemRefs[plot.uid] = el;}}
-			  />
+		    return (
+			<Plot_Thumbnail
+			   Plot={plot}
+			   colouringFunction={this.props.UI.colouringFunction}		   
+			   />
 		    );}
 	    },
 	]);
