@@ -133,7 +133,7 @@ var Plot_render = {
     },
     
 
-    fullSamples: undefined,
+    dataGen: {},
     GenerateImageData: function(Plot, imageW, imageH, cell_size, heatmapLookup){
 
 	const myImg = new ImageData(imageW, imageH);
@@ -170,11 +170,17 @@ var Plot_render = {
 	    var i = parseInt(ind_real, 10);//radix parameter 10 means base-10
 	    return Samples[i];
 	};
-	const val_saturateLo =  num_grab(L * 0.1);
-	const val_saturateHi = num_grab(L * 0.9);
-	const val_deltaLoHi = val_saturateHi - val_saturateLo;
 
-	this.fullSamples = []; // wipe any old data
+	this.dataGen = {
+	    samples: [],
+	    val_saturateLo: num_grab(L * 0.1),
+	    val_saturateHi: num_grab(L * 0.9)
+	};
+
+	const val_deltaLoHi = this.dataGen.val_saturateHi - this.dataGen.val_saturateLo;
+	const dataGen = this.dataGen;
+	
+	this.dataGen.samples = []; // wipe any old data
 	this.SamplePlaneForImage(Plot, imageW, imageH, cell_size, function(sample, x, n_steps_xH, y, n_steps_yH){
 
 	    // 3.2 determine draw location
@@ -184,7 +190,7 @@ var Plot_render = {
 	    // 1. Determine RGB values for rectangle colour
 
 	    // first rescale into a [0, 1] range, using the 10% and 90% values as limits and saturating outside this
-	    const Ru = (sample - val_saturateLo) / val_deltaLoHi;
+	    const Ru = (sample - dataGen.val_saturateLo) / val_deltaLoHi;
 	    const R = Math.max(Math.min(Ru, 1), 0);
 
 	    let col;
@@ -198,7 +204,7 @@ var Plot_render = {
 		
 	    Plot_render.FillRectangle_ImgData(myImg, x_location_px, y_location_px, cell_size, cell_size, col);
 
-	    Plot_render.fullSamples.push(sample);
+	    dataGen.samples.push(sample);
 	    
 	});
 		
@@ -206,7 +212,7 @@ var Plot_render = {
     },
 
 
-    // this returns data from the member variable 'this.fullSamples', which is set with every 'GenerateImageData'
+    // this returns data from the member variable 'this.dataGen.samples', which is set with every 'GenerateImageData'
     // for full-screen rendering, on a hi-res screen, this can take up to 770ms (of 2.8s to calc all the points)
     getLastStatistics: function(){
 
@@ -216,7 +222,7 @@ var Plot_render = {
 	    return 0;
 	}
 
-	if(this.fullSamples.length < 1){
+	if(this.dataGen.samples.length < 1){
 	    return {
 		n_points: 0,
 		v_min: "n/a",
@@ -227,20 +233,20 @@ var Plot_render = {
 	    };
 	}
 	
-	const Samp = this.fullSamples.sort(compare);
+	const Samp = this.dataGen.samples.sort(compare);
 
 
-	var grab = function(ind_real){
+	var grab_rounded = function(ind_real){
 	    const i = parseInt(ind_real, 10);//radix parameter 10 means base-10
-	    return Samp[i].toFixed(2);
+	    return Number(Samp[i].toFixed(2));
 	};
 
 	var L = Samp.length;
 
 	//turn the sorted array of values into a set of bins
 	var n_bars = 16;
-	var V_min = Number(grab(L*0.1));//I will want these to be dynamic...
-	var V_max = Number(grab(L*0.9));
+	var V_min = this.dataGen.val_saturateLo;//I will want these to be dynamic...
+	var V_max = this.dataGen.val_saturateHi;
 	var value_step = (V_max - V_min) / n_bars;
 	
 	var bar_heights = [0];
@@ -263,11 +269,11 @@ var Plot_render = {
 	
 	return {
 	    n_points: L,
-	    v_min: grab(0),
-	    v_max: grab(L-1),
-	    v10pc: grab(L*0.1),
-	    v90pc: grab(L*0.9),
-	    median: grab(L*0.5),
+	    v_min: grab_rounded(0),
+	    v_max: grab_rounded(L-1),
+	    v10pc: grab_rounded(L*0.1),
+	    v90pc: grab_rounded(L*0.9),
+	    median: grab_rounded(L*0.5),
 	    bar_heights: scaled_bars
 	};
 
