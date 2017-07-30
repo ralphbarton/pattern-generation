@@ -25,7 +25,6 @@ import Plot_Section_PointsetPreview from './Plot_Section_PointsetPreview';
 class Plot_Thumbnail extends React.PureComponent {
 
     applyThumbImgData(){
- 	console.log("regen canvas data for Plot uid = ", this.props.Plot.uid);
 	const thumb_img = Plot_RenderManager.render({
 	    Plot: this.props.Plot,
 	    width: 55,

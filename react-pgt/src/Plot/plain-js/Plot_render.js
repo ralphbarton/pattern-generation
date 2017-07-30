@@ -176,7 +176,8 @@ var Plot_render = {
 	this.dataGen = {
 	    samples: [],
 	    val_saturateLo: num_grab(L * 0.1),
-	    val_saturateHi: num_grab(L * 0.9)
+	    val_saturateHi: num_grab(L * 0.9),
+	    heatmapLookup: heatmapLookup // this may be undefined or an array, depending upon colouring function set...
 	};
 
 	const val_deltaLoHi = this.dataGen.val_saturateHi - this.dataGen.val_saturateLo;
@@ -268,6 +269,18 @@ var Plot_render = {
 
 	// Array of values between 0 and 1.
 	const scaled_bars = bar_heights.map( x => {return x/max_bar_height;});
+
+	//create the bar colours Array (it is re-generated every time).
+	const dataGen = this.dataGen;
+	const bar_colours = Array(n_bars).fill(null).map((el, i)=>{
+	    const R = i / (n_bars-1);
+	    if(dataGen.heatmapLookup){
+		const colObj = dataGen.heatmapLookup[Math.floor(500 * R)];
+		return "rgb("+colObj.r+", "+colObj.g+", "+colObj.b+")";
+	    }
+	    const r = Math.round(255*R);
+	    return "rgb("+r+", "+r+", "+r+")";
+	});
 	
 	return {
 	    n_points: L,
@@ -276,7 +289,8 @@ var Plot_render = {
 	    v10pc: grab_rounded(L*0.1),
 	    v90pc: grab_rounded(L*0.9),
 	    median: grab_rounded(L*0.5),
-	    bar_heights: scaled_bars
+	    bar_heights: scaled_bars,
+	    bar_colours: bar_colours
 	};
 
     }

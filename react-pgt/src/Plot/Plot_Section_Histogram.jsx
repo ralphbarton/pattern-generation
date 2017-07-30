@@ -61,6 +61,7 @@ class Plot_Section_Histogram extends React.PureComponent {
 
 	    this.histIsInitialised = true;
 	}
+	this.HistInColour(this.state.persistent_in_colour);
     }
 
     componentDidUpdate(){
@@ -72,27 +73,17 @@ class Plot_Section_Histogram extends React.PureComponent {
     }
 
     HistInColour (use_colour){
-
+	const bar_colours = this.props.stats.bar_colours;
 	d3.select(this.HistSVG_Ref)
 	    .selectAll("rect")
 	    .attr("fill", function(d, i) {
 
 		if(use_colour){
-		    return "red";
+		    return bar_colours[i];
 		}else{
 		    return "rgba(0, 0, 0, 0.4)";
 		}
 	    });
-
-/*
-		else if (i == 0){
-		    return plots2.HexColour_from_fnValue(0, true);
-		}else if(i == (n_bars-1)){
-		    return plots2.HexColour_from_fnValue(1, true);
-		}else{
-		    return plots2.HexColour_from_fnValue( (i+0.5)/n_bars , true);
-		}
-*/
     }
     
 
