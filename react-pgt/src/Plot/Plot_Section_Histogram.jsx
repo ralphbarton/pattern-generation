@@ -1,8 +1,9 @@
 import React from 'react';
 
-import WgBoxie from '../Wg/WgBoxie';
 import * as d3 from "d3";
+import numeral from 'numeral';
 
+import WgBoxie from '../Wg/WgBoxie';
 import WgActionLink from '../Wg/WgActionLink';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgDropDown from '../Wg/WgDropDown';
@@ -113,13 +114,20 @@ class Plot_Section_Histogram extends React.PureComponent {
     render(){
 	
 //	const handleUIStateChange = this.props.handleUIStateChange;
+
+	//copy-pasted
+	const myFmt = function(x){
+	    if(typeof(x) !== "number" || x === Infinity || x === -Infinity || x === 0) {return x;}
+	    const expF = Math.abs(x) < 0.1 || Math.abs(x) > 1e8;
+	    return numeral(x).format(expF ? '0.0e+0' : '0.00a');
+	};
 	
 	return (
 	    <WgBoxie className="Histogram" name="Histogram" boxieStyle={"small"} >
 
 	      <div className="pointsEvald">
 		<span className="name">Points eval'd: </span>
-		<span className="value">{this.props.stats.n_points}</span>
+		<span className="value">{numeral(this.props.stats.n_points).format('0,0')}</span>
 	      </div>
 	      
 	      <svg className="hist"
@@ -135,17 +143,17 @@ class Plot_Section_Histogram extends React.PureComponent {
 
 		<div className="cf-10%">
 		  <div className="name">cf-10%: </div>
-		  <div className="value">{this.props.stats.v10pc}</div>		  
+		  <div className="value">{myFmt(this.props.stats.v10pc)}</div>		  
 		</div>
 
 		<div className="cf-90%">
 		  <div className="name">cf-90%: </div>
-		  <div className="value">{this.props.stats.v90pc}</div>		  
+		  <div className="value">{myFmt(this.props.stats.v90pc)}</div>		  
 		</div>
 
 		<div className="median">
 		  <div className="name">Median: </div>
-		  <div className="value">{this.props.stats.median}</div>		  
+		  <div className="value">{myFmt(this.props.stats.median)}</div>		  
 		</div>
 
 		<div className="empty">
@@ -153,12 +161,12 @@ class Plot_Section_Histogram extends React.PureComponent {
 
 		<div className="min">
 		  <div className="name">Min: </div>
-		  <div className="value">{this.props.stats.v_min}</div>
+		  <div className="value">{myFmt(this.props.stats.v_min)}</div>
 		</div>
 
 		<div className="max">
 		  <div className="name">Max: </div>
-		  <div className="value">{this.props.stats.v_max}</div>		  
+		  <div className="value">{myFmt(this.props.stats.v_max)}</div>		  
 		</div>
 
 	      </div>

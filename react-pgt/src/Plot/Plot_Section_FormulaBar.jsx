@@ -1,4 +1,5 @@
 import React from 'react';
+import numeral from 'numeral';
 
 import Plot_util from './plain-js/Plot_util';
 
@@ -14,6 +15,13 @@ class Plot_Section_FormulaBar extends React.PureComponent {
 	const formulaCheck = Plot_util.checkPlotFormula(Plot_i);
 	if (formulaCheck.Error && formulaCheck.Error.name === "SyntaxError"){formulaCheck.Error.name = "Syntax Error";}
 
+	// copy-pasted from  - "Plot_Section_Histogram.jsx". Can this shared code be written just once??
+	const myFmt = function(x){
+	    if(typeof(x) !== "number" || x === Infinity || x === -Infinity || x === 0) {return x;}
+	    const expF = Math.abs(x) < 0.1 || Math.abs(x) > 1e8;
+	    return numeral(x).format(expF ? '0.0e+0' : '0.00a');
+	};
+	
 	return (
 
 	    <div className={"formulaBar "+formulaCheck.className}>
@@ -70,10 +78,10 @@ class Plot_Section_FormulaBar extends React.PureComponent {
 				  
 				  <span className="A">Output: </span>
 				  min = 
-				  <span className="B"> {this.props.stats.v_min}</span>
+				  <span className="B"> {myFmt(this.props.stats.v_min)}</span>
 				  <span className="A"> and </span>
 				  max = 
-				  <span className="B"> {this.props.stats.v_max}</span>
+				  <span className="B"> {myFmt(this.props.stats.v_max)}</span>
 				</div>
 			    );
 			}

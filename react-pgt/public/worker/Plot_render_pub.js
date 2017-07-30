@@ -133,6 +133,12 @@ var Plot_render = {
     },
     
 
+    num_grab: function(Samples, ind_real){
+	const i = parseInt(ind_real, 10);//radix parameter 10 means base-10
+	return Samples[i];
+    },
+
+    
     dataGen: {},
     GenerateImageData: function(Plot, imageW, imageH, cell_size, heatmapLookup){
 
@@ -166,15 +172,11 @@ var Plot_render = {
 
 	// 3. get the 10% and 90% points...
 	var L = Samples.length;
-	var num_grab = function(ind_real){
-	    var i = parseInt(ind_real, 10);//radix parameter 10 means base-10
-	    return Samples[i];
-	};
 
 	this.dataGen = {
 	    samples: [],
-	    val_saturateLo: num_grab(L * 0.1),
-	    val_saturateHi: num_grab(L * 0.9),
+	    val_saturateLo: this.num_grab(Samples, L * 0.1),
+	    val_saturateHi: this.num_grab(Samples, L * 0.9),
 	    heatmapLookup: heatmapLookup // this may be undefined or an array, depending upon colouring function set...
 	};
 
@@ -235,13 +237,6 @@ var Plot_render = {
 	}
 	
 	const Samp = this.dataGen.samples.sort(compare);
-
-
-	var grab_rounded = function(ind_real){
-	    const i = parseInt(ind_real, 10);//radix parameter 10 means base-10
-	    return Number(Samp[i].toFixed(2));
-	};
-
 	var L = Samp.length;
 
 	//turn the sorted array of values into a set of bins
@@ -282,11 +277,11 @@ var Plot_render = {
 	
 	return {
 	    n_points: L,
-	    v_min: grab_rounded(0),
-	    v_max: grab_rounded(L-1),
-	    v10pc: grab_rounded(L*0.1),
-	    v90pc: grab_rounded(L*0.9),
-	    median: grab_rounded(L*0.5),
+	    v_min: this.num_grab(Samp, 0),
+	    v_max: this.num_grab(Samp, L-1),
+	    v10pc: this.num_grab(Samp, L*0.1),
+	    v90pc: this.num_grab(Samp, L*0.9),
+	    median: this.num_grab(Samp, L*0.5),
 	    bar_heights: scaled_bars,
 	    bar_colours: bar_colours
 	};
