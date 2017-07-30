@@ -157,6 +157,7 @@ class Background_Plot extends React.PureComponent {
 	    Plot: Plot,
 	    width: this.winW,
 	    height: this.winH,
+	    intermediateRender: true,
 	    resolution: plotUIState.plotResolution,
 	    colouringFunction: plotUIState.colouringFunction
 	});	

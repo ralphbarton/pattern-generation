@@ -26,12 +26,26 @@ onmessage = function(msg) {
 
     // now command the latest requested job to happen very shortly
     // the timout provides opportunity for it to be cancelled, if a more up-to-date request exists later in the queue
-    largeJobTimeoutID = setTimeout(function(){
+
+    var pass = 0;
+    
+    const JobFunction = function(){
 
 	const winW = msg.data.width;
 	const winH = msg.data.height
 	const Plot = msg.data.Plot;
-	const cell_size = msg.data.resolution;//this.CellSizes[this.wcx.res];
+	let cell_size = msg.data.resolution;//this.CellSizes[this.wcx.res];
+
+	//logic to return an 'IntermediateRender' at lower detail (faster)
+	if(msg.data.intermediateRender && pass === 0){
+	    const finRes = msg.data.resolution;
+	    if(finRes === 1){cell_size = 3;}
+	    else if(finRes === 2){cell_size = 5;}
+	    else if(finRes === 3){cell_size = 10;}
+	    else if(finRes < 10){cell_size = 15;}
+	    else {pass =1;}
+	}
+	
 	const token = msg.data.workerRequestToken;
 	const heatmap = msg.data.colouringFunction === 2 ? heatmapLookup : null;
 
@@ -48,6 +62,14 @@ onmessage = function(msg) {
 	    workerRequestToken: token
 	});
 
-    }, 5);// 5 milliseconds...
+	// cancellable recursive call for second pass
+	if(pass === 0){
+	    pass = 1;
+	    largeJobTimeoutID = setTimeout(JobFunction, 5);
+	}
+
+    };
+
+    largeJobTimeoutID = setTimeout(JobFunction, 5);// 5 milliseconds...
 
 }
