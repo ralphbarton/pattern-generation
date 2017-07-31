@@ -110,7 +110,8 @@ var Plot_util = {
 		xZoom: 1,
 		yZoom: 1,
 		rotation: 0
-	    }
+	    },
+	    lastRenderScale: {}
 	};
     }
     

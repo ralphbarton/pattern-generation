@@ -40,6 +40,17 @@ class Background_Plot extends React.PureComponent {
 		inProgress: {$set: false}
 	    }
 	});
+
+	// Put the Scale-Limit values just used into the Plot object
+	const rIndex = this.props.plotUIState.selectedRowIndex;
+	this.props.onPlotArrayChange("update", {index: rIndex, $Updater: {
+	    lastRenderScale:{
+		scaleMin: {$set:  112},
+		scaleMax: {$set:  114}
+	    }
+	}});
+
+
     }
 
     //handler for when worker coughs up the stats...
@@ -87,7 +98,7 @@ class Background_Plot extends React.PureComponent {
     }
 
     shouldComponentUpdate(nextProps, nextState){
-
+	
 	// POSITIVE SELECTION to determine update (i.e. test for specific conditions if update is to occur)
 	
 	// only changes to some specific props should bring about re-execution of the render function
@@ -95,9 +106,16 @@ class Background_Plot extends React.PureComponent {
 	const c2 = this.props.plotUIState.colouringFunction !== nextProps.plotUIState.colouringFunction;
 	const c3 = this.props.plotUIState.previewActive     !== nextProps.plotUIState.previewActive;
 	const c4 = this.props.plotUIState.plotResolution    !== nextProps.plotUIState.plotResolution;
-	// since only the selected plot can change anyway, there is no need to narrow down to testing only this.
-	const c5 = this.props.plotArray                     !== nextProps.plotArray;
 
+	// test for change in the specific Plot on display.
+	const Uid = this.props.plotUIState.selectionUid;
+	const thisPlot = util.lookup(this.props.plotArray, "uid", Uid);	
+	const nextPlot = util.lookup(nextProps.plotArray,  "uid", Uid);	
+
+	// the test is: has part of the Plot which is not its 'lastRenderScale' property changed
+	// (the 'lastRenderScale' property must change without triggering re-render
+	const c5 = (thisPlot !== nextPlot) && (thisPlot.lastRenderScale === nextPlot.lastRenderScale);
+	
 	const componentUpdate = c1 || c2 || c3 || c4 || c5;
 	if(componentUpdate && nextProps.plotUIState.previewActive){
 	    this.props.setPlotUIState({
@@ -146,8 +164,6 @@ class Background_Plot extends React.PureComponent {
 	this.winH = window.innerHeight;
 	
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);	
-
-	
 	
 	// Trigger generation of the Final quality of plot-data
 	// it will be slapped onto the canvas when result message is recieced from thread

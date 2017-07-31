@@ -16,19 +16,20 @@ class PGT_Background extends React.PureComponent {
 		  
 		      <Background_Grid
 			     gridUIState={this.props.UIState['grid']}
-			     gridArray={this.props.DataArrays['grid']}
+			     gridArray={this.props.PGTobjARRAYS['grid']}
 			     />
 	      }
 
 	      {
 		  //CONDITIONALLY RENDER PLOT BACKGROUND COMPONENT...
 		  (this.props.UIState['plot'].selectedRowIndex !== undefined) &&
-		  
+			  
 			  <Background_Plot
+				 plotArray={this.props.PGTobjARRAYS['plot']}
+				 onPlotArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "plot")}
 				 plotUIState={this.props.UIState['plot']}
-				 plotArray={this.props.DataArrays['plot']}
 				 setPlotUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
-				 />
+				/>
 	      }
 
 	    </div>

@@ -42,7 +42,7 @@ const DatH = {
 	}
     },
     
-    immutUpdateAllArrays: function(DataArrays, objectType, changeType, details){
+    immutUpdateAllArrays: function(PGTobjARRAYS, objectType, changeType, details){
 
 	/*
 	  Possible values for the 'objectType' parameter
@@ -73,7 +73,7 @@ const DatH = {
 	  'replacement_object'
 	*/
 
-	const oldObjArray = DataArrays[objectType];
+	const oldObjArray = PGTobjARRAYS[objectType];
 	const i = details.index;
 
 	let $Updater;
@@ -124,7 +124,7 @@ const DatH = {
 	}
 	   
 	return {
-	    newArrays: update(DataArrays, {[objectType]: $Updater}),
+	    newArrays: update(PGTobjARRAYS, {[objectType]: $Updater}),
 	    newPGTobjUid: newUid
 	}
     }

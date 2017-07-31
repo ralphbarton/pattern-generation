@@ -20,7 +20,7 @@ class PGT_App extends React.PureComponent {
     constructor() {
 	super();
 	this.state = {
-	    DataArrays: {
+	    PGTobjARRAYS: {
 		"cpot": CpotSampleData.arr,
 		"grid": GridSampleData.arr,
 		"plot": PlotSampleData.arr,
@@ -45,11 +45,11 @@ class PGT_App extends React.PureComponent {
     }
 
     handleDataChange(dataCategory, changeType, details){
-	const oldArrs = this.state.DataArrays;
+	const oldArrs = this.state.PGTobjARRAYS;
 	// This function call returns an updated Array...
 	const dataUpdate = DatH.immutUpdateAllArrays(oldArrs, dataCategory, changeType, details);
 	this.setState({
-	    DataArrays: dataUpdate.newArrays
+	    PGTobjARRAYS: dataUpdate.newArrays
 	});
 	return dataUpdate.newPGTobjUid;
     }
@@ -82,15 +82,16 @@ class PGT_App extends React.PureComponent {
 	    <div className="PGT_App">
 	      {/* 1. Backgrounds */}
 	      <PGT_Background
-		 DataArrays={this.state.DataArrays}
+		 PGTobjARRAYS={this.state.PGTobjARRAYS}
+		 onPGTobjARRAYSChange={this.handleDataChange}
 		 UIState={this.state.UI}
 		 onUIStateChange={this.handleUIStateChange}
 		 />
 	      
 	      {/* 2. Floating (draggable) Toolbox */}
 	      <Toolbox
-		 DataArrays={this.state.DataArrays}
-		 onDataChange={this.handleDataChange}
+		 PGTobjARRAYS={this.state.PGTobjARRAYS}
+		 onPGTobjARRAYSChange={this.handleDataChange}
 		 UIState={this.state.UI}
 		 onUIStateChange={this.handleUIStateChange}
 		 />

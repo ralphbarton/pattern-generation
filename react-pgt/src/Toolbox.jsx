@@ -73,8 +73,8 @@ class Toolbox extends React.PureComponent {
 			      renderJSX: ()=>{
 				return (
 				    <TS_MainTab_CpotView
-				       PGTobjArray={this.props.DataArrays['cpot']}
-				       onPGTobjArrayChange={this.props.onDataChange.bind(null, "cpot")}
+				       PGTobjArray={this.props.PGTobjARRAYS['cpot']}
+				       onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "cpot")}
 				      UI={this.props.UIState['cpot']}
 				      setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"cpot": $chg});}}
 				      //Additional Prop, as this tab can change Toolbox size
@@ -97,8 +97,8 @@ class Toolbox extends React.PureComponent {
 			      renderJSX: ()=>{
 				  return(
 				      <TS_MainTab_MotfView
-					 PGTobjArray={this.props.DataArrays['motf']}
-					 onPGTobjArrayChange={this.props.onDataChange.bind(null, 'motf')}
+					 PGTobjArray={this.props.PGTobjARRAYS['motf']}
+					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, 'motf')}
 					 UI={this.props.UIState['motf']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"motf": $chg});}}
 					 onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
@@ -111,8 +111,8 @@ class Toolbox extends React.PureComponent {
 			      renderJSX: ()=>{
 				  return(
 				      <TS_MainTab_Grid
-				       PGTobjArray={this.props.DataArrays['grid']}
-				       onPGTobjArrayChange={this.props.onDataChange.bind(null, 'grid')}
+				       PGTobjArray={this.props.PGTobjARRAYS['grid']}
+				       onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, 'grid')}
 				       UI={this.props.UIState['grid']}
 				       setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"grid": $chg});}}
 				      />
@@ -124,8 +124,8 @@ class Toolbox extends React.PureComponent {
 			      renderJSX: ()=>{
 				  return (
 				      <TS_MainTab_Plot
-					 PGTobjArray={this.props.DataArrays['plot']}
-					 onPGTobjArrayChange={this.props.onDataChange.bind(null, "plot")}
+					 PGTobjArray={this.props.PGTobjARRAYS['plot']}
+					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "plot")}
 					 UI={this.props.UIState['plot']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
 					/>

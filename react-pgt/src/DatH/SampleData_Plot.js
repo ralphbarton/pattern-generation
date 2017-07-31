@@ -11,6 +11,7 @@ const PlotSampleData = {
 		yZoom: 0.8,
 		rotation: 30
 	    },
+	    lastRenderScale: {},
 	    histogram: {
 		manual: false,
 		val_min: 0,
@@ -27,7 +28,8 @@ const PlotSampleData = {
 		xZoom: 1,
 		yZoom: 1,
 		rotation: 0
-	    }
+	    },
+	    lastRenderScale: {}
 	},
 	{
 	    formula: "x+y",
@@ -38,7 +40,8 @@ const PlotSampleData = {
 		xZoom: 1,
 		yZoom: 1,
 		rotation: 0
-	    }
+	    },
+	    lastRenderScale: {}
 	},
 	{
 	    formula: "z*log( (z-0.7)*(z+0.7*i)*(z+0.2*(i+1.3)) )^4",
@@ -49,7 +52,8 @@ const PlotSampleData = {
 		xZoom: 1,
 		yZoom: 1,
 		rotation: 0
-	    }
+	    },
+	    lastRenderScale: {}
 	}
     ]
 };
