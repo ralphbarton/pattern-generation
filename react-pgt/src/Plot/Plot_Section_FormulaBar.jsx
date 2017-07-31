@@ -17,7 +17,7 @@ class Plot_Section_FormulaBar extends React.PureComponent {
 
 	return (
 
-	    <div className={"formulaBar "+formulaCheck.className}>
+	    <div className={"formulaBar "+formulaCheck.className + " " + formulaCheck.closest}>
 
 	      <div className="upper">
 		<div className="barTitle">Formula Bar</div>
@@ -94,7 +94,7 @@ class Plot_Section_FormulaBar extends React.PureComponent {
 
 		</div>
 
-		<img src={formulaCheck.determination === "cplx" ? fzImage : fxyImage} alt=""/>
+		<img src={formulaCheck.closest === "cplx" ? fzImage : fxyImage} alt=""/>
 	      <input className="plain-cell w"
 		     value={Plot_i.formula} 		       
 		     onChange={event =>{

@@ -5,14 +5,20 @@ var Plot_util = {
 
     checkPlotFormula: function(Plot){//check the equation...
 
+	const appearsComplex = Plot.formula.includes("z");
+	const closestByIncl_z = appearsComplex ? "cplx" : "real";
+	
 	try{
 	    var usrFn = math.compile(Plot.formula);
 	}
-	catch (e){
+	catch (syntaxError){
+
+	    // Case 1: syntax error
 	    return {
 		determination: "invalid",		
+		closest: closestByIncl_z,
 		className: "invalid",
-		Error: e
+		Error: syntaxError
 	    };
 	}
 
@@ -48,9 +54,11 @@ var Plot_util = {
 		
 	if((!OK_real)&&(!OK_cplx)){
 
+	    // Case 2:  both real and complex variables in formula
 	    if(OK_real_cplx){
 		return {
 		    determination: "invalid",
+		    closest: "real", // where x,y and z are all featuring, we'll use f(x,y)
 		    className: "invalid",
 		    Error: {
 			name: "Error",
@@ -59,18 +67,21 @@ var Plot_util = {
 		};
 	    }
 	    
-	    const appearsComplex = Plot.formula.includes("z");
 	    const evaluationError = appearsComplex ? evaluationErrorCplx : evaluationErrorReal;
 
+	    // Case 3: general evaluation error
 	    return {
 		determination: "invalid",
+		closest: closestByIncl_z,
 		className: "invalid",
 		Error: evaluationError
 	    };
 	}
-	
+
+	// Case 4: formula is Valid
 	return {
 	    determination: (OK_real ? "real" : "cplx"),
+	    closest: (OK_real ? "real" : "cplx"),
 	    className: (OK_real ? "" : "pink")
 	};
     },
