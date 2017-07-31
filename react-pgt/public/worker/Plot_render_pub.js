@@ -175,13 +175,13 @@ var Plot_render = {
 
 	this.dataGen = {
 	    samples: [],
-	    val_saturateLo: this.num_grab(Samples, L * 0.1),
-	    val_saturateHi: this.num_grab(Samples, L * 0.9),
+	    val_saturateLo: Plot.autoScale === false ? Plot.lastRenderScale.Lo : this.num_grab(Samples, L * 0.1),
+	    val_saturateHi: Plot.autoScale === false ? Plot.lastRenderScale.Hi : this.num_grab(Samples, L * 0.9),
 	    heatmapLookup: heatmapLookup // this may be undefined or an array, depending upon colouring function set...
 	};
 
-	const val_deltaLoHi = this.dataGen.val_saturateHi - this.dataGen.val_saturateLo;
 	const dataGen = this.dataGen;
+	const val_deltaLoHi = dataGen.val_saturateHi - dataGen.val_saturateLo;
 	
 	this.dataGen.samples = []; // wipe any old data
 	this.SamplePlaneForImage(Plot, imageW, imageH, cell_size, function(sample, x, n_steps_xH, y, n_steps_yH){
@@ -211,7 +211,13 @@ var Plot_render = {
 	    
 	});
 		
-	return myImg;
+	return {
+	    ImgData: myImg,
+	    RenderScale: {
+		val_saturateHi: dataGen.val_saturateHi,
+		val_saturateLo: dataGen.val_saturateLo
+	    }
+	};
     },
 
 

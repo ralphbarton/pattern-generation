@@ -24,16 +24,16 @@ import Plot_Section_PointsetPreview from './Plot_Section_PointsetPreview';
 class Plot_Thumbnail extends React.PureComponent {
 
     applyThumbImgData(){
-	const thumb_img = Plot_RenderManager.render({
+	const ImgData = Plot_RenderManager.render({
 	    Plot: this.props.Plot,
 	    width: 55,
 	    height: 55,
 	    resolution: 1,
 	    colouringFunction: this.props.colouringFunction
-	});	
+	}).ImgData;	
 	
 	var ctx = this.ThumbCanvas.getContext('2d');
-	ctx.putImageData(thumb_img, 0, 0);
+	ctx.putImageData(ImgData, 0, 0);
     }
     
     componentDidUpdate(){

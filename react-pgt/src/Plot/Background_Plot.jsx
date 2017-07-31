@@ -26,27 +26,36 @@ class Background_Plot extends React.PureComponent {
     // this hander slaps it onto the canvas element, accessible via a React ref.
     handleRenderComplete(msg){
 
-	if(msg.workerRequestToken !== this.state.workerRequestToken){return;}
+	if(msg.workerRequestToken !== this.state.workerRequestToken){
+	    this.t = new Date(); // up till this moment, worker has been doing something stale. Reset timer
+	    return;
+	}
 
 	//put the returned data onto the canvas element...
 	var ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(msg.ImgData, 0, 0);
 
 	//record time taken in "Global state"
-	const duration_ms = new Date() - this.t;
-	this.props.setPlotUIState({
-	    timings_obj: {
-		final: {$set: duration_ms},
-		inProgress: {$set: false}
-	    }
-	});
+	if(msg.finalPass){
+	    const duration_ms = new Date() - this.t;
+	    this.props.setPlotUIState({
+		timings_obj: {
+		    final: {$set: duration_ms},
+		    inProgress: {$set: false}
+		}
+	    });
+	}else{
+	    this.t = new Date(); // up till this moment, worker has been doing intermediate pass only. Reset timer
+	}
+
+
 
 	// Put the Scale-Limit values just used into the Plot object
 	const rIndex = this.props.plotUIState.selectedRowIndex;
 	this.props.onPlotArrayChange("update", {index: rIndex, $Updater: {
 	    lastRenderScale:{
-		scaleMin: {$set:  112},
-		scaleMax: {$set:  114}
+		Lo: {$set: msg.RenderScale.val_saturateLo},
+		Hi: {$set: msg.RenderScale.val_saturateHi}
 	    }
 	}});
 
@@ -68,18 +77,18 @@ class Background_Plot extends React.PureComponent {
 	if(!plotUIState.previewActive){return null;}
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);
 	
-	const rendered_image = Plot_RenderManager.render({
+	const ImgData = Plot_RenderManager.render({
 	    useWorker: false,
 	    Plot: Plot,
 	    width: this.winW,
 	    height: this.winH,
 	    resolution: 40, // - this seems a reasonable crude level of detail for the basic plot
 	    colouringFunction: plotUIState.colouringFunction
-	});
+	}).ImgData;
 	
 	//put the returned data onto the canvas element...
 	var ctx = this.canvasElement.getContext('2d');
-	ctx.putImageData(rendered_image, 0, 0);
+	ctx.putImageData(ImgData, 0, 0);
 
 	//record time taken in "Global state"
 	const duration_ms = new Date() - this.t;
@@ -112,9 +121,11 @@ class Background_Plot extends React.PureComponent {
 	const thisPlot = util.lookup(this.props.plotArray, "uid", Uid);	
 	const nextPlot = util.lookup(nextProps.plotArray,  "uid", Uid);	
 
-	// the test is: has part of the Plot which is not its 'lastRenderScale' property changed
-	// (the 'lastRenderScale' property must change without triggering re-render
-	const c5 = (thisPlot !== nextPlot) && (thisPlot.lastRenderScale === nextPlot.lastRenderScale);
+	// The test is: the Plot has changed, but with some specific exclusigions
+	// 1. the change is not its 'lastRenderScale' property (this property must be allowed to change without re-render)
+	// 2. the change is not that the plots 'autoScale' property has just been turned off (test this for explicitly set false)
+	const autoScaleTurnOff = nextPlot.autoScale === false && thisPlot.autoScale !== false;
+	const c5 = (thisPlot !== nextPlot) && (thisPlot.lastRenderScale === nextPlot.lastRenderScale) && (!autoScaleTurnOff);
 	
 	const componentUpdate = c1 || c2 || c3 || c4 || c5;
 	if(componentUpdate && nextProps.plotUIState.previewActive){
@@ -154,7 +165,6 @@ class Background_Plot extends React.PureComponent {
 
     
     render() {
-	this.t = new Date();
 
 	const plotUIState = this.props.plotUIState;
 	if(!plotUIState.previewActive){return null;}
@@ -167,6 +177,7 @@ class Background_Plot extends React.PureComponent {
 	
 	// Trigger generation of the Final quality of plot-data
 	// it will be slapped onto the canvas when result message is recieced from thread
+	this.t = new Date();
 	Plot_RenderManager.render({
 	    useWorker: true,
 	    workerRequestToken: (this.state.workerRequestToken+1),//messy. State will not yet have updated

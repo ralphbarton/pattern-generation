@@ -51,10 +51,12 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 	    if(TS.props.zoomRT_UI.zoomXonlyYonly.includes('y')){
 		const new_yZoom = TS.props.Plot_i.section.yZoom * may_reciprocate(TS.step());
 		$chg["yZoom"] = {$set: new_yZoom};
-		TS.props.handleSelPlotChange({section: {yZoom: {$set: new_yZoom}}});
 	    }
 
-	    TS.props.handleSelPlotChange({section: $chg});
+	    TS.props.handleSelPlotChange({
+		section: $chg,
+		autoScale: {$set: false}
+	    });
 	};
     }
 
@@ -66,7 +68,10 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 	    const axisNewValue = TS.props.Plot_i.section[axisKey] + realIncrement;
 	    
 	    const $chg = {[axisKey]: {$set: axisNewValue}};
-	    TS.props.handleSelPlotChange({section: $chg});	    
+	    TS.props.handleSelPlotChange({
+		section: $chg,
+		autoScale: {$set: false}
+	    });	    
 	}
     }
     

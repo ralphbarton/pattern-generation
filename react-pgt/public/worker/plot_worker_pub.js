@@ -50,9 +50,11 @@ onmessage = function(msg) {
 	const heatmap = msg.data.colouringFunction === 2 ? heatmapLookup : null;
 
 	
-	const ImgData = Plot_render.GenerateImageData(Plot, winW, winH, cell_size, heatmap);
+	const RenderResult = Plot_render.GenerateImageData(Plot, winW, winH, cell_size, heatmap);
 	postMessage({
-	    ImgData: ImgData,
+	    ImgData: RenderResult.ImgData,
+	    RenderScale: RenderResult.RenderScale,
+	    finalPass: pass === 1,
 	    workerRequestToken: token
 	});
 
