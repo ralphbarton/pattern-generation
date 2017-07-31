@@ -5,13 +5,17 @@ const PlotSampleData = {
 	    formula: "i*exp(3*z^3)*(z+1.2)^3",
 	    uid: 0,
 	    section: {
-		xOffset: -0.25,
-		yOffset: -0.5,
-		xZoom: 2,
-		yZoom: 0.8,
+		xOffset: -0.66,
+		yOffset: -1.2,
+		xZoom: 4,
+		yZoom: 1.4,
 		rotation: 30
 	    },
-	    lastRenderScale: {},
+	    autoScale: false,
+	    lastRenderScale: {
+		Lo: -8,
+		Hi: 20
+	    },
 	    histogram: {
 		manual: false,
 		val_min: 0,
@@ -69,6 +73,22 @@ const PlotSampleData = {
 	    lastRenderScale: {
 		Lo: -25,
 		Hi: 35
+	    }
+	},
+	{
+	    formula: "z^37",
+	    uid: 5,
+	    section: {
+		xOffset: 0.944,
+		yOffset: -0.102,
+		xZoom: 0.0330,
+		yZoom: 0.269,
+		rotation: 0
+	    },
+	    autoScale: false,
+	    lastRenderScale: {
+		Lo: -0.45,
+		Hi: 0.45
 	    }
 	}
     ]
