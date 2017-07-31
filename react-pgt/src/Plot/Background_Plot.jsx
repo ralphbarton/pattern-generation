@@ -118,8 +118,9 @@ class Background_Plot extends React.PureComponent {
 
 	// test for change in the specific Plot on display.
 	const Uid = this.props.plotUIState.selectionUid;
+	const nextUid = nextProps.plotUIState.selectionUid;
 	const thisPlot = util.lookup(this.props.plotArray, "uid", Uid);	
-	const nextPlot = util.lookup(nextProps.plotArray,  "uid", Uid);	
+	const nextPlot = util.lookup(nextProps.plotArray,  "uid", nextUid);
 
 	// The test is: the Plot has changed, but with some specific exclusigions
 	// 1. the change is not its 'lastRenderScale' property (this property must be allowed to change without re-render)

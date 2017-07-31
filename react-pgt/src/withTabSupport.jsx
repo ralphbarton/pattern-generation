@@ -47,7 +47,11 @@ function withTabSupport(WrappedComponent) {
 	    const i = this.props.UI.selectedRowIndex;
 	    const i_new = Math.min(this.props.PGTobjArray.length -2, i);
 	    this.props.onPGTobjArrayChange("delete", {index: i});
-	    this.handleRowSelectedChange(i_new);
+
+	    // messy. Since Array isn't yet changed, we must skip the to-be-deleted item using this '+1'
+	    // this identifies the actual new selected Plot, whose uid we then retrieve and pass explicitly.
+	    const newUid = this.props.PGTobjArray[ i_new+1 ].uid;
+	    this.handleRowSelectedChange(i_new, newUid);
 	}
 
 	handleReplaceSelPGTobj(replacementPGTobj){
