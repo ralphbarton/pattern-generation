@@ -29,49 +29,112 @@ function Plot_Popout(props) {
 		  return(
 		      <Carousel showThumbs={false}>
 			<div>
-			  Syntax and Inbuilt functions
+			  <div className="C">
+			    Syntax and Inbuilt functions
+			  </div>
+
+			  <div className="D">
 			  Introducing the density plots formula bar
+			  </div>
 
+			  <div>
 			  Density Plots are a means to mathematically create all manner of different shapes of gradient. The colouring of these is handled elsewhere; this tab determines gradient shape.
+			  </div>
 
+			  <div>
 			  Mathematical functions can be entered into the Formula Bar on this tab. For example:
+			  </div>
 
-			  f(x, y) = 2x - y
-			  A basic “two-dimensional” function.
-			  (In mathematical terminology, this is real valued function of two variables)
+			  <div className="F">
+			    f(x, y) = 2x - y
+			  </div>
 
-			  f(x, y) = x^2 + y^2 +x*y + x
-			  Another real valued function with more terms
+			  <div className="G">
+			    A basic “two-dimensional” function.
+			    (In mathematical terminology, this is real valued function of two variables)
+			  </div>
 
-			  f(z) = exp(z^3)
-			  A function of the complex value z, defined using the inbuilt exponentiation function.
+			  <div className="F">
+			    f(x, y) = x^2 + y^2 +x*y + x
+			  </div>			  
 
-			  This pop-out provides a guide for what syntax and inbuilt functions are valid in the formula bar
+			  <div className="G">
+			    Another real valued function with more terms
+			  </div>			  
+
+			  <div className="F">
+			    f(z) = exp(z^3)
+			  </div>			  
+
+			  <div className="G">
+			    A function of the complex value z, defined using the inbuilt exponentiation function.
+			  </div>			  
+
+			  <div>
+			    This pop-out provides a guide for what syntax and inbuilt functions are valid in the formula bar
+			  </div>			  
+			</div>
+
+			<div>
+
+			  <div className="C">
+			    Syntax & basic arithmetic operators
+			  </div>			  
+
+			  <div >
+			    The basic arithmetic operations +  -  ×  ÷  are supported as below
+			  </div>			  
+
+			  <div className="D">
+			    Addition
+			  </div>			  
+
+			  <div className="F">
+			    f(x, y) = x + 1
+			  </div>
+
+			  <div className="D">
+			    Subtraction
+			  </div>			  
+
+			  <div className="F">
+			    f(x, y) = x - 1
+			  </div>
+			  
+			  <div className="D">
+			    Multiplication
+			  </div>			  
+
+			  <div className="F">
+			    f(x, y) = 2x + 2*y + x*y
+			  </div>
+			  
+			  <div>
+			    The asterisk symbol is normally used, but optional when multiplying by a constant
+			  </div>
+
+			  <div className="D">
+			    Division
+			  </div>			  
+
+			  <div className="F">
+			    f(x, y) = y / x
+			  </div>
+			  
+			  <div>
+			    Normal brackets (“parentheses”) can be used in expressions to control the order of calculation
+			  </div>			  
+
+			  <div className="F">
+			    f(x, y) = (x+0.4)/ y
+			  </div>
+
 			</div>
 			<div>
-			  Syntax & basic arithmetic operators
+			  <div className="A">
+			    Inbuilt functions
+			  </div>
 
-			  The basic arithmetic operations +  -  ×  ÷  are supported as below
-
-			  Addition
-			  f(x, y) = x + 1
-
-			  Sub
-			  f(x, y) = x - 1
-
-			  Multiplication
-			  f(x, y) = 2x + 2*y + x*y
-			  The asterisk symbol is normally used, but optional when multiplying by a constant
-
-			  Division
-			  f(x, y) = y / x
-
-			  Normal brackets (“parentheses”) can be used in expressions to control the order of calculation
-
-			  f(x, y) = (x+0.4)/ y
-			</div>
-			<div>
-			  Inbuilt functions
 			  Natural Logarithm
 			  ln(x)
 			  can also use log(x)

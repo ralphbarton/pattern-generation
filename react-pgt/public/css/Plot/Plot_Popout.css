@@ -1,0 +1,99 @@
+/* 5. Popout */
+
+.MainTab_Plot .BeigeWindow{
+    position: absolute;
+    left: 710px;
+    width: 240px;
+    height: 400px;
+    top: -111px;
+}
+
+.MainTab_Plot .BeigeWindow.syntaxHelp  {
+    width: 360px;
+    height: 540px;
+}
+
+.MainTab_Plot .BeigeWindow .action-link{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 3px 10px;
+}
+
+.MainTab_Plot .BeigeWindow.syntaxHelp .action-link{
+    padding: 3px 40px;
+}
+
+
+
+/* 5.1 - temporary styling within Popout */
+.MainTab_Plot .BeigeWindow .A{
+    color: rgba(0,0,0,0.5);
+    font-size: 12px;
+    font-weight:  bold;
+    margin-left: 15px;
+}
+
+.MainTab_Plot .BeigeWindow .B{
+    font-weight: normal;
+}
+
+
+
+/* 5.2 styling of Carosel within Popout */
+/* and carousel contents... */
+.MainTab_Plot .BeigeWindow > div{
+    height: 100%;
+}
+
+.MainTab_Plot .BeigeWindow .carousel{
+    height: 100%;
+}
+
+.MainTab_Plot .BeigeWindow .carousel .slide{
+    font-size: 12px;
+    padding: 10px;
+    background: transparent;
+    text-align: left;
+}
+
+.MainTab_Plot .BeigeWindow .carousel .slide > div > div{
+    margin: 10px 0px;
+}
+
+.MainTab_Plot .BeigeWindow .carousel .slide .C{
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 8px;
+}
+
+.MainTab_Plot .BeigeWindow .carousel .slide .D{
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 8px;
+    opacity: 0.7;
+}
+
+.MainTab_Plot .BeigeWindow .carousel .slide .F{
+    font-weight: bold;
+    font-size: 14px;
+    font-family: courier;
+    border: 1px solid black;
+    margin: 3px 15px;
+    padding: 2px;
+    background-color: rgba(255,255,255,0.5);
+}
+
+.MainTab_Plot .BeigeWindow .carousel .slide .G{
+    font-style: italic;
+    color: blueviolet;
+    margin-bottom: 14px;
+    margin-top: 0px;
+}
+
+.MainTab_Plot .BeigeWindow .carousel .carousel-status {
+    padding: 3px 10px;
+    font-size: 10px;
+    text-shadow: none;
+    color: black;
+}
