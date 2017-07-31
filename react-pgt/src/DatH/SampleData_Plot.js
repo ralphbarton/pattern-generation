@@ -90,6 +90,54 @@ const PlotSampleData = {
 		Lo: -0.45,
 		Hi: 0.45
 	    }
+	},
+	{
+	    formula: "-log(z^40+z)-log(z^40+z^4-3)-log(z^99+z^2)",
+	    uid: 6,
+	    section: {
+		xOffset: -0.276,
+		yOffset: 0.875,
+		xZoom: 0.198,
+		yZoom: 0.198,
+		rotation: 0
+	    },
+	    autoScale: false,
+	    lastRenderScale: {
+		Lo: -2,
+		Hi: 1.8
+	    }
+	},
+	{
+	    formula: "-z*log(3z^109+5z^4)+z*log(2z^104-5z^4)",
+	    uid: 7,
+	    section: {
+		xOffset: 0.7130002450894577,
+		yOffset: 0.797346031301425,
+		xZoom: 0.35,
+		yZoom: 0.35,
+		rotation: 0
+	    },
+	    autoScale: false,
+	    lastRenderScale: {
+		Lo: -2.6137607705103667,
+		Hi: 2.6140055063175542
+	    }
+	},
+	{
+	    formula: "-z*log(3z^109+5z^4)+z*log(2z^104-5z^4)",
+	    uid: 8,
+	    section: {
+		xOffset: 0.7361751607492357,
+		yOffset: 0.6875400246037563,
+		xZoom: 0.0052617832469731745,
+		yZoom: 0.00847415453708277,
+		rotation: 0
+	    },
+	    autoScale: false,
+	    lastRenderScale: {
+		Lo: -2.1801784121371184,
+		Hi: 2.2045723104265287
+	    }
 	}
     ]
 };
