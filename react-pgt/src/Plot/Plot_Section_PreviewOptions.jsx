@@ -2,7 +2,7 @@ import React from 'react';
 
 //import Spinner from 'react-spinkit';
 
-import {Wave} from 'better-react-spinkit';
+import {CubeGrid} from 'better-react-spinkit';
 
 
 import WgActionLink from '../Wg/WgActionLink';
@@ -28,14 +28,25 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 	      <div className="timingContoursStrip">	      
 
 		<div className="Timing">
-		  Thumbs: {this.prettyValue("thumbs")} <br/>
-		  Fast Render: {this.prettyValue("fast")} <br/>
 		  {this.props.UI.timings_obj.inProgress?(
 		      <div className="spinner">
-			<Wave size={15} columns={8} color="#809db3"/>
+			Calculating...
+			<CubeGrid size={35} color="#809db3"/>
 		      </div>
 		  ):(
-		      <span>Final Render: {this.prettyValue("final")}</span>
+		      this.props.UI.timings_obj.fast === 0?(
+			  <div className="preMessage">
+			    <div>
+			      (Render calculation times show here)
+			    </div>
+			  </div>
+		      ):(
+			  <div>
+			    <div>Time to render:</div>
+			    <div>Fast: {this.prettyValue("fast")}</div>
+			    <div>Final: {this.prettyValue("final")}</div>
+			  </div>
+		      )
 		  )	      
 		  }
 
@@ -130,10 +141,13 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		   />
 
 		<div className="mainHideShow">
-
+		
 		  <WgActionLink
 		     name={"Hide Preview"}
-		     onClick={handleUIStateChange.bind(null, "previewActive", false)}
+	             onClick={this.props.setPGTtabUIState.bind(null, {
+			 previewActive: {$set: false},
+			 timings_obj: {fast: {$set: 0}}
+		     })}
 		     enabled={this.props.UI.previewActive}
 		     />
 

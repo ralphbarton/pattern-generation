@@ -33,22 +33,29 @@
     flex: 1 auto;
 }
 
+.MainTab_Plot .PreviewOptions .Timing .preMessage{
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+}
+.MainTab_Plot .PreviewOptions .Timing .preMessage div{
+    max-width: 100px;
+    font-style: italic;
+    color: rgba(0,0,0,0.4);
+}
 
 .MainTab_Plot .PreviewOptions .Timing .value {
     font-weight: bold;
     color: #809db3;
 }
 
-.MainTab_Plot .PreviewOptions .Timing .spinner{
-    display: flex;
-    justify-content: center;
+.MainTab_Plot .PreviewOptions .Timing{
+        position: relative;
 }
 
-.MainTab_Plot .PreviewOptions .Timing .spinner span > div {
-    /* this will cheekily override 'width'
-       property, set in the encapsulated compont as packaged.
-    */
-    min-width: 40px
+.MainTab_Plot .PreviewOptions .Timing .spinner > span{
+    position: absolute;
+    right: 10px
 }
 
 .MainTab_Plot .PreviewOptions .Contours{

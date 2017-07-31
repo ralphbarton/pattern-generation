@@ -254,6 +254,8 @@ class MainTab_Plot extends React.PureComponent {
 				      <Plot_Section_PreviewOptions
 					 UI={this.props.UI}
 					 handleUIStateChange={this.props.fn.handleUIStateChange}
+					 //this is more flexible version of hander above
+					 setPGTtabUIState={this.props.setPGTtabUIState}
 					 validFormulaSelected={formulaCheck.determination !== "invalid"}
 					 />
 				   );
