@@ -31,8 +31,7 @@ class Plot_Section_FormulaBar extends React.PureComponent {
 
 		<WgActionLink
 		   name={"Syntax & Inbuilt functions"}
-		   onClick={()=>{this.setState({showExtraWindow: "syntaxHelp"});}}
-		  enabled={true}
+		   onClick={this.props.onSyntaxHelpClick}
 		  />
 
 		  {/* Top: some text about evaluation of formula */}

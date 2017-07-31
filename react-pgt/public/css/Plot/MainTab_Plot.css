@@ -103,26 +103,3 @@
   display: flex;
   flex-flow: column nowrap;
 }
-
-
-/* 5. Popout */
-
-.MainTab_Plot .BeigeWindow{
-    position: absolute;
-    right: -250px;
-  width: 240px;
-  height: 400px;
-    top: -111px;
-}
-
-/* 5.1 - temporary styling within Popout */
-.MainTab_Plot .BeigeWindow .A{
-  color: rgba(0,0,0,0.5);
-  font-size: 12px;
-  font-weight:  bold;
-  margin-left: 15px;
-}
-
-.MainTab_Plot .BeigeWindow .B{
-  font-weight: normal;
-}

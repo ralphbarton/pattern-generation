@@ -1,5 +1,4 @@
 import React from 'react';
-//var _ = require('lodash');
 
 // generic project widgets
 import WgTable from '../Wg/WgTable';
@@ -161,6 +160,7 @@ class MainTab_Plot extends React.PureComponent {
 	      
 	      {/* 1.  Formula Bar */}
 	      <Plot_Section_FormulaBar
+		 onSyntaxHelpClick={()=>{this.setState({showExtraWindow: "syntaxHelp"});}}
 		 Plot_i={Plot_i}
 		 handleSelPlotChange={this.props.fn.handleModifySelPGTobj}
 		 previewActive={this.props.UI.previewActive}
@@ -282,21 +282,7 @@ class MainTab_Plot extends React.PureComponent {
 		    this.state.showExtraWindow !== null &&
 			<Plot_Popout
 		    popoutType={this.state.showExtraWindow}
-		    content={(()=>{
-			if(this.state.showExtraWindow === "ZR-More"){
-			    return(
-				<div className="A">Section:
-				  <div className="B">
-				    {JSON.stringify(Plot_i.section, null, 2).split(',').map( (str, i) => {return(
-					<div key={i}>{str},</div>
-				    );})}
-				  </div>
-				</div>
-			    );
-			}
-			return "no content set...";
-
-		    })()}
+		    Plot={Plot_i}
 		    handleClose={()=>{this.setState({showExtraWindow: null});}}
 			/>
 		}
