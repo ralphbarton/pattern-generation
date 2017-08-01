@@ -231,7 +231,7 @@ class MainTab_MotfView extends React.PureComponent {
 	case true:
 	    return (
 		<MainTab_MotfEdit
-		   motf={this.props.PGTobjArray[this.props.UI.selectedRowIndex]}
+		   Motf={this.props.PGTobjArray[this.props.UI.selectedRowIndex]}
 		   onSaveEdits={this.props.fn.handleReplaceSelPGTobj}
 		   onCloseEditingMode={this.handleSetEditMode.bind(this, false)}
 		  />

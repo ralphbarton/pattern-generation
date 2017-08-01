@@ -1,27 +1,26 @@
 import React from 'react';
 
 // externally developed libraries
-var _ = require('lodash');
 import update from 'immutability-helper';
 
 
-import {fabric}  from 'fabric';
-
 // generic project widgets
 import WgButton from '../Wg/WgButton';
-import WgTable from '../Wg/WgTable';
-import WgBoxie from '../Wg/WgBoxie';
-import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
 
-//should I divide up this file into separate categories of function (better modularisation)
-import Motf_util from './plain-js/Motf_util';
+
+import MotfEdit_Section_Parameters from './MotfEdit_Section_Parameters';
+import MotfEdit_Section_Properties from './MotfEdit_Section_Properties';
+
+import MotfEdit_Section_CanvasControls from './MotfEdit_Section_CanvasControls';
+import MotfEdit_Section_DrawingTools from './MotfEdit_Section_DrawingTools';
+import MotfEdit_Section_MotifCanvas from './MotfEdit_Section_MotifCanvas';
+import MotfEdit_Section_AdvancedFeatures from './MotfEdit_Section_AdvancedFeatures';
+
 
 /*
  import WgBoxie from '../Wg/WgBoxie';
  import WgActionLink from '../Wg/WgActionLink';
 
- import Motf_util from './plain-js/Motf_util';
  import util from '.././plain-js/util'; // for lookup by uid
  */
 
@@ -30,58 +29,18 @@ class MainTab_MotfEdit extends React.PureComponent {
     constructor(props) {
 	super(props);
 	this.state = {
-	    motf: props.motf,
-	    advancedFeaturesTabSelected: 0
+	    Motf: props.Motf
 	};
+	
+	this.handleEditingMotfChange = this.handleEditingMotfChange.bind(this);
     }
 
 
     //This is copy-pasted from 'MainTab_CpotEdit.jsx' - is this an application for another HOC??
     handleEditingMotfChange(changesObject){
 	this.setState({
-	    motf: update(this.state.motf, changesObject)
+	    Motf: update(this.state.Motf, changesObject)
 	});
-    }
-    
-    
-    MotfEdit_params_WgTableColumns(){
-	return ([
-	    {
-		heading: "Identifier",
-		renderCellContents: (param, i)=>{return "c1";}
-	    },{
-		heading: "Min",
-		renderCellContents: (param, i)=>{return "c2";}
-	    },{
-		heading: "Max",
-		renderCellContents: (param, i)=>{return "c3";}
-	    }
-	]);
-    }
-
-    fabricCanvasRegen(){
-
-	// 1. 'destroy' any pre-existing Fabric initialisation of the canvas
-	if(this.canvas){
-	    this.canvas.dispose();
-	}
-
-	// 2. (re-)initialisate as a blank Fabric canvas
-	this.canvas = new fabric.Canvas(this.fabricCanvasElement);
-	
-	// 3. add all the objects
-	const canvas = this.canvas;
-	_.forEach(this.state.motf.Elements, function(Properties, index) { // (value, key)
-	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
-	});
-    }
-
-    componentDidUpdate(){
-	    this.fabricCanvasRegen();
-    }
-
-    componentDidMount(){
-	this.fabricCanvasRegen();
     }
     
     
@@ -90,178 +49,68 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 	    <div className="MainTab_MotfEdit">
 
-	      {/* Column 1 */}
+	      {/* -------- Column 1 -------- */}
 	      <div className="column1">
 
+		
 		{/* >> Parameters */}
-		<div className="parameters">
-		  <WgTable
-		     selectedRowIndex={0}
-		     onRowSelectedChange={()=>{}}
-		     rowRenderingData={[ [], [], [], []]}
-		     columnsRendering={this.MotfEdit_params_WgTableColumns()}
-		    />
-
-		</div>
-
-		{/* >> Motif Elements: Properties */}
-		<div className="properties">
-		  <div className="freezeHeading">
-		    Motif Elements: Properties
-		  </div>
-		  <div className="scrollableContent">
-		    lots of scrollable items here...
-		    <div className="blob">
-		      blob
-		    </div>
-
-		  </div>
-		</div>
+		<MotfEdit_Section_Parameters
+		   Motf={this.state.Motf}
+		   />
 
 		
-		<div className="propertiesButtons">
-		  <WgButton
-		     name="Contract All"
-		     buttonStyle={"small"}
-		     />
-		  <WgButton
-		     name="Expand All"
-		     buttonStyle={"small"}
-		     />
-		  <WgButton
-		     name="Sweep"
-		     buttonStyle={"small"}
-		     />
-		  <WgButton
-		     name="Render"
-		     buttonStyle={"small"}
-		     />
-		  <WgButton
-		     name="Render ×10"
-		     buttonStyle={"small"}
-		     />
-		</div>
+		{/* >> Properties (and buttons underneath) */}
+		<MotfEdit_Section_Properties
+		   Motf={this.state.Motf}
+		   />
+		
 	      </div>
 
 
-	      {/* Column 2 */}
+
+	      {/* -------- Column 2 -------- */}
 	      <div className="column2">
 
-		
-		<div className="canvasControls">
-		  {/* 1. The <input> for Motif Title*/}
-		    <input className="plain-cell"
-			   value={this.state.motf.name} 
-			   onChange={event => {
-			       // Change the Motif name...
-			       this.handleEditingMotfChange({
-				   name: {$set: event.target.value}
-			       });
-		      }}
-		      />
-		  canvasControls
-		</div>
 
+		{/* >> Canvas Controls */}
+		<MotfEdit_Section_CanvasControls
+		   Motf={this.state.Motf}
+		   handleEditingMotfChange={this.handleEditingMotfChange}
+		   />
 
 		
 		<div className="canvasSection">
 
-		  <WgBoxie className="drawingTools" name="Tools" boxieStyle={"small"} >
 
-		    <WgMutexActionLink
-		       name="Draw:"
-		       className="drawOneMany"
-		       initalEnabledArray={[false, false]}
-		       actions={[
-			   {
-			       name: "one"
-			   },{
-			       name: "many"
-			   }
-		       ]}
-		       />
+		  {/* >> Drawing Tools */}
+		  <MotfEdit_Section_DrawingTools
+		     />
 
-		    drawingTools
 
-		  </WgBoxie>
-
-		  <div className="canvas400">
-		    <canvas
-		       width="399"
-		       height="399"
-		       ref={ (el) => {this.fabricCanvasElement = el;}}
-		       />
-		  </div>
+		  {/* >> Motif Canvas */}
+		  <MotfEdit_Section_MotifCanvas
+		     Motf={this.state.Motf}
+		     />
 		</div>
 
 
-
-		<WgTabbedBoxie
-		   className="advancedFeatures"
-		   tabbedBoxieStyle={"small"}
-		   tabSelectedIndex={this.state.advancedFeaturesTabSelected}
-		   // The function below is worth rewriting for every component instance
-		   // it sets the specific state variable associated with the tab choice
-		   onTabClick={ new_i => {
-		       if (new_i === this.state.advancedFeaturesTabSelected){return;}
-		       this.setState({
-			   advancedFeaturesTabSelected: new_i
-		       });
-		   }}
-		  items={
-		      [
-			  {
-			      name: "Design mode",
-			      renderJSX: ()=>{
-				  return(
-				      <div> [JSX content (Design mode)] <br/>
-					Container class: "advancedFeatures"
-
-				      </div>
-				  );
-			      }
-			  },
-			  {
-			      name: "Macros",
-			      renderJSX: ()=>{
-				  return(
-				      <div> [JSX content (Macros)] </div>
-				  );
-			      }
-			  },
-			  {
-			      name: "Patterning Controls",
-			      renderJSX: ()=>{
-				  return(
-				      <div> [JSX content (Patterning Controls)] </div>
-				  );
-			      }
-			  },
-			  {
-			      name: "Embed Motif",
-			      renderJSX: ()=>{
-				  return(
-				      <div> [JSX content (Embed Motif)] </div>
-				  );
-			      }
-			  }
-		      ]
-		  }
-		/>
+		{/* >> Advanced Features */}
+		<MotfEdit_Section_AdvancedFeatures
+		   />
 
 		
 		<div className="mainButtons">
-		<WgButton
-	    name="Cancel"
-	    onClick={this.props.onCloseEditingMode.bind()}
-		/>
-		<WgButton
-	    name="Done"
-	    onClick={()=>{
-		this.props.onSaveEdits(this.state.motf);
-		this.props.onCloseEditingMode();
-	    }}
-		/>
+		  <WgButton
+		     name="Cancel"
+		     onClick={this.props.onCloseEditingMode.bind()}
+		     />
+		  <WgButton
+		     name="Done"
+		     onClick={()=>{
+			 this.props.onSaveEdits(this.state.Motf);
+			 this.props.onCloseEditingMode();
+		    }}
+		    />
 		</div>
 
 
