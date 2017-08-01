@@ -29,17 +29,29 @@ class MainTab_MotfEdit extends React.PureComponent {
     constructor(props) {
 	super(props);
 	this.state = {
-	    Motf: props.Motf
+	    Motf: props.Motf,
+	    UI: {
+		canvasControls: {
+		    backgroundBTTW: 0
+		}
+	    }
 	};
 	
 	this.handleEditingMotfChange = this.handleEditingMotfChange.bind(this);
+	this.handleMotfUIStateChange = this.handleMotfUIStateChange.bind(this);
     }
 
 
     //This is copy-pasted from 'MainTab_CpotEdit.jsx' - is this an application for another HOC??
-    handleEditingMotfChange(changesObject){
+    handleEditingMotfChange($changesObj){
 	this.setState({
-	    Motf: update(this.state.Motf, changesObject)
+	    Motf: update(this.state.Motf, $changesObj)
+	});
+    }
+
+    handleMotfUIStateChange($changesObj){
+	this.setState({
+	    UI: update(this.state.UI, $changesObj)
 	});
     }
     
@@ -75,7 +87,9 @@ class MainTab_MotfEdit extends React.PureComponent {
 		{/* >> Canvas Controls */}
 		<MotfEdit_Section_CanvasControls
 		   Motf={this.state.Motf}
+		   CC_UI={this.state.UI.canvasControls}
 		   handleEditingMotfChange={this.handleEditingMotfChange}
+		   handleMotfUIStateChange={this.handleMotfUIStateChange}
 		   />
 
 		

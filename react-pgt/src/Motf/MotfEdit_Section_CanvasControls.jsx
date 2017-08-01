@@ -3,6 +3,12 @@ import React from 'react';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 
 class MotfEdit_Section_CanvasControls extends React.PureComponent {
+
+    hofHandleUIchange(CC_key, value){
+	return this.props.handleMotfUIStateChange.bind(null, {
+	    canvasControls: {[CC_key]: {$set: value}}
+	});
+    };
     
     render(){
 	return (
@@ -18,19 +24,26 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		  }}
 		  />
 
-	      <WgMutexActionLink
-		 name="Background:"
-		 className="backgroundBTTW"
-		 initalEnabledArray={[false, false, false, false]}
-		 actions={[
-		     {
-			 name: "white"
+		  <WgMutexActionLink
+		     name="Background:"
+		     className="backgroundBTTW"
+		     equityTestingForEnabled={{
+			 currentValue: this.props.CC_UI.backgroundBTTW,
+			 representedValuesArray: [0, 1, 2, 3]
+		     }}
+		     actions={[
+			 {
+			 name: "white",
+			 cb: this.hofHandleUIchange("backgroundBTTW", 0)
 		     },{
-			 name: "trans.1"
+			 name: "trans.1",
+			 cb: this.hofHandleUIchange("backgroundBTTW", 1)
 		     },{
-			 name: "trans.2"
+			 name: "trans.2",
+			 cb: this.hofHandleUIchange("backgroundBTTW", 2)
 		     },{
-			 name: "black"
+			 name: "black",
+			 cb: this.hofHandleUIchange("backgroundBTTW", 3)
 		     }
 		 ]}
 		 />
