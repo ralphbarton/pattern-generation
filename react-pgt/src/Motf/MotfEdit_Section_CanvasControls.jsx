@@ -3,12 +3,6 @@ import React from 'react';
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 
 class MotfEdit_Section_CanvasControls extends React.PureComponent {
-
-    hofHandleUIchange(CC_key, value){
-	return this.props.handleMotfUIStateChange.bind(null, {
-	    canvasControls: {[CC_key]: {$set: value}}
-	});
-    };
     
     render(){
 	return (
@@ -35,16 +29,16 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		       actions={[
 			   {
 			       name: "white",
-			       cb: this.hofHandleUIchange("backgroundBTTW", 0)
+			       cb: this.props.hofHandleUIchange_CC("backgroundBTTW", 0)
 			   },{
 			       name: "trans.1",
-			       cb: this.hofHandleUIchange("backgroundBTTW", 1)
+			       cb: this.props.hofHandleUIchange_CC("backgroundBTTW", 1)
 			   },{
 			       name: "trans.2",
-			       cb: this.hofHandleUIchange("backgroundBTTW", 2)
+			       cb: this.props.hofHandleUIchange_CC("backgroundBTTW", 2)
 			   },{
 			       name: "black",
-			       cb: this.hofHandleUIchange("backgroundBTTW", 3)
+			       cb: this.props.hofHandleUIchange_CC("backgroundBTTW", 3)
 			   }
 		       ]}
 		       />
@@ -62,10 +56,10 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "off",
-			     cb: this.hofHandleUIchange("gridlines", false)
+			     cb: this.props.hofHandleUIchange_CC("gridlines", false)
 			 },{
 			     name: "on",
-			     cb: this.hofHandleUIchange("gridlines", true)
+			     cb: this.props.hofHandleUIchange_CC("gridlines", true)
 			 }
 		     ]}
 		     />
@@ -79,10 +73,10 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "off",
-			     cb: this.hofHandleUIchange("snapToGrid", false)
+			     cb: this.props.hofHandleUIchange_CC("snapToGrid", false)
 			 },{
 			     name: "on",
-			     cb: this.hofHandleUIchange("snapToGrid", true)
+			     cb: this.props.hofHandleUIchange_CC("snapToGrid", true)
 			 }
 		     ]}
 		     />
@@ -96,17 +90,18 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		     actions={[
 			 {
 			     name: "off",
-			     cb: this.hofHandleUIchange("axes", false)
+			     cb: this.props.hofHandleUIchange_CC("axes", false)
 			 },{
 			     name: "on",
-			     cb: this.hofHandleUIchange("axes", true)
+			     cb: this.props.hofHandleUIchange_CC("axes", true)
 			 }
 		     ]}
 		     />
 		</div>
 
 		<div className="column3">
-
+		  {JSON.stringify(this.props.CC_UI.mouseOverCanvas)}<br/>
+		  {JSON.stringify(this.props.CC_UI.mouseCoords)}
 		</div>
 
 	    </div>

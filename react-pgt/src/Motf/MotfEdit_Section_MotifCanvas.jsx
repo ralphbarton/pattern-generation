@@ -9,6 +9,7 @@ import Motf_util from './plain-js/Motf_util';
 
 class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
+
     fabricCanvasRegen(){
 
 	// 1. 'destroy' any pre-existing Fabric initialisation of the canvas
@@ -36,7 +37,25 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     
     render(){
 	return (
-	    <div className="canvas400">
+	    <div className="canvas400"
+		 onMouseEnter={this.props.hofHandleUIchange_CC("mouseOverCanvas", true)}
+		 onMouseLeave={this.props.hofHandleUIchange_CC("mouseOverCanvas", false)}
+
+		 //this seems to break the contained Fabric Canvas...
+		 onMouseMove={(e)=>{
+		     const canvBoundingBox = e.target.getBoundingClientRect();
+		     const canvX = e.pageX - canvBoundingBox.left - 200;
+		     const canvY = e.pageY - canvBoundingBox.top - 200;
+		     
+		     this.props.handleMotfUIStateChange({
+			 canvasControls: {mouseCoords: {
+			     x: {$set: canvX},
+			     y: {$set: canvY}
+			 }}
+		     });
+	      }}
+		 >
+
 	      <canvas
 		 width="399"
 		 height="399"

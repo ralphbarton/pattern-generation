@@ -35,7 +35,9 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    backgroundBTTW: 0,
 		    gridlines: false,
 		    snapToGrid: false,
-		    axes: false
+		    axes: false,
+		    mouseOverCanvas: false,
+		    mouseCoords: {x: 44, y: 44}
 		}
 	    }
 	};
@@ -58,6 +60,22 @@ class MainTab_MotfEdit extends React.PureComponent {
 	});
     }
     
+    // This higher order Function may be partially applied, returning another higher order function.
+    // This adds conciseness and hierarchical ordering
+    //
+    // Partially applied inside this Component
+    // Fully applied in a child component at Component render time. At this point, a reguar handler function is returned.
+    hofHandleMotfUIStateChange(UI_section, subkey, value){
+	const TS = this;
+	return function (){
+	    TS.setState({
+		UI: update(TS.state.UI, {
+		    [UI_section]: {[subkey]: {$set: value}}
+		})
+	    });
+	};
+    };
+
     
     render(){
 	return (
@@ -92,7 +110,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		   Motf={this.state.Motf}
 		   CC_UI={this.state.UI.canvasControls}
 		   handleEditingMotfChange={this.handleEditingMotfChange}
-		   handleMotfUIStateChange={this.handleMotfUIStateChange}
+		   hofHandleUIchange_CC={this.hofHandleMotfUIStateChange.bind(this, "canvasControls")}
 		   />
 
 		
@@ -107,6 +125,8 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  {/* >> Motif Canvas */}
 		  <MotfEdit_Section_MotifCanvas
 		     Motf={this.state.Motf}
+		     hofHandleUIchange_CC={this.hofHandleMotfUIStateChange.bind(this, "canvasControls")}
+		     handleMotfUIStateChange={this.handleMotfUIStateChange}
 		     />
 		</div>
 
