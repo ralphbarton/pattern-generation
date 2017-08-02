@@ -130,7 +130,8 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		  
 		  {this.props.CC_UI.mouseOverCanvas ? 
 		      <div className="mouseCoords">
-			    Mouse (x,y): (<span className="val">44</span>, <span className="val">44</span>)
+			    Mouse (x,y): (<span className="val">{this.props.CC_UI.mouseCoords.x}</span>,
+					  <span className="val">{this.props.CC_UI.mouseCoords.y}</span>)
 		   </div> : null }
 
 		  {/*

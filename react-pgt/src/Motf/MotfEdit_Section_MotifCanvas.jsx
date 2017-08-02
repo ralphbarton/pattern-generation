@@ -27,8 +27,17 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	});
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+	// there is no point comparing whole objects:  nextProps !== this.props
+	// {} !== {} evalutes true! So it will trigger re-render when there is no change.
+
+	//Positively select props in which change will trigger rerender. For now, there is just the one...
+	return nextProps.Motf !== this.props.Motf;
+    }
+    
+    
     componentDidUpdate(){
-	    this.fabricCanvasRegen();
+	this.fabricCanvasRegen();
     }
 
     componentDidMount(){
@@ -47,14 +56,13 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 		     const canvX = e.pageX - canvBoundingBox.left - 200;
 		     const canvY = e.pageY - canvBoundingBox.top - 200;
 
-		     /*
 		     this.props.handleMotfUIStateChange({
 			 canvasControls: {mouseCoords: {
 			     x: {$set: canvX},
 			     y: {$set: canvY}
 			 }}
 		     });
-*/
+
 	      }}
 		 >
 

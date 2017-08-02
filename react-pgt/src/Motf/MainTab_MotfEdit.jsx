@@ -44,6 +44,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 	
 	this.handleEditingMotfChange = this.handleEditingMotfChange.bind(this);
 	this.handleMotfUIStateChange = this.handleMotfUIStateChange.bind(this);
+	this.hofHandleUIchange_CC    = this.hofHandleMotfUIStateChange.bind(this, "canvasControls");
     }
 
 
@@ -75,7 +76,6 @@ class MainTab_MotfEdit extends React.PureComponent {
 	    });
 	};
     };
-
     
     render(){
 	return (
@@ -110,7 +110,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		   Motf={this.state.Motf}
 		   CC_UI={this.state.UI.canvasControls}
 		   handleEditingMotfChange={this.handleEditingMotfChange}
-		   hofHandleUIchange_CC={this.hofHandleMotfUIStateChange.bind(this, "canvasControls")}
+		   hofHandleUIchange_CC={this.hofHandleUIchange_CC}
 		   />
 
 		
@@ -125,8 +125,8 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  {/* >> Motif Canvas */}
 		  <MotfEdit_Section_MotifCanvas
 		     Motf={this.state.Motf}
-		     hofHandleUIchange_CC={this.hofHandleMotfUIStateChange.bind(this, "canvasControls")}
 		     handleMotfUIStateChange={this.handleMotfUIStateChange}
+		     hofHandleUIchange_CC={this.hofHandleUIchange_CC}
 		     />
 		</div>
 
