@@ -6,6 +6,8 @@ import WgDropDown from '../Wg/WgDropDown';
 class MotfEdit_Section_CanvasControls extends React.PureComponent {
     
     render(){
+	const UI = this.props.CC_UI;
+	const setUI = this.props.hofHandleUIchange_CC;
 	return (
 	    <div className="canvasControls">
 	      {/* 1. The <input> for Motif Title*/}
@@ -24,22 +26,22 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		       name="Background:"
 		       className="backgroundBTTW"
 		       equityTestingForEnabled={{
-			   currentValue: this.props.CC_UI.backgroundBTTW,
+			   currentValue: UI.backgroundBTTW,
 			   representedValuesArray: [0, 1, 2, 3]
 		       }}
 		       actions={[
 			   {
 			       name: "white",
-			       cb: this.props.hofHandleUIchange_CC("backgroundBTTW", 0)
+			       cb: setUI("backgroundBTTW", 0)
 			   },{
 			       name: "trans.1",
-			       cb: this.props.hofHandleUIchange_CC("backgroundBTTW", 1)
+			       cb: setUI("backgroundBTTW", 1)
 			   },{
 			       name: "trans.2",
-			       cb: this.props.hofHandleUIchange_CC("backgroundBTTW", 2)
+			       cb: setUI("backgroundBTTW", 2)
 			   },{
 			       name: "black",
-			       cb: this.props.hofHandleUIchange_CC("backgroundBTTW", 3)
+			       cb: setUI("backgroundBTTW", 3)
 			   }
 		       ]}
 		       />
@@ -51,16 +53,16 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		     name="Gridlines:"
 		     className="gridlines"
 		     equityTestingForEnabled={{
-			 currentValue: this.props.CC_UI.gridlines,
+			 currentValue: UI.gridlines,
 			 representedValuesArray: [false, true]
 		     }}
 		     actions={[
 			 {
 			     name: "off",
-			     cb: this.props.hofHandleUIchange_CC("gridlines", false)
+			     cb: setUI("gridlines", false)
 			 },{
 			     name: "on",
-			     cb: this.props.hofHandleUIchange_CC("gridlines", true)
+			     cb: setUI("gridlines", true)
 			 }
 		     ]}
 		     />
@@ -68,16 +70,16 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		     name="Snap to Grid:"
 		     className="snapToGrid"
 		     equityTestingForEnabled={{
-			 currentValue: this.props.CC_UI.snapToGrid,
+			 currentValue: UI.snapToGrid,
 			 representedValuesArray: [false, true]
 		     }}
 		     actions={[
 			 {
 			     name: "off",
-			     cb: this.props.hofHandleUIchange_CC("snapToGrid", false)
+			     cb: setUI("snapToGrid", false)
 			 },{
 			     name: "on",
-			     cb: this.props.hofHandleUIchange_CC("snapToGrid", true)
+			     cb: setUI("snapToGrid", true)
 			 }
 		     ]}
 		     />
@@ -85,16 +87,16 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		     name="Axes:"
 		     className="axes"
 		     equityTestingForEnabled={{
-			 currentValue: this.props.CC_UI.axes,
+			 currentValue: UI.axes,
 			 representedValuesArray: [false, true]
 		     }}
 		     actions={[
 			 {
 			     name: "off",
-			     cb: this.props.hofHandleUIchange_CC("axes", false)
+			     cb: setUI("axes", false)
 			 },{
 			     name: "on",
-			     cb: this.props.hofHandleUIchange_CC("axes", true)
+			     cb: setUI("axes", true)
 			 }
 		     ]}
 		     />
@@ -102,18 +104,66 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 
 		<div className="column3">
 
-		<WgDropDown
-		   name="Grid Settings"
-		   className="gridSettings"
-		   content={
-			   <div>
-				 hello cat <br/>
-				     hello doggie
-			       </div>
-			   }
-		   enabled={this.props.CC_UI.gridlines}
-		   ddStyle="plain"
-			   />
+
+
+
+
+		  <WgDropDown
+		     name="Grid Settings"
+		     className="gridSettings"// from line below, avoid crazy indent, add or delete    0}/>
+		  content={
+		  <div>
+		    Grid System
+		    <div className="btn-set">
+		      <button onClick={setUI("gridSystem", "cartesian")}>Cartesian</button>
+		      <button onClick={setUI("gridSystem", "polar")}>Polar</button>
+		    </div>
+
+		    Grid Size
+		    <div className="btn-set">
+
+		      <button onClick={setUI("gridSize", "s")}>
+			Small
+			<div className="c-note">{UI.gridSystem==="cartesian" ? "10px" : "25px, 15°"}</div>
+		      </button>
+		      
+		      <button onClick={setUI("gridSize", "m")}>
+			Medium
+			<div className="c-note">{UI.gridSystem==="cartesian" ? "25px" : "50px, 45°"}</div>
+		      </button>
+
+		      <button onClick={setUI("gridSize", "l")}>
+			Large
+			<div className="c-note">{UI.gridSystem==="cartesian" ? "50px" : "100px, 95°"}</div>
+		      </button>
+		    </div>
+
+
+		    <div>
+		      Grid weight
+		      <div className="btn-set">
+			<button onClick={setUI("gridWeight", "faint")}>Faint</button>
+			<button onClick={setUI("gridWeight", "normal")}>Normal</button>
+			<button onClick={setUI("gridWeight", "strong")}>Strong</button>
+		      </div>
+		    </div>
+		    <div>
+		      Custom size
+		      <div>
+			<span className="i-note">{UI.gridSystem==="cartesian" ? "x-spacing" : "radius-incr"}: </span>
+			<input className="plain-cell s"/>
+		      </div>
+		      <div>
+			<span className="i-note">{UI.gridSystem==="cartesian" ? "y-spacing" : "angular-incr"}: </span>
+			<input className="plain-cell s"/>
+		      </div>
+		      <button onClick={null}>Reset</button>
+		    </div>
+		  </div>
+		  }
+		  enabled={UI.gridlines}
+		  ddStyle="plain"
+		  />
 
 		<WgDropDown
 		   name="Snap Settings"
@@ -124,19 +174,19 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 				     hello doggie
 			       </div>
 			   }
-			   enabled={this.props.CC_UI.snapToGrid}
+			   enabled={UI.snapToGrid}
 			   ddStyle="plain"
 			   />
 		  
-		  {this.props.CC_UI.mouseOverCanvas ? 
+		  {UI.mouseOverCanvas ? 
 		      <div className="mouseCoords">
-			    Mouse (x,y): (<span className="val">{this.props.CC_UI.mouseCoords.x}</span>,
-					  <span className="val">{this.props.CC_UI.mouseCoords.y}</span>)
+			    Mouse (x,y): (<span className="val">{UI.mouseCoords.x}</span>,
+					  <span className="val">{UI.mouseCoords.y}</span>)
 		   </div> : null }
 
 		  {/*
-		  {JSON.stringify(this.props.CC_UI.mouseOverCanvas)}<br/>
-		  {JSON.stringify(this.props.CC_UI.mouseCoords)}
+		  {JSON.stringify(UI.mouseOverCanvas)}<br/>
+		  {JSON.stringify(UI.mouseCoords)}
 		  */}
 		  
 		</div>

@@ -32,12 +32,26 @@ class MainTab_MotfEdit extends React.PureComponent {
 	    Motf: props.Motf,
 	    UI: {
 		canvasControls: {
+		    // 1. Mouse Position / Status
+		    mouseOverCanvas: false,
+		    mouseCoords: {x: 44, y: 44},
+		    // 2. Direct State
 		    backgroundBTTW: 0,
 		    gridlines: false,
 		    snapToGrid: false,
 		    axes: false,
-		    mouseOverCanvas: false,
-		    mouseCoords: {x: 44, y: 44}
+		    // 3. State contained in "Grid Settings" Dropdown
+		    gridSystem: "cartesian",
+		    gridSize: "m",
+		    gridWeight: "normal",
+		    customXSpacing: 1,
+		    customYSpacing: 1,
+		    customRadiusIncr: 1,
+		    customAngularIncr: 1,
+		    // 4. State contained in "Snap Settings" Dropdown
+		    snapBehaviour: 0,// "soft" / "medium" / "hard"
+		    snapOrigin: 0, //shape corner vs shape center
+		    snapAxes: 0 // x, y or x and y
 		}
 	    }
 	};

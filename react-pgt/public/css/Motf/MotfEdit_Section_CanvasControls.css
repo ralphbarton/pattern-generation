@@ -39,10 +39,48 @@
     color: #809db3;
 }
 
+
+
+/* Dropdown: 1. appearance of button without MouseOver */
+
 .MainTab_MotfEdit .canvasControls .dropdown{
     margin: 0px 4px;
 }
 
-.MainTab_MotfEdit .canvasControls .dropdown .dropbtn{
-    width: 75px;
+.MainTab_MotfEdit .canvasControls .dropbtn{
+    width: 80px;
 }
+
+.dropdown.gridSettings .dropdown-content{
+    /* for testing... */
+    display: block;
+}
+
+
+/* Dropdown: 2. Custom styles for DropDown contents */
+.MainTab_MotfEdit .canvasControls .dropdown .btn-set{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    margin-bottom: 5px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.MainTab_MotfEdit .canvasControls  .dropdown-content{
+    width: 145px;
+    left: -73px;
+    padding: 4px;
+}
+
+.dropdown.gridSettings .gridlines-custom-size > div{
+    margin-bottom: 4px;
+    margin-left: 12px;
+}
+
+.MainTab_MotfEdit .canvasControls .dropdown.gridSettings button.reset{
+    margin-bottom: 2px;
+    margin-left: 4px;
+}
+
+
+

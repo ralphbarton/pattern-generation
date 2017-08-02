@@ -123,7 +123,7 @@
 
 
 /* 8.4 styling elements inside dropdown: Text */
-.dropdown.plain .dropdown-content div.i-note{
+.dropdown.plain .dropdown-content .i-note{
     font-weight: bold;
     color: rgba(39, 58, 124, 0.65);
 }
