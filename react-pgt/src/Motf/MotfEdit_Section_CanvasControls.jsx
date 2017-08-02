@@ -1,6 +1,7 @@
 import React from 'react';
 
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import WgDropDown from '../Wg/WgDropDown';
 
 class MotfEdit_Section_CanvasControls extends React.PureComponent {
     
@@ -100,8 +101,43 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		</div>
 
 		<div className="column3">
+
+		<WgDropDown
+		   name="Grid Settings"
+		   className="gridSettings"
+		   content={
+			   <div>
+				 hello cat <br/>
+				     hello doggie
+			       </div>
+			   }
+		   enabled={this.props.CC_UI.gridlines}
+		   ddStyle="plain"
+			   />
+
+		<WgDropDown
+		   name="Snap Settings"
+		   className="snapSettings"
+		   content={
+			   <div>
+				 hello cat <br/>
+				     hello doggie
+			       </div>
+			   }
+			   enabled={this.props.CC_UI.snapToGrid}
+			   ddStyle="plain"
+			   />
+		  
+		  {this.props.CC_UI.mouseOverCanvas ? 
+		      <div className="mouseCoords">
+			    Mouse (x,y): (<span className="val">44</span>, <span className="val">44</span>)
+		   </div> : null }
+
+		  {/*
 		  {JSON.stringify(this.props.CC_UI.mouseOverCanvas)}<br/>
 		  {JSON.stringify(this.props.CC_UI.mouseCoords)}
+		  */}
+		  
 		</div>
 
 	    </div>

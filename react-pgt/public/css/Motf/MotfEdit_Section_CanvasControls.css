@@ -13,8 +13,36 @@
 }
 
 .MainTab_MotfEdit .canvasControls .column2{
-    margin-left: 6px;
+    margin-left: 10px;
+
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
+}
+
+.MainTab_MotfEdit .canvasControls > .column3{
+    position: relative;
+    flex: 1 auto;
+}
+
+.MainTab_MotfEdit .canvasControls .mouseCoords {
+    color: rgba(0,0,0,0.5);
+    font-size: 11px;
+    position: absolute;
+    bottom: -2px;
+    right: 0px;
+    width: 132px;
+}
+
+.MainTab_MotfEdit .canvasControls .mouseCoords span{
+    font-weight: bold;
+    color: #809db3;
+}
+
+.MainTab_MotfEdit .canvasControls .dropdown{
+    margin: 0px 4px;
+}
+
+.MainTab_MotfEdit .canvasControls .dropdown .dropbtn{
+    width: 75px;
 }

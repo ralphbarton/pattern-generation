@@ -9,7 +9,7 @@ function WgDropDown(props) {
 	<div className={dropdownClasses}>
 	  <button className="dropbtn">{props.name}</button>
 	  <div className="dropdown-content">
-	    {
+	    { props.menuContentList !== undefined ?
 		props.menuContentList.map( (item, index) => {
 		      return (
 			  <a
@@ -21,7 +21,9 @@ function WgDropDown(props) {
 			    {item.name}
 			    </a>
 		      );
-		  })
+		})
+	      :
+	      props.content
 	    }
 	  </div>
 	</div>

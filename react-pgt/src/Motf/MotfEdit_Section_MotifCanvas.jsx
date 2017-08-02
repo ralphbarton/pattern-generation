@@ -46,13 +46,15 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 		     const canvBoundingBox = e.target.getBoundingClientRect();
 		     const canvX = e.pageX - canvBoundingBox.left - 200;
 		     const canvY = e.pageY - canvBoundingBox.top - 200;
-		     
+
+		     /*
 		     this.props.handleMotfUIStateChange({
 			 canvasControls: {mouseCoords: {
 			     x: {$set: canvX},
 			     y: {$set: canvY}
 			 }}
 		     });
+*/
 	      }}
 		 >
 
