@@ -32,7 +32,10 @@ class MainTab_MotfEdit extends React.PureComponent {
 	    Motf: props.Motf,
 	    UI: {
 		canvasControls: {
-		    backgroundBTTW: 0
+		    backgroundBTTW: 0,
+		    gridlines: false,
+		    snapToGrid: false,
+		    axes: false
 		}
 	    }
 	};

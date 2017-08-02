@@ -1,0 +1,36 @@
+/* MotfEdit_Section_Properties.css */
+
+.MainTab_MotfEdit .properties {
+    margin: 6px;
+    border: 3px inset #DBD1AB;
+    background-color: white;
+}
+
+.MainTab_MotfEdit .properties .freezeHeading{
+    text-align: center; 
+    background-color: #CCC;
+    font-weight: bold;
+    padding: 2px;
+    border-bottom: 1px solid black;
+
+}
+
+.MainTab_MotfEdit .properties .scrollableContent{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 380px;
+}
+
+.MainTab_MotfEdit .properties .scrollableContent .blob{
+    background: cyan;
+    border: 1px solid blueviolet;
+    margin: 5px;
+    display: inline-block;
+    height: 410px;
+}
+
+.MainTab_MotfEdit .propertiesButtons{
+    text-align: right;
+    margin-bottom: 4px;
+    margin-right: 6px;
+}

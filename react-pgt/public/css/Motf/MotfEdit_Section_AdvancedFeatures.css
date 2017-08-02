@@ -1,0 +1,10 @@
+/* MotfEdit_Section_AdvancedFeatures.css */
+
+.MainTab_MotfEdit .advancedFeatures{
+    flex: 1 auto;
+}
+
+.MainTab_MotfEdit .advancedFeatures{
+    margin: 4px;
+    margin-left: 0px;
+}

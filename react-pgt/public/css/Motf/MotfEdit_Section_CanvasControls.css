@@ -1,0 +1,20 @@
+/* MotfEdit_Section_CanvasControls.css */
+
+.MainTab_MotfEdit .canvasControls > input.plain-cell{
+    font-size: 18px;
+    width: 245px;
+}
+
+.MainTab_MotfEdit .canvasControls {
+    height: 42px;
+    margin-top: 4px;
+    display: flex;
+    flex-flow: row
+}
+
+.MainTab_MotfEdit .canvasControls .column2{
+    margin-left: 6px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}

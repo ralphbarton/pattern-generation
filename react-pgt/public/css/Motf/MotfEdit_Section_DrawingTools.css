@@ -1,0 +1,10 @@
+/* MotfEdit_Section_DrawingTools.css */
+
+.MainTab_MotfEdit .canvasSection .drawingTools{
+    flex: 1 auto;
+}
+
+.MainTab_MotfEdit .canvasSection .drawingTools .drawOneMany{
+    padding: 0px 6px;
+    margin-bottom: 20px;
+}

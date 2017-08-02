@@ -1,0 +1,22 @@
+/* MotfEdit_Section_Parameters.css */
+
+.MainTab_MotfEdit .parameters{
+    flex: 1 auto;
+}
+
+.MainTab_MotfEdit .parameters .WgTable{
+    margin-bottom: 0px;
+}
+
+.MainTab_MotfEdit .parameters tbody{
+    height: 180px;
+}
+
+
+.MainTab_MotfEdit .parameters .col-1{
+    width: 85px;
+}
+
+.MainTab_MotfEdit .parameters th{
+    padding: 0px 10px;
+}
