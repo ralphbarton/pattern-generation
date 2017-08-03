@@ -2,6 +2,7 @@ import React from 'react';
 
 import WgMutexActionLink from '../Wg/WgMutexActionLink';
 import WgDropDown from '../Wg/WgDropDown';
+import WgFadeTransition from '../Wg/WgFadeTransition';
 
 class MotfEdit_Section_CanvasControls extends React.PureComponent {
     
@@ -147,7 +148,7 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 			<button onClick={setUI("gridWeight", "strong")}>Strong</button>
 		      </div>
 		    </div>
-		    <div>
+		    <div className="customSize">
 		      Custom size
 		      <div>
 			<span className="i-note">{UI.gridSystem==="cartesian" ? "x-spacing" : "radius-incr"}: </span>
@@ -178,12 +179,17 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 			   ddStyle="plain"
 			   />
 		  
-		  {UI.mouseOverCanvas ? 
-		      <div className="mouseCoords">
-			    Mouse (x,y): (<span className="val">{UI.mouseCoords.x}</span>,
-					  <span className="val">{UI.mouseCoords.y}</span>)
-		   </div> : null }
 
+
+	        <WgFadeTransition speed={0}>
+		  {UI.mouseOverCanvas ?
+		  <div className="mouseCoords"> 
+		    Mouse (x,y): (<span className="val">{UI.mouseCoords.x}</span>,
+				  <span className="val">{UI.mouseCoords.y}</span>)
+	    </div>
+		   : null}
+		</WgFadeTransition>
+		
 		  {/*
 		  {JSON.stringify(UI.mouseOverCanvas)}<br/>
 		  {JSON.stringify(UI.mouseCoords)}

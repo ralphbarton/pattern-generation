@@ -1,0 +1,64 @@
+/* WgFadeTransition.css */
+
+/* 200ms transition */
+.WgFade200-enter {
+    opacity: 0.01;
+}
+
+.WgFade200-enter.WgFade200-enter-active {
+    opacity: 1;
+    transition: opacity 200ms ease-in;
+}
+
+.WgFade200-leave {
+    opacity: 1;
+}
+
+.WgFade200-leave.WgFade200-leave-active {
+    opacity: 0.01;
+    transition: opacity 200ms ease-in;
+}
+
+
+
+
+/* 400ms transition */
+.WgFade400-enter {
+    opacity: 0.01;
+}
+
+.WgFade400-enter.WgFade400-enter-active {
+    opacity: 1;
+    transition: opacity 400ms ease-in;
+}
+
+.WgFade400-leave {
+    opacity: 1;
+}
+
+.WgFade400-leave.WgFade400-leave-active {
+    opacity: 0.01;
+    transition: opacity 400ms ease-in;
+}
+
+
+
+
+/* 1000ms transition */
+.WgFade1000-enter {
+    opacity: 0.01;
+}
+
+.WgFade1000-enter.WgFade1000-enter-active {
+    opacity: 1;
+    transition: opacity 1000ms ease-in;
+}
+
+.WgFade1000-leave {
+    opacity: 1;
+}
+
+.WgFade1000-leave.WgFade1000-leave-active {
+    opacity: 0.01;
+    transition: opacity 1000ms ease-in;
+}

@@ -49,8 +49,8 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    customRadiusIncr: 1,
 		    customAngularIncr: 1,
 		    // 4. State contained in "Snap Settings" Dropdown
-		    snapBehaviour: 0,// "soft" / "medium" / "hard"
-		    snapOrigin: 0, //shape corner vs shape center
+		    snapResponsiveness: 0,// "soft" / "medium" / "hard"
+		    objectSnapOrigin: 0, //shape corner vs shape center
 		    snapAxes: 0 // x, y or x and y
 		}
 	    }
