@@ -182,12 +182,12 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 
 
 	        <WgFadeTransition speed={0}>
-		  {UI.mouseOverCanvas ?
-		  <div className="mouseCoords"> 
-		    Mouse (x,y): (<span className="val">{UI.mouseCoords.x}</span>,
-				  <span className="val">{UI.mouseCoords.y}</span>)
-	    </div>
-		   : null}
+		  {UI.mouseOverCanvas &&
+		      <div className="mouseCoords"> 
+			    Mouse (x,y): (<span className="val">{UI.mouseCoords.x}</span>,
+					  <span className="val">{UI.mouseCoords.y}</span>)
+		   </div>
+		  }
 		</WgFadeTransition>
 		
 		  {/*

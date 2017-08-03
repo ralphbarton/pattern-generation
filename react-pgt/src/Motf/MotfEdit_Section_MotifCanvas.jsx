@@ -5,6 +5,7 @@ var _ = require('lodash');
 
 //should I divide up this file into separate categories of function (better modularisation)
 import Motf_util from './plain-js/Motf_util';
+import MotfEdit_Section_MotifCanvas_BG from './MotfEdit_Section_MotifCanvas_BG';
 
 
 class MotfEdit_Section_MotifCanvas extends React.PureComponent {
@@ -31,8 +32,13 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	// there is no point comparing whole objects:  nextProps !== this.props
 	// {} !== {} evalutes true! So it will trigger re-render when there is no change.
 
-	//Positively select props in which change will trigger rerender. For now, there is just the one...
-	return nextProps.Motf !== this.props.Motf;
+	//detect change in 'CC_UI', excluding mouse based change...
+	const c1 = nextProps.CC_UI !== this.props.CC_UI;// change in CC_UI object
+	const c2 = nextProps.CC_UI.mouseCoords === this.props.CC_UI.mouseCoords; // test for NO CHANGE 
+	const c3 = nextProps.CC_UI.mouseOverCanvas === this.props.CC_UI.mouseOverCanvas; // test for NO CHANGE 
+
+	//Positively select props in which change will trigger rerender.
+	return nextProps.Motf !== this.props.Motf || (c1 && c2 && c3);
     }
     
     
@@ -46,7 +52,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     
     render(){
 	return (
-	    <div className="canvas400"
+	    <div className="MotfEdit_Section_MotifCanvas"
 		 onMouseEnter={this.props.hofHandleUIchange_CC("mouseOverCanvas", true)}
 		 onMouseLeave={this.props.hofHandleUIchange_CC("mouseOverCanvas", false)}
 
@@ -64,8 +70,8 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 		     });
 
 	      }}
-		 >
-
+	      >
+	      <MotfEdit_Section_MotifCanvas_BG CC_UI={this.props.CC_UI}/>
 	      <canvas
 		 width="399"
 		 height="399"

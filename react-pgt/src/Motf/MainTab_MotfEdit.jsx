@@ -139,6 +139,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  {/* >> Motif Canvas */}
 		  <MotfEdit_Section_MotifCanvas
 		     Motf={this.state.Motf}
+		     CC_UI={this.state.UI.canvasControls}
 		     handleMotfUIStateChange={this.handleMotfUIStateChange}
 		     hofHandleUIchange_CC={this.hofHandleUIchange_CC}
 		     />

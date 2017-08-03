@@ -1,11 +1,31 @@
 /* MotfEdit_Section_MotifCanvas.css */
 
-.MainTab_MotfEdit .canvas400{
+.MainTab_MotfEdit .MotfEdit_Section_MotifCanvas{
     box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
     margin: 12px;
     margin-top: 11px;
     margin-bottom: 3px;
     width: 399px;
     height: 399px;
+    overflow: hidden;
+}
+
+.MotfEdit_Section_MotifCanvas .layer{
+    position: absolute;
+    width: 399px;
+    height: 399px;
+    /*overwrites CSSTransitionGroup of <WgFadeTransition>*/
+    transition: all 0.2s;
+}
+
+.MotfEdit_Section_MotifCanvas .layer.white{
     background-color: white;
+}
+
+.MotfEdit_Section_MotifCanvas .layer.black{
+    background-color: black;
+}
+
+.MotfEdit_Section_MotifCanvas .layer.chequer{
+    border: none;
 }
