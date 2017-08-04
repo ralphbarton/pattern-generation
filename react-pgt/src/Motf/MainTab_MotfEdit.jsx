@@ -143,6 +143,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		     CC_UI={this.state.UI.canvasControls}
 		     handleMotfUIStateChange={this.handleMotfUIStateChange}//needed to set a non-fixed value (mouse coords)
 		     hofHandleUIchange_CC={this.hofHandleUIchange_CC}
+		     onToastMsg={this.props.onToastMsg}
 		     />
 		</div>
 

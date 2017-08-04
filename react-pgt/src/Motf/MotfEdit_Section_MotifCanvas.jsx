@@ -27,6 +27,19 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	_.forEach(this.props.Motf.Elements, function(Properties, index) { // (value, key)
 	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
 	});
+
+
+	// 4. add a bunch of handlers...
+	/*(I should make different unlying handlers for Update as compared with Mount, and only
+	 need to add all these canvas handlers once, on the mount Event...)
+	 */
+
+	const TS = this;
+	canvas.on('object:selected', function(options) {
+	    TS.props.onToastMsg("yay, I selected an Object...");
+
+	});
+
     }
 
     shouldComponentUpdate(nextProps, nextState){

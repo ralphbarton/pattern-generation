@@ -18,3 +18,26 @@ body{
 .Background_Plot .plot-canvas{
     display: block;
 }
+
+
+/* for new CSS file
+
+ToastManager.css
+*/
+
+.toastMsg{
+    z-index: 3;
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+    background-color: rgba(153, 206, 255, 0.7);
+    border: 3px solid rgba(39, 105, 180, 0.7);
+    padding: 5px 14px;
+    border-radius: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(4, 50, 63, 0.9);
+}
+

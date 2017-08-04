@@ -234,7 +234,8 @@ class MainTab_MotfView extends React.PureComponent {
 		   Motf={this.props.PGTobjArray[this.props.UI.selectedRowIndex]}
 		   onSaveEdits={this.props.fn.handleReplaceSelPGTobj}
 		   onCloseEditingMode={this.handleSetEditMode.bind(this, false)}
-		  />
+		   onToastMsg={this.props.onToastMsg}
+		   />
 	    );
 	default:
 	    return this.renderMotfView();

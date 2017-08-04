@@ -14,6 +14,7 @@ import {CfunSampleData} from './DatH/SampleData_Cfun';
 //Custom Components
 import Toolbox from './Toolbox';
 import PGT_Background from './PGT_Background';
+import ToastManager from './ToastManager';
 
 class PGT_App extends React.PureComponent {
 
@@ -34,7 +35,8 @@ class PGT_App extends React.PureComponent {
 		"plot": {},
 		"motf": {},
 		"patt": {}
-	    }
+	    },
+	    toastStack: []
 	};
 	this.latestUI = this.state.UI;
 
@@ -42,6 +44,7 @@ class PGT_App extends React.PureComponent {
 	// directly also works...
 	this.handleUIStateChange = this.handleUIStateChange.bind(this);
 	this.handleDataChange = this.handleDataChange.bind(this);
+	this.handleToastMsg = this.handleToastMsg.bind(this);
     }
 
     handleDataChange(dataCategory, changeType, details){
@@ -75,7 +78,13 @@ class PGT_App extends React.PureComponent {
 	    UI: this.latestUI
 	});
     }
-    
+
+    handleToastMsg(msg_string){
+	const newToastStack = update(this.state.toastStack, {$push: [msg_string]});
+	this.setState({
+	    toastStack: newToastStack
+	});
+    }
     
     render() {
 	return (
@@ -94,6 +103,10 @@ class PGT_App extends React.PureComponent {
 		 onPGTobjARRAYSChange={this.handleDataChange}
 		 UIState={this.state.UI}
 		 onUIStateChange={this.handleUIStateChange}
+		 onToastMsg={this.handleToastMsg}
+		 />
+	      <ToastManager
+		 toastStack={this.state.toastStack}
 		 />
 	    </div>
 	);

@@ -102,6 +102,7 @@ class Toolbox extends React.PureComponent {
 					 UI={this.props.UIState['motf']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"motf": $chg});}}
 					 onToolboxSizeChange={this.handleToolboxSizeChange.bind(this)}
+					 onToastMsg={this.props.onToastMsg}
 					/>
 				  );
 			      }
