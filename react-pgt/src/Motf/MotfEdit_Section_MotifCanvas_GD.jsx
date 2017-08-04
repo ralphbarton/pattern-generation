@@ -87,12 +87,31 @@ class MotfEdit_Section_MotifCanvas_GD extends React.PureComponent {
     
     bgGridAxesUpdate(){
 
+	const SVG = this.svgRef;
+	const UI = this.props.CC_UI;
 
+	// overall visiblity of Axes & Grid
+	d3.select(SVG).select("g.axes").classed("hidden", !UI.axes);
+	d3.select(SVG).select("g.gridlines").classed("hidden", !UI.gridlines);
+	
+	// update (set) Grid Systen
+	d3.select(SVG).select("g.gridlines g.cartesian").classed("hidden", UI.gridSystem !== "cartesian");
+	d3.select(SVG).select("g.gridlines g.polar").classed("hidden", UI.gridSystem !== "polar");
+
+	// update (set) Grid Size
+	d3.select(SVG).selectAll("g.gridlines g.small").classed("hidden", UI.gridSize !== "small");
+	d3.select(SVG).selectAll("g.gridlines g.medium").classed("hidden", UI.gridSize !== "medium");
+	d3.select(SVG).selectAll("g.gridlines g.large").classed("hidden", UI.gridSize !== "large");
+	
+	// update (set) Grid Weight
+	d3.select(SVG).select("g.gridlines").classed("faint", UI.gridWeight === "faint");
+	d3.select(SVG).select("g.gridlines").classed("strong", UI.gridWeight === "strong");
 
     }
 
     componentDidMount(){
 	this.bgGridAxesMount();
+	this.bgGridAxesUpdate();
     }
 
     

@@ -123,17 +123,17 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		    Grid Size
 		    <div className="btn-set">
 
-		      <button onClick={setUI("gridSize", "s")}>
+		      <button onClick={setUI("gridSize", "small")}>
 			Small
 			<div className="c-note">{UI.gridSystem==="cartesian" ? "10px" : "25px, 15°"}</div>
 		      </button>
 		      
-		      <button onClick={setUI("gridSize", "m")}>
+		      <button onClick={setUI("gridSize", "medium")}>
 			Medium
 			<div className="c-note">{UI.gridSystem==="cartesian" ? "25px" : "50px, 45°"}</div>
 		      </button>
 
-		      <button onClick={setUI("gridSize", "l")}>
+		      <button onClick={setUI("gridSize", "large")}>
 			Large
 			<div className="c-note">{UI.gridSystem==="cartesian" ? "50px" : "100px, 95°"}</div>
 		      </button>
@@ -158,7 +158,22 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 			<span className="i-note">{UI.gridSystem==="cartesian" ? "y-spacing" : "angular-incr"}: </span>
 			<input className="plain-cell s"/>
 		      </div>
-		      <button onClick={null}>Reset</button>
+			  <button onClick={()=>{
+				this.props.handleMotfUIStateChange({
+				    canvasControls: {
+					// State contained in "Grid Settings" Dropdown
+					gridSystem: {$set: "cartesian"},
+					gridSize: {$set: "medium"},
+					gridWeight: {$set: "normal"},
+					customXSpacing: {$set: 1},
+					customYSpacing: {$set: 1},
+					customRadiusIncr: {$set: 1},
+					customAngularIncr: {$set: 1}
+				    }
+				});
+				}}>
+				Reset
+			      </button>
 		    </div>
 		  </div>
 		  }

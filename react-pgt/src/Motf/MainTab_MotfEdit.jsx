@@ -37,12 +37,12 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    mouseCoords: {x: 44, y: 44},
 		    // 2. Direct State
 		    backgroundBTTW: 0,
-		    gridlines: false,
+		    gridlines: true,
 		    snapToGrid: false,
-		    axes: false,
+		    axes: true,
 		    // 3. State contained in "Grid Settings" Dropdown
 		    gridSystem: "cartesian",
-		    gridSize: "m",
+		    gridSize: "medium",
 		    gridWeight: "normal",
 		    customXSpacing: 1,
 		    customYSpacing: 1,
@@ -124,6 +124,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		   Motf={this.state.Motf}
 		   CC_UI={this.state.UI.canvasControls}
 		   handleEditingMotfChange={this.handleEditingMotfChange}
+		   handleMotfUIStateChange={this.handleMotfUIStateChange}//needed to set multiple values at once
 		   hofHandleUIchange_CC={this.hofHandleUIchange_CC}
 		   />
 
@@ -140,7 +141,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  <MotfEdit_Section_MotifCanvas
 		     Motf={this.state.Motf}
 		     CC_UI={this.state.UI.canvasControls}
-		     handleMotfUIStateChange={this.handleMotfUIStateChange}
+		     handleMotfUIStateChange={this.handleMotfUIStateChange}//needed to set a non-fixed value (mouse coords)
 		     hofHandleUIchange_CC={this.hofHandleUIchange_CC}
 		     />
 		</div>

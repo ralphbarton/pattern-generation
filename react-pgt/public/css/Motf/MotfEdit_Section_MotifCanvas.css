@@ -58,7 +58,7 @@
     opacity: 0;
 }
 
-.MotfEdit_Section_MotifCanvas svg#bg-axes-grid .axes line{
+.MotfEdit_Section_MotifCanvas svg .axes line{
     stroke: black;
     stroke-width: 2;
 }
