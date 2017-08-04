@@ -6,6 +6,7 @@ var _ = require('lodash');
 //should I divide up this file into separate categories of function (better modularisation)
 import Motf_util from './plain-js/Motf_util';
 import MotfEdit_Section_MotifCanvas_BG from './MotfEdit_Section_MotifCanvas_BG';
+import MotfEdit_Section_MotifCanvas_GD from './MotfEdit_Section_MotifCanvas_GD';
 
 
 class MotfEdit_Section_MotifCanvas extends React.PureComponent {
@@ -72,6 +73,8 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	      }}
 	      >
 	      <MotfEdit_Section_MotifCanvas_BG CC_UI={this.props.CC_UI}/>
+	      <MotfEdit_Section_MotifCanvas_GD CC_UI={this.props.CC_UI}/>
+
 	      <canvas
 		 width="399"
 		 height="399"

@@ -10,6 +10,12 @@
     overflow: hidden;
 }
 
+
+
+
+
+/* BG   */
+
 .MotfEdit_Section_MotifCanvas .layer{
     position: absolute;
     width: 399px;
@@ -28,4 +34,75 @@
 
 .MotfEdit_Section_MotifCanvas .layer.chequer{
     border: none;
+}
+
+
+
+
+
+
+
+/* GD */
+
+.MotfEdit_Section_MotifCanvas svg{
+    position: absolute;
+}
+
+/* motif canvas SVG */
+.MotfEdit_Section_MotifCanvas svg *{
+    transition: all 0.2s;
+}
+
+.MotfEdit_Section_MotifCanvas svg .hidden{
+        transition: all 0.8s;
+    opacity: 0;
+}
+
+.MotfEdit_Section_MotifCanvas svg#bg-axes-grid .axes line{
+    stroke: black;
+    stroke-width: 2;
+}
+
+
+
+
+
+/* Faintness controls for both lines and circles */
+
+.MotfEdit_Section_MotifCanvas svg.dark#bg-axes-grid .axes line{
+    stroke: white;
+}
+
+.MotfEdit_Section_MotifCanvas svg g.gridlines * {
+    stroke: rgba(0, 0, 0, 0.12); 
+    transition: all 0.8s;
+}
+
+.MotfEdit_Section_MotifCanvas svg g.gridlines.faint * {
+    stroke: rgba(0, 0, 0, 0.05);
+}
+
+.MotfEdit_Section_MotifCanvas svg g.gridlines.strong *{
+    stroke: rgba(0, 0, 0, 0.25); 
+}
+
+.MotfEdit_Section_MotifCanvas svg.dark g.gridlines *{
+    stroke: rgba(255, 255, 255, 0.12); 
+}
+
+.MotfEdit_Section_MotifCanvas svg.dark g.gridlines.faint *{
+    stroke: rgba(255, 255, 255, 0.05);
+}
+
+.MotfEdit_Section_MotifCanvas svg.dark g.gridlines.strong *{
+    stroke: rgba(255, 255, 255, 0.25); 
+}
+
+
+
+
+/* Polar grid styling */
+.MotfEdit_Section_MotifCanvas svg g.gridlines circle{
+    fill: none;
+    stroke-width: 1;
 }
