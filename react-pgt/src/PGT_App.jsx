@@ -35,8 +35,7 @@ class PGT_App extends React.PureComponent {
 		"plot": {},
 		"motf": {},
 		"patt": {}
-	    },
-	    toastStack: []
+	    }
 	};
 	this.latestUI = this.state.UI;
 
@@ -80,9 +79,10 @@ class PGT_App extends React.PureComponent {
     }
 
     handleToastMsg(msg_string){
-	const newToastStack = update(this.state.toastStack, {$push: [msg_string]});
+	const count = this.state.toastCount || 0;
 	this.setState({
-	    toastStack: newToastStack
+	    toastCount: count+1,
+	    latestToast: msg_string
 	});
     }
     
@@ -106,7 +106,8 @@ class PGT_App extends React.PureComponent {
 		 onToastMsg={this.handleToastMsg}
 		 />
 	      <ToastManager
-		 toastStack={this.state.toastStack}
+		 latestToast={this.state.latestToast}
+		 toastCount={this.state.toastCount}
 		 />
 	    </div>
 	);
