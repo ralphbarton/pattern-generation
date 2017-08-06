@@ -13,10 +13,33 @@ import WgBoxie from '../Wg/WgBoxie';
  */
 
 import Motf_util from './plain-js/Motf_util';
-import util from '.././plain-js/util'; // for lookup by uid
-
-
 import MainTab_MotfEdit from './MainTab_MotfEdit';
+
+
+class Motf_Thumbnail extends React.PureComponent {
+
+    componentDidUpdate(){
+	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);// put content in SVG element
+    }
+
+    componentDidMount(){
+	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);// put content in SVG element
+    }
+    
+    render(){
+	return (
+	    <svg
+	       className={"motf-thumb uid-" + this.props.motf.uid}
+	       width={45}
+	       height={45}
+	       viewBox={"0 0 400 400"}
+	       ref={ (el) => {this.thumbSVG = el;}}
+	      />
+
+	);
+    }
+}
+
 
 class MainTab_MotfView extends React.PureComponent {
 
@@ -51,44 +74,24 @@ class MainTab_MotfView extends React.PureComponent {
 	    quantityContours: 6,
 	    overlayAxesScale: false
 	});
-	this.redrawAllMotifSVGs();
     }
 
     
     componentDidUpdate(){
-	this.redrawAllMotifSVGs();
+	if(this.props.UI.selectedRowIndex === undefined){return;} // no row selected, nothing to do
+	
+	// 2. Draw the Main Large-sized preview
+	const Motf_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
+	Motf_util.putMotifSVG(this.svgElement235, Motf_i);
     }
 
-    
+    // handler to make the Toolbox bigger (or smaller). It's for: Motif View <--> Motif edit 
     handleSetEditMode(edit_mode){
 	this.setState({
 	    isEditing: edit_mode
 	});
 	this.props.onToolboxSizeChange(edit_mode ? 3 : 1);
-    }
-
-
-    redrawAllMotifSVGs(){
-
-	// 1. if parameters aren't set (sacraficial render first) do nothing....
-	if(this.props.UI.selectedRowIndex === undefined){return null;}
-	
-	// 2. Draw the Main Large-sized preview
-	const Motf_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
-	
-	Motf_util.putMotifSVG(this.svgElement235, Motf_i);	
-
-	const motfArray = this.props.PGTobjArray;
-	// 3. Refresh all the small previews.
-	_.forEach(this.WgTableThumbSVG_ElemRefs, function(svg_el, uid){// lodash argument order: (value, key)
-
-	    const motf_uid = Number(uid); //the dictionary has keys of type Number
-	    const Motif_i = util.lookup(motfArray, "uid", motf_uid);
-	    
-	    Motf_util.putMotifSVG(svg_el, Motif_i);		    
-	});
-    }
-    
+    }    
     
     motf_WgTableColumns(){
 	return ([
@@ -113,16 +116,7 @@ class MainTab_MotfView extends React.PureComponent {
 	    {
 		heading: "Prev.",
 		renderCellContents: (motf, i, rowIsSelected)=>{
-		    return (
-			<svg
-			   className={"motf-thumb uid-"+motf.uid}
-			   width={45}
-			   height={45}
-			   viewBox={"0 0 400 400"}
-			   ref={ (el) => {this.WgTableThumbSVG_ElemRefs[motf.uid] = el;}}
-			  />
-
-		    );
+		    return <Motf_Thumbnail motf={motf} />;
 		}
 	    }
 	]);
