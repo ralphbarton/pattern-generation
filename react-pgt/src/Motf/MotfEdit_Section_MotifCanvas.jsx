@@ -11,42 +11,83 @@ import MotfEdit_Section_MotifCanvas_GD from './MotfEdit_Section_MotifCanvas_GD';
 
 class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
+    fabricCanvasMount(){
 
-    fabricCanvasRegen(){
-
-	// 1. 'destroy' any pre-existing Fabric initialisation of the canvas
-	if(this.canvas){
-	    this.canvas.dispose();
-	}
-
-	// 2. (re-)initialisate as a blank Fabric canvas
+	// 1. Initialisate a blank Fabric canvas
 	this.canvas = new fabric.Canvas(this.fabricCanvasElement);
-	
-	// 3. add all the objects
 	const canvas = this.canvas;
-	_.forEach(this.props.Motf.Elements, function(Properties, index) { // (value, key)
-	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
-	});
 
-
-	// 4. add a bunch of handlers...
-	/*(I should make different unlying handlers for Update as compared with Mount, and only
-	 need to add all these canvas handlers once, on the mount Event...)
-	 */
-
-	const showToast = this.props.onToastMsg;
+	// 2. Add a bunch of handlers...
+	const onToastMsg = this.props.onToastMsg;
 	canvas.on('object:selected', function(options) {
+
 	    const multiple = options.target._objects !== undefined;
 
-	    //	    console.log("target of selection:", );
-
 	    if(multiple){
-		showToast("Group selection...");
+		onToastMsg("Group selection...");
 	    }else{
-		showToast("Use CTRL key to select additional objects.");
+		onToastMsg("Use CTRL key to select additional objects.");
 	    }
 	});
 
+
+	const typeInterpret = function(type_str){
+	    switch (type_str) {		
+	    case "ellipse": return "obj-ellipse";
+	    case "rect": return "obj-rectangle";
+	    default: return "obj-unknown";
+	    }
+	};
+
+	const handleEditingMotfChange = this.props.handleEditingMotfChange;
+	canvas.on('object:modified', function(options) {
+
+	    // "serialise" the entire Canvas contents...
+	    const DatH_Elements = canvas.getObjects().map(function(obj){
+		return {
+		    shape: typeInterpret(obj.type),
+		    left: obj.left,
+		    top: obj.top,
+		    fill: obj.fill,
+		    stroke: obj.stroke,
+		    width: obj.width, //rect specific
+		    height: obj.height, //rect specific
+		    rx: obj.rx, // ellipse only
+		    ry: obj.ry, // ellipse only
+
+		    angle: obj.angle, // sometimes
+		    strokeWidth: obj.strokeWidth, // sometimes
+
+		    
+
+		    PGTuid: obj.PGTuid
+		    
+		    // can this whole thing be a bit more programatic
+		    // (e.g. a list of properties to copy, defined somewhere else and reused??)
+		};		
+	    });
+
+	    // now save the updated contents...
+//	    console.log("DatH_Elements", DatH_Elements);
+	    handleEditingMotfChange({Elements: {$set: DatH_Elements}});
+	    
+	});
+	
+	// 3. having Mounted, add all objects for the first time...
+	this.fabricCanvasUpdate();
+    }
+
+    fabricCanvasUpdate(){
+
+	const canvas = this.canvas;
+
+	// 1. wipe all objects from the canvas
+	canvas.clear();
+
+	// 2. (re-)add all the objects
+	_.forEach(this.props.Motf.Elements, function(Properties, index) { // (value, key)
+	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
+	});
     }
 
     shouldComponentUpdate(nextProps, nextState){
@@ -64,11 +105,11 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     
     
     componentDidUpdate(){
-	this.fabricCanvasRegen();
+	this.fabricCanvasUpdate();
     }
 
     componentDidMount(){
-	this.fabricCanvasRegen();
+	this.fabricCanvasMount();
     }
     
     render(){
