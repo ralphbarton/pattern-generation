@@ -1,7 +1,7 @@
 import React from 'react';
 
 import WgBoxie from '../Wg/WgBoxie';
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import {WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 
 class MotfEdit_Section_DrawingTools extends React.PureComponent {
     
@@ -9,19 +9,13 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 	return (
 	    <WgBoxie className="drawingTools" name="Tools" boxieStyle={"small"} >
 
-	      <WgMutexActionLink
+	      <WgMut2WayActionLink
 		 name="Draw:"
-		 className="drawOneMany"
-		 initalEnabledArray={[false, false]}
-		 actions={[
-		     {
-			 name: "one"
-		     },{
-			 name: "many"
-		     }
-		 ]}
-		 />
-
+		 variableName="drawMany"
+		 actionNames={["one", "many"]}
+		 value={null}
+		 hofCB={  ()=>{return null;}    }/>
+	      
 	      drawingTools
 
 	    </WgBoxie>

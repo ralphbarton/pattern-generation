@@ -7,7 +7,7 @@ import Slider from 'rc-slider';
 import WgTable from '../Wg/WgTable';
 import WgButton from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import {WgMutexActionLink} from '../Wg/WgMutexActionLink';
 import WgActionLink from '../Wg/WgActionLink';
 
 //specific subsections of Grid...

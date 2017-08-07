@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import WgDropDown from '../Wg/WgDropDown';
 import WgFadeTransition from '../Wg/WgFadeTransition';
 
@@ -50,62 +50,28 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		</div>
 		
 		<div className="column2">
-		  <WgMutexActionLink
+
+		  <WgMut2WayActionLink
 		     name="Gridlines:"
-		     className="gridlines"
-		     equityTestingForEnabled={{
-			 currentValue: UI.gridlines,
-			 representedValuesArray: [false, true]
-		     }}
-		     actions={[
-			 {
-			     name: "off",
-			     cb: setUI("gridlines", false)
-			 },{
-			     name: "on",
-			     cb: setUI("gridlines", true)
-			 }
-		     ]}
-		     />
-		  <WgMutexActionLink
+		     variableName="gridlines"
+		     value={UI.gridlines}
+		     hofCB={setUI}/>
+
+		  <WgMut2WayActionLink
 		     name="Snap to Grid:"
-		     className="snapToGrid"
-		     equityTestingForEnabled={{
-			 currentValue: UI.snapToGrid,
-			 representedValuesArray: [false, true]
-		     }}
-		     actions={[
-			 {
-			     name: "off",
-			     cb: setUI("snapToGrid", false)
-			 },{
-			     name: "on",
-			     cb: setUI("snapToGrid", true)
-			 }
-		     ]}
-		     />
-		  <WgMutexActionLink
+		     variableName="snapToGrid"
+		     value={UI.snapToGrid}
+		     hofCB={setUI}/>
+
+		  <WgMut2WayActionLink
 		     name="Axes:"
-		     className="axes"
-		     equityTestingForEnabled={{
-			 currentValue: UI.axes,
-			 representedValuesArray: [false, true]
-		     }}
-		     actions={[
-			 {
-			     name: "off",
-			     cb: setUI("axes", false)
-			 },{
-			     name: "on",
-			     cb: setUI("axes", true)
-			 }
-		     ]}
-		     />
+		     variableName="axes"
+		     value={UI.axes}
+		     hofCB={setUI}/>
+
 		</div>
 
 		<div className="column3">
-
-
 
 
 

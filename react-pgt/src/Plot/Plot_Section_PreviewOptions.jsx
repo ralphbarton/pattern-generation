@@ -6,7 +6,7 @@ import {CubeGrid} from 'better-react-spinkit';
 
 
 import WgActionLink from '../Wg/WgActionLink';
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import {WgMutexActionLink} from '../Wg/WgMutexActionLink';
 import WgButton from '../Wg/WgButton';
 import WgSmartInput from '../Wg/WgSmartInput';
 

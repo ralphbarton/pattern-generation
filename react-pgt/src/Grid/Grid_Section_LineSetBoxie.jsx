@@ -3,7 +3,7 @@ import React from 'react';
 import * as d3 from "d3";
 
 import WgBoxie from '../Wg/WgBoxie';
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import {WgMutexActionLink} from '../Wg/WgMutexActionLink';
 import WgSmartInput from '../Wg/WgSmartInput';
 
 import Grid_util from './plain-js/Grid_util';

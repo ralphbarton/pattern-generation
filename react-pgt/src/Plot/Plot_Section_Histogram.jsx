@@ -4,7 +4,7 @@ import * as d3 from "d3";
 
 import WgBoxie from '../Wg/WgBoxie';
 import WgActionLink from '../Wg/WgActionLink';
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import {WgMutexActionLink} from '../Wg/WgMutexActionLink';
 import WgDropDown from '../Wg/WgDropDown';
 
 import util from '../plain-js/util.js'; // big number-to-string formatting functions

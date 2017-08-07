@@ -60,4 +60,38 @@ class WgMutexActionLink extends React.PureComponent {
 }
 
 
-export default WgMutexActionLink;
+/*
+ For action links of the type: Axes: on | off
+ here is a more concise version with 4x props: 'name', 'variableName', 'value', 'hofCB'
+
+(so still 4 props, but usage will be 6x LOC, rather than 17x LOC)
+
+There are 2x optional props:
+'actionNames'
+'representedValues'
+ */
+
+function WgMut2WayActionLink(props) {
+    const customNames = props.actionNames !== undefined;
+    return (
+	<WgMutexActionLink
+	   name={props.name}
+	   className={props.variableName}
+	   equityTestingForEnabled={{
+	       currentValue: props.value,
+	       representedValuesArray: props.representedValues || [false, true]
+	   }}
+	   actions={[
+	       {
+		   name: customNames ? props.actionNames[0] : "off",
+		   cb: props.hofCB(props.variableName, false)
+	       },{
+		   name: customNames ? props.actionNames[1] : "on",
+		   cb: props.hofCB(props.variableName, true)
+	       }
+	   ]}
+	   />
+    );
+}
+
+export {WgMutexActionLink, WgMut2WayActionLink};

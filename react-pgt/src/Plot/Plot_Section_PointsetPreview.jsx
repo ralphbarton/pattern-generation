@@ -4,7 +4,7 @@ import React from 'react';
 import WgButton from '../Wg/WgButton';
 import WgActionLink from '../Wg/WgActionLink';
 import WgSmartInput from '../Wg/WgSmartInput';
-import WgMutexActionLink from '../Wg/WgMutexActionLink';
+import {WgMutexActionLink} from '../Wg/WgMutexActionLink';
 
 
 class Plot_Section_PointsetPreview extends React.PureComponent {
