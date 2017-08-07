@@ -34,10 +34,17 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	 need to add all these canvas handlers once, on the mount Event...)
 	 */
 
-	const TS = this;
+	const showToast = this.props.onToastMsg;
 	canvas.on('object:selected', function(options) {
-	    TS.props.onToastMsg("yay, I selected an Object...");
+	    const multiple = options.target._objects !== undefined;
 
+	    //	    console.log("target of selection:", );
+
+	    if(multiple){
+		showToast("Group selection...");
+	    }else{
+		showToast("Use CTRL key to select additional objects.");
+	    }
 	});
 
     }
