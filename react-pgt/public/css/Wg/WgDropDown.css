@@ -46,6 +46,7 @@
 /* 8.2 basic layout of the content / 'menu' */
 
 .dropdown-content {
+    /* for testing...*/
     display: none;
     position: absolute;
     font-size: 12px;
@@ -120,6 +121,18 @@
     opacity: 0.6;
     padding: 1px;
 }
+
+.dropdown.plain .dropdown-content .btn-set{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.dropdown.plain .dropdown-content .btn-set:not(:last-child){
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    margin-bottom: 5px;
+}
+
 
 
 /* 8.4 styling elements inside dropdown: Text */

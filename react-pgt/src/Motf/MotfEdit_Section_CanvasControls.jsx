@@ -78,87 +78,102 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		  <WgDropDown
 		     name="Grid Settings"
 		     className="gridSettings"// from line below, avoid crazy indent, add or delete    0}/>
-		  content={
-		  <div>
-		    Grid System
-		    <div className="btn-set">
-		      <button onClick={setUI("gridSystem", "cartesian")}>Cartesian</button>
-		      <button onClick={setUI("gridSystem", "polar")}>Polar</button>
-		    </div>
-
-		    Grid Size
-		    <div className="btn-set">
-
-		      <button onClick={setUI("gridSize", "small")}>
-			Small
-			<div className="c-note">{UI.gridSystem==="cartesian" ? "10px" : "25px, 15°"}</div>
-		      </button>
-		      
-		      <button onClick={setUI("gridSize", "medium")}>
-			Medium
-			<div className="c-note">{UI.gridSystem==="cartesian" ? "25px" : "50px, 45°"}</div>
-		      </button>
-
-		      <button onClick={setUI("gridSize", "large")}>
-			Large
-			<div className="c-note">{UI.gridSystem==="cartesian" ? "50px" : "100px, 95°"}</div>
-		      </button>
-		    </div>
-
-
-		    <div>
-		      Grid weight
-		      <div className="btn-set">
-			<button onClick={setUI("gridWeight", "faint")}>Faint</button>
-			<button onClick={setUI("gridWeight", "normal")}>Normal</button>
-			<button onClick={setUI("gridWeight", "strong")}>Strong</button>
-		      </div>
-		    </div>
-		    <div className="customSize">
-		      Custom size
-		      <div>
-			<span className="i-note">{UI.gridSystem==="cartesian" ? "x-spacing" : "radius-incr"}: </span>
-			<input className="plain-cell s"/>
-		      </div>
-		      <div>
-			<span className="i-note">{UI.gridSystem==="cartesian" ? "y-spacing" : "angular-incr"}: </span>
-			<input className="plain-cell s"/>
-		      </div>
-			  <button onClick={()=>{
-				this.props.handleMotfUIStateChange({
-				    canvasControls: {
-					// State contained in "Grid Settings" Dropdown
-					gridSystem: {$set: "cartesian"},
-					gridSize: {$set: "medium"},
-					gridWeight: {$set: "normal"},
-					customXSpacing: {$set: 1},
-					customYSpacing: {$set: 1},
-					customRadiusIncr: {$set: 1},
-					customAngularIncr: {$set: 1}
-				    }
-				});
-				}}>
-				Reset
-			      </button>
-		    </div>
-		  </div>
-		  }
 		  enabled={UI.gridlines}
-		  ddStyle="plain"
-		  />
+		  ddStyle="plain">
 
-		<WgDropDown
-		   name="Snap Settings"
-		   className="snapSettings"
-		   content={
-			   <div>
-				 hello cat <br/>
-				     hello doggie
-			       </div>
-			   }
-			   enabled={UI.snapToGrid}
-			   ddStyle="plain"
-			   />
+		  Grid System
+		  <div className="btn-set">
+		    <button onClick={setUI("gridSystem", "cartesian")}>Cartesian</button>
+		    <button onClick={setUI("gridSystem", "polar")}>Polar</button>
+		  </div>
+
+		  Grid Size
+		  <div className="btn-set">
+
+		    <button onClick={setUI("gridSize", "small")}>
+		      Small
+		      <div className="c-note">{UI.gridSystem==="cartesian" ? "10px" : "25px, 15°"}</div>
+		    </button>
+		    
+		    <button onClick={setUI("gridSize", "medium")}>
+		      Medium
+		      <div className="c-note">{UI.gridSystem==="cartesian" ? "25px" : "50px, 45°"}</div>
+		    </button>
+
+		    <button onClick={setUI("gridSize", "large")}>
+		      Large
+		      <div className="c-note">{UI.gridSystem==="cartesian" ? "50px" : "100px, 95°"}</div>
+		    </button>
+		  </div>
+
+		  Grid weight
+		  <div className="btn-set">
+		    <button onClick={setUI("gridWeight", "faint")}>Faint</button>
+		    <button onClick={setUI("gridWeight", "normal")}>Normal</button>
+		    <button onClick={setUI("gridWeight", "strong")}>Strong</button>
+		  </div>
+
+		  <div className="customSize">
+		    Custom size
+		    <div>
+		      <span className="i-note">{UI.gridSystem==="cartesian" ? "x-spacing" : "radius-incr"}: </span>
+		      <input className="plain-cell s"/>
+		    </div>
+		    <div>
+		      <span className="i-note">{UI.gridSystem==="cartesian" ? "y-spacing" : "angular-incr"}: </span>
+		      <input className="plain-cell s"/>
+		    </div>
+		  </div>		    
+
+		  <div className="btn-set">
+		    <button onClick={()=>{
+			  this.props.handleMotfUIStateChange({
+			      canvasControls: {
+				  // State contained in "Grid Settings" Dropdown
+				  gridSystem: {$set: "cartesian"},
+				  gridSize: {$set: "medium"},
+				  gridWeight: {$set: "normal"},
+				  customXSpacing: {$set: 1},
+				  customYSpacing: {$set: 1},
+				  customRadiusIncr: {$set: 1},
+				  customAngularIncr: {$set: 1}
+			      }
+			  });
+		      }}>
+		      Reset
+		    </button>
+		  </div>
+                  </WgDropDown>
+
+		  <WgDropDown
+		     name="Snap Settings"
+		     className="snapSettings"
+		     enabled={UI.snapToGrid}
+		     ddStyle="plain">
+		    
+		    Snap Response Style
+		    <div className="btn-set">
+		      <button onClick={setUI("snapResponseStyle", "soft")}>Soft</button>
+		      <button onClick={setUI("snapResponseStyle", "medium")}>Medium</button>
+		      <button onClick={setUI("snapResponseStyle", "hard")}>Hard</button>
+		    </div>
+
+		    Shape Snap-Origin
+		    <div className="btn-set shapeSnapOrigin">
+		      <button onClick={setUI("shapeSnapOrigin", "TL1")}>Top-Left corner
+			<div className="c-note">(outside outline)</div></button>
+		      <button onClick={setUI("shapeSnapOrigin", "TL2")}>Top-Left corner
+			<div className="c-note">(ignoring outline)</div></button>
+		      <button onClick={setUI("shapeSnapOrigin", "center")}>Shape Center</button>
+		    </div>
+
+		    Snap on Axes
+		    <div className="btn-set snapAxes">
+		      <button onClick={setUI("snapAxes", "xy")}>x, y</button>
+		      <button onClick={setUI("snapAxes", "x")}>x only</button>
+		      <button onClick={setUI("snapAxes", "y")}>y only</button>
+		    </div>
+		  </WgDropDown>
 		  
 
 

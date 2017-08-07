@@ -23,7 +23,7 @@ function WgDropDown(props) {
 		      );
 		})
 	      :
-	      props.content
+	      props.children
 	    }
 	  </div>
 	</div>

@@ -188,10 +188,20 @@ class Plot_Section_Histogram extends React.PureComponent {
 
 		<WgDropDown
 		   name="Adjust"
-		   menuContentList={[]}
 		   enabled={this.props.isAdjustable}
-		   ddStyle="plain"
-		   />
+		   ddStyle="plain">
+		  Brightness
+		    <div className="btn-set">
+		      <button onClick={null}>+</button>
+		      <button onClick={null}>-</button>
+		    </div>
+		  Contrast
+		    <div className="btn-set">
+		      <button onClick={null}>+</button>
+		      <button onClick={null}>-</button>
+		    </div>
+		  </WgDropDown>
+
 	      </div>
 
 
