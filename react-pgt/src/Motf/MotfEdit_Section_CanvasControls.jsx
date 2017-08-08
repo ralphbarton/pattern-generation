@@ -2,6 +2,7 @@ import React from 'react';
 
 import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import WgDropDown from '../Wg/WgDropDown';
+import {WgButton2} from '../Wg/WgButton';
 import WgFadeTransition from '../Wg/WgFadeTransition';
 
 class MotfEdit_Section_CanvasControls extends React.PureComponent {
@@ -83,34 +84,34 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 
 		  Grid System
 		  <div className="btn-set">
-		    <button onClick={setUI("gridSystem", "cartesian")}>Cartesian</button>
-		    <button onClick={setUI("gridSystem", "polar")}>Polar</button>
+		    <WgButton2 dot={UI.gridSystem==="cartesian"} onClick={setUI("gridSystem", "cartesian")}>Cartesian</WgButton2>
+		    <WgButton2 dot={UI.gridSystem==="polar"} onClick={setUI("gridSystem", "polar")}>Polar</WgButton2>
 		  </div>
 
 		  Grid Size
 		  <div className="btn-set">
 
-		    <button onClick={setUI("gridSize", "small")}>
+		    <WgButton2 dot={UI.gridSize==="small"} onClick={setUI("gridSize", "small")}>
 		      Small
 		      <div className="c-note">{UI.gridSystem==="cartesian" ? "10px" : "25px, 15°"}</div>
-		    </button>
+		    </WgButton2>
 		    
-		    <button onClick={setUI("gridSize", "medium")}>
+		    <WgButton2 dot={UI.gridSize==="medium"} onClick={setUI("gridSize", "medium")}>
 		      Medium
 		      <div className="c-note">{UI.gridSystem==="cartesian" ? "25px" : "50px, 45°"}</div>
-		    </button>
+		    </WgButton2>
 
-		    <button onClick={setUI("gridSize", "large")}>
+		    <WgButton2 dot={UI.gridSize==="large"} onClick={setUI("gridSize", "large")}>
 		      Large
 		      <div className="c-note">{UI.gridSystem==="cartesian" ? "50px" : "100px, 95°"}</div>
-		    </button>
+		    </WgButton2>
 		  </div>
 
 		  Grid weight
 		  <div className="btn-set">
-		    <button onClick={setUI("gridWeight", "faint")}>Faint</button>
-		    <button onClick={setUI("gridWeight", "normal")}>Normal</button>
-		    <button onClick={setUI("gridWeight", "strong")}>Strong</button>
+		    <WgButton2 dot={UI.gridWeight==="faint"} onClick={setUI("gridWeight", "faint")}>Faint</WgButton2>
+		    <WgButton2 dot={UI.gridWeight==="normal"} onClick={setUI("gridWeight", "normal")}>Normal</WgButton2>
+		    <WgButton2 dot={UI.gridWeight==="strong"} onClick={setUI("gridWeight", "strong")}>Strong</WgButton2>
 		  </div>
 
 		  <div className="customSize">
@@ -153,25 +154,29 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		    
 		    Snap Response Style
 		    <div className="btn-set">
-		      <button onClick={setUI("snapResponseStyle", "soft")}>Soft</button>
-		      <button onClick={setUI("snapResponseStyle", "medium")}>Medium</button>
-		      <button onClick={setUI("snapResponseStyle", "hard")}>Hard</button>
+		      <WgButton2 dot={UI.snapResponseStyle==="soft"} onClick={setUI("snapResponseStyle", "soft")}>
+			Soft</WgButton2>
+		      <WgButton2 dot={UI.snapResponseStyle==="medium"} onClick={setUI("snapResponseStyle", "medium")}>
+			Medium</WgButton2>
+		      <WgButton2 dot={UI.snapResponseStyle==="hard"} onClick={setUI("snapResponseStyle", "hard")}>
+			Hard</WgButton2>
 		    </div>
 
 		    Shape Snap-Origin
 		    <div className="btn-set shapeSnapOrigin">
-		      <button onClick={setUI("shapeSnapOrigin", "TL1")}>Top-Left corner
-			<div className="c-note">(outside outline)</div></button>
-		      <button onClick={setUI("shapeSnapOrigin", "TL2")}>Top-Left corner
-			<div className="c-note">(ignoring outline)</div></button>
-		      <button onClick={setUI("shapeSnapOrigin", "center")}>Shape Center</button>
+		      <WgButton2 dot={UI.shapeSnapOrigin==="TL1"} onClick={setUI("shapeSnapOrigin", "TL1")}>Top-Left corner
+			<div className="c-note">(outside outline)</div></WgButton2>
+		      <WgButton2 dot={UI.shapeSnapOrigin==="TL2"} onClick={setUI("shapeSnapOrigin", "TL2")}>Top-Left corner
+			<div className="c-note">(ignoring outline)</div></WgButton2>
+		      <WgButton2 dot={UI.shapeSnapOrigin==="center"} onClick={setUI("shapeSnapOrigin", "center")}>Shape Center
+		      </WgButton2>
 		    </div>
 
 		    Snap on Axes
 		    <div className="btn-set snapAxes">
-		      <button onClick={setUI("snapAxes", "xy")}>x, y</button>
-		      <button onClick={setUI("snapAxes", "x")}>x only</button>
-		      <button onClick={setUI("snapAxes", "y")}>y only</button>
+		      <WgButton2 dot={UI.snapAxes==="xy"} onClick={setUI("snapAxes", "xy")}>x, y</WgButton2>
+		      <WgButton2 dot={UI.snapAxes==="x"} onClick={setUI("snapAxes", "x")}>x only</WgButton2>
+		      <WgButton2 dot={UI.snapAxes==="y"} onClick={setUI("snapAxes", "y")}>y only</WgButton2>
 		    </div>
 		  </WgDropDown>
 		  

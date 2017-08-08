@@ -5,7 +5,7 @@ import update from 'immutability-helper';
 import { SketchPicker } from 'react-color';
 
 import WgSmartInput from '../Wg/WgSmartInput';
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 
 import {WgAlphaSwatch} from './Cpot_AtomicComponents.jsx';
 

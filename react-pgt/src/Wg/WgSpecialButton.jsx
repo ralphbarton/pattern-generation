@@ -1,5 +1,5 @@
 import React from 'react';
-import WgButton from './WgButton';
+import {WgButton} from './WgButton';
 
 import ArrowLeftImage from './WgSpecialButton-asset/arrow-left-s.png';
 import ArrowUpImage from './WgSpecialButton-asset/arrow-up-s.png';

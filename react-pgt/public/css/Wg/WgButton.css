@@ -41,3 +41,18 @@
     padding: 2px 9px;
     margin: 0px 1px;
 }
+
+button.WgButton2{
+    position: relative;
+}
+button.WgButton2 > div.dot{
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: beige;
+} 
+
+/* button type 2, for dropdown menus*/

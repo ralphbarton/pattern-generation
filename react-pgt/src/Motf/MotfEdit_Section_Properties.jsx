@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 
 class MotfEdit_Section_Properties extends React.PureComponent {
     

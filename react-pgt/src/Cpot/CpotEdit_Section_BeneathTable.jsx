@@ -5,7 +5,7 @@ import CpotEdit_util from './plain-js/CpotEdit_util.js';// probs summing etc
 import Cpot_util from './plain-js/Cpot_util.js';// 'range unpack' needed for solid <-> range convert
 
 // generic project widgets
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 import WgDropDown from '../Wg/WgDropDown';
 
 

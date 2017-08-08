@@ -2,7 +2,7 @@ import React from 'react';
 
 // generic project widgets
 import WgTable from '../Wg/WgTable';
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 import WgActionLink from '../Wg/WgActionLink';
 

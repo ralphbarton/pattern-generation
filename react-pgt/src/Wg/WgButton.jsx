@@ -14,4 +14,17 @@ function WgButton(props) {
     );
 }
 
-export default WgButton;
+function WgButton2(props) {
+
+    return (
+	<button
+	   onClick={props.onClick}
+	   className="WgButton2"
+	   >
+	  {props.dot && <div className="dot"></div>}
+	  {props.children}
+	</button>
+    );
+}
+
+export {WgButton, WgButton2};

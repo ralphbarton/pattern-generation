@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 import WgActionLink from '../Wg/WgActionLink';
 import WgSmartInput from '../Wg/WgSmartInput';
 import {WgMutexActionLink} from '../Wg/WgMutexActionLink';

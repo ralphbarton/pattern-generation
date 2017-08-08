@@ -3,7 +3,7 @@ import React from 'react';
 import MainTab_CpotEdit from './MainTab_CpotEdit';
 
 import WgTable from '../Wg/WgTable';
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 import Cpot_PreviewPatch from './Cpot_PreviewPatch';
 
 class MainTab_CpotView extends React.PureComponent {

@@ -5,7 +5,7 @@ import update from 'immutability-helper';
 
 
 // generic project widgets
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 
 
 import MotfEdit_Section_Parameters from './MotfEdit_Section_Parameters';

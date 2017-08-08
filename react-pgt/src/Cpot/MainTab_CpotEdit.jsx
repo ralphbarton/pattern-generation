@@ -9,7 +9,7 @@ import CpotEdit_util from './plain-js/CpotEdit_util.js';// probs summing etc
 
 
 // generic project widgets
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 import WgActionLink from '../Wg/WgActionLink';
 
 // cpot specifc widgets

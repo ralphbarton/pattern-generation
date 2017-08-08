@@ -4,7 +4,7 @@ var _ = require('lodash');
 // generic project widgets
 
 import WgTable from '../Wg/WgTable';
-import WgButton from '../Wg/WgButton';
+import {WgButton} from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
 
 /*
