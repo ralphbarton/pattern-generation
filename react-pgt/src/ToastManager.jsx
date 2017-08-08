@@ -17,7 +17,8 @@ class ToastManager extends React.PureComponent {
 
     componentDidUpdate(){
 	const TS = this;
-	setTimeout(function(){
+	clearTimeout(this.timoutID || null);
+	this.timoutID = setTimeout(function(){
 	    TS.setState({
 		live: false
 	    });

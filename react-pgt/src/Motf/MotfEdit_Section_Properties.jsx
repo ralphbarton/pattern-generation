@@ -16,8 +16,9 @@ class MotifElement extends React.PureComponent {
     render(){
 	const mElem = this.props.mElem;
 	const expLvl = this.props.expand.expandLevel;
+	const isFocus = this.props.isFocus;
 	return (
-	    <div className={"mElem" + (expLvl >= 1 ? " expanded" : " contracted")}>
+	    <div className={"mElem" + (expLvl >= 1 ? " expanded" : " contracted") + (isFocus ? " focus" : "")}>
 	      {(expLvl >= 1) && <div className="bg-gradient"></div>}
 	      
 	      <div className="content">
@@ -78,7 +79,9 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		      return <MotifElement
 				    key={mElem.PGTuid}
 				    mElem={mElem}
-				    expand={this.state}/>;
+				    expand={this.state}
+				    isFocus={mElem.PGTuid === this.props.FS_UI.selectionUID}
+				    />;
 		  })}
 		  
 		  lots of scrollable items here...

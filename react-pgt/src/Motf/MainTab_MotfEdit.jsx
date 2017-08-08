@@ -57,6 +57,9 @@ class MainTab_MotfEdit extends React.PureComponent {
 		     ShapeCenter  = "center"
 		     */
 		    snapAxes: "xy" // x, y or x and y
+		},
+		fabricSelection: {
+		    selectionUID: undefined
 		}
 	    }
 	};
@@ -114,6 +117,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		{/* >> Properties (and buttons underneath) */}
 		<MotfEdit_Section_Properties
 		   Motf={this.state.Motf}
+		   FS_UI={this.state.UI.fabricSelection}
 		   />
 		
 	      </div>
@@ -146,6 +150,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  <MotfEdit_Section_MotifCanvas
 		     Motf={this.state.Motf}
 		     CC_UI={this.state.UI.canvasControls}
+		     FS_UI={this.state.UI.fabricSelection}
 		     handleEditingMotfChange={this.handleEditingMotfChange}
 		     handleMotfUIStateChange={this.handleMotfUIStateChange}//needed to set a non-fixed value (mouse coords)
 		     hofHandleUIchange_CC={this.hofHandleUIchange_CC}

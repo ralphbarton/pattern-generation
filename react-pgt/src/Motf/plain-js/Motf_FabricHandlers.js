@@ -18,6 +18,11 @@ var Motf_FabricHandlers = {
 	    onToastMsg("Group selection...");
 	}else{
 	    onToastMsg("Use CTRL key to select additional objects.");
+
+	    //store UID of selection...
+	    this.handleMotfUIStateChange(
+		{fabricSelection: {selectionUID: {$set: options.target.PGTuid}}}
+	    );
 	}
     },
 
@@ -89,9 +94,20 @@ var Motf_FabricHandlers = {
 	}
     },
 
+    /* Functions are:
+       - clear UI state relating to selected item<
+       - 
+    */
+    handle_SelectionCleared: function(options) {
+	this.handleMotfUIStateChange(
+	    {fabricSelection: {selectionUID: {$set: undefined}}}
+	);
+    },
+    
     //store copies of callback functions passed at Mount-time...
     onToastMsg: undefined,
     handleEditingMotfChange: undefined,    
+    handleMotfUIStateChange: undefined,
     MountCanvas: function(fabricCanvasElement, Motf, ctxProps){
 
 	// 1. Initialisate a blank Fabric canvas
@@ -99,6 +115,7 @@ var Motf_FabricHandlers = {
 	this.canvas = canvas;
 	this.onToastMsg = ctxProps.onToastMsg;
 	this.handleEditingMotfChange = ctxProps.handleEditingMotfChange;
+	this.handleMotfUIStateChange = ctxProps.handleMotfUIStateChange;
 	
 	// 2. Add Handler: Object:Selected
 	canvas.on('object:selected', this.handle_ObjectSelected.bind(this));
@@ -108,12 +125,16 @@ var Motf_FabricHandlers = {
 
 	// 4. Add Handler: Object:Moving
 	canvas.on('object:moving', this.handle_ObjectMoving.bind(this));
+
+	// 5. Add Handler: Selection:Cleared
+	canvas.on('selection:cleared', this.handle_SelectionCleared.bind(this));
 	
-	// 5. having Mounted, add all objects for the first time...
+	// 6. having Mounted, add all objects for the first time...
 	this.UpdateCanvas(Motf);
     },
 
-    UpdateCanvas: function(Motf){
+    
+    UpdateCanvas: function(Motf, selectionUID){
 	const canvas = this.canvas;
 
 	// 1. wipe all objects from the canvas
@@ -123,6 +144,10 @@ var Motf_FabricHandlers = {
 	_.forEach(Motf.Elements, function(Properties, index) { // (value, key)
 	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
 	});
+
+	const selected_fObj = _.find(canvas.getObjects(), function(o) { return o.PGTuid === selectionUID;});
+	if(selected_fObj){canvas.setActiveObject(selected_fObj);}
+	
     },
 
     CC_UI: undefined,

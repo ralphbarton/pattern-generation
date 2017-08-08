@@ -23,18 +23,18 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     
     
     componentDidUpdate(){
-	Motf_FabricHandlers.UpdateCanvas(this.props.Motf);
+	//send updated UI state into "Motf_FabricHandlers"
+	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
+	
+	Motf_FabricHandlers.UpdateCanvas(this.props.Motf, this.props.FS_UI.selectionUID);
     }
 
     componentDidMount(){
+	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
 	Motf_FabricHandlers.MountCanvas(this.fabricCanvasElement, this.props.Motf, this.props);
     }
     
     render(){
-	
-	//send updated UI state into "Motf_FabricHandlers"
-	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
-
 	return (
 	    <div className="MotfEdit_Section_MotifCanvas"
 		 onMouseEnter={this.props.hofHandleUIchange_CC("mouseOverCanvas", true)}
@@ -46,13 +46,15 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 		     const canvX = e.pageX - canvBoundingBox.left - 200;
 		     const canvY = e.pageY - canvBoundingBox.top - 200;
 
+		     /*
+		      less bloody slow
 		     this.props.handleMotfUIStateChange({
 			 canvasControls: {mouseCoords: {
 			     x: {$set: canvX},
 			     y: {$set: canvY}
 			 }}
 		     });
-
+*/
 	      }}
 	      >
 	      <MotfEdit_Section_MotifCanvas_BG CC_UI={this.props.CC_UI}/>
