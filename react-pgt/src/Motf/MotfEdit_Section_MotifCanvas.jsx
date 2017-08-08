@@ -1,94 +1,12 @@
 import React from 'react';
 
-import {fabric}  from 'fabric';
-var _ = require('lodash');
-
 //should I divide up this file into separate categories of function (better modularisation)
-import Motf_util from './plain-js/Motf_util';
+import Motf_FabricHandlers from './plain-js/Motf_FabricHandlers';
 import MotfEdit_Section_MotifCanvas_BG from './MotfEdit_Section_MotifCanvas_BG';
 import MotfEdit_Section_MotifCanvas_GD from './MotfEdit_Section_MotifCanvas_GD';
 
 
 class MotfEdit_Section_MotifCanvas extends React.PureComponent {
-
-    fabricCanvasMount(){
-
-	// 1. Initialisate a blank Fabric canvas
-	this.canvas = new fabric.Canvas(this.fabricCanvasElement);
-	const canvas = this.canvas;
-
-	// 2. Add a bunch of handlers...
-	const onToastMsg = this.props.onToastMsg;
-	canvas.on('object:selected', function(options) {
-
-	    const multiple = options.target._objects !== undefined;
-
-	    if(multiple){
-		onToastMsg("Group selection...");
-	    }else{
-		onToastMsg("Use CTRL key to select additional objects.");
-	    }
-	});
-
-
-	const typeInterpret = function(type_str){
-	    switch (type_str) {		
-	    case "ellipse": return "obj-ellipse";
-	    case "rect": return "obj-rectangle";
-	    default: return "obj-unknown";
-	    }
-	};
-
-	const handleEditingMotfChange = this.props.handleEditingMotfChange;
-	canvas.on('object:modified', function(options) {
-
-	    // "serialise" the entire Canvas contents...
-	    const DatH_Elements = canvas.getObjects().map(function(obj){
-		return {
-		    shape: typeInterpret(obj.type),
-		    left: obj.left,
-		    top: obj.top,
-		    fill: obj.fill,
-		    stroke: obj.stroke,
-		    width: obj.width, //rect specific
-		    height: obj.height, //rect specific
-		    rx: obj.rx, // ellipse only
-		    ry: obj.ry, // ellipse only
-
-		    angle: obj.angle, // sometimes
-		    strokeWidth: obj.strokeWidth, // sometimes
-
-		    
-
-		    PGTuid: obj.PGTuid
-		    
-		    // can this whole thing be a bit more programatic
-		    // (e.g. a list of properties to copy, defined somewhere else and reused??)
-		};		
-	    });
-
-	    // now save the updated contents...
-//	    console.log("DatH_Elements", DatH_Elements);
-	    handleEditingMotfChange({Elements: {$set: DatH_Elements}});
-	    
-	});
-	
-	// 3. having Mounted, add all objects for the first time...
-	this.fabricCanvasUpdate();
-    }
-
-    fabricCanvasUpdate(){
-
-	const canvas = this.canvas;
-
-	// 1. wipe all objects from the canvas
-	canvas.clear();
-
-	// 2. (re-)add all the objects
-	_.forEach(this.props.Motf.Elements, function(Properties, index) { // (value, key)
-	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
-	});
-    }
 
     shouldComponentUpdate(nextProps, nextState){
 	// there is no point comparing whole objects:  nextProps !== this.props
@@ -105,14 +23,18 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     
     
     componentDidUpdate(){
-	this.fabricCanvasUpdate();
+	Motf_FabricHandlers.UpdateCanvas(this.props.Motf);
     }
 
     componentDidMount(){
-	this.fabricCanvasMount();
+	Motf_FabricHandlers.MountCanvas(this.fabricCanvasElement, this.props.Motf, this.props);
     }
     
     render(){
+	
+	//send updated UI state into "Motf_FabricHandlers"
+	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
+
 	return (
 	    <div className="MotfEdit_Section_MotifCanvas"
 		 onMouseEnter={this.props.hofHandleUIchange_CC("mouseOverCanvas", true)}

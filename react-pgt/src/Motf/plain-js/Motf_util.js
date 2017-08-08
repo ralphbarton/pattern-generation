@@ -179,4 +179,4 @@ var Motf_util = {
 }
 
 
-export {Motf_util as default};
+export default Motf_util;
