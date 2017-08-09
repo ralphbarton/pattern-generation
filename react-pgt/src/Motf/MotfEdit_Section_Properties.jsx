@@ -2,6 +2,8 @@ import React from 'react';
 
 import {WgButton} from '../Wg/WgButton';
 
+import Motf_lists from './plain-js/Motf_lists';
+
 class MotifElement extends React.PureComponent {
 
     /*
@@ -27,16 +29,32 @@ class MotifElement extends React.PureComponent {
 		{mElem.left}
 
 		{/* Table 1. Placement & Size */}
-		{(expLvl >= 1) && <div className="tableHeading">Placement & Size</div>}
+		{(expLvl >= 1) && <div className="tableHeading">Placement & Size
+		      {Motf_lists.GenericPropertyArrangement.pos_size.map( p_name => {
+			  return <div key={p_name}> {p_name} </div>;
+		      })}
+		</div>}
 
 		{/* Table 2. Appearance */}
-		{(expLvl >= 2) && <div className="tableHeading">Appearance</div>}
+		{(expLvl >= 2) && <div className="tableHeading">Appearance
+		      {Motf_lists.GenericPropertyArrangement.appearance.map( p_name => {
+			  return <div key={p_name}> {p_name} </div>;
+		      })}
+		</div>}
 
 		{/* Table 3. Repetition */}
-		{(expLvl >= 3) && <div className="tableHeading">Repetition</div>}
+		{(expLvl >= 3) && <div className="tableHeading">Repetition
+		      {Motf_lists.GenericPropertyArrangement.repetition.map( p_name => {
+			  return <div key={p_name}> {p_name} </div>;
+		      })}
+		</div>}
 
 		{/* Table 4. More Properties */}
-		{(expLvl >= 4) && <div className="tableHeading">More Properties</div>}
+		{(expLvl >= 4) && <div className="tableHeading">More Properties
+		      {Motf_lists.GenericPropertyArrangement.more.map( p_name => {
+			  return <div key={p_name}> {p_name} </div>;
+		      })}
+		</div>}
 	      </div>
 	    </div>
 	);
@@ -83,11 +101,6 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 				    isFocus={mElem.PGTuid === this.props.FS_UI.selectionUID}
 				    />;
 		  })}
-		  
-		  lots of scrollable items here...
-		  <div className="blob">
-		    blob
-		  </div>
 
 		</div>
 	      </div>
