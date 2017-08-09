@@ -81,8 +81,19 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6e9ae0', endColorstr='#ffffff',GradientType=0 );
 }
 
-.MainTab_MotfEdit .properties .mElem .content{
+
+.MainTab_MotfEdit .properties .mElem.expanded .content{
+    /* position: relative;
+    this is needed for div itself to be visible above
+    an absolutely positioned element (the gradient background)
+    */
     position: relative;
+    padding: 2px 6px;
+}
+
+.MainTab_MotfEdit .properties .mElem.expanded .name{
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .MainTab_MotfEdit .properties .mElem div.tableHeading{

@@ -3,6 +3,7 @@ import React from 'react';
 import {WgButton} from '../Wg/WgButton';
 
 import Motf_lists from './plain-js/Motf_lists';
+var _ = require('lodash');
 
 class MotifElement extends React.PureComponent {
 
@@ -19,13 +20,16 @@ class MotifElement extends React.PureComponent {
 	const mElem = this.props.mElem;
 	const expLvl = this.props.expand.expandLevel;
 	const isFocus = this.props.isFocus;
+
+	const selected_fObj = _.find(Motf_lists.ObjectTypes, function(o) { return o.DatH_name === mElem.shape;});
+	
 	return (
 	    <div className={"mElem" + (expLvl >= 1 ? " expanded" : " contracted") + (isFocus ? " focus" : "")}>
 	      {(expLvl >= 1) && <div className="bg-gradient"></div>}
 	      
 	      <div className="content">
-		{mElem.shape}
-		...LeftSide: 
+		<div className="name">{selected_fObj.fullName + " " + mElem.PGTuid}</div>
+		  ...LeftSide: 
 		{mElem.left}
 
 		{/* Table 1. Placement & Size */}
