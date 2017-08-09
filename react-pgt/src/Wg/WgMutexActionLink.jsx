@@ -73,21 +73,22 @@ There are 2x optional props:
 
 function WgMut2WayActionLink(props) {
     const customNames = props.actionNames !== undefined;
+    const representedValues = props.representedValues || [false, true];
     return (
 	<WgMutexActionLink
 	   name={props.name}
 	   className={props.variableName}
 	   equityTestingForEnabled={{
 	       currentValue: props.value,
-	       representedValuesArray: props.representedValues || [false, true]
+	       representedValuesArray: representedValues
 	   }}
 	   actions={[
 	       {
 		   name: customNames ? props.actionNames[0] : "off",
-		   cb: props.hofCB(props.variableName, false)
+		   cb: props.hofCB(props.variableName, representedValues[0])
 	       },{
 		   name: customNames ? props.actionNames[1] : "on",
-		   cb: props.hofCB(props.variableName, true)
+		   cb: props.hofCB(props.variableName, representedValues[1])
 	       }
 	   ]}
 	   />

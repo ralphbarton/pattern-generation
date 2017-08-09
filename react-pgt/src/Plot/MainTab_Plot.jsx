@@ -79,8 +79,27 @@ class MainTab_Plot extends React.PureComponent {
 	
 	// not passing a callback means no worker-thread involved here...
 	Plot_RenderManager.init();
+	this.hofHandleUIchange = this.hofHandlePlotUIStateChange.bind(this, null);
+	this.hofHandleUIchange_ZRT = this.hofHandlePlotUIStateChange.bind(this, "zoomRT");
     }
 
+    hofHandlePlotUIStateChange(UI_section, subkey, value){
+	const setPGTtabUIState = this.props.setPGTtabUIState;
+	if(UI_section !== null){
+	    return function (){
+		setPGTtabUIState({
+		    [UI_section]: {[subkey]: {$set: value}}
+		});
+	    };
+	}else{
+	    return function (){
+		setPGTtabUIState({
+		    [subkey]: {$set: value}
+		});
+	    };
+	}
+    };
+    
     componentDidMount(){
 	// set state of parent component...
 	this.props.fn.defaultUIStateConfiguration({
@@ -223,9 +242,10 @@ class MainTab_Plot extends React.PureComponent {
 		
 		{/* 4.1.  The Zoom + Rotate + Translate controls section... */}
 		<Plot_Section_ZoomRotateTranslate
-		   zoomRT_UI={this.props.UI.zoomRT}
 		   enable={isAdjustable}
+		   zoomRT_UI={this.props.UI.zoomRT}
 		   setPGTtabUIState={this.props.setPGTtabUIState}
+		   hofHandleUIchange_ZRT={this.hofHandleUIchange_ZRT}
 		   Plot_i={Plot_i}
 		   handleSelPlotChange={this.props.fn.handleModifySelPGTobj}
 		   onClickMore={()=>{this.setState({showExtraWindow: "ZR-More"});}}
@@ -253,7 +273,7 @@ class MainTab_Plot extends React.PureComponent {
 				  return(
 				      <Plot_Section_PreviewOptions
 					 UI={this.props.UI}
-					 handleUIStateChange={this.props.fn.handleUIStateChange}
+					 hofHandleUIchange={this.hofHandleUIchange}
 					 //this is more flexible version of hander above
 					 setPGTtabUIState={this.props.setPGTtabUIState}
 					 validFormulaSelected={formulaCheck.determination !== "invalid"}

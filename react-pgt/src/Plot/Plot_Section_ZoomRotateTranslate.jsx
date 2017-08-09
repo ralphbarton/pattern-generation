@@ -1,7 +1,7 @@
 import React from 'react';
 
 import WgActionLink from '../Wg/WgActionLink';
-import {WgMutexActionLink} from '../Wg/WgMutexActionLink';
+import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import WgSpecialButton from '../Wg/WgSpecialButton';
 import WgBoxie from '../Wg/WgBoxie';
 
@@ -77,6 +77,8 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
     
     
     render(){
+	const UI = this.props.zoomRT_UI;
+	const setUI = this.props.hofHandleUIchange_ZRT;
 	return (
 	    <WgBoxie className="ZoomRotateTranslate" name="Zoom, Translate & Rotate" boxieStyle={"small"}>
 
@@ -167,42 +169,19 @@ class Plot_Section_ZoomRotateTranslate extends React.PureComponent {
 	      
 	      <div className="sectionLinks2">
 
-		<WgMutexActionLink
+		<WgMut2WayActionLink
 		   name="Mouse Zoom:"
-		   className="mouseZoom"
-//		   initalEnabledArray={[false, false]}
-		   equityTestingForEnabled={{
-		       currentValue: this.props.zoomRT_UI.mouseZoom,
-		       representedValuesArray: [false, true]
-		   }}
-		   actions={[
-		       {
-			   name: "Off",
-			   cb: this.hofHandleUIchange("mouseZoom", false)
-		       },{
-			   name: "On",
-			   cb: this.hofHandleUIchange("mouseZoom", true)
-		       }
-		   ]}
-		   />
+		   variableName="mouseZoom"
+		   value={UI.mouseZoom}
+		   hofCB={setUI}/>
 
-		<WgMutexActionLink
+		<WgMut2WayActionLink
 		   name="Aspect ratio:"
-		   className="aspectRatio"
-		   equityTestingForEnabled={{
-		       currentValue: this.props.zoomRT_UI.aspectRatioLock,
-		       representedValuesArray: [true, false]
-		   }}
-		   actions={[
-		       {
-			   name: "lock",
-			   cb: this.hofHandleUIchange("aspectRatioLock", true)
-		       },{
-			   name: "unlock",
-			   cb: this.hofHandleUIchange("aspectRatioLock", false)
-		       }
-		   ]}
-		   />
+		   variableName="aspectRatioLock"
+		   actionNames={["lock", "unlock"]}
+		   representedValues={[true, false]}
+		   value={UI.aspectRatioLock}
+		   hofCB={setUI}/>
 
 		<WgMutexActionLink
 		   name="Zoom:"

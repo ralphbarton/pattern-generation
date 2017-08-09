@@ -1,12 +1,10 @@
 import React from 'react';
 
 //import Spinner from 'react-spinkit';
-
 import {CubeGrid} from 'better-react-spinkit';
 
-
 import WgActionLink from '../Wg/WgActionLink';
-import {WgMutexActionLink} from '../Wg/WgMutexActionLink';
+import {WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import {WgButton} from '../Wg/WgButton';
 import WgSmartInput from '../Wg/WgSmartInput';
 
@@ -18,13 +16,12 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
     }
     
     render(){
-	
-	const handleUIStateChange = this.props.handleUIStateChange;
+	const UI = this.props.UI;
+	const setUI = this.props.hofHandleUIchange;
 	
 	return (
 	    <div className="PreviewOptions">
-
-
+	      
 	      <div className="timingContoursStrip">	      
 
 		<div className="Timing">
@@ -50,27 +47,18 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		  )	      
 		  }
 
-		</div>
+	    </div>
 		
 		<div className="Contours">
 
-		  <WgMutexActionLink
+		  <WgMut2WayActionLink
 		     name="Contours:"
-		     className="showContours"
-		     equityTestingForEnabled={{
-			 currentValue: this.props.UI.showContours,
-			 representedValuesArray: [true, false]
-		     }}
-		     actions={[
-			 {
-			     name: "show",
-			     cb: handleUIStateChange.bind(null, "showContours", true)
-			 },{
-			     name: "hide",
-			     cb: handleUIStateChange.bind(null, "showContours", false)
-			 }
-		     ]}
-		     />
+		     variableName="showContours"
+		     actionNames={["show", "hide"]}
+		     representedValues={[true, false]}
+		     value={UI.showContours}
+		     hofCB={setUI}/>
+
 
 		  <div className="inputContainer">
 		    Quantity:&nbsp;
@@ -80,7 +68,11 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		       dataUnit="dimentionless"
 		       step={1}
 		       max={40}
-		       onChange={(value)=>{handleUIStateChange("quantityContours", value);}}
+		       onChange={(value)=>{
+			   this.props.setPGTtabUIState({
+			       quantityContours: {$set: value}
+			   });
+		      }}
 		      />
 		  </div>
 		</div>
@@ -98,50 +90,31 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		     min={1}
 	             max={160}
 		     onChange={(value)=>{
-			 handleUIStateChange("plotResolution", value);
-		     }}
+			 this.props.setPGTtabUIState({
+			     plotResolution: {$set: value}
+			 });
+		    }}
 		    />
 		</div>
 
-		<WgMutexActionLink
+		<WgMut2WayActionLink
 		   name="Scale:"
-		   className="overlayAxesScale"
-		   equityTestingForEnabled={{
-		       currentValue: this.props.UI.overlayAxesScale,
-		       representedValuesArray: [true, false]
-		   }}
-		   actions={[
-		       {
-			   name: "show",
-			   cb: handleUIStateChange.bind(null, "overlayAxesScale", true)
-		       },{
-			   name: "hide",
-			   cb: handleUIStateChange.bind(null, "overlayAxesScale", false)
-		       }
-		   ]}
-		   />
-		
-		
-		<WgMutexActionLink
+		   variableName="overlayAxesScale"
+		   actionNames={["show", "hide"]}
+		   representedValues={[true, false]}
+		   value={UI.overlayAxesScale}
+		   hofCB={setUI}/>
+
+		<WgMut2WayActionLink
 		   name="Colouring:"
-		   className="colouringFunction"
-		   equityTestingForEnabled={{
-		       currentValue: this.props.UI.colouringFunction,
-		       representedValuesArray: [1, 2]
-		   }}
-		   actions={[
-		       {
-			   name: "greyscale",
-			   cb: handleUIStateChange.bind(null, "colouringFunction", 1)
-		       },{
-			   name: "heatmap",
-			   cb: handleUIStateChange.bind(null, "colouringFunction", 2)
-		       }
-		   ]}
-		   />
+		   variableName="colouringFunction"
+		   actionNames={["greyscale", "heatmap"]}
+		   representedValues={[1, 2]}
+		   value={UI.colouringFunction}
+		   hofCB={setUI}/>
 
 		<div className="mainHideShow">
-		
+		  
 		  <WgActionLink
 		     name={"Hide Preview"}
 	             onClick={this.props.setPGTtabUIState.bind(null, {
@@ -154,7 +127,7 @@ class Plot_Section_PreviewOptions extends React.PureComponent {
 		  
 		  <WgButton
 		     name="Plot Preview"
-		     onClick={handleUIStateChange.bind(null, "previewActive", true)}
+		     onClick={setUI("previewActive", true)}
 		     enabled={this.props.validFormulaSelected}
 		     />
 		</div>
