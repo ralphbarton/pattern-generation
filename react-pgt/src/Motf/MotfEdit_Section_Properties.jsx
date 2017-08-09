@@ -5,6 +5,8 @@ import {WgButton} from '../Wg/WgButton';
 import Motf_lists from './plain-js/Motf_lists';
 var _ = require('lodash');
 
+import imgDustbin from './asset/dustbin-100.png';
+
 class MotifElement extends React.PureComponent {
 
     /*
@@ -32,6 +34,11 @@ class MotifElement extends React.PureComponent {
 		  ...LeftSide: 
 		{mElem.left}
 
+		<img className="dustbin"
+		     src={imgDustbin}
+		     onClick={this.props.deleteElem}
+		     alt=""/>
+		
 		{/* Table 1. Placement & Size */}
 		{(expLvl >= 1) && <div className="tableHeading">Placement & Size
 		      {Motf_lists.GenericPropertyArrangement.pos_size.map( p_name => {
@@ -97,12 +104,17 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		</div>
 		<div className="scrollableContent">
 
-		  {this.props.Motf.Elements.map(mElem => {
+		  {this.props.Motf.Elements.map( (mElem, index) => {
 		      return <MotifElement
 				    key={mElem.PGTuid}
 				    mElem={mElem}
 				    expand={this.state}
 				    isFocus={mElem.PGTuid === this.props.FS_UI.selectionUID}
+				    deleteElem={()=>{
+					this.props.handleEditingMotfChange({
+					    Elements: {$splice: [[index,1]]}
+					});
+				    }}
 				    />;
 		  })}
 
