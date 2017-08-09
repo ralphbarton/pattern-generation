@@ -37,6 +37,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    mouseCoords: {x: 44, y: 44},
 		    // 2. Direct State
 		    backgroundBTTW: 0,
+		    canvasCircular: false,
 		    gridlines: true,
 		    snapToGrid: false,
 		    axes: true,

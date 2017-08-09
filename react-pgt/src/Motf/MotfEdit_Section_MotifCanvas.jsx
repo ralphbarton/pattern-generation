@@ -36,7 +36,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     
     render(){
 	return (
-	    <div className="MotfEdit_Section_MotifCanvas"
+	    <div className={"MotfEdit_Section_MotifCanvas"+(this.props.CC_UI.canvasCircular?" circular":"")}
 		 onMouseEnter={this.props.hofHandleUIchange_CC("mouseOverCanvas", true)}
 		 onMouseLeave={this.props.hofHandleUIchange_CC("mouseOverCanvas", false)}
 

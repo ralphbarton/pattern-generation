@@ -6,11 +6,16 @@
 }
 
 .MainTab_MotfEdit .canvasControls {
-    height: 42px;
+    height: 47px;
     margin-top: 4px;
     display: flex;
     flex-flow: row
 }
+
+.MainTab_MotfEdit .canvasControls .backgroundBTTW{
+    margin-top: 1px;
+}
+
 
 .MainTab_MotfEdit .canvasControls .column2{
     margin-left: 10px;
@@ -38,6 +43,10 @@
     font-weight: bold;
     color: #809db3;
 }
+
+
+
+
 
 
 

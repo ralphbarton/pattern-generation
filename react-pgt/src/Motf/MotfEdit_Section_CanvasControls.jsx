@@ -24,6 +24,13 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		    }}
 		    />
 
+		    <WgMut2WayActionLink
+		       name="Canvas Shape:"
+		       variableName="canvasCircular"
+		       actionNames={["square", "circle"]}
+		       value={UI.canvasCircular}
+		       hofCB={setUI}/>
+		    
 		    <WgMutexActionLink
 		       name="Background:"
 		       className="backgroundBTTW"
@@ -47,7 +54,7 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 			   }
 		       ]}
 		       />
-
+		    
 		</div>
 		
 		<div className="column2">

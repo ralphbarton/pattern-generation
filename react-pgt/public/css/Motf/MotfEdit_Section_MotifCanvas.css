@@ -8,8 +8,12 @@
     width: 399px;
     height: 399px;
     overflow: hidden;
+    transition: border-radius 0.4s;
 }
 
+.MainTab_MotfEdit .MotfEdit_Section_MotifCanvas.circular{
+    border-radius: 200px;
+}
 
 
 
@@ -22,6 +26,11 @@
     height: 399px;
     /*overwrites CSSTransitionGroup of <WgFadeTransition>*/
     transition: all 0.2s;
+    transition: border-radius 0.6s;
+}
+
+.MotfEdit_Section_MotifCanvas.circular .layer{
+    border-radius: 200px;
 }
 
 .MotfEdit_Section_MotifCanvas .layer.white{
@@ -45,7 +54,12 @@
 /* GD */
 
 .MotfEdit_Section_MotifCanvas svg{
+    transition: border-radius 0.4s;
     position: absolute;
+}
+
+.MotfEdit_Section_MotifCanvas.circular svg{
+        border-radius: 200px;
 }
 
 /* motif canvas SVG */
