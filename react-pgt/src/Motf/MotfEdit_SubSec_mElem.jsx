@@ -8,11 +8,19 @@ import WgActionLink from '../Wg/WgActionLink';
 import imgDustbin from './asset/dustbin-100.png';
 
 
-function prop3cells(nameStr){
+function prop3cells(nameStr, mElem){
 
+    //get the Property details from the abbreviated property name (its 'shortName')
+
+    //todo: is 'shortName'  really the best search-Key. it should really be PGTO_key
+    const PropertyDetails = _.find(Motf_lists.ObjectProperties, function(o) { return o.shortName === nameStr;});
+
+    // todo: again, the lookup key here should be 'PGTO_key', not 'fabricKey'
+    const storedValue = mElem[PropertyDetails.fabricKey];
+    
     return [
 	(<td className="prop" key={nameStr+"prop"}>{nameStr}</td>),
-	(<td className="valu" key={nameStr+"valu"}>val</td>),
+	(<td className="valu" key={nameStr+"valu"}>{storedValue}</td>),
 	(<td className="more" key={nameStr+"more"}>...</td>)
     ];
 }
@@ -20,14 +28,15 @@ function prop3cells(nameStr){
 function MotfEdit_SubSec_propsTable(props){
 
     const propsPairs = _.chunk( Motf_lists.GenericPropertyArrangement[props.groupKey], 2);
-
+    const mElem = props.mElem;
+    
     return (
 	<table><tbody>
 	  {
 	      propsPairs.map( (pair, i) => {
 		  return (
 		      <tr key={i}>
-			{_.concat(prop3cells(pair[0]), prop3cells(pair[1]))}
+			{_.concat(prop3cells(pair[0], mElem), prop3cells(pair[1], mElem))}
 		      </tr>
 		  );
 	      })
@@ -61,6 +70,7 @@ function MotfEdit_SubSec_mElemContracted(props) {
 
 function MotfEdit_SubSec_mElemExpanded(props) {
     const expLvl = props.expandLevel;
+    const mElem = props.mElem;
     return(
 	<div className={"mElem MotfEdit_SubSec_mElemExpanded" + (props.isFocus ? " focus" : "")}>
 	  <div className="bg-gradient"></div>
@@ -83,22 +93,30 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    
 	    {/* Table 1. Placement & Size */}
 	    <div className="tableHeading pos_size">Placement & Size
-	      <MotfEdit_SubSec_propsTable groupKey="pos_size" />
+	      <MotfEdit_SubSec_propsTable
+		 groupKey="pos_size"
+		 mElem={mElem} />
 	    </div>
 
 	    {/* Table 2. Appearance */}
 	    {(expLvl >= 2) && <div className="tableHeading">Appearance
-		   <MotfEdit_SubSec_propsTable groupKey="appearance" />
+		   <MotfEdit_SubSec_propsTable
+			  groupKey="appearance"
+			  mElem={mElem} />
 	    </div>}
 
 	    {/* Table 3. Repetition */}
 	    {(expLvl >= 3) && <div className="tableHeading">Repetition
-		    <MotfEdit_SubSec_propsTable groupKey="repetition" />
+		    <MotfEdit_SubSec_propsTable
+			   groupKey="repetition"
+			   mElem={mElem} />
 	    </div>}
 
 	    {/* Table 4. More Properties */}
 	    {(expLvl >= 4) && <div className="tableHeading">More Properties
-		    <MotfEdit_SubSec_propsTable groupKey="more" />
+		    <MotfEdit_SubSec_propsTable
+			   groupKey="more"
+			   mElem={mElem} />
 	    </div>}
 	  </div>
 	</div>

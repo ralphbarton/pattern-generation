@@ -76,37 +76,37 @@ var Motf_lists = {
     ObjectProperties:[
 	// 1. Placement & Size
 	{
-	    shortName:"x",
+	    shortName: "x",
 	    fabricKey: "left",
 	    manditory: true,
 	    type: "number"
 	},
 	{
-	    shortName:"y",
+	    shortName: "y",
 	    fabricKey: "top"
 	},
 	{
-	    shortName:"width",
+	    shortName: "width",
 	    fabricKey: "width"
 	},
 	{
-	    shortName:"height",
+	    shortName: "height",
 	    fabricKey: "height"
 	},
 	{//ellipse
-	    shortName:"radius x",
+	    shortName: "radius x",
 	    fabricKey: "rx"
 	},
 	{//ellipse
-	    shortName:"radius y",
+	    shortName: "radius y",
 	    fabricKey: "ry"
 	},
 	{
-	    shortName:"rotation",
+	    shortName: "rotation",
 	    fabricKey: "angle"
 	},
 	{
-	    shortName:"hide",
+	    shortName: "hide",
 	    fabricKey: null
 	},
 
