@@ -71,9 +71,42 @@
     color: #777;
 }
 
+.MotfEdit_SubSec_mElemExpanded .tableHeading:not(.pos_size){
+    margin-top: 8px;
+}
+
 /* temporary styling... */
 .MotfEdit_SubSec_mElemExpanded div.tableHeading > div{
     font-weight: normal;
     margin-left: 20px;
     font-size: 10px;
+}
+
+
+
+
+
+.MotfEdit_SubSec_mElemExpanded table{
+    background: #ccc;
+    border-spacing: 1px;
+    color: #777;
+    font-size: 11px;
+    margin-top: 1px;
+}
+
+.MotfEdit_SubSec_mElemExpanded table td{
+    background: white;
+    transition: all 1s;
+}
+
+.MotfEdit_SubSec_mElemExpanded table td.prop{
+    width: 54px;
+}
+
+.MotfEdit_SubSec_mElemExpanded table td.valu{
+    width: 138px;
+}
+
+.MotfEdit_SubSec_mElemExpanded table td.more{
+    width: 13px;
 }

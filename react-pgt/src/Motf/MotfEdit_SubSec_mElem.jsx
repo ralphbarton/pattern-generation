@@ -8,6 +8,37 @@ import WgActionLink from '../Wg/WgActionLink';
 import imgDustbin from './asset/dustbin-100.png';
 
 
+function prop3cells(nameStr){
+
+    return [
+	(<td className="prop" key={nameStr+"prop"}>{nameStr}</td>),
+	(<td className="valu" key={nameStr+"valu"}>val</td>),
+	(<td className="more" key={nameStr+"more"}>...</td>)
+    ];
+}
+
+function MotfEdit_SubSec_propsTable(props){
+
+    const propsPairs = _.chunk( Motf_lists.GenericPropertyArrangement[props.groupKey], 2);
+
+    return (
+	<table><tbody>
+	  {
+	      propsPairs.map( (pair, i) => {
+		  return (
+		      <tr key={i}>
+			{_.concat(prop3cells(pair[0]), prop3cells(pair[1]))}
+		      </tr>
+		  );
+	      })
+	  }
+	</tbody></table>
+    );
+
+
+    
+}
+
 function MotfEdit_SubSec_mElemContracted(props) {
     return(
 	<div className={"mElem MotfEdit_SubSec_mElemContracted" + (props.isFocus ? " focus" : "")}>
@@ -51,31 +82,23 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 
 	    
 	    {/* Table 1. Placement & Size */}
-	    <div className="tableHeading">Placement & Size
-	      {Motf_lists.GenericPropertyArrangement.pos_size.map( p_name => {
-		  return <div key={p_name}> {p_name} </div>;
-	      })}
+	    <div className="tableHeading pos_size">Placement & Size
+	      <MotfEdit_SubSec_propsTable groupKey="pos_size" />
 	    </div>
 
 	    {/* Table 2. Appearance */}
 	    {(expLvl >= 2) && <div className="tableHeading">Appearance
-		  {Motf_lists.GenericPropertyArrangement.appearance.map( p_name => {
-		      return <div key={p_name}> {p_name} </div>;
-		  })}
+		   <MotfEdit_SubSec_propsTable groupKey="appearance" />
 	    </div>}
 
 	    {/* Table 3. Repetition */}
 	    {(expLvl >= 3) && <div className="tableHeading">Repetition
-		  {Motf_lists.GenericPropertyArrangement.repetition.map( p_name => {
-		      return <div key={p_name}> {p_name} </div>;
-		  })}
+		    <MotfEdit_SubSec_propsTable groupKey="repetition" />
 	    </div>}
 
 	    {/* Table 4. More Properties */}
 	    {(expLvl >= 4) && <div className="tableHeading">More Properties
-		  {Motf_lists.GenericPropertyArrangement.more.map( p_name => {
-		      return <div key={p_name}> {p_name} </div>;
-		  })}
+		    <MotfEdit_SubSec_propsTable groupKey="more" />
 	    </div>}
 	  </div>
 	</div>
@@ -102,6 +125,16 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 	    });
 	};
     };
+
+    componentWillReceiveProps(nextProps){
+
+	//clear any overridden expansion settings, if globally adjusted
+	if(nextProps.expand.expandCount !== this.props.expand.expandCount){
+	    this.setState({
+		expandOverride: undefined
+	    });
+	}
+    }
     
     render(){
 	const mElem = this.props.mElem;
