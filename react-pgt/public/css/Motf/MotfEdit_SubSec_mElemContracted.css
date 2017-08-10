@@ -1,0 +1,18 @@
+/* MotfEdit_SubSec_mElemContracted.css */
+
+
+.MotfEdit_SubSec_mElemContracted{
+    padding: 1px 4px;
+    font-size: 12px;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: space-between;
+}
+
+.MotfEdit_SubSec_mElemContracted.focus{
+    background: #a9c9f1;
+}
+
+.MotfEdit_SubSec_mElemContracted{
+    border-bottom: 1px solid black;
+}
