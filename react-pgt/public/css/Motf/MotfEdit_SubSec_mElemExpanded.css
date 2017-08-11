@@ -103,8 +103,8 @@
 }
 
 .MotfEdit_SubSec_mElemExpanded table td{
-    background: white;
-    transition: all 1s;
+    background: #f7f7f7;
+    transition: all 0.2s;
 }
 
 .MotfEdit_SubSec_mElemExpanded table td.prop{
@@ -113,6 +113,7 @@
 
 .MotfEdit_SubSec_mElemExpanded table td.valu{
     width: 138px;
+    padding: 0;
 }
 
 .MotfEdit_SubSec_mElemExpanded table td.more{
@@ -122,4 +123,32 @@
 .MotfEdit_SubSec_mElemExpanded table td.recent-change{
     color: #b20000;
     background-color: #fff8a7;
+}
+
+.MotfEdit_SubSec_mElemExpanded td.valu > input{
+    border: none;
+    width: 100%;
+    height: 14px;
+    font-size: 11px;
+    color: #777;
+    background: #f9f9f9;
+    transition: all 0.2s;
+    background: rgba(0,0,0,0);
+}
+
+.MotfEdit_SubSec_mElemExpanded td.valu.recent-change > input{
+    color: #b20000;
+    background-color: #fff8a7;
+}
+
+.MotfEdit_SubSec_mElemExpanded td.valu > input:hover{
+    color: #555;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 2px 1px rgba(128, 177, 239, 0.4);
+}
+
+.MotfEdit_SubSec_mElemExpanded td.valu > input:focus{
+    background: white;
+    box-shadow: 0px 0px 3px 2px rgba(128, 177, 239, 0.65);
+    color: black;
 }

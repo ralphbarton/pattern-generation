@@ -57,14 +57,23 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 	if (PropertyDetails === undefined){return "";}	// propStr may have been "", -> PropertyDetails = undefined
 
 	// todo: again, the lookup key here should be 'PGTO_key', not 'fabricKey'
-	return (newer_mElem || this.props.mElem)[PropertyDetails.fabricKey];
+	return (newer_mElem || this.props.mElem)[PropertyDetails.fabricKey] || "";
     }
 
     ThreeCells(propStr, index){
 	const extraClass = this.state.propJustChanged[index] ? " recent-change" : "";
 	return [
 	    (<td className={"prop"+extraClass} key={propStr+"prop"}>{propStr}</td>),
-	    (<td className={"valu"+extraClass} key={propStr+"valu"}>{this.extractPropVal(index)}</td>),
+	    (<td className={"valu"+extraClass} key={propStr+"valu"}>
+	     <input
+	     value={this.extractPropVal(index)} 
+	     onChange={function(event){
+		 // Change the Motif name...
+		 this.props.handleEditingMotfChange({
+		     name: {$set: event.target.value}
+		 });
+	     }}
+	     /></td>),
 	    (<td className={"more"+extraClass} key={propStr+"more"}>...</td>)
 	];
     }
