@@ -133,6 +133,10 @@ var Motf_FabricHandlers = {
 	this.UpdateCanvas(Motf);
     },
 
+    UnmountCanvas: function(){
+	const canvas = this.canvas;
+	canvas.dispose()
+    },
     
     UpdateCanvas: function(Motf, selectionUID){
 	const canvas = this.canvas;

@@ -1,3 +1,6 @@
+import update from 'immutability-helper';
+var _ = require('lodash');
+
 var Motf_lists = {
 
     GenericPropertyArrangement: {
@@ -31,9 +34,11 @@ var Motf_lists = {
 	    fullName: "Ellipse",
 	    fabricKey: "Ellipse",
 	    DatH_name: "obj-ellipse",
-	    propertyCustomisation:{
-		"pos_size[2]": "radius x",
-		"pos_size[3]": "radius y",
+	    propertyCustomisation: {
+		pos_size: {
+		    2: {$set: "radius x"},
+		    3: {$set: "radius y"}
+		}
 	    }
 	},
 
@@ -42,8 +47,10 @@ var Motf_lists = {
 	    fabricKey: "Rect",
 	    DatH_name: "obj-rectangle",
 	    propertyCustomisation: {
-		"appearance[10]": "corner rx",
-		"appearance[11]": "corner ry",
+		appearance: {
+		    10: {$set: "corner rx"},
+		    11: {$set: "corner ry"}
+		}
 	    }
 	},
 
@@ -58,9 +65,9 @@ var Motf_lists = {
 	    fullName: "Hexagon",
 	    fabricKey: null, // "Polygon", - its a non-native shape
 	    DatH_name: "obj-hexagon",
-	    propertyCustomisation: {
-		"pos_size[2]": "side len",
-		"pos_size[3]": "",
+	    pos_size: {
+		2: {$set: "side len"},
+		3: {$set: ""}
 	    }
 	},
 
@@ -73,6 +80,19 @@ var Motf_lists = {
 	
     ],
 
+    applyObjectTypesPropertyCustomisation: function(){
+
+	const Generic = this.GenericPropertyArrangement;
+	this.ObjectTypes.forEach(function(o) {
+
+	    const Customisation = o.propertyCustomisation;
+	    if(_.size(Customisation) === 0){return;}
+
+	    o.PropertyArrangement = update(Generic, Customisation);
+	});
+    },
+
+    
     ObjectProperties:[
 	// 1. Placement & Size
 	{
@@ -155,6 +175,15 @@ var Motf_lists = {
 	    fabricKey: null
 	},
 
+	{
+	    shortName: "corner rx",
+	    fabricKey: "rx"
+	},
+	{
+	    shortName: "corner ry",
+	    fabricKey: "ry"
+	},
+
 	// 3. Repetition
 	{
 	    shortName: "qty i-reps",
@@ -189,5 +218,7 @@ var Motf_lists = {
     ]
     
 }
+
+Motf_lists.applyObjectTypesPropertyCustomisation();
 
 export default Motf_lists;

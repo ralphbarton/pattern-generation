@@ -33,6 +33,10 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
 	Motf_FabricHandlers.MountCanvas(this.fabricCanvasElement, this.props.Motf, this.props);
     }
+
+    componentWillUnmount(){
+	Motf_FabricHandlers.UnmountCanvas();
+    }
     
     render(){
 	return (
