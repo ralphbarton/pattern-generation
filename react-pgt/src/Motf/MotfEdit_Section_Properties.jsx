@@ -45,6 +45,11 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 					    Elements: {$splice: [[index,1]]}
 					});
 				    }}
+				    setSelectedMElem={ (PGTuid) =>{
+					this.props.handleMotfUIStateChange(
+					    {fabricSelection: {selectionUID: {$set: PGTuid}}}
+					);
+				    }}
 				    />;
 		  })}
 

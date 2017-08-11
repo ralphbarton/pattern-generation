@@ -12,7 +12,7 @@ import imgDustbin from './asset/dustbin-100.png';
 
 function MotfEdit_SubSec_mElemContracted(props) {
     return(
-	<div className={"mElem MotfEdit_SubSec_mElemContracted" + (props.isFocus ? " focus" : "")}>
+	<div className={"mElem MotfEdit_SubSec_mElemContracted" + props.focusClass} onClick={props.onMElemClick}>
 
 	  <MotfEdit_SubSec_mElem_Icon size={14} mElem={props.mElem} />
 	  
@@ -81,23 +81,23 @@ function MotfEdit_SubSec_propsTable(props){
 
 
 function MotfEdit_SubSec_mElemExpanded(props) {
-    const expLvl = props.expandLevel;
-    const mElem = props.mElem;
+
+    const { expandLevel, mElem } = props;//pull off some props...
 
     //get the properties arrangement for this particular shape
     const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: mElem.shape} );
     const TablesArrangement = ShapeDetails.PropertyArrangement;
     
     return(
-	<div className={"mElem MotfEdit_SubSec_mElemExpanded" + (props.isFocus ? " focus" : "")}>
+	<div className={"mElem MotfEdit_SubSec_mElemExpanded" + props.focusClass} onClick={props.onMElemClick} >
 	  <div className="bg-gradient"></div>
 	  <div className="content">
-	    <MotfEdit_SubSec_mElem_Icon size={24} mElem={props.mElem} />
-	    <div className="name">{props.ObjectTypeDetails.fullName + " " + props.mElem.PGTuid}</div>
+	    <MotfEdit_SubSec_mElem_Icon size={24} mElem={mElem} />
+	    <div className="name">{props.ObjectTypeDetails.fullName + " " + mElem.PGTuid}</div>
 
 	    <WgActionLink
-	     name={expLvl < 4 ? "Expand" : "Contract"}
-	     onClick={props.hofFnSetOvrExpanded(expLvl < 4)}
+	     name={expandLevel < 4 ? "Expand" : "Contract"}
+	     onClick={props.hofFnSetOvrExpanded(expandLevel < 4)}
 	     />
 
 	  <img className="dustbin"
@@ -114,21 +114,21 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    </div>
 
 	    {/* Table 2. Appearance */}
-	    {(expLvl >= 2) && <div className="tableHeading">Appearance
+	    {(expandLevel >= 2) && <div className="tableHeading">Appearance
 		   <MotfEdit_SubSec_propsTable
 			  mElem={mElem}
 			  arrangement={TablesArrangement["appearance"]} />
 	    </div>}
 
 	    {/* Table 3. Repetition */}
-	    {(expLvl >= 3) && <div className="tableHeading">Repetition
+	    {(expandLevel >= 3) && <div className="tableHeading">Repetition
 		    <MotfEdit_SubSec_propsTable
 			   mElem={mElem}
 			   arrangement={TablesArrangement["repetition"]} />
 	    </div>}
 
 	    {/* Table 4. More Properties */}
-	    {(expLvl >= 4) && <div className="tableHeading">More Properties
+	    {(expandLevel >= 4) && <div className="tableHeading">More Properties
 		    <MotfEdit_SubSec_propsTable
 			   mElem={mElem}
 			   arrangement={TablesArrangement["more"]} />
@@ -173,11 +173,11 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 	const mElem = this.props.mElem;
 	const EO = this.state.expandOverride;
 	const expandLevel = EO !== undefined ? EO : this.props.expand.expandLevel;
-	const isFocus = this.props.isFocus;
+	const focusClass = this.props.isFocus ? " focus" : "";
 
 	const ObjectTypeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: mElem.shape} );
 
-	const handleMElemClick = null;
+	const handleMElemClick = this.props.setSelectedMElem.bind(null, mElem.PGTuid);
 	
 	// Expanded M-Element
 	if (expandLevel >= 1){
@@ -186,7 +186,7 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 		   ObjectTypeDetails={ObjectTypeDetails}
 		   mElem={mElem}
 		   deleteElem={this.props.deleteElem}
-		   isFocus={isFocus}
+		   focusClass={focusClass}
 		   onMElemClick={handleMElemClick}
 		   expandLevel={expandLevel}
 		   hofFnSetOvrExpanded={this.hofFnSetOvrExpanded}		       
@@ -199,7 +199,7 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 		   ObjectTypeDetails={ObjectTypeDetails}
 		   mElem={mElem}
 		   deleteElem={this.props.deleteElem}
-		   isFocus={isFocus}
+		   focusClass={focusClass}
 		   onMElemClick={handleMElemClick}
 		   hofFnSetOvrExpanded={this.hofFnSetOvrExpanded}
 		   />

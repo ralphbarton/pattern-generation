@@ -1,5 +1,5 @@
 import React from 'react';
-import * as d3 from "d3";
+//import * as d3 from "d3";
 
 class MotfEdit_SubSec_mElem_Icon extends React.PureComponent {
 

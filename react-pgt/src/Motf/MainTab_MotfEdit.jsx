@@ -119,6 +119,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		<MotfEdit_Section_Properties
 		   Motf={this.state.Motf}
 		   handleEditingMotfChange={this.handleEditingMotfChange} // e.g. to delete a Motif Element
+		   handleMotfUIStateChange={this.handleMotfUIStateChange} // so that selected item on canvas can be changed.
 		   FS_UI={this.state.UI.fabricSelection}
 		   />
 		

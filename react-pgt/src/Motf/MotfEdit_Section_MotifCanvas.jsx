@@ -17,8 +17,11 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	const c2 = nextProps.CC_UI.mouseCoords === this.props.CC_UI.mouseCoords; // test for NO CHANGE 
 	const c3 = nextProps.CC_UI.mouseOverCanvas === this.props.CC_UI.mouseOverCanvas; // test for NO CHANGE 
 
+	//positively test for change in fabric selection...
+	const c4 = nextProps.FS_UI !== this.props.FS_UI;
+	
 	//Positively select props in which change will trigger rerender.
-	return nextProps.Motf !== this.props.Motf || (c1 && c2 && c3);
+	return nextProps.Motf !== this.props.Motf || (c1 && c2 && c3) || c4;
     }
     
     
@@ -46,12 +49,14 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
 		 //this seems to break the contained Fabric Canvas...
 		 onMouseMove={(e)=>{
+		     /*
+		      less bloody slow
+
 		     const canvBoundingBox = e.target.getBoundingClientRect();
 		     const canvX = e.pageX - canvBoundingBox.left - 200;
 		     const canvY = e.pageY - canvBoundingBox.top - 200;
 
-		     /*
-		      less bloody slow
+
 		     this.props.handleMotfUIStateChange({
 			 canvasControls: {mouseCoords: {
 			     x: {$set: canvX},
