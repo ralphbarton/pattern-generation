@@ -18,7 +18,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	const c3 = nextProps.CC_UI.mouseOverCanvas === this.props.CC_UI.mouseOverCanvas; // test for NO CHANGE 
 
 	//positively test for change in fabric selection...
-	const c4 = nextProps.FS_UI !== this.props.FS_UI;
+	const c4 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
 	
 	//Positively select props in which change will trigger rerender.
 	return nextProps.Motf !== this.props.Motf || (c1 && c2 && c3) || c4;

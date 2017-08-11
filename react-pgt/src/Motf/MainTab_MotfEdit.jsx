@@ -60,7 +60,8 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    snapAxes: "xy" // x, y or x and y
 		},
 		fabricSelection: {
-		    selectionUID: undefined
+		    selectionUID: undefined,
+		    chgOrigin_Properties_count: 0 // counter for changes originating in the Properties Section
 		}
 	    }
 	};
