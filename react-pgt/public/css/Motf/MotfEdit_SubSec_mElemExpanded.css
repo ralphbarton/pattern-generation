@@ -118,3 +118,8 @@
 .MotfEdit_SubSec_mElemExpanded table td.more{
     width: 13px;
 }
+
+.MotfEdit_SubSec_mElemExpanded table td.recent-change{
+    color: #b20000;
+    background-color: #fff8a7;
+}

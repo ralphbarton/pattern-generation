@@ -35,42 +35,91 @@ function MotfEdit_SubSec_mElemContracted(props) {
 }
 
 
+class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
+
+    constructor(props) {
+	super();
+	this.state = {
+	    propJustChanged: [false, false],
+	    PropertyDetailsPair: props.propsPair.map( propStr => {
+		//get the Property details from the abbreviated property name (its 'shortName')
+		// Todo: is 'shortName' really the best search-key? It should really be PGTO_key.
+		return _.find(Motf_lists.ObjectProperties, {shortName: propStr} ) ;
+	    })
+	};
+
+	this.extractPropVal = this.extractPropVal.bind(this);
+	this.ThreeCells = this.ThreeCells.bind(this);
+    }
+
+    extractPropVal(index, newer_mElem){
+	const PropertyDetails = this.state.PropertyDetailsPair[index]; 
+	if (PropertyDetails === undefined){return "";}	// propStr may have been "", -> PropertyDetails = undefined
+
+	// todo: again, the lookup key here should be 'PGTO_key', not 'fabricKey'
+	return (newer_mElem || this.props.mElem)[PropertyDetails.fabricKey];
+    }
+
+    ThreeCells(propStr, index){
+	const extraClass = this.state.propJustChanged[index] ? " recent-change" : "";
+	return [
+	    (<td className={"prop"+extraClass} key={propStr+"prop"}>{propStr}</td>),
+	    (<td className={"valu"+extraClass} key={propStr+"valu"}>{this.extractPropVal(index)}</td>),
+	    (<td className={"more"+extraClass} key={propStr+"more"}>...</td>)
+	];
+    }
 
 
-function prop3cells(nameStr, mElem){
+    componentWillReceiveProps(nextProps){
 
-    //get the Property details from the abbreviated property name (its 'shortName')
+	// 1. Calculate if a prop has changed
+	const glow = this.state.propJustChanged.map( (currentState, index) => {
+	    return currentState || (this.extractPropVal(index) !== this.extractPropVal(index, nextProps.mElem));
+	});
 
-    // Todo: is 'shortName' really the best search-key? It should really be PGTO_key.
-    const PropertyDetails = _.find(Motf_lists.ObjectProperties, {shortName: nameStr} ) ;
+	// 2. Record in current state
+	this.setState({
+	    propJustChanged: glow
+	});
 
+	// 3. Timeout to clear the glow effect after a short time.
+	if(glow[0] || glow[1]){
+	    const TS = this;
+	    clearTimeout(this.timoutID || null);
+	    this.timoutID = setTimeout(function(){
+		TS.setState({
+		    propJustChanged: [false, false]
+		});
+	    }, 1000);
+	}
+    }
     
-    // todo: again, the lookup key here should be 'PGTO_key', not 'fabricKey'
-    // nameStr may have been "", -> PropertyDetails = undefined
-    const storedValue = PropertyDetails !== undefined ? mElem[PropertyDetails.fabricKey] : "";
-    
-    return [
-	(<td className="prop" key={nameStr+"prop"}>{nameStr}</td>),
-	(<td className="valu" key={nameStr+"valu"}>{storedValue}</td>),
-	(<td className="more" key={nameStr+"more"}>...</td>)
-    ];
+    render(){
+
+	return (
+	    <tr>
+	      { _.flatMap(this.props.propsPair, this.ThreeCells)}
+	    </tr>
+	);
+
+    }
+
 }
 
 function MotfEdit_SubSec_propsTable(props){
 
-    const propsPairs = _.chunk( props.arrangement, 2);
-
-    const mElem = props.mElem;
-    
+    const propsPairsArr = _.chunk( props.arrangement, 2);    
     return (
 	<table><tbody>
 	  {
-	      propsPairs.map( (pair, i) => {
+	      propsPairsArr.map( (propsPair, i) => {
 		  return (
-		      <tr key={i}>
-			{_.concat(prop3cells(pair[0], mElem), prop3cells(pair[1], mElem))}
-		      </tr>
-		  );
+		      <MotfEdit_SubSec_TableOneRow
+			 key={i}
+			 propsPair={propsPair}		
+			 mElem={props.mElem}
+			 />)
+		  ;
 	      })
 	  }
 	</tbody></table>
