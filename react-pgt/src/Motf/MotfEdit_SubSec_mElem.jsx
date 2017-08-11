@@ -1,5 +1,7 @@
 import React from 'react';
 
+import MotfEdit_SubSec_mElem_Icon from './MotfEdit_SubSec_mElem_Icon';
+
 import Motf_lists from './plain-js/Motf_lists';
 var _ = require('lodash');
 
@@ -11,7 +13,12 @@ import imgDustbin from './asset/dustbin-100.png';
 function MotfEdit_SubSec_mElemContracted(props) {
     return(
 	<div className={"mElem MotfEdit_SubSec_mElemContracted" + (props.isFocus ? " focus" : "")}>
-	  <div className="name">{props.ObjectTypeDetails.fullName + " " + props.mElem.PGTuid}</div>
+
+	  <MotfEdit_SubSec_mElem_Icon size={14} mElem={props.mElem} />
+	  
+	  <div className="name">
+	    {props.ObjectTypeDetails.fullName + " " + props.mElem.PGTuid}
+	  </div>
 
 	  <WgActionLink
 	     name={"Expand"}
@@ -68,9 +75,6 @@ function MotfEdit_SubSec_propsTable(props){
 	  }
 	</tbody></table>
     );
-
-
-    
 }
 
 
@@ -88,6 +92,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	<div className={"mElem MotfEdit_SubSec_mElemExpanded" + (props.isFocus ? " focus" : "")}>
 	  <div className="bg-gradient"></div>
 	  <div className="content">
+	    <MotfEdit_SubSec_mElem_Icon size={24} mElem={props.mElem} />
 	    <div className="name">{props.ObjectTypeDetails.fullName + " " + props.mElem.PGTuid}</div>
 
 	    <WgActionLink

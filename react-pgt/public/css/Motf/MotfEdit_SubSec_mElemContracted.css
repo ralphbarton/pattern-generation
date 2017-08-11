@@ -7,6 +7,7 @@
     transition: background 0.2s;
     display: flex;
     justify-content: space-between;
+    padding-left: 34px;
 }
 
 .MotfEdit_SubSec_mElemContracted.focus{
@@ -15,4 +16,9 @@
 
 .MotfEdit_SubSec_mElemContracted{
     border-bottom: 1px solid black;
+}
+
+.MotfEdit_SubSec_mElemContracted svg{
+    position: absolute;
+    left: 9.5px;
 }

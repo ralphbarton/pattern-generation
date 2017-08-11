@@ -34,14 +34,22 @@
     padding: 2px 6px;
 }
 
+.MotfEdit_SubSec_mElemExpanded svg{
+    position: absolute;
+    left: 4px;
+}
+
 .MotfEdit_SubSec_mElemExpanded .name{
+    position: relative;
+    left: 27px;
+    margin-bottom: 3px;
     font-weight: bold;
     font-size: 20px;
 }
 
 .MotfEdit_SubSec_mElemExpanded .action-link{
     position: absolute;
-    left: 219px;
+    left: 223px;
     top: 2px;
 }
 
