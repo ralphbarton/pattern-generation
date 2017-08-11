@@ -61,18 +61,14 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
     }
 
     ThreeCells(propStr, index){
+	const propKey = this.state.PropertyDetailsPair[index]["fabricKey"];
 	const extraClass = this.state.propJustChanged[index] ? " recent-change" : "";
 	return [
 	    (<td className={"prop"+extraClass} key={propStr+"prop"}>{propStr}</td>),
 	    (<td className={"valu"+extraClass} key={propStr+"valu"}>
 	     <input
 	     value={this.extractPropVal(index)} 
-	     onChange={function(event){
-		 // Change the Motif name...
-		 this.props.handleEditingMotfChange({
-		     name: {$set: event.target.value}
-		 });
-	     }}
+	     onChange={event => {this.props.modifyElem(propKey, event.target.value);}}
 	     /></td>),
 	    (<td className={"more"+extraClass} key={propStr+"more"}>...</td>)
 	];
@@ -127,6 +123,7 @@ function MotfEdit_SubSec_propsTable(props){
 			 key={i}
 			 propsPair={propsPair}		
 			 mElem={props.mElem}
+			 modifyElem={props.modifyElem}
 			 />)
 		  ;
 	      })
@@ -168,6 +165,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    <div className="tableHeading pos_size">Placement & Size
 	      <MotfEdit_SubSec_propsTable
 		 mElem={mElem}
+		 modifyElem={props.modifyElem}
 		 arrangement={TablesArrangement["pos_size"]} />
 	    </div>
 
@@ -175,6 +173,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    {(expandLevel >= 2) && <div className="tableHeading">Appearance
 		   <MotfEdit_SubSec_propsTable
 			  mElem={mElem}
+			  modifyElem={props.modifyElem}
 			  arrangement={TablesArrangement["appearance"]} />
 	    </div>}
 
@@ -182,6 +181,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    {(expandLevel >= 3) && <div className="tableHeading">Repetition
 		    <MotfEdit_SubSec_propsTable
 			   mElem={mElem}
+			   modifyElem={props.modifyElem}
 			   arrangement={TablesArrangement["repetition"]} />
 	    </div>}
 
@@ -189,6 +189,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    {(expandLevel >= 4) && <div className="tableHeading">More Properties
 		    <MotfEdit_SubSec_propsTable
 			   mElem={mElem}
+			   modifyElem={props.modifyElem}
 			   arrangement={TablesArrangement["more"]} />
 	    </div>}
 	  </div>
@@ -243,6 +244,7 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 		<MotfEdit_SubSec_mElemExpanded
 		   ObjectTypeDetails={ObjectTypeDetails}
 		   mElem={mElem}
+		   modifyElem={this.props.modifyElem}
 		   deleteElem={this.props.deleteElem}
 		   focusClass={focusClass}
 		   onMElemClick={handleMElemClick}

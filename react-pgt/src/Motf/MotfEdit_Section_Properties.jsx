@@ -33,7 +33,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		  Motif Elements: Properties
 		</div>
 		<div className="scrollableContent">
-
+		  
 		  {this.props.Motf.Elements.map( (mElem, index) => {
 		      return <MotfEdit_SubSec_mElem
 				    key={mElem.PGTuid}
@@ -45,7 +45,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 					    Elements: {$splice: [[index,1]]}
 					});
 				    }}
-				    setSelectedMElem={ (PGTuid) =>{
+				    setSelectedMElem={(PGTuid)=>{
 					const cnt = this.props.FS_UI.chgOrigin_Properties_count + 1;
 					this.props.handleMotfUIStateChange(
 					    {fabricSelection: {
@@ -54,7 +54,17 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 					    }}
 					);
 				    }}
-				    />;
+				    modifyElem={(propKey, value)=>{
+					const nValue = Number(value);
+					this.props.handleEditingMotfChange({
+					    Elements: {
+						[index]: {
+						    [propKey]: {$set: nValue}
+						}
+					    }
+					});
+				    }}
+			  />;
 		  })}
 
 		</div>
