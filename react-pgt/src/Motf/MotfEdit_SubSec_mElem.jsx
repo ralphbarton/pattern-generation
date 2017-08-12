@@ -2,6 +2,7 @@ import React from 'react';
 
 import MotfEdit_SubSec_mElem_Icon from './MotfEdit_SubSec_mElem_Icon';
 import MotfEdit_SubSec_mElem_menu from './MotfEdit_SubSec_mElem_menu';
+import MotfEdit_SubSec_mElem_popoutPicker from './MotfEdit_SubSec_mElem_popoutPicker';
 
 import Motf_lists from './plain-js/Motf_lists';
 var _ = require('lodash');
@@ -70,10 +71,19 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 	return [
 	    (<td className={"prop"+extraClass} key={DatH_Key+"prop"}>{shortName}</td>),
 	    (<td className={"valu"+extraClass} key={DatH_Key+"valu"}>
-	     {PropertyDetails && <input
+	     {PropertyDetails.type === "number" && <input
 	      value={propValue} 
-	      onChange={event => {this.props.modifyElem(DatH_Key, event.target.value);}}
+	      onChange={event => {
+		  const newNumericVal = Number(event.target.value);
+		  this.props.modifyElem(DatH_Key, newNumericVal);
+	      }}
 	      />}
+	     {
+		 PropertyDetails.type === "colour" && <MotfEdit_SubSec_mElem_popoutPicker
+		 color={propValue}
+		 onColourChange={this.props.modifyElem.bind(null, DatH_Key)}
+		     />
+	     }
 	     </td>),
 	    (<td className={"more"+extraClass} key={DatH_Key+"more"}>
 	     <MotfEdit_SubSec_mElem_menu

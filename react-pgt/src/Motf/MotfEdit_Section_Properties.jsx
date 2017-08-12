@@ -55,7 +55,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 					);
 				    }}
 				    modifyElem={(propKey, value)=>{
-					const nValue = Number(value);
+					const nValue = value;
 					this.props.handleEditingMotfChange({
 					    Elements: {
 						[index]: {

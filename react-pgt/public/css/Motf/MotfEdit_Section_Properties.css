@@ -41,3 +41,45 @@
 .MainTab_MotfEdit .properties .mElem:last-child{
     border-bottom: none;
 }
+
+
+
+/* COLOUR PICKER CSS...
+
+this should go in a separate file
+(I think, depending on number of rules)
+
+MotfEdit_SubSec_mElem_popoutPicker.css
+*/
+
+.MotfEdit_SubSec_mElem_popoutPicker{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.MotfEdit_SubSec_mElem_popoutPicker .chequer{
+    display: inline-block;
+    height: 10px;
+    width: 60px;
+    margin: 1px;
+}
+
+.MotfEdit_SubSec_mElem_popoutPicker .chequer > .swatch{
+    width: 100%;
+    height: 100%;
+}
+
+.MotfEdit_SubSec_mElem_popoutPicker img{
+    margin-bottom: 3px;
+    width: 12px;
+}
+
+.MotfEdit_SubSec_mElem_popoutPicker .sketch-picker{
+    position: absolute;
+    right: -20px;
+    top: 0px;
+    z-index: 1;
+}

@@ -103,6 +103,7 @@
 }
 
 .MotfEdit_SubSec_mElemExpanded table td{
+    position: relative;
     background: #f7f7f7;
     transition: all 0.2s;
 }
@@ -120,7 +121,6 @@
     width: 15px;
     padding: 0;
     background: transparent;
-    position: relative;
 }
 
 .MotfEdit_SubSec_mElemExpanded table td.recent-change{
