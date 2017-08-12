@@ -8,24 +8,24 @@ var Motf_lists = {
 	// properties are referenced here by their 'DatH_name'
 	
 	pos_size: //Table 1. Placement & Size
-	[ "x",         "y",
-	  "width",     "height",
-	  "rotation",  "hide"],
+	[ "left",        "top",
+	  "width",       "height",
+	  "angle",       "hide"],
 
 	appearance:/* Table 2. Appearance */
-	["fill",       "outline",
-	 "outl thick", "outl pat",
-	 "opacity",    "shadow",
-	 "shad opac",  "shad blur",
-	 "shad x",     "shad y"],
+	["fill",         "stroke",
+	 "strokeWidth",  "strokeDashArray",
+	 "opacity",      "shadowColour",
+	 "shadowOpacity","shadowBlur",
+	 "shadowX",      "shadowY"],
 
 	repetition:/* Table 3. Repetition */
-	["qty i-reps", "qty j-reps"],
+	["qtyIRepetition", "qtyJRepetition"],
 
 	more:/* Table 4. More Properties */
-	["origin x","origin y",
-	 "adv fill", "outl mr",
-	 "z index", ""]
+	["originX",      "originY",
+	 "advancedFill", "outlineMitre",
+	 "zIndex", ""]
     },
     
     ObjectTypes: [
@@ -44,8 +44,8 @@ var Motf_lists = {
 	    },
 	    propertyCustomisation: {
 		pos_size: {
-		    2: {$set: "radius x"},
-		    3: {$set: "radius y"}
+		    2: {$set: "rx"},
+		    3: {$set: "ry"}
 		}
 	    }
 	},
@@ -61,8 +61,8 @@ var Motf_lists = {
 	    },
 	    propertyCustomisation: {
 		appearance: {
-		    10: {$set: "corner rx"},
-		    11: {$set: "corner ry"}
+		    10: {$set: "cornerRX"},
+		    11: {$set: "cornerRY"}
 		}
 	    }
 	},
@@ -119,123 +119,150 @@ var Motf_lists = {
 	// 1. Placement & Size
 	{
 	    shortName: "x",
-	    fabricKey: "left",
+	    isFabricKey: true,
+	    DatH_Key: "left",
 	    manditory: true,
 	    type: "number"
 	},
 	{
 	    shortName: "y",
-	    fabricKey: "top"
+	    isFabricKey: true,
+	    DatH_Key: "top",
+	    type: "number"
 	},
 	{
 	    shortName: "width",
-	    fabricKey: "width"
+	    isFabricKey: true,
+	    DatH_Key: "width",
+	    type: "number"
 	},
 	{
 	    shortName: "height",
-	    fabricKey: "height"
+	    isFabricKey: true,
+	    DatH_Key: "height",
+	    type: "number"
 	},
 	{//ellipse
 	    shortName: "radius x",
-	    fabricKey: "rx"
+	    isFabricKey: true,
+	    DatH_Key: "rx",
+	    type: "number"
 	},
 	{//ellipse
 	    shortName: "radius y",
-	    fabricKey: "ry"
+	    isFabricKey: true,
+	    DatH_Key: "ry",
+	    type: "number"
 	},
 	{
 	    shortName: "rotation",
-	    fabricKey: "angle"
+	    isFabricKey: true,
+	    DatH_Key: "angle",
+	    type: "number"
 	},
 	{
 	    shortName: "hide",
-	    fabricKey: null
+	    DatH_Key: "hide",
+	    type: "enum"
 	},
 
 	// 2. Appearance
 	{
 	    shortName: "fill",
-	    fabricKey: "fill",
+	    isFabricKey: true,
+	    DatH_Key: "fill",
 	    type: "colour"
 	},
 	{
 	    shortName: "outline",
-	    fabricKey: "stroke",
+	    isFabricKey: true,
+	    DatH_Key: "stroke",
 	    type: "colour"
 	},
 	{
 	    shortName: "outl thick",
-	    fabricKey: "strokeWidth"
+	    isFabricKey: true,
+	    DatH_Key: "strokeWidth",
+	    type: "number"
 	},
 	{
 	    shortName: "outl pat",
-	    fabricKey: "strokeDashArray"
+	    isFabricKey: true,
+	    DatH_Key: "strokeDashArray"
 	},
 	{
 	    shortName: "opacity",
-	    fabricKey: "opacity"
+	    isFabricKey: true,
+	    DatH_Key: "opacity"
 	},
 	{
 	    shortName: "shadow",
-	    fabricKey: null,
+	    DatH_Key: "shadowColour",
 	    type: "colour"
 	},
 	{
 	    shortName: "shad opac",
-	    fabricKey: null
+	    DatH_Key: "shadowOpacity"
 	},
 	{
 	    shortName: "shad blur",
-	    fabricKey: null
+	    DatH_Key: "shadowBlur"
 	},
 	{
 	    shortName: "shad x",
-	    fabricKey: null
+	    DatH_Key: "shadowX"
 	},
 	{
 	    shortName: "shad y",
-	    fabricKey: null
+	    DatH_Key: "shadowY"
 	},
 
 	{
 	    shortName: "corner rx",
+	    isFabricKey: false, // it is a fabric key, but not uniquely...
+	    DatH_Key: "cornerRX",
 	    fabricKey: "rx"
 	},
 	{
 	    shortName: "corner ry",
+	    isFabricKey: false, // it is a fabric key, but not uniquely...
+	    DatH_Key: "cornerRY",
 	    fabricKey: "ry"
 	},
 
 	// 3. Repetition
 	{
 	    shortName: "qty i-reps",
-	    fabricKey: null
+	    DatH_Key: "qtyIRepetition"
 	},
 	{
-	    shortName: "qty j-reps",
-	    fabricKey: null
+	    shortName: "qty i-reps",
+	    DatH_Key: "qtyJRepetition"
 	},
 
 	// 4. More Properties	
 	{
 	    shortName: "origin x",
-	    fabricKey: "originX"
+	    isFabricKey: true,
+	    DatH_Key: "originX"
 	},
 	{
 	    shortName: "origin y",
-	    fabricKey: "originY"
+	    isFabricKey: true,
+	    DatH_Key: "originY"
 	},
 	{
 	    shortName: "adv fill",
-	    fabricKey: null
+	    DatH_Key: "advancedFill"
 	},
 	{
 	    shortName: "outl mr",
-	    fabricKey: null
+	    DatH_Key: "outlineMitre"
 	},
 	{
 	    shortName: "z index",
-	    fabricKey: null
+	    DatH_Key: "zIndex",
+	    type: null // this will not be a property that can be set directly. Changes will affect Array ordering
 	},
     ]
     

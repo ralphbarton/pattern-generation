@@ -43,11 +43,11 @@ var Motf_FabricHandlers = {
 	    const ShapeDetails = _.find(Motf_lists.ObjectTypes, {fabricObjType: obj.type} );
 	    const absorb = ShapeDetails.scaleAbsorb;
 	    
-	    if(obj.scaleX != 1){
-		obj[absorb.scaleX] = obj[absorb.scaleX] * obj.scaleX;
+	    if(obj.scaleX !== 1){
+		obj[absorb.scaleX] *= obj.scaleX;
 	    }
-	    if(obj.scaleY != 1){
-		obj[absorb.scaleY] = obj[absorb.scaleY] * obj.scaleY;
+	    if(obj.scaleY !== 1){
+		obj[absorb.scaleY] *= obj.scaleY;
 	    }
 	    
 	    return {

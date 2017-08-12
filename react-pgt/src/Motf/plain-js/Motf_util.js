@@ -4,6 +4,8 @@ import tinycolor from 'tinycolor2';
 
 import {fabric}  from 'fabric';
 
+import Motf_lists from './Motf_lists';
+
 //query split this file up??
 
 
@@ -95,7 +97,21 @@ var Motf_util = {
     },
 
 
+    // generate Fabric object from object saved in DatH
     Fabric_AddShape: function(canvas, props){
+
+	/*
+	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: props.shape} );
+
+
+	if(ShapeDetails.fabricKey){
+	    // its a native Fabric shape
+	    
+	    
+	}else{
+	    // not a Native shape for fabric JS...
+	    
+	}*/
 	
 	// create a rectangle object
 	var new_shape = undefined;

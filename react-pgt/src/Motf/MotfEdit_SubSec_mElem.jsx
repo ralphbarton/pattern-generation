@@ -41,10 +41,12 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 	super();
 	this.state = {
 	    propJustChanged: [false, false],
-	    PropertyDetailsPair: props.propsPair.map( propStr => {
-		//get the Property details from the abbreviated property name (its 'shortName')
-		// Todo: is 'shortName' really the best search-key? It should really be PGTO_key.
-		return _.find(Motf_lists.ObjectProperties, {shortName: propStr} ) ;
+	    PropertyDetailsPair: props.propsPair.map( DatH_Key => {
+		//get full property details by searching its DatH_Key
+		const PropertyDetails = _.find(Motf_lists.ObjectProperties, {DatH_Key: DatH_Key} );
+		if(PropertyDetails){return PropertyDetails;}
+		console.error(`Property details not retrieved for key: ${DatH_Key}`);
+		return null;
 	    })
 	};
 
@@ -54,23 +56,21 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 
     extractPropVal(index, newer_mElem){
 	const PropertyDetails = this.state.PropertyDetailsPair[index]; 
-	if (PropertyDetails === undefined){return "";}	// propStr may have been "", -> PropertyDetails = undefined
-
-	// todo: again, the lookup key here should be 'PGTO_key', not 'fabricKey'
-	return (newer_mElem || this.props.mElem)[PropertyDetails.fabricKey] || "";
+	if (PropertyDetails === undefined){return "";}	// DatH_Key may have been "", -> PropertyDetails = undefined
+	return (newer_mElem || this.props.mElem)[PropertyDetails.DatH_Key] || "";
     }
 
-    ThreeCells(propStr, index){
-	const propKey = this.state.PropertyDetailsPair[index]["fabricKey"];
+    ThreeCells(DatH_Key, index){
+	const shortName = this.state.PropertyDetailsPair[index].shortName;
 	const extraClass = this.state.propJustChanged[index] ? " recent-change" : "";
 	return [
-	    (<td className={"prop"+extraClass} key={propStr+"prop"}>{propStr}</td>),
-	    (<td className={"valu"+extraClass} key={propStr+"valu"}>
+	    (<td className={"prop"+extraClass} key={DatH_Key+"prop"}>{shortName}</td>),
+	    (<td className={"valu"+extraClass} key={DatH_Key+"valu"}>
 	     <input
 	     value={this.extractPropVal(index)} 
-	     onChange={event => {this.props.modifyElem(propKey, event.target.value);}}
+	     onChange={event => {this.props.modifyElem(DatH_Key, event.target.value);}}
 	     /></td>),
-	    (<td className={"more"+extraClass} key={propStr+"more"}>...</td>)
+	    (<td className={"more"+extraClass} key={DatH_Key+"more"}>...</td>)
 	];
     }
 
