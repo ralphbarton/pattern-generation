@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MotfEdit_SubSec_mElem_Icon from './MotfEdit_SubSec_mElem_Icon';
+import MotfEdit_SubSec_mElem_menu from './MotfEdit_SubSec_mElem_menu';
 
 import Motf_lists from './plain-js/Motf_lists';
 var _ = require('lodash');
@@ -70,7 +71,9 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 	     value={this.extractPropVal(index)} 
 	     onChange={event => {this.props.modifyElem(DatH_Key, event.target.value);}}
 	     /></td>),
-	    (<td className={"more"+extraClass} key={DatH_Key+"more"}>...</td>)
+	    (<td className={"more"+extraClass} key={DatH_Key+"more"}>
+	     <MotfEdit_SubSec_mElem_menu/>
+	     </td>)
 	];
     }
 
