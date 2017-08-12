@@ -1,7 +1,9 @@
 import React from 'react';
 
+import WgSmartInput from '../Wg/WgSmartInput';
+
 import downArrow from './asset/down-arrow-80.png';
-import rightArrow from './asset/right-arrow-80.png';
+//import rightArrow from './asset/right-arrow-80.png';
 import closeIcon from './asset/close-36.png';
 
 class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
@@ -13,6 +15,7 @@ class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
 	};
 
 	this.handleClickOutside = this.handleClickOutside.bind(this);
+	this.hofSetExpanded = this.hofSetExpanded.bind(this);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -37,8 +40,15 @@ class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
     handleClickOutside(event) {
 	if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
 	    // You clicked outside of me!!
-	    this.setState({expanded: false});
+	    this.hofSetExpanded(false)();//get the function and immediately execute (silly).
 	}
+    }
+
+    hofSetExpanded(isExpand){
+	const TS = this;
+	return function (){
+	    TS.setState({expanded: isExpand});
+	};
     }
 
 
@@ -51,6 +61,7 @@ class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
     }
 
     renderExpanded(){
+	const details = this.props.PropertyDetails;
 	return (
 	    <div>
 
@@ -58,12 +69,19 @@ class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
 		Rectangle 1 Height
 		<img className="closeIcon"
 		     src={closeIcon}
-		     alt=""/>
+		     alt=""
+		     onClick={this.hofSetExpanded(false)}
+		  />
 	      </div>
 
 	      <div className="B">
 		Plain Number
-		<input/>
+		<WgSmartInput
+		   value={this.props.value}
+		   onChange={value => {this.props.modifyElem(details.DatH_Key, value);}}
+		   dataUnit={details.unit || "dimentionless"}
+		   max={750}//a bit arbitrary.
+		  />
 	      </div>
 	    </div>
 	);
@@ -75,7 +93,7 @@ class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
 	    <div
 	       className={"MotfEdit_SubSec_mElem_menu" + extraClass}
 	       ref={(node)=>{this.wrapperRef = node;}}
-	      onClick={()=>{this.setState({expanded: true});}}
+	      onClick={this.state.expanded ? function(){} : this.hofSetExpanded(true)}
 	       >
 	      {this.state.expanded ? this.renderExpanded() : this.renderContracted()}
 	    </div>

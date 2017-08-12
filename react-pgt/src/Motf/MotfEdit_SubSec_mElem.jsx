@@ -46,7 +46,8 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 		//get full property details by searching its DatH_Key
 		const PropertyDetails = _.find(Motf_lists.ObjectProperties, {DatH_Key: DatH_Key} );
 		if(PropertyDetails){return PropertyDetails;}
-		console.error(`Property details not retrieved for key: ${DatH_Key}`);
+		// its not necessarily an error.
+		//		console.error(`Property details not retrieved for key: "${DatH_Key}"`);
 		return null;
 	    })
 	};
@@ -57,22 +58,29 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 
     extractPropVal(index, newer_mElem){
 	const PropertyDetails = this.state.PropertyDetailsPair[index]; 
-	if (PropertyDetails === undefined){return "";}	// DatH_Key may have been "", -> PropertyDetails = undefined
+	if (PropertyDetails === null){return "";}	// DatH_Key may have been "", -> PropertyDetails = undefined
 	return (newer_mElem || this.props.mElem)[PropertyDetails.DatH_Key] || "";
     }
 
     ThreeCells(DatH_Key, index){
-	const shortName = this.state.PropertyDetailsPair[index].shortName;
+	const PropertyDetails = this.state.PropertyDetailsPair[index];
+	const shortName = PropertyDetails ? PropertyDetails.shortName : "";
 	const extraClass = this.state.propJustChanged[index] ? " recent-change" : "";
+	const propValue = this.extractPropVal(index);
 	return [
 	    (<td className={"prop"+extraClass} key={DatH_Key+"prop"}>{shortName}</td>),
 	    (<td className={"valu"+extraClass} key={DatH_Key+"valu"}>
-	     <input
-	     value={this.extractPropVal(index)} 
-	     onChange={event => {this.props.modifyElem(DatH_Key, event.target.value);}}
-	     /></td>),
+	     {PropertyDetails && <input
+	      value={propValue} 
+	      onChange={event => {this.props.modifyElem(DatH_Key, event.target.value);}}
+	      />}
+	     </td>),
 	    (<td className={"more"+extraClass} key={DatH_Key+"more"}>
-	     <MotfEdit_SubSec_mElem_menu/>
+	     <MotfEdit_SubSec_mElem_menu
+	     value={propValue}
+	     PropertyDetails={PropertyDetails}
+	     modifyElem={this.props.modifyElem}
+	     />
 	     </td>)
 	];
     }

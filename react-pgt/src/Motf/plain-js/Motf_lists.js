@@ -122,48 +122,56 @@ var Motf_lists = {
 	    isFabricKey: true,
 	    DatH_Key: "left",
 	    manditory: true,
-	    type: "number"
+	    type: "number",
+	    unit: "pixels"
 	},
 	{
 	    shortName: "y",
 	    isFabricKey: true,
 	    DatH_Key: "top",
-	    type: "number"
+	    type: "number",
+	    unit: "pixels"
 	},
 	{
 	    shortName: "width",
 	    isFabricKey: true,
 	    DatH_Key: "width",
-	    type: "number"
+	    type: "number",
+	    unit: "pixels"
 	},
 	{
 	    shortName: "height",
 	    isFabricKey: true,
 	    DatH_Key: "height",
-	    type: "number"
+	    type: "number",
+	    unit: "pixels"
 	},
 	{//ellipse
 	    shortName: "radius x",
 	    isFabricKey: true,
 	    DatH_Key: "rx",
-	    type: "number"
+	    type: "number",
+	    unit: "pixels"
 	},
 	{//ellipse
 	    shortName: "radius y",
 	    isFabricKey: true,
 	    DatH_Key: "ry",
-	    type: "number"
+	    type: "number",
+	    unit: "pixels"
 	},
 	{
 	    shortName: "rotation",
 	    isFabricKey: true,
 	    DatH_Key: "angle",
-	    type: "number"
+	    type: "number",
+	    unit: "degrees"
 	},
 	{
 	    shortName: "hide",
 	    DatH_Key: "hide",
-	    type: "enum"
+	    type: "enum",
+	    unit: "text"
 	},
 
 	// 2. Appearance
