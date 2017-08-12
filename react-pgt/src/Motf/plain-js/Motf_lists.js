@@ -31,9 +31,17 @@ var Motf_lists = {
     ObjectTypes: [
 
 	{ // Ellipse
-	    fullName: "Ellipse",
-	    fabricKey: "Ellipse",
-	    DatH_name: "obj-ellipse",
+	    fullName: "Ellipse", // Name shown to user
+	    fabricKey: "Ellipse", // Fabric JS contsructor
+	    fabricObjType: "ellipse", // Fabric Object Type
+	    DatH_name: "obj-ellipse", // PGT storage name
+	    /* When 'absorbing' scaleX and scaleY parameters into other properties,
+	       which are the properties that need changing?
+	     */
+	    scaleAbsorb: { 
+		scaleX: "rx",
+		scaleY: "ry"
+	    },
 	    propertyCustomisation: {
 		pos_size: {
 		    2: {$set: "radius x"},
@@ -45,7 +53,12 @@ var Motf_lists = {
 	{ // Rectangle
 	    fullName: "Rectangle",
 	    fabricKey: "Rect",
+	    fabricObjType: "rect",
 	    DatH_name: "obj-rectangle",
+	    scaleAbsorb: { 
+		scaleX: "width",
+		scaleY: "height"
+	    },
 	    propertyCustomisation: {
 		appearance: {
 		    10: {$set: "corner rx"},
@@ -58,6 +71,10 @@ var Motf_lists = {
 	    fullName: "Triangle",
 	    fabricKey: "Triangle",
 	    DatH_name: "obj-triangle",
+	    scaleAbsorb: { 
+		scaleX: "width",
+		scaleY: "height"
+	    },
 	    propertyCustomisation: {}
 	},
 	
@@ -65,6 +82,7 @@ var Motf_lists = {
 	    fullName: "Hexagon",
 	    fabricKey: null, // "Polygon", - its a non-native shape
 	    DatH_name: "obj-hexagon",
+	    scaleAbsorb: {}, // maybe not straightforward...
 	    pos_size: {
 		2: {$set: "side len"},
 		3: {$set: ""}
@@ -75,6 +93,10 @@ var Motf_lists = {
 	    fullName: "Line",
 	    fabricKey: "Line",
 	    DatH_name: "obj-line",
+	    scaleAbsorb: { 
+		scaleX: "width",
+		scaleY: "height"
+	    },
 	    propertyCustomisation: {}
 	}
 	

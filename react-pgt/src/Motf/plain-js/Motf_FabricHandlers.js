@@ -2,6 +2,7 @@ import {fabric}  from 'fabric';
 var _ = require('lodash');
 
 import Motf_util from './Motf_util';
+import Motf_lists from './Motf_lists';
 
 var Motf_FabricHandlers = {
 
@@ -33,28 +34,34 @@ var Motf_FabricHandlers = {
     */
     handle_ObjectModified: function(options) {
 
-	const typeInterpret = function(type_str){
-	    switch (type_str) {		
-	    case "ellipse": return "obj-ellipse";
-	    case "rect": return "obj-rectangle";
-	    default: return "obj-unknown";
-	    }
-	};
+	const Rnd = function (x){return _.round(x, 1);};
 	
 	// "serialise" the entire Canvas contents...
 	const DatH_Elements = this.canvas.getObjects().map(function(obj){
-	    return {
-		shape: typeInterpret(obj.type),
-		left: obj.left,
-		top: obj.top,
-		fill: obj.fill,
-		stroke: obj.stroke,
-		width: obj.width, //rect specific
-		height: obj.height, //rect specific
-		rx: obj.rx, // ellipse only
-		ry: obj.ry, // ellipse only
 
-		angle: obj.angle, // sometimes
+	    // convert Fabrif JS type name into DatH type name.
+	    const ShapeDetails = _.find(Motf_lists.ObjectTypes, {fabricObjType: obj.type} );
+	    const absorb = ShapeDetails.scaleAbsorb;
+	    
+	    if(obj.scaleX != 1){
+		obj[absorb.scaleX] = obj[absorb.scaleX] * obj.scaleX;
+	    }
+	    if(obj.scaleY != 1){
+		obj[absorb.scaleY] = obj[absorb.scaleY] * obj.scaleY;
+	    }
+	    
+	    return {
+		shape:  ShapeDetails.DatH_name,
+		left:   Rnd(obj.left),
+		top:    Rnd(obj.top),
+		fill:   obj.fill,
+		stroke: obj.stroke,
+		width:  Rnd(obj.width), //rect specific
+		height: Rnd(obj.height), //rect specific
+		rx:     Rnd(obj.rx), // ellipse only
+		ry:     Rnd(obj.ry), // ellipse only
+
+		angle:  Rnd(obj.angle), // sometimes
 		strokeWidth: obj.strokeWidth, // sometimes
 
 		
