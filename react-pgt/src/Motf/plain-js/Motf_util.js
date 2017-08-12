@@ -4,7 +4,7 @@ import tinycolor from 'tinycolor2';
 
 import {fabric}  from 'fabric';
 
-import Motf_lists from './Motf_lists';
+//import Motf_lists from './Motf_lists';
 
 //query split this file up??
 
