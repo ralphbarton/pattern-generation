@@ -170,8 +170,8 @@ var Motf_lists = {
 	{
 	    shortName: "hide",
 	    DatH_Key: "hide",
-	    type: "enum",
-	    unit: "text"
+	    type: "enum"
+//	    unit: "text"
 	},
 
 	// 2. Appearance

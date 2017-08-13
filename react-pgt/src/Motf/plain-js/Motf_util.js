@@ -4,7 +4,7 @@ import tinycolor from 'tinycolor2';
 
 import {fabric}  from 'fabric';
 
-//import Motf_lists from './Motf_lists';
+import Motf_lists from './Motf_lists';
 
 //query split this file up??
 
@@ -100,39 +100,42 @@ var Motf_util = {
     // generate Fabric object from object saved in DatH
     Fabric_AddShape: function(canvas, props){
 
-	/*
 	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: props.shape} );
+	var new_shape = undefined;
 
+	// generate a simple array of all 'DatH_Key's of this shape
+	const ShapePropsList = _.flatMap(ShapeDetails.PropertyArrangement, x => {return x} );
 
-	if(ShapeDetails.fabricKey){
+	// now, for each DatH_Key, get the full properties details object
+	const ShapePropsDetailsList = ShapePropsList.map( DatH_Key => {
+	    return _.find(Motf_lists.ObjectProperties, {DatH_Key: DatH_Key} );
+	});
+
+	// (this could be pre-cached data, since it is a function of fixed data)
+	// Array of property-details objects, where the properties are
+	//  (1) relevant to this shape
+	//  (2) are Fabric Properties
+	const FabPDtsArr = ShapePropsDetailsList.filter( pDeets => {return pDeets && pDeets.isFabricKey} )
+	const keys = FabPDtsArr.map( fpDeet =>{return fpDeet.DatH_Key ;} ); // all Fabric keys are also DatH_Keys
+
+	const FilteredProps = _.pick(props, keys);
+	
+	if(ShapeDetails.fabricKey){ // test if this shape has a Fabric key stored with...
 	    // its a native Fabric shape
-	    
+	    /*
+	      // I have not re-integrated this logic...
+	      stroke: (props.strokeWidth !== undefined) ? props.stroke : null, //Fabric assumes strokeWidth 1 if stroke supplied
+	      strokeWidth: props.strokeWidth || null,// undefined causes problems but null OK!
+	     */
+
+	    new_shape = new fabric[ShapeDetails.fabricKey](FilteredProps);
 	    
 	}else{
 	    // not a Native shape for fabric JS...
-	    
-	}*/
-	
-	// create a rectangle object
-	var new_shape = undefined;
-	if(props.shape === "obj-ellipse"){//circle
-	    new_shape = new fabric.Ellipse({
-		left: props.left,
-		top: props.top,
-		fill: props.fill,
-		rx: props.rx,
-		ry: props.ry,
-		stroke: (props.strokeWidth !== undefined) ? props.stroke : null,
-		strokeWidth: props.strokeWidth || null
-	    });
 
-	}else if(props.shape === "obj-rectangle"){//rectangle
-	    new_shape = new fabric.Rect();
+/*
 
-	}else if(props.shape === "obj-triangle"){//triangle
-	    new_shape = new fabric.Triangle();
-
-	}else if(props.shape === "obj-hexagon"){//hexagon
+  //   Hexagon...
 	    var W1 = 0.5 * props.width;
 	    var W2 = 0.5 * props.height / 0.866;
 	    var Wm = Math.min(W1, W2);
@@ -142,7 +145,6 @@ var Motf_util = {
 	    var OC = function(x,y){
 		return {x: x, y: y};
 	    };
-
 	    new_shape = new fabric.Polygon(
 		[
 		    OC(0.5*Wm, 0),//1
@@ -157,39 +159,12 @@ var Motf_util = {
 		    fill: props.fill
 		}
 	    );
-
-
-	}else if(props.shape === "obj-line"){//line
-	    new_shape = new fabric.Line();
-	    new_shape.set({
-		strokeWidth: props.strokeWidth,
-		stroke: 'black',
-	    });
-
+*/	    
 	}
 
-	if((props.shape === "obj-rectangle")||(props.shape === "obj-triangle")||(props.shape === "obj-line")){
-	    new_shape.set({
-		left: props.left,
-		top: props.top,
-		fill: props.fill,
-		stroke: (props.strokeWidth !== undefined) ? props.stroke : null, //Fabric assumes strokeWidth 1 if stroke supplied
-		strokeWidth: props.strokeWidth || null,// undefined causes problems but null OK!
-		width: props.width,
-		height: props.height
-	    });
-	}
-
-	if(props.angle){
-	    new_shape.set({angle: props.angle});
-	}
-
-	//set UID according to value provided.
-	new_shape.PGTuid = props.PGTuid;
-	
-	// "add" rectangle onto canvas
+	//Not done by the Fabric Contructor: set UID according to value provided.
+	new_shape.PGTuid = props.PGTuid;	
 	canvas.add(new_shape);
-	
     }
 
 }

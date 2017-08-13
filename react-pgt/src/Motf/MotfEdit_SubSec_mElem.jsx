@@ -87,11 +87,13 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 	     }
 	     </td>),
 	    (<td className={"more"+extraClass} key={DatH_Key+"more"}>
-	     <MotfEdit_SubSec_mElem_menu
-	     value={propValue}
-	     PropertyDetails={PropertyDetails}
-	     modifyElem={this.props.modifyElem}
-	     />
+	     {
+		 PropertyDetails && <MotfEdit_SubSec_mElem_menu
+		 value={propValue}
+		 PropertyDetails={PropertyDetails}
+		 modifyElem={this.props.modifyElem}
+		     />
+	     }
 	     </td>)
 	];
     }
