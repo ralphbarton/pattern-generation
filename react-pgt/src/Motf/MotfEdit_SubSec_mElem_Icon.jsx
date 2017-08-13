@@ -1,28 +1,65 @@
 import React from 'react';
-//import * as d3 from "d3";
+
+import {select} from "d3-selection";
+import "d3-selection-multi";
+
+var _ = require('lodash');
 
 class MotfEdit_SubSec_mElem_Icon extends React.PureComponent {
 
+    putIconSVG(){
+
+	const d3_svg = select(this.iconSVG);
+	d3_svg.selectAll("*").remove();
+
+	// dependence upon
+	// 1. shape type
+	// 2. fill colour
+	// 3. stroke colour
+	// 4. stroke width
+
+	const E = this.props.mElem;
+
+	// roughly show strokeWidth in proportion to shape size
+	// shape will start to distort stoke > 25
+	E["stroke-width"] = Math.min(E.strokeWidth * (40 / E.rx), 25);
+
+	/*
+	//non-ideal code style here...
+	const esw = E.strokeWidth;
+	(function(){
+	    if(esw >= 5){return 3;}
+	    if(esw >= 3){return 2;}
+	    if(esw >= 1){return 1;}
+	    return undefined;
+	})();
+	 */	
+
+	if(E.shape === "obj-ellipse"){
+
+	    d3_svg.append("ellipse").attr("class","some-obj")
+	    	.attrs( {"cx": 50, "cy": 50, "rx": 40, "ry": 40} )
+		.styles( _.pick(E, ["fill", "stroke", "stroke-width"]) );
+	}
+
+    }
+    
     componentDidUpdate(){
-	// update SVG for update...
+	this.putIconSVG();
     }
 
     componentDidMount(){
-	// do SVG properly...
+	this.putIconSVG();
     }
     
     render(){
 	return(
-	    <svg width={this.props.size} height={this.props.size} viewBox="0 0 400 400">
-	      <ellipse
-		 className="some-obj"
-		 cx="200"
-		 cy="200"
-		 rx="200"
-		 ry="200"
-		 style={{"fill": this.props.mElem.fill}} />
-
-	    </svg>
+	    <svg
+	       width={this.props.size}
+	       height={this.props.size}
+	       viewBox="0 0 100 100"
+	       ref={ (el) => {this.iconSVG = el;}}
+	      />
 	);
     }
 
