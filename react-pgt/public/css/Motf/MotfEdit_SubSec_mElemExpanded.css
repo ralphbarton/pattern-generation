@@ -123,7 +123,7 @@
     background: transparent;
 }
 
-.MotfEdit_SubSec_mElemExpanded table td.recent-change{
+.MotfEdit_SubSec_mElemExpanded table td:not(.more).recent-change{
     color: #b20000;
     background-color: #fff8a7;
 }
@@ -136,7 +136,7 @@
     color: #777;
     background: #f9f9f9;
     transition: all 0.2s;
-    background: rgba(0,0,0,0);
+    background: rgba(0,0,0,0.1);
 }
 
 .MotfEdit_SubSec_mElemExpanded td.valu.recent-change > input{
