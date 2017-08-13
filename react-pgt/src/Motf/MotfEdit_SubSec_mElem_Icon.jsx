@@ -21,8 +21,10 @@ class MotfEdit_SubSec_mElem_Icon extends React.PureComponent {
 	const E = this.props.mElem;
 
 	// roughly show strokeWidth in proportion to shape size
+	// although twice as thick to account for generally smaller icon
 	// shape will start to distort stoke > 25
-	E["stroke-width"] = Math.min(E.strokeWidth * (40 / E.rx), 25);
+	// (rx for ellipse, width otherwise)...
+	E["stroke-width"] = _.clamp( _.round(2 * E.strokeWidth * (40 / (E.rx || E.width)), 1), 1.5, 25);
 
 	/*
 	//non-ideal code style here...
@@ -38,7 +40,13 @@ class MotfEdit_SubSec_mElem_Icon extends React.PureComponent {
 	if(E.shape === "obj-ellipse"){
 
 	    d3_svg.append("ellipse").attr("class","some-obj")
-	    	.attrs( {"cx": 50, "cy": 50, "rx": 40, "ry": 40} )
+	    	.attrs( {cx: 50, cy: 50, rx: 40, ry: 40} )
+		.styles( _.pick(E, ["fill", "stroke", "stroke-width"]) );
+
+	}else{// for now, non-ellipse -> rectangle
+
+	    d3_svg.append("rect").attr("class","some-obj")
+	    	.attrs( {x:10, y:10, width:80, height:80} )
 		.styles( _.pick(E, ["fill", "stroke", "stroke-width"]) );
 	}
 
