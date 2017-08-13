@@ -1,4 +1,6 @@
-import * as d3 from "d3";
+import {select} from "d3-selection";
+import "d3-selection-multi";
+
 var _ = require('lodash');
 import tinycolor from 'tinycolor2';
 
@@ -47,49 +49,49 @@ var Motf_util = {
 
     putMotifSVG: function(svg_el, Motif, options){
 
-	const d3_svg = d3.select(svg_el);
+	const d3_svg = select(svg_el);
 	d3_svg.selectAll("*").remove();
-
-
-	// todo: determine what is the point of this param....
-	var center_zero = false;
 
 	// Iterate over the shapes of the Motif (its Elements)
 	_.forEach(Motif.Elements, function(E, key) {//E is element properties object
 
-	    //	    console.log(i, JSON.stringify(E, null, 2));
-	    var E_x = E.left + (center_zero ? -200 : 0);
-	    var E_y = E.top + (center_zero ? -200 : 0);
-	    
+	    // This is a hack...
+	    // in the sense that key-conversion should be handled elsewhere...
+	    if( E["strokeWidth"] ){ E["stroke-width"] = E["strokeWidth"]; }
+
+	    // further tweaking of properties format to suit the d3 requirements on object properties
+
+	    // put the origin in the middle of the Image (other ways to do this in an SVG?)
+	    E["x"] = E.left;
+	    E["y"] = E.top;
+
+	    E["transform"] = "rotate("+(E.angle||0)+", "+E.x+", "+E.y+")";
+
+	    // ellipse is positioned by its center point (these props are for ellipse only)
+	    E["cx"] = E.x + E.rx;
+	    E["cy"] = E.y + E.ry;
+
 	    //Create an Ellipse
 	    if(E.shape === "obj-ellipse"){
+
 		
 		//an angle may not be in data passed...
 		d3_svg.append("ellipse").attr("class","some-obj")
-		    .attr("cx", E_x + E.rx)
-		    .attr("cy", E_y + E.ry)
-		    .attr("rx", E.rx)
-		    .attr("ry", E.ry)
-		    .style("fill", E.fill)
-		    .attr("transform", "rotate("+(E.angle||0)+", "+E_x+", "+E_y+")")
-		    .style("stroke", E.stroke);
+		// some properties can be utilised verbatim (d3/svg attrs)
+		    .attrs( _.pick(E, ["cx", "cy", "rx", "ry", "transform"]))
+		// some properties can be utilised verbatim (d3/svg styles)
+		    .styles( _.pick(E, ["fill", "stroke", "stroke-width"]) );
 		
 	    }else if(E.shape === "obj-rectangle"){
 		
 		//Create a Rectangle
 		d3_svg.append("rect").attr("class","some-obj")
-		    .attr("x", E_x)
-		    .attr("y", E_y)
-		    .attr("width", E.width)
-		    .attr("height", E.height)
-		    .style("fill", E.fill)
-		    .attr("transform", "rotate("+(E.angle||0)+", "+E_x+", "+E_y+")")
-		    .style("stroke", E.stroke);
+		// some properties can be utilised verbatim (d3/svg attrs)
+		    .attrs( _.pick(E, ["x", "y", "width", "height", "transform"]))
+		// some properties can be utilised verbatim (d3/svg styles)
+		    .styles( _.pick(E, ["fill", "stroke", "stroke-width"]) );
 
-	    }
-
-
-	    
+	    }	    
 	    
 	});
 
