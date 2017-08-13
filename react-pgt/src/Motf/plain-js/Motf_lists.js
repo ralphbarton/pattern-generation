@@ -42,12 +42,14 @@ var Motf_lists = {
 		scaleX: "rx",
 		scaleY: "ry"
 	    },
-	    propertyCustomisation: {
+	    propertyCustomisation: { // Will be deleted after init
 		pos_size: {
 		    2: {$set: "rx"},
 		    3: {$set: "ry"}
 		}
-	    }
+	    },
+	    PropertyArrangement: {}, // Will be set programatically
+	    ObjectFabricProperties: [] // Will be set programatically
 	},
 
 	{ // Rectangle
@@ -111,6 +113,26 @@ var Motf_lists = {
 	    if(_.size(Customisation) === 0){return;}
 
 	    o.PropertyArrangement = update(Generic, Customisation);
+	    delete o.propertyCustomisation; // it has served is ts purpose
+	});
+    },
+
+    applyFilteredObjectPropertiesForShapes: function(){
+
+	this.ObjectTypes.forEach(function(o) {
+
+	    // 1. generate a simple array of all 'DatH_Key', relevant to this shape
+	    const ShapePropsList = _.flatMap(o.PropertyArrangement, x => {return x} );
+
+	    // 2. now, for each DatH_Key, get the full properties details object
+	    const ShapePropsDetailsList = ShapePropsList.map( DatH_Key => {
+		return _.find(Motf_lists.ObjectProperties, {DatH_Key: DatH_Key} );
+	    });
+
+	    // 3. Array of property-details objects, where the properties are
+	    //  (1) relevant to this shape
+	    //  (2) are Fabric Properties
+	    o.ObjectFabricProperties = ShapePropsDetailsList.filter( pDeets => {return pDeets && pDeets.isFabricKey} );
 	});
     },
 
@@ -277,5 +299,6 @@ var Motf_lists = {
 }
 
 Motf_lists.applyObjectTypesPropertyCustomisation();
+Motf_lists.applyFilteredObjectPropertiesForShapes();
 
 export default Motf_lists;

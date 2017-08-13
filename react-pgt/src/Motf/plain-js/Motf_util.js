@@ -102,33 +102,21 @@ var Motf_util = {
 
 	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: props.shape} );
 	var new_shape = undefined;
-
-	// generate a simple array of all 'DatH_Key's of this shape
-	const ShapePropsList = _.flatMap(ShapeDetails.PropertyArrangement, x => {return x} );
-
-	// now, for each DatH_Key, get the full properties details object
-	const ShapePropsDetailsList = ShapePropsList.map( DatH_Key => {
-	    return _.find(Motf_lists.ObjectProperties, {DatH_Key: DatH_Key} );
-	});
-
-	// (this could be pre-cached data, since it is a function of fixed data)
-	// Array of property-details objects, where the properties are
-	//  (1) relevant to this shape
-	//  (2) are Fabric Properties
-	const FabPDtsArr = ShapePropsDetailsList.filter( pDeets => {return pDeets && pDeets.isFabricKey} )
-	const keys = FabPDtsArr.map( fpDeet =>{return fpDeet.DatH_Key ;} ); // all Fabric keys are also DatH_Keys
-
-	const FilteredProps = _.pick(props, keys);
 	
 	if(ShapeDetails.fabricKey){ // test if this shape has a Fabric key stored with...
 	    // its a native Fabric shape
+
+	    // Every Fabric key is the string used as its DatH_Keys
+	    const validKeys = ShapeDetails.ObjectFabricProperties.map( o =>{return o.DatH_Key ;} );
+
+	    // Filter the props object, using Lodash pick
+	    new_shape = new fabric[ShapeDetails.fabricKey]( _.pick(props, validKeys) );
+
 	    /*
 	      // I have not re-integrated this logic...
 	      stroke: (props.strokeWidth !== undefined) ? props.stroke : null, //Fabric assumes strokeWidth 1 if stroke supplied
 	      strokeWidth: props.strokeWidth || null,// undefined causes problems but null OK!
 	     */
-
-	    new_shape = new fabric[ShapeDetails.fabricKey](FilteredProps);
 	    
 	}else{
 	    // not a Native shape for fabric JS...
