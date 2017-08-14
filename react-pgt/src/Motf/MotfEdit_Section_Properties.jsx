@@ -79,10 +79,8 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		   buttonStyle={"small"}
 		   onClick={this.hofHandleSetExpandClick(0)}
 		   />
-		<WgButton
-		   name="Expand All"
-		   buttonStyle={"small"}
-		   onClick={this.hofHandleSetExpandClick(1)}
+		<Motf_expandAllButton
+		   hofHandleSetExpandClick={this.hofHandleSetExpandClick}
 		   />
 		<WgButton
 		   name="Sweep"
@@ -101,5 +99,100 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 	);
     }
 }
+
+
+
+
+
+
+/* code here for the Expand All button's advanced features...*/
+
+import rightArrow from './asset/right-arrow-80.png';
+import closeIcon from './asset/close-36.png';
+
+class Motf_expandAllPopout extends React.PureComponent {
+
+    renderContracted(){
+	return (
+	    <div>
+	      <img className="rightArrow"
+		   src={rightArrow}
+		   alt=""/>
+	    </div>
+	);
+    }
+
+    renderExpanded(){
+	return (
+	    <div>
+	      <div>
+	      <h1>Show groupings</h1>
+
+	      <img className="closeIcon"
+		   src={closeIcon}
+		   alt=""
+		   onClick={this.props.pop.hofSetExpanded(false)}
+		   />
+	      
+	      <label className="control control--checkbox">Placement & Size
+		<input type="checkbox" />
+		<div className="control__indicator"></div>
+	      </label>
+
+	      <label className="control control--checkbox">Appearance
+		<input type="checkbox" />
+		<div className="control__indicator"></div>
+	      </label>
+
+	      <label className="control control--checkbox">Repetition
+		<input type="checkbox" />
+		<div className="control__indicator"></div>
+	      </label>
+
+	      <label className="control control--checkbox">More Properties
+		<input type="checkbox" />
+		<div className="control__indicator"></div>
+	      </label>
+		
+	      </div>
+	    </div>
+	);
+    }
+    
+    render(){
+	const extraClass = this.props.pop.expanded ? " expanded" : "";
+	return (
+	    <div
+	       className={"Motf_expandAllPopout" + extraClass}
+	       ref={this.props.pop.setwrapperRef}
+	       onClick={this.props.pop.hofSetExpanded(true, this.props.pop.expanded)}
+	       >
+	      {this.props.pop.expanded ? this.renderExpanded() : this.renderContracted()}
+	    </div>
+	);
+    }
+}
+
+import withClickOut from './../withClickOut';
+const Motf_expandAllPopout2 = withClickOut(Motf_expandAllPopout);
+
+function Motf_expandAllButton(props) {
+
+    return (
+	<div
+	   className="button s expandAll"
+	   >
+	  <div className="text" onClick={props.hofHandleSetExpandClick(4)}>Expand All</div>
+	  <Motf_expandAllPopout2
+	     hofHandleSetExpandClick={props.hofHandleSetExpandClick
+	     }/>
+	</div>
+    );
+}
+
+
+
+
+
 
 export default MotfEdit_Section_Properties;

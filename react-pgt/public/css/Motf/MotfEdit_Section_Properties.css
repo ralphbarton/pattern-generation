@@ -84,3 +84,211 @@ MotfEdit_SubSec_mElem_popoutPicker.css
     top: 0px;
     z-index: 1;
 }
+
+
+
+
+
+
+
+/* Expand All popout
+*/
+
+.button.expandAll{
+    position: relative;
+}
+
+.button.expandAll > div.text{
+    margin-right: 18px;
+}
+
+.button.expandAll img.rightArrow{
+    margin: 4px 6px;
+    height: 10px;
+    opacity: 0.55;
+}
+
+.button.expandAll:hover img.rightArrow{
+    opacity: 0.85;
+}
+
+.button.expandAll > .Motf_expandAllPopout > div{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    border-left: 1px solid;
+    border-color: rgba(0,30,70,0.4);
+    transition: height 0.2s, width 0.2s, right 0.2s, background 0.2s;
+}
+
+.button.expandAll .Motf_expandAllPopout > div{
+    height: 100%;
+    width: 18px;
+}
+
+.button.expandAll .Motf_expandAllPopout.expanded > div{
+    height: 123px;
+    width: 160px;
+    right: -142px;
+    bottom: -1px;
+   background: #99A7AE;
+    color: #004370;
+    border: 1px solid;
+    border-color: #004370;
+    border-radius: 6px 6px 6px 0px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.button.expandAll .Motf_expandAllPopout.expanded h1{
+    font-size: 15px;
+    padding: 0;
+    margin: 2px 4px;
+}
+
+.button.expandAll .Motf_expandAllPopout.expanded > div > div{
+  padding: 1px 6px;
+}
+
+.button.expandAll:hover .Motf_expandAllPopout > div{
+        border-color: #004370;
+}
+
+.button.expandAll .Motf_expandAllPopout .closeIcon{
+    position: absolute;
+    right: 5px;
+    top: 2px;
+    width: 20px;
+    opacity: 0.5;
+}
+
+.button.expandAll .Motf_expandAllPopout .closeIcon:hover{
+    opacity: 0.9;
+}
+
+
+
+
+
+.control {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  padding-top: 4px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: rgba(230, 230, 230, 0.6);
+}
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #e6e6e6;
+}
+.control input:checked ~ .control__indicator {
+  background: rgba(0, 67, 112, 0.6);
+}
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: #004370;
+}
+.control input:disabled ~ .control__indicator {
+  background: green;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.control__indicator:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+.control--checkbox .control__indicator:after {
+  left: 8px;
+  top: 4px;
+  width: 3px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+.control--radio .control__indicator:after {
+  left: 7px;
+  top: 7px;
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+.control--radio input:disabled ~ .control__indicator:after {
+  background: #7b7b7b;
+}
+.select {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 100%;
+}
+.select select {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  background: #e6e6e6;
+  color: #7b7b7b;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:hover,
+.select select:focus {
+  color: #000;
+  background: #ccc;
+}
+.select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.select__arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select__arrow,
+.select select:focus ~ .select__arrow {
+  border-top-color: #000;
+}
+.select select:disabled ~ .select__arrow {
+  border-top-color: #ccc;
+}

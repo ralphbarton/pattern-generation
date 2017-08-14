@@ -17,13 +17,16 @@
     margin: 0px 5px;
 }
 
-.button:hover,
-.hoverbutton:hover .hov-btn{
+.button:hover{
     transition: background 0.2s;
     background: rgba(0,70,180,0.3);
     text-decoration: underline;
     color: #004370;
     border-color: #004370;
+}
+
+.button:hover > .text{
+    text-decoration: underline;
 }
 
 /* this is copied from tabstrip... */

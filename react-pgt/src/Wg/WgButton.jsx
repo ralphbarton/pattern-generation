@@ -9,7 +9,7 @@ function WgButton(props) {
 	   className={buttonClasses}
 	   onClick={props.enabled !== false ? props.onClick : null}
 	   >
-	  {props.name}
+	  {props.name || props.children}
 	</button>
     );
 }
