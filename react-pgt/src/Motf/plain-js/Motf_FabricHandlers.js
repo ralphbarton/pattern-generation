@@ -10,15 +10,20 @@ var Motf_FabricHandlers = {
        - Show a Toast for single select & multi-select
        - 
     */
+    plainState: {},
+    
     handle_ObjectSelected: function(options) {
 
+	const selectionChg = options.target.PGTuid !== this.plainState.prevSelectionID;
+	this.plainState.prevSelectionID = options.target.PGTuid;
+	
 	const multiple = options.target._objects !== undefined;
 	const onToastMsg = this.onToastMsg;
 	
 	if(multiple){
-	    onToastMsg("Group selection...");
+	    onToastMsg("Multiple Motif Elements selected...");
 	}else{
-	    onToastMsg("Use CTRL key to select additional objects.");
+	    if(selectionChg){ onToastMsg("Motif element selected. Use CTRL+click to add further objects to selection"); }
 
 	    //store UID of selection...
 	    this.handleMotfUIStateChange(
