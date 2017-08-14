@@ -124,5 +124,5 @@ class MainTab_CpotView extends React.PureComponent {
     
 }
 
-
-export default MainTab_CpotView;
+import withTabSupport from './../withTabSupport';
+export default withTabSupport(MainTab_CpotView);

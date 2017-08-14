@@ -388,4 +388,5 @@ class MainTab_Grid extends React.PureComponent {
     
 }
 
-export default MainTab_Grid;
+import withTabSupport from './../withTabSupport';
+export default withTabSupport(MainTab_Grid);

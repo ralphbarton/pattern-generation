@@ -238,4 +238,5 @@ class MainTab_MotfView extends React.PureComponent {
     
 }
 
-export default MainTab_MotfView;
+import withTabSupport from './../withTabSupport';
+export default withTabSupport(MainTab_MotfView);

@@ -12,13 +12,6 @@ import MainTab_Grid from './Grid/MainTab_Grid';
 import MainTab_Plot from './Plot/MainTab_Plot';
 import MainTab_MotfView from './Motf/MainTab_MotfView';
 
-import withTabSupport from './withTabSupport';
-
-const TS_MainTab_CpotView = withTabSupport(MainTab_CpotView);
-const TS_MainTab_Grid = withTabSupport(MainTab_Grid);
-const TS_MainTab_Plot = withTabSupport(MainTab_Plot);
-const TS_MainTab_MotfView = withTabSupport(MainTab_MotfView);
-
 
 class Toolbox extends React.PureComponent {
 
@@ -72,7 +65,7 @@ class Toolbox extends React.PureComponent {
 			      name: "Colour Pots",
 			      renderJSX: ()=>{
 				return (
-				    <TS_MainTab_CpotView
+				    <MainTab_CpotView
 				       PGTobjArray={this.props.PGTobjARRAYS['cpot']}
 				       onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "cpot")}
 				      UI={this.props.UIState['cpot']}
@@ -96,7 +89,7 @@ class Toolbox extends React.PureComponent {
 			      name: "Motifs",
 			      renderJSX: ()=>{
 				  return(
-				      <TS_MainTab_MotfView
+				      <MainTab_MotfView
 					 PGTobjArray={this.props.PGTobjARRAYS['motf']}
 					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, 'motf')}
 					 UI={this.props.UIState['motf']}
@@ -111,7 +104,7 @@ class Toolbox extends React.PureComponent {
 			      name: "Grids",
 			      renderJSX: ()=>{
 				  return(
-				      <TS_MainTab_Grid
+				      <MainTab_Grid
 				       PGTobjArray={this.props.PGTobjARRAYS['grid']}
 				       onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, 'grid')}
 				       UI={this.props.UIState['grid']}
@@ -124,7 +117,7 @@ class Toolbox extends React.PureComponent {
 			      name: "Density Plots",
 			      renderJSX: ()=>{
 				  return (
-				      <TS_MainTab_Plot
+				      <MainTab_Plot
 					 PGTobjArray={this.props.PGTobjARRAYS['plot']}
 					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "plot")}
 					 UI={this.props.UIState['plot']}

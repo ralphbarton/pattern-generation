@@ -316,4 +316,6 @@ class MainTab_Plot extends React.PureComponent {
     
 }
 
-export default MainTab_Plot;
+
+import withTabSupport from './../withTabSupport';
+export default withTabSupport(MainTab_Plot);
