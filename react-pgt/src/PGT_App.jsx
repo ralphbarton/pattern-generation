@@ -78,11 +78,11 @@ class PGT_App extends React.PureComponent {
 	});
     }
 
-    handleToastMsg(msg_string){
+    handleToastMsg(toastDetailsObj){
 	const count = this.state.toastCount || 0;
 	this.setState({
 	    toastCount: count+1,
-	    latestToast: msg_string
+	    latestToast: toastDetailsObj
 	});
     }
     

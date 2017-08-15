@@ -21,9 +21,25 @@ var Motf_FabricHandlers = {
 	const onToastMsg = this.onToastMsg;
 	
 	if(multiple){
-	    onToastMsg("Multiple Motif Elements selected...");
+	    onToastMsg({
+		title: "Multiple elements selected",
+		text: "(note: the software doesn't yet handle multiple object selections...)",
+		type: "guidance",
+		diplayDuration: 1.5,
+		minPeriod: 15,
+		maxShows: 5
+	    });
 	}else{
-	    if(selectionChg){ onToastMsg("Motif element selected. Use CTRL+click to add further objects to selection"); }
+	    if(selectionChg){
+		onToastMsg({
+		    title: "Element selected",
+		    text: "Use CTRL+click to add further objects to selection.",
+		    type: "guidance",
+		    diplayDuration: 1.5,
+		    minPeriod: 15,
+		    maxShows: 5
+		});
+	    }
 
 	    //store UID of selection...
 	    this.handleMotfUIStateChange(
