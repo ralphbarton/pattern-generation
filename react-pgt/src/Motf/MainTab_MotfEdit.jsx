@@ -31,17 +31,19 @@ class MainTab_MotfEdit extends React.PureComponent {
 	this.state = {
 	    Motf: props.Motf,
 	    UI: {
-		canvasControls: {
-		    // 1. Mouse Position / Status
+		mouseStatus: {
+		    // Mouse Position / Status
 		    mouseOverCanvas: false,
-		    mouseCoords: {x: 44, y: 44},
-		    // 2. Direct State
+		    canvBoundingBoxCoords: {}
+		},
+		canvasControls: {
+		    // 1. Direct State
 		    backgroundBTTW: 0,
 		    canvasCircular: false,
 		    gridlines: true,
 		    snapToGrid: false,
 		    axes: true,
-		    // 3. State contained in "Grid Settings" Dropdown
+		    // 2. State contained in "Grid Settings" Dropdown
 		    gridSystem: "cartesian",
 		    gridSize: "medium",
 		    gridWeight: "normal",
@@ -49,7 +51,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    customYSpacing: 1,
 		    customRadiusIncr: 1,
 		    customAngularIncr: 1,
-		    // 4. State contained in "Snap Settings" Dropdown
+		    // 3. State contained in "Snap Settings" Dropdown
 		    snapResponseStyle: "medium",// "soft" / "medium" / "hard"
 		    shapeSnapOrigin: "TL1",
 		    /*
@@ -136,8 +138,9 @@ class MainTab_MotfEdit extends React.PureComponent {
 		<MotfEdit_Section_CanvasControls
 		   Motf={this.state.Motf}
 		   CC_UI={this.state.UI.canvasControls}
-		   handleEditingMotfChange={this.handleEditingMotfChange}// canvas controls can change Motif Name!!
-		   handleMotfUIStateChange={this.handleMotfUIStateChange}//needed to set multiple values at once
+		   Mouse_UI={this.state.UI.mouseStatus}
+		   handleEditingMotfChange={this.handleEditingMotfChange} // canvas controls can change Motif Name!!
+		   handleMotfUIStateChange={this.handleMotfUIStateChange} //needed to set multiple values at once
 		   hofHandleUIchange_CC={this.hofHandleUIchange_CC}
 		   />
 
@@ -157,7 +160,6 @@ class MainTab_MotfEdit extends React.PureComponent {
 		     FS_UI={this.state.UI.fabricSelection}
 		     handleEditingMotfChange={this.handleEditingMotfChange}
 		     handleMotfUIStateChange={this.handleMotfUIStateChange}//needed to set a non-fixed value (mouse coords)
-		     hofHandleUIchange_CC={this.hofHandleUIchange_CC}
 		     onToastMsg={this.props.onToastMsg}
 		     />
 		</div>

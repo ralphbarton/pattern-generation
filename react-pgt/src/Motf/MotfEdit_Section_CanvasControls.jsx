@@ -5,6 +5,45 @@ import WgDropDown from '../Wg/WgDropDown';
 import {WgButton2} from '../Wg/WgButton';
 import WgFadeTransition from '../Wg/WgFadeTransition';
 
+
+class MotfEdit_sub_mCoords extends React.PureComponent {
+
+    constructor() {
+	super();
+	this.state = {
+	    mouseX: 27,
+	    mouseY: 21
+	};
+	this.handleMouseMove = this.handleMouseMove.bind(this);
+    }
+
+    handleMouseMove(e){
+	this.setState({
+	    mouseX: e.pageX,
+	    mouseY: e.pageY
+	});
+    }
+    
+    componentWillMount()   { document.addEventListener('mousemove', this.handleMouseMove);    }
+
+    componentWillUnmount() { document.removeEventListener('mousemove', this.handleMouseMove); }
+
+    render(){
+	const canvBox = this.props.Mouse_UI.canvBoundingBoxCoords;
+	if(!canvBox){return null;}
+	return(
+	    <div className="mouseCoords"> 
+	      Mouse (x,y): (<span className="val">{this.state.mouseX - canvBox.left -200}</span>,
+			    <span className="val">{this.state.mouseY - canvBox.top -200}</span>)
+	    </div>
+	);
+    }
+}
+
+
+
+
+
 class MotfEdit_Section_CanvasControls extends React.PureComponent {
     
     render(){
@@ -186,22 +225,11 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		      <WgButton2 dot={UI.snapAxes==="y"} onClick={setUI("snapAxes", "y")}>y only</WgButton2>
 		    </div>
 		  </WgDropDown>
-		  
 
-
-	        <WgFadeTransition speed={0}>
-		  {UI.mouseOverCanvas &&
-		      <div className="mouseCoords"> 
-			    Mouse (x,y): (<span className="val">{UI.mouseCoords.x}</span>,
-					  <span className="val">{UI.mouseCoords.y}</span>)
-		   </div>
-		  }
-		</WgFadeTransition>
-		
-		  {/*
-		  {JSON.stringify(UI.mouseOverCanvas)}<br/>
-		  {JSON.stringify(UI.mouseCoords)}
-		  */}
+		  {/* Mouse Coordinates */}
+	          <WgFadeTransition speed={0}>
+		    {this.props.Mouse_UI.mouseOverCanvas && <MotfEdit_sub_mCoords Mouse_UI={this.props.Mouse_UI}/>}
+		  </WgFadeTransition>
 		  
 		</div>
 
@@ -210,5 +238,6 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 	);
     }
 }
+
 
 export default MotfEdit_Section_CanvasControls;

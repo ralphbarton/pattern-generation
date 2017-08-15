@@ -40,32 +40,26 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     componentWillUnmount(){
 	Motf_FabricHandlers.UnmountCanvas();
     }
+
+    handleMouseEnterLeaveCanvas(isEnter){
+	const TS = this;
+	return function(e){
+	    const BB = e.target.getBoundingClientRect();
+	    TS.props.handleMotfUIStateChange({
+		mouseStatus: {
+		    mouseOverCanvas: {$set: isEnter},
+		    canvBoundingBoxCoords: {$set: BB}
+		}
+	    });
+	};
+    }
     
     render(){
 	return (
 	    <div className={"MotfEdit_Section_MotifCanvas"+(this.props.CC_UI.canvasCircular?" circular":"")}
-		 onMouseEnter={this.props.hofHandleUIchange_CC("mouseOverCanvas", true)}
-		 onMouseLeave={this.props.hofHandleUIchange_CC("mouseOverCanvas", false)}
-
-		 //this seems to break the contained Fabric Canvas...
-		 onMouseMove={(e)=>{
-		     /*
-		      less bloody slow
-
-		     const canvBoundingBox = e.target.getBoundingClientRect();
-		     const canvX = e.pageX - canvBoundingBox.left - 200;
-		     const canvY = e.pageY - canvBoundingBox.top - 200;
-
-
-		     this.props.handleMotfUIStateChange({
-			 canvasControls: {mouseCoords: {
-			     x: {$set: canvX},
-			     y: {$set: canvY}
-			 }}
-		     });
-*/
-	      }}
-	      >
+		 onMouseEnter={this.handleMouseEnterLeaveCanvas(true)}
+		 onMouseLeave={this.handleMouseEnterLeaveCanvas(false)}
+		 >
 	      <MotfEdit_Section_MotifCanvas_BG CC_UI={this.props.CC_UI}/>
 	      <MotfEdit_Section_MotifCanvas_GD CC_UI={this.props.CC_UI}/>
 

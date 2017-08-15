@@ -126,7 +126,7 @@ class Motf_expandAllPopout extends React.PureComponent {
 	return (
 	    <div>
 	      <div>
-	      <h1>Show groupings</h1>
+		<h1>Groups shown:</h1>
 
 	      <img className="closeIcon"
 		   src={closeIcon}
