@@ -1,8 +1,13 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {WgButton} from '../Wg/WgButton';
 
 import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
+
+//import scrollToComponent from 'react-scroll-to-component';
+var scrollToElement = require('scroll-to-element');
+
 
 class MotfEdit_Section_Properties extends React.PureComponent {
 
@@ -24,8 +29,44 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 	    });
 	};
     }
+
+
+    componentDidUpdate(){
+
+	const TS = this;
+
+
+	const tesNode = ReactDOM.findDOMNode(this.refs[this.props.FS_UI.selectionUID]);
+//	if (some_logic){
+	    window.scrollTo(tesNode.offsetTop, 0);
+//	}
+
+	
+/*
+	scrollToElement(this.refs[this.props.FS_UI.selectionUID], {
+	    offset: 0,
+	    ease: 'out-bounce',
+	    duration: 1500
+	});
+*/
+
+	/*
+	setTimeout(function(){
+
+	    scrollToComponent(TS.refs[TS.props.FS_UI.selectionUID], {
+		//	    offset: 1000,
+		align: 'top',
+		duration: 500
+	    });
+	    console.log("componentDidUpdate", TS.props.FS_UI.selectionUID, TS.refs[TS.props.FS_UI.selectionUID]);
+
+
+	}, 5000);
+	*/
+    }
     
     render(){
+	this.refs = {a: 0};
 	return (
 	    <div>
 	      <div className="properties">
@@ -38,6 +79,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		      return <MotfEdit_SubSec_mElem
 				    key={mElem.PGTuid}
 				    mElem={mElem}
+				    addRef={(node)=>{this.refs[mElem.PGTuid]=node;}}
 				    expand={this.state}
 				    isFocus={mElem.PGTuid === this.props.FS_UI.selectionUID}
 				    deleteElem={()=>{

@@ -14,7 +14,11 @@ import imgDustbin from './asset/dustbin-100.png';
 
 function MotfEdit_SubSec_mElemContracted(props) {
     return(
-	<div className={"mElem MotfEdit_SubSec_mElemContracted" + props.focusClass} onClick={props.onMElemClick}>
+	<div
+	   className={"mElem MotfEdit_SubSec_mElemContracted" + props.focusClass}
+	   onClick={props.onMElemClick}
+	   ref={props.addRef}
+	   >
 
 	  <MotfEdit_SubSec_mElem_Icon size={14} mElem={props.mElem} />
 	  
@@ -168,7 +172,11 @@ function MotfEdit_SubSec_mElemExpanded(props) {
     const TablesArrangement = ShapeDetails.PropertyArrangement;
     
     return(
-	<div className={"mElem MotfEdit_SubSec_mElemExpanded" + props.focusClass} onClick={props.onMElemClick} >
+	<div
+	   className={"mElem MotfEdit_SubSec_mElemExpanded" + props.focusClass}
+	   onClick={props.onMElemClick}
+	   ref={props.addRef}
+	   >
 	  <div className="bg-gradient"></div>
 	  <div className="content">
 	    <MotfEdit_SubSec_mElem_Icon size={24} mElem={mElem} />
@@ -268,6 +276,7 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 		<MotfEdit_SubSec_mElemExpanded
 		   ObjectTypeDetails={ObjectTypeDetails}
 		   mElem={mElem}
+		   addRef={this.props.addRef}
 		   modifyElem={this.props.modifyElem}
 		   deleteElem={this.props.deleteElem}
 		   focusClass={focusClass}
@@ -282,6 +291,7 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 		<MotfEdit_SubSec_mElemContracted
 		   ObjectTypeDetails={ObjectTypeDetails}
 		   mElem={mElem}
+		   addRef={this.props.addRef}
 		   deleteElem={this.props.deleteElem}
 		   focusClass={focusClass}
 		   onMElemClick={handleMElemClick}
