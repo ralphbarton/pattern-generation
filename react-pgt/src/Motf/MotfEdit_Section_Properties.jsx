@@ -9,7 +9,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
     constructor() {
 	super();
 	this.state = {
-	    expandLevel: 2, // 0-none... 1-[Pos & Size] 2-[Appearance] 3-[Repetition] 4-[More]
+	    expandLevel: 1, // 0-none... 1-[Pos & Size] 2-[Appearance] 3-[Repetition] 4-[More]
 	    expandCount: 0 // increment upon every change...
 	};
 	this.hofHandleSetExpandClick = this.hofHandleSetExpandClick.bind(this);
@@ -81,6 +81,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		   />
 		<Motf_expandAllButton
 		   hofHandleSetExpandClick={this.hofHandleSetExpandClick}
+		   expandLevel={this.state.expandLevel}
 		   />
 		<WgButton
 		   name="Sweep"
@@ -123,6 +124,7 @@ class Motf_expandAllPopout extends React.PureComponent {
     }
 
     renderExpanded(){
+	const EXL = this.props.expandLevel;
 	return (
 	    <div>
 	      <div>
@@ -135,22 +137,22 @@ class Motf_expandAllPopout extends React.PureComponent {
 		   />
 	      
 	      <label className="control control--checkbox">Placement & Size
-		<input type="checkbox" />
+		<input type="checkbox" checked={EXL >= 1} onChange={this.props.hofHandleSetExpandClick(EXL >= 1 ? 0 : 1)}/>
 		<div className="control__indicator"></div>
 	      </label>
 
 	      <label className="control control--checkbox">Appearance
-		<input type="checkbox" />
+		<input type="checkbox" checked={EXL >= 2} onChange={this.props.hofHandleSetExpandClick(EXL >= 2 ? 1 : 2)}/>
 		<div className="control__indicator"></div>
 	      </label>
 
 	      <label className="control control--checkbox">Repetition
-		<input type="checkbox" />
+		<input type="checkbox" checked={EXL >= 3} onChange={this.props.hofHandleSetExpandClick(EXL >= 3 ? 2 : 3)}/>
 		<div className="control__indicator"></div>
 	      </label>
 
 	      <label className="control control--checkbox">More Properties
-		<input type="checkbox" />
+		<input type="checkbox" checked={EXL >= 4} onChange={this.props.hofHandleSetExpandClick(EXL >= 4 ? 3 : 4)}/>
 		<div className="control__indicator"></div>
 	      </label>
 		
@@ -184,8 +186,9 @@ function Motf_expandAllButton(props) {
 	   >
 	  <div className="text" onClick={props.hofHandleSetExpandClick(4)}>Expand All</div>
 	  <Motf_expandAllPopout2
-	     hofHandleSetExpandClick={props.hofHandleSetExpandClick
-	     }/>
+	     hofHandleSetExpandClick={props.hofHandleSetExpandClick}
+	     expandLevel={props.expandLevel}
+	     />
 	</div>
     );
 }
