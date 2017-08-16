@@ -12,9 +12,24 @@ import iconHexagon from './asset/shape-icon-hexagon.png';
 import iconLine from './asset/shape-icon-line.png';
 
 
+function TogglingButton(props){
+    const isSelected = props.buttonID === props.toolSelected;
+    return (
+	<WgSpecialButton
+	   className={"mediumSquare" + (isSelected ? " selected" : "")}
+	   img={props.img}
+	   onClick={props.setUI("toolSelected", isSelected ? null : props.buttonID)}
+	   />
+    );
+}
+
+
 class MotfEdit_Section_DrawingTools extends React.PureComponent {
     
     render(){
+	const toolSelected = this.props.DT_UI.toolSelected;
+	const setUI = this.props.hofHandleUIchange_DT;
+
 	return (
 	    <WgBoxie className="drawingTools" name="Tools" boxieStyle={"small"} >
 
@@ -27,35 +42,11 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 
 		<div className="basicShapes">
 
-		  <WgSpecialButton
-		     className="mediumSquare"
-		     img={iconEllipse}
-		     onClick={null}
-		     />
-
-		  <WgSpecialButton
-		     className="mediumSquare"
-		     img={iconRect}
-		     onClick={null}
-		     />
-
-		  <WgSpecialButton
-		     className="mediumSquare"
-		     img={iconTriangle}
-		     onClick={null}
-		     />
-
-		  <WgSpecialButton
-		     className="mediumSquare"
-		     img={iconHexagon}
-		     onClick={null}
-		     />
-
-		  <WgSpecialButton
-		     className="mediumSquare"
-		     img={iconLine}
-		     onClick={null}
-		     />
+		  <TogglingButton setUI={setUI} img={iconEllipse}  buttonID={"ellipse"}   toolSelected={toolSelected} />
+		  <TogglingButton setUI={setUI} img={iconRect}     buttonID={"rectangle"} toolSelected={toolSelected} />
+		  <TogglingButton setUI={setUI} img={iconTriangle} buttonID={"triangle"}  toolSelected={toolSelected} />
+		  <TogglingButton setUI={setUI} img={iconHexagon}  buttonID={"hexagon"}   toolSelected={toolSelected} />
+		  <TogglingButton setUI={setUI} img={iconLine}     buttonID={"line"}      toolSelected={toolSelected} />
 
 		</div>
 

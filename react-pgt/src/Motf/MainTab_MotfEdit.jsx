@@ -64,6 +64,9 @@ class MainTab_MotfEdit extends React.PureComponent {
 		fabricSelection: {
 		    selectionUID: undefined,
 		    chgOrigin_Properties_count: 0 // counter for changes originating in the Properties Section
+		},
+		drawingTools:{
+		    toolSelected: null
 		}
 	    }
 	};
@@ -71,6 +74,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 	this.handleEditingMotfChange = this.handleEditingMotfChange.bind(this);
 	this.handleMotfUIStateChange = this.handleMotfUIStateChange.bind(this);
 	this.hofHandleUIchange_CC    = this.hofHandleMotfUIStateChange.bind(this, "canvasControls");
+	this.hofHandleUIchange_DT    = this.hofHandleMotfUIStateChange.bind(this, "drawingTools");
     }
 
 
@@ -150,6 +154,8 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 		  {/* >> Drawing Tools */}
 		  <MotfEdit_Section_DrawingTools
+		     DT_UI={this.state.UI.drawingTools}
+		     hofHandleUIchange_DT={this.hofHandleUIchange_DT}
 		     />
 
 

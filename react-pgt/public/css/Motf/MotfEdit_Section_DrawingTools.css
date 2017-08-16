@@ -1,19 +1,18 @@
 /* MotfEdit_Section_DrawingTools.css */
 
 .MainTab_MotfEdit .canvasSection .drawingTools{
-    flex: 1 auto;
+    max-width: 100px;
 }
 
-.MainTab_MotfEdit .canvasSection .drawingTools .drawOneMany{
-    padding: 0px 6px;
-    margin-bottom: 20px;
+
+.MainTab_MotfEdit .canvasSection .drawingTools .drawMany{
+    padding: 2px 3px;
+    padding-bottom: 5px;
 }
 
 .MainTab_MotfEdit .drawingTools .basicShapes{
-    margin-top: 10px;
-    padding-top: 5px;
-    border-top: 1px solid green;
-    max-width: 105px;
+    padding: 3px 4px;
+    border-top: 1px solid rgba(0,0,0,0.4);
 }
 
 .MainTab_MotfEdit .drawingTools .basicShapes > .WgSpecialButton{

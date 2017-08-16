@@ -45,6 +45,16 @@
     margin: 0px 1px;
 }
 
+
+.button.selected {
+    background-color: rgba(255,255,255,0.4);
+    color: rgba(0,70,180,0.6);
+    border-color: black;
+}
+
+
+/* button type 2, for dropdown menus*/
+
 button.WgButton2{
     position: relative;
 }
@@ -58,4 +68,6 @@ button.WgButton2 > div.dot{
     background-color: beige;
 } 
 
-/* button type 2, for dropdown menus*/
+
+
+
