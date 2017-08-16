@@ -66,6 +66,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    chgOrigin_Properties_count: 0 // counter for changes originating in the Properties Section
 		},
 		drawingTools:{
+		    drawMany: false,
 		    toolSelected: null
 		}
 	    }
@@ -155,7 +156,9 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  {/* >> Drawing Tools */}
 		  <MotfEdit_Section_DrawingTools
 		     DT_UI={this.state.UI.drawingTools}
-		     hofHandleUIchange_DT={this.hofHandleUIchange_DT}
+		     handleMotfUIStateChange={this.handleMotfUIStateChange} // handler shows Toast and changes state
+		     hofHandleUIchange_DT={this.hofHandleUIchange_DT} // action link
+		     onToastMsg={this.props.onToastMsg}
 		     />
 
 
