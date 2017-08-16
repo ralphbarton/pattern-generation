@@ -143,7 +143,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		<MotfEdit_Section_CanvasControls
 		   Motf={this.state.Motf}
 		   CC_UI={this.state.UI.canvasControls}
-		   Mouse_UI={this.state.UI.mouseStatus}
+		   MS_UI={this.state.UI.mouseStatus}
 		   handleEditingMotfChange={this.handleEditingMotfChange} // canvas controls can change Motif Name!!
 		   handleMotfUIStateChange={this.handleMotfUIStateChange} //needed to set multiple values at once
 		   hofHandleUIchange_CC={this.hofHandleUIchange_CC}
@@ -167,6 +167,8 @@ class MainTab_MotfEdit extends React.PureComponent {
 		     Motf={this.state.Motf}
 		     CC_UI={this.state.UI.canvasControls}
 		     FS_UI={this.state.UI.fabricSelection}
+		     DT_UI={this.state.UI.drawingTools}
+		     MS_UI={this.state.UI.mouseStatus}
 		     handleEditingMotfChange={this.handleEditingMotfChange}
 		     handleMotfUIStateChange={this.handleMotfUIStateChange}//needed to set a non-fixed value (mouse coords)
 		     onToastMsg={this.props.onToastMsg}

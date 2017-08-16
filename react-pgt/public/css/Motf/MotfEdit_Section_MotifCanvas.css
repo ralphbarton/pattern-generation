@@ -1,6 +1,7 @@
 /* MotfEdit_Section_MotifCanvas.css */
 
 .MainTab_MotfEdit .MotfEdit_Section_MotifCanvas{
+    position: relative;
     box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
     margin: 12px;
     margin-top: 11px;
@@ -54,7 +55,7 @@
 /* GD */
 
 .MotfEdit_Section_MotifCanvas svg{
-    transition: border-radius 0.4s;
+    transition: border-radius 0.6s;
     position: absolute;
 }
 
@@ -119,4 +120,12 @@
 .MotfEdit_Section_MotifCanvas svg g.gridlines circle{
     fill: none;
     stroke-width: 1;
+}
+
+
+/* Drawing tool...*/
+
+.MotfEdit_Section_MotifCanvas svg.drawingToolOverlay{
+    top: 0px;
+    position: absolute;
 }

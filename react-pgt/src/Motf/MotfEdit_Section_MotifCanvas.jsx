@@ -9,19 +9,18 @@ import MotfEdit_Section_MotifCanvas_GD from './MotfEdit_Section_MotifCanvas_GD';
 class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
     shouldComponentUpdate(nextProps, nextState){
-	// there is no point comparing whole objects:  nextProps !== this.props
-	// {} !== {} evalutes true! So it will trigger re-render when there is no change.
 
-	//detect change in 'CC_UI', excluding mouse based change...
+	// Test for all change in 'CC_UI'
 	const c1 = nextProps.CC_UI !== this.props.CC_UI;// change in CC_UI object
-	const c2 = nextProps.CC_UI.mouseCoords === this.props.CC_UI.mouseCoords; // test for NO CHANGE 
-	const c3 = nextProps.CC_UI.mouseOverCanvas === this.props.CC_UI.mouseOverCanvas; // test for NO CHANGE 
 
-	//positively test for change in fabric selection...
-	const c4 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
+	// Test for change in fabric selection, which originated in "Properties" component...
+	const c2 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
 	
-	//Positively select props in which change will trigger rerender.
-	return nextProps.Motf !== this.props.Motf || (c1 && c2 && c3) || c4;
+	// Test for any change in the Motif itself (note: this change may have been instigated by Fabric modify.)
+	// (in this case, the Fabric Canvas does not really need to be re-rendered)
+	const c3 = nextProps.Motf !== this.props.Motf;
+
+	return c1 || c2 || c3;
     }
     
     
@@ -55,19 +54,41 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     }
     
     render(){
+
+	const isDrawing = this.props.MS_UI.mouseOverCanvas && this.props.DT_UI.toolSelected !== null;
+	console.log(this.props.MS_UI.mouseOverCanvas, this.props.DT_UI.toolSelected !== null);
+	
 	return (
 	    <div className={"MotfEdit_Section_MotifCanvas"+(this.props.CC_UI.canvasCircular?" circular":"")}
 		 onMouseEnter={this.handleMouseEnterLeaveCanvas(true)}
 		 onMouseLeave={this.handleMouseEnterLeaveCanvas(false)}
 		 >
+
+	      {/* "Layer" 1: Background (black/white/chequers etc.) */}
 	      <MotfEdit_Section_MotifCanvas_BG CC_UI={this.props.CC_UI}/>
+
+	      {/* "Layer" 2: Background-Grid (cartesian/polar etc.) */}
 	      <MotfEdit_Section_MotifCanvas_GD CC_UI={this.props.CC_UI}/>
 
+	      {/* "Layer" 3: Fabric Canvas */}
 	      <canvas
 		 width="399"
 		 height="399"
-		 ref={ (el) => {this.fabricCanvasElement = el;}}
-		/>
+		 ref={ el => {this.fabricCanvasElement = el;}}
+		 />
+	      
+	      {/* "Layer" 4: Drawing Tool Overlay */}
+	      
+		    <div>{isDrawing &&
+		    <svg
+			   className="drawingToolOverlay"
+			 width="399"
+			 height="399"
+			 style={{background: "rgba(0,0,255,0.2)"}}
+		       />}</div>
+	      
+	      {/*   <MotfEdit_Section_MotifCanvas_GD DT_UI={this.props.CC_UI}/>   */}
+		
 	    </div>
 	);
     }

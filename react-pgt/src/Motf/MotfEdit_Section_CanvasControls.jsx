@@ -29,7 +29,7 @@ class MotfEdit_sub_mCoords extends React.PureComponent {
     componentWillUnmount() { document.removeEventListener('mousemove', this.handleMouseMove); }
 
     render(){
-	const canvBox = this.props.Mouse_UI.canvBoundingBoxCoords;
+	const canvBox = this.props.MS_UI.canvBoundingBoxCoords;
 	if(!canvBox){return null;}
 	return(
 	    <div className="mouseCoords"> 
@@ -228,7 +228,7 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 
 		  {/* Mouse Coordinates */}
 	          <WgFadeTransition speed={0}>
-		    {this.props.Mouse_UI.mouseOverCanvas && <MotfEdit_sub_mCoords Mouse_UI={this.props.Mouse_UI}/>}
+		    {this.props.MS_UI.mouseOverCanvas && <MotfEdit_sub_mCoords MS_UI={this.props.MS_UI}/>}
 		  </WgFadeTransition>
 		  
 		</div>
