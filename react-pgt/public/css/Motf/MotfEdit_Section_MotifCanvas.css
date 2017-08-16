@@ -123,9 +123,32 @@
 }
 
 
-/* Drawing tool...*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* DTO */
 
 .MotfEdit_Section_MotifCanvas svg.drawingToolOverlay{
     top: 0px;
     position: absolute;
+}
+
+
+
+.MotfEdit_Section_MotifCanvas svg.drawingToolOverlay rect{
+    fill: rgba(66, 103, 114, 0.1);;
+    stroke: rgba(66, 103, 114, 0.45);
+    stroke-width: 1;
+    stroke-dasharray: 3, 3;
 }

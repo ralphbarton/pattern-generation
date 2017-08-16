@@ -4,25 +4,36 @@ import React from 'react';
 import Motf_FabricHandlers from './plain-js/Motf_FabricHandlers';
 import MotfEdit_Section_MotifCanvas_BG from './MotfEdit_Section_MotifCanvas_BG';
 import MotfEdit_Section_MotifCanvas_GD from './MotfEdit_Section_MotifCanvas_GD';
+import MotfEdit_Section_MotifCanvas_DTO from './MotfEdit_Section_MotifCanvas_DTO';
 
 
 class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
+
+    // It is important not to respond in all cases of "fabricSelection.selectionUID" change.
+    // hence the importance of this function
     shouldComponentUpdate(nextProps, nextState){
 
+	/*
 	// Test for all change in 'CC_UI'
 	const c1 = nextProps.CC_UI !== this.props.CC_UI;// change in CC_UI object
 
-	// Test for change in fabric selection, which originated in "Properties" component...
-	const c2 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
+
 	
 	// Test for any change in the Motif itself (note: this change may have been instigated by Fabric modify.)
 	// (in this case, the Fabric Canvas does not really need to be re-rendered)
 	const c3 = nextProps.Motf !== this.props.Motf;
 
 	return c1 || c2 || c3;
+	 */
+
+	// Test for change in fabric selection, which originated in "Properties" component...
+	const c2 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
+	const c5 = nextProps.FS_UI.selectionUID               !== this.props.FS_UI.selectionUID;
+	
+	return !(c5 && (!c2));
     }
-    
+
     
     componentDidUpdate(){
 	//send updated UI state into "Motf_FabricHandlers"
@@ -56,7 +67,6 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     render(){
 
 	const isDrawing = this.props.MS_UI.mouseOverCanvas && this.props.DT_UI.toolSelected !== null;
-	console.log(this.props.MS_UI.mouseOverCanvas, this.props.DT_UI.toolSelected !== null);
 	
 	return (
 	    <div className={"MotfEdit_Section_MotifCanvas"+(this.props.CC_UI.canvasCircular?" circular":"")}
@@ -78,16 +88,15 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 		 />
 	      
 	      {/* "Layer" 4: Drawing Tool Overlay */}
-	      
-		    <div>{isDrawing &&
-		    <svg
-			   className="drawingToolOverlay"
-			 width="399"
-			 height="399"
-			 style={{background: "rgba(0,0,255,0.2)"}}
-		       />}</div>
-	      
-	      {/*   <MotfEdit_Section_MotifCanvas_GD DT_UI={this.props.CC_UI}/>   */}
+		<div>
+		  {
+		      isDrawing &&
+			  <MotfEdit_Section_MotifCanvas_DTO
+				 DT_UI={this.props.DT_UI}
+				 MS_UI={this.props.MS_UI}
+				 />
+		  }
+		</div>
 		
 	    </div>
 	);
