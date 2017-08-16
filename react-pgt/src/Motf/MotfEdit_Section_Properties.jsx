@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 
 import {WgButton} from '../Wg/WgButton';
 
 import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
 
 //import scrollToComponent from 'react-scroll-to-component';
-var scrollToElement = require('scroll-to-element');
+//var scrollToElement = require('scroll-to-element');
 
 
 class MotfEdit_Section_Properties extends React.PureComponent {
@@ -33,6 +33,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 
     componentDidUpdate(){
 
+	/*
 	const TS = this;
 
 
@@ -42,7 +43,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 //	}
 
 	
-/*
+
 	scrollToElement(this.refs[this.props.FS_UI.selectionUID], {
 	    offset: 0,
 	    ease: 'out-bounce',

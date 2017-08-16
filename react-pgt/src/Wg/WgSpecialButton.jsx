@@ -11,9 +11,13 @@ import ArrowAnticlockwiseImage from './WgSpecialButton-asset/rotate-anticlockwis
 
 function WgSpecialButton(props) {
 
-
+    // This code gets used as fallback when 'img' prop not provided
+    // (this pattern is used in 'Plots')
     const jsxIMG = (Img, Cl) => {return <img className={Cl} src={Img} alt={"icon-img-" + Cl} />;};
     const getBtnjsx = (iconString) => {
+
+	if(props.img){ return <img src={props.img} alt="" />;}
+
 	switch (iconString){
 
 	case "arrowLeft":

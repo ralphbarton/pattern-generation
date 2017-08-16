@@ -8,3 +8,19 @@
     padding: 0px 6px;
     margin-bottom: 20px;
 }
+
+.MainTab_MotfEdit .drawingTools .basicShapes{
+    margin-top: 10px;
+    padding-top: 5px;
+    border-top: 1px solid green;
+    max-width: 105px;
+}
+
+.MainTab_MotfEdit .drawingTools .basicShapes > .WgSpecialButton{
+    margin: 2px;
+}
+
+.MainTab_MotfEdit .drawingTools .WgSpecialButton img{
+    position: relative;
+    width: 18px;
+}
