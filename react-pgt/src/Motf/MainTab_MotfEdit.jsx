@@ -67,7 +67,10 @@ class MainTab_MotfEdit extends React.PureComponent {
 		},
 		drawingTools:{
 		    drawMany: false,
-		    toolSelected: null
+		    shape: null,
+		    strokeWidth: null,
+		    stroke: "red",
+		    fill: "yellow"
 		}
 	    }
 	};

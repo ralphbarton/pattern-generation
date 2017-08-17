@@ -72,8 +72,6 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     }
     
     render(){
-
-	const isDrawing = this.props.DT_UI.toolSelected !== null;
 	
 	return (
 	    <div className={"MotfEdit_Section_MotifCanvas"+(this.props.CC_UI.canvasCircular?" circular":"")}
@@ -97,12 +95,13 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	      {/* "Layer" 4: Drawing Tool Overlay */}
 		<div>
 		  {
-		      isDrawing &&
+		      (this.props.DT_UI.shape !== null) && // a draw tool is selected...
 			  <MotfEdit_Section_MotifCanvas_DTO
 				 DT_UI={this.props.DT_UI}
 				 MS_UI={this.props.MS_UI}
 				 handleEditingMotfChange={this.props.handleEditingMotfChange}
 				 handleMotfUIStateChange={this.props.handleMotfUIStateChange}// Set: Toggle-OFF shape-draw tool
+				 Motf={this.props.Motf} // to determine PGTuid of new element...
 				 />
 		  }
 		</div>

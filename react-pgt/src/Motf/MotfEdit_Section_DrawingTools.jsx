@@ -13,19 +13,19 @@ import iconLine from './asset/shape-icon-line.png';
 
 
 const toastStrings = {
-    ellipse:   ["Ellipse Tool",   "Hold CTRL to draw circle"],
-    rectangle: ["Rectangle Tool", "Hold CTRL to draw square"],
-    triangle:  ["Triangle Tool",  "Hold CTRL to draw equilateral triangle"],
-    hexagon:   ["Hexagon Tool",   ""],
-    line:      ["Line Tool",      ""]
+    "obj-ellipse":   ["Ellipse Tool",   "Hold CTRL to draw circle"],
+    "obj-rectangle": ["Rectangle Tool", "Hold CTRL to draw square"],
+    "obj-triangle":  ["Triangle Tool",  "Hold CTRL to draw equilateral triangle"],
+    "obj-hexagon":   ["Hexagon Tool",   ""],
+    "obj-line":      ["Line Tool",      ""]
 };
 
 
 class TogglingButton extends React.PureComponent {
 
     componentDidUpdate(prevProps, prevState){
-	const isSelected =  this.props.buttonID     === this.props.toolSelected;
-	const wasSelected = prevProps.buttonID === prevProps.toolSelected;
+	const isSelected =  this.props.buttonID     === this.props.selShape;
+	const wasSelected = prevProps.buttonID === prevProps.selShape;
 
 	if( !wasSelected && isSelected){
 	    this.props.onToastMsg({
@@ -37,12 +37,12 @@ class TogglingButton extends React.PureComponent {
     }
     
     render(){
-	const isSelected = this.props.buttonID === this.props.toolSelected;
+	const isSelected = this.props.buttonID === this.props.selShape;
 	return (
 	    <WgSpecialButton
 	       className={"mediumSquare" + (isSelected ? " selected" : "")}
 	       img={this.props.img}
-	       onClick={this.props.setUI("toolSelected", isSelected ? null : this.props.buttonID)}
+	       onClick={this.props.setUI("shape", isSelected ? null : this.props.buttonID)}
 	       />
 	);
     }
@@ -53,7 +53,7 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
     
     render(){
 	const UI = this.props.DT_UI;
-	const toolSelected = this.props.DT_UI.toolSelected;
+	const selShape = this.props.DT_UI.shape;
 	const setUI = this.props.hofHandleUIchange_DT;
 	
 	return (
@@ -68,28 +68,28 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 
 		<div className="basicShapes">
 
-		  <TogglingButton img={iconEllipse} buttonID={"ellipse"}
-				  toolSelected={toolSelected}
+		  <TogglingButton img={iconEllipse} buttonID={"obj-ellipse"}
+				  selShape={selShape}
 				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 
-		  <TogglingButton img={iconRect} buttonID={"rectangle"}
-				  toolSelected={toolSelected}
+		  <TogglingButton img={iconRect} buttonID={"obj-rectangle"}
+				  selShape={selShape}
 				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 
-		  <TogglingButton img={iconTriangle} buttonID={"triangle"}
-				  toolSelected={toolSelected}
+		  <TogglingButton img={iconTriangle} buttonID={"obj-triangle"}
+				  selShape={selShape}
 				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 
-		  <TogglingButton img={iconHexagon} buttonID={"hexagon"}
-				  toolSelected={toolSelected}
+		  <TogglingButton img={iconHexagon} buttonID={"obj-hexagon"}
+				  selShape={selShape}
 				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 
-		  <TogglingButton img={iconLine} buttonID={"line"}
-				  toolSelected={toolSelected}
+		  <TogglingButton img={iconLine} buttonID={"obj-line"}
+				  selShape={selShape}
 				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 		  

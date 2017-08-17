@@ -182,8 +182,45 @@ var Motf_util = {
 //	const Rnd = function (x){return _.round(x, 1);};
 	
 	return DatH_Elem;		
+    },
+
+    DatH_NewShape: function(boundingBox, DT_UI, ExistingElements){
+
+	/*
+	  Logic is needed to convert Bounding Box into dimentions for non-rectangles
+
+	 */
+	let pos_size_Obj = {};
+
+	if (DT_UI.shape === "obj-ellipse"){
+	    pos_size_Obj = _.extend(
+		_.pick(boundingBox, ["left", "top"]),
+		{
+		    rx: (boundingBox.width/2),
+		    ry: (boundingBox.height/2),
+		}
+	    );
+	}
+	else if (DT_UI.shape === "obj-rectangle"){
+	    pos_size_Obj = _.pick(boundingBox, ["left", "top", "width", "height"]);
+	    
+	}else{
+	    console.error("handler not implemented for this shape");
+	}
+
+
+	
+	
+	return _.extend(
+	    {
+		PGTuid: (_.maxBy(ExistingElements, 'PGTuid').PGTuid +1),// one greater than largest found
+	    },
+	    pos_size_Obj,
+	    _.pick(DT_UI, ["shape", "fill", "stroke"])
+	);
     }
 
+    
 }
 
 
