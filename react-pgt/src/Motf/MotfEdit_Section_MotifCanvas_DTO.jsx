@@ -40,6 +40,18 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	    width: 0,
 	    height: 0
 	});
+
+	// 1. Save new shape to underlying Motif Data structure...
+
+
+
+	
+	// 2. Switch off Draw Tool (if necessary).
+	if(this.props.DT_UI.drawMany === false){
+	    this.props.handleMotfUIStateChange({
+		drawingTools: {toolSelected: {$set: null}}
+	    });
+	}
     }
 
     handleMouseMove(e){

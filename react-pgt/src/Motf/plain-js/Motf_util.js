@@ -155,6 +155,33 @@ var Motf_util = {
 	//Not done by the Fabric Contructor: set UID according to value provided.
 	new_shape.PGTuid = props.PGTuid;	
 	canvas.add(new_shape);
+    },
+
+    fObj_to_DatH: function(fObj){
+
+	// convert Fabrif JS type name into DatH type name.
+	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {fabricObjType: fObj.type} );
+	const absorb = ShapeDetails.scaleAbsorb;
+	
+	if(fObj.scaleX !== 1){    fObj[absorb.scaleX] *= fObj.scaleX;   }
+	if(fObj.scaleY !== 1){    fObj[absorb.scaleY] *= fObj.scaleY;   }
+
+	//if(ShapeDetails.fabricKey){} 	// handle special cases like hexagons??
+
+	// Keys relevant to the specific type of shape... (note: every Fabric key is is also the DatH_Key of that property)
+	const validKeys = ShapeDetails.ObjectFabricProperties.map( o =>{return o.DatH_Key ;} );
+	
+	// Filter the props object, using Lodash pick
+	var DatH_Elem = _.pick(fObj, validKeys)
+
+	// set some props manually...
+	DatH_Elem["shape"] = ShapeDetails.DatH_name;
+	DatH_Elem["PGTuid"] = fObj.PGTuid;
+
+	//I also want to Round some props. how do we manage that (numeric ones only...) (map and filter functions...)
+//	const Rnd = function (x){return _.round(x, 1);};
+	
+	return DatH_Elem;		
     }
 
 }

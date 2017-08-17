@@ -169,7 +169,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		     DT_UI={this.state.UI.drawingTools}
 		     MS_UI={this.state.UI.mouseStatus}
 		     handleEditingMotfChange={this.handleEditingMotfChange}
-		     handleMotfUIStateChange={this.handleMotfUIStateChange}//needed to set a non-fixed value (mouse coords)
+		     handleMotfUIStateChange={this.handleMotfUIStateChange}// Set: motif Bounding box, Fabric selection UID...
 		     onToastMsg={this.props.onToastMsg}
 		     />
 		</div>

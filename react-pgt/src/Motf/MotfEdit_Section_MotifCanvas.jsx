@@ -102,6 +102,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 				 DT_UI={this.props.DT_UI}
 				 MS_UI={this.props.MS_UI}
 				 handleEditingMotfChange={this.props.handleEditingMotfChange}
+				 handleMotfUIStateChange={this.props.handleMotfUIStateChange}// Set: Toggle-OFF shape-draw tool
 				 />
 		  }
 		</div>
