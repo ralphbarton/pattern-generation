@@ -20,36 +20,32 @@ const toastStrings = {
     line:      ["Line Tool",      ""]
 };
 
-function TogglingButton(props){
-    const isSelected = props.buttonID === props.toolSelected;
 
-    const handleClick = function (){
-	
-	// 1. show toast
-	props.onToastMsg(
-	    {
-		title: toastStrings[props.buttonID][0],
-		text: toastStrings[props.buttonID][1]
-		//		    type: "guidance"
+class TogglingButton extends React.PureComponent {
+
+    componentDidUpdate(prevProps, prevState){
+	const isSelected =  this.props.buttonID     === this.props.toolSelected;
+	const wasSelected = prevProps.buttonID === prevProps.toolSelected;
+
+	if( !wasSelected && isSelected){
+	    this.props.onToastMsg({
+		title: toastStrings[this.props.buttonID][0],
+		text: toastStrings[this.props.buttonID][1]
 		// (further options...)
-	    }
-	);
-
-	// 2. State modify
-	props.handleMotfUIStateChange({
-	    drawingTools: {
-		toolSelected: {$set: isSelected ? null : props.buttonID}
-	    }
-	});
-    };
+	    });
+	}
+    }
     
-    return (
-	<WgSpecialButton
-	   className={"mediumSquare" + (isSelected ? " selected" : "")}
-	   img={props.img}
-	   onClick={handleClick}
-	   />
-    );
+    render(){
+	const isSelected = this.props.buttonID === this.props.toolSelected;
+	return (
+	    <WgSpecialButton
+	       className={"mediumSquare" + (isSelected ? " selected" : "")}
+	       img={this.props.img}
+	       onClick={this.props.setUI("toolSelected", isSelected ? null : this.props.buttonID)}
+	       />
+	);
+    }
 }
 
 
@@ -74,27 +70,27 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 
 		  <TogglingButton img={iconEllipse} buttonID={"ellipse"}
 				  toolSelected={toolSelected}
-				  handleMotfUIStateChange={this.props.handleMotfUIStateChange}
+				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 
 		  <TogglingButton img={iconRect} buttonID={"rectangle"}
 				  toolSelected={toolSelected}
-				  handleMotfUIStateChange={this.props.handleMotfUIStateChange}
+				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 
 		  <TogglingButton img={iconTriangle} buttonID={"triangle"}
 				  toolSelected={toolSelected}
-				  handleMotfUIStateChange={this.props.handleMotfUIStateChange}
+				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 
 		  <TogglingButton img={iconHexagon} buttonID={"hexagon"}
 				  toolSelected={toolSelected}
-				  handleMotfUIStateChange={this.props.handleMotfUIStateChange}
+				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 
 		  <TogglingButton img={iconLine} buttonID={"line"}
 				  toolSelected={toolSelected}
-				  handleMotfUIStateChange={this.props.handleMotfUIStateChange}
+				  setUI={setUI}
 				  onToastMsg={this.props.onToastMsg}/>
 		  
 		</div>

@@ -44,7 +44,14 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
     componentDidMount(){
 	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
-	Motf_FabricHandlers.MountCanvas(this.fabricCanvasElement, this.props.Motf, this.props);
+
+	Motf_FabricHandlers.MountCanvas({
+	    fabricCanvasElement: this.fabricCanvasElement,
+	    Motf: this.props.Motf,
+	    onToastMsg: this.props.onToastMsg,
+	    handleEditingMotfChange: this.props.handleEditingMotfChange,
+	    handleMotfUIStateChange: this.props.handleMotfUIStateChange
+	});
     }
 
     componentWillUnmount(){
@@ -66,7 +73,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     
     render(){
 
-	const isDrawing = this.props.MS_UI.mouseOverCanvas && this.props.DT_UI.toolSelected !== null;
+	const isDrawing = this.props.DT_UI.toolSelected !== null;
 	
 	return (
 	    <div className={"MotfEdit_Section_MotifCanvas"+(this.props.CC_UI.canvasCircular?" circular":"")}
@@ -94,6 +101,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 			  <MotfEdit_Section_MotifCanvas_DTO
 				 DT_UI={this.props.DT_UI}
 				 MS_UI={this.props.MS_UI}
+				 handleEditingMotfChange={this.props.handleEditingMotfChange}
 				 />
 		  }
 		</div>

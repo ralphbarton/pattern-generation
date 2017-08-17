@@ -136,14 +136,14 @@ var Motf_FabricHandlers = {
     onToastMsg: undefined,
     handleEditingMotfChange: undefined,    
     handleMotfUIStateChange: undefined,
-    MountCanvas: function(fabricCanvasElement, Motf, ctxProps){
+    MountCanvas: function(options){
 
 	// 1. Initialisate a blank Fabric canvas
-	const canvas = new fabric.Canvas(fabricCanvasElement);
+	const canvas = new fabric.Canvas(options.fabricCanvasElement);
 	this.canvas = canvas;
-	this.onToastMsg = ctxProps.onToastMsg;
-	this.handleEditingMotfChange = ctxProps.handleEditingMotfChange;
-	this.handleMotfUIStateChange = ctxProps.handleMotfUIStateChange;
+	this.onToastMsg = options.onToastMsg;
+	this.handleEditingMotfChange = options.handleEditingMotfChange;
+	this.handleMotfUIStateChange = options.handleMotfUIStateChange;
 	
 	// 2. Add Handler: Object:Selected
 	canvas.on('object:selected', this.handle_ObjectSelected.bind(this));
@@ -158,7 +158,7 @@ var Motf_FabricHandlers = {
 	canvas.on('selection:cleared', this.handle_SelectionCleared.bind(this));
 	
 	// 6. having Mounted, add all objects for the first time...
-	this.UpdateCanvas(Motf);
+	this.UpdateCanvas(options.Motf);
     },
 
     UnmountCanvas: function(){

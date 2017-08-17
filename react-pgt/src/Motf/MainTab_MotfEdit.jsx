@@ -156,7 +156,6 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  {/* >> Drawing Tools */}
 		  <MotfEdit_Section_DrawingTools
 		     DT_UI={this.state.UI.drawingTools}
-		     handleMotfUIStateChange={this.handleMotfUIStateChange} // handler shows Toast and changes state
 		     hofHandleUIchange_DT={this.hofHandleUIchange_DT} // action link
 		     onToastMsg={this.props.onToastMsg}
 		     />
