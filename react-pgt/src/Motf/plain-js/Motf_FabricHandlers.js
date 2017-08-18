@@ -100,7 +100,18 @@ var Motf_FabricHandlers = {
 	    {fabricSelection: {selectionUID: {$set: undefined}}}
 	);
     },
+
+
+    /* This HOF is exclusively for setting:
+       "this.canvas.uniScaleTransform" in response to the CTRL key...
+    */
+    hofHandle_keyEvent_CTRL: function(isDown){
+	return function(e){
+	    if(e.keyCode === 17){ this.canvas.uniScaleTransform = !isDown; }
+	};
+    },
     
+
     //store copies of callback functions passed at Mount-time...
     onToastMsg: undefined,
     handleEditingMotfChange: undefined,    
@@ -128,11 +139,29 @@ var Motf_FabricHandlers = {
 	
 	// 6. having Mounted, add all objects for the first time...
 	this.UpdateCanvas(options.Motf);
+
+	// 7. No aspect ratio locking by default
+	// ('true' is required to DISABLE the locked aspect ratio scaling when dragging corner-points)
+	this.canvas.uniScaleTransform = true;
+
+	this.handle_keyDown_CTRL = this.hofHandle_keyEvent_CTRL(true).bind(this);
+	this.handle_keyUp_CTRL   = this.hofHandle_keyEvent_CTRL(false).bind(this);
+	document.addEventListener("keydown",   this.handle_keyDown_CTRL);
+	document.addEventListener("keyup",     this.handle_keyUp_CTRL);
+
+	// 8. changes "selection key from Shift (default) to CTRL
+	// (note: I also modified the Fabric Library to achieve this (7-Aug-17). Does this achieve the same effect)
+	canvas.selectionKey = "ctrlKey";
+	
     },
 
     UnmountCanvas: function(){
 	const canvas = this.canvas;
-	canvas.dispose()
+	canvas.dispose();
+
+	//remove listeners for CTRL key
+	document.removeEventListener("keydown",   this.handle_keyDown_CTRL);
+	document.removeEventListener("keyup",     this.handle_keyUp_CTRL);
     },
     
     UpdateCanvas: function(Motf, selectionUID){

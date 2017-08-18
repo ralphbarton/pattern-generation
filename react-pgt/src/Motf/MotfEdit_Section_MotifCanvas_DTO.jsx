@@ -23,10 +23,7 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 
 	this.handleMouseDown = this.handleMouseDown.bind(this);
 	this.handleMouseUp   = this.handleMouseUp.bind(this);
-	this.handleMouseMove = this.handleMouseMove.bind(this);
-	this.handleKeyDown   = this.handleKeyDown.bind(this);
-	this.handleKeyUp     = this.handleKeyUp.bind(this);
-	
+	this.handleMouseMove = this.handleMouseMove.bind(this);	
     }
 
     handleMouseDown(e){
@@ -77,24 +74,11 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	});
     }
 
-    handleKeyDown(e){
-	if(e.keyCode === 17){//control key
-	    this.setState({CTRLkey: true});
-	}
-    }
-
-    handleKeyUp(e){
-	if(e.keyCode === 17){//control key
-	    this.setState({CTRLkey: false});
-	}
-    }
     
     componentDidMount(){
 	document.addEventListener('mousedown', this.handleMouseDown);
 	document.addEventListener('mouseup',   this.handleMouseUp);
 	document.addEventListener('mousemove', this.handleMouseMove);
-	document.addEventListener("keydown",   this.handleKeyDown);
-	document.addEventListener("keyup",     this.handleKeyUp);
 
 	//add the rect to the SVG
 	select(this.svgRef).append("rect");
@@ -104,8 +88,6 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	document.removeEventListener('mousedown', this.handleMouseDown);
 	document.removeEventListener('mouseup',   this.handleMouseUp);
 	document.removeEventListener('mousemove', this.handleMouseMove);
-	document.removeEventListener("keydown",   this.handleKeyDown);
-	document.removeEventListener("keyup",     this.handleKeyUp);
     }
 
 

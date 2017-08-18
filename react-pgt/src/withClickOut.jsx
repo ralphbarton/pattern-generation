@@ -42,7 +42,7 @@ function withClickOut(WrappedComponent) {
 
 	hofSetExpanded(isExpand, return_noop){
 
-	    // this flag may get set when "WrappedComponent" is already in an expanded state.
+	    // the 'return_noop' flag may get set when "WrappedComponent" is already in an expanded state.
 	    if(return_noop){return function(){};}
 
 	    const TS = this;
@@ -56,7 +56,7 @@ function withClickOut(WrappedComponent) {
 	}
 
 	render() {
-	    // pass down ALL props passed, and two additional onces
+	    // pass down ALL props passed, and three additional onces
 	    const pop = {
 		expanded: this.state.expanded,
 		hofSetExpanded: this.hofSetExpanded,
