@@ -3,7 +3,7 @@ import React from 'react';
 import { SketchPicker } from 'react-color';
 import tinycolor from 'tinycolor2';
 
-import downArrow from './asset/down-arrow-80.png';
+import downArrow from './../asset/down-arrow-80.png';
 
 class MotfEdit_SubSec_mElem_popoutPicker extends React.PureComponent {
 

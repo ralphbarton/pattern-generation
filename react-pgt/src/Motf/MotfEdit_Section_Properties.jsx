@@ -1,7 +1,7 @@
 import React from 'react';
 //import ReactDOM from 'react-dom';
 
-import {WgButton} from '../Wg/WgButton';
+import {WgButton, WgButtonExpanding} from '../Wg/WgButton';
 import WgCheckbox from '../Wg/WgCheckbox';
 
 import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
@@ -9,6 +9,7 @@ import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
 //import scrollToComponent from 'react-scroll-to-component';
 //var scrollToElement = require('scroll-to-element');
 
+import closeIcon from './../asset/close-36.png';
 
 class MotfEdit_Section_Properties extends React.PureComponent {
 
@@ -115,6 +116,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 	      </div>
 
 
+
 	      
 	      {/* Underneath the Table - the Buttons section... */}
 	      <div className="propertiesButtons">
@@ -123,10 +125,54 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		   buttonStyle={"small"}
 		   onClick={this.hofHandleSetExpandClick(0)}
 		   />
-		<Motf_expandAllButton
-		   hofHandleSetExpandClick={this.hofHandleSetExpandClick}
-		   expandLevel={this.state.expandLevel}
-		   />
+
+		
+		<WgButtonExpanding
+		   name="Expand All"
+		   className="expandAll"
+		   onClick={this.hofHandleSetExpandClick(4)}
+		   renderExpanded={ closeFn =>{
+		       // inline function for the content of the expanded menu...
+		       // neat - or bloated code??
+		       const EXL = this.state.expandLevel;
+		       const hofExpandClick = lvl => {
+			   return this.hofHandleSetExpandClick(EXL >= lvl ? (lvl-1) : lvl);
+		       };
+		       return (
+			   <div>
+			     <div>
+			       <h1>Groups shown:</h1>
+
+			       <img className="closeIcon"
+				    src={closeIcon}
+				    alt=""
+				    onClick={closeFn}/>
+
+			       <WgCheckbox
+				  name="Placement & Size"
+				  value={EXL >= 1}
+				  onChange={hofExpandClick(1)}/>
+
+			       <WgCheckbox
+				  name="Appearance"
+				  value={EXL >= 2}
+				  onChange={hofExpandClick(2)}/>
+
+			       <WgCheckbox
+				  name="Appearance"
+				  value={EXL >= 3}
+				  onChange={hofExpandClick(3)}/>
+
+			       <WgCheckbox
+				  name="More Properties"
+				  value={EXL >= 4}
+				  onChange={hofExpandClick(4)}/>
+			       
+			     </div>
+			   </div>
+		       );
+		   }}/>
+
 		<WgButton
 		   name="Sweep"
 		   buttonStyle={"small"}
@@ -144,102 +190,5 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 	);
     }
 }
-
-
-
-
-
-
-/* code here for the Expand All button's advanced features...*/
-
-import rightArrow from './asset/right-arrow-80.png';
-import closeIcon from './asset/close-36.png';
-
-class Motf_expandAllPopout extends React.PureComponent {
-
-    renderContracted(){
-	return (
-	    <div>
-	      <img className="rightArrow"
-		   src={rightArrow}
-		   alt=""/>
-	    </div>
-	);
-    }
-
-    renderExpanded(){
-	const EXL = this.props.expandLevel;
-	const hofExpandClick = lvl => {return this.props.hofHandleSetExpandClick(EXL >= lvl ? (lvl-1) : lvl);};
-	return (
-	    <div>
-	      <div>
-		<h1>Groups shown:</h1>
-
-	      <img className="closeIcon"
-		   src={closeIcon}
-		   alt=""
-		   onClick={this.props.pop.hofSetExpanded(false)}/>
-
-	      <WgCheckbox
-		 name="Placement & Size"
-		 value={EXL >= 1}
-		 onChange={hofExpandClick(1)}/>
-
-	      <WgCheckbox
-		 name="Appearance"
-		 value={EXL >= 2}
-		 onChange={hofExpandClick(2)}/>
-
-	      <WgCheckbox
-		 name="Appearance"
-		 value={EXL >= 3}
-		 onChange={hofExpandClick(3)}/>
-
-	      <WgCheckbox
-		 name="More Properties"
-		 value={EXL >= 4}
-		 onChange={hofExpandClick(4)}/>
-		
-	      </div>
-	    </div>
-	);
-    }
-    
-    render(){
-	const extraClass = this.props.pop.expanded ? " expanded" : "";
-	return (
-	    <div
-	       className={"Motf_expandAllPopout" + extraClass}
-	       ref={this.props.pop.setwrapperRef}
-	       onClick={this.props.pop.hofSetExpanded(true, this.props.pop.expanded)}
-	       >
-	      {this.props.pop.expanded ? this.renderExpanded() : this.renderContracted()}
-	    </div>
-	);
-    }
-}
-
-import withClickOut from './../withClickOut';
-const Motf_expandAllPopout2 = withClickOut(Motf_expandAllPopout);
-
-function Motf_expandAllButton(props) {
-
-    return (
-	<div
-	   className="button s expandAll"
-	   >
-	  <div className="text" onClick={props.hofHandleSetExpandClick(4)}>Expand All</div>
-	  <Motf_expandAllPopout2
-	     hofHandleSetExpandClick={props.hofHandleSetExpandClick}
-	     expandLevel={props.expandLevel}
-	     />
-	</div>
-    );
-}
-
-
-
-
-
 
 export default MotfEdit_Section_Properties;

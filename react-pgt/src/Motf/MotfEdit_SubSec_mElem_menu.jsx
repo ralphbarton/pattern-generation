@@ -2,9 +2,9 @@ import React from 'react';
 
 import WgSmartInput from '../Wg/WgSmartInput';
 
-import downArrow from './asset/down-arrow-80.png';
-//import rightArrow from './asset/right-arrow-80.png';
-import closeIcon from './asset/close-36.png';
+import downArrow from './../asset/down-arrow-80.png';
+//import rightArrow from './../asset/right-arrow-80.png';
+import closeIcon from './../asset/close-36.png';
 
 class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
 
