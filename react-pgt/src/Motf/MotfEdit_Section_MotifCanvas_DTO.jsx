@@ -87,8 +87,9 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	document.addEventListener('mouseup',   this.handleMouseUp);
 	document.addEventListener('mousemove', this.handleMouseMove);
 
-	//add the rect to the SVG
+	//add a rect & ellipse to the SVG. These will be modified a lot to show them...
 	select(this.svgRef).append("rect");
+	select(this.svgRef).append("ellipse");
     }
 
     componentWillUnmount() {
@@ -100,20 +101,57 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 
     componentDidUpdate(){
 	
-	// If mouse is not down hide the rectangle...
+	// 1. If mouse is not down, hide rectangle & ellipse...
 	if(this.state.mouseDownX === null){
 	    select(this.svgRef).select("rect").attrs({display: "none"});
+	    select(this.svgRef).select("ellipse").attrs({display: "none"});
 	    return;
 	}
 
+	// 2. Otherwise, unconditionally put the rectangle at its correct place. This shape will always be shown...
 	const S = this.state;
-	select(this.svgRef).select("rect").attrs({
+	const d3_rect = select(this.svgRef).select("rect");
+	d3_rect.attrs({
 	    display: "inline",
 	    x: S.left - 0.5,
 	    y: S.top - 0.5,
 	    width: S.width,
 	    height: S.height
 	});
+
+
+	// _.pick(E, ["fill", "stroke", "stroke-width"])// extract props programatically...
+	const forgroundShapeStyle = {
+	    fill: "yellow",
+	    stroke: "red",
+	    "stroke-width": 1,
+	    "stroke-dasharray": [1]
+	};
+	
+	// 3. If its actually a rectangle being drawn, change its style accordingly
+	if(this.props.DT_UI.shape === "obj-rectangle"){
+	    d3_rect.styles(forgroundShapeStyle);
+	    
+	}else if(this.props.DT_UI.shape === "obj-ellipse"){
+
+	    // keep a faint rect in the background...
+	    d3_rect.styles( {
+		"fill": undefined,
+		"stroke": undefined,
+		"stroke-width": undefined
+	    } );
+
+	    // preview via the ellipse...
+	    select(this.svgRef).select("ellipse").attrs({
+		display: "inline",
+		cx: (S.left + S.width/2),
+		cy: (S.top + S.height/2),
+		rx: (S.width/2),
+		ry: (S.height/2)
+	    }).styles(forgroundShapeStyle);
+
+	}
+	    
 
     }
     
