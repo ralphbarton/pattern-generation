@@ -2,6 +2,7 @@ import React from 'react';
 //import ReactDOM from 'react-dom';
 
 import {WgButton} from '../Wg/WgButton';
+import WgCheckbox from '../Wg/WgCheckbox';
 
 import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
 
@@ -168,6 +169,7 @@ class Motf_expandAllPopout extends React.PureComponent {
 
     renderExpanded(){
 	const EXL = this.props.expandLevel;
+	const hofExpandClick = lvl => {return this.props.hofHandleSetExpandClick(EXL >= lvl ? (lvl-1) : lvl);};
 	return (
 	    <div>
 	      <div>
@@ -176,28 +178,27 @@ class Motf_expandAllPopout extends React.PureComponent {
 	      <img className="closeIcon"
 		   src={closeIcon}
 		   alt=""
-		   onClick={this.props.pop.hofSetExpanded(false)}
-		   />
-	      
-	      <label className="control control--checkbox">Placement & Size
-		<input type="checkbox" checked={EXL >= 1} onChange={this.props.hofHandleSetExpandClick(EXL >= 1 ? 0 : 1)}/>
-		<div className="control__indicator"></div>
-	      </label>
+		   onClick={this.props.pop.hofSetExpanded(false)}/>
 
-	      <label className="control control--checkbox">Appearance
-		<input type="checkbox" checked={EXL >= 2} onChange={this.props.hofHandleSetExpandClick(EXL >= 2 ? 1 : 2)}/>
-		<div className="control__indicator"></div>
-	      </label>
+	      <WgCheckbox
+		 name="Placement & Size"
+		 value={EXL >= 1}
+		 onChange={hofExpandClick(1)}/>
 
-	      <label className="control control--checkbox">Repetition
-		<input type="checkbox" checked={EXL >= 3} onChange={this.props.hofHandleSetExpandClick(EXL >= 3 ? 2 : 3)}/>
-		<div className="control__indicator"></div>
-	      </label>
+	      <WgCheckbox
+		 name="Appearance"
+		 value={EXL >= 2}
+		 onChange={hofExpandClick(2)}/>
 
-	      <label className="control control--checkbox">More Properties
-		<input type="checkbox" checked={EXL >= 4} onChange={this.props.hofHandleSetExpandClick(EXL >= 4 ? 3 : 4)}/>
-		<div className="control__indicator"></div>
-	      </label>
+	      <WgCheckbox
+		 name="Appearance"
+		 value={EXL >= 3}
+		 onChange={hofExpandClick(3)}/>
+
+	      <WgCheckbox
+		 name="More Properties"
+		 value={EXL >= 4}
+		 onChange={hofExpandClick(4)}/>
 		
 	      </div>
 	    </div>
