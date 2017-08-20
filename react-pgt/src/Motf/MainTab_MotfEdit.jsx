@@ -66,7 +66,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    chgOrigin_Properties_count: 0 // counter for changes originating in the Properties Section
 		},
 		drawingTools:{
-		    drawMany: false,
+		    drawMany: true,
 		    shape: null,
 		    strokeWidth: null,
 		    stroke: "red",
