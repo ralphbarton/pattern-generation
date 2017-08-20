@@ -27,32 +27,35 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
     }
 
     handleMouseDown(e){
-	this.setState({
-	    mouseDownX: e.pageX,
-	    mouseDownY: e.pageY
-	});
+	if(this.props.MS_UI.mouseOverCanvas){
+	    this.setState({
+		mouseDownX: e.pageX,
+		mouseDownY: e.pageY
+	    });
+	}
     }
     
     handleMouseUp(){
 
-	if(this.props.MS_UI.mouseOverCanvas){
-	    // 1. Save new shape to underlying Motif Data structure...
-	    const boundingBox = _.pick(this.state, ["left", "top", "width", "height"]);
-	    const isSignificantSize = boundingBox.width > 2 && boundingBox.height > 2;
-	    
-	    if(isSignificantSize){
-		this.props.handleEditingMotfChange({Elements: {
-		    $push: [Motf_util.DatH_NewShape(boundingBox, this.props.DT_UI, this.props.Motf.Elements)]
-		}});
-	    }
-	    
-	    // 2. Switch off Draw Tool (if necessary). Drawing shape of insignificant size (or just clicking) has this effect
-	    if(this.props.DT_UI.drawMany === false || !isSignificantSize){
-		this.props.handleMotfUIStateChange({
-		    drawingTools: {shape: {$set: null}}
-		});
-		return; // don't bother setting state if just turned off..
-	    }
+	if(this.state.mouseDownX === null){return;}
+
+
+	// 1. Save new shape to underlying Motif Data structure...
+	const boundingBox = _.pick(this.state, ["left", "top", "width", "height"]);
+	const isSignificantSize = boundingBox.width > 2 && boundingBox.height > 2;
+	
+	if(isSignificantSize){
+	    this.props.handleEditingMotfChange({Elements: {
+		$push: [Motf_util.DatH_NewShape(boundingBox, this.props.DT_UI, this.props.Motf.Elements)]
+	    }});
+	}
+	
+	// 2. Switch off Draw Tool (if necessary). Drawing shape of insignificant size (or just clicking) has this effect
+	if(this.props.DT_UI.drawMany === false || !isSignificantSize){
+	    this.props.handleMotfUIStateChange({
+		drawingTools: {shape: {$set: null}}
+	    });
+	    return; // don't bother setting state if just turned off..
 	}
 
 	this.setState({
@@ -69,15 +72,19 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	if(this.state.mouseDownX === null){return;}
 
 	const BB = this.props.MS_UI.canvBoundingBoxCoords;
-	const CTRL = this.props.kb.KeyHoldState.CTRL;
 	const w = Math.abs(e.pageX - this.state.mouseDownX);
 	const h = Math.abs(e.pageY - this.state.mouseDownY);
-	      
+	const dim = (w+h)/2;
+
+	const CTRL = this.props.kb.KeyHoldState.CTRL;
+	const ww = CTRL ? dim : w;
+	const hh = CTRL ? dim : h;
+	
 	this.setState({
-	    left: Math.min(e.pageX, this.state.mouseDownX) - BB.left,
-	    top:  Math.min(e.pageY, this.state.mouseDownY) - BB.top,
-	    width: CTRL ? (w+h)/2 : w,
-	    height: CTRL ? (w+h)/2 : h
+	    left: (this.state.mouseDownX - BB.left) + (e.pageX > this.state.mouseDownX ? 0 : -ww),
+	    top:  (this.state.mouseDownY - BB.top)  + (e.pageY > this.state.mouseDownY ? 0 : -hh),
+	    width: ww,
+	    height: hh
 	});
     }
 
