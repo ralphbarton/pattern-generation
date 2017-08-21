@@ -5,6 +5,7 @@
   "homepage": "http://302.ralphbarton.co.uk/react",
   "dependencies": {
     "fabric": "^1.7.16",
+    "jquery": "^3.2.1",
     "rc-slider": "^7.0.8",
     "react": "^15.5.4",
     "react-color": "^2.11.7",

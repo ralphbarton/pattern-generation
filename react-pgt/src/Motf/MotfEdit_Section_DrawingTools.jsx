@@ -12,6 +12,11 @@ import iconHexagon from './asset/shape-icon-hexagon.png';
 import iconLine from './asset/shape-icon-line.png';
 
 
+import jcolor from './jcolor-unmin.js';
+import $ from "jquery";
+jcolor($);// initialise
+
+
 const toastStrings = {
     "obj-ellipse":   ["Ellipse Tool",   "Hold CTRL to draw circle"],
     "obj-rectangle": ["Rectangle Tool", "Hold CTRL to draw square"],
@@ -51,6 +56,11 @@ class TogglingButton extends React.PureComponent {
 
 class MotfEdit_Section_DrawingTools extends React.PureComponent {
     
+    componentDidMount() {
+	this.$el = $(this.pickerDiv);
+	this.$el.colorpicker();
+    }
+
     render(){
 	const UI = this.props.DT_UI;
 	const selShape = this.props.DT_UI.shape;
@@ -96,6 +106,9 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 		</div>
 
 
+		<div
+		   ref={ el => {this.pickerDiv = el;}}
+		  />
 		
 	    </WgBoxie>
 	);
