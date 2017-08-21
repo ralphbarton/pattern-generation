@@ -71,3 +71,64 @@ button.WgButton2 > div.dot{
 
 
 
+/*
+
+    WgButtonExpanding
+
+*/
+
+
+.WgButtonExpanding{
+    position: relative;
+}
+
+.WgButtonExpanding > .popout{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    border-left: 1px solid;
+    border-color: rgba(0,30,70,0.4);
+    transition: height 0.2s, width 0.2s, right 0.2s, background 0.2s;
+    height: 100%;
+    width: 18px;
+}
+
+.WgButtonExpanding:hover > .popout{
+        border-color: #004370;
+}
+
+.WgButtonExpanding > div.text{
+    margin-right: 17px;
+}
+
+.WgButtonExpanding img.rightArrow{
+    margin: 4px 6px;
+    height: 10px;
+    opacity: 0.35;
+}
+
+.WgButtonExpanding .popout:hover img.rightArrow{
+    opacity: 1;
+    /* This hack of a filter turns black to dark blue!*/
+    filter: invert(1) brightness(0.5) sepia(1) hue-rotate(180deg) saturate(4) brightness(0.45);
+}
+
+.WgButtonExpanding .popout.expanded{
+    height: 123px;
+    width: 160px;
+    right: -143px;
+    bottom: -1px;
+   background: #99A7AE;
+    color: #004370;
+    border: 1px solid;
+    border-color: #004370;
+    border-radius: 6px 6px 6px 0px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.MainTab_MotfEdit .button.expandAll > .expanded > div{
+    padding: 1px 6px;
+}
+
+

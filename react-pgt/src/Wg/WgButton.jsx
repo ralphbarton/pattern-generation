@@ -37,7 +37,7 @@ import withClickOut from './../withClickOut';
 function Popout_for_ButtonExpanding(props){    
     return (
 	<div
-	   className={props.pop.expanded ? " expanded" : ""}
+	   className={"popout" + (props.pop.expanded ? " expanded" : "")}
 	   ref={props.pop.setwrapperRef}
 	   onClick={props.pop.hofSetExpanded(true, props.pop.expanded)}
 	   >

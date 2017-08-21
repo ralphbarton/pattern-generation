@@ -93,68 +93,13 @@ MotfEdit_SubSec_mElem_popoutPicker.css
 
 /* Expand All popout
 */
-
-.button.expandAll{
-    position: relative;
-}
-
-.button.expandAll > div.text{
-    margin-right: 18px;
-}
-
-.button.expandAll img.rightArrow{
-    margin: 4px 6px;
-    height: 10px;
-    opacity: 0.55;
-}
-
-.button.expandAll:hover img.rightArrow{
-    opacity: 0.85;
-}
-
-.button.expandAll > .Motf_expandAllPopout > div{
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    border-left: 1px solid;
-    border-color: rgba(0,30,70,0.4);
-    transition: height 0.2s, width 0.2s, right 0.2s, background 0.2s;
-}
-
-.button.expandAll .Motf_expandAllPopout > div{
-    height: 100%;
-    width: 18px;
-}
-
-.button.expandAll .Motf_expandAllPopout.expanded > div{
-    height: 123px;
-    width: 160px;
-    right: -142px;
-    bottom: -1px;
-   background: #99A7AE;
-    color: #004370;
-    border: 1px solid;
-    border-color: #004370;
-    border-radius: 6px 6px 6px 0px;
-    overflow: hidden;
-    text-align: left;
-}
-
-.button.expandAll .Motf_expandAllPopout.expanded h1{
+.MainTab_MotfEdit .button.expandAll > div.expanded h1{
     font-size: 15px;
     padding: 0;
     margin: 2px 4px;
 }
 
-.button.expandAll .Motf_expandAllPopout.expanded > div > div{
-  padding: 1px 6px;
-}
-
-.button.expandAll:hover .Motf_expandAllPopout > div{
-        border-color: #004370;
-}
-
-.button.expandAll .Motf_expandAllPopout .closeIcon{
+.MainTab_MotfEdit .button.expandAll img.closeIcon{
     position: absolute;
     right: 5px;
     top: 2px;
@@ -162,6 +107,6 @@ MotfEdit_SubSec_mElem_popoutPicker.css
     opacity: 0.5;
 }
 
-.button.expandAll .Motf_expandAllPopout .closeIcon:hover{
+.MainTab_MotfEdit .button.expandAll img.closeIcon:hover{
     opacity: 0.9;
 }
