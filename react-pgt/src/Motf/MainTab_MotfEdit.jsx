@@ -2,7 +2,7 @@ import React from 'react';
 
 // externally developed libraries
 import update from 'immutability-helper';
-
+var _ = require('lodash');
 
 // generic project widgets
 import {WgButton} from '../Wg/WgButton';
@@ -16,7 +16,8 @@ import MotfEdit_Section_DrawingTools from './MotfEdit_Section_DrawingTools';
 import MotfEdit_Section_MotifCanvas from './MotfEdit_Section_MotifCanvas';
 import MotfEdit_Section_AdvancedFeatures from './MotfEdit_Section_AdvancedFeatures';
 
-var _ = require('lodash');
+import Motf_lists from './plain-js/Motf_lists'; // used only for grid sizes
+import Motf_FabricHandlers from './plain-js/Motf_FabricHandlers'; // this is getting messy now, but snap handlers are in here...
 
 /*
  import WgBoxie from '../Wg/WgBoxie';
@@ -135,7 +136,7 @@ class MainTab_MotfEdit extends React.PureComponent {
     // add keyboard listeners when component mounts
     componentDidMount(){
 	const TS = this;
-	this.props.kb.setKeyDownHandler(function(keyCode){
+	this.props.kb.setKeyDownHandler(function(keyCode, keysState){
 
 	    //Delete key pressed...
 	    if(keyCode === 46){
@@ -148,16 +149,21 @@ class MainTab_MotfEdit extends React.PureComponent {
 		return;
 	    }
 
+	    const C_sizes = Motf_lists.GridSizes.Cartesian.Dict;
+	    const step = keysState.CTRL ? C_sizes[TS.state.UI.canvasControls.gridSize] : 1;
+	    //This is really messy: I'm binding an external exported object externally to make the function work correctly!!
+	    const u = keysState.CTRL ? Motf_FabricHandlers.snapCoord.bind(Motf_FabricHandlers): x=>{return x;};
+
 	    //an ARROW key pressed...
 	    if((keyCode >= 37)&&(keyCode <= 40)){
 		if(keyCode === 37){ // left arrow 37
-		    TS.editingMotifElemChangeElement("left", {$apply: x=>{return x-1;}});
+		    TS.editingMotifElemChangeElement("left", {$apply: x=>{return u(x - step);}});
 		}else if(keyCode === 38){ // up arrow 38
-		    TS.editingMotifElemChangeElement("top", {$apply: x=>{return x-1;}});
+		    TS.editingMotifElemChangeElement("top",  {$apply: x=>{return u(x - step);}});
 		}else if(keyCode === 39){ // right arrow 39
-		    TS.editingMotifElemChangeElement("left", {$apply: x=>{return x+1;}});
+		    TS.editingMotifElemChangeElement("left", {$apply: x=>{return u(x + step);}});
 		}else if(keyCode === 40){ // down arrow 40 
-		    TS.editingMotifElemChangeElement("top", {$apply: x=>{return x+1;}});
+		    TS.editingMotifElemChangeElement("top",  {$apply: x=>{return u(x + step);}});
 		}
 	    }
 	});

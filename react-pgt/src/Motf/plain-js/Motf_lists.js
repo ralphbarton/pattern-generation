@@ -294,9 +294,16 @@ var Motf_lists = {
 	    DatH_Key: "zIndex",
 	    type: null // this will not be a property that can be set directly. Changes will affect Array ordering
 	},
-    ]
-    
+    ],
+
+    GridSizes: {
+	Cartesian: {
+	    Arr: [10, 25, 50],
+	    Dict: {"small": 10, "medium": 25, "large": 50}
+	}
+    }
 }
+
 
 Motf_lists.applyObjectTypesPropertyCustomisation();
 Motf_lists.applyFilteredObjectPropertiesForShapes();

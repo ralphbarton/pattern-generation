@@ -39,7 +39,7 @@ function withKeyboardEvents(WrappedComponent, options) {
 
 		// 2. for the Key-Down event call
 		if(isKeyDown && TS.keyDownHandler){
-		    TS.keyDownHandler(e.keyCode);
+		    TS.keyDownHandler(e.keyCode, TS.state);
 		}
 		
 	    };

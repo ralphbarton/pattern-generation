@@ -5,15 +5,13 @@ import WgDropDown from '../Wg/WgDropDown';
 import {WgButton2} from '../Wg/WgButton';
 import WgFadeTransition from '../Wg/WgFadeTransition';
 
+import Motf_lists from './plain-js/Motf_lists'; // used only for grid sizes
 
 class MotfEdit_sub_mCoords extends React.PureComponent {
 
     constructor() {
 	super();
-	this.state = {
-	    mouseX: 27,
-	    mouseY: 21
-	};
+	this.state = {};
 	this.handleMouseMove = this.handleMouseMove.bind(this);
     }
 
@@ -49,6 +47,7 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
     render(){
 	const UI = this.props.CC_UI;
 	const setUI = this.props.hofHandleUIchange_CC;
+	const CartesianSizes = Motf_lists.GridSizes.Cartesian.Arr;
 	return (
 	    <div className="canvasControls">
 	      {/* 1. The <input> for Motif Title*/}
@@ -139,17 +138,17 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 
 		    <WgButton2 dot={UI.gridSize==="small"} onClick={setUI("gridSize", "small")}>
 		      Small
-		      <div className="c-note">{UI.gridSystem==="cartesian" ? "10px" : "25px, 15°"}</div>
+		      <div className="c-note">{UI.gridSystem==="cartesian" ? (CartesianSizes[0]+"px") : "25px, 15°"}</div>
 		    </WgButton2>
 		    
 		    <WgButton2 dot={UI.gridSize==="medium"} onClick={setUI("gridSize", "medium")}>
 		      Medium
-		      <div className="c-note">{UI.gridSystem==="cartesian" ? "25px" : "50px, 45°"}</div>
+		      <div className="c-note">{UI.gridSystem==="cartesian" ? (CartesianSizes[1]+"px") : "50px, 45°"}</div>
 		    </WgButton2>
 
 		    <WgButton2 dot={UI.gridSize==="large"} onClick={setUI("gridSize", "large")}>
 		      Large
-		      <div className="c-note">{UI.gridSystem==="cartesian" ? "50px" : "100px, 95°"}</div>
+		      <div className="c-note">{UI.gridSystem==="cartesian" ? (CartesianSizes[2]+"px") : "100px, 90°"}</div>
 		    </WgButton2>
 		  </div>
 

@@ -2,6 +2,7 @@ import {fabric}  from 'fabric';
 var _ = require('lodash');
 
 import Motf_util from './Motf_util';
+import Motf_lists from './Motf_lists'; // used only for grid sizes
 
 var Motf_FabricHandlers = {
 
@@ -73,21 +74,22 @@ var Motf_FabricHandlers = {
        - snapping position to grid
        - 
     */
+
+    snapCoord: function(u_raw, strokeWidth) {
+	const UI = this.CC_UI;
+	const gridSizePx = Motf_lists.GridSizes.Cartesian.Dict[UI.gridSize];//this assumes x- and y- grids have same spacing
+
+	let u_snapped = Math.round(u_raw / gridSizePx) * gridSizePx;
+	if(UI.shapeSnapOrigin === "TL2"){u_snapped -= (strokeWidth || 0)/2;}// to 'ignore outline'
+	return u_snapped;
+    },
+    
     handle_ObjectMoving: function(options) {
 	const UI = this.CC_UI;
-	const gridSizePx = ({"small":10, "medium":25, "large":50})[UI.gridSize];
 	const fObj = options.target;
 	if(UI.snapToGrid){
-	    if(UI.snapAxes.includes('x')){
-		let snap = Math.round(options.target.left / gridSizePx) * gridSizePx;
-		if(UI.shapeSnapOrigin === "TL2"){snap -= (fObj.strokeWidth || 0)/2;}// to 'ignore outline'
-		fObj.setLeft(snap);
-	    }
-	    if(UI.snapAxes.includes('y')){
-		let snap = Math.round(options.target.top / gridSizePx) * gridSizePx;
-		if(UI.shapeSnapOrigin === "TL2"){snap -= (fObj.strokeWidth || 0)/2;}// to 'ignore outline'
-		fObj.setTop(snap);
-	    }
+	    if(UI.snapAxes.includes('x')){ fObj.setLeft( this.snapCoord(options.target.left, fObj.strokeWidth) ); }
+	    if(UI.snapAxes.includes('y')){ fObj.setTop(  this.snapCoord(options.target.top,  fObj.strokeWidth) ); }
 	}
     },
 

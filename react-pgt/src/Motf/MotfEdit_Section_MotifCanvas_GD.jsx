@@ -1,12 +1,12 @@
 import React from 'react';
 import * as d3 from "d3";
 
+import Motf_lists from './plain-js/Motf_lists'; // used only for grid sizes
+
 class MotfEdit_Section_MotifCanvas_GD extends React.PureComponent {
 
     bgGridAxesMount(){
 
-	//can this be defined a bit more globally??
-	const CartesianGridSizes = [10, 25, 50];
 	const SVG = this.svgRef;
 	
 	// INITIATE the SVG gridlines under the canvas... 
@@ -49,9 +49,10 @@ class MotfEdit_Section_MotifCanvas_GD extends React.PureComponent {
 	    }
 	};
 
-	draw_grid(CartesianGridSizes[0], "small");
-	draw_grid(CartesianGridSizes[1], "medium");
-	draw_grid(CartesianGridSizes[2], "large");
+	const CartesianSizes = Motf_lists.GridSizes.Cartesian.Arr;
+	draw_grid(CartesianSizes[0], "small");
+	draw_grid(CartesianSizes[1], "medium");
+	draw_grid(CartesianSizes[2], "large");
 
 
 	var draw_circles = function(size, size_str){
