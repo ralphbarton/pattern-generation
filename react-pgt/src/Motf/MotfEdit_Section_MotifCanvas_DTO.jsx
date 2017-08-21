@@ -176,5 +176,5 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 }
 
 
-import withKeyHold from './../withKeyHold';
-export default withKeyHold(MotfEdit_Section_MotifCanvas_DTO);
+import withKeyboardEvents from './../withKeyboardEvents';
+export default withKeyboardEvents(MotfEdit_Section_MotifCanvas_DTO, {withKeysHeldProp: true});

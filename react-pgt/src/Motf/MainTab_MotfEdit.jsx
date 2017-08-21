@@ -16,6 +16,7 @@ import MotfEdit_Section_DrawingTools from './MotfEdit_Section_DrawingTools';
 import MotfEdit_Section_MotifCanvas from './MotfEdit_Section_MotifCanvas';
 import MotfEdit_Section_AdvancedFeatures from './MotfEdit_Section_AdvancedFeatures';
 
+var _ = require('lodash');
 
 /*
  import WgBoxie from '../Wg/WgBoxie';
@@ -79,6 +80,8 @@ class MainTab_MotfEdit extends React.PureComponent {
 	this.handleMotfUIStateChange = this.handleMotfUIStateChange.bind(this);
 	this.hofHandleUIchange_CC    = this.hofHandleMotfUIStateChange.bind(this, "canvasControls");
 	this.hofHandleUIchange_DT    = this.hofHandleMotfUIStateChange.bind(this, "drawingTools");
+
+	this.editingMotifElemChangeElement = this.editingMotifElemChangeElement.bind(this);
     }
 
 
@@ -110,6 +113,55 @@ class MainTab_MotfEdit extends React.PureComponent {
 	    });
 	};
     };
+
+    // Apply a modification to the Motif under editing.
+    editingMotifElemChangeElement(prop, $chg){
+	const selectionPGTuid = this.state.UI.fabricSelection.selectionUID;
+	if(selectionPGTuid === undefined){return;}// no mutation required if no object selected.
+	const mElem_index = _.findIndex(this.props.Motf.Elements, {PGTuid: selectionPGTuid} );	
+	
+	this.handleEditingMotfChange({
+	    Elements: {
+		[mElem_index]: {
+		    [prop]: $chg
+		}
+	    }
+	});
+	/*	    
+	 $push: [Motf_util.DatH_NewShape(boundingBox, this.props.DT_UI, this.props.Motf.Elements)]
+	 }});*/
+    }
+
+    // add keyboard listeners when component mounts
+    componentDidMount(){
+	const TS = this;
+	this.props.kb.setKeyDownHandler(function(keyCode){
+
+	    //Delete key pressed...
+	    if(keyCode === 46){
+		/*
+		 this.ActUponFabricSelection(function(fObj, uid){
+		 motifs_edit.deleteMotifElement(uid);
+		 }, {
+		 groupDiscard: true
+		 });*/
+		return;
+	    }
+
+	    //an ARROW key pressed...
+	    if((keyCode >= 37)&&(keyCode <= 40)){
+		if(keyCode === 37){ // left arrow 37
+		    TS.editingMotifElemChangeElement("left", {$apply: x=>{return x-1;}});
+		}else if(keyCode === 38){ // up arrow 38
+		    TS.editingMotifElemChangeElement("top", {$apply: x=>{return x-1;}});
+		}else if(keyCode === 39){ // right arrow 39
+		    TS.editingMotifElemChangeElement("left", {$apply: x=>{return x+1;}});
+		}else if(keyCode === 40){ // down arrow 40 
+		    TS.editingMotifElemChangeElement("top", {$apply: x=>{return x+1;}});
+		}
+	    }
+	});
+    }
     
     render(){
 	return (
@@ -206,4 +258,5 @@ class MainTab_MotfEdit extends React.PureComponent {
     
 }
 
-export default MainTab_MotfEdit;
+import withKeyboardEvents from './../withKeyboardEvents';
+export default withKeyboardEvents(MainTab_MotfEdit, {withKeysHeldProp: false});

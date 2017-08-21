@@ -1,6 +1,6 @@
 import React from 'react';
 
-function withKeyHold(WrappedComponent) {
+function withKeyboardEvents(WrappedComponent, options) {
 
     // ...return another component...
     return class extends React.Component {
@@ -22,8 +22,9 @@ function withKeyHold(WrappedComponent) {
 		17: "CTRL"
 	    };
 
-	    this.handleKeyDown           = this.hofHandleKeyEvent(true).bind(this);
-	    this.handleKeyUp             = this.hofHandleKeyEvent(false).bind(this);
+	    this.handleKeyDown     = this.hofHandleKeyEvent(true).bind(this);
+	    this.handleKeyUp       = this.hofHandleKeyEvent(false).bind(this);
+	    this.setKeyDownHandler = this.setKeyDownHandler.bind(this);
 	}
 
 	hofHandleKeyEvent(isKeyDown){
@@ -35,6 +36,12 @@ function withKeyHold(WrappedComponent) {
 		if(myKey !== undefined){
 		    TS.setState({[myKey]: isKeyDown});
 		}
+
+		// 2. for the Key-Down event call
+		if(isKeyDown && TS.keyDownHandler){
+		    TS.keyDownHandler(e.keyCode);
+		}
+		
 	    };
 	}
 	
@@ -48,15 +55,22 @@ function withKeyHold(WrappedComponent) {
 	    document.removeEventListener("keyup",     this.handleKeyUp);
 	}
 
+	setKeyDownHandler(fn) {
+	    this.keyDownHandler = fn;
+	}
+
 	render() {
-	    // pass down ALL props passed, and two additional onces
+	    // pass down ALL props passed, and one or two additional ones
 	    const kb = {
-		KeyHoldState: this.state // This is useful where a non-KB event needs to know if a button is already held
+		setKeyDownHandler: this.setKeyDownHandler
 	    };
+	    if(options && options.withKeysHeldProp){
+		kb["KeyHoldState"] = this.state; // This is useful where a non-KB event needs to know if a button is already held
+	    }
 	    return <WrappedComponent kb={kb} {...this.props} />;
 	}
 	
     };
 }
 
-export default withKeyHold;
+export default withKeyboardEvents;

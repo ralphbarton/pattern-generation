@@ -1,5 +1,5 @@
+/* eslint-disable */
 const main = function (a) {
-    "use strict";
     function b(a, b, c) {
 	return Math.max(Math.min(a, c), b);
     }function c(a) {
