@@ -61,6 +61,7 @@ var Motf_FabricHandlers = {
        - 
     */
     handle_SelectionCleared: function(options) {
+	console.log("selection cleared event. 'this.canvasIsUpdating'=", this.canvasIsUpdating);
 	if(this.canvasIsUpdating){return;}// ignore 'selection cleared' events that occur whilst canvas is updating
 	this.handleMotfUIStateChange(
 	    {fabricSelection: {selectedMElemsUIDArr: {$set: []}}}

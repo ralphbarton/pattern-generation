@@ -16,25 +16,32 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
     shouldComponentUpdate(nextProps, nextState){
 
 	/*
-	// Test for all change in 'CC_UI'
-	const c1 = nextProps.CC_UI !== this.props.CC_UI;// change in CC_UI object
-
-
-	
-	// Test for any change in the Motif itself (note: this change may have been instigated by Fabric modify.)
-	// (in this case, the Fabric Canvas does not really need to be re-rendered)
-	const c3 = nextProps.Motf !== this.props.Motf;
-
-	return c1 || c2 || c3;
+	 set of props passed (excl. callbacks) are:
+	 Motf
+	 CC_UI - Canvas Controls
+	 DT_UI - Drawing Tools
+	 MS_UI - Mouse State
+	 FS_UI - Fabric Selection
 	 */
 
-	// Test for change in fabric selection, which originated in "Properties" component...
-	const c2 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
+	// Positive selection logic. If any of the conditions below (c1 - c4) are true, rerender will occur.
 
-	// true when Arrays different
-	const c5 = _.difference(nextProps.FS_UI.selectedMElemsUIDArr, this.props.FS_UI.selectedMElemsUIDArr).length > 0;
 	
-	return !(c5 && (!c2));
+	const c1 = nextProps.Motf  !== this.props.Motf;  // Motif itself is changed.
+	/* (note: this change may have been instigated by a Fabric event.
+	 In this case, the Fabric Canvas does not really need to be re-rendered) */
+	
+	const c2 = nextProps.CC_UI !== this.props.CC_UI; // i.e. change to the background or underlying grid
+	const c3 = nextProps.MS_UI !== this.props.MS_UI; // because 'Draw Tool Overlay' needs to know when mouse enters canvas
+	const c4 = nextProps.DT_UI !== this.props.DT_UI; // 'Draw Tool Overlay' needs to know selected Tool...
+
+	const PropsListEvent = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
+	const selChg = _.difference(nextProps.FS_UI.selectedMElemsUIDArr, this.props.FS_UI.selectedMElemsUIDArr).length > 0;
+	
+	const c5 = selChg && PropsListEvent; // only when Fabric selection is changed due to properties list should we rerender
+	/* this is only important to the extent it avoids wasted re-renders, in this particular even...*/
+
+	return c1 || c2 || c3 || c4 || c5;
     }
 
     
