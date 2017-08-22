@@ -55,6 +55,18 @@ var Motf_FabricHandlers = {
 	this.prevUidArr = uidArr;
     },
 
+
+    /* Functions are:
+       - clear UI state relating to selected item<
+       - 
+    */
+    handle_SelectionCleared: function(options) {
+	if(this.canvasIsUpdating){return;}// ignore 'selection cleared' events that occur whilst canvas is updating
+	this.handleMotfUIStateChange(
+	    {fabricSelection: {selectedMElemsUIDArr: {$set: []}}}
+	);
+    },
+    
     
     /* Functions are:
        - Re-serialise entire motif & save
@@ -98,16 +110,6 @@ var Motf_FabricHandlers = {
 	    if(UI.snapAxes.includes('x')){ fObj.setLeft( this.snapCoord(options.target.left, fObj.strokeWidth) ); }
 	    if(UI.snapAxes.includes('y')){ fObj.setTop(  this.snapCoord(options.target.top,  fObj.strokeWidth) ); }
 	}
-    },
-
-    /* Functions are:
-       - clear UI state relating to selected item<
-       - 
-    */
-    handle_SelectionCleared: function(options) {
-	this.handleMotfUIStateChange(
-	    {fabricSelection: {selectedMElemsUIDArr: {$set: []}}}
-	);
     },
 
 
@@ -179,13 +181,15 @@ var Motf_FabricHandlers = {
 	document.removeEventListener("keyup",     this.handle_keyUp_CTRL);
     },
     
+    canvasIsUpdating: false,
     UpdateCanvas: function(Motf, selectedMElemsUIDArr){
 	const canvas = this.canvas;
-
-	console.log("UpdateCanvas - occured");
 	
 	// 1. wipe all objects from the canvas
+	// Important to ignore 'selection cleared' events that occur whilst canvas is updating
+	this.canvasIsUpdating = true;
 	canvas.clear();
+	this.canvasIsUpdating = false;
 	
 	// 2. (re-)add all the objects
 	_.forEach(Motf.Elements, function(Properties, index) { // (value, key)
@@ -207,7 +211,7 @@ var Motf_FabricHandlers = {
 		if( ! _.includes(selectedMElemsUIDArr, object.PGTuid) ){return;}
 		group.addWithUpdate(object);
 	    });
-	    canvas.setActiveGroup(group.setCoords());
+	    canvas.setActiveGroup(group.setCoords()).renderAll();
 
 	}
 	

@@ -1,4 +1,5 @@
 import React from 'react';
+var _ = require('lodash');
 
 import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import WgDropDown from '../Wg/WgDropDown';
@@ -31,8 +32,8 @@ class MotfEdit_sub_mCoords extends React.PureComponent {
 	if(!canvBox || isNaN(this.state.mouseX)){return null;}
 	return(
 	    <div className="mouseCoords"> 
-	      Mouse (x,y): (<span className="val">{this.state.mouseX - canvBox.left -200}</span>,
-			    <span className="val">{this.state.mouseY - canvBox.top -200}</span>)
+	      Mouse (x,y): (<span className="val">{_.round(this.state.mouseX - canvBox.left -200, 1)}</span>,
+			    <span className="val">{_.round(this.state.mouseY - canvBox.top  -200, 1)}</span>)
 	    </div>
 	);
     }
