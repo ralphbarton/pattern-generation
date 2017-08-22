@@ -28,7 +28,7 @@ class MotfEdit_sub_mCoords extends React.PureComponent {
 
     render(){
 	const canvBox = this.props.MS_UI.canvBoundingBoxCoords;
-	if(!canvBox){return null;}
+	if(!canvBox || isNaN(this.state.mouseX)){return null;}
 	return(
 	    <div className="mouseCoords"> 
 	      Mouse (x,y): (<span className="val">{this.state.mouseX - canvBox.left -200}</span>,
@@ -225,6 +225,20 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		    </div>
 		  </WgDropDown>
 
+
+		  <WgDropDown
+		     name="Object Origin"
+		     className="objectOrigin"
+		     ddStyle="plain">
+		    AAA
+		  </WgDropDown>
+		    
+		  {/* Mouse Coordinates */}
+		  <div className="selection-comment">
+		    Selected: 5
+		  </div>
+
+		    
 		  {/* Mouse Coordinates */}
 	          <WgFadeTransition speed={0}>
 		    {this.props.MS_UI.mouseOverCanvas && <MotfEdit_sub_mCoords MS_UI={this.props.MS_UI}/>}

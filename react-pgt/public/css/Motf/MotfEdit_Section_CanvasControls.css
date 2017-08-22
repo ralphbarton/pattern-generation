@@ -19,7 +19,7 @@
 
 .MainTab_MotfEdit .canvasControls .column2{
     margin-left: 10px;
-
+    flex: 1 auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
@@ -27,14 +27,14 @@
 
 .MainTab_MotfEdit .canvasControls > .column3{
     position: relative;
-    flex: 1 auto;
+    max-width: 180px;
 }
 
 .MainTab_MotfEdit .canvasControls .mouseCoords {
     color: rgba(0,0,0,0.5);
     font-size: 11px;
     position: absolute;
-    bottom: -2px;
+    bottom: -5px;
     right: 0px;
     width: 132px;
 }
@@ -44,8 +44,20 @@
     color: #809db3;
 }
 
+.MainTab_MotfEdit .canvasControls .selection-comment{
+    position: relative;
+    left: -35px;
+    font-size: 11px;
+    font-weight: bold;
+    padding-top: 3px;
+    color: rgba(15, 33, 97, 0.6);
+    width: 75px;
+    text-align: center;
+}
 
-
+.MainTab_MotfEdit .canvasControls .selection-comment{
+    color: rgba(122, 55, 8, 0.8);
+}
 
 
 
@@ -95,4 +107,11 @@
 
 .MainTab_MotfEdit .dropdown .btn-set.snapAxes button{
     width: 42px;
+}
+
+
+/* Dropdown: 3. Position */
+.MainTab_MotfEdit .canvasControls .objectOrigin{
+    margin-top: 5px;
+    margin-left: 92px;
 }
