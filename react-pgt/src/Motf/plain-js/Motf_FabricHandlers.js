@@ -14,6 +14,7 @@ var Motf_FabricHandlers = {
     prevUidArr: [],
     handle_ObjectSelected: function(options) {
 
+	
 	//get UIDs list of the items selected.
 	const S = options.target;
 	const multiple = S._objects !== undefined;
@@ -21,8 +22,10 @@ var Motf_FabricHandlers = {
 
 	// if selection is unchanged, do none of the effects of this handler.
 	if( _.difference(uidArr, this.prevUidArr).length === 0){
+	    console.log("selection detected but it is no change:", uidArr, this.prevUidArr);
 	    return;	    
 	}
+	console.log("selection detected: action");
 	
 	if(multiple){
 	    if(this.prevUidArr.length < 2){
@@ -61,11 +64,12 @@ var Motf_FabricHandlers = {
        - 
     */
     handle_SelectionCleared: function(options) {
-	console.log("selection cleared event. 'this.canvasIsUpdating'=", this.canvasIsUpdating);
+//	console.log("selection cleared event. 'this.canvasIsUpdating'=", this.canvasIsUpdating);
 	if(this.canvasIsUpdating){return;}// ignore 'selection cleared' events that occur whilst canvas is updating
 	this.handleMotfUIStateChange(
 	    {fabricSelection: {selectedMElemsUIDArr: {$set: []}}}
 	);
+	this.prevUidArr = [];// this is necessary to ensure change if same object is reselected, that is detected...
     },
     
     
