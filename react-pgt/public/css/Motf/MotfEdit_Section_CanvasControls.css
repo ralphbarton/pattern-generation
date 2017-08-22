@@ -55,7 +55,7 @@
     text-align: center;
 }
 
-.MainTab_MotfEdit .canvasControls .selection-comment{
+.MainTab_MotfEdit .canvasControls .selection-comment.multi{
     color: rgba(122, 55, 8, 0.8);
 }
 

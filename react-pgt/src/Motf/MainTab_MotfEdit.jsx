@@ -64,7 +64,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    snapAxes: "xy" // x, y or x and y
 		},
 		fabricSelection: {
-		    selectionUID: undefined,
+		    selectionUID: [],
 		    chgOrigin_Properties_count: 0 // counter for changes originating in the Properties Section
 		},
 		drawingTools:{
@@ -117,7 +117,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 
     // Apply a modification to the Motif under editing.
     editingMotifElemChangeElement(prop, $chg){
-	const selectionPGTuid = this.state.UI.fabricSelection.selectionUID;
+	const selectionPGTuid = this.state.UI.fabricSelection.selectionUID[0];
 	if(selectionPGTuid === undefined){return;}// no mutation required if no object selected.
 	const mElem_index = _.findIndex(this.props.Motf.Elements, {PGTuid: selectionPGTuid} );	
 	
@@ -205,6 +205,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		   Motf={this.state.Motf}
 		   CC_UI={this.state.UI.canvasControls}
 		   MS_UI={this.state.UI.mouseStatus}
+		   FS_UI={this.state.UI.fabricSelection}
 		   handleEditingMotfChange={this.handleEditingMotfChange} // canvas controls can change Motif Name!!
 		   handleMotfUIStateChange={this.handleMotfUIStateChange} //needed to set multiple values at once
 		   hofHandleUIchange_CC={this.hofHandleUIchange_CC}

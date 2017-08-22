@@ -40,12 +40,14 @@ var Motf_FabricHandlers = {
 		    maxShows: 5
 		});
 	    }
-
-	    //store UID of selection...
-	    this.handleMotfUIStateChange(
-		{fabricSelection: {selectionUID: {$set: options.target.PGTuid}}}
-	    );
 	}
+
+	//store UID of selection...
+	const S = options.target;
+	const uidArr = multiple ? _.map( S._objects, 'PGTuid') : [S.PGTuid];
+	this.handleMotfUIStateChange(
+	    {fabricSelection: {selectionUID: {$set: uidArr}}}
+	);
     },
 
     
@@ -99,7 +101,7 @@ var Motf_FabricHandlers = {
     */
     handle_SelectionCleared: function(options) {
 	this.handleMotfUIStateChange(
-	    {fabricSelection: {selectionUID: {$set: undefined}}}
+	    {fabricSelection: {selectionUID: {$set: []}}}
 	);
     },
 
@@ -169,6 +171,8 @@ var Motf_FabricHandlers = {
     UpdateCanvas: function(Motf, selectionUID){
 	const canvas = this.canvas;
 
+	console.log("UpdateCanvas - occured");
+	
 	// 1. wipe all objects from the canvas
 	canvas.clear();
 	
@@ -177,8 +181,27 @@ var Motf_FabricHandlers = {
 	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
 	});
 
-	const selected_fObj = _.find(canvas.getObjects(), function(o) { return o.PGTuid === selectionUID;});
-	if(selected_fObj){canvas.setActiveObject(selected_fObj);}
+	// 3. set the correct canvas selection	
+	if(!selectionUID){return;}// nothing selected -> skip step 3...
+
+	if(selectionUID.length === 1){//single selection
+	    const selected_fObj = _.find(canvas.getObjects(), {PGTuid: selectionUID[0]});
+	    canvas.setActiveObject(selected_fObj);
+
+	}else if(selectionUID.length >= 1){//multi-selection
+	    const items = canvas.getObjects();
+	    const group = new fabric.Group();
+	    group.canvas = canvas;
+	    items.forEach((object) => {
+		const testSelection = _.find(selectionUID, object.PGTuid);
+		if(testSelection === undefined){return;}
+		group.addWithUpdate(object);
+	    });
+	    canvas.setActiveGroup(group.setCoords());
+
+	}
+
+
 	
     },
 

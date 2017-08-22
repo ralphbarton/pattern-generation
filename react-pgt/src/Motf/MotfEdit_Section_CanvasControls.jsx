@@ -48,6 +48,7 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 	const UI = this.props.CC_UI;
 	const setUI = this.props.hofHandleUIchange_CC;
 	const CartesianSizes = Motf_lists.GridSizes.Cartesian.Arr;
+	const selection_size = this.props.FS_UI.selectionUID.length;//quantity of Items selected on-Canvas
 	return (
 	    <div className="canvasControls">
 	      {/* 1. The <input> for Motif Title*/}
@@ -234,10 +235,11 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		  </WgDropDown>
 		    
 		  {/* Mouse Coordinates */}
-		  <div className="selection-comment">
-		    Selected: 5
-		  </div>
-
+		  {selection_size > 0 &&
+		      <div className={"selection-comment" + (selection_size>1 ? " multi" : "")}>
+			    Selected: {selection_size}
+		      </div>
+		  }
 		    
 		  {/* Mouse Coordinates */}
 	          <WgFadeTransition speed={0}>
