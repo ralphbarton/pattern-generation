@@ -21,11 +21,9 @@ var Motf_FabricHandlers = {
 	const uidArr = multiple ? _.map( S._objects, 'PGTuid') : [S.PGTuid];
 
 	// if selection is unchanged, do none of the effects of this handler.
-	if( _.difference(uidArr, this.prevUidArr).length === 0){
-	    console.log("selection detected but it is no change:", uidArr, this.prevUidArr);
+	if( _.isEqual(uidArr, this.prevUidArr) ){
 	    return;	    
 	}
-	console.log("selection detected: action");
 	
 	if(multiple){
 	    if(this.prevUidArr.length < 2){

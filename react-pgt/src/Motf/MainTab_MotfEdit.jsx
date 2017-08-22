@@ -94,7 +94,6 @@ class MainTab_MotfEdit extends React.PureComponent {
     }
 
     handleMotfUIStateChange($changesObj){
-	console.error("handleMotfUIStateChange called:", $changesObj);
 	this.setState({
 	    UI: update(this.state.UI, $changesObj)
 	});

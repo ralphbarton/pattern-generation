@@ -36,7 +36,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	const c4 = nextProps.DT_UI !== this.props.DT_UI; // 'Draw Tool Overlay' needs to know selected Tool...
 
 	const PropsListEvent = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
-	const selChg = _.difference(nextProps.FS_UI.selectedMElemsUIDArr, this.props.FS_UI.selectedMElemsUIDArr).length > 0;
+	const selChg = !_.isEqual(nextProps.FS_UI.selectedMElemsUIDArr, this.props.FS_UI.selectedMElemsUIDArr);
 	
 	const c5 = selChg && PropsListEvent; // only when Fabric selection is changed due to properties list should we rerender
 	/* this is only important to the extent it avoids wasted re-renders, in this particular even...*/
