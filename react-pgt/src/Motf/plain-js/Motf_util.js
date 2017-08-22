@@ -174,6 +174,8 @@ var Motf_util = {
 	// Filter the props object, using Lodash pick
 	var DatH_Elem = _.pick(fObj, validKeys)
 
+	DatH_Elem = _.mapValues(DatH_Elem, v=>{return isNaN(v) ? v : _.round(v,1)}); // any numbers rounded to 1 d.p.
+	
 	// set some props manually...
 	DatH_Elem["shape"] = ShapeDetails.DatH_name;
 	DatH_Elem["PGTuid"] = fObj.PGTuid;
