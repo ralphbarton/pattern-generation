@@ -1,4 +1,5 @@
 import React from 'react';
+var _ = require('lodash');
 
 //should I divide up this file into separate categories of function (better modularisation)
 import Motf_FabricHandlers from './plain-js/Motf_FabricHandlers';
@@ -10,7 +11,7 @@ import MotfEdit_Section_MotifCanvas_DTO from './MotfEdit_Section_MotifCanvas_DTO
 class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
 
-    // It is important not to respond in all cases of "fabricSelection.selectionUID" change.
+    // It is important not to respond in all cases of "fabricSelection.selectedMElemsUIDArr" change.
     // hence the importance of this function
     shouldComponentUpdate(nextProps, nextState){
 
@@ -29,7 +30,9 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
 	// Test for change in fabric selection, which originated in "Properties" component...
 	const c2 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
-	const c5 = nextProps.FS_UI.selectionUID               !== this.props.FS_UI.selectionUID;
+
+	// true when Arrays different
+	const c5 = _.difference(nextProps.FS_UI.selectedMElemsUIDArr, this.props.FS_UI.selectedMElemsUIDArr).length > 0;
 	
 	return !(c5 && (!c2));
     }
@@ -39,7 +42,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	//send updated UI state into "Motf_FabricHandlers"
 	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
 	
-	Motf_FabricHandlers.UpdateCanvas(this.props.Motf, this.props.FS_UI.selectionUID);
+	Motf_FabricHandlers.UpdateCanvas(this.props.Motf, this.props.FS_UI.selectedMElemsUIDArr);
     }
 
     componentDidMount(){

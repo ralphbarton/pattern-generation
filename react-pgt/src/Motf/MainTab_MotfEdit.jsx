@@ -64,7 +64,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    snapAxes: "xy" // x, y or x and y
 		},
 		fabricSelection: {
-		    selectionUID: [],
+		    selectedMElemsUIDArr: [],
 		    chgOrigin_Properties_count: 0 // counter for changes originating in the Properties Section
 		},
 		drawingTools:{
@@ -117,17 +117,23 @@ class MainTab_MotfEdit extends React.PureComponent {
 
     // Apply a modification to the Motif under editing.
     editingMotifElemChangeElement(prop, $chg){
-	const selectionPGTuid = this.state.UI.fabricSelection.selectionUID[0];
-	if(selectionPGTuid === undefined){return;}// no mutation required if no object selected.
-	const mElem_index = _.findIndex(this.props.Motf.Elements, {PGTuid: selectionPGTuid} );	
-	
-	this.handleEditingMotfChange({
-	    Elements: {
-		[mElem_index]: {
-		    [prop]: $chg
+	const Elems_Selected = this.state.UI.fabricSelection.selectedMElemsUIDArr;
+	if(Elems_Selected.length === 0){return;}// no mutation required if no object selected.
+
+	Elems_Selected.forEach( ePGTuid => {
+
+	    const mElem_index = _.findIndex(this.props.Motf.Elements, {PGTuid: ePGTuid} );
+	    
+	    this.handleEditingMotfChange({
+		Elements: {
+		    [mElem_index]: {
+			[prop]: $chg
+		    }
 		}
-	    }
+	    });
+
 	});
+
 	/*	    
 	 $push: [Motf_util.DatH_NewShape(boundingBox, this.props.DT_UI, this.props.Motf.Elements)]
 	 }});*/

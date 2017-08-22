@@ -1,5 +1,7 @@
 import React from 'react';
 //import ReactDOM from 'react-dom';
+var _ = require('lodash');
+
 
 import {WgButton, WgButtonExpanding} from '../Wg/WgButton';
 import WgCheckbox from '../Wg/WgCheckbox';
@@ -39,14 +41,14 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 	const TS = this;
 
 
-	const tesNode = ReactDOM.findDOMNode(this.refs[this.props.FS_UI.selectionUID]);
+	const tesNode = ReactDOM.findDOMNode(this.refs[this.props.FS_UI.selectedMElemsUIDArr]);
 //	if (some_logic){
 	    window.scrollTo(tesNode.offsetTop, 0);
 //	}
 
 	
 
-	scrollToElement(this.refs[this.props.FS_UI.selectionUID], {
+	scrollToElement(this.refs[this.props.FS_UI.selectedMElemsUIDArr], {
 	    offset: 0,
 	    ease: 'out-bounce',
 	    duration: 1500
@@ -56,12 +58,12 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 	/*
 	setTimeout(function(){
 
-	    scrollToComponent(TS.refs[TS.props.FS_UI.selectionUID], {
+	    scrollToComponent(TS.refs[TS.props.FS_UI.selectedMElemsUIDArr], {
 		//	    offset: 1000,
 		align: 'top',
 		duration: 500
 	    });
-	    console.log("componentDidUpdate", TS.props.FS_UI.selectionUID, TS.refs[TS.props.FS_UI.selectionUID]);
+	    console.log("componentDidUpdate", TS.props.FS_UI.selectedMElemsUIDArr, TS.refs[TS.props.FS_UI.selectedMElemsUIDArr]);
 
 
 	}, 5000);
@@ -70,6 +72,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
     
     render(){
 	this.refs = {a: 0};
+
 	return (
 	    <div>
 	      <div className="properties">
@@ -84,7 +87,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 				    mElem={mElem}
 				    addRef={(node)=>{this.refs[mElem.PGTuid]=node;}}
 				    expand={this.state}
-				    isFocus={mElem.PGTuid === this.props.FS_UI.selectionUID}
+			            isFocus={_.includes(this.props.FS_UI.selectedMElemsUIDArr, mElem.PGTuid)}
 				    deleteElem={()=>{
 					this.props.handleEditingMotfChange({
 					    Elements: {$splice: [[index,1]]}
@@ -94,7 +97,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 					const cnt = this.props.FS_UI.chgOrigin_Properties_count + 1;
 					this.props.handleMotfUIStateChange(
 					    {fabricSelection: {
-						selectionUID: {$set: [PGTuid]},
+						selectedMElemsUIDArr: {$set: [PGTuid]},
 						chgOrigin_Properties_count: {$set: cnt}
 					    }}
 					);

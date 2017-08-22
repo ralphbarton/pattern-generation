@@ -9,6 +9,10 @@ function withKeyboardEvents(WrappedComponent, options) {
 	    super();
 
 	    this.state = {
+		count: 0
+	    };
+	    
+	    this.keyState = {
 		"SHIFT": false,
 		"CTRL": false
 	    };
@@ -34,12 +38,19 @@ function withKeyboardEvents(WrappedComponent, options) {
 
 		// 1. Manage internal state
 		if(myKey !== undefined){
-		    TS.setState({[myKey]: isKeyDown});
+
+		    // for this, I am not using the React variable 'this.state'
+		    TS.keyState[myKey] = isKeyDown;
+
+		    //the consequence of calling 'setState()' here is that the wrapped component will rerender
+		    if(options.withKeysHeldProp){
+			TS.setState({count: (this.state.count + 1)});
+		    }
 		}
 
 		// 2. for the Key-Down event call
 		if(isKeyDown && TS.keyDownHandler){
-		    TS.keyDownHandler(e.keyCode, TS.state);
+		    TS.keyDownHandler(e.keyCode, TS.keyState);
 		}
 		
 	    };
@@ -65,7 +76,7 @@ function withKeyboardEvents(WrappedComponent, options) {
 		setKeyDownHandler: this.setKeyDownHandler
 	    };
 	    if(options && options.withKeysHeldProp){
-		kb["KeyHoldState"] = this.state; // This is useful where a non-KB event needs to know if a button is already held
+		kb["KeyHoldState"] = this.keyState; // This is useful where a non-KB event needs to know if a button is already held
 	    }
 	    return <WrappedComponent kb={kb} {...this.props} />;
 	}

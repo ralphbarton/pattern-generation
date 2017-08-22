@@ -10,44 +10,49 @@ var Motf_FabricHandlers = {
        - Show a Toast for single select & multi-select
        - 
     */
-    plainState: {},
-    
+
+    prevUidArr: [],
     handle_ObjectSelected: function(options) {
 
-	const selectionChg = options.target.PGTuid !== this.plainState.prevSelectionID;
-	this.plainState.prevSelectionID = options.target.PGTuid;
-	
-	const multiple = options.target._objects !== undefined;
-	const onToastMsg = this.onToastMsg;
+	//get UIDs list of the items selected.
+	const S = options.target;
+	const multiple = S._objects !== undefined;
+	const uidArr = multiple ? _.map( S._objects, 'PGTuid') : [S.PGTuid];
+
+	// if selection is unchanged, do none of the effects of this handler.
+	if( _.difference(uidArr, this.prevUidArr).length === 0){
+	    return;	    
+	}
 	
 	if(multiple){
-	    onToastMsg({
-		title: "Multiple elements selected",
-		text: "(note: the software doesn't yet handle multiple object selections...)",
-		type: "guidance",
-		diplayDuration: 1.5,
-		minPeriod: 15,
-		maxShows: 5
-	    });
-	}else{
-	    if(selectionChg){
-		onToastMsg({
-		    title: "Element selected",
-		    text: "Use CTRL+click to add further objects to selection.",
+	    if(this.prevUidArr.length < 2){
+		this.onToastMsg({
+		    title: "Multiple elements selected",
+		    text: "(note: the software doesn't yet handle multiple object selections...)",
 		    type: "guidance",
 		    diplayDuration: 1.5,
 		    minPeriod: 15,
 		    maxShows: 5
 		});
 	    }
+	}else{
+	    this.onToastMsg({
+		title: "Element selected",
+		text: "Use CTRL+click to add further objects to selection.",
+		type: "guidance",
+		diplayDuration: 1.5,
+		minPeriod: 15,
+		maxShows: 5
+	    });
 	}
 
-	//store UID of selection...
-	const S = options.target;
-	const uidArr = multiple ? _.map( S._objects, 'PGTuid') : [S.PGTuid];
+
 	this.handleMotfUIStateChange(
-	    {fabricSelection: {selectionUID: {$set: uidArr}}}
+	    {fabricSelection: {selectedMElemsUIDArr: {$set: uidArr}}}
 	);
+
+	// retain a reference to what will now be the 'previous' selection, to test for difference.
+	this.prevUidArr = uidArr;
     },
 
     
@@ -101,7 +106,7 @@ var Motf_FabricHandlers = {
     */
     handle_SelectionCleared: function(options) {
 	this.handleMotfUIStateChange(
-	    {fabricSelection: {selectionUID: {$set: []}}}
+	    {fabricSelection: {selectedMElemsUIDArr: {$set: []}}}
 	);
     },
 
@@ -129,8 +134,14 @@ var Motf_FabricHandlers = {
 	this.handleEditingMotfChange = options.handleEditingMotfChange;
 	this.handleMotfUIStateChange = options.handleMotfUIStateChange;
 	
-	// 2. Add Handler: Object:Selected
+	// 2. Add Handler: Object:Selected & selection:created
+	/*
+	  one event catches creation of any Group selection; the other seems to catch only
+	  single item selection and conversion from single to group
+	  using both means same event will sometimes be handled twice, but the handler is robust to this.
+	 */
 	canvas.on('object:selected', this.handle_ObjectSelected.bind(this));
+	canvas.on('selection:created', this.handle_ObjectSelected.bind(this));
 
 	// 3. Add Handler: Object:Modified
 	canvas.on('object:modified', this.handle_ObjectModified.bind(this));
@@ -168,7 +179,7 @@ var Motf_FabricHandlers = {
 	document.removeEventListener("keyup",     this.handle_keyUp_CTRL);
     },
     
-    UpdateCanvas: function(Motf, selectionUID){
+    UpdateCanvas: function(Motf, selectedMElemsUIDArr){
 	const canvas = this.canvas;
 
 	console.log("UpdateCanvas - occured");
@@ -182,26 +193,23 @@ var Motf_FabricHandlers = {
 	});
 
 	// 3. set the correct canvas selection	
-	if(!selectionUID){return;}// nothing selected -> skip step 3...
+	if(!selectedMElemsUIDArr){return;}// nothing selected -> skip step 3...
 
-	if(selectionUID.length === 1){//single selection
-	    const selected_fObj = _.find(canvas.getObjects(), {PGTuid: selectionUID[0]});
+	if(selectedMElemsUIDArr.length === 1){//single selection
+	    const selected_fObj = _.find(canvas.getObjects(), {PGTuid: selectedMElemsUIDArr[0]});
 	    canvas.setActiveObject(selected_fObj);
 
-	}else if(selectionUID.length >= 1){//multi-selection
+	}else if(selectedMElemsUIDArr.length >= 1){//multi-selection
 	    const items = canvas.getObjects();
 	    const group = new fabric.Group();
 	    group.canvas = canvas;
 	    items.forEach((object) => {
-		const testSelection = _.find(selectionUID, object.PGTuid);
-		if(testSelection === undefined){return;}
+		if( ! _.includes(selectedMElemsUIDArr, object.PGTuid) ){return;}
 		group.addWithUpdate(object);
 	    });
 	    canvas.setActiveGroup(group.setCoords());
 
 	}
-
-
 	
     },
 
