@@ -82,7 +82,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 	this.hofHandleUIchange_CC    = this.hofHandleMotfUIStateChange.bind(this, "canvasControls");
 	this.hofHandleUIchange_DT    = this.hofHandleMotfUIStateChange.bind(this, "drawingTools");
 
-	this.editingMotifElemChangeElement = this.editingMotifElemChangeElement.bind(this);
+	this.editingMotifChangeElements = this.editingMotifChangeElements.bind(this);
     }
 
 
@@ -116,24 +116,42 @@ class MainTab_MotfEdit extends React.PureComponent {
     };
 
     // Apply a modification to the Motif under editing.
-    editingMotifElemChangeElement(prop, $chg){
+    editingMotifChangeElements(prop, $chg){
 	const Elems_Selected = this.state.UI.fabricSelection.selectedMElemsUIDArr;
 	if(Elems_Selected.length === 0){return;}// no mutation required if no object selected.
 
+	const splicings = [];
+	const modifications = {};
 	Elems_Selected.forEach( ePGTuid => {
+	    const mElem_index = _.findIndex(this.state.Motf.Elements, {PGTuid: ePGTuid} );
 
-	    const mElem_index = _.findIndex(this.props.Motf.Elements, {PGTuid: ePGTuid} );
-	    
-	    this.handleEditingMotfChange({
-		Elements: {
-		    [mElem_index]: {
-			[prop]: $chg
-		    }
-		}
-	    });
-
+	    if(prop === "delete"){
+		//delete the object
+		splicings.push([mElem_index,1]);
+		
+	    }else{
+		//modify the object
+		modifications[mElem_index] = {[prop]: $chg};
+		
+	    }
 	});
 
+	if(prop === "delete"){
+	    //since object / batch of objects is now deleted, set selection to empty
+	    const sorted_splicings = _.reverse( _.sortBy(splicings, [function(arr) { return arr[0]; }]) );
+	    const $MotfChange = { Elements: {$splice: sorted_splicings} };
+	    const $UIChange =   {fabricSelection: {selectedMElemsUIDArr: {$set: []}}};	    
+	    //make the change in "one hit" of set state
+	    this.setState({
+		Motf: update(this.state.Motf, $MotfChange),
+		UI: update(this.state.UI, $UIChange)
+	    });
+	}else{
+	    this.handleEditingMotfChange({
+		Elements: modifications
+	    });
+	}
+	
 	/*	    
 	 $push: [Motf_util.DatH_NewShape(boundingBox, this.props.DT_UI, this.props.Motf.Elements)]
 	 }});*/
@@ -146,12 +164,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 	    //Delete key pressed...
 	    if(keyCode === 46){
-		/*
-		 this.ActUponFabricSelection(function(fObj, uid){
-		 motifs_edit.deleteMotifElement(uid);
-		 }, {
-		 groupDiscard: true
-		 });*/
+		TS.editingMotifChangeElements("delete");
 		return;
 	    }
 
@@ -163,19 +176,20 @@ class MainTab_MotfEdit extends React.PureComponent {
 	    //an ARROW key pressed...
 	    if((keyCode >= 37)&&(keyCode <= 40)){
 		if(keyCode === 37){ // left arrow 37
-		    TS.editingMotifElemChangeElement("left", {$apply: x=>{return u(x - step);}});
+		    TS.editingMotifChangeElements("left", {$apply: x=>{return u(x - step);}});
 		}else if(keyCode === 38){ // up arrow 38
-		    TS.editingMotifElemChangeElement("top",  {$apply: x=>{return u(x - step);}});
+		    TS.editingMotifChangeElements("top",  {$apply: x=>{return u(x - step);}});
 		}else if(keyCode === 39){ // right arrow 39
-		    TS.editingMotifElemChangeElement("left", {$apply: x=>{return u(x + step);}});
+		    TS.editingMotifChangeElements("left", {$apply: x=>{return u(x + step);}});
 		}else if(keyCode === 40){ // down arrow 40 
-		    TS.editingMotifElemChangeElement("top",  {$apply: x=>{return u(x + step);}});
+		    TS.editingMotifChangeElements("top",  {$apply: x=>{return u(x + step);}});
 		}
 	    }
 	});
     }
     
     render(){
+	console.log("MainTab_MotfEdit - render()");
 	return (
 
 	    <div className="MainTab_MotfEdit">
