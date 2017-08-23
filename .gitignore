@@ -1,6 +1,5 @@
 
-# Things not to list as untracked files, since I will never plan to commit to the
-# snatch-it source code repository
+# Files not to track, for Pattern Generation Tool project
 
 TAGS
 #icons/
@@ -11,10 +10,6 @@ deploy.sh
 react-PGT-launch.sh
 *.*~
 *#*.*#
-
-public/include/jquery-1.11.1.js
-public/include/socket.io-1.2.0.js
-public/sandbox/
 
 
 react-pgt/.gitignore
@@ -29,3 +24,7 @@ react-pgt/deploy-react.sh
 *.ods
 *.sh
 *.ico
+
+
+# external libraries - don't need to be tracked
+react-pgt/public/css/Wg/jcolor.min.css
