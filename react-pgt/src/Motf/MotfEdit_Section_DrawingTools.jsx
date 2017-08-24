@@ -13,7 +13,8 @@ import iconTriangle from './asset/shape-icon-triangle.png';
 import iconHexagon from './asset/shape-icon-hexagon.png';
 import iconLine from './asset/shape-icon-line.png';
 
-import Img_hookArrowRight from './../asset/hook-arrow-right.png';
+import Img_angledArrowRight from './../asset/angled-arrow-right.png';
+import Img_angledArrowUp from './../asset/angled-arrow-up.png';
 
 
 const toastStrings = {
@@ -127,10 +128,17 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 			       color={UI[k]}
 			       onMove={this.hofHandleColourMove(k)}/>
 			    <div className={"hold-feature"}>
-			    <img className="Img_hookArrowRight"
-				 src={Img_hookArrowRight}
-				 alt=""/>
-			    <div className="tiny-daub"/>
+
+			      <img className="angledArrow right"
+				   src={Img_angledArrowRight}
+				   alt=""/>
+
+			      <div className="tiny-daub"/>
+
+			      <img className="angledArrow Up"
+				   src={Img_angledArrowUp}
+				   alt=""/>
+
 			    </div>
 			  </div>
 		      );
