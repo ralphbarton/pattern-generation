@@ -56,10 +56,10 @@ class TogglingButton extends React.PureComponent {
 
 class MotfEdit_Section_DrawingTools extends React.PureComponent {
 
-    // constructor is temporary
     constructor() {
 	super();
 	this.hofHandleColourMove = this.hofHandleColourMove.bind(this);
+	this.extractSelectionColor = this.extractSelectionColor.bind(this);
     }
 
 
@@ -72,6 +72,13 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 		}
 	    });
 	};
+    }
+
+    extractSelectionColor(k){
+	const selectionUIDArr = this.props.FS_UI.selectedMElemsUIDArr;
+	if(selectionUIDArr.length === 0){return null;}// no mutation required if no object selected.
+	const mElem_Selected = _.find(this.props.Motf.Elements, {PGTuid: selectionUIDArr[0]} );
+	return mElem_Selected[k];
     }
     
     render(){
@@ -120,26 +127,30 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 
 		<div className="colourPickers">
 		  { _.map({"fill": "Fill", stroke: "Outline"}, (v,k)=>{
+		      const selectionColor = this.extractSelectionColor(k);
 		      return (
 			  <div className={v} key={v}>
 			    <div className={"title"}>{v}</div>
 			    <WgMiniColourPicker
 			       className={k}
-			       color={UI[k]}
+			       color={ selectionColor || UI[k]}
 			       onMove={this.hofHandleColourMove(k)}/>
-			    <div className={"hold-feature"}>
+
+			    {selectionColor !== null && 			    
+			    <div className="hold-feature">
 
 			      <img className="angledArrow right"
 				   src={Img_angledArrowRight}
 				   alt=""/>
-
-			      <div className="tiny-daub"/>
-
+			      
+			      <div className="tiny-daub" style={{background: UI[k]}}/>
+			      
 			      <img className="angledArrow Up"
 				   src={Img_angledArrowUp}
 				   alt=""/>
-
+			      
 			    </div>
+			    }
 			  </div>
 		      );
 		  })

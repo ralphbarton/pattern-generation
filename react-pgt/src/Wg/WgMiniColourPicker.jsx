@@ -7,8 +7,13 @@ RegisterJcolorPlugin($);// initialise
 import tinycolor from 'tinycolor2'; // for colour interpretation...
 
 class WgMiniColourPicker extends React.PureComponent {
+
+    constructor() {
+	super();
+	this.initialisePicker = this.initialisePicker.bind(this);
+    }
     
-    componentDidMount() {
+    initialisePicker(){
 	this.$el = $(this.pickerDiv);
 	const C = tinycolor(this.props.color).toRgb();
 	this.$el.colorpicker({
@@ -19,13 +24,25 @@ class WgMiniColourPicker extends React.PureComponent {
 	this.$el.on('newcolor', (ev, colorpicker) => {
 	    this.props.onMove(colorpicker.toCssString());
 	});
-
+    }
+    
+    componentDidMount() {
+	this.initialisePicker();
     }
 
     componentWillUnmount() {
 	this.$el.colorpicker().destroy();
     }
 
+    shouldComponentUpdate(nextProps){
+	return nextProps.color  !== this.props.color;
+    }
+    
+    componentDidUpdate(){
+	this.$el.colorpicker().destroy();	
+	this.initialisePicker();
+    }
+    
     render(){	
 	return (
 	    <div className={"WgMiniColourPicker " + (this.props.className||"")}

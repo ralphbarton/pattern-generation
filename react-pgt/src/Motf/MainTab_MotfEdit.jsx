@@ -237,7 +237,9 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 		  {/* >> Drawing Tools */}
 		  <MotfEdit_Section_DrawingTools
+		     Motf={this.state.Motf}//extract colours from selected element...
 		     DT_UI={this.state.UI.drawingTools}
+		     FS_UI={this.state.UI.fabricSelection}
 		     hofHandleUIchange_DT={this.hofHandleUIchange_DT} // action link
 		     handleMotfUIStateChange={this.handleMotfUIStateChange} // set 'DT_UI.fill' etc. to a non-fixed colour
 		     onToastMsg={this.props.onToastMsg}
