@@ -27,4 +27,10 @@ react-pgt/deploy-react.sh
 
 
 # external libraries - don't need to be tracked
-react-pgt/public/css/Wg/jcolor.min.css
+
+react-pgt/src/Wg/jcolor/
+react-pgt/public/css/Wg/jcolor/
+
+sandbox/
+
+	

@@ -3,6 +3,7 @@ import React from 'react';
 import WgBoxie from '../Wg/WgBoxie';
 import {WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import WgSpecialButton from '../Wg/WgSpecialButton';
+import WgMiniColourPicker from '../Wg/WgMiniColourPicker';
 
 // import image-icon assets...
 import iconEllipse from './asset/shape-icon-ellipse.png';
@@ -10,11 +11,6 @@ import iconRect from './asset/shape-icon-rectangle.png';
 import iconTriangle from './asset/shape-icon-triangle.png';
 import iconHexagon from './asset/shape-icon-hexagon.png';
 import iconLine from './asset/shape-icon-line.png';
-
-
-import jcolor from './jcolor-unmin.js';
-import $ from "jquery";
-jcolor($);// initialise
 
 
 const toastStrings = {
@@ -55,12 +51,13 @@ class TogglingButton extends React.PureComponent {
 
 
 class MotfEdit_Section_DrawingTools extends React.PureComponent {
-    
-    componentDidMount() {
-	this.$el = $(this.pickerDiv);
-	this.$el.colorpicker();
-    }
 
+    // constructor is temporary
+    constructor() {
+	super();
+	this.state = {};
+    }
+    
     render(){
 	const UI = this.props.DT_UI;
 	const selShape = this.props.DT_UI.shape;
@@ -105,11 +102,11 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 		  
 		</div>
 
-
-		<div
-		   ref={ el => {this.pickerDiv = el;}}
-		  />
-		
+		<div className="colourPickers" style={{background: this.state.bg}}>
+		  <WgMiniColourPicker className="fill" color="cyan"/>
+		  <WgMiniColourPicker className="outl" color="blue" onMove={ x=>{this.setState({bg: x});}}/>
+		</div>
+		  
 	    </WgBoxie>
 	);
     }

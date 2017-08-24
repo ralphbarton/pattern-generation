@@ -23,3 +23,20 @@
     position: relative;
     width: 18px;
 }
+
+
+
+
+/*
+    Customisations to Colour Pickers...
+*/
+
+.colourPickers .colorpicker .maximize-wrapper {
+    padding: 0;
+    transition: padding 0.5s, border-radius 0.5s;
+}
+
+.colourPickers .colorpicker.expanded .maximize-wrapper {
+    padding: 0.4em;
+    box-shadow: 0 .07em .4em rgba(0,0,0,.8);
+}
