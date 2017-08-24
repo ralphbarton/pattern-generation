@@ -144,7 +144,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		       return (
 			   <div>
 			     <div>
-			       <h1>Groups shown:</h1>
+			       <h1>Property Groups</h1>
 
 			       <img className="closeIcon"
 				    src={closeIcon}

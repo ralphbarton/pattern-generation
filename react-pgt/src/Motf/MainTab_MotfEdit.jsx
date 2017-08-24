@@ -239,6 +239,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		  <MotfEdit_Section_DrawingTools
 		     DT_UI={this.state.UI.drawingTools}
 		     hofHandleUIchange_DT={this.hofHandleUIchange_DT} // action link
+		     handleMotfUIStateChange={this.handleMotfUIStateChange} // set 'DT_UI.fill' etc. to a non-fixed colour
 		     onToastMsg={this.props.onToastMsg}
 		     />
 

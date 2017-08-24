@@ -55,7 +55,19 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
     // constructor is temporary
     constructor() {
 	super();
-	this.state = {};
+	this.hofHandleColourMove = this.hofHandleColourMove.bind(this);
+    }
+
+
+    hofHandleColourMove(k){
+	const TS = this;
+	return function (v){
+	    TS.props.handleMotfUIStateChange({
+		drawingTools: {
+		    [k]: {$set: v}
+		}
+	    });
+	};
     }
     
     render(){
@@ -102,9 +114,9 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 		  
 		</div>
 
-		<div className="colourPickers" style={{background: this.state.bg}}>
-		  <WgMiniColourPicker className="fill" color="cyan"/>
-		  <WgMiniColourPicker className="outl" color="blue" onMove={ x=>{this.setState({bg: x});}}/>
+		<div className="colourPickers">
+		  <WgMiniColourPicker className="fill" color={UI.fill}   onMove={this.hofHandleColourMove("fill")}/>
+		  <WgMiniColourPicker className="outl" color={UI.stroke} onMove={this.hofHandleColourMove("stroke")}/>
 		</div>
 		  
 	    </WgBoxie>

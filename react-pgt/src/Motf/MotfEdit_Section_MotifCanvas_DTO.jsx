@@ -129,8 +129,8 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 
 	// _.pick(E, ["fill", "stroke", "stroke-width"])// extract props programatically...
 	const forgroundShapeStyle = {
-	    fill: "yellow",
-	    stroke: "red",
+	    fill: this.props.DT_UI.fill,
+	    stroke: this.props.DT_UI.stroke,
 	    "stroke-width": 1,
 	    "stroke-dasharray": [1]
 	};
