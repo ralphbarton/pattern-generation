@@ -1,4 +1,5 @@
 import React from 'react';
+var _ = require('lodash');
 
 import WgBoxie from '../Wg/WgBoxie';
 import {WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
@@ -11,6 +12,8 @@ import iconRect from './asset/shape-icon-rectangle.png';
 import iconTriangle from './asset/shape-icon-triangle.png';
 import iconHexagon from './asset/shape-icon-hexagon.png';
 import iconLine from './asset/shape-icon-line.png';
+
+import Img_hookArrowRight from './../asset/hook-arrow-right.png';
 
 
 const toastStrings = {
@@ -115,8 +118,24 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 		</div>
 
 		<div className="colourPickers">
-		  <WgMiniColourPicker className="fill" color={UI.fill}   onMove={this.hofHandleColourMove("fill")}/>
-		  <WgMiniColourPicker className="outl" color={UI.stroke} onMove={this.hofHandleColourMove("stroke")}/>
+		  { _.map({"fill": "Fill", stroke: "Outline"}, (v,k)=>{
+		      return (
+			  <div className={v} key={v}>
+			    <div className={"title"}>{v}</div>
+			    <WgMiniColourPicker
+			       className={k}
+			       color={UI[k]}
+			       onMove={this.hofHandleColourMove(k)}/>
+			    <div className={"hold-feature"}>
+			    <img className="Img_hookArrowRight"
+				 src={Img_hookArrowRight}
+				 alt=""/>
+			    <div className="tiny-daub"/>
+			    </div>
+			  </div>
+		      );
+		  })
+		  }
 		</div>
 		  
 	    </WgBoxie>

@@ -52,7 +52,7 @@ function WgSpecialButton(props) {
 
     
     return (
-	<WgButton className={"WgSpecialButton " + props.className + " " + props.iconName}
+	<WgButton className={"WgSpecialButton " + (props.className||"") + " " + (props.iconName||"")}
 		  enabled={props.enabled}
 		  onClick={props.onClick}
 		  name={getBtnjsx(props.iconName)}
