@@ -147,13 +147,13 @@ class MainTab_MotfEdit extends React.PureComponent {
 	    if((keyCode >= 37)&&(keyCode <= 40)){
 		var $chg = {};
 		if(keyCode === 37){ // left arrow 37
-		    $chg = ChangeBySelection(Motf, Selection, "left", {$apply: x=>{return u(x - step);}});
+		    $chg = ChangeBySelection(Motf, Selection, {"left": {$apply: x=>{return u(x - step);}}});
 		}else if(keyCode === 38){ // up arrow 38
-		    $chg = ChangeBySelection(Motf, Selection, "top",  {$apply: x=>{return u(x - step);}});
+		    $chg = ChangeBySelection(Motf, Selection, {"top":  {$apply: x=>{return u(x - step);}}});
 		}else if(keyCode === 39){ // right arrow 39
-		    $chg = ChangeBySelection(Motf, Selection, "left", {$apply: x=>{return u(x + step);}});
+		    $chg = ChangeBySelection(Motf, Selection, {"left": {$apply: x=>{return u(x + step);}}});
 		}else if(keyCode === 40){ // down arrow 40 
-		    $chg = ChangeBySelection(Motf, Selection, "top",  {$apply: x=>{return u(x + step);}});
+		    $chg = ChangeBySelection(Motf, Selection, {"top":  {$apply: x=>{return u(x + step);}}});
 		}
 
 		//Apply a bunch of changes in one hit:

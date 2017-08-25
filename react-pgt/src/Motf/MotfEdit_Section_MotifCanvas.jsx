@@ -46,8 +46,9 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 
     
     componentDidUpdate(){
-	//send updated UI state into "Motf_FabricHandlers"
-	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
+	// send updated UI state into "Motf_FabricHandlers"
+	// Fabric Event Handlers need to know the grid size to manage snapping behaviour. This is why this data must be passed.
+	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI); 
 	
 	Motf_FabricHandlers.UpdateCanvas(this.props.Motf, this.props.FS_UI.selectedMElemsUIDArr);
     }

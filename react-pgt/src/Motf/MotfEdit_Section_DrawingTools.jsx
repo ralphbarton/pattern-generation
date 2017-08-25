@@ -1,10 +1,14 @@
 import React from 'react';
 var _ = require('lodash');
 
+import Motf_util from './plain-js/Motf_util';
+
+
 import WgBoxie from '../Wg/WgBoxie';
 import {WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import WgSpecialButton from '../Wg/WgSpecialButton';
 import WgMiniColourPicker from '../Wg/WgMiniColourPicker';
+
 
 // import image-icon assets...
 import iconEllipse from './asset/shape-icon-ellipse.png';
@@ -60,26 +64,59 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 	super();
 	this.hofHandleColourMove = this.hofHandleColourMove.bind(this);
 	this.extractSelectionColor = this.extractSelectionColor.bind(this);
+	this.setToolboxColour = this.setToolboxColour.bind(this);
+	this.setMotfSelectionColour = this.setMotfSelectionColour.bind(this);
     }
 
+    // in all these functions below, the variable 'k' will be either 'fill' or 'stroke'
+    setToolboxColour(k,v){
+	this.props.handleMotfUIStateChange({
+	    drawingTools: {
+		[k]: {$set: v}
+	    }
+	});
+    }
+
+    setMotfSelectionColour(k,v){
+	const Motf = this.props.Motf;
+	const Selection = this.props.FS_UI.selectedMElemsUIDArr;
+	const ChangeBySelection = Motf_util.$ChgObj_ChangeMotfBySelection;
+	
+	const $chg = ChangeBySelection(Motf, Selection, {[k]: {$set: v}});
+	//Apply a bunch of changes in one hit:
+	this.props.handleEditingMotfChange($chg);
+    }
 
     hofHandleColourMove(k, selectionColor){
 	const TS = this;
 	return function (v){
 	    if(!selectionColor){
 		//Case 1: no shape is selected (or at least, no colour picked up from it)
-		TS.props.handleMotfUIStateChange({
-		    drawingTools: {
-			[k]: {$set: v}
-		    }
-		});
+		TS.setToolboxColour(k,v);
 	    }else{
 		//Case 2: a shape is selected. Change the colour via motif
-		const mElem_Selected = _.find(TS.props.Motf.Elements, {PGTuid: TS.props.FS_UI.selectedMElemsUIDArr[0]} );
-
-		// TODO: fill in this function body...
+		TS.setMotfSelectionColour(k,v);
 	    }
 	};
+    }
+
+    hofHandleColourHoldClick(type, k, selectionColor){
+	const TS = this;
+	return function (){
+	    switch(type) {
+	    case "pull": // store the m-elem colour into the Toolbox
+		TS.setToolboxColour(k, selectionColor);
+		break;
+	    case "push": // apply the stored toolbox colour to the m-elem
+		TS.setMotfSelectionColour(k, TS.props.DT_UI[k]);
+		break;
+	    default: // swap stored and the active colour
+
+		//does this cause multiple re-renders? Does that matter?
+		TS.setToolboxColour(k, selectionColor);
+		TS.setMotfSelectionColour(k, TS.props.DT_UI[k]);
+	    }
+	}
     }
 
     extractSelectionColor(k){
@@ -144,18 +181,26 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 			       color={ selectionColor || UI[k]}
 			       onMove={this.hofHandleColourMove(k, selectionColor)}/>
 
-			    {selectionColor !== null && 			    
+			    {selectionColor !== null &&
 			    <div className="hold-feature">
 
 			      <img className="angledArrow right"
 				   src={Img_angledArrowRight}
-				   alt=""/>
+				   alt=""
+				   onClick={this.hofHandleColourHoldClick("pull", k, selectionColor)}
+				   />
 			      
-			      <div className="tiny-daub" style={{background: UI[k]}}/>
+			      <div className="tiny-daub chequer"
+				   onClick={this.hofHandleColourHoldClick("swap", k, selectionColor)}
+				   >
+				<div className="fill" style={{background: UI[k]}}/>
+			      </div>
 			      
 			      <img className="angledArrow Up"
 				   src={Img_angledArrowUp}
-				   alt=""/>
+				   alt=""
+				   onClick={this.hofHandleColourHoldClick("push", k, selectionColor)}
+				   />
 			      
 			    </div>
 			    }

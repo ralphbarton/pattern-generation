@@ -211,11 +211,13 @@ var Motf_util = {
 	}
 
 
-	
+	// generate a new PGTuid. There may be no objects, in which case a value of 0 is used.
+	const mElemMax = _.maxBy(ExistingElements, 'PGTuid');
+	const newPGTuid = mElemMax ? (mElemMax.PGTuid + 1) : 0;
 	
 	return _.extend(
 	    {
-		PGTuid: (_.maxBy(ExistingElements, 'PGTuid').PGTuid +1),// one greater than largest found
+		PGTuid: newPGTuid,// one greater than largest found
 	    },
 	    pos_size_Obj,
 	    _.pick(DT_UI, ["shape", "fill", "stroke"])
@@ -223,18 +225,20 @@ var Motf_util = {
     },
 
     /*
-      This function is to apply changes to the Motif. Specifically to change objects that are selected within the Motif.
+      This function is to apply a Change to Motif Element(s).
+      The change may be occur on single or multiple elements, depending on what is selected.
       It will return a "changes object", which can be used update the Motif data using the immutable-helper "update" function.
       
-      The argument '$change' passed in is applied to the corresponding value.
-      It may be a $set command or an $apply command.
+      The argument '$change' passed is an object of the format:
+      Change = {mElem_property: {$set: 235}}
 
-      In the special case where property passed is the string "delete", no $change is passed and selected elements
-      will be spliced out of the motif.
+      Alternatively:
+      Change = "delete"
+      In this case, the objects contained in the selection will be "spliced out" of the motif.
      */
-    $ChgObj_ChangeMotfBySelection: function(Motf, selectedMElemsUIDArr, property, $change){
+    $ChgObj_ChangeMotfBySelection: function(Motf, selectedMElemsUIDArr, Change){
 
-	if(selectedMElemsUIDArr.length === 0){return null;}// no mutation required if no object selected.
+	if(selectedMElemsUIDArr.length === 0){return {};}// no mutation required if no object selected.
 
 	const splicings = [];
 	const modifications = {};
@@ -243,19 +247,15 @@ var Motf_util = {
 	selectedMElemsUIDArr.forEach( ePGTuid => {
 	    const mElem_index = _.findIndex(Motf.Elements, {PGTuid: ePGTuid} );
 
-	    if(property === "delete"){
-		//delete the object
-		splicings.push([mElem_index,1]);
-		
+	    if(Change === "delete"){
+		splicings.push([mElem_index,1]); //delete the object
 	    }else{
-		//modify the object
-		modifications[mElem_index] = {[property]: $change};
-		
+		modifications[mElem_index] = Change; //modify the object
 	    }
 	});
 
 	// 2. Return the "changes object"
-	if(property === "delete"){
+	if(Change === "delete"){
 	    //since object / batch of objects is now deleted, set selection to empty
 	    const sorted_splicings = _.reverse( _.sortBy(splicings, [function(arr) { return arr[0]; }]) );
 	    return { Elements: {$splice: sorted_splicings }};
