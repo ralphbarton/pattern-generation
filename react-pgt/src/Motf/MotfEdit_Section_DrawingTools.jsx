@@ -63,14 +63,22 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
     }
 
 
-    hofHandleColourMove(k){
+    hofHandleColourMove(k, selectionColor){
 	const TS = this;
 	return function (v){
-	    TS.props.handleMotfUIStateChange({
-		drawingTools: {
-		    [k]: {$set: v}
-		}
-	    });
+	    if(!selectionColor){
+		//Case 1: no shape is selected (or at least, no colour picked up from it)
+		TS.props.handleMotfUIStateChange({
+		    drawingTools: {
+			[k]: {$set: v}
+		    }
+		});
+	    }else{
+		//Case 2: a shape is selected. Change the colour via motif
+		const mElem_Selected = _.find(this.props.Motf.Elements, {PGTuid: TS.props.FS_UI.selectedMElemsUIDArr[0]} );
+
+		// TODO: fill in this function body...
+	    }
 	};
     }
 
@@ -134,7 +142,7 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 			    <WgMiniColourPicker
 			       className={k}
 			       color={ selectionColor || UI[k]}
-			       onMove={this.hofHandleColourMove(k)}/>
+			       onMove={this.hofHandleColourMove(k, selectionColor)}/>
 
 			    {selectionColor !== null && 			    
 			    <div className="hold-feature">

@@ -16,6 +16,7 @@ import MotfEdit_Section_DrawingTools from './MotfEdit_Section_DrawingTools';
 import MotfEdit_Section_MotifCanvas from './MotfEdit_Section_MotifCanvas';
 import MotfEdit_Section_AdvancedFeatures from './MotfEdit_Section_AdvancedFeatures';
 
+import Motf_util from './plain-js/Motf_util';
 import Motf_lists from './plain-js/Motf_lists'; // used only for grid sizes
 import Motf_FabricHandlers from './plain-js/Motf_FabricHandlers'; // this is getting messy now, but snap handlers are in here...
 
@@ -81,8 +82,6 @@ class MainTab_MotfEdit extends React.PureComponent {
 	this.handleMotfUIStateChange = this.handleMotfUIStateChange.bind(this);
 	this.hofHandleUIchange_CC    = this.hofHandleMotfUIStateChange.bind(this, "canvasControls");
 	this.hofHandleUIchange_DT    = this.hofHandleMotfUIStateChange.bind(this, "drawingTools");
-
-	this.editingMotifChangeElements = this.editingMotifChangeElements.bind(this);
     }
 
 
@@ -115,56 +114,27 @@ class MainTab_MotfEdit extends React.PureComponent {
 	};
     };
 
-    // Apply a modification to the Motif under editing.
-    editingMotifChangeElements(prop, $chg){
-	const Elems_Selected = this.state.UI.fabricSelection.selectedMElemsUIDArr;
-	if(Elems_Selected.length === 0){return;}// no mutation required if no object selected.
-
-	const splicings = [];
-	const modifications = {};
-	Elems_Selected.forEach( ePGTuid => {
-	    const mElem_index = _.findIndex(this.state.Motf.Elements, {PGTuid: ePGTuid} );
-
-	    if(prop === "delete"){
-		//delete the object
-		splicings.push([mElem_index,1]);
-		
-	    }else{
-		//modify the object
-		modifications[mElem_index] = {[prop]: $chg};
-		
-	    }
-	});
-
-	if(prop === "delete"){
-	    //since object / batch of objects is now deleted, set selection to empty
-	    const sorted_splicings = _.reverse( _.sortBy(splicings, [function(arr) { return arr[0]; }]) );
-	    const $MotfChange = { Elements: {$splice: sorted_splicings} };
-	    const $UIChange =   {fabricSelection: {selectedMElemsUIDArr: {$set: []}}};	    
-	    //make the change in "one hit" of set state
-	    this.setState({
-		Motf: update(this.state.Motf, $MotfChange),
-		UI: update(this.state.UI, $UIChange)
-	    });
-	}else{
-	    this.handleEditingMotfChange({
-		Elements: modifications
-	    });
-	}
-	
-	/*	    
-	 $push: [Motf_util.DatH_NewShape(boundingBox, this.props.DT_UI, this.props.Motf.Elements)]
-	 }});*/
-    }
 
     // add keyboard listeners when component mounts
     componentDidMount(){
 	const TS = this;
 	this.props.kb.setKeyDownHandler(function(keyCode, keysState){
 
+	    // Pick out these data and give abbreviated names...
+	    const Motf = TS.state.Motf;
+	    const Selection = TS.state.UI.fabricSelection.selectedMElemsUIDArr;
+	    const ChangeBySelection = Motf_util.$ChgObj_ChangeMotfBySelection;
+	    
 	    //Delete key pressed...
 	    if(keyCode === 46){
-		TS.editingMotifChangeElements("delete");
+
+		//make the change in "one hit" of set state
+		const $chg = ChangeBySelection(Motf, Selection, "delete");
+		TS.setState({
+		    Motf: update(Motf, $chg),
+		    UI: update(TS.state.UI, {fabricSelection: {selectedMElemsUIDArr: {$set: []}}})//simply clear selection
+		});
+
 		return;
 	    }
 
@@ -175,18 +145,23 @@ class MainTab_MotfEdit extends React.PureComponent {
 
 	    //an ARROW key pressed...
 	    if((keyCode >= 37)&&(keyCode <= 40)){
+		var $chg = {};
 		if(keyCode === 37){ // left arrow 37
-		    TS.editingMotifChangeElements("left", {$apply: x=>{return u(x - step);}});
+		    $chg = ChangeBySelection(Motf, Selection, "left", {$apply: x=>{return u(x - step);}});
 		}else if(keyCode === 38){ // up arrow 38
-		    TS.editingMotifChangeElements("top",  {$apply: x=>{return u(x - step);}});
+		    $chg = ChangeBySelection(Motf, Selection, "top",  {$apply: x=>{return u(x - step);}});
 		}else if(keyCode === 39){ // right arrow 39
-		    TS.editingMotifChangeElements("left", {$apply: x=>{return u(x + step);}});
+		    $chg = ChangeBySelection(Motf, Selection, "left", {$apply: x=>{return u(x + step);}});
 		}else if(keyCode === 40){ // down arrow 40 
-		    TS.editingMotifChangeElements("top",  {$apply: x=>{return u(x + step);}});
+		    $chg = ChangeBySelection(Motf, Selection, "top",  {$apply: x=>{return u(x + step);}});
 		}
+
+		//Apply a bunch of changes in one hit:
+		TS.handleEditingMotfChange($chg);
 	    }
 	});
     }
+
     
     render(){
 	console.log("MainTab_MotfEdit - render()");
@@ -242,6 +217,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		     FS_UI={this.state.UI.fabricSelection}
 		     hofHandleUIchange_DT={this.hofHandleUIchange_DT} // action link
 		     handleMotfUIStateChange={this.handleMotfUIStateChange} // set 'DT_UI.fill' etc. to a non-fixed colour
+		     handleEditingMotfChange={this.handleEditingMotfChange} // set colour changes within Motif
 		     onToastMsg={this.props.onToastMsg}
 		     />
 
