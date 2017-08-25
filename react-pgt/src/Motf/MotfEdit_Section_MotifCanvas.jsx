@@ -33,7 +33,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	
 	const c2 = nextProps.CC_UI !== this.props.CC_UI; // i.e. change to the background or underlying grid
 	const c3 = nextProps.MS_UI !== this.props.MS_UI; // because 'Draw Tool Overlay' needs to know when mouse enters canvas
-	const c4 = nextProps.DT_UI !== this.props.DT_UI; // 'Draw Tool Overlay' needs to know selected Tool...
+	const c4 = nextProps.DT_UI.shape !== this.props.DT_UI.shape; // 'Draw Tool Overlay' needs to know selected Tool...
 
 	const PropsListEvent = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
 	const selChg = !_.isEqual(nextProps.FS_UI.selectedMElemsUIDArr, this.props.FS_UI.selectedMElemsUIDArr);

@@ -47,7 +47,8 @@
 }
 
 .colourPickers .colorpicker{
-    text-align: center;
+    text-align: left; /* v. important to override this back vs. parent component*/
+    /* otherwise, slider placement becomes distorted. */
     position: relative;
     left: 5px;
 }

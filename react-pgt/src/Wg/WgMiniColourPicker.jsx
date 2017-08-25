@@ -11,6 +11,8 @@ class WgMiniColourPicker extends React.PureComponent {
     constructor() {
 	super();
 	this.initialisePicker = this.initialisePicker.bind(this);
+
+	this.blockRerenderTimeoutID = null;
     }
     
     initialisePicker(){
@@ -22,6 +24,15 @@ class WgMiniColourPicker extends React.PureComponent {
 
 	//link the callback provided via React to the plugin's own colour change event
 	this.$el.on('newcolor', (ev, colorpicker) => {
+
+	    // this is a Hacky approach to prevent unwanted re-renders when component triggers change to its own prop!
+	    // take action BEFORE the executing the callback which will change state!
+	    clearTimeout(this.blockRerenderTimeoutID);
+	    this.blockRerenderTimeoutID = setTimeout( ()=>{
+		this.blockRerenderTimeoutID = null;
+	    }, 100);
+
+	    //this function call may actually itself call re-render before terminating...
 	    this.props.onMove(colorpicker.toCssString());
 	});
     }
@@ -35,7 +46,7 @@ class WgMiniColourPicker extends React.PureComponent {
     }
 
     shouldComponentUpdate(nextProps){
-	return nextProps.color  !== this.props.color;
+	return nextProps.color  !== this.props.color && (this.blockRerenderTimeoutID === null);
     }
     
     componentDidUpdate(){

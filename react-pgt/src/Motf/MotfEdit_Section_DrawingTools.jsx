@@ -75,7 +75,7 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 		});
 	    }else{
 		//Case 2: a shape is selected. Change the colour via motif
-		const mElem_Selected = _.find(this.props.Motf.Elements, {PGTuid: TS.props.FS_UI.selectedMElemsUIDArr[0]} );
+		const mElem_Selected = _.find(TS.props.Motf.Elements, {PGTuid: TS.props.FS_UI.selectedMElemsUIDArr[0]} );
 
 		// TODO: fill in this function body...
 	    }
