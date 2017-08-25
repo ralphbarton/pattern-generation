@@ -8,6 +8,12 @@ import WgFadeTransition from '../Wg/WgFadeTransition';
 
 import Motf_lists from './plain-js/Motf_lists'; // used only for grid sizes
 
+
+import Img_shapeOrigin1 from './asset/shape-origin-1.png';
+import Img_shapeOrigin2 from './asset/shape-origin-2.png';
+import Img_shapeOrigin3 from './asset/shape-origin-3.png';
+
+
 class MotfEdit_sub_mCoords extends React.PureComponent {
 
     constructor() {
@@ -232,7 +238,31 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		     name="Object Origin"
 		     className="objectOrigin"
 		     ddStyle="plain">
-		    AAA
+
+		    <div className="shapeOrigin v1">
+		      <div>Center</div>
+		      <img src={Img_shapeOrigin1}
+			   alt=""
+			   />
+		    </div>
+
+		    <div className="shapeOrigin v2">
+		      <div>Top-Left</div>
+		      <div className="sub-h">(ignore outline)</div>
+		      <img src={Img_shapeOrigin2}
+			   alt=""
+			   />
+		    </div>
+
+		    <div className="shapeOrigin v3 selected">
+		      <div>Top-Left</div>
+		      <div className="sub-h">(outside outline)</div>
+		      <img src={Img_shapeOrigin3}
+			   alt=""
+			   />
+		    </div>
+
+
 		  </WgDropDown>
 		    
 		  {/* Mouse Coordinates */}

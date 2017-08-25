@@ -111,8 +111,54 @@
 }
 
 
+
+
+
 /* Dropdown: 3. Position */
 .MainTab_MotfEdit .canvasControls .objectOrigin{
     margin-top: 5px;
     margin-left: 92px;
+}
+
+/* Dropdown: 3. Custom styles for DropDown contents */
+.MainTab_MotfEdit .canvasControls .objectOrigin .dropdown-content{
+    display: block;
+    width: 110px;
+    left: -38px;
+    text-align: center;
+}
+
+.MainTab_MotfEdit .canvasControls .objectOrigin .shapeOrigin{
+    padding-right: 5px;
+    padding-bottom: 5px;
+    opacity: 0.6;
+    border: 3px solid transparent;
+    border-radius: 4px;
+    margin: 2px 4px;
+}
+
+.MainTab_MotfEdit .canvasControls .objectOrigin .shapeOrigin:hover{
+    border: 3px solid rgba(39, 58, 124, 0.75);
+    background: rgba(39, 58, 124, 0.03);
+        opacity: 0.7;
+}
+
+.MainTab_MotfEdit .canvasControls .objectOrigin .shapeOrigin.selected{
+    opacity: 1;
+    background: rgba(39, 58, 124, 0.2);
+}
+
+.MainTab_MotfEdit .canvasControls .objectOrigin .shapeOrigin:last-child{
+    padding-bottom: 3px;
+}
+
+.MainTab_MotfEdit .canvasControls .objectOrigin img{
+    margin-top: 2px;
+    opacity: 0.5;
+}
+
+.MainTab_MotfEdit .canvasControls .objectOrigin .sub-h{
+    font-weight: bold;
+    font-size: 10px;
+    opacity: 0.8;
 }
