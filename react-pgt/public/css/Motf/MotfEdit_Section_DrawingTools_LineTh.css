@@ -1,0 +1,26 @@
+/* MotfEdit_Section_DrawingTools_LineTh.css */
+
+
+.MainTab_MotfEdit .drawingTools .LineTh{
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+}
+
+.MainTab_MotfEdit .drawingTools .LineTh > .button{
+    height: 20px;
+    width: 85%;
+    padding: 0px;
+    margin: 6px;
+    position: relative;
+}
+
+.MainTab_MotfEdit .drawingTools .LineTh .text{
+    position: absolute;
+    top: 4px;
+    left: 2px;
+}
+
+.MainTab_MotfEdit .drawingTools .LineTh svg{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}

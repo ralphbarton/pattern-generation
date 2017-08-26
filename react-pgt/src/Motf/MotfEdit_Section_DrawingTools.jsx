@@ -7,6 +7,7 @@ import {WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import WgSpecialButton from '../Wg/WgSpecialButton';
 
 import MotfEdit_Section_DrawingTools_ColPick from './MotfEdit_Section_DrawingTools_ColPick';
+import MotfEdit_Section_DrawingTools_LineTh from './MotfEdit_Section_DrawingTools_LineTh';
 
 // import image-icon assets...
 import iconEllipse from './asset/shape-icon-ellipse.png';
@@ -98,6 +99,14 @@ class MotfEdit_Section_DrawingTools extends React.PureComponent {
 				  onToastMsg={this.props.onToastMsg}/>
 		  
 		</div>
+
+		<MotfEdit_Section_DrawingTools_LineTh
+		   Motf={this.props.Motf}// extract stroke thickness from selected element...
+		   DT_UI={this.props.DT_UI} // "Toolbox own" stroke thickness
+		   FS_UI={this.props.FS_UI} // Selection
+		   handleMotfUIStateChange={this.props.handleMotfUIStateChange} // set "Toolbox own" stroke thickness
+		   handleEditingMotfChange={this.props.handleEditingMotfChange} // set stroke thickness within Motif
+		   />
 
 		<MotfEdit_Section_DrawingTools_ColPick
 		   Motf={this.props.Motf}//extract colours from selected element...
