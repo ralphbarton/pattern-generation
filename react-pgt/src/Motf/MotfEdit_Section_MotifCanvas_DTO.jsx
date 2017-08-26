@@ -131,8 +131,8 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	const forgroundShapeStyle = {
 	    fill: this.props.DT_UI.fill,
 	    stroke: this.props.DT_UI.stroke,
-	    "stroke-width": 1,
-	    "stroke-dasharray": [1]
+	    "stroke-width": this.props.DT_UI.strokeWidth,
+	    "stroke-dasharray": null
 	};
 	
 	// 3. If its actually a rectangle being drawn, change its style accordingly

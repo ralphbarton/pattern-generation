@@ -3,24 +3,77 @@
 
 .MainTab_MotfEdit .drawingTools .LineTh{
     border-bottom: 1px solid rgba(0,0,0,0.4);
+    height: 33px;
 }
 
 .MainTab_MotfEdit .drawingTools .LineTh > .button{
-    height: 20px;
-    width: 85%;
+    position: absolute;
+    height: 18px;
+    width: 84px;
     padding: 0px;
     margin: 6px;
-    position: relative;
+    transition: all 0.4s;
+    overflow: hidden;
+    color: rgba(0,0,0,0.6);
 }
 
 .MainTab_MotfEdit .drawingTools .LineTh .text{
     position: absolute;
-    top: 4px;
-    left: 2px;
+    top: 3px;
+    left: 4px;
 }
 
-.MainTab_MotfEdit .drawingTools .LineTh svg{
+.MainTab_MotfEdit .drawingTools .LineTh svg line{
+    stroke: rgba(0,0,0,0.3);
+}
+
+.MainTab_MotfEdit .drawingTools .LineTh .button:not(.expanded) svg{
     position: absolute;
-    top: 3px;
-    right: 3px;
+    top: 4px;
+    right: 6px;
+}
+
+.MainTab_MotfEdit .drawingTools .LineTh > .button.expanded{
+    height: 110px;
+    width: 96px;
+    z-index: 1;
+    background: #99A7AE;
+    color: #004370;
+    border-color: #004370;
+    text-decoration: none;
+}
+
+.MainTab_MotfEdit .LineTh .heading{
+    font-weight: bold;
+    padding: 2px 7px;
+    width: 82px; /*this avoids wrap*/
+}
+
+.MainTab_MotfEdit .LineTh .option{
+    padding: 3px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.MainTab_MotfEdit .LineTh .option > svg{
+    position: absolute;
+    top: 3.5px;
+    left: 48px;
+}
+
+.MainTab_MotfEdit .LineTh .option svg line{
+    stroke: rgba(0,0,0,0.5);
+}
+
+.MainTab_MotfEdit .LineTh .option:hover{
+    background: rgba(255,255,255,0.3);
+}
+
+.MainTab_MotfEdit .LineTh .option.selected{
+    font-weight: bold;
+    text-shadow: 0px 0px 5px white;
+}
+
+.MainTab_MotfEdit .LineTh .option.selected svg line{
+    stroke: rgba(0,0,0,0.8);
 }

@@ -220,7 +220,7 @@ var Motf_util = {
 		PGTuid: newPGTuid,// one greater than largest found
 	    },
 	    pos_size_Obj,
-	    _.pick(DT_UI, ["shape", "fill", "stroke"])
+	    _.pick(DT_UI, ["shape", "fill", "stroke", "strokeWidth"])
 	);
     },
 
