@@ -122,7 +122,6 @@
 
 /* Dropdown: 3. Custom styles for DropDown contents */
 .MainTab_MotfEdit .canvasControls .objectOrigin .dropdown-content{
-    display: block;
     width: 110px;
     left: -38px;
     text-align: center;

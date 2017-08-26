@@ -141,19 +141,25 @@ class MainTab_MotfEdit extends React.PureComponent {
 	    const C_sizes = Motf_lists.GridSizes.Cartesian.Dict;
 	    const step = keysState.CTRL ? C_sizes[TS.state.UI.canvasControls.gridSize] : 1;
 	    //This is really messy: I'm binding an external exported object externally to make the function work correctly!!
-	    const u = keysState.CTRL ? Motf_FabricHandlers.snapCoord.bind(Motf_FabricHandlers): x=>{return x;};
+	    const roundToGrid = keysState.CTRL ? Motf_FabricHandlers.snapCoord.bind(Motf_FabricHandlers): x=>{return x;};
 
+	    // if shift key is pressed, keys will change the size rather than the position
+	    const dimention = keysState.SHIFT ? {x: "width", y: "height"} : {x: "left", y: "top"};
+
+	    // "macro" to generate individual property change Object
+	    const getMod = (xyStr, sign)=>{return {[dimention[xyStr]]: {$apply: x=>{return roundToGrid(x + sign * step);}}};};
+	    
 	    //an ARROW key pressed...
 	    if((keyCode >= 37)&&(keyCode <= 40)){
 		var $chg = {};
 		if(keyCode === 37){ // left arrow 37
-		    $chg = ChangeBySelection(Motf, Selection, {"left": {$apply: x=>{return u(x - step);}}});
+		    $chg = ChangeBySelection(Motf, Selection, getMod("x", -1));
 		}else if(keyCode === 38){ // up arrow 38
-		    $chg = ChangeBySelection(Motf, Selection, {"top":  {$apply: x=>{return u(x - step);}}});
+		    $chg = ChangeBySelection(Motf, Selection, getMod("y", -1));
 		}else if(keyCode === 39){ // right arrow 39
-		    $chg = ChangeBySelection(Motf, Selection, {"left": {$apply: x=>{return u(x + step);}}});
+		    $chg = ChangeBySelection(Motf, Selection, getMod("x", +1));
 		}else if(keyCode === 40){ // down arrow 40 
-		    $chg = ChangeBySelection(Motf, Selection, {"top":  {$apply: x=>{return u(x + step);}}});
+		    $chg = ChangeBySelection(Motf, Selection, getMod("y", +1));
 		}
 
 		//Apply a bunch of changes in one hit:
