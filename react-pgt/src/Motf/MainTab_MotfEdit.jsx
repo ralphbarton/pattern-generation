@@ -170,7 +170,6 @@ class MainTab_MotfEdit extends React.PureComponent {
 
     
     render(){
-	console.log("MainTab_MotfEdit - render()");
 	return (
 
 	    <div className="MainTab_MotfEdit">

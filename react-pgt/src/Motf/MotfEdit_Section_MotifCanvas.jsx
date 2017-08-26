@@ -1,10 +1,9 @@
 import React from 'react';
 var _ = require('lodash');
 
-//should I divide up this file into separate categories of function (better modularisation)
-import Motf_FabricHandlers from './plain-js/Motf_FabricHandlers';
 import MotfEdit_Section_MotifCanvas_BG from './MotfEdit_Section_MotifCanvas_BG';
 import MotfEdit_Section_MotifCanvas_GD from './MotfEdit_Section_MotifCanvas_GD';
+import MotfEdit_Section_MotifCanvas_Fabric from './MotfEdit_Section_MotifCanvas_Fabric';
 import MotfEdit_Section_MotifCanvas_DTO from './MotfEdit_Section_MotifCanvas_DTO';
 
 
@@ -24,49 +23,14 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	 FS_UI - Fabric Selection
 	 */
 
-	// Positive selection logic. If any of the conditions below (c1 - c4) are true, rerender will occur.
-
-	
+	// Positive selection logic. If any of the conditions below (c1 - c5) are true, rerender will occur.
 	const c1 = nextProps.Motf  !== this.props.Motf;  // Motif itself is changed.
-	/* (note: this change may have been instigated by a Fabric event.
-	 In this case, the Fabric Canvas does not really need to be re-rendered) */
-	
 	const c2 = nextProps.CC_UI !== this.props.CC_UI; // i.e. change to the background or underlying grid
 	const c3 = nextProps.MS_UI !== this.props.MS_UI; // because 'Draw Tool Overlay' needs to know when mouse enters canvas
 	const c4 = nextProps.DT_UI.shape !== this.props.DT_UI.shape; // 'Draw Tool Overlay' needs to know selected Tool...
-
-	const PropsListEvent = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;
-	const selChg = !_.isEqual(nextProps.FS_UI.selectedMElemsUIDArr, this.props.FS_UI.selectedMElemsUIDArr);
-	
-	const c5 = selChg && PropsListEvent; // only when Fabric selection is changed due to properties list should we rerender
-	/* this is only important to the extent it avoids wasted re-renders, in this particular even...*/
+	const c5 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;// Props List Event
 
 	return c1 || c2 || c3 || c4 || c5;
-    }
-
-    
-    componentDidUpdate(){
-	// send updated UI state into "Motf_FabricHandlers"
-	// Fabric Event Handlers need to know the grid size to manage snapping behaviour. This is why this data must be passed.
-	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI); 
-	
-	Motf_FabricHandlers.UpdateCanvas(this.props.Motf, this.props.FS_UI.selectedMElemsUIDArr);
-    }
-
-    componentDidMount(){
-	Motf_FabricHandlers.RecieveUpdate(this.props.CC_UI);
-
-	Motf_FabricHandlers.MountCanvas({
-	    fabricCanvasElement: this.fabricCanvasElement,
-	    Motf: this.props.Motf,
-	    onToastMsg: this.props.onToastMsg,
-	    handleEditingMotfChange: this.props.handleEditingMotfChange,
-	    handleMotfUIStateChange: this.props.handleMotfUIStateChange
-	});
-    }
-
-    componentWillUnmount(){
-	Motf_FabricHandlers.UnmountCanvas();
     }
 
     handleMouseEnterLeaveCanvas(isEnter){
@@ -97,10 +61,13 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	      <MotfEdit_Section_MotifCanvas_GD CC_UI={this.props.CC_UI}/>
 
 	      {/* "Layer" 3: Fabric Canvas */}
-	      <canvas
-		 width="399"
-		 height="399"
-		 ref={ el => {this.fabricCanvasElement = el;}}
+	      <MotfEdit_Section_MotifCanvas_Fabric
+		 Motf={this.props.Motf}
+		 CC_UI={this.props.CC_UI} // "CC_UI" - pass grid-size, for snapping behaviour
+		 FS_UI={this.props.FS_UI} // The fabric selection...
+		 handleEditingMotfChange={this.props.handleEditingMotfChange} // All sorts of Motif modification...
+		 handleMotfUIStateChange={this.props.handleMotfUIStateChange} // Set Fabric selection...
+		 onToastMsg={this.props.onToastMsg}
 		 />
 	      
 	      {/* "Layer" 4: Drawing Tool Overlay */}
