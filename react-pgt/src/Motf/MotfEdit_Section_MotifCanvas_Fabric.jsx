@@ -41,7 +41,6 @@ class MotfEdit_Section_MotifCanvas_Fabric extends React.PureComponent {
     }
     
     render(){
-	console.log("MotfEdit_Section_MotifCanvas_Fabric - render()");
 	return (
 	    <canvas
 	       width="399"

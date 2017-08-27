@@ -13,7 +13,6 @@ var Motf_FabricHandlers = {
 
     prevUidArr: [],
     handle_ObjectSelected: function(options) {
-
 	
 	//get UIDs list of the items selected.
 	const S = options.target;
@@ -23,6 +22,13 @@ var Motf_FabricHandlers = {
 	// if selection is unchanged, do none of the effects of this handler.
 	if( _.isEqual(uidArr, this.prevUidArr) ){
 	    return;	    
+	}
+
+	// If the selectionCleared handler has already been called in handling this same event,
+	// cancel it's state-changing effect. This function will handle that instead.
+	if(this.timeoutID_for_SelectionCleared !== null){
+	    clearTimeout(this.timeoutID_for_SelectionCleared);
+	    this.timeoutID_for_SelectionCleared = null;
 	}
 	
 	if(multiple){
@@ -61,13 +67,20 @@ var Motf_FabricHandlers = {
        - clear UI state relating to selected item<
        - 
     */
+    timeoutID_for_SelectionCleared: null,
     handle_SelectionCleared: function(options) {
-//	console.log("selection cleared event. 'this.canvasIsUpdating'=", this.canvasIsUpdating);
+	
 	if(this.canvasIsUpdating){return;}// ignore 'selection cleared' events that occur whilst canvas is updating
-	this.handleMotfUIStateChange(
-	    {fabricSelection: {selectedMElemsUIDArr: {$set: []}}}
-	);
-	this.prevUidArr = [];// this is necessary to ensure change if same object is reselected, that is detected...
+
+	// 'handleMotfUIStateChange' will call functions to re-render (before it returns!),
+	// via some parent Component's 'setState()'
+	this.timeoutID_for_SelectionCleared = setTimeout( ()=>{
+	    this.timeoutID_for_SelectionCleared = null;
+	    this.handleMotfUIStateChange(
+		{fabricSelection: {selectedMElemsUIDArr: {$set: []}}}
+	    );
+	    this.prevUidArr = [];// this is necessary to ensure change if same object is reselected, that is detected...
+	}, 0);
     },
     
     
