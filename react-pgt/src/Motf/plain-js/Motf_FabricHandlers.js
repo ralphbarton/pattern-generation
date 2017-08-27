@@ -80,14 +80,19 @@ var Motf_FabricHandlers = {
 	/*
 	  perhaps an improvement here would be to target the update at only the Modified Element??
 	  is the PGTuid of this available via options?
-	 */
-	
-	// "serialise" the entire Canvas contents...
-	const DatH_Elements = this.canvas.getObjects().map(Motf_util.fObj_to_DatH);
 
+	  "canvas.deactivateAll()":  Clear the selection. This is necessary so that "canvas.getObjects()" doesn't return
+	  coordinates subject to grouping (in the case of group-selection-modify). However, this selection-clear is
+	  temporary, as selection will be regenerated on the re-render that will result from modification.
+	*/
+
+	this.canvas.deactivateAll();
+
+	// 'serialise' entire canvas contents...
+	const DatH_Elements = this.canvas.getObjects().map(Motf_util.fObj_to_DatH);
+	
 	// now save the updated contents...
 	this.handleEditingMotfChange({Elements: {$set: DatH_Elements}});
-	
     },
 
     

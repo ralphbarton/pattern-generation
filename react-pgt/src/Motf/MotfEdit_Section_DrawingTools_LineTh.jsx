@@ -15,7 +15,6 @@ class Popout extends React.PureComponent {
     }
     
     setToolboxStrokeWidth(v){
-	console.log("setToolboxStrokeWidth", v);
 	this.props.handleMotfUIStateChange({
 	    drawingTools: {
 		strokeWidth: {$set: v}
@@ -24,7 +23,6 @@ class Popout extends React.PureComponent {
     }
 
     setMotfSelectionStrokeWidth(v){
-	console.log("setMotfSelectionStrokeWidth", v);
 	const Motf = this.props.Motf;
 	const Selection = this.props.FS_UI.selectedMElemsUIDArr;
 	const ChangeBySelection = Motf_util.$ChgObj_ChangeMotfBySelection;
