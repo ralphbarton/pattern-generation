@@ -9,6 +9,12 @@ const MotfSampleData = {
 		"random": [],
 		"CP_picks": []
 	    },
+	    /*
+	      ShapeCenter  = "center"
+	      Top-Left corner (outside outline) = "TL1"
+	      Top-Left corner (ignoring outline)  = "TL2"
+	    */
+	    objectOrigin: "TL1",
 	    Elements: [
 		{
 		    "shape": "obj-ellipse",
@@ -50,6 +56,7 @@ const MotfSampleData = {
 		"random": [],
 		"CP_picks": []
 	    },
+	    objectOrigin: "TL1",
 	    Elements: [
 		{
 		    "shape": "obj-rectangle",
@@ -192,6 +199,7 @@ const MotfSampleData = {
 		"random": [],
 		"CP_picks": []
 	    },
+	    objectOrigin: "TL1",
 	    "Elements": [
 		{
 		    "left": 24,

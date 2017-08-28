@@ -301,7 +301,23 @@ var Motf_lists = {
 	    Arr: [10, 25, 50],
 	    Dict: {"small": 10, "medium": 25, "large": 50}
 	}
+    },
+
+    objectOrigins: {
+	"center": {
+	    originX: "center",
+	    originY: "center"
+	},
+	"TL1": {
+	    originX: "left",
+	    originY: "top"
+	},
+	"TL2": {
+	    originX: "left",
+	    originY: "top"
+	}
     }
+    
 }
 
 

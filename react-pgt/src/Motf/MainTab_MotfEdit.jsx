@@ -56,12 +56,6 @@ class MainTab_MotfEdit extends React.PureComponent {
 		    customAngularIncr: 1,
 		    // 3. State contained in "Snap Settings" Dropdown
 		    snapResponseStyle: "medium",// "soft" / "medium" / "hard"
-		    shapeSnapOrigin: "TL1",
-		    /*
-		     Top-Left corner (outside outline) = "TL1"
-		     Top-Left corner (ignoring outline)  = "TL2"
-		     ShapeCenter  = "center"
-		     */
 		    snapAxes: "xy" // x, y or x and y
 		},
 		fabricSelection: {

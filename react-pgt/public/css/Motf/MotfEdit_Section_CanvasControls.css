@@ -95,17 +95,6 @@
 /* Dropdown: More Specific style customisations for
  "Snap Settings" dropdown...
 */
-
-.MainTab_MotfEdit .dropdown .btn-set.shapeSnapOrigin{
-    flex-flow: column nowrap;
-    align-items: center;
-}
-
-.MainTab_MotfEdit .dropdown .btn-set.shapeSnapOrigin button{
-    width: 120px;
-    margin: 3px;
-}
-
 .MainTab_MotfEdit .dropdown .btn-set.snapAxes button{
     width: 42px;
 }

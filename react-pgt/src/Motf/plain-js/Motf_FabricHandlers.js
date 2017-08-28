@@ -2,7 +2,7 @@ import {fabric}  from 'fabric';
 var _ = require('lodash');
 
 import Motf_util from './Motf_util';
-import Motf_lists from './Motf_lists'; // used only for grid sizes
+import Motf_lists from './Motf_lists'; // used for grid sizes & object origins...
 
 var Motf_FabricHandlers = {
 
@@ -211,13 +211,18 @@ var Motf_FabricHandlers = {
 	this.canvasIsUpdating = true;
 	canvas.clear();
 	this.canvasIsUpdating = false;
+
+	// 2. Determine Object Origin X & Y
+	const originProps = Motf_lists.objectOrigins[Motf.objectOrigin];
 	
-	// 2. (re-)add all the objects
+	// 3. (re-)add all the objects
 	_.forEach(Motf.Elements, function(Properties, index) { // (value, key)
+	    // '_.assign' - Lodash Docs: This method mutates object - does this alter the Motf object, then??
+	    _.assign(Properties, originProps);
 	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
 	});
 
-	// 3. set the correct canvas selection	
+	// 4. set the correct canvas selection	
 	if(!selectedMElemsUIDArr){return;}// nothing selected -> skip step 3...
 
 	if(selectedMElemsUIDArr.length === 1){//single selection

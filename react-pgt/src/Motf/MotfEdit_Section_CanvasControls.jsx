@@ -56,6 +56,15 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 	const setUI = this.props.hofHandleUIchange_CC;
 	const CartesianSizes = Motf_lists.GridSizes.Cartesian.Arr;
 	const selection_size = this.props.FS_UI.selectedMElemsUIDArr.length;//quantity of Items selected on-Canvas
+
+	const setObjectOrigin = v => {
+	    return ()=>{
+		this.props.handleEditingMotfChange({
+		    objectOrigin: {$set: v}
+		});
+	    };
+	};
+
 	return (
 	    <div className="canvasControls">
 	      {/* 1. The <input> for Motif Title*/}
@@ -215,16 +224,6 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 			Hard</WgButton2>
 		    </div>
 
-		    Shape Snap-Origin
-		    <div className="btn-set shapeSnapOrigin">
-		      <WgButton2 dot={UI.shapeSnapOrigin==="TL1"} onClick={setUI("shapeSnapOrigin", "TL1")}>Top-Left corner
-			<div className="c-note">(outside outline)</div></WgButton2>
-		      <WgButton2 dot={UI.shapeSnapOrigin==="TL2"} onClick={setUI("shapeSnapOrigin", "TL2")}>Top-Left corner
-			<div className="c-note">(ignoring outline)</div></WgButton2>
-		      <WgButton2 dot={UI.shapeSnapOrigin==="center"} onClick={setUI("shapeSnapOrigin", "center")}>Shape Center
-		      </WgButton2>
-		    </div>
-
 		    Snap on Axes
 		    <div className="btn-set snapAxes">
 		      <WgButton2 dot={UI.snapAxes==="xy"} onClick={setUI("snapAxes", "xy")}>x, y</WgButton2>
@@ -239,14 +238,16 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 		     className="objectOrigin"
 		     ddStyle="plain">
 
-		    <div className="shapeOrigin v1">
+		    <div className={"shapeOrigin " + (this.props.Motf.objectOrigin === "center" ? "selected" : "")}
+			 onClick={setObjectOrigin("center")}>
 		      <div>Center</div>
 		      <img src={Img_shapeOrigin1}
 			   alt=""
 			   />
 		    </div>
 
-		    <div className="shapeOrigin v2">
+		    <div className={"shapeOrigin " + (this.props.Motf.objectOrigin === "TL1" ? "selected" : "")}
+			 onClick={setObjectOrigin("TL1")}>
 		      <div>Top-Left</div>
 		      <div className="sub-h">(ignore outline)</div>
 		      <img src={Img_shapeOrigin2}
@@ -254,7 +255,8 @@ class MotfEdit_Section_CanvasControls extends React.PureComponent {
 			   />
 		    </div>
 
-		    <div className="shapeOrigin v3 selected">
+		    <div className={"shapeOrigin " + (this.props.Motf.objectOrigin === "TL2" ? "selected" : "")}
+			 onClick={setObjectOrigin("TL2")}>
 		      <div>Top-Left</div>
 		      <div className="sub-h">(outside outline)</div>
 		      <img src={Img_shapeOrigin3}
