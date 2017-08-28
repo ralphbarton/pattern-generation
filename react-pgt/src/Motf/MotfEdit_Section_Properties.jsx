@@ -2,10 +2,8 @@ import React from 'react';
 //import ReactDOM from 'react-dom';
 var _ = require('lodash');
 
-
 import {WgButton, WgButtonExpanding} from '../Wg/WgButton';
 import WgCheckbox from '../Wg/WgCheckbox';
-import {WgSlideTransition} from '../Wg/WgTransition';
 
 import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
 
@@ -81,41 +79,39 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		  Motif Elements: Properties
 		</div>
 		<div className="scrollableContent">
-		  <WgSlideTransition>
 		  {this.props.Motf.Elements.map( (mElem, index) => {
 		      return <MotfEdit_SubSec_mElem
 				    key={mElem.PGTuid}
 				    mElem={mElem}
 				    addRef={(node)=>{this.refs[mElem.PGTuid]=node;}}
-				    expand={this.state}
-			            isFocus={_.includes(this.props.FS_UI.selectedMElemsUIDArr, mElem.PGTuid)}
-				    deleteElem={()=>{
-					this.props.handleEditingMotfChange({
-					    Elements: {$splice: [[index,1]]}
-					});
-				    }}
-				    setSelectedMElem={(PGTuid)=>{
-					const cnt = this.props.FS_UI.chgOrigin_Properties_count + 1;
-					this.props.handleMotfUIStateChange(
-					    {fabricSelection: {
-						selectedMElemsUIDArr: {$set: [PGTuid]},
-						chgOrigin_Properties_count: {$set: cnt}
-					    }}
-					);
-				    }}
-				    modifyElem={(propKey, value)=>{
-					const nValue = value;
-					this.props.handleEditingMotfChange({
-					    Elements: {
-						[index]: {
-						    [propKey]: {$set: nValue}
-						}
-					    }
-					});
-				    }}
+			expand={this.state}
+			isFocus={_.includes(this.props.FS_UI.selectedMElemsUIDArr, mElem.PGTuid)}
+			deleteElem={()=>{
+			    this.props.handleEditingMotfChange({
+				Elements: {$splice: [[index,1]]}
+			    });
+			}}
+			setSelectedMElem={(PGTuid)=>{
+			    const cnt = this.props.FS_UI.chgOrigin_Properties_count + 1;
+			    this.props.handleMotfUIStateChange(
+				{fabricSelection: {
+				    selectedMElemsUIDArr: {$set: [PGTuid]},
+				    chgOrigin_Properties_count: {$set: cnt}
+				}}
+			    );
+			}}
+			modifyElem={(propKey, value)=>{
+			    const nValue = value;
+			    this.props.handleEditingMotfChange({
+				Elements: {
+				    [index]: {
+					[propKey]: {$set: nValue}
+				    }
+				}
+			    });
+			}}
 			  />;
-		  })}
-		  </WgSlideTransition>
+		    })}
 		</div>
 	      </div>
 

@@ -4,6 +4,8 @@ import MotfEdit_SubSec_mElem_Icon from './MotfEdit_SubSec_mElem_Icon';
 import MotfEdit_SubSec_mElem_menu from './MotfEdit_SubSec_mElem_menu';
 import MotfEdit_SubSec_mElem_popoutPicker from './MotfEdit_SubSec_mElem_popoutPicker';
 
+import {WgSlideTransition} from '../Wg/WgTransition';
+
 import Motf_lists from './plain-js/Motf_lists';
 var _ = require('lodash');
 
@@ -192,7 +194,9 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	       onClick={props.deleteElem}
 	       alt=""/>
 
-	    
+
+	  <WgSlideTransition>
+	  
 	    {/* Table 1. Placement & Size */}
 	    <div className="tableHeading pos_size">Placement & Size
 	      <MotfEdit_SubSec_propsTable
@@ -224,6 +228,8 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 			   modifyElem={props.modifyElem}
 			   arrangement={TablesArrangement["more"]} />
 	    </div>}
+
+           </WgSlideTransition>
 	  </div>
 	</div>
     );
