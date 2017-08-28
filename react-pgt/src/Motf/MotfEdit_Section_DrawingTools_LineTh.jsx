@@ -1,7 +1,7 @@
 import React from 'react';
 var _ = require('lodash');
 
-import WgFadeTransition from '../Wg/WgFadeTransition';
+import {WgFadeTransition} from '../Wg/WgTransition';
 import Motf_util from './plain-js/Motf_util';
 
 class Popout extends React.PureComponent {

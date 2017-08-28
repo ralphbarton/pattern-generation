@@ -3,7 +3,7 @@ import update from 'immutability-helper';
 
 import hash from 'string-hash';
 
-import WgFadeTransition from './Wg/WgFadeTransition';
+import {WgFadeTransition} from './Wg/WgTransition';
 
 class ToastManager extends React.PureComponent {
 

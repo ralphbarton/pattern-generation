@@ -5,6 +5,7 @@ var _ = require('lodash');
 
 import {WgButton, WgButtonExpanding} from '../Wg/WgButton';
 import WgCheckbox from '../Wg/WgCheckbox';
+import {WgSlideTransition} from '../Wg/WgTransition';
 
 import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
 
@@ -80,7 +81,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		  Motif Elements: Properties
 		</div>
 		<div className="scrollableContent">
-		  
+		  <WgSlideTransition>
 		  {this.props.Motf.Elements.map( (mElem, index) => {
 		      return <MotfEdit_SubSec_mElem
 				    key={mElem.PGTuid}
@@ -114,7 +115,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 				    }}
 			  />;
 		  })}
-
+		  </WgSlideTransition>
 		</div>
 	      </div>
 

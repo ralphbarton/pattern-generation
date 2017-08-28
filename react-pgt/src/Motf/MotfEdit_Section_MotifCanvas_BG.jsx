@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WgFadeTransition from '../Wg/WgFadeTransition';
+import {WgFadeTransition} from '../Wg/WgTransition';
 
 import GimpTransparent from './asset/gimp-transparent.png';
 

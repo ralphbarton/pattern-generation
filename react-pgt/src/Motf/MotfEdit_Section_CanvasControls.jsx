@@ -4,7 +4,7 @@ var _ = require('lodash');
 import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import WgDropDown from '../Wg/WgDropDown';
 import {WgButton2} from '../Wg/WgButton';
-import WgFadeTransition from '../Wg/WgFadeTransition';
+import {WgFadeTransition} from '../Wg/WgTransition';
 
 import Motf_lists from './plain-js/Motf_lists'; // used only for grid sizes
 

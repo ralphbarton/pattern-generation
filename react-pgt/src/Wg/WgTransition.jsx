@@ -13,4 +13,15 @@ function WgFadeTransition(props) {
     );
 }
 
-export default WgFadeTransition;
+function WgSlideTransition(props) {
+    return(
+        <CSSTransitionGroup
+	   transitionName={"WgSlide400"}
+	   transitionEnterTimeout={400}
+	   transitionLeaveTimeout={400}>
+	  {props.children}
+	</CSSTransitionGroup>
+    );
+}
+
+export {WgFadeTransition, WgSlideTransition};
