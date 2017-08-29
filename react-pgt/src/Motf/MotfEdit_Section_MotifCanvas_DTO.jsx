@@ -6,6 +6,8 @@ import "d3-selection-multi";
 import Motf_util from './plain-js/Motf_util';
 var _ = require('lodash');
 
+import Motf_FabricHandlers from './plain-js/Motf_FabricHandlers'; // messy, as per <MainTab_MotfEdit>. Snap handlers in here...
+
 class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 
     constructor() {
@@ -28,9 +30,15 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 
     handleMouseDown(e){
 	if(this.props.MS_UI.mouseOverCanvas){
+
+	    const BB = this.props.MS_UI.canvBoundingBoxCoords;
+	    
+	    const isSnap = this.props.CC_UI.snapToGrid;
+	    const roundToGrid = isSnap ? Motf_FabricHandlers.snapCoord.bind(Motf_FabricHandlers): x=>{return x;};
+
 	    this.setState({
-		mouseDownX: e.pageX,
-		mouseDownY: e.pageY
+		mouseDownX: roundToGrid(e.pageX - BB.left),
+		mouseDownY: roundToGrid(e.pageY - BB.top)
 	    });
 	}
     }
@@ -69,11 +77,27 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
     }
 
     handleMouseMove(e){
-	if(this.state.mouseDownX === null){return;}
 
 	const BB = this.props.MS_UI.canvBoundingBoxCoords;
-	const w = Math.abs(e.pageX - this.state.mouseDownX);
-	const h = Math.abs(e.pageY - this.state.mouseDownY);
+	const isSnap = this.props.CC_UI.snapToGrid;
+	const roundToGrid = isSnap ? Motf_FabricHandlers.snapCoord.bind(Motf_FabricHandlers): x=>{return x;};
+	
+	const mouseMoveX = roundToGrid(e.pageX - BB.left);
+	const mouseMoveY = roundToGrid(e.pageY - BB.top);
+	
+	// 1. mouse not down: just set current mouse coordinates
+	if(this.state.mouseDownX === null){
+	    
+	    this.setState({
+		left: mouseMoveX,
+		top:  mouseMoveY
+	    });
+	    return;
+	}
+
+	// 2. mouse is down: calculate box coordinate details...
+	const w = Math.abs(mouseMoveX - this.state.mouseDownX);
+	const h = Math.abs(mouseMoveY - this.state.mouseDownY);
 	const dim = (w+h)/2;
 
 	const CTRL = this.props.kb.KeyHoldState.CTRL;
@@ -81,8 +105,8 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	const hh = CTRL ? dim : h;
 	
 	this.setState({
-	    left: (this.state.mouseDownX - BB.left) + (e.pageX > this.state.mouseDownX ? 0 : -ww),
-	    top:  (this.state.mouseDownY - BB.top)  + (e.pageY > this.state.mouseDownY ? 0 : -hh),
+	    left: this.state.mouseDownX + (mouseMoveX > this.state.mouseDownX ? 0 : -ww),
+	    top:  this.state.mouseDownY + (mouseMoveY > this.state.mouseDownY ? 0 : -hh),
 	    width: ww,
 	    height: hh
 	});
@@ -97,6 +121,8 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	//add a rect & ellipse to the SVG. These will be modified a lot to show them...
 	select(this.svgRef).append("rect");
 	select(this.svgRef).append("ellipse");
+
+	select(this.svgRef).append("circle").attr("r", 2); // this 'dot' will indicate start point snap
     }
 
     componentWillUnmount() {
@@ -107,16 +133,36 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 
 
     componentDidUpdate(){
+
+	const S = this.state;
 	
-	// 1. If mouse is not down, hide rectangle & ellipse...
+	// 1. If mouse is not down...
 	if(this.state.mouseDownX === null){
+
+	    // 1.1. hide rectangle & ellipse...
 	    select(this.svgRef).select("rect").attrs({display: "none"});
 	    select(this.svgRef).select("ellipse").attrs({display: "none"});
+
+	    // 1.2. if snap-to-grid is active, show the snapping of the shape start-point with a dot...
+	    if(this.props.CC_UI.snapToGrid){
+
+		//show the dot snapped into place...
+		select(this.svgRef).select("circle").attrs({
+		    display: "inline",
+		    cx: S.left,
+		    cy: S.top
+		});
+
+	    }else{
+		//hide the dot
+		select(this.svgRef).select("circle").attrs({display: "none"});
+	    }
+	    
+	    
 	    return;
 	}
 
 	// 2. Otherwise, unconditionally put the rectangle at its correct place. This shape will always be shown...
-	const S = this.state;
 	const d3_rect = select(this.svgRef).select("rect");
 	d3_rect.attrs({
 	    display: "inline",

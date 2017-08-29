@@ -77,6 +77,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 			  <MotfEdit_Section_MotifCanvas_DTO
 				 DT_UI={this.props.DT_UI}
 				 MS_UI={this.props.MS_UI}
+				 CC_UI={this.props.CC_UI} // "CC_UI" - pass snapping state; grid-size etc.
 				 handleEditingMotfChange={this.props.handleEditingMotfChange}
 				 handleMotfUIStateChange={this.props.handleMotfUIStateChange}// Set: Toggle-OFF shape-draw tool
 				 Motf={this.props.Motf} // to determine PGTuid of new element...
