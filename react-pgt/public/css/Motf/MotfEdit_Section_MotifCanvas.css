@@ -9,7 +9,7 @@
     width: 399px;
     height: 399px;
     overflow: hidden;
-    transition: border-radius 0.4s;
+    transition: border-radius 0.6s;
 }
 
 .MainTab_MotfEdit .MotfEdit_Section_MotifCanvas.circular{

@@ -206,7 +206,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    </div>
 
 	    {/* Table 2. Appearance */}
-	    {(expandLevel >= 2) && <div className="tableHeading">Appearance
+	    {(expandLevel >= 2) && <div className="tableHeading appearance">Appearance
 		   <MotfEdit_SubSec_propsTable
 			  mElem={mElem}
 			  modifyElem={props.modifyElem}
@@ -214,7 +214,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    </div>}
 
 	    {/* Table 3. Repetition */}
-	    {(expandLevel >= 3) && <div className="tableHeading">Repetition
+	    {(expandLevel >= 3) && <div className="tableHeading repetition">Repetition
 		    <MotfEdit_SubSec_propsTable
 			   mElem={mElem}
 			   modifyElem={props.modifyElem}
@@ -222,7 +222,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    </div>}
 
 	    {/* Table 4. More Properties */}
-	    {(expandLevel >= 4) && <div className="tableHeading">More Properties
+	    {(expandLevel >= 4) && <div className="tableHeading more">More Properties
 		    <MotfEdit_SubSec_propsTable
 			   mElem={mElem}
 			   modifyElem={props.modifyElem}

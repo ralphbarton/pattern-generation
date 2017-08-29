@@ -77,6 +77,7 @@
     font-weight: bold;
     font-size: 12px;
     color: #777;
+    overflow: hidden; /* for height animation...*/
 }
 
 .MotfEdit_SubSec_mElemExpanded .tableHeading:not(.pos_size){
@@ -89,6 +90,50 @@
     margin-left: 20px;
     font-size: 10px;
 }
+
+
+
+
+/* 400ms slide transition */
+
+/* Specific heights for the Height animation to target...*/
+div.WgSlide400-enter.WgSlide400-enter-active.pos_size,
+div.WgSlide400-leave.pos_size{
+    max-height: 65px;
+}
+
+div.WgSlide400-enter.WgSlide400-enter-active.appearance,
+div.WgSlide400-leave.appearance{
+    max-height: 95px;
+}
+
+div.WgSlide400-enter.WgSlide400-enter-active.repetition,
+div.WgSlide400-leave.repetition{
+    max-height: 35px;
+}
+
+div.WgSlide400-enter.WgSlide400-enter-active.more,
+div.WgSlide400-leave.more{
+    max-height: 65px;
+}
+
+/* animation directives need to come later in the CSS file...*/
+
+div.WgSlide400-enter {
+    max-height: 0;
+}
+
+div.WgSlide400-enter.WgSlide400-enter-active{
+    transition: max-height 400ms linear;
+}
+
+div.WgSlide400-leave.WgSlide400-leave-active {
+    max-height: 0;
+    transition: max-height 400ms linear;
+}
+
+
+
 
 
 

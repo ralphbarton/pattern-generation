@@ -66,24 +66,26 @@
 
 
 
-/* 400ms slide transition */
-.WgSlide400-enter {
-    height: 0;
-    background: red;
-    overflow: hidden;
-}
+/* 400ms slide transition 
 
-.WgSlide400-enter.WgSlide400-enter-active {
-    height: auto;
-    transition: all 400ms ease-in;
-    background: yellow;
-}
 
-.WgSlide400-leave {
-    height: auto;
-}
+div.WgSlide400-enter
 
-.WgSlide400-leave.WgSlide400-leave-active {
-    height: 0;
-    transition: height 400ms ease-in;
-}
+
+Contrary to good organisation of CSS rules, the rules relating
+to this slide animation are specific to a particular non-generic
+Component, and reside (for now) in the file:
+
+MotfEdit_SubSec_mElemExpanded.css
+
+----
+
+Important info about how to animate a height...
+
+http://css3.bradshawenterprises.com/animating_height/
+
+
+*/
+
+
+
