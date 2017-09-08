@@ -15,6 +15,11 @@ table.Cpot_PreviewPatch tbody{
 table.Cpot_PreviewPatch td{
     border: 1px solid black;
     padding: 0px;
+     /*this next rule seems to ensure width and height properties are treated
+    equivalently when there is a 1px border. I can't think why this wasn't
+    an issue when originally developed.
+    */
+    display: inline-block;
 }
 
 
