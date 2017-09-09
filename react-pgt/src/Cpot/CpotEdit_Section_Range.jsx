@@ -1,5 +1,10 @@
 import React from 'react';
+
+//import tinycolor from 'tinycolor2';
+
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
+import Cpot_util from './plain-js/Cpot_util.js';// range unpack
+
 
 
 class CpotEdit_Section_Range extends React.PureComponent {
@@ -12,38 +17,53 @@ class CpotEdit_Section_Range extends React.PureComponent {
     }
 
     
-    renderCentral(){
+    renderCentral(hslaRange){
+	const X = Cpot_util.range_unpack( hslaRange );
 	return(
-	    <div>
+	    <div className="central">
 	      <div className="Ln1">
 		<div className="text">Central Colour:</div>		      
-		<div className="colour-sun s"></div>
+		<div className="colour-sun s"
+		     style={{background: X.col_opaque}}
+		     />
 	      </div>
 
-	      <div className="Ln hue">
-		<div className="name"></div>
-		<div className="mid">
-		  Mid:<input className="plain-cell s"/>
-		</div>
-		<div className="var">
-		  Rng:<input className="plain-cell s"/>
-		</div>
-		<div className="view">
-		  <div className="chequer"></div>
-		  <div className="B left"></div>
-		  <div className="B center"></div>
-		  <div className="B right"></div>
-		</div>
-	      </div>
+	      {
+		  [
+		      ["hue", "Hue:"],
+		      ["sat", "Sat:"],
+		      ["lum", "Lum:"],
+		      ["alp", "Alpha:"]
+		  ].map( ks => {
+		      return (
+			  <div className={"Ln "+ks[0]} key={ks[0]}>
+			    <div className="name">{ks[1]}</div>
+			    <div className="mid">
+			      Mid:<input className="plain-cell s"/>
+			    </div>
+			    <div className="var">
+			      Rng:<input className="plain-cell s"/>
+			    </div>
+			    <div className="view">
+			      <div className="chequer" />
+			      <div className="B left"   style={{background: X.col}} />
+			      <div className="B center" style={{background: X.col}} />
+			      <div className="B right"  style={{background: X.col}} />
+			    </div>
+			  </div>
+		      );
+		  })
+	      }
+
 
 	      
 	    </div>
 	);
     }
 
-    renderBoundaries(){
+    renderBoundaries(pot_elem){
 	return(
-	    <div>
+	    <div className="boundaries">
 	      <div className="colour-block c1">
 		<div className="text">Colour 1:</div>
 		<div className="colour-sun m"></div>
@@ -104,11 +124,11 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		  [
 		      {
 			  name: "Central",
-			  renderJSX: this.renderCentral
+			  renderJSX: this.renderCentral.bind(null, this.props.hslaRange)
 		      },
 		      {
 			  name: "Boundaries",
-			  renderJSX: this.renderBoundaries
+			  renderJSX: this.renderBoundaries.bind(null, this.props.hslaRange)
 		      },
 		      {
 			  name: "More",

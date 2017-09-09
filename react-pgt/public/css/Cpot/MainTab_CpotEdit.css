@@ -19,8 +19,8 @@
 
 .MainTab_CpotEdit .Zone{
     position: absolute;
-    top: 7px;
-    right: 10px;
+    top: 5px;
+    right: 9px;
 }
 
 .MainTab_CpotEdit .bigPreview.Zone .Cpot_PreviewPatch td{
@@ -35,8 +35,13 @@
 
 
 .MainTab_CpotEdit .controls.Zone .editZone{
-    width: 191px;
+    width: 195px;
     height: 376px;
+}
+
+.MainTab_CpotEdit .controls.Zone .Cpot_PreviewPatch{
+    margin-left: 1px;
+    width: 192px;
 }
 
 .MainTab_CpotEdit .controls.Zone .Cpot_PreviewPatch td{
