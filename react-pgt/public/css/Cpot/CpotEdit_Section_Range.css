@@ -4,3 +4,212 @@
 .MainTab_CpotEdit .editZone.range{
      margin-bottom: 5px;
 }
+
+
+
+
+
+/* Colour Pot - Edit range -> Central*/
+.MainTab_CpotEdit .editZone.range .colour-sun.s{
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    position: absolute;
+    right: 35px;
+    top: 5px;
+}
+
+.MainTab_CpotEdit .editZone.range .Ln1 .text{
+    width: 100px;
+    position: absolute;
+    top: 15px;
+    left: 22px;
+}
+
+.MainTab_CpotEdit .editZone.range .Ln1{
+    height: 64px;
+}
+    
+
+.MainTab_CpotEdit .editZone.range .Ln{
+    border-top: 1px solid rgba(0,0,0,0.5);
+    position: relative;
+    height: 63px;
+    font-size: 12px
+}
+
+.MainTab_CpotEdit .editZone.range .Ln .name{
+    font-weight: bold;
+    color: rgba(0,0,0,0.75);
+    position: absolute;
+    top: 4px;
+}
+
+
+.MainTab_CpotEdit .editZone.range .Ln input{
+    height: 13px;
+    width: 45px;
+}
+
+.MainTab_CpotEdit .editZone.range .Ln .mid,
+.MainTab_CpotEdit .editZone.range .Ln .var{
+    position: absolute;
+    top: 2px;
+    left: 45px;
+    font-size: 10px;
+    color: rgba(0,0,0,0.5);
+}
+
+.MainTab_CpotEdit .editZone.range .Ln .var{
+    left: 115px;
+}
+
+#cp-edit-colour .view{
+    background-color: white;
+    box-shadow: 0px 0px 2px 1px white;
+    position: absolute; 
+}
+
+.MainTab_CpotEdit .editZone.range .Ln .view{
+
+    top: 24px;
+    left: 3px;
+    width: 181px;
+    height: 32px;
+}
+
+.MainTab_CpotEdit .editZone.range .Ln .chequer{
+    position: absolute;
+    width: 175px;
+    height: 14px;
+    left: 2px;
+    top: 16px;
+    border-bottom: none;
+}
+
+.MainTab_CpotEdit .editZone.range .Ln .B{
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    top: 3px;
+    left: 14px;
+    background-color: rgba(22, 189, 63, 0.65);
+    transition: transform 0.1s;
+}
+
+
+.MainTab_CpotEdit .editZone.range .Ln .B:hover{
+    outline: 1px solid black;
+    box-shadow: 0px 0px 2px 1px black;
+    z-index: 2;
+}
+
+.MainTab_CpotEdit .editZone.range .Ln .B.sel{
+    box-shadow: 0px 0px 2px 2px black;
+    outline: double black;
+    z-index: 3;
+}
+
+
+.MainTab_CpotEdit .editZone.range .Ln .B.right{
+    left: auto;
+    right: 14px;
+}
+
+.MainTab_CpotEdit .editZone.range .Ln .B.center{
+    left: 40px;
+    height: 16px;
+    top: 8px;
+    width: 101px;
+}
+
+
+
+
+
+
+/* Colour Pot - Edit range -> Boundaries*/
+.MainTab_CpotEdit .editZone.range .colour-sun.m{
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    position: absolute;
+    left: 106px;
+    top: 0px;
+    z-index: 1;
+}
+
+.MainTab_CpotEdit .editZone.range .colour-block{
+    position: absolute;
+    height: 74px;
+}
+
+.MainTab_CpotEdit .editZone.range .text{
+    position: relative;
+    left:12px;
+    font-size: 18px;
+}
+
+.MainTab_CpotEdit .editZone.range .view{
+    top: 28px;
+    left: 7px;
+    width: 86px;
+    height: 36px;
+}
+
+.MainTab_CpotEdit .editZone.range .view .chequer{
+    position: absolute;
+    width: 40px;
+    top: 3px;
+    right: 2px;
+    height: 28px; 
+}
+
+.MainTab_CpotEdit .editZone.range .view .B{
+    top: 0px;
+    position: absolute;
+    top: 10px;
+    left: 8px;
+    width: 60px;
+    height: 16px; 
+    background-color: yellowgreen;
+}
+
+.MainTab_CpotEdit .editZone.range .colour-block.c1{
+    top:15px;
+}
+
+.MainTab_CpotEdit .editZone.range .colour-block.c2{
+    bottom: 15px;
+}
+
+.MainTab_CpotEdit .editZone.range .colour-bar{
+    position: absolute;
+    top: 86px;
+    left: 135px;
+    width: 20px;
+    height: 159px;
+    background-color: white;
+}
+
+.MainTab_CpotEdit .editZone.range .colour-bar .gradient{
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom,
+        blue,  /*1*/
+        rgba(215, 215, 26, 0.6) /*2*/
+    );
+}
+
+.MainTab_CpotEdit .editZone.range .alc{
+    position: absolute;
+    left: 17px;
+}
+
+.MainTab_CpotEdit .editZone.range .alc#reverse-hue{
+    top: 150px;
+}
+
+.MainTab_CpotEdit .editZone.range .alc#permute-sla{
+    top: 170px;
+}
