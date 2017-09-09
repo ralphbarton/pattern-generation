@@ -11,6 +11,7 @@ import CpotEdit_util from './plain-js/CpotEdit_util.js';// probs summing etc
 // generic project widgets
 import {WgButton} from '../Wg/WgButton';
 import WgActionLink from '../Wg/WgActionLink';
+import {WgFadeTransition} from '../Wg/WgTransition';
 
 // cpot specifc widgets
 import Cpot_PreviewPatch from './Cpot_PreviewPatch';
@@ -77,6 +78,46 @@ class MainTab_CpotEdit extends React.PureComponent {
 	});
     }
 
+    renderSolidRangeZone(cpotItem){
+	return(
+	    <div className="controls Zone">
+
+	      {cpotItem.type === "range" &&
+		  <CpotEdit_Section_Range
+			 hslaRange={cpotItem.range}
+			 tabIndex={this.state.rangeEditTabIndex}
+			 onTabIndexChange={ i => {
+			     this.setState( {rangeEditTabIndex: i} );
+			 }}
+			 onPropagateChange={null}
+			 />
+	      }
+	      {cpotItem.type === "solid" &&	      
+		  <CpotEdit_Section_Solid
+			 colourString={cpotItem.solid}
+			 onPropagateChange={value =>{this.handleEditingCpotSelItemChange({solid: {$set: value}});}}
+			/>
+  	      }
+
+		<Cpot_PreviewPatch
+		 className="mini"
+		 cpot={this.state.cpot}
+		 nX={19}
+		 nY={8}
+		 chequerSize="normal"
+		 />
+
+	      <WgActionLink
+		 name="expand"
+		 onClick={() => {
+		     this.setState({
+			 selectedRowIndex: -1 // this means render expanded state
+		     });
+		}}
+		/>
+	    </div>
+	);
+    }
     
     render() {
 	const expanded = this.state.selectedRowIndex === -1;
@@ -117,9 +158,14 @@ class MainTab_CpotEdit extends React.PureComponent {
 		   nextUid={this.nextUid.bind(this)}
 		   onEditingCpotSelItemChange={this.handleEditingCpotSelItemChange.bind(this)}
 		   />		
+
+
 		
 		{/* 3. The Expanded Preview Zone*/}
-		<div className={"bigPreview Zone"+(expanded?"":" hide")}>
+		{/* 4. Controls to Edit item (solid or range); mini preview zone*/}
+		<WgFadeTransition speed={1}>
+		  {expanded &&
+		<div className="bigPreview Zone">
 		  <Cpot_PreviewPatch
 		     cpot={this.state.cpot}
 		     nX={8}
@@ -127,74 +173,22 @@ class MainTab_CpotEdit extends React.PureComponent {
 		     chequerSize="normal"
 		     rerandomiseCounter={this.state.previewRerandomiseCounter}
 		     />
-
-		  <div>
 		    <WgActionLink
 		       name="re-randomise"
 		       onClick={() => {
 			   this.setState({
 			       previewRerandomiseCounter: this.state.previewRerandomiseCounter+1
 			   });
-		      }}
-		       enabled={expanded}
+		        }}
 		       />
-		  </div>		  
 		</div>
-
-
-
-		{/* 4. Controls to Edit item (solid or range); mini preview zone*/}
-		<div className={"controls Zone"+(expanded?" hide":"")}>
-		{
-		    //Determine which tab body to show...
-		    (() => {
-			switch (cpotItem.type) {
-			case "solid":
-			    return (
-				<CpotEdit_Section_Solid
-				   colourString={cpotItem.solid}
-				   onPropagateChange={value =>{this.handleEditingCpotSelItemChange({solid: {$set: value}});}}
-				   />
-			    );
-			case "range":
-			    return (
-				<CpotEdit_Section_Range
-				   hslaRange={cpotItem.range}
-				   tabIndex={this.state.rangeEditTabIndex}
-				   onTabIndexChange={ i => {
-				       this.setState( {rangeEditTabIndex: i} );
-				   }}
-				   onPropagateChange={null}
-				   />
-			    );
-			default:
-			    return (
-				<div className="editZone null" />
-			    );
-			}
-		    })()
 		}
-		
-		<Cpot_PreviewPatch
-		     className="mini"
-		     cpot={this.state.cpot}
-		     nX={19}
-		     nY={8}
-		     chequerSize="normal"
-		/>
-		<div>
-		    <WgActionLink
-		       name="expand"
-		       onClick={() => {
-			   this.setState({
-			       selectedRowIndex: -1 // this means render expanded state
-			   });
-		      }}
-		       enabled={!expanded}
-		       />
-		  </div>		  
-
-		</div>		
+		{/* note: the apparent code-duplication here is to ensure Fade Animation on Solid-Range change
+		    (it causes direct children of the <WgFadeTransition> Component to switch round...)
+		*/}
+		{!expanded && cpotItem.type === "solid" && this.renderSolidRangeZone(cpotItem)}
+		{!expanded && cpotItem.type === "range" && this.renderSolidRangeZone(cpotItem)}
+		</WgFadeTransition>
 
 
 		{/* 5. Slider... */}

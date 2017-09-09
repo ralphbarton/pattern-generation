@@ -18,16 +18,10 @@
 /* Space to the right of the Items listing */
 
 .MainTab_CpotEdit .Zone{
-    transition: opacity 0.4s;
     position: absolute;
     top: 7px;
     right: 10px;
 }
-
-.MainTab_CpotEdit .Zone.hide{
-    opacity: 0;
-}
-
 
 .MainTab_CpotEdit .bigPreview.Zone .Cpot_PreviewPatch td{
     width: 22px;
