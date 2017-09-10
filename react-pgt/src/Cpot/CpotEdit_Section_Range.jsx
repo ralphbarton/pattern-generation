@@ -3,6 +3,8 @@ import React from 'react';
 import tinycolor from 'tinycolor2';
 
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
+import WgSmartInput from '../Wg/WgSmartInput';
+
 import Cpot_util from './plain-js/Cpot_util.js';// range unpack
 
 
@@ -19,7 +21,6 @@ class CpotEdit_Section_Range extends React.PureComponent {
     
     renderCentral(hslaRange){
 	const X = Cpot_util.range_unpack( hslaRange );
-
 	const getShade = function(charHsla, isHi){
 
 	    const getKey = function(this_charHsla){
@@ -33,6 +34,25 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		l: X[getKey("l")],
 		a: X[getKey("a")]
 	    };
+	};
+
+	const TS = this;
+	const WgSmartInput_rC = function(key, isHue){
+	    return (
+		<WgSmartInput
+		   // central-value of property
+		   className="plain-cell s"
+		   value={hslaRange[key] * (isHue ? 1 : 100)}
+		   dataUnit={isHue ? "degrees" : "percent"}
+		   min={0}
+		   max={isHue ? 360 : 100}
+		   onChange={ value => {
+		       TS.props.handleEditingCpotSelItemChange(
+			   {range: {[key]: {$set: value / (isHue ? 1 : 100)}}}
+		       );
+		  }}
+		  />
+	    );
 	};
 
 	return(
@@ -51,14 +71,15 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		      ["lum", "Lum:",   'l'],
 		      ["alp", "Alpha:", 'a']
 		  ].map( ks => {
+		      const isHue = ks[2] === 'h';
 		      return (
 			  <div className={"Ln "+ks[0]} key={ks[0]}>
 			    <div className="name">{ks[1]}</div>
 			    <div className="mid">
-			      Mid:<input className="plain-cell s"/>
+			      Mid: { WgSmartInput_rC(ks[2], isHue) }
 			    </div>
 			    <div className="var">
-			      Rng:<input className="plain-cell s"/>
+			      Rng: { WgSmartInput_rC('d'+ks[2], isHue) }
 			    </div>
 			    <div className="view">
 			      <div className="chequer" />

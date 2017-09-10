@@ -42,6 +42,10 @@ class MainTab_CpotEdit extends React.PureComponent {
 	    previewRerandomiseCounter: 0,
 	    rangeEditTabIndex: 0 /* 0=Central, 1=Boundaries, 2=More */
 	};
+
+	//handlers passed down as props...
+	this.handleEditingCpotSelItemChange = this.handleEditingCpotSelItemChange.bind(this);
+	
     }
 
     nextUid(){
@@ -63,10 +67,8 @@ class MainTab_CpotEdit extends React.PureComponent {
     }
 
     handleEditingCpotSelItemChange(changesObject){
-	let $updater = {contents: {}};
 	const rIndex = this.state.selectedRowIndex;
-	$updater.contents[rIndex] = changesObject;
-	this.handleEditingCpotChange( $updater );			   
+	this.handleEditingCpotChange( {contents: {[rIndex]: changesObject}} );
     }
 
     // this function will be a member of all components containing a WgTable.
@@ -85,6 +87,7 @@ class MainTab_CpotEdit extends React.PureComponent {
 	      {cpotItem.type === "range" &&
 		  <CpotEdit_Section_Range
 			 hslaRange={cpotItem.range}
+			 handleEditingCpotSelItemChange={this.handleEditingCpotSelItemChange}
 			 tabIndex={this.state.rangeEditTabIndex}
 			 onTabIndexChange={ i => {
 			     this.setState( {rangeEditTabIndex: i} );
@@ -156,7 +159,7 @@ class MainTab_CpotEdit extends React.PureComponent {
 		   selectedRowIndex={this.state.selectedRowIndex}
 		   onEditingCpotChange={this.handleEditingCpotChange.bind(this)}
 		   nextUid={this.nextUid.bind(this)}
-		   onEditingCpotSelItemChange={this.handleEditingCpotSelItemChange.bind(this)}
+		   onEditingCpotSelItemChange={this.handleEditingCpotSelItemChange}
 		   />		
 
 
