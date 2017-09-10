@@ -1,6 +1,6 @@
 import React from 'react';
 
-//import tinycolor from 'tinycolor2';
+import tinycolor from 'tinycolor2';
 
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 import Cpot_util from './plain-js/Cpot_util.js';// range unpack
@@ -19,6 +19,22 @@ class CpotEdit_Section_Range extends React.PureComponent {
     
     renderCentral(hslaRange){
 	const X = Cpot_util.range_unpack( hslaRange );
+
+	const getShade = function(charHsla, isHi){
+
+	    const getKey = function(this_charHsla){
+		if (this_charHsla !== charHsla){return this_charHsla + "2";}
+		return this_charHsla + (isHi ? "3" : "1");
+	    };
+
+	    return {
+		h: X[getKey("h")],
+		s: X[getKey("s")],
+		l: X[getKey("l")],
+		a: X[getKey("a")]
+	    };
+	};
+
 	return(
 	    <div className="central">
 	      <div className="Ln1">
@@ -30,10 +46,10 @@ class CpotEdit_Section_Range extends React.PureComponent {
 
 	      {
 		  [
-		      ["hue", "Hue:"],
-		      ["sat", "Sat:"],
-		      ["lum", "Lum:"],
-		      ["alp", "Alpha:"]
+		      ["hue", "Hue:",   'h'],
+		      ["sat", "Sat:",   's'],
+		      ["lum", "Lum:",   'l'],
+		      ["alp", "Alpha:", 'a']
 		  ].map( ks => {
 		      return (
 			  <div className={"Ln "+ks[0]} key={ks[0]}>
@@ -46,9 +62,16 @@ class CpotEdit_Section_Range extends React.PureComponent {
 			    </div>
 			    <div className="view">
 			      <div className="chequer" />
-			      <div className="B left"   style={{background: X.col}} />
-			      <div className="B center" style={{background: X.col}} />
-			      <div className="B right"  style={{background: X.col}} />
+
+			      <div className="B left"
+				   style={{background: tinycolor( getShade(ks[2], false) ).toRgbString()}} />
+
+			      <div className="B center"
+				   style={{background: X.col}} />
+
+			      <div className="B right"
+				   style={{background: tinycolor( getShade(ks[2], true) ).toRgbString()}} />
+
 			    </div>
 			  </div>
 		      );
