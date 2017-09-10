@@ -37,18 +37,25 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	};
 
 	const TS = this;
-	const WgSmartInput_rC = function(key, isHue){
+	const WgSmartInput_rC = function(key, isHue, isVar){
+	    const scale = (isHue ? 1 : 100) * (isVar ? 2 : 1);
 	    return (
 		<WgSmartInput
 		   // central-value of property
 		   className="plain-cell s"
-		   value={hslaRange[key] * (isHue ? 1 : 100)}
+		   value={hslaRange[key] * scale}
 		   dataUnit={isHue ? "degrees" : "percent"}
 		   min={0}
 		   max={isHue ? 360 : 100}
 		   onChange={ value => {
+		       /*
+			
+			Cpot_util.range_set() - do we invoke this function here, to enforce min-max limits?
+			
+			*/
+		       
 		       TS.props.handleEditingCpotSelItemChange(
-			   {range: {[key]: {$set: value / (isHue ? 1 : 100)}}}
+			   {range: {[key]: {$set: value / scale}}}
 		       );
 		  }}
 		  />
@@ -76,10 +83,10 @@ class CpotEdit_Section_Range extends React.PureComponent {
 			  <div className={"Ln "+ks[0]} key={ks[0]}>
 			    <div className="name">{ks[1]}</div>
 			    <div className="mid">
-			      Mid: { WgSmartInput_rC(ks[2], isHue) }
+			      Mid: { WgSmartInput_rC(ks[2], isHue, false) }
 			    </div>
 			    <div className="var">
-			      Rng: { WgSmartInput_rC('d'+ks[2], isHue) }
+			      Rng: { WgSmartInput_rC('d'+ks[2], isHue, true) }
 			    </div>
 			    <div className="view">
 			      <div className="chequer" />
