@@ -112,29 +112,47 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	);
     }
 
-    renderBoundaries(pot_elem){
+    renderBoundaries(hslaRange){
+	const X = Cpot_util.range_unpack( hslaRange );
+	const col_1 = tinycolor( {
+	    h: X["h1"],
+	    s: X["s1"],
+	    l: X["l1"],
+	    a: X["a1"]
+	} );
+	const col_2 = tinycolor( {
+	    h: X["h3"],
+	    s: X["s3"],
+	    l: X["l3"],
+	    a: X["a3"]
+	} );
+
 	return(
 	    <div className="boundaries">
 	      <div className="colour-block c1">
 		<div className="text">Colour 1:</div>
-		<div className="colour-sun m"></div>
+		<div className="colour-sun m"
+		     style={{background: col_1.toHexString()}} />
 		<div className="view">
-		  <div className="chequer"></div>
-		  <div className="B"></div>
+		  <div className="chequer"/>
+		  <div className="B"
+		       style={{background: col_1.toRgbString()}} />
 		</div>
 	      </div>
 
 	      <div className="colour-block c2">
 		<div className="text">Colour 2:</div>
-		<div className="colour-sun m"></div>
+		<div className="colour-sun m"
+		     style={{background: col_2.toRgbString()}} />
 		<div className="view">
-		  <div className="chequer"></div>
-		  <div className="B"></div>
+		  <div className="chequer"/>
+		  <div className="B"
+		       style={{background: col_2.toRgbString()}} />
 		</div>
 	      </div>
 
 	      <div className="colour-bar chequer">
-		<div className="gradient"></div>
+		<div className="gradient"/>
 	      </div>
 
 	      

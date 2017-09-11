@@ -38,9 +38,9 @@ class MainTab_CpotEdit extends React.PureComponent {
 	this.state = {
 	    cpot: cpot_with_uids,//the uids referred to here are not PGTobj uids, but for the purpose of React JSX map
 	    uidCounter: this.props.cpot.contents.length - 1,
-	    selectedRowIndex: -1, //value of -1 means no row selected and show big preview
+	    selectedRowIndex: 0, //value of -1 means no row selected and show big preview
 	    previewRerandomiseCounter: 0,
-	    rangeEditTabIndex: 0 /* 0=Central, 1=Boundaries, 2=More */
+	    rangeEditTabIndex: 1 /* 0=Central, 1=Boundaries, 2=More */
 	};
 
 	//handlers passed down as props...

@@ -12,6 +12,14 @@
 
 
 
+/* Colour Pot - Edit range -> (common to central & boundries)*/
+.MainTab_CpotEdit .editZone .view{
+    background-color: white;
+    box-shadow: 0px 0px 2px 1px white;
+    position: absolute; 
+}
+
+
 /* Colour Pot - Edit range -> Central*/
 .MainTab_CpotEdit .editZone .central .colour-sun.s{
     width: 50px;
@@ -66,12 +74,6 @@
 
 .MainTab_CpotEdit .editZone .central .Ln .var{
     left: 115px;
-}
-
-.MainTab_CpotEdit .editZone .central .view{
-    background-color: white;
-    box-shadow: 0px 0px 2px 1px white;
-    position: absolute; 
 }
 
 .MainTab_CpotEdit .editZone .central .Ln .view{
@@ -211,9 +213,9 @@
 }
 
 .MainTab_CpotEdit .editZone .boundaries .alc#reverse-hue{
-    top: 150px;
+    top: 160px;
 }
 
 .MainTab_CpotEdit .editZone .boundaries .alc#permute-sla{
-    top: 170px;
+    top: 180px;
 }
