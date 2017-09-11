@@ -127,6 +127,40 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	    a: X["a3"]
 	} );
 
+
+	// Vertical Gradient bar
+	var C1 = col_1.toHsl();
+	var C2 = col_2.toHsl();
+
+	var SLA_mix = function(r){// r is mix ratio
+	    var m = function(a,b){return (b*r+ a*(1-r));};
+	    return {s: m(C1.s, C2.s), l: m(C1.l, C2.l), a: m(C1.a, C2.a)};
+	};
+
+	var h_high = C2.h > C1.h ? C2.h : (C2.h + 360); // may be over 360, guarenteed to exceed C1.h
+	var h_span = h_high - C1.h;
+	var n_stop = 0;
+	
+	var grad_str = ", " + col_1.toRgbString() + " 0%";
+
+	while (true){
+	    var h_stopper = 60 * ( Math.ceil(C1.h / 60) + n_stop);
+	    if(h_stopper > h_high){break;}
+	    n_stop++;
+
+	    var ratio = (h_stopper - C1.h) / h_span;	
+	    var mix = SLA_mix(ratio);
+	    mix.h = h_stopper%360;
+
+	    var colourStr = tinycolor(mix).toRgbString();
+	    var pcnt = (ratio * 100).toFixed(1);
+	    grad_str += ", " + colourStr + " " + pcnt + "%";
+	}
+	
+	grad_str += ", " + col_2.toRgbString() + " 100%";
+
+
+	
 	return(
 	    <div className="boundaries">
 	      <div className="colour-block c1">
@@ -152,7 +186,8 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	      </div>
 
 	      <div className="colour-bar chequer">
-		<div className="gradient"/>
+		<div className="gradient"
+		     style={{backgroundImage: "linear-gradient(to bottom"+grad_str+")"}} />
 	      </div>
 
 	      
