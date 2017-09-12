@@ -2,12 +2,13 @@ import React from 'react';
 
 import tinycolor from 'tinycolor2';
 import update from 'immutability-helper';
-import { SketchPicker } from 'react-color';
 
 import WgSmartInput from '../Wg/WgSmartInput';
-import {WgButton} from '../Wg/WgButton';
+
 
 import {WgAlphaSwatch} from './Cpot_AtomicComponents.jsx';
+
+import CpotEdit_Section_ColPickPopout from './CpotEdit_Section_ColPickPopout';
 
 
 class CpotEdit_Section_Solid extends React.PureComponent {
@@ -18,6 +19,7 @@ class CpotEdit_Section_Solid extends React.PureComponent {
 	    hslaObj: tinycolor(props.colourString).toHsl(),
 	    pickerActive: false
 	};
+	this.hofHandleShowPicker = this.hofHandleShowPicker.bind(this);
     }
 
 
@@ -29,17 +31,20 @@ class CpotEdit_Section_Solid extends React.PureComponent {
 
     
     handleColourChange(key, value){
-	let $Updater = {};
-	$Updater[key] = {$set: value};
 	this.setState({
-	    hslaObj: update(this.state.hslaObj, $Updater)
+	    hslaObj: update(this.state.hslaObj, {
+		[key]: {$set: value}
+	    })
 	});
     }
 
-    handleShowPicker(activate){
-	this.setState({
-	    pickerActive: activate
-	});
+    hofHandleShowPicker(activate){
+	const TS = this;
+	return function(){
+	    TS.setState({
+		pickerActive: activate
+	    });
+	}
     }
     
     render() {
@@ -51,7 +56,7 @@ class CpotEdit_Section_Solid extends React.PureComponent {
 		<div
 		   className="colour-sun l"
 		   style={{backgroundColor: col_opaque}}
-		   onClick={this.handleShowPicker.bind(this, true)}
+		   onClick={this.hofHandleShowPicker(true)}
 		   />
 	      </div>
 
@@ -107,50 +112,24 @@ class CpotEdit_Section_Solid extends React.PureComponent {
 		  />
 	      </div>
 	      
-	      {
-		  // Show the picker?
-		  (() => {
-		      switch (this.state.pickerActive) {
-		      case true:
-			  //the picker
-			  return (
-			      <div className="BeigeWindow pickerWindow">
-				<SketchPicker
-				   color={col_w_alph}
-				   onChange={(color)=>{
-				       this.setState({
-					   hslaObj: color.hsl
-				       });
-				  }}
-				  onChangeComplete={(color)=>{
-				      this.setState({
-					  hslaObj: color.hsl
-				      });
-				      const colStr = tinycolor(color.hsl).toRgbString();
-				      this.props.onPropagateChange(colStr);
-				  }}
-				  />
-				  <div className="mainButtons">
-				    <WgButton
-				       name="Cancel"
-				       buttonStyle={"small"}
-				       onClick={this.handleShowPicker.bind(this, false)}
-				       enabled={true}
-				      />
-				      <WgButton
-					 name="Choose"
-					 buttonStyle={"small"}
-					 onClick={this.handleShowPicker.bind(this, false)}
-					 enabled={true}
-					/>
-				  </div>
-			      </div>
-			  );
-		      default:
-			  return null;
-		      }
-		  })()
-	      }
+
+	      <CpotEdit_Section_ColPickPopout
+		 active={this.state.pickerActive}
+		 color={col_w_alph}
+		 onChange={ color => {
+		     this.setState({
+			 hslaObj: color.hsl
+		     });
+  		 }}
+		 onChangeComplete={ color => {
+		     this.setState({
+			 hslaObj: color.hsl
+		     });
+		     const colStr = tinycolor(color.hsl).toRgbString();
+		     this.props.onPropagateChange(colStr);
+		 }}
+		 hofHandleShowPicker={this.hofHandleShowPicker}
+		/>
 	    </div>
 	);
     }
