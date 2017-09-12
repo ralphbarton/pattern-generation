@@ -22,7 +22,8 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	//copy pasted....
 	this.state = {
 	    hslaObj: tinycolor( X.col ).toHsl(),
-	    pickerActive: false
+	    pickerActive: false,
+	    swatchSelection: null
 	};
 	this.hofHandleShowPicker = this.hofHandleShowPicker.bind(this);
     }
@@ -94,6 +95,7 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		      ["alp", "Alpha:", 'a']
 		  ].map( ks => {
 		      const isHue = ks[2] === 'h';
+
 		      return (
 			  <div className={"Ln "+ks[0]} key={ks[0]}>
 			    <div className="name">{ks[1]}</div>
@@ -106,13 +108,16 @@ class CpotEdit_Section_Range extends React.PureComponent {
 			    <div className="view">
 			      <div className="chequer" />
 
-			      <div className="B left"
+			      <div className={"B left" + (this.state.swatchSelection === ('d'+ks[2]) ? " sel":"")}
+				   onClick={()=>{this.setState({swatchSelection: ('d'+ks[2])});}}
 				   style={{background: tinycolor( getShade(ks[2], false) ).toRgbString()}} />
 
-			      <div className="B center"
+			      <div className={"B center" + (this.state.swatchSelection === (ks[2]) ? " sel":"")}
+				   onClick={()=>{this.setState({swatchSelection: ks[2]});}}
 				   style={{background: X.col}} />
 
-			      <div className="B right"
+			      <div className={"B right" + (this.state.swatchSelection === ('d'+ks[2]) ? " sel":"")}
+				   onClick={()=>{this.setState({swatchSelection: ('d'+ks[2])});}}
 				   style={{background: tinycolor( getShade(ks[2], true) ).toRgbString()}} />
 
 			    </div>
