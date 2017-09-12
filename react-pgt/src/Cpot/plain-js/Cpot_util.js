@@ -77,19 +77,17 @@ var Cpot_util = {
        (2.)  'adjustment' is a single or multiple props to modify in 'prev range'
        (3.)  As above, but optional 'prev range' not supplied. Default values of 0 used for all properties
        (n.b. at some point in future, check if cases (2 & 3) are ever needed.
-
-       unlike in my jQuery incarnation, this function **may** mutate the 'prev_range' obj provided
      */
     
-    range_set: function(adjustment, prev_range){
+    range_set: function(adjustment, prev_rng){
 
 	if(typeof(adjustment) === "string"){
 	    adjustment = tinycolor(adjustment).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }	    
 	}
 
-	prev_range = prev_range || {};
+	const prev_range = prev_rng || {};
 	
-	var my_range = prev_range || {
+	var my_range = {
 	    h:  prev_range.h  || 0,
 	    s:  prev_range.s  || 0,
 	    l:  prev_range.l  || 0,

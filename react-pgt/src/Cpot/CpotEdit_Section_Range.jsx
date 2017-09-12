@@ -7,7 +7,7 @@ import WgSmartInput from '../Wg/WgSmartInput';
 
 import Cpot_util from './plain-js/Cpot_util.js';// range unpack
 
-
+import CpotEdit_Section_ColPickPopout from './CpotEdit_Section_ColPickPopout';
 
 class CpotEdit_Section_Range extends React.PureComponent {
 
@@ -16,8 +16,27 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	this.renderCentral = this.renderCentral.bind(this);
 	this.renderBoundaries = this.renderBoundaries.bind(this);
 	this.renderMore = this.renderMore.bind(this);
+
+
+	const X = Cpot_util.range_unpack( props.hslaRange );
+	//copy pasted....
+	this.state = {
+	    hslaObj: tinycolor( X.col ).toHsl(),
+	    pickerActive: false
+	};
+	this.hofHandleShowPicker = this.hofHandleShowPicker.bind(this);
     }
 
+
+    ///Copy-pasted from "..._Solid" - so there's some kind of opportunity for code neatening here...
+    hofHandleShowPicker(activate){
+	const TS = this;
+	return function(){
+	    TS.setState({
+		pickerActive: activate
+	    });
+	};
+    }
     
     renderCentral(hslaRange){
 	const X = Cpot_util.range_unpack( hslaRange );
@@ -48,14 +67,9 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		   min={0}
 		   max={isHue ? 360 : 100}
 		   onChange={ value => {
-		       /*
-			
-			Cpot_util.range_set() - do we invoke this function here, to enforce min-max limits?
-			
-			*/
-		       
+		       const changesObj = {[key]: value / scale};
 		       TS.props.handleEditingCpotSelItemChange(
-			   {range: {[key]: {$set: value / scale}}}
+			   {range: {$set: Cpot_util.range_set(changesObj, hslaRange)}}
 		       );
 		  }}
 		  />
@@ -68,6 +82,7 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		<div className="text">Central Colour:</div>		      
 		<div className="colour-sun s"
 		     style={{background: X.col_opaque}}
+		     onClick={this.hofHandleShowPicker(true)}
 		     />
 	      </div>
 
@@ -107,6 +122,30 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	      }
 
 
+	    <CpotEdit_Section_ColPickPopout
+	       active={this.state.pickerActive}
+	       color={tinycolor(this.state.hslaObj).toRgbString()}
+	       onChange={ color => {
+		   this.setState({
+		       hslaObj: color.hsl
+		   });
+
+		   // set the underlying object
+		   const colStr = tinycolor(color.hsl).toRgbString();
+		   this.props.handleEditingCpotSelItemChange(
+		       {range: {
+			   $set: Cpot_util.range_set(colStr, hslaRange)
+		       }}
+		   );
+		   
+	       }}
+	      onChangeComplete={ color => {
+
+	      }}
+	      hofHandleShowPicker={this.hofHandleShowPicker}
+	      />
+
+	    
 	      
 	    </div>
 	);
@@ -225,22 +264,22 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	       onTabClick={this.props.onTabIndexChange}
 
 	       items={
-		  [
-		      {
-			  name: "Central",
-			  renderJSX: this.renderCentral.bind(null, this.props.hslaRange)
-		      },
-		      {
-			  name: "Boundaries",
-			  renderJSX: this.renderBoundaries.bind(null, this.props.hslaRange)
-		      },
-		      {
-			  name: "More",
-			  renderJSX: this.renderMore
-		      }
-		  ]
-	      }
-		/>
+		   [
+		       {
+			   name: "Central",
+			   renderJSX: this.renderCentral.bind(null, this.props.hslaRange)
+		       },
+		       {
+			   name: "Boundaries",
+			   renderJSX: this.renderBoundaries.bind(null, this.props.hslaRange)
+		       },
+		       {
+			   name: "More",
+			   renderJSX: this.renderMore
+		       }
+		   ]
+	       }
+	       />
 	);
     }
 }

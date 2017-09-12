@@ -44,7 +44,7 @@ class CpotEdit_Section_Solid extends React.PureComponent {
 	    TS.setState({
 		pickerActive: activate
 	    });
-	}
+	};
     }
     
     render() {
