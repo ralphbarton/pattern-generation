@@ -127,6 +127,27 @@ var Cpot_util = {
 	});
 	    
 	return my_range;
+    },
+
+    range_from_colour_pair: function(colour_pair){
+	var A = tinycolor(colour_pair[0]).toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+	var B = tinycolor(colour_pair[1]).toHsl();
+	
+	// Hue angle utilised is going clockwise from A to B
+	// wrap around is handled in the structure of these calculations...
+	return{
+	    h: ((A.h+B.h)/2 + (B.h < A.h ? 180 : 0)) % 360,
+	    dh: (B.h-A.h)/2 + (B.h < A.h ? 180 : 0),	    
+	    s: (A.s+B.s)/2,
+	    ds: Math.abs(A.s - B.s)/2,
+	    l: (A.l+B.l)/2,
+	    dl: Math.abs(A.l - B.l)/2,
+	    a: (A.a+B.a)/2,
+	    da: Math.abs(A.a - B.a)/2,
+	    s: (A.s+B.s)/2,
+	    ds: Math.abs(A.s - B.s)/2,
+	};
+	
     }
     
     

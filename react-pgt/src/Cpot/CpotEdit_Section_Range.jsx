@@ -24,18 +24,18 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	this.state = {
 	    hslaObj: tinycolor( X.col ).toHsl(),
 	    pickerActive: false,
-	    swatchSelection: null
+	    swatchSelection: null // for central, which swatch is selected?
 	};
 	this.hofHandleShowPicker = this.hofHandleShowPicker.bind(this);
     }
 
 
     ///Copy-pasted from "..._Solid" - so there's some kind of opportunity for code neatening here...
-    hofHandleShowPicker(activate){
+    hofHandleShowPicker(value){
 	const TS = this;
 	return function(){
 	    TS.setState({
-		pickerActive: activate
+		pickerActive: value
 	    });
 	};
     }
@@ -216,11 +216,13 @@ class CpotEdit_Section_Range extends React.PureComponent {
 
 
 	// 3. Actually render it
+	const isCol2 = this.state.pickerActive === 2;
 	return(
 	    <div className="boundaries">
 	      <div className="colour-block c1">
 		<div className="text">Colour 1:</div>
 		<div className="colour-sun m"
+		     onClick={this.hofHandleShowPicker(1)}
 		     style={{background: col_1.toHexString()}} />
 		<div className="view">
 		  <div className="chequer"/>
@@ -232,6 +234,7 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	      <div className="colour-block c2">
 		<div className="text">Colour 2:</div>
 		<div className="colour-sun m"
+		     onClick={this.hofHandleShowPicker(2)}
 		     style={{background: col_2.toHexString()}} />
 		<div className="view">
 		  <div className="chequer"/>
@@ -273,6 +276,39 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		(<span>{sla_perm}</span>)
 	    </div>
 
+		
+	    <CpotEdit_Section_ColPickPopout
+	       active={this.state.pickerActive !== false} // variable will contain a 1 or a 2
+               color={isCol2 ? col_2.toRgbString() : col_1.toRgbString()}
+	       onChange={ color => {
+		   this.setState({
+		       hslaObj: color.hsl // note, this is the pickers own colour for its own state...
+		   });
+
+		   // set the underlying object
+		   const newTinyCol = tinycolor(color.hsl);
+		   const tcArr  = isCol2 ? [col_1, newTinyCol] : [newTinyCol, col_2];
+		   const C1 = tcArr[0].toHsl();
+		   const C2 = tcArr[1].toHsl();
+
+		   // the bit unset refers to using the smaller of the SLA values in COLOUR 1
+		   var newRange = Cpot_util.range_from_colour_pair([tcArr[0].toRgbString(), tcArr[1].toRgbString()]);
+		   newRange.sla_perm = (C2.s < C1.s)*4 + (C2.l < C1.l)*2 + (C2.a < C1.a);
+		   
+		   this.props.handleEditingCpotSelItemChange(
+		       {range: {
+			   $set: newRange
+		       }}
+		   );
+		   
+	       }}
+	      onChangeComplete={ color => {
+
+	      }}
+	      hofHandleShowPicker={this.hofHandleShowPicker}
+	      />
+
+		
 	    </div>
 	);
     }
