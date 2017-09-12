@@ -4,6 +4,7 @@ import tinycolor from 'tinycolor2';
 
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 import WgSmartInput from '../Wg/WgSmartInput';
+import WgActionLink from '../Wg/WgActionLink';
 
 import Cpot_util from './plain-js/Cpot_util.js';// range unpack
 
@@ -156,23 +157,33 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	);
     }
 
+    
     renderBoundaries(hslaRange){
 	const X = Cpot_util.range_unpack( hslaRange );
+
+	
+	// 1. which way round are Sat / Lum / Alpha extremes shared between the two boundary shades generated?
+	const sla_perm = hslaRange.sla_perm === undefined ? 0 : hslaRange.sla_perm;
+	const b1 = sla_perm % 2 > 0;
+	const b2 = Math.floor(sla_perm/2) % 2 > 0;
+	const b3 = Math.floor(sla_perm/4) % 2 > 0;
+	const W = b => {return b?'3':'1';}; // a small 'macro' function...
+
 	const col_1 = tinycolor( {
 	    h: X["h1"],
-	    s: X["s1"],
-	    l: X["l1"],
-	    a: X["a1"]
+	    s: X["s" + W(b3)],
+	    l: X["l" + W(b2)],
+	    a: X["a" + W(b1)]
 	} );
 	const col_2 = tinycolor( {
 	    h: X["h3"],
-	    s: X["s3"],
-	    l: X["l3"],
-	    a: X["a3"]
+	    s: X["s" + W(!b3)],
+	    l: X["l" + W(!b2)],
+	    a: X["a" + W(!b1)]
 	} );
 
 
-	// Vertical Gradient bar
+	// 2. Vertical Gradient bar
 	var C1 = col_1.toHsl();
 	var C2 = col_2.toHsl();
 
@@ -204,7 +215,7 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	grad_str += ", " + col_2.toRgbString() + " 100%";
 
 
-	
+	// 3. Actually render it
 	return(
 	    <div className="boundaries">
 	      <div className="colour-block c1">
@@ -221,7 +232,7 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	      <div className="colour-block c2">
 		<div className="text">Colour 2:</div>
 		<div className="colour-sun m"
-		     style={{background: col_2.toRgbString()}} />
+		     style={{background: col_2.toHexString()}} />
 		<div className="view">
 		  <div className="chequer"/>
 		  <div className="B"
@@ -236,13 +247,30 @@ class CpotEdit_Section_Range extends React.PureComponent {
 
 	      
 	      <div className="mini-text alc" id="reverse-hue">
-		<div className="action-link">Reverse Hue</div>
-		<span>(ac)</span>
+		<WgActionLink
+		   name="Reverse Hue"
+		   onClick={() => {
+		       this.props.handleEditingCpotSelItemChange(
+			   {range: {
+			       h:  {$set: (hslaRange.h + 180) % 360},
+			       dh: {$set: 180 - hslaRange.dh}
+			   }}
+		       );
+		  }}
+		  />&nbsp;
+		(<span>{"ac"}</span>)
 	      </div>
 	      
 	      <div className="mini-text alc" id="permute-sla">
-		<div className="action-link">Permute SLA</div>
-		(<span>x.</span>)
+		<WgActionLink
+		   name="Permute SLA"
+		   onClick={() => {
+		       this.props.handleEditingCpotSelItemChange(
+			   {range: {sla_perm: {$set: (sla_perm + 1)%8}}}
+		       );
+		  }}
+		  />&nbsp;
+		(<span>{sla_perm}</span>)
 	    </div>
 
 	    </div>
