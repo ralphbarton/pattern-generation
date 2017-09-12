@@ -46,11 +46,13 @@ function putGradientOnCanvas(canvas, colour_range, gradient_config){
 class WgGradientCell extends React.PureComponent {
 
     componentDidMount() {
-	//called by React immediately after render()
-	const canvas = this.canvasElement;
-	putGradientOnCanvas(canvas, this.props.expandedRange, this.props.gradConf);
+	putGradientOnCanvas(this.canvasElement, this.props.expandedRange, this.props.gradConf);
     }
 
+    componentDidUpdate(){
+	putGradientOnCanvas(this.canvasElement, this.props.expandedRange, this.props.gradConf);
+    }
+    
     render() {
 	return (
 	    <canvas
