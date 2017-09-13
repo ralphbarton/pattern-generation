@@ -9,8 +9,6 @@ import WgBGrinsColourPicker from '../Wg/WgBGrinsColourPicker';
 
 import Cpot_util from './plain-js/Cpot_util.js';// range unpack
 
-import CpotEdit_Section_ColPickPopout from './CpotEdit_Section_ColPickPopout';
-
 class CpotEdit_Section_Range extends React.PureComponent {
 
     constructor(props) {
@@ -19,11 +17,8 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	this.renderBoundaries = this.renderBoundaries.bind(this);
 	this.renderMore = this.renderMore.bind(this);
 
-
-	const X = Cpot_util.range_unpack( props.hslaRange );
 	//copy pasted....
 	this.state = {
-	    hslaObj: tinycolor( X.col ).toHsl(),
 	    pickerActive: false,
 	    swatchSelection: null // for central, which swatch is selected?
 	};
@@ -128,34 +123,23 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		  })
 	      }
 
-
-	    <CpotEdit_Section_ColPickPopout
-	       active={this.state.pickerActive}
-	       color={tinycolor(this.state.hslaObj).toRgbString()}
-	       onChange={ color => {
-		   this.setState({
-		       hslaObj: color.hsl
-		   });
-
-		   // set the underlying object
-		   const colStr = tinycolor(color.hsl).toRgbString();
-		   this.props.handleEditingCpotSelItemChange(
-		       {range: {
-			   $set: Cpot_util.range_set(colStr, hslaRange)
-		       }}
-		   );
-		   
-	       }}
-	      onChangeComplete={ color => {
-
-	      }}
-	      hofHandleShowPicker={this.hofHandleShowPicker}
-	      />
-
 		{this.state.pickerActive &&
 		 <WgBGrinsColourPicker
+		 color={X.col}
+		 onChange={ col_tiny => {
+
+		     // set the underlying object
+		     const colStr = col_tiny.toRgbString();
+		     this.props.handleEditingCpotSelItemChange(
+			 {range: {
+			     $set: Cpot_util.range_set(colStr, hslaRange)
+			 }}
+		     );
+		     
+		 }}
 		 UI={this.props.UI_BGrins}
 		 hofHandleUIchange_BGrins={this.props.hofHandleUIchange_BGrins}
+		 hofHandleShowPicker={this.hofHandleShowPicker} // handle click of "OK"
 		 />}
 
 		
@@ -283,37 +267,33 @@ class CpotEdit_Section_Range extends React.PureComponent {
 		(<span>{sla_perm}</span>)
 	    </div>
 
-		
-	    <CpotEdit_Section_ColPickPopout
-	       active={this.state.pickerActive !== false} // variable will contain a 1 or a 2
-               color={isCol2 ? col_2.toRgbString() : col_1.toRgbString()}
-	       onChange={ color => {
-		   this.setState({
-		       hslaObj: color.hsl // note, this is the pickers own colour for its own state...
-		   });
 
-		   // set the underlying object
-		   const newTinyCol = tinycolor(color.hsl);
-		   const tcArr  = isCol2 ? [col_1, newTinyCol] : [newTinyCol, col_2];
-		   const C1 = tcArr[0].toHsl();
-		   const C2 = tcArr[1].toHsl();
+		{(this.state.pickerActive !== false) &&
+		 <WgBGrinsColourPicker
+		 color={isCol2 ? col_2.toRgbString() : col_1.toRgbString()}
+		 onChange={ newTinyCol => {
 
-		   // the bit unset refers to using the smaller of the SLA values in COLOUR 1
-		   var newRange = Cpot_util.range_from_colour_pair([tcArr[0].toRgbString(), tcArr[1].toRgbString()]);
-		   newRange.sla_perm = (C2.s < C1.s)*4 + (C2.l < C1.l)*2 + (C2.a < C1.a);
-		   
-		   this.props.handleEditingCpotSelItemChange(
-		       {range: {
-			   $set: newRange
-		       }}
-		   );
-		   
-	       }}
-	      onChangeComplete={ color => {
+		     // set the underlying object
+		     const tcArr  = isCol2 ? [col_1, newTinyCol] : [newTinyCol, col_2];
+		     const C1 = tcArr[0].toHsl();
+		     const C2 = tcArr[1].toHsl();
 
-	      }}
-	      hofHandleShowPicker={this.hofHandleShowPicker}
-	      />
+		     // the bit unset refers to using the smaller of the SLA values in COLOUR 1
+		     var newRange = Cpot_util.range_from_colour_pair([tcArr[0].toRgbString(), tcArr[1].toRgbString()]);
+		     newRange.sla_perm = (C2.s < C1.s)*4 + (C2.l < C1.l)*2 + (C2.a < C1.a);
+		     
+		     this.props.handleEditingCpotSelItemChange(
+			 {range: {
+			     $set: newRange
+			 }}
+		     );
+		     
+		 }}
+		 onChangeComplete={ color => { }}
+		 UI={this.props.UI_BGrins}
+		 hofHandleUIchange_BGrins={this.props.hofHandleUIchange_BGrins}
+		 hofHandleShowPicker={this.hofHandleShowPicker} // handle click of "OK"
+		 />}
 
 		
 	    </div>

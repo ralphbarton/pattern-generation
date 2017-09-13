@@ -4,24 +4,28 @@ import React from 'react';
 import * as spectrum from 'spectrum-colorpicker';// eslint-disable-line
 import $ from "jquery";
 
+import tinycolor from 'tinycolor2';
+
 import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import {WgButton} from '../Wg/WgButton';
 
 
 class WgBGrinsColourPicker extends React.PureComponent {
 
-    constructor() {
-	super();
-	this.initialisePicker = this.initialisePicker.bind(this);
+    constructor(props) {
+	super(props);
+	this.state = {
+	    startColor: this.props.color
+	};
     }
-    
-    initialisePicker(){
+
+    componentDidMount() {
 	this.$el = $(this.pickerDiv);
 	this.$el.spectrum({
 	    appendTo: this.$el,
-		flat: true, // always show full-size, inline block...
+	    flat: true, // always show full-size, inline block...
 
-	    color: "#f00",
+	    color: this.props.color,
 	    showInput: true, // allow text entry to specify colour
 	    showAlpha: true, // allow transparency selection
 	    //palette based options...
@@ -51,22 +55,27 @@ class WgBGrinsColourPicker extends React.PureComponent {
 	    move: this.props.onChange
 	});
     }
-    
-    componentDidMount() {
-	this.initialisePicker();
-    }
 
     componentWillUnmount() {
 	this.$el.spectrum("destroy");
     }
 
-    /*
+
     shouldComponentUpdate(nextProps){
-//	return nextProps.color  !== this.props.color && (this.blockRerenderTimeoutID === null);
-    }*/
+	return nextProps.UI  !== this.props.UI;
+    }
     
     componentDidUpdate(){
-	this.initialisePicker();
+	const $bgrins = this.$el;
+
+	//once the resize animation is complete, the "reflow" command" readjusts click handlers etc. for the new size
+	setTimeout(function(){$bgrins.spectrum("reflow");},410);
+
+	//change pref format
+	$bgrins.spectrum("option", "preferredFormat", this.props.UI.ColStrFormat ); // for the input box...
+
+	const col = $bgrins.spectrum("get");
+	$bgrins.spectrum("set", col);
     }
     
     render(){
@@ -108,13 +117,16 @@ class WgBGrinsColourPicker extends React.PureComponent {
 		  <WgButton
 		     name="Cancel"
 		     buttonStyle={"small"}
-		     onClick={null}
+		     onClick={()=>{
+			 this.props.onChange(tinycolor(this.state.startColor));
+			 this.props.hofHandleShowPicker(false)();
+		     }}
 		     enabled={true}
 		     />
 		  <WgButton
 		     name="Choose"
 		     buttonStyle={"small"}
-		     onClick={null}
+		     onClick={this.props.hofHandleShowPicker(false)}
 		     enabled={true}
 		     />
 	      </div>

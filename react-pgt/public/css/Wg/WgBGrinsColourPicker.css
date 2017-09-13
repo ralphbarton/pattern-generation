@@ -15,12 +15,6 @@
     margin-top: 8px;
 }
 
-/* temporary, to prevent overlap with other popout... */
-.WgBGrinsColourPicker.pickerWindow.BeigeWindow{
-    left: 400px;
-    top: -100px;
-}
-
 .WgBGrinsColourPicker .WgMutexActionLink{
     position: absolute;
     bottom: 0px;
