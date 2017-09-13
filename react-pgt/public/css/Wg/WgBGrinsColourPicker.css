@@ -1,0 +1,44 @@
+/* WgBGrinsColourPicker.css */
+
+/*relating to the colour picker by b-grins*/
+
+.WgBGrinsColourPicker{
+    padding: 6px;
+    position: absolute;
+    left: 215px;
+    top: -108px;
+}
+
+/* temporary, to prevent overlap with other popout... */
+.WgBGrinsColourPicker.pickerWindow.BeigeWindow{
+    left: 400px;
+    top: -100px;
+}
+
+.WgBGrinsColourPicker .sp-palette-container{
+    width: 220px;
+    border: none;
+}
+
+.WgBGrinsColourPicker .sp-picker-container{
+    transition: all 0.4s;
+    width: 260px;
+}
+
+.WgBGrinsColourPicker.large .sp-picker-container{
+    width: 500px;
+}
+
+.WgBGrinsColourPicker .sp-input-container{
+    width: 180px;
+}
+
+
+.WgBGrinsColourPicker.large .sp-hue{
+    width: 35px;
+}
+
+.WgBGrinsColourPicker.large .sp-alpha{
+    height: 18px;
+    top: 22px;
+}

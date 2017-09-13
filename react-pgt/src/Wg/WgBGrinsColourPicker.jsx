@@ -1,12 +1,10 @@
 import React from 'react';
-var _ = require('lodash');
+//var _ = require('lodash');
 
-//import RegisterJcolorPlugin from './jcolor/jcolor.js';
-import * as spectrum from 'spectrum-colorpicker';
+import * as spectrum from 'spectrum-colorpicker';// eslint-disable-line
 import $ from "jquery";
-//RegisterJcolorPlugin($);// initialise
 
-//import tinycolor from 'tinycolor2'; // for colour interpretation...
+import {WgButton} from '../Wg/WgButton';
 
 class WgBGrinsColourPicker extends React.PureComponent {
 
@@ -32,9 +30,10 @@ class WgBGrinsColourPicker extends React.PureComponent {
 	    selectionPalette: [ ],
 	    maxSelectionSize: 22,
 	    showInitial: true, // show the original (starting) colour alongside the new one
-	    showButtons: false //do not require OK and Cancel buttons
+	    showButtons: false, //do not require OK and Cancel buttons
 //	    preferredFormat: original_format, // for the input box...
 
+	    move: this.props.onChange
 	});
     }
     
@@ -43,7 +42,7 @@ class WgBGrinsColourPicker extends React.PureComponent {
     }
 
     componentWillUnmount() {
-//	this.$el.colorpicker().destroy();
+	this.$el.spectrum("destroy");
     }
 
     shouldComponentUpdate(nextProps){
@@ -51,14 +50,28 @@ class WgBGrinsColourPicker extends React.PureComponent {
     }
     
     componentDidUpdate(){
+	this.initialisePicker();
     }
     
     render(){
 	return (
 	    <div className="WgBGrinsColourPicker BeigeWindow pickerWindow">
-	      <div ref={ el => {this.pickerDiv = el;}}/>
-	      hello world
-	    </div>
+	      <div className="BGrins-target-div" ref={ el => {this.pickerDiv = el;}}/>
+
+		  <WgButton
+		     name="Cancel"
+		     buttonStyle={"small"}
+		     onClick={null}
+		     enabled={true}
+		     />
+		  <WgButton
+		     name="Choose"
+		     buttonStyle={"small"}
+		     onClick={null}
+		     enabled={true}
+		     />
+
+	      </div>
 	);
     }
 }

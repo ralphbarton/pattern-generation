@@ -143,9 +143,7 @@ var Cpot_util = {
 	    l: (A.l+B.l)/2,
 	    dl: Math.abs(A.l - B.l)/2,
 	    a: (A.a+B.a)/2,
-	    da: Math.abs(A.a - B.a)/2,
-	    s: (A.s+B.s)/2,
-	    ds: Math.abs(A.s - B.s)/2,
+	    da: Math.abs(A.a - B.a)/2
 	};
 	
     }
