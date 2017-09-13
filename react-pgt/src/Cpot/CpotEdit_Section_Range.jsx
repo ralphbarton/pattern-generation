@@ -5,6 +5,7 @@ import tinycolor from 'tinycolor2';
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 import WgSmartInput from '../Wg/WgSmartInput';
 import WgActionLink from '../Wg/WgActionLink';
+import WgBGrinsColourPicker from '../Wg/WgBGrinsColourPicker';
 
 import Cpot_util from './plain-js/Cpot_util.js';// range unpack
 
@@ -151,7 +152,10 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	      hofHandleShowPicker={this.hofHandleShowPicker}
 	      />
 
-	    
+		{this.state.pickerActive &&
+		 <WgBGrinsColourPicker/>}
+
+		
 	      
 	    </div>
 	);
