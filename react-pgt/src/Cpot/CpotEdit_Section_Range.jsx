@@ -153,7 +153,10 @@ class CpotEdit_Section_Range extends React.PureComponent {
 	      />
 
 		{this.state.pickerActive &&
-		 <WgBGrinsColourPicker/>}
+		 <WgBGrinsColourPicker
+		 UI={this.props.UI_BGrins}
+		 hofHandleUIchange_BGrins={this.props.hofHandleUIchange_BGrins}
+		 />}
 
 		
 	      

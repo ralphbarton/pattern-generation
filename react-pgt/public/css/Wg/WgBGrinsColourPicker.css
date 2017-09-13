@@ -1,12 +1,18 @@
 /* WgBGrinsColourPicker.css */
 
-/*relating to the colour picker by b-grins*/
+/* 1. Overall Layout */
 
 .WgBGrinsColourPicker{
-    padding: 6px;
     position: absolute;
     left: 215px;
     top: -108px;
+    overflow: hidden;
+}
+
+.WgBGrinsColourPicker .buttons{
+    text-align: right;
+    padding: 4px 12px;
+    margin-top: 8px;
 }
 
 /* temporary, to prevent overlap with other popout... */
@@ -15,12 +21,55 @@
     top: -100px;
 }
 
-.WgBGrinsColourPicker .sp-palette-container{
-    width: 220px;
+.WgBGrinsColourPicker .WgMutexActionLink{
+    position: absolute;
+    bottom: 0px;
+    margin: 4px;
+}
+
+.WgBGrinsColourPicker .ColStrFormat{
+    bottom: 13px;
+    margin-left: 8px;
+}
+
+
+.WgBGrinsColourPicker{
+    transition: width 0.4s, height 0.4s;
+}
+
+
+
+/* 2. Customising BGrins own CSS */
+
+.WgBGrinsColourPicker .sp-container{
     border: none;
+    box-shadow: 0px 0px 5px 5px #ECECEC;
+    height: 333px;
+    width-min: 283px;
+}
+
+.WgBGrinsColourPicker.large .sp-container{
+    height: 530px;
+}
+
+.WgBGrinsColourPicker .sp-palette-container{
+    border: none;
+    position: absolute;
+    top: 276px;
+    width: 92%;
+    z-index: 1;
+}
+
+.WgBGrinsColourPicker.large .sp-palette-container{
+    top: 475px;
+}
+
+.WgBGrinsColourPicker .sp-palette{
+    max-width: none;
 }
 
 .WgBGrinsColourPicker .sp-picker-container{
+    margin-top: 10px;
     transition: all 0.4s;
     width: 260px;
 }

@@ -40,13 +40,30 @@ class MainTab_CpotEdit extends React.PureComponent {
 	    uidCounter: this.props.cpot.contents.length - 1,
 	    selectedRowIndex: 0, //value of -1 means no row selected and show big preview
 	    previewRerandomiseCounter: 0,
-	    rangeEditTabIndex: 0 /* 0=Central, 1=Boundaries, 2=More */
+	    rangeEditTabIndex: 0, /* 0=Central, 1=Boundaries, 2=More */
+	    UI: {
+		BGrins: {
+		    LargeSize: false,
+		    ColStrFormat: "hex3" /* values: "hex3", "rgb", "hsl" */
+		}
+	    }
 	};
 
 	//handlers passed down as props...
 	this.handleEditingCpotSelItemChange = this.handleEditingCpotSelItemChange.bind(this);
-	
+	this.hofHandleUIchange_BGrins = this.hofSetCpotEditUI.bind(this, "BGrins");
     }
+
+    hofSetCpotEditUI(UI_section, subkey, value){
+	const TS = this;
+	return function (){
+	    TS.setState({
+		UI: update(TS.state.UI, {
+		    [UI_section]: {[subkey]: {$set: value}}
+		})
+	    });
+	};
+    };
 
     nextUid(){
 	const nexUid = this.state.uidCounter + 1;
@@ -89,6 +106,8 @@ class MainTab_CpotEdit extends React.PureComponent {
 			 hslaRange={cpotItem.range}
 			 handleEditingCpotSelItemChange={this.handleEditingCpotSelItemChange}
 			 tabIndex={this.state.rangeEditTabIndex}
+			 UI_BGrins={this.state.UI.BGrins}
+			 hofHandleUIchange_BGrins={this.hofHandleUIchange_BGrins}
 			 onTabIndexChange={ i => {
 			     this.setState( {rangeEditTabIndex: i} );
 			 }}
