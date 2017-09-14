@@ -5,9 +5,11 @@ import CpotEdit_util from './plain-js/CpotEdit_util.js';// probs summing etc
 import Cpot_util from './plain-js/Cpot_util.js';// 'range unpack' needed for solid <-> range convert
 
 // generic project widgets
-import {WgButton} from '../Wg/WgButton';
+import {WgButton, WgButtonExpanding} from '../Wg/WgButton';
 import WgDropDown from '../Wg/WgDropDown';
+import WgActionLink from '../Wg/WgActionLink';
 
+import tinycolor from 'tinycolor2';
 
 //the JSX below doesn't indent properly in emacs...
 function ProbsSumText (props){
@@ -29,6 +31,13 @@ function ProbsSumText (props){
 
 class CpotEdit_Section_BeneathTable extends React.PureComponent {
 
+    constructor() {
+	super();
+	this.state = {
+	    addItemRerandomiseCount: 0
+	};
+    }
+    
     render() {
 	const probs_sum = CpotEdit_util.calcProbsSum(this.props.cpot);
 	const iIndex = this.props.selectedRowIndex;
@@ -44,9 +53,9 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 
 	      <div className="mainButtons">
 
-		<WgButton
+		<WgButtonExpanding
 		   name="Add"
-		   buttonStyle={"small"}
+		   className="addItem"
 		   onClick={ ()=>{
 		       // Add a CPOT contents item
 		       const template_item = {
@@ -59,10 +68,36 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 			   contents: {$push: [template_item]}
 		       });
 		   }}
-		   enabled={true}
-		   />
+		   renderExpanded={ closeFn =>{
+		       return (
+			   <div>
+			     <div>
+			       Choose a colour for new colour pot item:
+			       <div className="palette">
+				 {
+				     Array(7).fill(null).map( (el, i)=>{
+					 return (
+					     <div
+						key={i}
+						style={{background: tinycolor.random()}}
+						/>
+					 );
+				     })
+				 }
+			       </div>			      
+			       <WgActionLink
+				  name="Different random colours"
+			   onClick={ ()=>{
+			       this.setState({
+				   addItemRerandomiseCount: (this.state.addItemRerandomiseCount+1)
+			       });
+			   }}
+				  />
+			     </div>
+			   </div>
+		       );
+		   }}/>		
 		
-
 		<WgButton
 		   name="Delete"
 		   buttonStyle={"small"}

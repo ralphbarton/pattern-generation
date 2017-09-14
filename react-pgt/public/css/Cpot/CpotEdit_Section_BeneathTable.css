@@ -30,11 +30,42 @@
 }
 
 .MainTab_CpotEdit .beneathTable .mainButtons .button{
-    width: 58px;
+    width: 60px;
     margin-bottom: 5px;
 }
 
+.MainTab_CpotEdit .beneathTable .WgButtonExpanding.button{
+    width: 40px;
+}
 
+
+/* Expanded section of "Add" button... */
+
+.MainTab_CpotEdit .beneathTable .WgButtonExpanding .popout.expanded{
+    z-index: 1;
+    height: 63px;
+    width: 230px;
+    right: -213px;
+    bottom: -1px;
+}
+
+.MainTab_CpotEdit .beneathTable .WgButtonExpanding .popout.expanded > div{
+    padding: 3px 4px;
+}
+
+.MainTab_CpotEdit .beneathTable .WgButtonExpanding .palette div{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: 1px solid black;
+    margin: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.MainTab_CpotEdit .beneathTable .WgButtonExpanding .palette div:hover{
+    box-shadow: 0px 0px 3px 1px rgba(0,0,0,1);
+}
 
 
 
