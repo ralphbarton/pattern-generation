@@ -105,16 +105,16 @@ class CpotEdit_Section_Range extends React.PureComponent {
 			    <div className="view">
 			      <div className="chequer" />
 
-			      <div className={"B left" + (this.state.swatchSelection === ('d'+ks[2]) ? " sel":"")}
-				   onClick={()=>{this.setState({swatchSelection: ('d'+ks[2])});}}
+			      <div className={"B left" + (this.props.UI_rngC.swatchSelection === ('d'+ks[2]) ? " sel":"")}
+				   onClick={()=>{this.props.handleUIchange_rngC("swatchSelection", ('d'+ks[2]));}}
 				   style={{background: tinycolor( getShade(ks[2], false) ).toRgbString()}} />
 
-			      <div className={"B center" + (this.state.swatchSelection === (ks[2]) ? " sel":"")}
-				   onClick={()=>{this.setState({swatchSelection: ks[2]});}}
+			      <div className={"B center" + (this.props.UI_rngC.swatchSelection === (ks[2]) ? " sel":"")}
+				   onClick={()=>{this.props.handleUIchange_rngC("swatchSelection", ks[2]);}}
 				   style={{background: X.col}} />
 
-			      <div className={"B right" + (this.state.swatchSelection === ('d'+ks[2]) ? " sel":"")}
-				   onClick={()=>{this.setState({swatchSelection: ('d'+ks[2])});}}
+			      <div className={"B right" + (this.props.UI_rngC.swatchSelection === ('d'+ks[2]) ? " sel":"")}
+				   onClick={()=>{this.props.handleUIchange_rngC("swatchSelection", ('d'+ks[2]));}}
 				   style={{background: tinycolor( getShade(ks[2], true) ).toRgbString()}} />
 
 			    </div>

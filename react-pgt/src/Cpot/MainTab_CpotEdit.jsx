@@ -3,8 +3,6 @@ import React from 'react';
 // externally developed libraries
 import update from 'immutability-helper';
 
-import Slider, { Range } from 'rc-slider';
-
 import CpotEdit_util from './plain-js/CpotEdit_util.js';// probs summing etc
 
 
@@ -21,7 +19,7 @@ import CpotEdit_Section_Solid from './CpotEdit_Section_Solid';
 import CpotEdit_Section_Range from './CpotEdit_Section_Range';
 import CpotEdit_Section_ItemsTable from './CpotEdit_Section_ItemsTable';
 import CpotEdit_Section_BeneathTable from './CpotEdit_Section_BeneathTable';
-
+import CpotEdit_Section_Slider from './CpotEdit_Section_Slider';
 
 class MainTab_CpotEdit extends React.PureComponent {
 
@@ -45,6 +43,9 @@ class MainTab_CpotEdit extends React.PureComponent {
 		BGrins: {
 		    LargeSize: false,
 		    ColStrFormat: "hex3" /* values: "hex3", "rgb", "hsl" */
+		},
+		rangeCentral: {
+		    swatchSelection: null // for central, which swatch is selected?
 		}
 	    }
 	};
@@ -52,6 +53,7 @@ class MainTab_CpotEdit extends React.PureComponent {
 	//handlers passed down as props...
 	this.handleEditingCpotSelItemChange = this.handleEditingCpotSelItemChange.bind(this);
 	this.hofHandleUIchange_BGrins = this.hofSetCpotEditUI.bind(this, "BGrins");
+	this.handleUIchange_rngC = this.setCpotEditUI.bind(this, "rangeCentral");
     }
 
     hofSetCpotEditUI(UI_section, subkey, value){
@@ -63,6 +65,14 @@ class MainTab_CpotEdit extends React.PureComponent {
 		})
 	    });
 	};
+    };
+
+    setCpotEditUI(UI_section, subkey, value){
+	this.setState({
+	    UI: update(this.state.UI, {
+		[UI_section]: {[subkey]: {$set: value}}
+	    })
+	});
     };
 
     nextUid(){
@@ -108,6 +118,8 @@ class MainTab_CpotEdit extends React.PureComponent {
 			 tabIndex={this.state.rangeEditTabIndex}
 			 UI_BGrins={this.state.UI.BGrins}
 			 hofHandleUIchange_BGrins={this.hofHandleUIchange_BGrins}
+			 UI_rngC={this.state.UI.rangeCentral}
+			 handleUIchange_rngC={this.handleUIchange_rngC}
 			 onTabIndexChange={ i => {
 			     this.setState( {rangeEditTabIndex: i} );
 			 }}
@@ -214,29 +226,12 @@ class MainTab_CpotEdit extends React.PureComponent {
 
 
 		{/* 5. Slider... */}
-		<div className="sliderSection">
-		{
-		    //Determine which slider type to show...
-		    (() => {
-			switch (cpotItem.type) {
-			case "solid":
-			    return (
-				<div>
-				  <Slider />
-				</div>
-			    );
-			case "range":
-			    return (
-				<div>
-				  <Range />
-				</div>
-			    );
-			default: return null;
-			    
-			}
-		    })()
-		}
-	    </div>
+		<CpotEdit_Section_Slider
+		   hslaRange={cpotItem.range}
+		   handleEditingCpotSelItemChange={this.handleEditingCpotSelItemChange}
+		   UI_rngC={this.state.UI.rangeCentral}
+		   rangeEditTabIndex={this.state.rangeEditTabIndex} // 0=Central, 1=Boundaries, 2=More 
+		   />
 	    	
 		
 		{/* 6. Buttons for Cancel / Done */}

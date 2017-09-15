@@ -1,23 +1,22 @@
 /* importedSlider.css */
 
 .sliderSection .rc-slider-handle{
-  border-radius: 0px;
-  border: 1px solid black;
-  height: 30px;
-      margin-top: -13px;
-  width: 14px;
+    border-radius: 0px;
+    border: 1px solid black;
+    height: 30px;
+    margin-top: -13px;
+    width: 14px;
     margin-left: -7px;
     background: white;
-
-        position: absolute;
+    position: absolute;
     cursor: pointer;
 }
 
 
 .sliderSection{
-  border: 1px solid black;
-  margin: 4px;
-  padding: 6px;
+    border: 1px solid black;
+    margin: 4px;
+    padding: 6px;
 }
 
 
