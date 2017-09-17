@@ -18,7 +18,6 @@ var Pointset_calculate = {
 	// In these two lines, we assume units are "px" for both line sets, as opposed to converting function above...
 	const S1 = Grid.line_sets[0];
 	const S2 = Grid.line_sets[1];
-
 	
 	var ang1 = S1.angle * 2 * Math.PI / 360;
 	var ang2 = S2.angle * 2 * Math.PI / 360;
@@ -88,12 +87,8 @@ var Pointset_calculate = {
 	rGen(0,0);
 
 	// 4. Convert the generated dictionary into a list (Array). Lose those double-index keys...
-	var PointList = [];
-	_.each( PointSet, function( key, value ) {
-	    //some entries will represent points found to be outside boundary.
-	    if (value === false){return;}
-	    PointList.push(value);
-	});
+	const validPointSet = _.filter( PointSet,   v => {return v !== false});
+	const PointList =     _.map( validPointSet, v => {return v});
 
 	return PointList;	
     }

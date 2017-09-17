@@ -68,14 +68,11 @@ class Background_Grid extends React.PureComponent {
     render() {
 	
 	const gridUIState = this.props.gridUIState;
-	console.log("<Background_Grid> render() called", gridUIState);
 	
 	const gridArray = this.props.gridArray; // this reference is to the user's "collection" of Grids...
 	const nextGrid = gridUIState.previewActive ? util.lookup(gridArray, "uid", gridUIState.selectionUid) : null;
 
-	//causes too much recursion...
-//	const points = gridUIState.pointsActive ? Pointset_calculate.Grid_points(nextGrid) : [];
-	const points = [];
+	const points = gridUIState.pointsActive ? Pointset_calculate.Grid_points(nextGrid) : [];
 	
 	return (
 	    <div className="Background_Grid">
