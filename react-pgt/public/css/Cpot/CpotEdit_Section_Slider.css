@@ -17,22 +17,21 @@
 }
 
 
-.rc-slider {
+.MainTab_CpotEdit .sliderSection .rc-slider {
     height: 14px;
     padding: 5px 0;
     width: 442px;
     box-sizing: border-box;
 } 
 
-.sliderSection .rc-slider-handle{
+.MainTab_CpotEdit .sliderSection .sliderSection .rc-slider-handle{
   height: 38px;
-      margin-top: -6px;
+  margin-top: -6px;
   width: 10px;
-    margin-left: -1px;
-    background: white;
-
-        position: absolute;
-    cursor: pointer;
+  margin-left: -1px;
+  background: white;
+  position: absolute;
+  cursor: pointer;
 }
 
 

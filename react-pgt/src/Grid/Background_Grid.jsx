@@ -1,8 +1,10 @@
 import React from 'react';
 
-import util from '.././plain-js/util';
+import util from '../plain-js/util';
 import Grid_d3draw from './plain-js/Grid_d3draw';
 
+import Pointset_render from '../Pointset/Pointset_render';
+import Pointset_calculate from '../Pointset/plain-js/Pointset_calculate';
 
 //
 class SvgGrid extends React.PureComponent {
@@ -68,8 +70,12 @@ class Background_Grid extends React.PureComponent {
 	const gridUIState = this.props.gridUIState;
 	console.log("<Background_Grid> render() called", gridUIState);
 	
-	const gridArray = this.props.gridArray;
+	const gridArray = this.props.gridArray; // this reference is to the user's "collection" of Grids...
 	const nextGrid = gridUIState.previewActive ? util.lookup(gridArray, "uid", gridUIState.selectionUid) : null;
+
+	//causes too much recursion...
+//	const points = gridUIState.pointsActive ? Pointset_calculate.Grid_points(nextGrid) : [];
+	const points = [];
 	
 	return (
 	    <div className="Background_Grid">
@@ -82,7 +88,14 @@ class Background_Grid extends React.PureComponent {
 			);
 		    })
 		}
-	      </div>
+
+	    { // show points overlayed?
+		gridUIState.pointsActive &&
+		    <Pointset_render
+		points={points}
+		    />
+	    }
+		</div>
 	    </div>
 	);
     }
