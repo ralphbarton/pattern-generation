@@ -1,23 +1,16 @@
 var _ = require('lodash');
 
+
+import Grid_d3draw from '../../Grid/plain-js/Grid_d3draw';
+
 var Pointset_calculate = {
 
     Grid_points: function(Grid){
 
-	
 	// 1. Calculate the Basis vectors
-
-	/*
-	// "spacing_unit_objectUpdater()" - function that can get px value for lineset spacing...
-
-	var S1 = this.spacing_unit_objectUpdater(Grid.line_sets[0], "pixels", true);
-	var S2 = this.spacing_unit_objectUpdater(Grid.line_sets[1], "pixels", true);
-	*/
-
-	// this is Highly Dodge...
-	// In these two lines, we assume units are "px" for both line sets, as opposed to converting function above...
-	const S1 = Grid.line_sets[0];
-	const S2 = Grid.line_sets[1];
+	console.log("convert...");
+	const S1 = Grid_d3draw.lsToPx( Grid.line_sets[0] );
+	const S2 = Grid_d3draw.lsToPx( Grid.line_sets[1] );
 	
 	var ang1 = S1.angle * 2 * Math.PI / 360;
 	var ang2 = S2.angle * 2 * Math.PI / 360;
