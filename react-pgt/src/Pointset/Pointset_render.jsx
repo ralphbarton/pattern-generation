@@ -15,15 +15,9 @@ class Pointset_render extends React.PureComponent {
 	    .attr("r", 0)
 	    .remove();
 
-	const display = true;
-	// 2. get the new data. This may mean an empty array depending upon boolean 'display'
-//	var display = options.display !== undefined ? options.display : this.showingIntersectionPoints;
-//	this.showingIntersectionPoints = display;
-	
-	var myIntersectionPoints = display ? this.props.points : [];
+	var myIntersectionPoints = this.props.hide ? [] : this.props.points;
 
-
-	// 3. Animate in the appearance of all the new dots... ( 'enter()', because all will be new.)
+	// 2. Animate in the appearance of all the new dots... ( 'enter()', because all will be new.)
 	d3.select(this.svgElement).selectAll(".dot").data(myIntersectionPoints).enter()
 	    .append("circle").attr("class","dot")
 	    .attr("cx", function(d){return d.x;})

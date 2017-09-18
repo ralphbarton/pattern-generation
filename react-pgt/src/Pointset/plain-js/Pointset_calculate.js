@@ -8,7 +8,6 @@ var Pointset_calculate = {
     Grid_points: function(Grid){
 
 	// 1. Calculate the Basis vectors
-	console.log("convert...");
 	const S1 = Grid_d3draw.lsToPx( Grid.line_sets[0] );
 	const S2 = Grid_d3draw.lsToPx( Grid.line_sets[1] );
 	

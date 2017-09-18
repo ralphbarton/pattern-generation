@@ -86,12 +86,11 @@ class Background_Grid extends React.PureComponent {
 		    })
 		}
 
-	    { // show points overlayed?
-		gridUIState.pointsActive &&
-		    <Pointset_render
-		points={points}
-		    />
-	    }
+		<Pointset_render
+	    points={points}
+	    hide={!gridUIState.pointsActive}
+		/>
+
 		</div>
 	    </div>
 	);

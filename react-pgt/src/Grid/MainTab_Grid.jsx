@@ -319,7 +319,12 @@ class MainTab_Grid extends React.PureComponent {
 			       }
 			   },{
 			       name: "Show All",
-			       cb: handleUIStateChange.bind(this, "showAllGrids", true)
+			       cb: ()=>{
+				   handleUIStateChange("showAllGrids", true);
+
+				   // as a side effect, turn off points when switching to multi-grids...
+				   handleUIStateChange("pointsActive", false);
+			       }
 			   }
 		       ]}
 		       />
@@ -358,7 +363,9 @@ class MainTab_Grid extends React.PureComponent {
 			       cb: handleUIStateChange.bind(this, "pointsActive", false)
 			   },{
 			       name: "Show",
-			       cb: handleUIStateChange.bind(this, "pointsActive", true)
+			       /* since the link is only enabled when single grid
+				active anyway, no need additional side effect */
+			       cb: handleUIStateChange.bind(this, "pointsActive", true) 
 			   }
 		       ]}
 		       />
