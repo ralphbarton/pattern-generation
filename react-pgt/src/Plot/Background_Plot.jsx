@@ -5,6 +5,8 @@ import Plot_RenderManager from './plain-js/Plot_RenderManager';
 // this is the 'util' module for the overall project
 import util from '.././plain-js/util';
 
+import Pointset_render from '../Pointset/Pointset_render';
+import Pointset_calculate from '../Pointset/plain-js/Pointset_calculate';
 
 class Background_Plot extends React.PureComponent {
 
@@ -127,9 +129,13 @@ class Background_Plot extends React.PureComponent {
 	// 2. the change is not that the plots 'autoScale' property has just been turned off (test this for explicitly set false)
 	const autoScaleTurnOff = nextPlot.autoScale === false && thisPlot.autoScale !== false;
 	const c5 = (thisPlot !== nextPlot) && (thisPlot.lastRenderScale === nextPlot.lastRenderScale) && (!autoScaleTurnOff);
+
+
+	const c6 = this.props.plotUIState.pointsQuantity    !== nextProps.plotUIState.pointsQuantity;
 	
-	const componentUpdate = c1 || c2 || c3 || c4 || c5;
-	if(componentUpdate && nextProps.plotUIState.previewActive){
+	const rerenderPlot = c1 || c2 || c3 || c4 || c5 || c6;
+	var nextWorkerRequestToken = this.state.workerRequestToken;
+	if(rerenderPlot && nextProps.plotUIState.previewActive){
 	    this.props.setPlotUIState({
 		timings_obj: {
 		    inProgress: {$set: true}
@@ -145,12 +151,16 @@ class Background_Plot extends React.PureComponent {
 		    median: "..."
 		}}
 	    });
-		
-	    // increment 'workerRequestToken': a new render has been commanded...
-	    this.setState( {workerRequestToken: this.state.workerRequestToken + 1} );
+
+	    nextWorkerRequestToken++;
+	    this.setState({
+		workerRequestToken: nextWorkerRequestToken
+	    });
 	}
+	// increment 'workerRequestToken': a new render has been commanded...
+
 	
-	return componentUpdate;
+	return rerenderPlot;
     }
 
     componentDidUpdate(){
@@ -189,16 +199,28 @@ class Background_Plot extends React.PureComponent {
 	    resolution: plotUIState.plotResolution,
 	    colouringFunction: plotUIState.colouringFunction
 	});	
-	
 
+
+	const points = (()=>{
+	    if(plotUIState.pointsQuantity === 0){return [];}
+	    const ImageData = this.canvasElement.getContext('2d').getImageData(0,0, this.winW, this.winH).data;
+	    const prominence_factor = plotUIState.pointsProminenceFactor;
+	    return Pointset_calculate.Density_points(ImageData, prominence_factor, plotUIState.pointsQuantity);
+	})();
+
+	console.log("points", points);
 	
 	return (
 	    <div className="Background_Plot">
 	      <canvas
-		 className="plot-canvas"
+		 className={"plot-canvas" + (plotUIState.hideUnderlyingDensity ? " hide" : "")}
 		 width={this.winW}
 		 height={this.winH}
 		 ref={ (el) => {this.canvasElement = el;}}
+		/>
+	      <Pointset_render
+		 points={points}
+		 hide={plotUIState.pointsQuantity === 0}
 		/>
 	    </div>
 	);

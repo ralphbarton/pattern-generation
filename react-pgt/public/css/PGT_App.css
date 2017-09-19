@@ -16,7 +16,17 @@ body{
 }
 
 .Background_Plot .plot-canvas{
+    position: absolute;
     display: block;
+}
+
+.Background_Plot .plot-canvas.hide{
+   display: none;
+}
+
+.Background_Plot svg{
+    position: absolute;
+    
 }
 
 

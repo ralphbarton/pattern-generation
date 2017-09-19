@@ -107,7 +107,7 @@ class MainTab_Plot extends React.PureComponent {
 	    colouringFunction: 1,
 	    plotResolution: 1,
 	    pointsQuantity: 0,
-	    pointsProminenceFactor: 2,
+	    pointsProminenceFactor: 4,
 	    hideUnderlyingDensity: false,
 	    showContours: false,
 	    quantityContours: 6,
@@ -193,7 +193,12 @@ class MainTab_Plot extends React.PureComponent {
 	      <div className="tableWithButtonsZone">
 		<WgTable
 		   selectedRowIndex={this.props.UI.selectedRowIndex}
-		   onRowSelectedChange={this.props.fn.handleRowSelectedChange.bind(null)}//row index passed as single param
+		   onRowSelectedChange={(arg1, arg2)=>{
+		       // 1. call the handler implemented within the HOC
+		       this.props.fn.handleRowSelectedChange(arg1, arg2);
+		       // 2. additionally, need to hide any points
+		       this.props.setPGTtabUIState({pointsQuantity: {$set: 0}});
+		   }}
 		   rowRenderingData={this.props.PGTobjArray}
 		   columnsRendering={this.plot_WgTableColumns()}
 		   rowClassingFn={Plot_util.checkPlotFormula}

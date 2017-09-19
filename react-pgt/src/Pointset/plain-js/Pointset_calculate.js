@@ -1,6 +1,5 @@
 var _ = require('lodash');
 
-
 import Grid_d3draw from '../../Grid/plain-js/Grid_d3draw';
 
 var Pointset_calculate = {
@@ -83,7 +82,102 @@ var Pointset_calculate = {
 	const PointList =     _.map( validPointSet, v => {return v});
 
 	return PointList;	
-    }
+    },
+
+    
+    IntegrateDensity: function(ImageData, prominence_factor){
+
+	const prominence_function = x => {return x ** prominence_factor};
+
+	var density_CDF_Array = [];
+	var acc = 0;
+
+	for (var i = 0; i < ImageData.length; i+=4){
+	    //apply rescaling function to value between 0 and 1.
+	    var relative_prob = prominence_function( ImageData[i]/255 );
+	    acc += relative_prob;
+	    density_CDF_Array.push(acc);
+	}
+
+	return density_CDF_Array;
+    },
+
+
+    Density_points: function(ImageData, prominence_factor, n_points){
+	
+	const density_CDF_Array = this.IntegrateDensity(ImageData, prominence_factor);
+	
+	//this returns the index in the array...
+	const BinarySearch = function(i_min, i_max, val){
+
+	    if(i_min === i_max){return i_min;}
+	    var i_ave = Math.ceil((i_min + i_max)/2);
+	    var njgt = density_CDF_Array[i_ave -1] > val;
+	    var   gt = density_CDF_Array[i_ave   ] > val;
+
+	    if(!gt){
+		// Drill into upper part of range
+		return BinarySearch(i_ave, i_max, val);
+	    }else{
+		if(njgt){
+		    // Drill into lower part of range
+		    return BinarySearch(i_min, i_ave - 1, val);
+		}else{
+		    // we hit it!
+		    return i_ave;
+		}
+	    }
+	};
+
+
+	var i_max = density_CDF_Array.length - 1;
+	var v_max = density_CDF_Array[i_max];
+
+	const W = window.innerWidth;
+
+	return _.times(n_points, ()=>{
+	    var rVal = Math.random() * v_max;
+	    var random_pixel_index = BinarySearch(0, i_max, rVal);
+
+	    return { // I'm assuming scanning left-to-right in horizontal lines starting from top
+		x: (random_pixel_index % W),
+		y: Math.floor(random_pixel_index / W)
+
+	    };
+	});
+
+	
+	/* there is some code here which will to Add or Remove points from an existing set...
+	   // this is motivated by the visual benefit of not rerandomising unnecessarily
+
+	var old_len = this.pointSet.length;
+	var q_needed = n_points - old_len;
+
+	//now, either add or remove points. This avoids rerandomising
+	if(q_needed <= 0){
+	    //there are too many points!
+	    this.pointSet.splice(n_points, -q_needed);
+	    
+	}else{
+	    
+	    for (var i = 0; i < q_needed; i++){
+		var rVal = Math.random() * v_max;
+		var random_pixel_index = BinarySearch(0, i_max, rVal);
+
+		//i'm assuming scanning left-to-right in horizontal lines starting from top
+		var myPoint = {
+		    x: (random_pixel_index % W),
+		    y: Math.floor(random_pixel_index / W)
+
+		};
+		this.pointSet.push(myPoint);
+	    }
+	}
+
+	return this.pointSet;
+	*/
+    }    
+
     
 };
 
