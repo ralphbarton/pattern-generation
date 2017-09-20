@@ -24,6 +24,7 @@ class Plot_Section_PointsetPreview extends React.PureComponent {
 	    );
 	}
 
+	const UI = this.props.UI;
 	
 	return (
 	    <div className="PointsetPreview">
@@ -35,6 +36,15 @@ class Plot_Section_PointsetPreview extends React.PureComponent {
 		<NumberButton n={1000} />
 		<NumberButton n={10000} />
 
+	      </div>	      
+	      <div className="row2">
+		
+		<WgActionLink
+		   name={"re-randomise"}
+		   onClick={()=>{handleUIStateChange("pointsRerandomiseCount", (UI.pointsRerandomiseCount+1));}}
+		   enabled={qty > 0}
+		  />
+		  
 		<WgActionLink
 		   name={"clear"}
 		   onClick={handleUIStateChange.bind(null, "pointsQuantity", 0)}
@@ -44,11 +54,11 @@ class Plot_Section_PointsetPreview extends React.PureComponent {
 	      </div>	      
 
 	      
-	      <div className="row2 inputContainer pointsProminenceFactor">
+	      <div className="row3 inputContainer pointsProminenceFactor">
 		Prominence Factor:
 		<WgSmartInput
 		   className="plain-cell s"
-		   value={this.props.UI.pointsProminenceFactor}
+		   value={UI.pointsProminenceFactor}
 		   dataUnit="dimentionless"
 		   min={1}
 		   max={8}
@@ -58,9 +68,9 @@ class Plot_Section_PointsetPreview extends React.PureComponent {
 
 	      <WgMutexActionLink
 		 name="Underlying Density:"
-		 className="row3 hideUnderlyingDensity"
+		 className="row4 hideUnderlyingDensity"
 		 equityTestingForEnabled={{
-		     currentValue: this.props.UI.hideUnderlyingDensity,
+		     currentValue: UI.hideUnderlyingDensity,
 		     representedValuesArray: [true, false]
 		 }}
 		 actions={[

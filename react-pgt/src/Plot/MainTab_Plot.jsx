@@ -108,6 +108,7 @@ class MainTab_Plot extends React.PureComponent {
 	    plotResolution: 1,
 	    pointsQuantity: 0,
 	    pointsProminenceFactor: 4,
+	    pointsRerandomiseCount: 0,
 	    hideUnderlyingDensity: false,
 	    showContours: false,
 	    quantityContours: 6,
@@ -196,9 +197,14 @@ class MainTab_Plot extends React.PureComponent {
 		   onRowSelectedChange={(arg1, arg2)=>{
 		       // 1. call the handler implemented within the HOC
 		       this.props.fn.handleRowSelectedChange(arg1, arg2);
-		       // 2. additionally, need to hide any points
-		       this.props.setPGTtabUIState({pointsQuantity: {$set: 0}});
-		   }}
+
+		       // 2. additionally, need to remove any points and restore visibility of density, if hidden
+		       this.props.setPGTtabUIState({
+			   pointsQuantity: {$set: 0},
+			   hideUnderlyingDensity: {$set: false}
+		       });
+
+		  }}
 		   rowRenderingData={this.props.PGTobjArray}
 		   columnsRendering={this.plot_WgTableColumns()}
 		   rowClassingFn={Plot_util.checkPlotFormula}

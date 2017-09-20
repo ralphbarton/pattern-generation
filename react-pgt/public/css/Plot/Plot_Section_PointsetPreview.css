@@ -10,11 +10,11 @@
   flex: 0 auto;
   font-size: 14px;
   position: relative;
-  height: 56px;
     display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
+  margin-top: 12px;
 }
 
 .MainTab_Plot .PointsetPreview .button{
@@ -22,9 +22,25 @@
   padding: 4px 7px;
 }
 
-.MainTab_Plot .PointsetPreview .row1 .action-link{
-  position: absolute;
-  bottom: 0px;
-  right: 4px;
+.MainTab_Plot .PointsetPreview .row2{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding: 2px 5px;
 }
+
+.MainTab_Plot .PointsetPreview .row3{
+  margin-top: 8px;
+}
+
+.MainTab_Plot .PointsetPreview .row3,
+.MainTab_Plot .PointsetPreview .row4{
+  margin-left: 5px;
+}
+
+.MainTab_Plot .PointsetPreview .row4{
+  margin-bottom: 4px;
+}
+
+
 

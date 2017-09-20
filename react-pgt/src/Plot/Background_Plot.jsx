@@ -156,7 +156,8 @@ class Background_Plot extends React.PureComponent {
 
 	const c6 = this.props.plotUIState.pointsQuantity         !== nextProps.plotUIState.pointsQuantity;
 	const c7 = this.props.plotUIState.pointsProminenceFactor !== nextProps.plotUIState.pointsProminenceFactor;
-	const pointset_recalc = c6 || c7;
+	const c8 = this.props.plotUIState.pointsRerandomiseCount !== nextProps.plotUIState.pointsRerandomiseCount;
+	const pointset_recalc = c6 || c7 || c8;
 	
 	this.rerenderPlot = {
 	    rerender: rerenderPlot,
