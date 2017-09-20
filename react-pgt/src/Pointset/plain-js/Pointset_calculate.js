@@ -92,9 +92,11 @@ var Pointset_calculate = {
 	var density_CDF_Array = [];
 	var acc = 0;
 
-	for (var i = 0; i < ImageData.length; i+=4){
+	const ImageArr = ImageData.data;
+
+	for (var i = 0; i < ImageArr.length; i+=4){
 	    //apply rescaling function to value between 0 and 1.
-	    var relative_prob = prominence_function( ImageData[i]/255 );
+	    var relative_prob = prominence_function( ImageArr[i]/255 );
 	    acc += relative_prob;
 	    density_CDF_Array.push(acc);
 	}

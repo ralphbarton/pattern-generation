@@ -24,6 +24,8 @@ class Background_Plot extends React.PureComponent {
 	    withfast: true,
 	    pointset: true
 	};
+
+	this.ImageData_grey = null;
 	
 	Plot_RenderManager.init({
 	    onRenderComplete: this.handleRenderComplete.bind(this),
@@ -41,9 +43,11 @@ class Background_Plot extends React.PureComponent {
 	}
 
 	//put the returned data onto the canvas element...
+	const ImgData = msg.ImageData_heatmap || msg.ImageData_grey;
 	var ctx = this.canvasElement.getContext('2d');
-	ctx.putImageData(msg.ImgData, 0, 0);
-
+	ctx.putImageData(ImgData, 0, 0);
+	this.ImageData_grey = msg.ImageData_grey; // hold onto the greyscale version...
+	
 	//record time taken in "Global state"
 	if(msg.finalPass){
 	    const duration_ms = new Date() - this.t;
@@ -86,19 +90,21 @@ class Background_Plot extends React.PureComponent {
 	if(!plotUIState.previewActive){return null;}
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);
 	
-	const ImgData = Plot_RenderManager.render({
+	const render_msg = Plot_RenderManager.render({
 	    useWorker: false,
 	    Plot: Plot,
 	    width: this.winW,
 	    height: this.winH,
 	    resolution: 40, // - this seems a reasonable crude level of detail for the basic plot
 	    colouringFunction: plotUIState.colouringFunction
-	}).ImgData;
+	});
 	
 	//put the returned data onto the canvas element...
+	const ImgData = render_msg.ImageData_heatmap || render_msg.ImageData_grey;
 	var ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(ImgData, 0, 0);
-
+	this.ImageData_grey = render_msg.ImageData_grey; // hold onto the greyscale version...
+	
 	//record time taken in "Global state"
 	const duration_ms = new Date() - this.t;
 	this.props.setPlotUIState({
@@ -217,9 +223,8 @@ class Background_Plot extends React.PureComponent {
 	     which cannot be mutated in the render() function */
 	    this.points = (()=>{
 		if(plotUIState.pointsQuantity === 0){return [];}
-		const ImageData = this.canvasElement.getContext('2d').getImageData(0,0, this.winW, this.winH).data;
 		const prominence_factor = plotUIState.pointsProminenceFactor;
-		return Pointset_calculate.Density_points(ImageData, prominence_factor, plotUIState.pointsQuantity);
+		return Pointset_calculate.Density_points(this.ImageData_grey, prominence_factor, plotUIState.pointsQuantity);
 	    })();
 	}
 

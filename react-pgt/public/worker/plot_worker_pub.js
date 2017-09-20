@@ -9,8 +9,6 @@ var largeJobTimeoutID = undefined;
 
 onmessage = function(msg) {
 
-    const command_info = msg.data
-
     // in the case where a 'heatmapLookup' property is provided, the purpose of the message is to pass
     // heatmap data into the worker thread. This is part of initialisation, and will be the only purpose
     // of such a message
@@ -52,8 +50,9 @@ onmessage = function(msg) {
 	
 	const RenderResult = Plot_render.GenerateImageData(Plot, winW, winH, cell_size, heatmap);
 	postMessage({
-	    ImgData: RenderResult.ImgData,
-	    RenderScale: RenderResult.RenderScale,
+	    ImageData_grey: RenderResult.ImageData_grey,
+	    ImageData_heatmap: RenderResult.ImageData_heatmap,
+	    RenderScale: RenderResult.RenderScale, // this obj holds the numeric values for black, white
 	    finalPass: pass === 1,
 	    workerRequestToken: token
 	});

@@ -142,7 +142,8 @@ var Plot_render = {
     dataGen: {},
     GenerateImageData: function(Plot, imageW, imageH, cell_size, heatmapLookup){
 
-	const myImg = new ImageData(imageW, imageH);
+	const ImageData_grey = new ImageData(imageW, imageH);
+	const ImageData_heatmap = new ImageData(imageW, imageH);
 
 
 
@@ -196,23 +197,25 @@ var Plot_render = {
 	    const Ru = (sample - dataGen.val_saturateLo) / val_deltaLoHi;
 	    const R = Math.max(Math.min(Ru, 1), 0);
 
-	    let col;
+	    // 2a. conditionally generate a heatmap image
 	    if(heatmapLookup){
 		const colObj = heatmapLookup[Math.floor(500 * R)];
-		col = [colObj.r, colObj.g, colObj.b, 255];
-	    }else{
-		const r = 255*R;
-		col = [r, r, r, 255];		
+		const col1 = [colObj.r, colObj.g, colObj.b, 255];
+		Plot_render.FillRectangle_ImgData(ImageData_heatmap, x_location_px, y_location_px, cell_size, cell_size, col1);
 	    }
-		
-	    Plot_render.FillRectangle_ImgData(myImg, x_location_px, y_location_px, cell_size, cell_size, col);
+
+	    // 2b. unconditionally generate a greyscale image
+	    const r = 255*R;
+	    const col = [r, r, r, 255];		
+	    Plot_render.FillRectangle_ImgData(ImageData_grey, x_location_px, y_location_px, cell_size, cell_size, col);
 
 	    dataGen.samples.push(sample);
 	    
 	});
 		
 	return {
-	    ImgData: myImg,
+	    ImageData_grey: ImageData_grey,
+	    ImageData_heatmap: (heatmapLookup ? ImageData_heatmap : null),
 	    RenderScale: {
 		val_saturateHi: dataGen.val_saturateHi,
 		val_saturateLo: dataGen.val_saturateLo

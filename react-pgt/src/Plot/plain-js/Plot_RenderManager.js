@@ -22,7 +22,7 @@ var Plot_RenderManager = {
 	    this.worker = new Worker(workerURL);
 	    this.worker.onmessage = function(msg){
 
-		if(msg.data.ImgData === undefined){
+		if(msg.data.ImageData_grey === undefined){
 		    options.onStatsComplete(msg.data);
 		}else{
 		    options.onRenderComplete(msg.data);
