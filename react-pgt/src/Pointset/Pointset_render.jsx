@@ -4,8 +4,7 @@ import * as d3 from "d3";
 
 class Pointset_render extends React.PureComponent {
 
-    update(options){
-	options = options || {};
+    update(){
 	
 	// 1. All the existing dots just need to fade out. get rid of them all.
 	d3.select(this.svgElement).selectAll(".dot")
@@ -18,12 +17,12 @@ class Pointset_render extends React.PureComponent {
 	var myIntersectionPoints = this.props.hide ? [] : this.props.points;
 
 	// 2. Animate in the appearance of all the new dots... ( 'enter()', because all will be new.)
-	d3.select(this.svgElement).selectAll(".dot").data(myIntersectionPoints).enter()
+	d3.select(this.svgElement).selectAll(".dot").data( myIntersectionPoints ).enter()
 	    .append("circle").attr("class","dot")
 	    .attr("cx", function(d){return d.x;})
 	    .attr("cy", function(d){return d.y;})
 	    .attr("r", 0)
-	    .attr("fill", "red")
+	    .attr("fill", this.props.colouring === 1 ? "red" : "cyan")
 	    .attr("stroke","black")
 	    .attr("stroke-width","1")
 	    .transition()

@@ -154,12 +154,17 @@ class Background_Plot extends React.PureComponent {
 	    });
 	}
 
+	const c6 = this.props.plotUIState.pointsQuantity         !== nextProps.plotUIState.pointsQuantity;
+	const c7 = this.props.plotUIState.pointsProminenceFactor !== nextProps.plotUIState.pointsProminenceFactor;
+	const pointset_recalc = c6 || c7;
+	
 	this.rerenderPlot = {
 	    rerender: rerenderPlot,
 
 	    // assume that if the resolution changes, it is the only thing that has changed.
 	    // this is fair since it is a user updatable value, and the user cannot literally update 2 things in one event
-	    withfast: rerenderPlot && this.props.plotUIState.plotResolution === nextProps.plotUIState.plotResolution
+	    withfast: rerenderPlot && this.props.plotUIState.plotResolution === nextProps.plotUIState.plotResolution,
+	    pointset: pointset_recalc
 	};
     }
 
@@ -186,6 +191,7 @@ class Background_Plot extends React.PureComponent {
 	this.winH = window.innerHeight;
 	
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);	
+
 	
 	if(this.rerenderPlot.rerender){
 
@@ -204,13 +210,18 @@ class Background_Plot extends React.PureComponent {
 	    });
 	}
 
+	if(this.rerenderPlot.pointset){
 
-	const points = (()=>{
-	    if(plotUIState.pointsQuantity === 0){return [];}
-	    const ImageData = this.canvasElement.getContext('2d').getImageData(0,0, this.winW, this.winH).data;
-	    const prominence_factor = plotUIState.pointsProminenceFactor;
-	    return Pointset_calculate.Density_points(ImageData, prominence_factor, plotUIState.pointsQuantity);
-	})();
+	    /* hold point set as component state (not 'official' state though,
+	     which cannot be mutated in the render() function */
+	    this.points = (()=>{
+		if(plotUIState.pointsQuantity === 0){return [];}
+		const ImageData = this.canvasElement.getContext('2d').getImageData(0,0, this.winW, this.winH).data;
+		const prominence_factor = plotUIState.pointsProminenceFactor;
+		return Pointset_calculate.Density_points(ImageData, prominence_factor, plotUIState.pointsQuantity);
+	    })();
+	}
+
 	
 	return (
 	    <div className="Background_Plot">
@@ -221,9 +232,10 @@ class Background_Plot extends React.PureComponent {
 		 ref={ (el) => {this.canvasElement = el;}}
 		/>
 	      <Pointset_render
-		 points={points}
+		 points={this.points}
 		 hide={plotUIState.pointsQuantity === 0}
-		/>
+		 colouring={plotUIState.colouringFunction}
+		 />
 	    </div>
 	);
     }
