@@ -14,8 +14,15 @@ class Background_Plot extends React.PureComponent {
     constructor(props) {
 	super(props);
 	this.state = {
-	    resolutionChangeOnly: false, //the fast (res=40px) render is not executed for resolution change
 	    workerRequestToken: 0
+	};
+
+	// Instructions for what to recalculate on next rendering cycle...
+	//the fast (res=40px) render is not executed for resolution change
+	this.rerenderPlot = {
+	    rerender: true,
+	    withfast: true,
+	    pointset: true
 	};
 	
 	Plot_RenderManager.init({
@@ -73,7 +80,7 @@ class Background_Plot extends React.PureComponent {
     }
 
 
-    handleFastCanvasRender(){
+    launchFastCanvasRender(){
 
 	const plotUIState = this.props.plotUIState;
 	if(!plotUIState.previewActive){return null;}
@@ -100,15 +107,6 @@ class Background_Plot extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps){
-	//setState does not impact upon this.state until sometime later...
-	this.setState({
-	    // assume that if the resolution changes, it is the only thing that has changed.
-	    // this is fair since it is a user updatable value, and the user cannot literally update 2 things in one event
-	    resolutionChangeOnly: this.props.plotUIState.plotResolution !== nextProps.plotUIState.plotResolution
-	});
-    }
-
-    shouldComponentUpdate(nextProps, nextState){
 	
 	// POSITIVE SELECTION to determine update (i.e. test for specific conditions if update is to occur)
 	
@@ -130,10 +128,7 @@ class Background_Plot extends React.PureComponent {
 	const autoScaleTurnOff = nextPlot.autoScale === false && thisPlot.autoScale !== false;
 	const c5 = (thisPlot !== nextPlot) && (thisPlot.lastRenderScale === nextPlot.lastRenderScale) && (!autoScaleTurnOff);
 
-
-	const c6 = this.props.plotUIState.pointsQuantity    !== nextProps.plotUIState.pointsQuantity;
-	
-	const rerenderPlot = c1 || c2 || c3 || c4 || c5 || c6;
+	const rerenderPlot = c1 || c2 || c3 || c4 || c5;
 	var nextWorkerRequestToken = this.state.workerRequestToken;
 	if(rerenderPlot && nextProps.plotUIState.previewActive){
 	    this.props.setPlotUIState({
@@ -152,26 +147,32 @@ class Background_Plot extends React.PureComponent {
 		}}
 	    });
 
+	    // increment 'workerRequestToken': a new render has been commanded...
 	    nextWorkerRequestToken++;
 	    this.setState({
 		workerRequestToken: nextWorkerRequestToken
 	    });
 	}
-	// increment 'workerRequestToken': a new render has been commanded...
 
-	
-	return rerenderPlot;
+	this.rerenderPlot = {
+	    rerender: rerenderPlot,
+
+	    // assume that if the resolution changes, it is the only thing that has changed.
+	    // this is fair since it is a user updatable value, and the user cannot literally update 2 things in one event
+	    withfast: rerenderPlot && this.props.plotUIState.plotResolution === nextProps.plotUIState.plotResolution
+	};
     }
 
+    
     componentDidUpdate(){
-	//no fast-update when only the resolution changes.
-	if(!this.state.resolutionChangeOnly){
-	    this.handleFastCanvasRender();
+	// no fast-update when only the resolution changes.
+	if(this.rerenderPlot.withfast){
+	    this.launchFastCanvasRender();
 	}
     }
 
     componentDidMount(){
-	this.handleFastCanvasRender();
+	this.launchFastCanvasRender();
     }
 
     
@@ -186,19 +187,22 @@ class Background_Plot extends React.PureComponent {
 	
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);	
 	
-	// Trigger generation of the Final quality of plot-data
-	// it will be slapped onto the canvas when result message is recieced from thread
-	this.t = new Date();
-	Plot_RenderManager.render({
-	    useWorker: true,
-	    workerRequestToken: (this.state.workerRequestToken+1),//messy. State will not yet have updated
-	    Plot: Plot,
-	    width: this.winW,
-	    height: this.winH,
-	    intermediateRender: true,
-	    resolution: plotUIState.plotResolution,
-	    colouringFunction: plotUIState.colouringFunction
-	});	
+	if(this.rerenderPlot.rerender){
+
+	    // Trigger generation of the Final quality of plot-data
+	    // it will be slapped onto the canvas when result message is recieced from thread
+	    this.t = new Date();
+	    Plot_RenderManager.render({
+		useWorker: true,
+		workerRequestToken: (this.state.workerRequestToken), //deleted the +1, used if State not yet updated
+		Plot: Plot,
+		width: this.winW,
+		height: this.winH,
+		intermediateRender: true,
+		resolution: plotUIState.plotResolution,
+		colouringFunction: plotUIState.colouringFunction
+	    });
+	}
 
 
 	const points = (()=>{
@@ -207,8 +211,6 @@ class Background_Plot extends React.PureComponent {
 	    const prominence_factor = plotUIState.pointsProminenceFactor;
 	    return Pointset_calculate.Density_points(ImageData, prominence_factor, plotUIState.pointsQuantity);
 	})();
-
-	console.log("points", points);
 	
 	return (
 	    <div className="Background_Plot">
