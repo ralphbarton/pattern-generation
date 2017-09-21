@@ -58,14 +58,14 @@
     width: 50px;
 }
 
-.MainTab_Plot .basicAdj .dropdown-content{
+.MainTab_Plot .basicAdj .WgDropDown .content{
     width: 80px;
     left: 50px;
     top: -69px;
     padding: 4px;
 }
 
-.MainTab_Plot .basicAdj .dropdown-content .btn-set button{
+.MainTab_Plot .basicAdj .WgDropDown .content .btn-set button{
     width: 25px;
 }
 

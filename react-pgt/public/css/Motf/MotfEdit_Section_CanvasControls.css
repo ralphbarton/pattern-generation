@@ -65,7 +65,7 @@
 
 /* Dropdown: 1. appearance of button without MouseOver */
 
-.MainTab_MotfEdit .canvasControls .dropdown{
+.MainTab_MotfEdit .canvasControls .WgDropDown{
     margin: 0px 4px;
 }
 
@@ -75,18 +75,18 @@
 
 /* Dropdown: 2. Custom styles for DropDown contents */
 
-.MainTab_MotfEdit .canvasControls  .dropdown-content{
+.MainTab_MotfEdit .canvasControls  .WgDropDown .content{
     width: 145px;
     left: -73px;
     padding: 4px;
 }
 
-.dropdown.gridSettings .customSize > div{
+.WgDropDown.gridSettings .customSize > div{
     margin-bottom: 4px;
     margin-left: 12px;
 }
 
-.MainTab_MotfEdit .canvasControls .dropdown.gridSettings button.reset{
+.MainTab_MotfEdit .canvasControls .WgDropDown.gridSettings button.reset{
     margin-bottom: 2px;
     margin-left: 4px;
 }
@@ -95,7 +95,7 @@
 /* Dropdown: More Specific style customisations for
  "Snap Settings" dropdown...
 */
-.MainTab_MotfEdit .dropdown .btn-set.snapAxes button{
+.MainTab_MotfEdit .WgDropDown .btn-set.snapAxes button{
     width: 42px;
 }
 
@@ -110,7 +110,7 @@
 }
 
 /* Dropdown: 3. Custom styles for DropDown contents */
-.MainTab_MotfEdit .canvasControls .objectOrigin .dropdown-content{
+.MainTab_MotfEdit .canvasControls .WgDropDown.objectOrigin .content{
     width: 110px;
     left: -38px;
     text-align: center;

@@ -118,7 +118,7 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 		{/* Dropdown: Summing Too */}
 		<WgDropDownList
 		   name="Summing Tools"
-		   menuContentList={[
+		   listContents={[
 		       {
 			   name: "sum to 100% (adjust selected)",
 			   enabled: (probs_sum !== 100) && (iIndex >= 0),
@@ -152,7 +152,7 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 	      {/* Dropdown: Item Type */}
 	      <WgDropDownList
 		 name={cpotItem.type === "solid" ? "Solid" : (cpotItem.type === "range" ? "Range" : "(item type)")}
-		 menuContentList={[
+		 listContents={[
 		     {
 			 name: "Solid",
 			 enabled: cpotItem.type !== "solid",
