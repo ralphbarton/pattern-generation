@@ -6,7 +6,7 @@ import Cpot_util from './plain-js/Cpot_util.js';// 'range unpack' needed for sol
 
 // generic project widgets
 import {WgButton, WgButtonExpanding} from '../Wg/WgButton';
-import WgDropDown from '../Wg/WgDropDown';
+import {WgDropDownList} from '../Wg/WgDropDown';
 import WgActionLink from '../Wg/WgActionLink';
 
 import tinycolor from 'tinycolor2';
@@ -116,7 +116,7 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 	      <div className="mainDropdowns">		
 
 		{/* Dropdown: Summing Too */}
-		<WgDropDown
+		<WgDropDownList
 		   name="Summing Tools"
 		   menuContentList={[
 		       {
@@ -150,7 +150,7 @@ class CpotEdit_Section_BeneathTable extends React.PureComponent {
 	      />
 	      
 	      {/* Dropdown: Item Type */}
-	      <WgDropDown
+	      <WgDropDownList
 		 name={cpotItem.type === "solid" ? "Solid" : (cpotItem.type === "range" ? "Range" : "(item type)")}
 		 menuContentList={[
 		     {

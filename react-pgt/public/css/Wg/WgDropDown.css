@@ -46,12 +46,14 @@
 /* 8.2 basic layout of the content / 'menu' */
 
 .dropdown-content {
-    /* for testing...*/
-    display: none;
     position: absolute;
     font-size: 12px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
     z-index: 1;
+}
+
+.dropdown.disabled{
+    pointer-events: none;
 }
 
 .dropdown.plain .dropdown-content {
@@ -61,14 +63,6 @@
 .dropdown.teal .dropdown-content{
     min-width: 125px;
     background-color: #eee;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown.disabled:hover .dropdown-content {
-    display: none;
 }
 
 .dropdown .dropdown-content a {

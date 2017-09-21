@@ -2,7 +2,7 @@ import React from 'react';
 var _ = require('lodash');
 
 import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
-import WgDropDown from '../Wg/WgDropDown';
+import {WgDropDown} from '../Wg/WgDropDown';
 import {WgButton2} from '../Wg/WgButton';
 import {WgFadeTransition} from '../Wg/WgTransition';
 
