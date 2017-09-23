@@ -1,0 +1,29 @@
+/* MainTab_Patt */
+
+
+/* 1. Table listing */
+
+.MainTab_Patt .WgTable tbody{
+     height: 225px;
+}
+
+.MainTab_Patt .WgTable .col-1{
+  width: 18px;
+}
+
+.MainTab_Patt .WgTable th.col-2{
+  width: 120px;
+}
+
+.MainTab_Patt .WgTable .col-2{
+    padding: 0px;
+    padding-right: 1px;
+}
+
+.MainTab_Patt .WgTable input.blue-cell{
+    width: 95px;
+}
+
+.MainTab_Patt .mainButtons{
+  text-align: right;
+}

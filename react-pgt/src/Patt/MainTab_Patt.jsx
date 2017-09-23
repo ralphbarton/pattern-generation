@@ -5,6 +5,8 @@ import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
 
+import Patt_util from './plain-js/Patt_util';
+
 class MainTab_Patt extends React.PureComponent {
 
     constructor() {
@@ -44,9 +46,10 @@ class MainTab_Patt extends React.PureComponent {
 	
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
 	const Patt_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
+
 	
 	return (
-	    <div className="MainTab_Grid">
+	    <div className="MainTab_Patt">
 
 	    
 	      {/* 1. Table & buttons beneath */}
@@ -58,30 +61,19 @@ class MainTab_Patt extends React.PureComponent {
 		 columnsRendering={this.patt_WgTableColumns()}
 		/>
 
-	      {null/*
 		<div className="mainButtons">
 
 		  <WgButton
 		     name="Add"
 		     buttonStyle={"small"}
-		     onClick={this.props.fn.hofHandleAddPGTobj(Grid_util.newRandomRectGrid.bind(2))}
-		     enabled={true}
+		     onClick={this.props.fn.hofHandleAddPGTobj(Patt_util.newEmptyPattern)}
 		     />
 		  <WgButton
 		     name="Delete"
 		     buttonStyle={"small"}
 		     onClick={this.props.fn.handleDeleteSelPGTobj}
-		     // we cannot support zero grids in the list. Causes problems
-		     enabled={this.props.PGTobjArray.length > 1}
 		     />
-		  <WgButton
-		     name="Advanced Grid"
-		     buttonStyle={"small"}
-		     onClick={ function(){console.log("hi");}}
-		     enabled={true}
-		     />
-
-		</div>*/}
+		</div>
 	      </div>
 
 	    </div>
