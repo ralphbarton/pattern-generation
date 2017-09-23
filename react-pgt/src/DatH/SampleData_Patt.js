@@ -2,7 +2,7 @@ const PattSampleData = {
 
     arr: [
 	{
-	    Name: "Playpen",
+	    name: "Playpen",
 	    uid: 0,
 	    Motif_set: [{
 		uid: 1,
@@ -14,7 +14,7 @@ const PattSampleData = {
 	    pdrive_uid: 0
 	},
 	{
-	    Name: "Bubbles",
+	    name: "Bubbles",
 	    uid: 1,
 	    Motif_set: [
 		{
@@ -30,7 +30,7 @@ const PattSampleData = {
 	    prom_factor: 4,
 	},
 	{
-	    Name: "Frog Goat",
+	    name: "Frog Goat",
 	    uid: 2,
 	    Motif_set: [],
 	    type: undefined,

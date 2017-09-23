@@ -11,6 +11,7 @@ import MainTab_CpotView from './Cpot/MainTab_CpotView';
 import MainTab_Grid from './Grid/MainTab_Grid';
 import MainTab_Plot from './Plot/MainTab_Plot';
 import MainTab_MotfView from './Motf/MainTab_MotfView';
+import MainTab_Patt from './Patt/MainTab_Patt';
 
 
 class Toolbox extends React.PureComponent {
@@ -19,7 +20,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 2,//default Tab selection
+	    selectedTabIndex: 6,//default Tab selection
 	    tabsEnabled: true
 	};
     }
@@ -138,7 +139,12 @@ class Toolbox extends React.PureComponent {
 			      name: "Patterns",
 			      renderJSX: ()=>{
 				  return(
-				      <span> Patterns JSX to go here... </span>
+				      <MainTab_Patt
+					 PGTobjArray={this.props.PGTobjARRAYS['patt']}
+					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "patt")}
+					 UI={this.props.UIState['patt']}
+					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"patt": $chg});}}
+					 />
 				  );
 			      }
 
