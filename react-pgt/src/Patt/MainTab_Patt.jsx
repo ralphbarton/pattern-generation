@@ -6,18 +6,16 @@ import {WgButton} from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
 
 import Patt_util from './plain-js/Patt_util';
-import {WgDropDown} from '../Wg/WgDropDown';
 
-import Img_ArrowRight from './../asset/arrow-right-style2.png';
+import Patt_Section_IncludeMotifs from './Patt_Section_IncludeMotifs';
+import Patt_Section_PatternDrive from './Patt_Section_PatternDrive';
 
 class MainTab_Patt extends React.PureComponent {
 
     constructor() {
 	super();
 	this.patt_WgTableColumns          = this.patt_WgTableColumns.bind(this);
-	this.includeMotifs_WgTableColumns = this.includeMotifs_WgTableColumns.bind(this);
     }
-
 
     patt_WgTableColumns(){
 	return ([
@@ -38,17 +36,6 @@ class MainTab_Patt extends React.PureComponent {
 	    }
 	]);
     }
-
-    includeMotifs_WgTableColumns(){
-	return ([
-	    {
-		heading: "Motifs",
-		renderCellContents: (patt, i, rowIsSelected)=>{return (
-		    <div>Hello</div>
-		);}
-	    }
-	]);
-    }
     
 
     componentDidMount(){
@@ -62,7 +49,6 @@ class MainTab_Patt extends React.PureComponent {
 	
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
 	const Patt_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
-
 	
 	return (
 	    <div className="MainTab_Patt">
@@ -92,55 +78,35 @@ class MainTab_Patt extends React.PureComponent {
 		</div>
 	      </div>
 
+
+	      
 	      {/* 2. "Middle Column" - shows pattern drive and included motifs */}
 	      <div className="middleColumn">
 
-		<WgBoxie className="patternDrive" name="Pattern Drive" >
 
-		  <WgDropDown
-		     name="Grid"
-		     ddStyle="plain"
-		     className="setGrid">
-		    grids here...
-		  </WgDropDown>
+		{/* 2.1 Pattern Drive */}
+		<Patt_Section_PatternDrive
+		   Patt_i={Patt_i}
+		   />
 
-		  <WgDropDown
-		     name="Density"
-		     ddStyle="plain"
-		     className="setPlot">
-		    densities here...
-		  </WgDropDown>
 
-		  <table className="WgTable">
-		    <tbody><tr>
-			<td className="col-1">
-			  <img src={Img_ArrowRight}
-			       alt=""
-			       />
-			</td>
-			<td className="col-2">
-			  <span className="none" style={{color: "grey", display: "inline"}}>(none)</span>
-			  <span className="title"></span>
-			</td>
-		      </tr>
-		  </tbody></table>
-		  
-		</WgBoxie>
 
-		<WgBoxie className="includeMotifs" name="Include Motifs" >
 
-		  <WgTable
-		     selectedRowIndex={0}
-		     onRowSelectedChange={this.props.fn.handleRowSelectedChange.bind(null)}//row index passed as single param
-		     rowRenderingData={this.props.PGTobjArray}
-		     columnsRendering={this.includeMotifs_WgTableColumns()}
-		     />
+		{/* 2.2 Include Motifs */}		
+		<Patt_Section_IncludeMotifs
+		   Patt_i={Patt_i}
+		   MotfArray={this.props.PGTobjARRAYS["motf"]}
+		   />
 
-		</WgBoxie>
 
+		
 	      </div>
 
-	      {/* 1. Table & buttons beneath */}
+
+
+
+	      
+	      {/* 3. "Right Side Space" - this has variable contents... */}
 	      <div className="rightSideSpace">
 		<WgBoxie className="motifLinking" name="Motif Linking" >
 		  efg

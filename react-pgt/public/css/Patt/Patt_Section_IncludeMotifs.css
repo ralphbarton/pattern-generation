@@ -1,0 +1,54 @@
+/* Patt_Section_IncludeMotifs.css */
+
+.MainTab_Patt .includeMotifs{
+    flex: 1 auto;
+}
+
+.MainTab_Patt .includeMotifs .contents{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.MainTab_Patt .includeMotifs .contents > div{
+      flex: 1 auto;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    align-items: right;
+}
+
+
+.MainTab_Patt .includeMotifs .WgTable{
+    border-width: 2px;
+    font-size: 13px;
+    margin: 0;
+    margin-left: 3px;
+}
+
+.MainTab_Patt .includeMotifs .WgTable tbody{
+    height: 147px;
+}
+
+/* There is 1 column only */
+.MainTab_Patt .includeMotifs .WgTable th{
+    width: 95px;
+}
+
+.MainTab_Patt .includeMotifs .WgTable td{
+    height: 40px;
+    padding: 0px;
+    text-align: left;
+    position: relative;
+}
+
+.MainTab_Patt .includeMotifs .dropbtn{
+  width: 65px;
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown{
+  margin-bottom: 4px;
+}
+
+.MainTab_Patt .includeMotifs .button{
+  padding: 2px 4px;
+}

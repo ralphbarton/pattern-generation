@@ -141,6 +141,7 @@ class Toolbox extends React.PureComponent {
 				  return(
 				      <MainTab_Patt
 					 PGTobjArray={this.props.PGTobjARRAYS['patt']}
+					 PGTobjARRAYS={this.props.PGTobjARRAYS}// separately, Patt tab needs access to everything
 					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "patt")}
 					 UI={this.props.UIState['patt']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"patt": $chg});}}

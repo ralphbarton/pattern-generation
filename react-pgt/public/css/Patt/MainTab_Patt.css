@@ -7,6 +7,7 @@
 }
 
 
+
 /* 1. Table listing */
 
 .MainTab_Patt > .tableWithButtonsZone .WgTable tbody{
@@ -33,6 +34,8 @@
 .MainTab_Patt .mainButtons{
     text-align: right;
 }
+
+
 
 
 
@@ -63,95 +66,3 @@
 .MainTab_Patt .WgBoxie .contents{
     padding: 4px;
 }
-
-
-
-
-
-
-/* 3. Pattern Drive  -- Boxie */
-
-.MainTab_Patt .patternDrive{
-    flex: 0 auto;
-}
-
-.MainTab_Patt .patternDrive .contents{
-    padding-top: 0px;
-}
-
-.MainTab_Patt .patternDrive .WgDropDown.setGrid{
-    margin-left: 2px;
-}
-
-.MainTab_Patt .patternDrive .WgDropDown.setPlot{
-    margin-left: 6px;
-}
-
-.MainTab_Patt .patternDrive .WgDropDown .dropbtn{
-    width: 84px;
-}
-
-
-/* 3.1 - tiny <table> element */
-.MainTab_Patt .patternDrive table{
-    border-width: 2px;
-    margin: 2px;
-    margin-top: 5px;
-}
-
-.MainTab_Patt .patternDrive table td{
-    padding: 1px 5px;
-    border-bottom: none;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.MainTab_Patt .patternDrive table td.col-1{
-    width: 25px;
-    background-color: #CCC;
-    position: relative;
-}
-
-.MainTab_Patt .patternDrive table td.col-2{
-    width: 200px;
-    text-align: left;
-}
-
-.MainTab_Patt .patternDrive table img{
-    position: absolute;
-    width: 21px;
-    top: -2px;
-    left: 2px
-}
-
-
-
-
-/* 4. Include Motifs -- boxie " */
-.MainTab_Patt .includeMotifs{
-    flex: 1 auto;
-}
-
-.MainTab_Patt .includeMotifs .WgTable{
-    border-width: 2px;
-    font-size: 13px;
-    margin: 0;
-    margin-left: 3px;
-}
-
-.MainTab_Patt .includeMotifs .WgTable tbody{
-    height: 147px;
-}
-
-/* There is 1 column only */
-.MainTab_Patt .includeMotifs .WgTable th{
-    width: 95px;
-}
-
-.MainTab_Patt .includeMotifs .WgTable td{
-    height: 40px;
-    padding: 0px;
-    text-align: left;
-    position: relative;
-}
-
