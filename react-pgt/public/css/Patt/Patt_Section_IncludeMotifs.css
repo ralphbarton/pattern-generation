@@ -41,6 +41,12 @@
     position: relative;
 }
 
+
+
+
+
+
+
 .MainTab_Patt .includeMotifs .dropbtn{
   width: 65px;
 }
@@ -49,6 +55,67 @@
   margin-bottom: 4px;
 }
 
+.MainTab_Patt .includeMotifs .WgDropDown .content{
+    left: 65px;
+    bottom: 0px;
+}
+
 .MainTab_Patt .includeMotifs .button{
   padding: 2px 4px;
+}
+
+
+
+
+/*Styling specific to LOAD MOTIF dropdown */
+
+.MainTab_Patt .includeMotifs .WgDropDown.load .content{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 160px;
+    width: 160px;
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown.load .Motif_ListItem{
+    position: relative;
+    height: 45px;
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+    padding: 2px;
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown.load .Motif_ListItem:last-child{
+    border: none;
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown.load .Motif_ListItem span{
+    position: absolute;
+    left: 53px;
+    text-decoration: underline;
+}
+
+
+#include-motifs .load .dropdown-content a > div {
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown.load .comment{
+    text-align: center;
+    padding: 5px;
+    font-style: italic;
+    color: rgba(0,0,0,0.5)
+}
+
+
+
+
+
+
+
+/*Styling STATIC PROPERTIES dropdown */
+
+.MainTab_Patt .includeMotifs .WgDropDown.properties .content{
+    height: 385px;
+    width: 220px;
+    bottom: -28px;
 }

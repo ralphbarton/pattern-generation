@@ -70,6 +70,7 @@
     padding: 2px 6px;
     text-decoration: none;
     display: block;
+    cursor: pointer;
 }
 
 .WgDropDown .content a.disabled {

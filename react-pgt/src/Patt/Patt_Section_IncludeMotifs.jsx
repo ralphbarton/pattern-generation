@@ -5,6 +5,36 @@ import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
 import {WgDropDown} from '../Wg/WgDropDown';
 
+import Motf_util from '../Motf/plain-js/Motf_util';
+
+
+class Motif_ListItem extends React.PureComponent {
+
+    componentDidUpdate(){
+	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);
+    }
+
+    componentDidMount(){
+	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);
+    }
+
+    render() {
+	return (
+	    <a className="Motif_ListItem"> 
+	      <span>{this.props.motf.name}</span>
+	      <svg
+		 className={"motf-thumb uid-" + this.props.motf.uid}
+		 width={45}
+		 height={45}
+		 viewBox={"0 0 400 400"}
+		 ref={ (el) => {this.thumbSVG = el;}}
+		/>
+
+	    </a>
+	);
+    }    
+}
+
 
 class Patt_Section_IncludeMotifs extends React.PureComponent {
 
@@ -40,14 +70,21 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		<WgDropDown
 		   name="Load..."
 		   ddStyle="plain"
-		   className="setPlot">
-		  {this.props.MotfArray.map( i => {return i.name;})}
+		   className="load">
+		  {
+		      this.props.MotfArray.length > 0 ?
+		      this.props.MotfArray.map( motf => {return (
+			  <Motif_ListItem key={motf.uid} motf={motf} />
+		      );})
+		      :
+		      <div className="comment">(Empty List)</div>
+		  }
 		</WgDropDown>
 		
 		<WgDropDown
 		   name="Properties"
 		   ddStyle="plain"
-		   className="setPlot">
+		   className="properties">
 		  properties interface here...
 		</WgDropDown>
 

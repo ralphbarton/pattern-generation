@@ -1,8 +1,6 @@
 import React from 'react';
 
 import WgBoxie from '../Wg/WgBoxie';
-import WgTable from '../Wg/WgTable';
-import {WgButton} from '../Wg/WgButton';
 import {WgDropDown} from '../Wg/WgDropDown';
 
 import Img_ArrowRight from './../asset/arrow-right-style2.png';
