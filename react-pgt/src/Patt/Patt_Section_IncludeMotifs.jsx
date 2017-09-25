@@ -9,68 +9,7 @@ import {WgDropDown} from '../Wg/WgDropDown';
 import WgDustbin from '../Wg/WgDustbin';
 import {WgSlideTransition} from '../Wg/WgTransition';
 
-import Motf_util from '../Motf/plain-js/Motf_util';
-
-
-class Motif_ListItem extends React.PureComponent {
-
-    componentDidUpdate(){
-	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);
-    }
-
-    componentDidMount(){
-	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);
-    }
-
-    render() {
-	return (
-	    <a className="Motif_ListItem"
-	       onClick={ () => {
-		   this.props.handleModifySelPatt({
-		       Motif_set: {$push:
-				   [{
-				       uid: this.props.motf.uid,
-				       scale: 0.5,
-				       angle: 0,
-				       opacity: 1
-				   }]
-				  }
-		   });
-	      }}
-	       >
-	      <span>{this.props.motf.name}</span>
-	      <svg
-		 className={"motf-thumb uid-" + this.props.motf.uid}
-		 width={45}
-		 height={45}
-		 viewBox={"0 0 400 400"}
-		 ref={ (el) => {this.thumbSVG = el;}}
-		/>
-
-	    </a>
-	);
-    }    
-}
-
-
-class Motif_SVG extends React.PureComponent {
-
-    componentDidMount(){
-	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);
-    }
-
-    render() {
-	return (
-	    <svg
-	       className={"motf-thumb uid-" + this.props.motf.uid}
-	       width={45}
-	       height={45}
-	       viewBox={"0 0 400 400"}
-	       ref={ (el) => {this.thumbSVG = el;}}
-	      />
-	);
-    }    
-}
+import Motf_SVG from '../Motf/Motf_SVG';
 
 
 class Patt_Section_IncludeMotifs extends React.PureComponent {
@@ -91,7 +30,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		    const Motf = _.find(this.props.MotfArray, {uid: m_set.uid} );//extract motif from the list, by UID
 		    return (
 			<div>
-			  <Motif_SVG motf={Motf}/>
+			  <Motf_SVG size={45} motf={Motf}/>
 			  <span>{Motf.name}</span>
 			  <WgDustbin onClick={()=>{
 				this.props.handleModifySelPatt({
@@ -136,9 +75,27 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		  <WgSlideTransition duration={200}>
 		  {
 		      remaining_MotfArray.length > 0 ?
-		      remaining_MotfArray.map( motf => {return (
-			  <Motif_ListItem key={motf.uid} motf={motf} handleModifySelPatt={this.props.handleModifySelPatt}/>
-		      );})
+		      remaining_MotfArray.map( motf => {
+			  return (
+			      <a className="Motif_ListItem"
+				 key={motf.uid}
+				 onClick={ () => {
+				     this.props.handleModifySelPatt({
+					 Motif_set: {$push:
+						     [{
+							 uid: motf.uid,
+							 scale: 0.5,
+							 angle: 0,
+							 opacity: 1
+						     }]
+						    }
+				     });
+				}}
+				>
+				<span>{motf.name}</span>
+				<Motf_SVG size={45} motf={motf} />
+			      </a>
+			  );})
 		      :
 		      <div className="comment">(Empty List)</div>
 		  }

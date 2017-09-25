@@ -15,30 +15,8 @@ import WgBoxie from '../Wg/WgBoxie';
 import Motf_util from './plain-js/Motf_util';
 import MainTab_MotfEdit from './MainTab_MotfEdit';
 
+import Motf_SVG from './Motf_SVG';
 
-class Motf_Thumbnail extends React.PureComponent {
-
-    componentDidUpdate(){
-	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);// put content in SVG element
-    }
-
-    componentDidMount(){
-	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);// put content in SVG element
-    }
-    
-    render(){
-	return (
-	    <svg
-	       className={"motf-thumb uid-" + this.props.motf.uid}
-	       width={45}
-	       height={45}
-	       viewBox={"0 0 400 400"}
-	       ref={ (el) => {this.thumbSVG = el;}}
-	      />
-
-	);
-    }
-}
 
 
 class MainTab_MotfView extends React.PureComponent {
@@ -76,15 +54,6 @@ class MainTab_MotfView extends React.PureComponent {
 	});
     }
 
-    
-    componentDidUpdate(){
-	if(this.props.UI.selectedRowIndex === undefined){return;} // no row selected, nothing to do
-	
-	// 2. Draw the Main Large-sized preview
-	const Motf_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
-	Motf_util.putMotifSVG(this.svgElement235, Motf_i);
-    }
-
     // handler to make the Toolbox bigger (or smaller). It's for: Motif View <--> Motif edit 
     handleSetEditMode(edit_mode){
 	this.setState({
@@ -116,7 +85,7 @@ class MainTab_MotfView extends React.PureComponent {
 	    {
 		heading: "Prev.",
 		renderCellContents: (motf, i, rowIsSelected)=>{
-		    return <Motf_Thumbnail motf={motf} />;
+		    return <Motf_SVG motf={motf} />;
 		}
 	    }
 	]);
@@ -205,15 +174,9 @@ class MainTab_MotfView extends React.PureComponent {
 	      <div className="column3">
 		<div className="preview">
 		  <div className="title">{Motif_i.name}</div>
-		  <svg
-		     width={235}
-		     height={235}
-		     viewBox={"0 0 400 400"}
-		     ref={ (el) => {this.svgElement235 = el;}}
-		     />
+		  <Motf_SVG size={235} motf={Motif_i} />
 		</div>
 	      </div>
-	      
 	      
 	    </div>
 
