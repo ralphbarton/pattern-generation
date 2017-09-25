@@ -1,9 +1,12 @@
 import React from 'react';
+var _ = require('lodash');
+
 
 import WgBoxie from '../Wg/WgBoxie';
 import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
 import {WgDropDown} from '../Wg/WgDropDown';
+import WgDustbin from '../Wg/WgDustbin';
 
 import Motf_util from '../Motf/plain-js/Motf_util';
 
@@ -36,6 +39,26 @@ class Motif_ListItem extends React.PureComponent {
 }
 
 
+class Motif_SVG extends React.PureComponent {
+
+    componentDidMount(){
+	Motf_util.putMotifSVG(this.thumbSVG, this.props.motf);
+    }
+
+    render() {
+	return (
+	    <svg
+	       className={"motf-thumb uid-" + this.props.motf.uid}
+	       width={45}
+	       height={45}
+	       viewBox={"0 0 400 400"}
+	       ref={ (el) => {this.thumbSVG = el;}}
+	      />
+	);
+    }    
+}
+
+
 class Patt_Section_IncludeMotifs extends React.PureComponent {
 
     constructor() {
@@ -47,22 +70,31 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 	return ([
 	    {
 		heading: "Motifs",
-		renderCellContents: (patt, i, rowIsSelected)=>{return (
-		    <div>Hello</div>
-		);}
+		renderCellContents: (m_set, i, rowIsSelected) => {
+		    const Motf = _.find(this.props.MotfArray, {uid: m_set.uid} );//extract motif from the list, by UID
+		    return (
+			<div>
+			  <Motif_SVG motf={Motf}/>
+			  <span>{Motf.name}</span>
+			  <WgDustbin onClick={null} />
+			</div>
+		    );
+		}
 	    }
 	]);
     }
 
     
     render() {
+	const Patt = this.props.Patt_i;
+	
 	return (
 	    <WgBoxie className="includeMotifs" name="Include Motifs" >
 
 	      <WgTable
 		 selectedRowIndex={0}
 		 onRowSelectedChange={()=>{return 0;}/*this.props.fn.handleRowSelectedChange.bind(null)*/}//row index passed as single param
-		 rowRenderingData={[1,2,3,4]}
+		 rowRenderingData={Patt.Motif_set}
 		 columnsRendering={this.includeMotifs_WgTableColumns()}
 		 />
 

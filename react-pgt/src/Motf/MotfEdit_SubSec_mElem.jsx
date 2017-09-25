@@ -1,17 +1,19 @@
 import React from 'react';
+var _ = require('lodash');
 
+// widgets etc
+import {WgSlideTransition} from '../Wg/WgTransition';
+import WgDustbin from '../Wg/WgDustbin';
+import WgActionLink from '../Wg/WgActionLink';
+
+import Motf_lists from './plain-js/Motf_lists';
+
+// Sub-content
 import MotfEdit_SubSec_mElem_Icon from './MotfEdit_SubSec_mElem_Icon';
 import MotfEdit_SubSec_mElem_menu from './MotfEdit_SubSec_mElem_menu';
 import MotfEdit_SubSec_mElem_popoutPicker from './MotfEdit_SubSec_mElem_popoutPicker';
 
-import {WgSlideTransition} from '../Wg/WgTransition';
 
-import Motf_lists from './plain-js/Motf_lists';
-var _ = require('lodash');
-
-import WgActionLink from '../Wg/WgActionLink';
-
-import imgDustbin from './asset/dustbin-100.png';
 
 
 function MotfEdit_SubSec_mElemContracted(props) {
@@ -189,11 +191,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	     onClick={props.hofFnSetOvrExpanded(expandLevel < 4)}
 	     />
 
-	  <img className="dustbin"
-	       src={imgDustbin}
-	       onClick={props.deleteElem}
-	       alt=""/>
-
+	  <WgDustbin onClick={props.deleteElem} />
 
 	  <WgSlideTransition>
 	  

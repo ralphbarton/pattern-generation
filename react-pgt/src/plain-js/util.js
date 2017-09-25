@@ -1,13 +1,18 @@
 import numeral from 'numeral';
+var _ = require('lodash');
 
 var util = {
+    
     lookup: function(arr, keyName, keyValue){
+	/*
 	for (var i = 0; i < arr.length; i++) {
 	    if(arr[i][keyName] === keyValue){
 		return arr[i];
 	    }
 	}
 	return undefined;
+	*/
+	return _.find(arr, {[keyName]: keyValue} );
     },
 
     //display a number of any magnitude concisely.

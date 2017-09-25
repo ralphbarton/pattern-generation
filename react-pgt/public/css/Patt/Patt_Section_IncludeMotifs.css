@@ -39,7 +39,24 @@
     padding: 0px;
     text-align: left;
     position: relative;
+    width: 92px;
 }
+
+.MainTab_Patt .includeMotifs .WgTable span{
+    position: absolute;
+    left: 46px;
+    top: 3px;
+    width: 200px;
+    font-size: 11px;
+}
+
+.MainTab_Patt .includeMotifs .WgTable .WgDustbin{
+    position: absolute;
+    left: 53px;
+    top: 20px;
+    height: 22px;
+}
+
 
 
 

@@ -53,17 +53,11 @@
     top: 2px;
 }
 
-.MotfEdit_SubSec_mElemExpanded img.dustbin{
+.MotfEdit_SubSec_mElemExpanded .WgDustbin{
     position: absolute;
-    opacity: 0.5;
-        height: 28px;
+    height: 28px;
     right: 1px;
     top:  4px;
-}
-
-.MotfEdit_SubSec_mElemExpanded img.dustbin:hover{
-    opacity: 1;
-    filter: saturate(8) hue-rotate(120deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
 }
 
 
