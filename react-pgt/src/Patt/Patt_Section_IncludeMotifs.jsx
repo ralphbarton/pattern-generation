@@ -7,6 +7,7 @@ import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
 import {WgDropDown} from '../Wg/WgDropDown';
 import WgDustbin from '../Wg/WgDustbin';
+import {WgSlideTransition} from '../Wg/WgTransition';
 
 import Motf_util from '../Motf/plain-js/Motf_util';
 
@@ -128,6 +129,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		   name="Load..."
 		   ddStyle="plain"
 		   className="load">
+		  <WgSlideTransition>
 		  {
 		      remaining_MotfArray.length > 0 ?
 		      remaining_MotfArray.map( motf => {return (
@@ -136,6 +138,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		      :
 		      <div className="comment">(Empty List)</div>
 		  }
+	    	</WgSlideTransition>
 		</WgDropDown>
 		
 		<WgDropDown

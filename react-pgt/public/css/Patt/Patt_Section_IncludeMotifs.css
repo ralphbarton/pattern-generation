@@ -93,11 +93,12 @@
     width: 160px;
 }
 
-.MainTab_Patt .includeMotifs .WgDropDown.load .Motif_ListItem{
+.MainTab_Patt .includeMotifs .WgDropDown.load a.Motif_ListItem{
     position: relative;
     height: 45px;
     border-bottom: 1px solid rgba(0,0,0,0.5);
     padding: 2px;
+    overflow-y: hidden;
 }
 
 .MainTab_Patt .includeMotifs .WgDropDown.load .Motif_ListItem:last-child{
@@ -122,6 +123,25 @@
     font-style: italic;
     color: rgba(0,0,0,0.5)
 }
+
+
+
+/* 400ms slide transition */
+
+/* Specific heights for the Height animation to target...
+   I have only implemented a leave animation; this is the only one possible
+*/
+.MainTab_Patt .includeMotifs .WgSlide400-leave{
+    max-height: 47px;
+}
+
+.MainTab_Patt .includeMotifs .WgSlide400-leave.WgSlide400-leave-active {
+    max-height: 0;
+    transition: max-height 400ms linear;
+}
+
+
+
 
 
 
