@@ -76,6 +76,9 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 
     constructor() {
 	super();
+	this.state = {
+	    selectedRowIndex: undefined
+	};
 	this.includeMotifs_WgTableColumns = this.includeMotifs_WgTableColumns.bind(this);
     }
 
@@ -97,16 +100,25 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 	]);
     }
 
+    componentWillReceiveProps(nextProps){
+	if(this.props.Patt_i !== nextProps.Patt_i){
+	    this.setState({selectedRowIndex: undefined});
+	}
+    }
     
     render() {
 	const Patt = this.props.Patt_i;
+
+	const remaining_MotfArray = this.props.MotfArray.filter( motf => {
+	    return !( _.find(Patt.Motif_set, {uid: motf.uid} ) ); // can it Not be found?
+	});
 	
 	return (
 	    <WgBoxie className="includeMotifs" name="Include Motifs" >
 
 	      <WgTable
-		 selectedRowIndex={0}
-		 onRowSelectedChange={()=>{return 0;}/*this.props.fn.handleRowSelectedChange.bind(null)*/}//row index passed as single param
+		 selectedRowIndex={this.state.selectedRowIndex}
+		 onRowSelectedChange={ i => {this.setState({selectedRowIndex: i});} }
 		 rowRenderingData={Patt.Motif_set}
 		 columnsRendering={this.includeMotifs_WgTableColumns()}
 		 />
@@ -117,8 +129,8 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		   ddStyle="plain"
 		   className="load">
 		  {
-		      this.props.MotfArray.length > 0 ?
-		      this.props.MotfArray.map( motf => {return (
+		      remaining_MotfArray.length > 0 ?
+		      remaining_MotfArray.map( motf => {return (
 			  <Motif_ListItem key={motf.uid} motf={motf} handleModifySelPatt={this.props.handleModifySelPatt}/>
 		      );})
 		      :
