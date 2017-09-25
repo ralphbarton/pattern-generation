@@ -8,6 +8,7 @@ import {WgButton} from '../Wg/WgButton';
 import {WgDropDown} from '../Wg/WgDropDown';
 import WgDustbin from '../Wg/WgDustbin';
 import {WgSlideTransition} from '../Wg/WgTransition';
+import WgSlider from '../Wg/WgSlider';
 
 import Motf_SVG from '../Motf/Motf_SVG';
 
@@ -107,6 +108,28 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		   ddStyle="plain"
 		   className="properties">
 		  properties interface here...
+
+		Scale: 		      <input className="plain-cell s"/>
+		<WgSlider
+	    min={0}
+	    max={100}
+	    value={35}
+		/>
+
+		Angle:		      <input className="plain-cell s"/>
+		<WgSlider
+	    min={0}
+	    max={100}
+	    value={35}
+		/>
+
+		Opacity: 		      <input className="plain-cell s"/>
+		<WgSlider
+	    min={0}
+	    max={100}
+	    value={35}
+		/>
+
 		</WgDropDown>
 
 		<WgButton

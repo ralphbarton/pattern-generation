@@ -156,3 +156,10 @@
     width: 220px;
     bottom: -28px;
 }
+
+.MainTab_Patt .includeMotifs .WgDropDown.properties .WgSlider{
+    width: 200px;
+    margin-left: 10px;
+}
+
+
