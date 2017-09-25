@@ -93,7 +93,11 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 			<div>
 			  <Motif_SVG motf={Motf}/>
 			  <span>{Motf.name}</span>
-			  <WgDustbin onClick={null} />
+			  <WgDustbin onClick={()=>{
+				this.props.handleModifySelPatt({
+				    Motif_set: {$splice: [[i, 1]]}
+				});
+			    }} />
 			</div>
 		    );
 		}
@@ -129,7 +133,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		   name="Load..."
 		   ddStyle="plain"
 		   className="load">
-		  <WgSlideTransition>
+		  <WgSlideTransition duration={200}>
 		  {
 		      remaining_MotfArray.length > 0 ?
 		      remaining_MotfArray.map( motf => {return (

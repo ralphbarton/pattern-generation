@@ -14,11 +14,12 @@ function WgFadeTransition(props) {
 }
 
 function WgSlideTransition(props) {
+    const duration = props.duration || 400; //use a default duration of 400   
     return(
         <CSSTransitionGroup
-	   transitionName={"WgSlide400"}
-	   transitionEnterTimeout={400}
-	   transitionLeaveTimeout={400}>
+	   transitionName={"WgSlide"+duration}
+	   transitionEnterTimeout={duration}
+	   transitionLeaveTimeout={duration}>
 	  {props.children}
 	</CSSTransitionGroup>
     );

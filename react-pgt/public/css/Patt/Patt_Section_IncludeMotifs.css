@@ -131,13 +131,13 @@
 /* Specific heights for the Height animation to target...
    I have only implemented a leave animation; this is the only one possible
 */
-.MainTab_Patt .includeMotifs .WgSlide400-leave{
+.MainTab_Patt .includeMotifs .WgSlide200-leave{
     max-height: 47px;
 }
 
-.MainTab_Patt .includeMotifs .WgSlide400-leave.WgSlide400-leave-active {
+.MainTab_Patt .includeMotifs .WgSlide200-leave.WgSlide200-leave-active {
     max-height: 0;
-    transition: max-height 400ms linear;
+    transition: max-height 200ms linear;
 }
 
 
