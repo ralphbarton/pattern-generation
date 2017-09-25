@@ -23,7 +23,20 @@ class Motif_ListItem extends React.PureComponent {
 
     render() {
 	return (
-	    <a className="Motif_ListItem"> 
+	    <a className="Motif_ListItem"
+	       onClick={ () => {
+		   this.props.handleModifySelPatt({
+		       Motif_set: {$push:
+				   [{
+				       uid: this.props.motf.uid,
+				       scale: 0.5,
+				       angle: 0,
+				       opacity: 1
+				   }]
+				  }
+		   });
+	      }}
+	       >
 	      <span>{this.props.motf.name}</span>
 	      <svg
 		 className={"motf-thumb uid-" + this.props.motf.uid}
@@ -106,7 +119,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		  {
 		      this.props.MotfArray.length > 0 ?
 		      this.props.MotfArray.map( motf => {return (
-			  <Motif_ListItem key={motf.uid} motf={motf} />
+			  <Motif_ListItem key={motf.uid} motf={motf} handleModifySelPatt={this.props.handleModifySelPatt}/>
 		      );})
 		      :
 		      <div className="comment">(Empty List)</div>

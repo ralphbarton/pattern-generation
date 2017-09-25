@@ -87,6 +87,7 @@ class MainTab_Patt extends React.PureComponent {
 		{/* 2.1 Pattern Drive */}
 		<Patt_Section_PatternDrive
 		   Patt_i={Patt_i}
+		   handleModifySelPatt={this.props.fn.handleModifySelPGTobj}
 		   />
 
 
@@ -95,6 +96,7 @@ class MainTab_Patt extends React.PureComponent {
 		{/* 2.2 Include Motifs */}		
 		<Patt_Section_IncludeMotifs
 		   Patt_i={Patt_i}
+		   handleModifySelPatt={this.props.fn.handleModifySelPGTobj}
 		   MotfArray={this.props.PGTobjARRAYS["motf"]}
 		   />
 
