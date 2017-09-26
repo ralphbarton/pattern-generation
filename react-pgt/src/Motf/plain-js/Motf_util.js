@@ -62,8 +62,9 @@ var Motf_util = {
 	    // further tweaking of properties format to suit the d3 requirements on object properties
 
 	    // put the origin in the middle of the Image (other ways to do this in an SVG?)
-	    E["x"] = E.left;
-	    E["y"] = E.top;
+	    // I don't think this is a final solution, below...
+	    E["x"] = E.left - (options.originZero ? 200 : 0);
+	    E["y"] = E.top  - (options.originZero ? 200 : 0);
 
 	    E["transform"] = "rotate("+(E.angle||0)+", "+E.x+", "+E.y+")";
 

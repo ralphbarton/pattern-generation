@@ -109,6 +109,9 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 	    	</WgSlideTransition>
 		</WgDropDown>
 		
+
+
+
 		<WgDropDown
 		   name="Properties"
 		   ddStyle="plain"
@@ -118,7 +121,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		<div>
 		<div className="title">{Motf_i.name}</div>
 		 <div className="chequer">
-		 <Motf_SVG size={200} motf={Motf_i} />
+		 <Motf_SVG size={200} motf={Motf_i} transform={motf_i_sProps}/>
 		 </div>
 		 <div className="h2">Static Properties</div>
 		 {
