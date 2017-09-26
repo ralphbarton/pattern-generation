@@ -9,6 +9,7 @@ import {WgDropDown} from '../Wg/WgDropDown';
 import WgDustbin from '../Wg/WgDustbin';
 import {WgSlideTransition} from '../Wg/WgTransition';
 import WgSlider from '../Wg/WgSlider';
+import WgSmartInput from '../Wg/WgSmartInput';
 
 import Motf_SVG from '../Motf/Motf_SVG';
 
@@ -46,7 +47,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps){
-	if(this.props.Patt_i !== nextProps.Patt_i){
+	if(this.props.patt_selectedIndex !== nextProps.patt_selectedIndex){
 	    this.setState({selectedRowIndex: undefined});
 	}
     }
@@ -54,6 +55,11 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
     render() {
 	const Patt = this.props.Patt_i;
 
+	//the Motif selected in the WgTable
+	const rowIdx = this.state.selectedRowIndex;
+	const motf_i_sProps = Patt.Motif_set[rowIdx];
+	const Motf_i = rowIdx !== undefined ? _.find(this.props.MotfArray, {uid: motf_i_sProps.uid}) : undefined;
+	
 	const remaining_MotfArray = this.props.MotfArray.filter( motf => {
 	    return !( _.find(Patt.Motif_set, {uid: motf.uid} ) ); // can it Not be found?
 	});
@@ -106,30 +112,49 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		<WgDropDown
 		   name="Properties"
 		   ddStyle="plain"
-		   className="properties">
-		  properties interface here...
-
-		Scale: 		      <input className="plain-cell s"/>
-		<WgSlider
-	    min={0}
-	    max={100}
-	    value={35}
-		/>
-
-		Angle:		      <input className="plain-cell s"/>
-		<WgSlider
-	    min={0}
-	    max={100}
-	    value={35}
-		/>
-
-		Opacity: 		      <input className="plain-cell s"/>
-		<WgSlider
-	    min={0}
-	    max={100}
-	    value={35}
-		/>
-
+	    enabled={Motf_i !== undefined}
+	    className="properties">
+		{Motf_i !== undefined &&
+		<div>
+		<div className="title">{Motf_i.name}</div>
+		 <div className="chequer">
+		 <Motf_SVG size={200} motf={Motf_i} />
+		 </div>
+		 <div className="h2">Static Properties</div>
+		 {
+		     [// 0-key, 1-string, 2-min, 3-max, 4-conversion
+			 ["scale",   "Scale", 0, 100, 100],
+			 ["angle",   "Angle", -180, 180, 1],
+			 ["opacity", "Opacity", 0, 100, 100]
+		     ].map( Pr => {
+			 const v = motf_i_sProps[Pr[0]] * Pr[4];
+			 return (
+			     <div className="set-value" key={Pr[0]}>
+			       <span className="i-note">{Pr[1]}:</span>
+			       <WgSmartInput
+				  className="plain-cell s"
+				  value={v}
+				  dataUnit="percent"
+				  min={Pr[2]}
+				  max={Pr[3]}
+				  onChange={ v => {
+				      const adj_v = v / Pr[4];
+				      this.props.handleModifySelPatt({
+					  Motif_set: {[rowIdx]: {[Pr[0]]: {$set: adj_v}}}
+				      });
+				  }}
+				 />
+			       <WgSlider
+				  min={Pr[2]}
+				  max={Pr[3]}
+				  value={v}
+				  />
+			     </div>
+			 );
+		     })
+		 }
+		 </div>
+		}
 		</WgDropDown>
 
 		<WgButton

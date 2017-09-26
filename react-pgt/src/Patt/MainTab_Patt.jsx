@@ -96,6 +96,7 @@ class MainTab_Patt extends React.PureComponent {
 		{/* 2.2 Include Motifs */}		
 		<Patt_Section_IncludeMotifs
 		   Patt_i={Patt_i}
+		   patt_selectedIndex={this.props.UI.selectedRowIndex}
 		   handleModifySelPatt={this.props.fn.handleModifySelPGTobj}
 		   MotfArray={this.props.PGTobjARRAYS["motf"]}
 		   />

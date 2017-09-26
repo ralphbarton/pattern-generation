@@ -157,9 +157,43 @@
     bottom: -28px;
 }
 
-.MainTab_Patt .includeMotifs .WgDropDown.properties .WgSlider{
-    width: 200px;
-    margin-left: 10px;
+.MainTab_Patt .includeMotifs .WgDropDown.properties .content > div{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }
 
+.MainTab_Patt .includeMotifs .WgDropDown.properties .title {
+    padding: 3px;
+    font-size: 14px;
+    font-weight: bold;
+}
 
+.MainTab_Patt .includeMotifs .chequer{
+    border: none;
+    background-color: white;
+    width: 200px;
+    box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.6);
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown.properties .h2{
+    align-self: flex-start;
+    padding: 4px;
+    padding-top: 6px;
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown.properties .set-value{
+    margin: 3px 0px;
+    position: relative;
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown.properties .set-value input{
+    position: absolute;
+    top: -2px;
+    left: 50px;
+}
+
+.MainTab_Patt .includeMotifs .WgDropDown.properties .WgSlider{
+    margin-top: 6px;
+    width: 200px;
+}
