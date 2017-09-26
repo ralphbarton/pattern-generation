@@ -122,18 +122,27 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 		 </div>
 		 <div className="h2">Static Properties</div>
 		 {
-		     [// 0-key, 1-string, 2-min, 3-max, 4-conversion
-			 ["scale",   "Scale", 0, 100, 100],
+		     [// 0-key, 1-string, 2-min, 3-max, 4-conversion, (5-reverse-conversion)
+			 ["scale",   "Scale", 25, 400, 100],
 			 ["angle",   "Angle", -180, 180, 1],
 			 ["opacity", "Opacity", 0, 100, 100]
 		     ].map( Pr => {
-			 const v = motf_i_sProps[Pr[0]] * Pr[4];
+
+			 const v = motf_i_sProps[Pr[0]];
+			 const v1 = v * Pr[4]; // input
+			 let v2 = v * Pr[4]; // slider
+			 const isScale = Pr[0] === "scale";
+			 
+			 if(isScale){
+			     v2 = 25 * ( Math.log2(v) + 3);
+			 }
+			 
 			 return (
 			     <div className="set-value" key={Pr[0]}>
 			       <span className="i-note">{Pr[1]}:</span>
 			       <WgSmartInput
 				  className="plain-cell s"
-				  value={v}
+				  value={v1}
 				  dataUnit="percent"
 				  min={Pr[2]}
 				  max={Pr[3]}
@@ -145,9 +154,15 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 				  }}
 				 />
 			       <WgSlider
-				  min={Pr[2]}
-				  max={Pr[3]}
-				  value={v}
+				  min={isScale ?  0  : Pr[2]}
+				  max={isScale ? 100 : Pr[3]}
+				  value={v2}
+				  onChange={ v => {
+				      const adj_v = isScale ? (2 ** (( v / 25 ) - 3)) : v / Pr[4];
+				      this.props.handleModifySelPatt({
+					  Motif_set: {[rowIdx]: {[Pr[0]]: {$set: adj_v}}}
+				      });
+				  }}
 				  />
 			     </div>
 			 );
