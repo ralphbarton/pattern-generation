@@ -88,6 +88,8 @@ class MainTab_Patt extends React.PureComponent {
 		<Patt_Section_PatternDrive
 		   Patt_i={Patt_i}
 		   handleModifySelPatt={this.props.fn.handleModifySelPGTobj}
+		   GridArray={this.props.PGTobjARRAYS["grid"]}
+		   PlotArray={this.props.PGTobjARRAYS["plot"]}
 		   />
 
 

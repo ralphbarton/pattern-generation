@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 import {WgDropDown} from '../Wg/WgDropDown';
-import {WgButton2} from '../Wg/WgButton';
+import {WgButton2} from '../Wg/WgButton'; // n.b. the thing about button2 is that it supports a dot to indicate state
 import {WgFadeTransition} from '../Wg/WgTransition';
 
 import Motf_lists from './plain-js/Motf_lists'; // used only for grid sizes

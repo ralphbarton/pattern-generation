@@ -9,11 +9,15 @@
     padding-top: 0px;
 }
 
+
+
+/* the DropDown menus */
+
 .MainTab_Patt .patternDrive .WgDropDown.setGrid{
     margin-left: 2px;
 }
 
-.MainTab_Patt .patternDrive .WgDropDown.setPlot{
+.MainTab_Patt .patternDrive .WgDropDown.setDensity{
     margin-left: 6px;
 }
 
@@ -21,7 +25,40 @@
     width: 84px;
 }
 
+.MainTab_Patt .patternDrive .WgDropDown .content{
+    width: 174px;
+    max-height: 190px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
+.MainTab_Patt .patternDrive .WgDropDown.setDensity .content{
+    left: -90px;
+}
+
+.MainTab_Patt .patternDrive .WgDropDown.setDensity .content > div{
+    font-weight: bold;
+    padding: 3px;
+}
+
+.MainTab_Patt .patternDrive .WgDropDown.setDensity .content > div:not(:first-child){
+    padding-top: 10px;
+}
+
+.MainTab_Patt .patternDrive .WgDropDown.setDensity .content a{
+    width: 250px; /* guarentee no wrap */
+}
+
+.MainTab_Patt .patternDrive .WgDropDown.setDensity .content span{
+    display: block;
+    text-align: center;
+}
+
+.MainTab_Patt .patternDrive .WgDropDown.setDensity .content button{
+    width: 140px;
+    margin: 4px;
+    text-decoration: none; /* why is this necessary !?!*/
+}
 
 
 
@@ -56,4 +93,8 @@
     width: 21px;
     top: -2px;
     left: 2px
+}
+
+.MainTab_Patt .patternDrive table .none{
+    color: grey;
 }
