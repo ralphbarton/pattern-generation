@@ -1,5 +1,10 @@
 var _ = require('lodash');
 
+import {select} from "d3-selection";
+import "d3-selection-multi";
+
+import Motf_util from '../../Motf/plain-js/Motf_util';
+
 var Patt_util = {
 
     newEmptyPattern: function(){
@@ -11,6 +16,32 @@ var Patt_util = {
 	    plot_uid: undefined,
 	    paint_uid: undefined
 	};
+    },
+
+    putPatternSVG: function(svg_el, Pointset, Motif, options, motif_props){
+
+	const d3_svg = select(svg_el);
+	d3_svg.selectAll("*").remove();
+
+	// create a <defs> element in the SVG, contatining one group element... 
+	const mID = 34;
+	var d3_motif_definition = d3_svg.append("defs").attr("class", "pattern_pid").append("g").attr("id", mID)
+
+	// put the motif into <defs>
+	Motf_util.putMotifSVG(svg_el, Motif, {originZero: true, selection: d3_motif_definition});
+	
+	//Add all data afresh...
+	d3_svg.append("g").attr("class", "pattern_pid")
+	    .selectAll("use") //there will, however, be none
+	    .data(Pointset)
+	    .enter()
+	    .append("use")
+	    .attr("class","live")
+	    .attr("xlink:href", "#"+mID)
+	    .attr("transform", function(d){
+		return "translate("+d.x+" "+d.y+") rotate(" + motif_props.angle + ") scale(" + motif_props.scale + ")";
+	    })
+	    .attr("opacity", motif_props.opacity);
     }
 }
 
