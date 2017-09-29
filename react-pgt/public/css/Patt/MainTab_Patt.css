@@ -61,6 +61,12 @@
     flex: 1 auto;
     margin-left: 5px;
     margin-right: 3px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.MainTab_Patt .rightSideSpace .mainButtons{
+    padding-top: 6px;
 }
 
 /* apply padding on the insides of ALL boxies */

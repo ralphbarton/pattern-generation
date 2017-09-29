@@ -4,6 +4,7 @@ var _ = require('lodash');
 import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
+import WgActionLink from '../Wg/WgActionLink';
 
 import Patt_util from './plain-js/Patt_util';
 
@@ -116,6 +117,24 @@ class MainTab_Patt extends React.PureComponent {
 		<WgBoxie className="motifLinking" name="Motif Linking" >
 		  efg
 		</WgBoxie>
+		<div className="mainButtons">
+		  <WgActionLink
+		     name={"Clear"}
+	             onClick={this.props.setPGTtabUIState.bind(null, {
+			 previewActive: {$set: false}
+		     })}
+		     enabled={this.props.UI.previewActive}
+		     />
+
+		  
+		  <WgButton
+		     name="Render"
+	             onClick={this.props.setPGTtabUIState.bind(null, {
+			 previewActive: {$set: true}
+		     })}
+		     enabled={!this.props.UI.previewActive}
+		     />
+		</div>
 	      </div>
 
 	    </div>

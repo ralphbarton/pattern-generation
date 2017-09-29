@@ -18,17 +18,19 @@ var Patt_util = {
 	};
     },
 
-    putPatternSVG: function(svg_el, Pointset, Motif, options, motif_props){
+    putPatternSVG: function(svg_el, Pointset, Motif, motif_props){
 
 	const d3_svg = select(svg_el);
 	d3_svg.selectAll("*").remove();
 
+	if(!Pointset){return;}// passing a null pointset will trigger svg clear only
+	
 	// create a <defs> element in the SVG, contatining one group element... 
 	const mID = 34;
-	var d3_motif_definition = d3_svg.append("defs").attr("class", "pattern_pid").append("g").attr("id", mID)
+	var svg_sub_el = d3_svg.append("defs").attr("class", "pattern_pid").append("g").attr("id", mID).node();
 
 	// put the motif into <defs>
-	Motf_util.putMotifSVG(svg_el, Motif, {originZero: true, selection: d3_motif_definition});
+	Motf_util.putMotifSVG(svg_sub_el, Motif, {originZero: true});
 	
 	//Add all data afresh...
 	d3_svg.append("g").attr("class", "pattern_pid")
