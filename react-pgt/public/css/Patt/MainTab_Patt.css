@@ -39,6 +39,13 @@
 
 
 
+
+
+/* apply padding on the insides of ALL boxies */
+.MainTab_Patt .WgBoxie .contents{
+    padding: 4px;
+}
+
 /* 2. Other General Layout */
 
 .MainTab_Patt > .middleColumn{
@@ -56,6 +63,9 @@
     margin-bottom: 6px;
 }
 
+/* 2. Right Side Space stuff */
+
+
 .MainTab_Patt > div.rightSideSpace{
     padding: 4px;
     flex: 1 auto;
@@ -69,7 +79,17 @@
     padding-top: 6px;
 }
 
-/* apply padding on the insides of ALL boxies */
-.MainTab_Patt .WgBoxie .contents{
-    padding: 4px;
+.MainTab_Patt .rightSideSpace .bigThumb{
+    flex: 1 auto;
+    position: relative;
 }
+
+.MainTab_Patt .rightSideSpace .bigThumb canvas{
+        box-shadow: 0px 0px 15px 1px rgba(0,0,0,1);
+    border-radius: 5px;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+

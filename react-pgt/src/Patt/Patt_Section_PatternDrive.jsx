@@ -92,6 +92,11 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 	    	<span>
 		<WgButton
 	    name="Placement Intensity"
+		 onClick={()=>{
+		     this.props.setStateMainTabPatt({
+			 rightSideSpace: 3
+		     });
+		 }}
 		/>
 		</span>
 	      </WgDropDown>

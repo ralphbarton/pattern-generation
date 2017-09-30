@@ -11,6 +11,8 @@ import Patt_util from './plain-js/Patt_util';
 import Patt_Section_IncludeMotifs from './Patt_Section_IncludeMotifs';
 import Patt_Section_PatternDrive from './Patt_Section_PatternDrive';
 
+import Plot_Canvas from '../Plot/Plot_Canvas';
+
 class MainTab_Patt extends React.PureComponent {
 
     constructor() {
@@ -128,6 +130,14 @@ class MainTab_Patt extends React.PureComponent {
 	      <div className="rightSideSpace">
 
 		{
+		    /* possible contents of "Right Side Space"...
+		     0 - Motif Linking Boxie
+		     1 - Large "Plot Preview" thumbnail
+		     2 - equivalent "Grid Preview" thumbnail
+		     3 - Placement intensity UI (for this pattern)
+		     4 - Alternation controls (for this pattern)
+		     */
+
 		    (()=>{
 			if(this.state.rightSideSpace === 0){ // Motif Linking Boxie
 
@@ -138,10 +148,37 @@ class MainTab_Patt extends React.PureComponent {
 			    );
 			}else if(this.state.rightSideSpace === 1){ // Large "Plot Preview" thumbnail
 
+			    const hoverPlot = _.find(this.props.PGTobjARRAYS["plot"], {uid: this.state.pDrive_thumb_uid} );
 			    return(
 				<div className="bigThumb">
-				  Big thumb for uid: {this.state.pDrive_thumb_uid}
+				  <Plot_Canvas
+				     Plot={hoverPlot}
+				     size={220}
+				     />
 				</div>
+			    );
+			}else if(this.state.rightSideSpace === 3){ // Placement intensity UI (for this pattern)
+
+			    return(
+				<WgBoxie className="placementIntensity" name="Placement Intensity" >
+				  {
+				      [10, 30, 100, 300, 1000, 3000].map( n => {
+					  return(
+					      <div key={n}>
+						<WgButton
+						   name={"-"+n}
+//						   buttonStyle={"small"}
+						   onClick={null}
+						   />
+						<WgButton
+						   name={"+"+n}
+						   onClick={null}
+						   />
+					      </div>
+					  );
+				      })
+				  }
+				</WgBoxie>
 			    );
 			}else{ return null;}
 		    })()

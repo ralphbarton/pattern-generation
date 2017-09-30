@@ -6,56 +6,20 @@ import {WgButton} from '../Wg/WgButton';
 import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
 import WgActionLink from '../Wg/WgActionLink';
 
-
 import Plot_util from './plain-js/Plot_util';
 
-//these two are for Thumbnail generation...
-import Plot_RenderManager from './plain-js/Plot_RenderManager';
+import Plot_Canvas from './Plot_Canvas';
 
 import Plot_Popout from './Plot_Popout';
-import Plot_Section_FormulaBar from './Plot_Section_FormulaBar';
 
+import Plot_Section_FormulaBar from './Plot_Section_FormulaBar';
 import Plot_Section_Histogram from './Plot_Section_Histogram';
 import Plot_Section_ZoomRotateTranslate from './Plot_Section_ZoomRotateTranslate';
 import Plot_Section_PreviewOptions from './Plot_Section_PreviewOptions';
 import Plot_Section_PointsetPreview from './Plot_Section_PointsetPreview';
 
 
-class Plot_Thumbnail extends React.PureComponent {
 
-    applyThumbImgData(){
-	const render_msg = Plot_RenderManager.render({
-	    Plot: this.props.Plot,
-	    width: 55,
-	    height: 55,
-	    resolution: 1,
-	    colouringFunction: this.props.colouringFunction
-	});	
-
-	const ImgData = render_msg.ImageData_heatmap || render_msg.ImageData_grey;
-	var ctx = this.ThumbCanvas.getContext('2d');
-	ctx.putImageData(ImgData, 0, 0);
-    }
-    
-    componentDidUpdate(){
-	this.applyThumbImgData();
-    }
-
-    componentDidMount(){
-	this.applyThumbImgData();
-    }
-    
-    render(){
-	return (
-	    <canvas
-	       className={"plot-thumb uid-" + this.props.Plot.uid}
-	       width={55}
-	       height={55}
-	       ref={ (el) => {this.ThumbCanvas = el;}}
-	      />
-	);
-    }
-}
 
 
 
@@ -79,7 +43,6 @@ class MainTab_Plot extends React.PureComponent {
 	};
 	
 	// not passing a callback means no worker-thread involved here...
-	Plot_RenderManager.init();
 	this.hofHandleUIchange = this.hofHandlePlotUIStateChange.bind(this, null);
 	this.hofHandleUIchange_ZRT = this.hofHandlePlotUIStateChange.bind(this, "zoomRT");
     }
@@ -157,9 +120,10 @@ class MainTab_Plot extends React.PureComponent {
 		heading: "Thumb.",
 		renderCellContents: (plot, i, rowIsSelected)=>{
 		    return (
-			<Plot_Thumbnail
+			<Plot_Canvas
 			   Plot={plot}
 			   colouringFunction={this.props.UI.colouringFunction}		   
+			   size={55}
 			   />
 		    );}
 	    },
