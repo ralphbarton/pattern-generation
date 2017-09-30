@@ -23,9 +23,11 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 		 ddStyle="plain"
 		 className="setGrid"
 		 onContract={()=>{
-		     this.props.setStateMainTabPatt({
-			 rightSideSpace: 0
-		     });
+		     if(this.props.stateMainTabPatt.rightSideSpace === 2){
+			 this.props.setStateMainTabPatt({
+			     rightSideSpace: 0
+			 });
+		     }
 		 }}>
 		{
 		    this.props.GridArray.map( grid => {
@@ -49,9 +51,11 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 		 ddStyle="plain"
 	         className="setDensity"
 		 onContract={()=>{
-		     this.props.setStateMainTabPatt({
-			 rightSideSpace: 0
-		     });
+		     if(this.props.stateMainTabPatt.rightSideSpace === 1){
+			 this.props.setStateMainTabPatt({
+			     rightSideSpace: 0
+			 });
+		     }
 		 }}>
 		<div>Plots</div>
 		{this.props.PlotArray.map( plot => {
@@ -60,7 +64,11 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 			   onClick={ () => {
 			       this.props.handleModifySelPatt({
 				   type: {$set: "plot"},
-				   pdrive_uid: {$set: plot.uid}
+				   pdrive_uid: {$set: plot.uid},
+				   plot_ops: {$set: { //default Placement Intensity setting
+				       qty: 100,
+				       prom: 2
+				   }}
 			       });
 			   }}
 		  	   onMouseEnter={()=>{
@@ -92,7 +100,8 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 	    	<span>
 		<WgButton
 	    name="Placement Intensity"
-		 onClick={()=>{
+	    enabled={!isGrid}
+	    onClick={()=>{
 		     this.props.setStateMainTabPatt({
 			 rightSideSpace: 3
 		     });

@@ -79,7 +79,8 @@
     padding-top: 6px;
 }
 
-.MainTab_Patt .rightSideSpace .bigThumb{
+.MainTab_Patt .rightSideSpace .bigThumb,
+.MainTab_Patt .rightSideSpace .placementIntensity{
     flex: 1 auto;
     position: relative;
 }
@@ -93,3 +94,20 @@
 }
 
 
+
+.MainTab_Patt .placementIntensity .WgBoxie{
+    position: absolute;
+    width: 190px;
+    height: 278px;
+}
+
+.MainTab_Patt .placementIntensity .button{
+    width: 75px;
+    margin: 1px;
+    margin-bottom: 2px;
+}
+
+.MainTab_Patt .placementIntensity .qtyPoints input{
+    width: 70px;
+    font-size: 18px;
+}

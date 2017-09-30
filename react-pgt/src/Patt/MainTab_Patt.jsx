@@ -5,6 +5,7 @@ import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
 import WgActionLink from '../Wg/WgActionLink';
+import WgSmartInput from '../Wg/WgSmartInput';
 
 import Patt_util from './plain-js/Patt_util';
 
@@ -104,6 +105,7 @@ class MainTab_Patt extends React.PureComponent {
 		   handleModifySelPatt={this.props.fn.handleModifySelPGTobj}
 		   GridArray={this.props.PGTobjARRAYS["grid"]}
 		   PlotArray={this.props.PGTobjARRAYS["plot"]}
+		   stateMainTabPatt={this.state} // set state may be conditional on current state
 		   setStateMainTabPatt={this.setState.bind(this)}
 		   />
 
@@ -159,26 +161,48 @@ class MainTab_Patt extends React.PureComponent {
 			    );
 			}else if(this.state.rightSideSpace === 3){ // Placement intensity UI (for this pattern)
 
+			    const setQty = q => {
+				this.props.fn.handleModifySelPGTobj(
+				    {plot_ops: {qty: {$set: Math.max(q, 0)}}}
+				);
+			    };
+			    const qty = Patt_i.plot_ops.qty;
+			    
 			    return(
-				<WgBoxie className="placementIntensity" name="Placement Intensity" >
-				  {
-				      [10, 30, 100, 300, 1000, 3000].map( n => {
-					  return(
-					      <div key={n}>
-						<WgButton
-						   name={"-"+n}
-//						   buttonStyle={"small"}
-						   onClick={null}
-						   />
-						<WgButton
-						   name={"+"+n}
-						   onClick={null}
-						   />
-					      </div>
-					  );
-				      })
-				  }
+				<div className="placementIntensity">
+				  <WgBoxie name="Placement Intensity" >
+
+				    <div className="qtyPoints">
+				      Qty. Points:&nbsp;
+				      <WgSmartInput
+					 className="plain-cell"
+					 value={qty}
+					 dataUnit="dimentionless"
+					 step={1}
+					 min={0}
+					 max={20000}
+					 onChange={ value => {setQty(value);}}
+					/>
+				    </div>
+
+				      {
+					[10, 30, 100, 300, 1000, 3000].map( n => {
+					    return(
+						<div key={n}>
+						  <WgButton
+						     name={"-"+n}
+						     onClick={() => {setQty(qty - n);}}
+						     />
+						  <WgButton
+						     name={"+"+n}
+						     onClick={() => {setQty(qty + n);}}
+						     />
+						</div>
+					    );
+					})
+				      }
 				</WgBoxie>
+				</div>
 			    );
 			}else{ return null;}
 		    })()

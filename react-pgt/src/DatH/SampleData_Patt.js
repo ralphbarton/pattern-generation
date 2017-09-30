@@ -26,8 +26,10 @@ const PattSampleData = {
 	    ],
 	    type: "plot",
 	    pdrive_uid: 2,
-	    plot_qty: 100,
-	    prom_factor: 4,
+	    plot_ops: {
+		qty: 100,
+		prom: 4
+	    }
 	},
 	{
 	    name: "Frog Goat",
