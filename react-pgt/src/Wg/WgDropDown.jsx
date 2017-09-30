@@ -5,6 +5,11 @@ function Nc_WgDropDown(props){
     const extraClass = (props.enabled === false ? "disabled " : "") + props.ddStyle + " " + props.className;
     const dropdownClasses = "WgDropDown " + extraClass;
 
+    // am (optional) callback passed will be executed on a Dropdown-Contract-Event e.g. to tidy up external effects of Dropdown
+    if(props.onContract){
+	props.pop.set_onContract_cb(props.onContract);
+    }
+    
     return (
 	<div
 	   className={dropdownClasses + (props.pop.expanded ? " expanded" : "")}

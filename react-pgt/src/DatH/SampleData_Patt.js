@@ -6,9 +6,9 @@ const PattSampleData = {
 	    uid: 0,
 	    Motif_set: [{
 		uid: 1,
-		scale: 0.5,
-		angle: 0,
-		opacity: 1
+		scale: 0.65,
+		angle: 24,
+		opacity: 0.9
 	    }],
 	    type: "grid",
 	    pdrive_uid: 0

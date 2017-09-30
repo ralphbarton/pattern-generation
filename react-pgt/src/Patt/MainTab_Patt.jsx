@@ -15,6 +15,17 @@ class MainTab_Patt extends React.PureComponent {
 
     constructor() {
 	super();
+	this.state = {
+	    /* possible contents of "Right Side Space"...
+	     0 - Motif Linking Boxie
+	     1 - Large "Plot Preview" thumbnail
+	     2 - equivalent "Grid Preview" thumbnail
+	     3 - Placement intensity UI (for this pattern)
+	     4 - Alternation controls (for this pattern)
+	     */
+	    rightSideSpace: 0,
+	    pDrive_thumb_uid: undefined
+	};
 	this.patt_WgTableColumns          = this.patt_WgTableColumns.bind(this);
     }
 
@@ -42,7 +53,7 @@ class MainTab_Patt extends React.PureComponent {
     componentDidMount(){
 	//this function here will initialise "selectedRowIndex" to a default value...
 	this.props.fn.defaultUIStateConfiguration({
-	    dummyState: 1
+	    previewActive: false
 	});
     }
 
@@ -91,6 +102,7 @@ class MainTab_Patt extends React.PureComponent {
 		   handleModifySelPatt={this.props.fn.handleModifySelPGTobj}
 		   GridArray={this.props.PGTobjARRAYS["grid"]}
 		   PlotArray={this.props.PGTobjARRAYS["plot"]}
+		   setStateMainTabPatt={this.setState.bind(this)}
 		   />
 
 
@@ -114,9 +126,27 @@ class MainTab_Patt extends React.PureComponent {
 	      
 	      {/* 3. "Right Side Space" - this has variable contents... */}
 	      <div className="rightSideSpace">
-		<WgBoxie className="motifLinking" name="Motif Linking" >
-		  efg
-		</WgBoxie>
+
+		{
+		    (()=>{
+			if(this.state.rightSideSpace === 0){ // Motif Linking Boxie
+
+			    return(
+				<WgBoxie className="motifLinking" name="Motif Linking" >
+				  efg
+				</WgBoxie>
+			    );
+			}else if(this.state.rightSideSpace === 1){ // Large "Plot Preview" thumbnail
+
+			    return(
+				<div className="bigThumb">
+				  Big thumb for uid: {this.state.pDrive_thumb_uid}
+				</div>
+			    );
+			}else{ return null;}
+		    })()
+		}
+		
 		<div className="mainButtons">
 		  <WgActionLink
 		     name={"Clear"}

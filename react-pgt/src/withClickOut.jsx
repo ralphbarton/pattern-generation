@@ -11,10 +11,13 @@ function withClickOut(WrappedComponent) {
 	    this.state = {
 		expanded: false
 	    };
+
+	    this.onContract_cb = function(){}; //dummy
 	    
 	    this.handleClickOutside = this.handleClickOutside.bind(this);
 	    this.hofSetExpanded = this.hofSetExpanded.bind(this);
 	    this.setwrapperRef = this.setwrapperRef.bind(this);
+	    this.set_onContract_cb = this.set_onContract_cb.bind(this);
 	}
 
 	
@@ -36,6 +39,7 @@ function withClickOut(WrappedComponent) {
 
 	handleClickOutside(event) {
 	    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+		this.onContract_cb();
 		this.setState({expanded: false});
 	    }
 	}
@@ -47,6 +51,7 @@ function withClickOut(WrappedComponent) {
 
 	    const TS = this;
 	    return function (){
+		if(!isExpand){TS.onContract_cb();};
 		TS.setState({expanded: isExpand});
 	    };
 	}
@@ -55,12 +60,19 @@ function withClickOut(WrappedComponent) {
 	    this.wrapperRef = node;
 	}
 
+	set_onContract_cb(cb){
+	    this.onContract_cb = ()=>{
+		setTimeout(cb, 0);
+	    };
+	}
+
 	render() {
 	    // pass down ALL props passed, and three additional onces
 	    const pop = {
 		expanded: this.state.expanded,
 		hofSetExpanded: this.hofSetExpanded,
-		setwrapperRef: this.setwrapperRef
+		setwrapperRef: this.setwrapperRef,
+		set_onContract_cb: this.set_onContract_cb
 	    };
 	    return <WrappedComponent pop={pop} {...this.props} />;
 	}

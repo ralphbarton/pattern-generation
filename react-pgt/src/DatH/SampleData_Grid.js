@@ -8,13 +8,13 @@ const GridSampleData = {
 	    n_dimentions: 2,
 	    line_sets: [
 		{// set 1
-		    spacing: 250,
+		    spacing: 220,
 		    spacing_unit: 'pixels',
 		    shift: 0,
 		    angle: 10
 		},
 		{// set 2
-		    spacing: 50,
+		    spacing: 90,
 		    spacing_unit: 'pixels',
 		    shift: 0,
 		    angle: 35

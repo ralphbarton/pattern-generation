@@ -21,7 +21,12 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 	      <WgDropDown
 		 name="Grid"
 		 ddStyle="plain"
-		 className="setGrid">
+		 className="setGrid"
+		 onContract={()=>{
+		     this.props.setStateMainTabPatt({
+			 rightSideSpace: 0
+		     });
+		 }}>
 		{
 		    this.props.GridArray.map( grid => {
 			return (
@@ -42,7 +47,12 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 	      <WgDropDown
 		 name="Density"
 		 ddStyle="plain"
-		 className="setDensity">
+	         className="setDensity"
+		 onContract={()=>{
+		     this.props.setStateMainTabPatt({
+			 rightSideSpace: 0
+		     });
+		 }}>
 		<div>Plots</div>
 		{this.props.PlotArray.map( plot => {
 		    return (
@@ -51,6 +61,12 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 			       this.props.handleModifySelPatt({
 				   type: {$set: "plot"},
 				   pdrive_uid: {$set: plot.uid}
+			       });
+			   }}
+		  	   onMouseEnter={()=>{
+			       this.props.setStateMainTabPatt({
+				   rightSideSpace: 1,
+				   pDrive_thumb_uid: plot.uid
 			       });
 			   }}
 			   key={plot.uid}>
