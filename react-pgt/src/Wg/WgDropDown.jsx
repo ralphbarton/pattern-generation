@@ -2,7 +2,7 @@ import React from 'react';
 
 function Nc_WgDropDown(props){
 
-    const extraClass = (props.enabled === false ? "disabled " : "") + props.ddStyle + " " + props.className;
+    const extraClass = (props.enabled === false ? "disabled " : "") + props.ddStyle + " " + (props.className||"");
     const dropdownClasses = "WgDropDown " + extraClass;
 
     // am (optional) callback passed will be executed on a Dropdown-Contract-Event e.g. to tidy up external effects of Dropdown

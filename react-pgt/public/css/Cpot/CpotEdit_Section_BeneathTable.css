@@ -108,9 +108,9 @@
 }
 
 .MainTab_CpotEdit .mainDropdowns .dropbtn{
-    width: 92px;
+    width: 90px;
 }
 
-.MainTab_CpotEdit .mainDropdowns .dropdown{
+.MainTab_CpotEdit .mainDropdowns .WgDropDown{
     margin-right: 5px;
 }
