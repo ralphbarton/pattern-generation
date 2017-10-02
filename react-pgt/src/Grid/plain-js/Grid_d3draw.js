@@ -69,21 +69,23 @@ var Grid_d3draw = {
 	  'selectionUid'
 	  'lockAngles'
 	  'showColourGrids'
+	  'size'
+	  'noAnimate'
 	 */
 	
 	
 	// 1. Determine what kind of update is required...
 	const fromBlank = prevLineset === null;
 	const fadeOut = Lineset === null;
-	const isSelGrid = (!fadeOut) && options.selectionUid === Lineset.uid;
+	const isSelGrid = ((!fadeOut) &&  options.selectionUid === Lineset.uid) || (options.selectionUid === undefined);
 	const isCol = options.showColourGrids;
 	const strokeColour = ((!fadeOut) && isCol) ? (this.rColours[Lineset.uid % 8]) : (isSelGrid ? "black" : "#cccccc");
 	const strokeTargetOpac = isSelGrid || (! isCol) ? 1 : 0.7;
 	const strokeThickness = (isSelGrid && isCol) ? 1.5 : 1;	
 	
 	// 2. Setting the dimentional. "Diameter" is of a circle containing the rectangle of the screen. 
-	const winW = window.innerWidth;
-	const winH = window.innerHeight;
+	const winW = options.size || window.innerWidth;
+	const winH = options.size || window.innerHeight;
 	
 	const Dia = Math.sqrt(winW*winW + winH*winH);
 	const origX = winW/2;
@@ -123,6 +125,11 @@ var Grid_d3draw = {
 	// Perform a JOIN opeation between data and lines
 	const lsClass = "ls-" + (fadeOut ? prevLineset.lsIndex : Lineset.lsIndex);
 
+	// remove all elements
+	if(options.noAnimate){
+	    d3_svg.selectAll('.'+lsClass).remove();
+	}
+	
 	var selection = d3_svg
 	    .selectAll('.'+lsClass).data(lines_indices_list);	
 	
@@ -157,9 +164,10 @@ var Grid_d3draw = {
 	    .selectAll('.'+lsClass).data(lines_indices_list);
 
 	//first run a transition to instantaneously make them all opacity=1
+	const applyAnimation = fromBlank && options.noAnimate !== true;
 	reselection
 	    .transition()
-	    .duration(fromBlank ? 500 : 0)
+	    .duration(applyAnimation ? 500 : 0)
 	    .ease(d3.easeLinear)
 	    .attr("opacity", strokeTargetOpac)
 	    .attr("stroke", strokeColour)

@@ -13,6 +13,8 @@ import Patt_Section_PatternDrive from './Patt_Section_PatternDrive';
 import Patt_Section_PlacementIntensity from './Patt_Section_PlacementIntensity';
 
 import Plot_Canvas from '../Plot/Plot_Canvas';
+import Grid_d3draw from '../Grid/plain-js/Grid_d3draw';
+
 
 class MainTab_Patt extends React.PureComponent {
 
@@ -60,6 +62,14 @@ class MainTab_Patt extends React.PureComponent {
 	});
     }
 
+    //bespoke lifecycle method due to the big SVG thumb...
+    componentDidUpdate(){
+	if(this.state.rightSideSpace === 2){
+	    const hoverGrid = _.find(this.props.PGTobjARRAYS["grid"], {uid: this.state.pDrive_thumb_uid} );
+	    Grid_d3draw.updateBgGrid(this.svgBigThumb, hoverGrid, null, {size: 220, noAnimate: true});
+	}	
+    }
+    
     render() {
 	
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
@@ -157,6 +167,20 @@ class MainTab_Patt extends React.PureComponent {
 				     Plot={hoverPlot}
 				     size={220}
 				     />
+				</div>
+			    );
+			}else if(this.state.rightSideSpace === 2){ // Large "Grid Preview" thumbnail
+
+			    return(
+				<div className="bigThumb">
+				  <svg
+				     style={{
+					 width:  220,
+					 height:  220,
+					 background: "white"
+				     }}
+				     ref={ (el) => {this.svgBigThumb = el;}}
+				    />
 				</div>
 			    );
 			}else if(this.state.rightSideSpace === 3){ // Placement intensity UI (for this pattern)

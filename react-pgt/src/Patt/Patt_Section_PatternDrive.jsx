@@ -38,6 +38,12 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 				      pdrive_uid: {$set: grid.uid}
 				  });
 			      }}
+		  	      onMouseEnter={()=>{
+				  this.props.setStateMainTabPatt({
+				      rightSideSpace: 2,
+				      pDrive_thumb_uid: grid.uid
+				  });
+			      }}
 			      key={grid.uid}>
 			      {grid.name}
 			    </a>
