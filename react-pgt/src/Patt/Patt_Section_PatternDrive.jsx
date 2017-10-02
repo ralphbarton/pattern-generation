@@ -65,7 +65,7 @@ class Patt_Section_PatternDrive extends React.PureComponent {
 			       this.props.handleModifySelPatt({
 				   type: {$set: "plot"},
 				   pdrive_uid: {$set: plot.uid},
-				   plot_ops: {$set: { //default Placement Intensity setting
+				   [isGrid?"plot_ops":"_"]: {$set: { //default Placement Intensity setting
 				       qty: 100,
 				       prom: 2
 				   }}

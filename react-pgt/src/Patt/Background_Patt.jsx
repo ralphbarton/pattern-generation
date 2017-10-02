@@ -1,6 +1,8 @@
 import React from 'react';
 var _ = require('lodash');
 
+import Plot_RenderManager from '../Plot/plain-js/Plot_RenderManager';
+
 import Pointset_calculate from '../Pointset/plain-js/Pointset_calculate';
 import Patt_util from './plain-js/Patt_util';
 
@@ -29,13 +31,27 @@ class Background_Patt extends React.PureComponent {
 	if(Patt.type === "grid"){
 	    const Grid = _.find(this.props.PGTobjARRAYS["grid"], {uid: Patt.pdrive_uid} );
 	    Pointset = Pointset_calculate.Grid_points(Grid);
+
+
 	}else{ // this means it is a plot (assume)
 
+	    const Plot = _.find(this.props.PGTobjARRAYS["plot"], {uid: Patt.pdrive_uid} );
+	    
 
-	    const prominence_factor = 4; // plotUIState.pointsProminenceFactor (state needed per plot? Or per pattern?)
+	    /*
+	     As things stand, I'm just regenerating the entire thing at a lowered resolution...
+	     */
+	    const render_msg = Plot_RenderManager.render({
+		useWorker: false,
+		Plot: Plot,
+		width: window.innerWidth,
+		height: window.innerHeight,
+		resolution: 3 // probably needs to be no higher...
+	    });
 
-	    // need to access "ImageData_grey"
-//	    Pointset = Pointset_calculate.Density_points(this.ImageData_grey, prominence_factor, plotUIState.pointsQuantity);
+	    const freshImgData = render_msg.ImageData_grey;
+	    
+	    Pointset = Pointset_calculate.Density_points(freshImgData, Patt.plot_ops.prom, Patt.plot_ops.qty);
 
 	    
 	}

@@ -15,6 +15,12 @@ class Patt_Section_PlacementIntensity extends React.PureComponent {
 	);
     }
 
+    setProm(p){
+	this.props.handleModifySelPatt(
+	    {plot_ops: {prom: {$set: p}}}
+	);
+    }
+
     
     render() {
 	const Patt = this.props.Patt_i;
@@ -67,16 +73,12 @@ class Patt_Section_PlacementIntensity extends React.PureComponent {
 		    Prominence Factor:&nbsp;
 		    <WgSmartInput
 		       className="plain-cell s"
-		       value={4.4}
+		       value={Patt.plot_ops.prom}
 		       dataUnit="dimentionless"
 		       step={0.1}
 	               min={1}
 	               max={8}
-		       onChange={(value)=>{
-			   this.props.setPGTtabUIState({
-			       quantityContours: {$set: value}
-			   });
-		      }}
+	    onChange={this.setProm.bind(this)}
 		      />
 		</div>
 
