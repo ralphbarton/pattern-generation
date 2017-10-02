@@ -63,8 +63,14 @@
     margin-bottom: 6px;
 }
 
-/* 2. Right Side Space stuff */
 
+
+
+
+
+
+
+/* 2. Right Side Space stuff */
 
 .MainTab_Patt > div.rightSideSpace{
     padding: 4px;
@@ -93,21 +99,3 @@
   transform: translate(-50%,-50%);
 }
 
-
-
-.MainTab_Patt .placementIntensity .WgBoxie{
-    position: absolute;
-    width: 190px;
-    height: 278px;
-}
-
-.MainTab_Patt .placementIntensity .button{
-    width: 75px;
-    margin: 1px;
-    margin-bottom: 2px;
-}
-
-.MainTab_Patt .placementIntensity .qtyPoints input{
-    width: 70px;
-    font-size: 18px;
-}

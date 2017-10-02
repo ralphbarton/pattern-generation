@@ -1,0 +1,56 @@
+/* Patt_Section_PlacementIntensity.css */
+
+.MainTab_Patt .placementIntensity .WgBoxie{
+    position: absolute;
+    top: -1px;
+    width: 190px;
+    height: 279px;
+}
+
+
+
+.MainTab_Patt .placementIntensity .WgBoxie .contents{
+    font-size: 15px;
+    text-align: center;
+}
+
+.MainTab_Patt .placementIntensity .qtyPoints input{
+    width: 70px;
+    font-size: 18px;
+}
+
+.MainTab_Patt .placementIntensity .qtyPoints{
+    margin-top: -3px;
+    margin-bottom: -3px;
+}
+
+.MainTab_Patt .placementIntensity .action-link.rerandomise{
+    position: relative;
+    left: 45px;
+}
+
+.MainTab_Patt .placementIntensity .button{
+    width: 80px;
+    margin: 1px 3px;
+}
+
+.MainTab_Patt .placementIntensity .inputContainer{
+    margin-top: 1px;
+    position: relative;
+    left: -9px;
+    font-size: 11px;
+}
+
+.MainTab_Patt .placementIntensity .inputContainer input.s{
+    height: 12px; /* default height will be 14px */
+}
+
+.MainTab_Patt .placementIntensity .WgMutexActionLink:last-of-type{
+    position: relative;
+    left: -5px;
+}
+
+.MainTab_Patt .placementIntensity .action-link.close{
+    position: absolute;
+    bottom: 4px;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 
 function WgActionLink(props) {
     const extraClass = props.enabled===false ? " disabled" : "";
-    const actionLinkClasses = "action-link" + extraClass;
+    const actionLinkClasses = "action-link" + extraClass + " " + (props.className||"");
     return (
 	<a href="#"
 	   className={actionLinkClasses}
