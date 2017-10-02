@@ -67,13 +67,14 @@
 .MainTab_CpotEdit .editZone .central .Ln .var{
     position: absolute;
     top: 2px;
-    left: 45px;
+    left: 41px;
     font-size: 10px;
     color: rgba(0,0,0,0.5);
+    width: 100px;
 }
 
 .MainTab_CpotEdit .editZone .central .Ln .var{
-    left: 115px;
+    left: 114px;
 }
 
 .MainTab_CpotEdit .editZone .central .Ln .view{

@@ -146,7 +146,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 			       <WgSmartInput
 				  className="plain-cell s"
 				  value={v1}
-				  dataUnit="percent"
+				  dataUnit={Pr[0] === "angle"?"degrees":"percent"}
 				  min={Pr[2]}
 				  max={Pr[3]}
 				  onChange={ v => {
