@@ -196,7 +196,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	  <WgSlideTransition>
 	  
 	    {/* Table 1. Placement & Size */}
-	    <div className="tableHeading pos_size">Placement & Size
+	    <div className="headedTable pos_size"><span>Placement & Size</span>
 	      <MotfEdit_SubSec_propsTable
 		 mElem={mElem}
 		 modifyElem={props.modifyElem}
@@ -204,7 +204,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    </div>
 
 	    {/* Table 2. Appearance */}
-	    {(expandLevel >= 2) && <div className="tableHeading appearance">Appearance
+	    {(expandLevel >= 2) && <div className="headedTable appearance"><span>Appearance</span>
 		   <MotfEdit_SubSec_propsTable
 			  mElem={mElem}
 			  modifyElem={props.modifyElem}
@@ -212,7 +212,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    </div>}
 
 	    {/* Table 3. Repetition */}
-	    {(expandLevel >= 3) && <div className="tableHeading repetition">Repetition
+	    {(expandLevel >= 3) && <div className="headedTable repetition"><span>Repetition</span>
 		    <MotfEdit_SubSec_propsTable
 			   mElem={mElem}
 			   modifyElem={props.modifyElem}
@@ -220,7 +220,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	    </div>}
 
 	    {/* Table 4. More Properties */}
-	    {(expandLevel >= 4) && <div className="tableHeading more">More Properties
+	    {(expandLevel >= 4) && <div className="headedTable more"><span>More Properties</span>
 		    <MotfEdit_SubSec_propsTable
 			   mElem={mElem}
 			   modifyElem={props.modifyElem}
