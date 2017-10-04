@@ -110,23 +110,24 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
     componentWillReceiveProps(nextProps){
 
 	// 1. Calculate if a prop has changed
-	const glow = this.state.propJustChanged.map( (currentState, index) => {
-	    return currentState || (this.extractPropVal(index) !== this.extractPropVal(index, nextProps.mElem));
-	});
+	const setGlow_0 = this.extractPropVal(0) !== this.extractPropVal(0, nextProps.mElem);
+	const setGlow_1 = this.extractPropVal(1) !== this.extractPropVal(1, nextProps.mElem);
 
 	// 2. Record in current state
+	const currGlow = this.state.propJustChanged;
 	this.setState({
-	    propJustChanged: glow
+	    propJustChanged: [currGlow[0] || setGlow_0, currGlow[1] || setGlow_1]
 	});
 
 	// 3. Timeout to clear the glow effect after a short time.
-	if(glow[0] || glow[1]){
+	if(setGlow_0 || setGlow_1){
 	    const TS = this;
-	    clearTimeout(this.timoutID || null);
-	    this.timoutID = setTimeout(function(){
+	    clearTimeout(this.timeoutID || null);
+	    this.timeoutID = setTimeout(function(){
 		TS.setState({
 		    propJustChanged: [false, false]
 		});
+		TS.timeoutID = null;
 	    }, 1000);
 	}
     }
