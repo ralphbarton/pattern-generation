@@ -263,8 +263,23 @@ var Motf_util = {
 	}else{
 	    return { Elements: modifications };
 	}
-    }
+    },
 
+    generateFriendlyShapeNames: function(MElemsArr){
+	var names = {};
+	var counts = {};
+	MElemsArr.forEach(function(mElem, i){
+	    const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: mElem.shape} );
+	    const ShapeName = ShapeDetails.fullName;
+	    if(counts[ShapeName]){
+		counts[ShapeName]++;
+	    }else{
+		counts[ShapeName] = 1;
+	    }
+	    names[ mElem.PGTuid ] = ShapeName + " " + counts[ShapeName];
+	});
+	return names;
+    }
 
 }
 

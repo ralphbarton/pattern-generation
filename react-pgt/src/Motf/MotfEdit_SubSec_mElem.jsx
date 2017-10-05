@@ -26,9 +26,7 @@ function MotfEdit_SubSec_mElemContracted(props) {
 
 	  <MotfEdit_SubSec_mElem_Icon size={14} mElem={props.mElem} />
 	  
-	  <div className="name">
-	    {props.ObjectTypeDetails.fullName + " " + props.mElem.PGTuid}
-	  </div>
+	  <div className="name">{props.friendlyName}</div>
 
 	  <WgActionLink
 	     name={"Expand"}
@@ -185,7 +183,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	  <div className="bg-gradient"></div>
 	  <div className="content">
 	    <MotfEdit_SubSec_mElem_Icon size={24} mElem={mElem} />
-	    <div className="name">{props.ObjectTypeDetails.fullName + " " + mElem.PGTuid}</div>
+	    <div className="name">{props.friendlyName}</div>
 
 	    <WgActionLink
 	     name={expandLevel < 4 ? "Expand" : "Contract"}
@@ -271,16 +269,14 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 	const expandLevel = EO !== undefined ? EO : this.props.expand.expandLevel;
 	const focusClass = this.props.isFocus ? " focus" : "";
 
-	const ObjectTypeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: mElem.shape} );
-
 	const handleMElemClick = this.props.setSelectedMElem.bind(null, mElem.PGTuid);
 	
 	// Expanded M-Element
 	if (expandLevel >= 1){
 	    return (
 		<MotfEdit_SubSec_mElemExpanded
-		   ObjectTypeDetails={ObjectTypeDetails}
 		   mElem={mElem}
+		   friendlyName={this.props.friendlyName}
 		   addRef={this.props.addRef}
 		   modifyElem={this.props.modifyElem}
 		   deleteElem={this.props.deleteElem}
@@ -294,8 +290,8 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 	}else{
 	    return (
 		<MotfEdit_SubSec_mElemContracted
-		   ObjectTypeDetails={ObjectTypeDetails}
 		   mElem={mElem}
+		   friendlyName={this.props.friendlyName}
 		   addRef={this.props.addRef}
 		   deleteElem={this.props.deleteElem}
 		   focusClass={focusClass}

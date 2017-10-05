@@ -5,6 +5,8 @@ var _ = require('lodash');
 import {WgButton, WgButtonExpanding} from '../Wg/WgButton';
 import WgCheckbox from '../Wg/WgCheckbox';
 
+import Motf_util from './plain-js/Motf_util';
+
 import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
 
 //import scrollToComponent from 'react-scroll-to-component';
@@ -72,6 +74,8 @@ class MotfEdit_Section_Properties extends React.PureComponent {
     render(){
 	this.refs = {a: 0};
 
+	const friendlyShapeNames = Motf_util.generateFriendlyShapeNames(this.props.Motf.Elements);
+	
 	return (
 	    <div>
 	      <div className="properties">
@@ -83,6 +87,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		      return <MotfEdit_SubSec_mElem
 				    key={mElem.PGTuid}
 				    mElem={mElem}
+				    friendlyName={friendlyShapeNames[mElem.PGTuid]}
 				    addRef={(node)=>{this.refs[mElem.PGTuid]=node;}}
 			expand={this.state}
 			isFocus={_.includes(this.props.FS_UI.selectedMElemsUIDArr, mElem.PGTuid)}
