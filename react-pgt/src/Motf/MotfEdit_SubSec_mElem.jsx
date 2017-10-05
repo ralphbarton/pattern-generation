@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 // widgets etc
 import {WgSlideTransition} from '../Wg/WgTransition';
-import WgDustbin from '../Wg/WgDustbin';
+import {WgDustbin, WgDuplicate} from '../Wg/WgDustbin';
 import WgActionLink from '../Wg/WgActionLink';
 
 import Motf_lists from './plain-js/Motf_lists';
@@ -12,8 +12,6 @@ import Motf_lists from './plain-js/Motf_lists';
 import MotfEdit_SubSec_mElem_Icon from './MotfEdit_SubSec_mElem_Icon';
 import MotfEdit_SubSec_mElem_menu from './MotfEdit_SubSec_mElem_menu';
 import MotfEdit_SubSec_mElem_popoutPicker from './MotfEdit_SubSec_mElem_popoutPicker';
-
-
 
 
 function MotfEdit_SubSec_mElemContracted(props) {
@@ -190,8 +188,9 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	     onClick={props.hofFnSetOvrExpanded(expandLevel < 4)}
 	     />
 
-	  <WgDustbin onClick={props.deleteElem} />
-
+	  <WgDuplicate onClick={props.duplicateElem} />
+	  <WgDustbin   onClick={props.deleteElem} />
+	  
 	  <WgSlideTransition>
 	  
 	    {/* Table 1. Placement & Size */}
@@ -280,6 +279,7 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 		   addRef={this.props.addRef}
 		   modifyElem={this.props.modifyElem}
 		   deleteElem={this.props.deleteElem}
+		   duplicateElem={this.props.duplicateElem}
 		   focusClass={focusClass}
 		   onMElemClick={handleMElemClick}
 		   expandLevel={expandLevel}

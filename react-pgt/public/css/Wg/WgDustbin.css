@@ -8,3 +8,12 @@ img.WgDustbin:hover{
     opacity: 1;
     filter: saturate(8) hue-rotate(120deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
 }
+
+img.WgDuplicate{
+    opacity: 0.5;
+}
+
+img.WgDuplicate:hover{
+    opacity: 1;
+    filter: saturate(12) brightness(2.2) hue-rotate(20deg) drop-shadow(1px 1px 1px rgba(101, 86, 116, 0.58));
+}

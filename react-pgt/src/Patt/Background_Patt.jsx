@@ -61,9 +61,6 @@ class Background_Patt extends React.PureComponent {
     }
     
     render() {
-	
-	const pattUIState = this.props.pattUIState;
-
 	/*
 	const gridArray = this.props.gridArray; // this reference is to the user's "collection" of Patts...
 	const nextPatt = gridUIState.previewActive ? util.lookup(gridArray, "uid", gridUIState.selectionUid) : null;

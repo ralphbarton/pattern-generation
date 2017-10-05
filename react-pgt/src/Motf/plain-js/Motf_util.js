@@ -225,6 +225,20 @@ var Motf_util = {
 	);
     },
 
+    DatH_DuplicateShape: function(targetMElem, ExistingElements){
+
+	// generate a new PGTuid. There may be no objects, in which case a value of 0 is used.
+	// These 2 simple statements are copy-pasted from above.
+	const mElemMax = _.maxBy(ExistingElements, 'PGTuid');
+	const newPGTuid = mElemMax ? (mElemMax.PGTuid + 1) : 0;
+
+	return _.assign( _.clone(targetMElem), {
+	    PGTuid: newPGTuid,
+	    left: (targetMElem.left - 10),
+	    top: (targetMElem.top + 10)
+	});
+    },
+
     /*
       This function is to apply a Change to Motif Element(s).
       The change may be occur on single or multiple elements, depending on what is selected.

@@ -96,6 +96,12 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 				Elements: {$splice: [[index,1]]}
 			    });
 			}}
+			duplicateElem={()=>{
+			    const dupl_mElem = Motf_util.DatH_DuplicateShape(mElem, this.props.Motf.Elements);
+			    this.props.handleEditingMotfChange({
+				Elements: {$splice: [[index+1, 0, dupl_mElem]]}
+			    });
+			}}
 			setSelectedMElem={(PGTuid)=>{
 			    const cnt = this.props.FS_UI.chgOrigin_Properties_count + 1;
 			    this.props.handleMotfUIStateChange(

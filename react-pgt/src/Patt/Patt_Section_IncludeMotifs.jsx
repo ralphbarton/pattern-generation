@@ -6,7 +6,7 @@ import WgBoxie from '../Wg/WgBoxie';
 import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
 import {WgDropDown} from '../Wg/WgDropDown';
-import WgDustbin from '../Wg/WgDustbin';
+import {WgDustbin} from '../Wg/WgDustbin';
 import {WgSlideTransition} from '../Wg/WgTransition';
 import WgSlider from '../Wg/WgSlider';
 import WgSmartInput from '../Wg/WgSmartInput';
