@@ -60,7 +60,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		},
 		fabricSelection: {
 		    selectedMElemsUIDArr: [],
-		    chgOrigin_Properties_count: 0 // counter for changes originating in the Properties Section
+		    notFabric_cngOrigin_count: 0 // counter for changes originating in the Properties Section
 		},
 		drawingTools:{
 		    drawMany: true,

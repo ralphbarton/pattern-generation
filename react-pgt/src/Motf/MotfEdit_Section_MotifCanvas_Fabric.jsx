@@ -11,7 +11,7 @@ class MotfEdit_Section_MotifCanvas_Fabric extends React.PureComponent {
 	//positive selection (important since there are also callback props (which may be a copy of the same function??)
 	const c1 = nextProps.Motf  !== this.props.Motf;
 	const c2 = nextProps.CC_UI !== this.props.CC_UI;
-	const c3 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;// Props List Event
+	const c3 = nextProps.FS_UI.notFabric_cngOrigin_count !== this.props.FS_UI.notFabric_cngOrigin_count;// Props List Event
 
 	return c1 || c2 || c3;
     }

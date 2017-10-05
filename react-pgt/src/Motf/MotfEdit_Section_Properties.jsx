@@ -103,13 +103,13 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 			    });
 			}}
 			setSelectedMElem={(PGTuid)=>{
-			    const cnt = this.props.FS_UI.chgOrigin_Properties_count + 1;
+			    const cnt = this.props.FS_UI.notFabric_cngOrigin_count + 1;
 			    const CTRL = this.props.kb.KeyHoldState.CTRL; 
 			    const newSelection = CTRL ? _.xor(this.props.FS_UI.selectedMElemsUIDArr, [PGTuid]) : [PGTuid];
 			    this.props.handleMotfUIStateChange(
 				{fabricSelection: {
 				    selectedMElemsUIDArr: {$set: newSelection},
-				    chgOrigin_Properties_count: {$set: cnt}
+				    notFabric_cngOrigin_count: {$set: cnt}
 				}}
 			    );
 			}}

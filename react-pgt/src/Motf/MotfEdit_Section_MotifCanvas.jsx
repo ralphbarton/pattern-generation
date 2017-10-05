@@ -28,7 +28,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 	const c2 = nextProps.CC_UI !== this.props.CC_UI; // i.e. change to the background or underlying grid
 	const c3 = nextProps.MS_UI !== this.props.MS_UI; // because 'Draw Tool Overlay' needs to know when mouse enters canvas
 	const c4 = nextProps.DT_UI.shape !== this.props.DT_UI.shape; // 'Draw Tool Overlay' needs to know selected Tool...
-	const c5 = nextProps.FS_UI.chgOrigin_Properties_count !== this.props.FS_UI.chgOrigin_Properties_count;// Props List Event
+	const c5 = nextProps.FS_UI.notFabric_cngOrigin_count !== this.props.FS_UI.notFabric_cngOrigin_count;// Props List Event
 
 	return c1 || c2 || c3 || c4 || c5;
     }
@@ -78,6 +78,7 @@ class MotfEdit_Section_MotifCanvas extends React.PureComponent {
 				 DT_UI={this.props.DT_UI}
 				 MS_UI={this.props.MS_UI}
 				 CC_UI={this.props.CC_UI} // "CC_UI" - pass snapping state; grid-size etc.
+				 FS_UI={this.props.FS_UI} // The fabric selection (newly drawn element needs to be selected)
 				 handleEditingMotfChange={this.props.handleEditingMotfChange}
 				 handleMotfUIStateChange={this.props.handleMotfUIStateChange}// Set: Toggle-OFF shape-draw tool
 				 Motf={this.props.Motf} // to determine PGTuid of new element...

@@ -53,9 +53,19 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	const isSignificantSize = boundingBox.width > 2 && boundingBox.height > 2;
 	
 	if(isSignificantSize){
+	    const newMotifElement = Motf_util.DatH_NewShape(boundingBox, this.props.DT_UI, this.props.Motf.Elements);
 	    this.props.handleEditingMotfChange({Elements: {
-		$push: [Motf_util.DatH_NewShape(boundingBox, this.props.DT_UI, this.props.Motf.Elements)]
+		$push: [newMotifElement]
 	    }});
+
+	    // 1.1 change the selection to the shape just drawn...
+	    const cnt = this.props.FS_UI.notFabric_cngOrigin_count + 1;
+	    this.props.handleMotfUIStateChange({
+		fabricSelection: {
+		    selectedMElemsUIDArr: {$set: [newMotifElement.PGTuid]},
+		    notFabric_cngOrigin_count: {$set: cnt}
+		}
+	    });
 	}
 	
 	// 2. Switch off Draw Tool (if necessary). Drawing shape of insignificant size (or just clicking) has this effect
