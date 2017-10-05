@@ -188,7 +188,7 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	    fill: this.props.DT_UI.fill,
 	    stroke: this.props.DT_UI.stroke,
 	    "stroke-width": this.props.DT_UI.strokeWidth,
-	    "stroke-dasharray": null
+	    "stroke-dasharray": "none"
 	};
 	
 	// 3. If its actually a rectangle being drawn, change its style accordingly
@@ -201,7 +201,8 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	    d3_rect.styles( {
 		"fill": undefined,
 		"stroke": undefined,
-		"stroke-width": undefined
+		"stroke-width": undefined,
+		"stroke-dasharray": undefined // undefined is to ensure the css style-sheet style is used
 	    } );
 
 	    // preview via the ellipse...
