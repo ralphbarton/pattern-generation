@@ -104,9 +104,11 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 			}}
 			setSelectedMElem={(PGTuid)=>{
 			    const cnt = this.props.FS_UI.chgOrigin_Properties_count + 1;
+			    const CTRL = this.props.kb.KeyHoldState.CTRL; 
+			    const newSelection = CTRL ? _.xor(this.props.FS_UI.selectedMElemsUIDArr, [PGTuid]) : [PGTuid];
 			    this.props.handleMotfUIStateChange(
 				{fabricSelection: {
-				    selectedMElemsUIDArr: {$set: [PGTuid]},
+				    selectedMElemsUIDArr: {$set: newSelection},
 				    chgOrigin_Properties_count: {$set: cnt}
 				}}
 			    );
@@ -202,4 +204,6 @@ class MotfEdit_Section_Properties extends React.PureComponent {
     }
 }
 
-export default MotfEdit_Section_Properties;
+
+import withKeyboardEvents from '../withKeyboardEvents';
+export default withKeyboardEvents(MotfEdit_Section_Properties, {withKeysHeldProp: true});
