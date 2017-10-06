@@ -92,9 +92,8 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 			expand={this.state}
 			isFocus={_.includes(this.props.FS_UI.selectedMElemsUIDArr, mElem.PGTuid)}
 			deleteElem={()=>{
-/*
-Does this help??
-			    // 2. remove element from selection
+
+			    // 1. remove element from selection
 			    const cnt = this.props.FS_UI.notFabric_cngOrigin_count + 1;
 			    const oldSel = this.props.FS_UI.selectedMElemsUIDArr;
 			    const newSel = _.filter(oldSel, uid=>{ return uid !== mElem.PGTuid;});
@@ -104,12 +103,12 @@ Does this help??
 				    notFabric_cngOrigin_count: {$set: cnt}
 				}}
 			    );
-*/
-			    // 1. remove the element
+
+			    // 2. remove the element
 			    this.props.handleEditingMotfChange({
 				Elements: {$splice: [[index,1]]}
 			    });
-
+			    
 			}}
 			duplicateElem={()=>{
 			    const dupl_mElem = Motf_util.DatH_DuplicateShape(mElem, this.props.Motf.Elements);
@@ -117,16 +116,23 @@ Does this help??
 				Elements: {$splice: [[index+1, 0, dupl_mElem]]}
 			    });
 			}}
-			setSelectedMElem={(PGTuid)=>{
-			    const cnt = this.props.FS_UI.notFabric_cngOrigin_count + 1;
-			    const CTRL = this.props.kb.KeyHoldState.CTRL; 
-			    const newSelection = CTRL ? _.xor(this.props.FS_UI.selectedMElemsUIDArr, [PGTuid]) : [PGTuid];
-			    this.props.handleMotfUIStateChange(
-				{fabricSelection: {
-				    selectedMElemsUIDArr: {$set: newSelection},
-				    notFabric_cngOrigin_count: {$set: cnt}
-				}}
-			    );
+			setSelectedMElem={(PGTuid, event)=>{
+			    const targ_class = event.target.className;
+			    if(targ_class.includes("mElem") || targ_class.includes("name")){
+				/*
+				 We have tested the class the actual DOM element the click landed on using vanilla JS
+				 only if is the mElem <div> (either contracted ("mElem") or expanded ("name")) do we select this element.
+				 */
+				const cnt = this.props.FS_UI.notFabric_cngOrigin_count + 1;
+				const CTRL = this.props.kb.KeyHoldState.CTRL; 
+				const newSelection = CTRL ? _.xor(this.props.FS_UI.selectedMElemsUIDArr, [PGTuid]) : [PGTuid];
+				this.props.handleMotfUIStateChange(
+				    {fabricSelection: {
+					selectedMElemsUIDArr: {$set: newSelection},
+					notFabric_cngOrigin_count: {$set: cnt}
+				    }}
+				);
+			    }
 			}}
 			modifyElem={(propKey, value)=>{
 			    const nValue = value;
