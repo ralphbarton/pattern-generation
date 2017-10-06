@@ -190,14 +190,21 @@ var Motf_util = {
     DatH_NewShape: function(boundingBox, DT_UI, ExistingElements){
 
 	/*
-	  Logic is needed to convert Bounding Box into dimentions for non-rectangles
-
+	  the "left", "top" coordinates passed will never refer to shape center coordinates "(x,y)", always actual top/left
+	  however, for a Motif with objectOrigin = "center", in DatH, "left", "top" refer to "(x,y)" which may refer to center
+	  conversion I carry out at this point.....
 	 */
+	const pos_Obj = boundingBox.objectOrigin !== "center" ? _.pick(boundingBox, ["left", "top"]) :
+	      {
+		  left: boundingBox.left + boundingBox.width/2,
+		  top: boundingBox.top + boundingBox.height/2
+	      };
+
 	let pos_size_Obj = {};
 
+	// Logic is needed to convert Bounding Box into dimentions for non-rectangles
 	if (DT_UI.shape === "obj-ellipse"){
-	    pos_size_Obj = _.extend(
-		_.pick(boundingBox, ["left", "top"]),
+	    pos_size_Obj = _.extend(pos_Obj,
 		{
 		    rx: (boundingBox.width/2),
 		    ry: (boundingBox.height/2),
@@ -205,7 +212,7 @@ var Motf_util = {
 	    );
 	}
 	else if (DT_UI.shape === "obj-rectangle"){
-	    pos_size_Obj = _.pick(boundingBox, ["left", "top", "width", "height"]);
+	    pos_size_Obj = _.extend(pos_Obj, _.pick(boundingBox, ["width", "height"]));
 	    
 	}else{
 	    console.error("handler not implemented for this shape");

@@ -49,7 +49,10 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 
 
 	// 1. Save new shape to underlying Motif Data structure...
-	const boundingBox = _.pick(this.state, ["left", "top", "width", "height"]);
+	const boundingBox = _.extend(
+	    _.pick(this.state, ["left", "top", "width", "height"]),
+	    {objectOrigin: this.props.Motf.objectOrigin}
+	);
 	const isSignificantSize = boundingBox.width > 2 && boundingBox.height > 2;
 	
 	if(isSignificantSize){
@@ -113,13 +116,22 @@ class MotfEdit_Section_MotifCanvas_DTO extends React.PureComponent {
 	const CTRL = this.props.kb.KeyHoldState.CTRL;
 	const ww = CTRL ? dim : w;
 	const hh = CTRL ? dim : h;
-	
-	this.setState({
-	    left: this.state.mouseDownX + (mouseMoveX > this.state.mouseDownX ? 0 : -ww),
-	    top:  this.state.mouseDownY + (mouseMoveY > this.state.mouseDownY ? 0 : -hh),
-	    width: ww,
-	    height: hh
-	});
+
+	if(this.props.Motf.objectOrigin !== "center"){
+	    this.setState({
+		left: this.state.mouseDownX + (mouseMoveX > this.state.mouseDownX ? 0 : -ww),
+		top:  this.state.mouseDownY + (mouseMoveY > this.state.mouseDownY  ? 0 : -hh),
+		width: ww,
+		height: hh
+	    });
+	}else{
+	    this.setState({
+		left: this.state.mouseDownX - ww,
+		top:  this.state.mouseDownY - hh,
+		width: 2*ww,
+		height: 2*hh
+	    });
+	}
     }
 
     
