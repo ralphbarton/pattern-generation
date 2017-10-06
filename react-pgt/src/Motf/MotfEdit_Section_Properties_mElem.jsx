@@ -9,20 +9,20 @@ import WgActionLink from '../Wg/WgActionLink';
 import Motf_lists from './plain-js/Motf_lists';
 
 // Sub-content
-import MotfEdit_SubSec_mElem_Icon from './MotfEdit_SubSec_mElem_Icon';
-import MotfEdit_SubSec_mElem_menu from './MotfEdit_SubSec_mElem_menu';
-import MotfEdit_SubSec_mElem_popoutPicker from './MotfEdit_SubSec_mElem_popoutPicker';
+import MotfEdit_Section_Properties_mElem_Icon from './MotfEdit_Section_Properties_mElem_Icon';
+import MotfEdit_Section_Properties_mElem_Dropdown from './MotfEdit_Section_Properties_mElem_Dropdown';
+import MotfEdit_Section_Properties_mElem_ColPick from './MotfEdit_Section_Properties_mElem_ColPick';
 
 
-function MotfEdit_SubSec_mElemContracted(props) {
+function MotfEdit_Section_Properties_mElemContracted(props) {
     return(
 	<div
-	   className={"mElem MotfEdit_SubSec_mElemContracted" + props.focusClass}
+	   className={"mElem MotfEdit_Section_Properties_mElemContracted" + props.focusClass}
 	   onClick={props.onMElemClick}
 	   ref={props.addRef}
 	   >
 
-	  <MotfEdit_SubSec_mElem_Icon size={14} mElem={props.mElem} />
+	  <MotfEdit_Section_Properties_mElem_Icon size={14} mElem={props.mElem} />
 	  
 	  <div className="name">{props.friendlyName}</div>
 
@@ -41,7 +41,7 @@ function MotfEdit_SubSec_mElemContracted(props) {
 }
 
 
-class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
+class MotfEdit_Section_Properties_mElementExpanded_TableOneRow extends React.PureComponent {
 
     constructor(props) {
 	super();
@@ -84,7 +84,7 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 		 }}
 	      />}
 	     {
-		 PropertyDetails && PropertyDetails.type === "colour" && <MotfEdit_SubSec_mElem_popoutPicker
+		 PropertyDetails && PropertyDetails.type === "colour" && <MotfEdit_Section_Properties_mElem_ColPick
 		 color={propValue}
 		 onColourChange={this.props.modifyElem.bind(null, DatH_Key)}
 		     />
@@ -92,7 +92,7 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 	     </td>),
 	    (<td className={"more"+extraClass} key={DatH_Key+"more"}>
 	     {
-		 PropertyDetails && <MotfEdit_SubSec_mElem_menu
+		 PropertyDetails && <MotfEdit_Section_Properties_mElem_Dropdown
 		 value={propValue}
 		 PropertyDetails={PropertyDetails}
 		 modifyElem={this.props.modifyElem}
@@ -140,7 +140,7 @@ class MotfEdit_SubSec_TableOneRow extends React.PureComponent {
 
 }
 
-function MotfEdit_SubSec_propsTable(props){
+function MotfEdit_Section_Properties_mElementExpanded_propsTable(props){
 
     const propsPairsArr = _.chunk( props.arrangement, 2);    
     return (
@@ -148,7 +148,7 @@ function MotfEdit_SubSec_propsTable(props){
 	  {
 	      propsPairsArr.map( (propsPair, i) => {
 		  return (
-		      <MotfEdit_SubSec_TableOneRow
+		      <MotfEdit_Section_Properties_mElementExpanded_TableOneRow
 			 key={i}
 			 propsPair={propsPair}		
 			 mElem={props.mElem}
@@ -164,7 +164,7 @@ function MotfEdit_SubSec_propsTable(props){
 
 
 
-function MotfEdit_SubSec_mElemExpanded(props) {
+function MotfEdit_Section_Properties_mElemExpanded(props) {
 
     const { expandLevel, mElem } = props;//pull off some props...
 
@@ -174,13 +174,13 @@ function MotfEdit_SubSec_mElemExpanded(props) {
     
     return(
 	<div
-	   className={"mElem MotfEdit_SubSec_mElemExpanded" + props.focusClass}
+	   className={"mElem MotfEdit_Section_Properties_mElemExpanded" + props.focusClass}
 	   onClick={props.onMElemClick}
 	   ref={props.addRef}
 	   >
 	  <div className="bg-gradient"></div>
 	  <div className="content">
-	    <MotfEdit_SubSec_mElem_Icon size={24} mElem={mElem} />
+	    <MotfEdit_Section_Properties_mElem_Icon size={24} mElem={mElem} />
 	    <div className="name">{props.friendlyName}</div>
 
 	    <WgActionLink
@@ -195,7 +195,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 	  
 	    {/* Table 1. Placement & Size */}
 	    <div className="headedTable pos_size"><span>Placement & Size</span>
-	      <MotfEdit_SubSec_propsTable
+	      <MotfEdit_Section_Properties_mElementExpanded_propsTable
 		 mElem={mElem}
 		 modifyElem={props.modifyElem}
 		 arrangement={TablesArrangement["pos_size"]} />
@@ -203,7 +203,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 
 	    {/* Table 2. Appearance */}
 	    {(expandLevel >= 2) && <div className="headedTable appearance"><span>Appearance</span>
-		   <MotfEdit_SubSec_propsTable
+		   <MotfEdit_Section_Properties_mElementExpanded_propsTable
 			  mElem={mElem}
 			  modifyElem={props.modifyElem}
 			  arrangement={TablesArrangement["appearance"]} />
@@ -211,7 +211,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 
 	    {/* Table 3. Repetition */}
 	    {(expandLevel >= 3) && <div className="headedTable repetition"><span>Repetition</span>
-		    <MotfEdit_SubSec_propsTable
+		    <MotfEdit_Section_Properties_mElementExpanded_propsTable
 			   mElem={mElem}
 			   modifyElem={props.modifyElem}
 			   arrangement={TablesArrangement["repetition"]} />
@@ -219,7 +219,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 
 	    {/* Table 4. More Properties */}
 	    {(expandLevel >= 4) && <div className="headedTable more"><span>More Properties</span>
-		    <MotfEdit_SubSec_propsTable
+		    <MotfEdit_Section_Properties_mElementExpanded_propsTable
 			   mElem={mElem}
 			   modifyElem={props.modifyElem}
 			   arrangement={TablesArrangement["more"]} />
@@ -232,7 +232,7 @@ function MotfEdit_SubSec_mElemExpanded(props) {
 }
 
 
-class MotfEdit_SubSec_mElem extends React.PureComponent {
+class MotfEdit_Section_Properties_mElem extends React.PureComponent {
 
 
     constructor() {
@@ -273,7 +273,7 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 	// Expanded M-Element
 	if (expandLevel >= 1){
 	    return (
-		<MotfEdit_SubSec_mElemExpanded
+		<MotfEdit_Section_Properties_mElemExpanded
 		   mElem={mElem}
 		   friendlyName={this.props.friendlyName}
 		   addRef={this.props.addRef}
@@ -289,7 +289,7 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
 	    // Contracted M-Element
 	}else{
 	    return (
-		<MotfEdit_SubSec_mElemContracted
+		<MotfEdit_Section_Properties_mElemContracted
 		   mElem={mElem}
 		   friendlyName={this.props.friendlyName}
 		   addRef={this.props.addRef}
@@ -303,4 +303,4 @@ class MotfEdit_SubSec_mElem extends React.PureComponent {
     }
 }
 
-export default MotfEdit_SubSec_mElem;
+export default MotfEdit_Section_Properties_mElem;

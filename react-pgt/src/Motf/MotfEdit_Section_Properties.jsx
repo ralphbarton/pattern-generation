@@ -7,7 +7,7 @@ import WgCheckbox from '../Wg/WgCheckbox';
 
 import Motf_util from './plain-js/Motf_util';
 
-import MotfEdit_SubSec_mElem from './MotfEdit_SubSec_mElem';
+import MotfEdit_Section_Properties_mElem from './MotfEdit_Section_Properties_mElem';
 
 //import scrollToComponent from 'react-scroll-to-component';
 //var scrollToElement = require('scroll-to-element');
@@ -84,7 +84,7 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 		</div>
 		<div className="scrollableContent">
 		  {this.props.Motf.Elements.map( (mElem, index) => {
-		      return <MotfEdit_SubSec_mElem
+		      return <MotfEdit_Section_Properties_mElem
 				    key={mElem.PGTuid}
 				    mElem={mElem}
 				    friendlyName={friendlyShapeNames[mElem.PGTuid]}
@@ -92,9 +92,24 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 			expand={this.state}
 			isFocus={_.includes(this.props.FS_UI.selectedMElemsUIDArr, mElem.PGTuid)}
 			deleteElem={()=>{
+/*
+Does this help??
+			    // 2. remove element from selection
+			    const cnt = this.props.FS_UI.notFabric_cngOrigin_count + 1;
+			    const oldSel = this.props.FS_UI.selectedMElemsUIDArr;
+			    const newSel = _.filter(oldSel, uid=>{ return uid !== mElem.PGTuid;});
+			    this.props.handleMotfUIStateChange(
+				{fabricSelection: {
+				    selectedMElemsUIDArr: {$set: newSel},
+				    notFabric_cngOrigin_count: {$set: cnt}
+				}}
+			    );
+*/
+			    // 1. remove the element
 			    this.props.handleEditingMotfChange({
 				Elements: {$splice: [[index,1]]}
 			    });
+
 			}}
 			duplicateElem={()=>{
 			    const dupl_mElem = Motf_util.DatH_DuplicateShape(mElem, this.props.Motf.Elements);

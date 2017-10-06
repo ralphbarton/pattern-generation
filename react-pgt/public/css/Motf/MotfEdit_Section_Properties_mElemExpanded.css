@@ -1,11 +1,11 @@
-/* MotfEdit_SubSec_mElemExpanded.css */
+/* MotfEdit_Section_Properties_mElemExpanded.css */
 
-.MotfEdit_SubSec_mElemExpanded{
+.MotfEdit_Section_Properties_mElemExpanded{
     border-bottom: 2px solid black;
         padding-bottom: 7px;
 }
 
-.MotfEdit_SubSec_mElemExpanded .bg-gradient{
+.MotfEdit_Section_Properties_mElemExpanded .bg-gradient{
     position: absolute;
     transition: background 0.2s;
     background: #c0cfdb;
@@ -17,7 +17,7 @@
     width: 100%;
 }
 
-.MotfEdit_SubSec_mElemExpanded.focus .bg-gradient{
+.MotfEdit_Section_Properties_mElemExpanded.focus .bg-gradient{
     background: -moz-linear-gradient(top,  #6e9ae0 0%, #ffffff 100%);
     background: -webkit-linear-gradient(top,  #6e9ae0 0%,#ffffff 100%);
     background: linear-gradient(to bottom,  #6e9ae0 0%,#ffffff 100%);
@@ -25,7 +25,7 @@
 }
 
 
-.MotfEdit_SubSec_mElemExpanded .content{
+.MotfEdit_Section_Properties_mElemExpanded .content{
     /* position: relative;
     this is needed for div itself to be visible above
     an absolutely positioned element (the gradient background)
@@ -34,12 +34,12 @@
     padding: 2px 6px;
 }
 
-.MotfEdit_SubSec_mElemExpanded svg{
+.MotfEdit_Section_Properties_mElemExpanded svg{
     position: absolute;
     left: 4px;
 }
 
-.MotfEdit_SubSec_mElemExpanded .name{
+.MotfEdit_Section_Properties_mElemExpanded .name{
     position: relative;
     left: 27px;
     margin-bottom: 3px;
@@ -47,20 +47,20 @@
     font-size: 20px;
 }
 
-.MotfEdit_SubSec_mElemExpanded .action-link{
+.MotfEdit_Section_Properties_mElemExpanded .action-link{
     position: absolute;
     left: 226px;
     top: 2px;
 }
 
-.MotfEdit_SubSec_mElemExpanded .WgDustbin{
+.MotfEdit_Section_Properties_mElemExpanded .WgDustbin{
     position: absolute;
     height: 28px;
     right: 1px;
     top:  4px;
 }
 
-.MotfEdit_SubSec_mElemExpanded .WgDuplicate{
+.MotfEdit_Section_Properties_mElemExpanded .WgDuplicate{
     position: absolute;
     height: 24px;
     right: 33px;
@@ -73,26 +73,26 @@
 
 /* Rules Here related to Tables and table content */
 
-.MotfEdit_SubSec_mElemExpanded div.headedTable{
+.MotfEdit_Section_Properties_mElemExpanded div.headedTable{
     color: #777;
 }
 
-.MotfEdit_SubSec_mElemExpanded div.headedTable span{
+.MotfEdit_Section_Properties_mElemExpanded div.headedTable span{
     font-weight: bold;
     font-size: 12px;
 }
 
-.MotfEdit_SubSec_mElemExpanded div.headedTable.WgSlide400-enter.WgSlide400-enter-active,
-.MotfEdit_SubSec_mElemExpanded div.headedTable.WgSlide400-leave{
+.MotfEdit_Section_Properties_mElemExpanded div.headedTable.WgSlide400-enter.WgSlide400-enter-active,
+.MotfEdit_Section_Properties_mElemExpanded div.headedTable.WgSlide400-leave{
     overflow: hidden; /* for height animation...*/
 }
 
-.MotfEdit_SubSec_mElemExpanded .headedTable:not(.pos_size){
+.MotfEdit_Section_Properties_mElemExpanded .headedTable:not(.pos_size){
     margin-top: 8px;
 }
 
 /* temporary styling... */
-.MotfEdit_SubSec_mElemExpanded div.headedTable > div{
+.MotfEdit_Section_Properties_mElemExpanded div.headedTable > div{
     font-weight: normal;
     margin-left: 20px;
     font-size: 10px;
@@ -146,40 +146,40 @@ div.WgSlide400-leave.WgSlide400-leave-active {
 
 
 
-.MotfEdit_SubSec_mElemExpanded table{
+.MotfEdit_Section_Properties_mElemExpanded table{
     background: #ccc;
     border-spacing: 1px;
     font-size: 11px;
     margin-top: 1px;
 }
 
-.MotfEdit_SubSec_mElemExpanded table td{
+.MotfEdit_Section_Properties_mElemExpanded table td{
     position: relative;
     background: #f7f7f7;
     transition: all 0.2s;
 }
 
-.MotfEdit_SubSec_mElemExpanded table td.prop{
+.MotfEdit_Section_Properties_mElemExpanded table td.prop{
     width: 55px;
 }
 
-.MotfEdit_SubSec_mElemExpanded table td.valu{
+.MotfEdit_Section_Properties_mElemExpanded table td.valu{
     width: 138px;
     padding: 0;
 }
 
-.MotfEdit_SubSec_mElemExpanded table td.more{
+.MotfEdit_Section_Properties_mElemExpanded table td.more{
     width: 15px;
     padding: 0;
     background: transparent;
 }
 
-.MotfEdit_SubSec_mElemExpanded table td:not(.more).recent-change{
+.MotfEdit_Section_Properties_mElemExpanded table td:not(.more).recent-change{
     color: #b20000;
     background-color: #fff8a7;
 }
 
-.MotfEdit_SubSec_mElemExpanded td.valu > input{
+.MotfEdit_Section_Properties_mElemExpanded td.valu > input{
     border: none;
     width: 136px;
     height: 12px;
@@ -189,18 +189,18 @@ div.WgSlide400-leave.WgSlide400-leave-active {
     transition: all 0.2s;
 }
 
-.MotfEdit_SubSec_mElemExpanded td.valu.recent-change > input{
+.MotfEdit_Section_Properties_mElemExpanded td.valu.recent-change > input{
     color: #b20000;
     background-color: #fff8a7;
 }
 
-.MotfEdit_SubSec_mElemExpanded td.valu > input:hover{
+.MotfEdit_Section_Properties_mElemExpanded td.valu > input:hover{
     color: #555;
     background: rgba(255, 255, 255, 0.5);
     box-shadow: 0px 0px 2px 1px rgba(128, 177, 239, 0.4);
 }
 
-.MotfEdit_SubSec_mElemExpanded td.valu > input:focus{
+.MotfEdit_Section_Properties_mElemExpanded td.valu > input:focus{
     background: white;
     box-shadow: 0px 0px 3px 2px rgba(128, 177, 239, 0.65);
     color: black;

@@ -1,7 +1,7 @@
-/* MotfEdit_SubSec_mElemContracted.css */
+/* MotfEdit_Section_Properties_mElemContracted.css */
 
 
-.MotfEdit_SubSec_mElemContracted{
+.MotfEdit_Section_Properties_mElemContracted{
     padding: 1px 4px;
     font-size: 12px;
     transition: background 0.2s;
@@ -10,15 +10,15 @@
     padding-left: 34px;
 }
 
-.MotfEdit_SubSec_mElemContracted.focus{
+.MotfEdit_Section_Properties_mElemContracted.focus{
     background: #a9c9f1;
 }
 
-.MotfEdit_SubSec_mElemContracted{
+.MotfEdit_Section_Properties_mElemContracted{
     border-bottom: 1px solid black;
 }
 
-.MotfEdit_SubSec_mElemContracted svg{
+.MotfEdit_Section_Properties_mElemContracted svg{
     position: absolute;
     left: 9.5px;
 }

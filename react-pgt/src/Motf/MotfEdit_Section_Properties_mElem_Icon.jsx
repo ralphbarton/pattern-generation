@@ -5,7 +5,7 @@ import "d3-selection-multi";
 
 var _ = require('lodash');
 
-class MotfEdit_SubSec_mElem_Icon extends React.PureComponent {
+class MotfEdit_Section_Properties_mElem_Icon extends React.PureComponent {
 
     putIconSVG(){
 
@@ -73,4 +73,4 @@ class MotfEdit_SubSec_mElem_Icon extends React.PureComponent {
 
 }
 
-export default MotfEdit_SubSec_mElem_Icon;
+export default MotfEdit_Section_Properties_mElem_Icon;

@@ -6,7 +6,7 @@ import downArrow from './../asset/down-arrow-80.png';
 //import rightArrow from './../asset/right-arrow-80.png';
 import closeIcon from './../asset/close-36.png';
 
-class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
+class MotfEdit_Section_Properties_mElem_Dropdown extends React.PureComponent {
 
     renderContracted(){
 	return (
@@ -47,7 +47,7 @@ class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
 	const extraClass = this.props.pop.expanded ? " expanded" : "";
 	return (
 	    <div
-	       className={"MotfEdit_SubSec_mElem_menu" + extraClass}
+	       className={"MotfEdit_Section_Properties_mElem_Dropdown" + extraClass}
 	       ref={this.props.pop.setwrapperRef}
 	       onClick={this.props.pop.hofSetExpanded(true, this.props.pop.expanded)}
 	       >
@@ -59,4 +59,4 @@ class MotfEdit_SubSec_mElem_menu extends React.PureComponent {
 
 
 import withClickOut from './../withClickOut';
-export default withClickOut(MotfEdit_SubSec_mElem_menu);
+export default withClickOut(MotfEdit_Section_Properties_mElem_Dropdown);

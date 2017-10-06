@@ -1,11 +1,11 @@
-/* MotfEdit_SubSec_mElem_menu.css */
+/* MotfEdit_Section_Properties_mElem_Dropdown.css */
 
-.MotfEdit_SubSec_mElem_menu > img.downArrow{
+.MotfEdit_Section_Properties_mElem_Dropdown > img.downArrow{
     width: 8px;
     opacity: 0.25;
 }
 
-.MotfEdit_SubSec_mElem_menu{
+.MotfEdit_Section_Properties_mElem_Dropdown{
     position: absolute;
     top: 0px;
     right: 0px;
@@ -20,25 +20,25 @@
     transition: ;
 }
 
-.recent-change .MotfEdit_SubSec_mElem_menu{
+.recent-change .MotfEdit_Section_Properties_mElem_Dropdown{
     background: #ffd46e;
     box-shadow: 0px 0px 1px 1px rgba(60,60,60,0.7);
 }
 
-.recent-change .MotfEdit_SubSec_mElem_menu > img.downArrow {
+.recent-change .MotfEdit_Section_Properties_mElem_Dropdown > img.downArrow {
     opacity: 0.45;
 }
 
-.MotfEdit_SubSec_mElem_menu:not(.expanded):hover{
+.MotfEdit_Section_Properties_mElem_Dropdown:not(.expanded):hover{
     background: #d9e6f7;
     box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.4);
 }
 
-.MotfEdit_SubSec_mElem_menu:hover  > img.downArrow {
+.MotfEdit_Section_Properties_mElem_Dropdown:hover  > img.downArrow {
     opacity: 0.65;
 }
 
-.MotfEdit_SubSec_mElem_menu.expanded{
+.MotfEdit_Section_Properties_mElem_Dropdown.expanded{
     width: 150px;
     height: 100px;
     z-index: 2;
@@ -49,13 +49,13 @@
 
 }
 
-.MotfEdit_SubSec_mElem_menu.expanded > div{
+.MotfEdit_Section_Properties_mElem_Dropdown.expanded > div{
     width: 150px;
     height: 100px;
     padding: 1px 4px
 }
 
-.MotfEdit_SubSec_mElem_menu.expanded .closeIcon{
+.MotfEdit_Section_Properties_mElem_Dropdown.expanded .closeIcon{
     position: absolute;
     right: 1px;
     top: 1px;
@@ -63,16 +63,16 @@
     opacity: 0.5;
 }
 
-.MotfEdit_SubSec_mElem_menu.expanded .closeIcon:hover{
+.MotfEdit_Section_Properties_mElem_Dropdown.expanded .closeIcon:hover{
     opacity: 0.9;
 }
 
-.MotfEdit_SubSec_mElem_menu.expanded .A{
+.MotfEdit_Section_Properties_mElem_Dropdown.expanded .A{
     font-weight: bold;
     font-size: 13px;
 }
 
-.MotfEdit_SubSec_mElem_menu.expanded input{
+.MotfEdit_Section_Properties_mElem_Dropdown.expanded input{
     position: absolute;
     right: 4px;
     top: 19px;

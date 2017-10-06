@@ -5,7 +5,7 @@ import tinycolor from 'tinycolor2';
 
 import downArrow from './../asset/down-arrow-80.png';
 
-class MotfEdit_SubSec_mElem_popoutPicker extends React.PureComponent {
+class MotfEdit_Section_Properties_mElem_ColPick extends React.PureComponent {
 
     renderContracted(){
 	return (
@@ -36,7 +36,7 @@ class MotfEdit_SubSec_mElem_popoutPicker extends React.PureComponent {
 	const extraClass = this.props.pop.expanded ? " expanded" : "";
 	return (
 	    <div
-	       className={"MotfEdit_SubSec_mElem_popoutPicker" + extraClass}
+	       className={"MotfEdit_Section_Properties_mElem_ColPick" + extraClass}
 	       ref={this.props.pop.setwrapperRef}
 	       onClick={this.props.pop.hofSetExpanded(true, this.props.pop.expanded)}
 	       >
@@ -47,4 +47,4 @@ class MotfEdit_SubSec_mElem_popoutPicker extends React.PureComponent {
 }
 
 import withClickOut from './../withClickOut';
-export default withClickOut(MotfEdit_SubSec_mElem_popoutPicker);
+export default withClickOut(MotfEdit_Section_Properties_mElem_ColPick);
