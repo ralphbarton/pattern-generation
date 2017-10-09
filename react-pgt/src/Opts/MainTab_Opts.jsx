@@ -29,7 +29,7 @@ class MainTab_Opts extends React.PureComponent {
 
 	    <WgBoxie className="screenUsage" name="Screen Usage" >
 
-	      dividing up the screen...
+	      Dividing screen into:
 	      <label onClick={setUI("mode", 0)}>
 		<input type="radio" onChange={noOp} checked={UI.mode === 0}/>
 		Single Pane

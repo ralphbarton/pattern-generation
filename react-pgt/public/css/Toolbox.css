@@ -12,7 +12,7 @@
 .Toolbox{
     position: absolute;
     top: 90px;
-    left: 6px;
+    left: 300px;
     transition: width 0.7s, height 0.7s;
     -webkit-user-select: none;
        -moz-user-select: none;

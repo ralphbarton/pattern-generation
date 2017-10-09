@@ -1,0 +1,20 @@
+/* PGT_Background.css */
+
+.PGT_Background div.bg-grey{
+    position: absolute; /* necesary?? */
+  background: lightgray;
+}
+
+.PGT_Background div.bg-grey > div{
+  box-shadow: 0px 0px 4px 2px black;
+  position: absolute;
+  background: white;
+}
+
+.PGT_Background div.bg-grey.quad > div{
+  width: 500px;
+  height: 350px;
+  margin: 20px;
+  display: inline-block;
+  position: static;
+}
