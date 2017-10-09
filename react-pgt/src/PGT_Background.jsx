@@ -9,8 +9,12 @@ class PGT_Background extends React.PureComponent {
     
     render() {
 
+	const opts_UI = this.props.UIState['opts'];
+	
 	return (
 	    <div className="PGT_Background">
+	      {"Mode = " + opts_UI.mode}
+
 	      {
 		  //CONDITIONALLY RENDER GRID BACKGROUND COMPONENT...
 		  (this.props.UIState['grid'].selectedRowIndex !== undefined) &&

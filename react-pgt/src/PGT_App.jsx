@@ -34,7 +34,8 @@ class PGT_App extends React.PureComponent {
 		"grid": {},
 		"plot": {},
 		"motf": {},
-		"patt": {}
+		"patt": {},
+		"opts": {}
 	    }
 	};
 	this.latestUI = this.state.UI;

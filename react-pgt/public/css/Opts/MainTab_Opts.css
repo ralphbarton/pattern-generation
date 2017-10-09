@@ -1,0 +1,14 @@
+/* MainTab_Opts.css */
+
+.MainTab_Opts{
+  padding: 5px;
+}
+
+.MainTab_Opts .WgBoxie .contents{
+  padding: 4px;
+}
+
+label{
+  display: block;
+  font-size: 14px;
+}

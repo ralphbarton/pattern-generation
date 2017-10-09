@@ -12,6 +12,7 @@ import MainTab_Grid from './Grid/MainTab_Grid';
 import MainTab_Plot from './Plot/MainTab_Plot';
 import MainTab_MotfView from './Motf/MainTab_MotfView';
 import MainTab_Patt from './Patt/MainTab_Patt';
+import MainTab_Opts from './Opts/MainTab_Opts';
 
 
 class Toolbox extends React.PureComponent {
@@ -20,7 +21,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 2,//default Tab selection
+	    selectedTabIndex: 8,//default Tab selection
 	    tabsEnabled: true
 	};
     }
@@ -161,7 +162,10 @@ class Toolbox extends React.PureComponent {
 			      name: "Options",
 			      renderJSX: ()=>{
 				  return(
-				      <span> Options JSX to go here... </span>
+				      <MainTab_Opts
+					 UI={this.props.UIState['opts']}
+					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"opts": $chg});}}
+					 />
 				  );
 			      }
 
