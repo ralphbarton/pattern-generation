@@ -194,8 +194,8 @@ class Background_Plot extends React.PureComponent {
 	if(!plotUIState.previewActive){return null;}
 
 	//this update is always important.
-	this.winW = window.innerWidth;
-	this.winH = window.innerHeight;
+	this.winW = this.props.dims.width;
+	this.winH = this.props.dims.height;
 	
 	const Plot = util.lookup(this.props.plotArray, "uid", plotUIState.selectionUid);	
 

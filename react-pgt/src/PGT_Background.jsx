@@ -5,98 +5,17 @@ import Background_Plot from './Plot/Background_Plot';
 import Background_Patt from './Patt/Background_Patt';
 
 
-class PGT_Background extends React.PureComponent {
-    
+class PaneContent extends React.PureComponent {
+
     render() {
-
-	const opts_UI = this.props.UIState['opts'];
-
-	const P = 20; // padding
-	
-	const winW = window.innerWidth;
-	const winH = window.innerHeight;
-
-	const winWP = winW - 2*P; // window width padded
-	const winHP = winH - 2*P;
-	
-	const dims = {width: winW, height: winH};
-	
 	return (
 	    <div className="PGT_Background">
-	      {( ()=>{
-
-		  if(opts_UI.mode === 0){ // 0 - fullscreen
-		      return(
-			  <div/>
-		      );
-
-		  }else if(opts_UI.mode === 1){ // 1 - split screen, halves vertical divide
-		      return(
-			  <div className="bg-grey vertical" style={dims}>
-
-			    <div style={{
-				     left: P,
-				     top: P,
-				     width: winWP/2 - P,
-				     height: winHP
-				 }}>
-			    </div>
-
-			    <div style={{
-				     left: winW/2 + P,
-				     top: P,
-				     width: winWP/2 - P,
-				     height: winHP
-				 }}>
-			    </div>
-			    
-			  </div>
-		      );
-
-		  }else if(opts_UI.mode === 2){ // 2 - split screen, halves horizontal divide
-		      return(
-			  <div className="bg-grey horizontal" style={dims}>
-
-			    <div style={{
-				     left: P,
-				     top: P,
-				     width: winWP,
-				     height: winHP/2 -P
-				 }}>
-			    </div>
-
-			    <div style={{
-				     left: P,
-				     top: winH/2 + P,
-				     width: winWP,
-				     height: winHP/2 - P
-				 }}>
-			    </div>
-			    
-			  </div>
-		      );
-
-		  }else{ // 3 - split screen, quarters
-		      return(
-			  <div className="bg-grey quad" style={dims}>
-
-			    <div/>
-			    <div/>
-
-			    <div/>
-			    <div/>
-			    
-			  </div>
-		      );
-		  }
-
-	      } )()}
-	      
 	      {
 		  //CONDITIONALLY RENDER GRID BACKGROUND COMPONENT...
 		  (this.props.UIState['grid'].selectedRowIndex !== undefined) &&
 		  
 		      <Background_Grid
+			     dims={this.props.dims}
 			     gridUIState={this.props.UIState['grid']}
 			     gridArray={this.props.PGTobjARRAYS['grid']}
 			     />
@@ -107,6 +26,7 @@ class PGT_Background extends React.PureComponent {
 		  (this.props.UIState['plot'].selectedRowIndex !== undefined) &&
 			  
 			  <Background_Plot
+				 dims={this.props.dims}
 				 plotArray={this.props.PGTobjARRAYS['plot']}
 				 onPlotArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "plot")}
 				 plotUIState={this.props.UIState['plot']}
@@ -119,6 +39,7 @@ class PGT_Background extends React.PureComponent {
 		  (this.props.UIState['patt'].selectedRowIndex !== undefined) &&
 			  
 			  <Background_Patt
+				 dims={this.props.dims}
 				 pattArray={this.props.PGTobjARRAYS['patt']}
 				 PGTobjARRAYS={this.props.PGTobjARRAYS} // this is a superset of the data passed above...
 				 onPattArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "patt")}
@@ -126,6 +47,99 @@ class PGT_Background extends React.PureComponent {
 				 setPattUIState={($chg)=>{this.props.onUIStateChange({"patt": $chg});}}
 				/>
 	      }
+
+	    </div>
+	);
+    }
+    
+}
+
+
+class PGT_Background extends React.PureComponent {
+    
+    render() {
+
+	const opts_UI = this.props.UIState['opts'];
+
+	const M = 20; // margin
+	
+	const winW = window.innerWidth;
+	const winH = window.innerHeight;
+
+	const winWM = winW - 2*M; // window width padded
+	const winHM = winH - 2*M;
+
+	const winWhalfM = Math.floor(winWM/2 - M);
+	const winHhalfM = Math.floor(winHM/2 - M);
+	
+	const dims = {width: winW, height: winH};
+
+	const dims_vert2 = {width: winWhalfM, height: winHM};
+	const dims_hori2 = {width: winWM, height: winHhalfM};
+	const dims_quad = {width: winWhalfM, height: winHhalfM};
+	
+	return (
+	    <div className="PGT_Background">
+	      {( ()=>{
+
+		  if(opts_UI.mode === 0){ // 0 - fullscreen
+		      return(
+			  <PaneContent dims={dims} {...this.props}/> // forward ALL props...
+		      );
+
+		  }else if(opts_UI.mode === 1){ // 1 - split screen, halves vertical divide
+		      return(
+			  <div className="bg-grey vertical" style={dims}>
+
+			    {
+				[1,2].map(n=>{
+				    return(
+					<div style={dims_vert2} key={n}>
+					  <PaneContent dims={dims_vert2} {...this.props}/>
+					</div>
+				    );
+				})
+			    }
+			    
+			  </div>
+		      );
+
+		  }else if(opts_UI.mode === 2){ // 2 - split screen, halves horizontal divide
+		      return(
+			  <div className="bg-grey horizontal" style={dims}>
+
+			    {
+				[1,2].map(n=>{
+				    return(
+					<div style={dims_hori2} key={n}>
+					  <PaneContent dims={dims_hori2} {...this.props}/>
+					</div>
+				    );
+				})
+			    }
+			    
+			  </div>
+		      );
+
+		  }else{ // 3 - split screen, quarters
+		      return(
+			  <div className="bg-grey quad" style={dims}>
+
+			    {
+				[1, 2, 3, 4].map(n=>{
+				    return(
+					<div style={dims_quad} key={n}>
+					  <PaneContent dims={dims_quad} {...this.props}/>
+					</div>
+				    );
+				})
+			    }
+			    
+			  </div>
+		      );
+		  }
+
+	      } )()}
 
 	    </div>
 	);

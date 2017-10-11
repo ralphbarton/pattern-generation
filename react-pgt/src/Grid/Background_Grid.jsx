@@ -29,14 +29,14 @@ class SvgGrid extends React.PureComponent {
     }
 
     componentDidUpdate(){
-	Grid_d3draw.updateBgGrid(this.svgElement, this.state.Grid, this.state.prevGrid, this.props.gridUIState);
+	Grid_d3draw.updateBgGrid(this.svgElement, this.props.dims, this.state.Grid, this.state.prevGrid, this.props.gridUIState);
     }
 
     render() {
 	const Grid = this.props.gridObj;
 
-	const winW = window.innerWidth;
-	const winH = window.innerHeight;
+	const winW = this.props.dims.width;
+	const winH = this.props.dims.height;
 	const visible = this.props.gridUIState.showAllGrids === this.props.isMultiGrid;
 
 	const uid = Grid ? Grid.uid : "no-uid";
@@ -73,15 +73,16 @@ class Background_Grid extends React.PureComponent {
 	const nextGrid = gridUIState.previewActive ? util.lookup(gridArray, "uid", gridUIState.selectionUid) : null;
 
 	const points = gridUIState.pointsActive ? Pointset_calculate.Grid_points(nextGrid) : [];
+	const dims = this.props.dims;
 	
 	return (
 	    <div className="Background_Grid">
 	      <div className="GridsSVGcontainer">
-		<SvgGrid gridObj={nextGrid} gridUIState={gridUIState} isMultiGrid={false}/>
+		<SvgGrid gridObj={nextGrid} gridUIState={gridUIState} isMultiGrid={false} dims={dims}/>
 		{
 		    gridArray.map((Grid)=>{
 			return(
-			    <SvgGrid key={Grid.uid} gridObj={Grid} gridUIState={gridUIState} isMultiGrid={true}/>
+			    <SvgGrid key={Grid.uid} gridObj={Grid} gridUIState={gridUIState} isMultiGrid={true} dims={dims}/>
 			);
 		    })
 		}

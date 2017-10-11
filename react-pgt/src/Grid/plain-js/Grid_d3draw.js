@@ -44,23 +44,23 @@ var Grid_d3draw = {
 	);
     },
 
-    updateBgGrid: function (svgRef, Grid, pGrid, options){
+    updateBgGrid: function (svgRef, dims, Grid, pGrid, options){
 
 	const svg = d3.select(svgRef);
 	
 	const LS0 = this.getLS(Grid, 0);
 	const prevLS0 = this.getLS(pGrid, 0);
-	this.updateLineset(svg, LS0, prevLS0, options);
+	this.updateLineset(svg, dims, LS0, prevLS0, options);
 
 	const LS1 = this.getLS(Grid, 1);
 	const prevLS1 = this.getLS(pGrid, 1);
-	this.updateLineset(svg, LS1, prevLS1, options);
+	this.updateLineset(svg, dims, LS1, prevLS1, options);
 
     },
 
     
     // D3 modifies SVG contents from last time...
-    updateLineset: function (d3_svg, Lineset, prevLineset, options){
+    updateLineset: function (d3_svg, dims, Lineset, prevLineset, options){
 	if(Lineset === null && prevLineset == null){return;}
 	
 	/*
@@ -84,8 +84,8 @@ var Grid_d3draw = {
 	const strokeThickness = (isSelGrid && isCol) ? 1.5 : 1;	
 	
 	// 2. Setting the dimentional. "Diameter" is of a circle containing the rectangle of the screen. 
-	const winW = options.size || window.innerWidth;
-	const winH = options.size || window.innerHeight;
+	const winW = options.size || dims.width;
+	const winH = options.size || dims.height;
 	
 	const Dia = Math.sqrt(winW*winW + winH*winH);
 	const origX = winW/2;

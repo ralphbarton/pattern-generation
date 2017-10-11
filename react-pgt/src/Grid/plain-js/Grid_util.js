@@ -3,6 +3,7 @@ var _ = require('lodash');
 var Grid_util = {
 
     convertSpacingUnit: function(LineSet, units_new){
+	console.error("convertSpacingUnit() needs to be passed W & H by callee");
 	var winW = window.innerWidth;
 	var winH = window.innerHeight;
 	var phi_rad = LineSet.angle * 2 * Math.PI / 360;

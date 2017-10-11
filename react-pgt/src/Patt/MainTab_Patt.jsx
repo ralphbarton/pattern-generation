@@ -66,7 +66,7 @@ class MainTab_Patt extends React.PureComponent {
     componentDidUpdate(){
 	if(this.state.rightSideSpace === 2){
 	    const hoverGrid = _.find(this.props.PGTobjARRAYS["grid"], {uid: this.state.pDrive_thumb_uid} );
-	    Grid_d3draw.updateBgGrid(this.svgBigThumb, hoverGrid, null, {size: 220, noAnimate: true});
+	    Grid_d3draw.updateBgGrid(this.svgBigThumb, null, hoverGrid, null, {size: 220, noAnimate: true});
 	}	
     }
     

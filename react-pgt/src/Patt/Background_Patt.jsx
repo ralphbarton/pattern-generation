@@ -44,8 +44,8 @@ class Background_Patt extends React.PureComponent {
 	    const render_msg = Plot_RenderManager.render({
 		useWorker: false,
 		Plot: Plot,
-		width: window.innerWidth,
-		height: window.innerHeight,
+		width: this.props.dims.width,
+		height: this.props.dims.height,
 		resolution: 3 // probably needs to be no higher...
 	    });
 
@@ -66,8 +66,8 @@ class Background_Patt extends React.PureComponent {
 	const nextPatt = gridUIState.previewActive ? util.lookup(gridArray, "uid", gridUIState.selectionUid) : null;
 	 */	
 
-	const winW = window.innerWidth;
-	const winH = window.innerHeight;
+	const winW = this.props.dims.width;
+	const winH = this.props.dims.height;
 	
 	return (
 	    <div className="Background_Patt">
