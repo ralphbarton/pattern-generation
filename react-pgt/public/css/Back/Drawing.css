@@ -1,0 +1,9 @@
+/* Drawing.css */
+
+.Drawing{
+  position: absolute;
+}
+
+.Drawing img{
+  max-width: 400px;
+}

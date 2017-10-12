@@ -4,12 +4,22 @@ import Background_Grid from './Grid/Background_Grid';
 import Background_Plot from './Plot/Background_Plot';
 import Background_Patt from './Patt/Background_Patt';
 
+import Drawing from './Back/Drawing';
+
 
 class PaneContent extends React.PureComponent {
 
     render() {
-	return (
-	    <div className="PGT_Background">
+	if(this.props.n === 2){ // drawing
+	    return (
+	    	<Drawing
+		   dims={this.props.dims}/>
+		  );
+		  
+	}else if(this.props.n === 1){ // synthesised content...
+
+	    return (
+		<div className="PGT_Background">
 	      {
 		  //CONDITIONALLY RENDER GRID BACKGROUND COMPONENT...
 		  (this.props.UIState['grid'].selectedRowIndex !== undefined) &&
@@ -48,8 +58,11 @@ class PaneContent extends React.PureComponent {
 				/>
 	      }
 
-	    </div>
-	);
+		</div>
+	    );
+	}else{
+	    return null;
+	}
     }
     
 }
@@ -84,7 +97,7 @@ class PGT_Background extends React.PureComponent {
 
 		  if(opts_UI.mode === 0){ // 0 - fullscreen
 		      return(
-			  <PaneContent dims={dims} {...this.props}/> // forward ALL props...
+			  <PaneContent n={1} dims={dims} {...this.props}/> // forward ALL props...
 		      );
 
 		  }else if(opts_UI.mode === 1){ // 1 - split screen, halves vertical divide
@@ -95,7 +108,7 @@ class PGT_Background extends React.PureComponent {
 				[1,2].map(n=>{
 				    return(
 					<div style={dims_vert2} key={n}>
-					  <PaneContent dims={dims_vert2} {...this.props}/>
+					  <PaneContent n={n} dims={dims_vert2} {...this.props}/>
 					</div>
 				    );
 				})
@@ -112,7 +125,7 @@ class PGT_Background extends React.PureComponent {
 				[1,2].map(n=>{
 				    return(
 					<div style={dims_hori2} key={n}>
-					  <PaneContent dims={dims_hori2} {...this.props}/>
+					  <PaneContent n={n} dims={dims_hori2} {...this.props}/>
 					</div>
 				    );
 				})
@@ -129,7 +142,7 @@ class PGT_Background extends React.PureComponent {
 				[1, 2, 3, 4].map(n=>{
 				    return(
 					<div style={dims_quad} key={n}>
-					  <PaneContent dims={dims_quad} {...this.props}/>
+					  <PaneContent n={n} dims={dims_quad} {...this.props}/>
 					</div>
 				    );
 				})
