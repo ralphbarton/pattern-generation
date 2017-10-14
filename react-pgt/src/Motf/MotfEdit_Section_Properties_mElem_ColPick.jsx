@@ -46,5 +46,5 @@ class MotfEdit_Section_Properties_mElem_ColPick extends React.PureComponent {
     }
 }
 
-import withClickOut from './../withClickOut';
+import withClickOut from './../HOC/withClickOut';
 export default withClickOut(MotfEdit_Section_Properties_mElem_ColPick);

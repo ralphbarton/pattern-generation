@@ -6,7 +6,7 @@ import gallery_text  from './plain-js/gallery-text.js';
 
 
 
-class Drawing extends React.PureComponent {
+class Background_Drawing extends React.PureComponent {
     
     render() {
 
@@ -31,7 +31,7 @@ class Drawing extends React.PureComponent {
 	const aspect = img_details.dimentions.split("×").map( s => {return s.replace(/[^0-9.,]+/g, '');});
 	
 	return (
-	    <div className="Drawing">
+	    <div className="Background_Drawing">
 	      <img src={ path+gallery_files.fullsize_img[0] } alt=""/>
 	      <textarea value={aspect[0]} readOnly={true}/>
 	      <textarea value={aspect[1]} readOnly={true}/>
@@ -41,4 +41,4 @@ class Drawing extends React.PureComponent {
     
 }
 
-export default Drawing;
+export default Background_Drawing;

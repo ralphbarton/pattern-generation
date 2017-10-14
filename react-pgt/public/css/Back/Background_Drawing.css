@@ -1,0 +1,9 @@
+/* Background_Drawing.css */
+
+.Background_Drawing{
+  position: absolute;
+}
+
+.Background_Drawing img{
+  max-width: 400px;
+}

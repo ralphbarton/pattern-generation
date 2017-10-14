@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Background_Grid from './Grid/Background_Grid';
-import Background_Plot from './Plot/Background_Plot';
-import Background_Patt from './Patt/Background_Patt';
+import Background_Grid from '../Grid/Background_Grid';
+import Background_Plot from '../Plot/Background_Plot';
+import Background_Patt from '../Patt/Background_Patt';
 
-import Drawing from './Back/Drawing';
+import Background_Drawing from './Background_Drawing';
 
 
 class PaneContent extends React.PureComponent {
@@ -12,14 +12,14 @@ class PaneContent extends React.PureComponent {
     render() {
 	if(this.props.n === 2){ // drawing
 	    return (
-	    	<Drawing
+	    	<Background_Drawing
 		   dims={this.props.dims}/>
 		  );
 		  
 	}else if(this.props.n === 1){ // synthesised content...
 
 	    return (
-		<div className="PGT_Background">
+		<div className="Background">
 	      {
 		  //CONDITIONALLY RENDER GRID BACKGROUND COMPONENT...
 		  (this.props.UIState['grid'].selectedRowIndex !== undefined) &&
@@ -68,7 +68,7 @@ class PaneContent extends React.PureComponent {
 }
 
 
-class PGT_Background extends React.PureComponent {
+class Background extends React.PureComponent {
     
     render() {
 
@@ -92,7 +92,7 @@ class PGT_Background extends React.PureComponent {
 	const dims_quad = {width: winWhalfM, height: winHhalfM};
 	
 	return (
-	    <div className="PGT_Background">
+	    <div className="Background">
 	      {( ()=>{
 
 		  if(opts_UI.mode === 0){ // 0 - fullscreen
@@ -159,4 +159,4 @@ class PGT_Background extends React.PureComponent {
     }
 }
 
-export default PGT_Background;
+export default Background;

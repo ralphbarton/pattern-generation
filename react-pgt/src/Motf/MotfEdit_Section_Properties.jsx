@@ -226,5 +226,5 @@ class MotfEdit_Section_Properties extends React.PureComponent {
 }
 
 
-import withKeyboardEvents from '../withKeyboardEvents';
+import withKeyboardEvents from '../HOC/withKeyboardEvents';
 export default withKeyboardEvents(MotfEdit_Section_Properties, {withKeysHeldProp: true});

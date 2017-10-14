@@ -111,7 +111,7 @@ class Popout extends React.PureComponent {
 
 
 
-import withClickOut from './../withClickOut';
+import withClickOut from './../HOC/withClickOut';
 const Popout2 = withClickOut(Popout);
 
 

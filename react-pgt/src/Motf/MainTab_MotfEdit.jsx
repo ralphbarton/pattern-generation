@@ -263,5 +263,5 @@ class MainTab_MotfEdit extends React.PureComponent {
     
 }
 
-import withKeyboardEvents from './../withKeyboardEvents';
+import withKeyboardEvents from './../HOC/withKeyboardEvents';
 export default withKeyboardEvents(MainTab_MotfEdit, {withKeysHeldProp: false});

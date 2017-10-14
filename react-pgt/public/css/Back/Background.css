@@ -1,15 +1,17 @@
-/* PGT_Background.css */
+/* Background.css */
 
 
-.PGT_Background div.bg-grey{
+.Background div.bg-grey{
   background: lightgray;
+  position: absolute;
 }
 
-.PGT_Background div.bg-grey > div{
+.Background div.bg-grey > div{
   display: inline-block;
   margin: 20px;
   box-shadow: 0px 0px 4px 2px black;
   background: white;
+  position: relative;
 }
 
 
@@ -17,14 +19,14 @@
    with CSS margins and page overflow
 */
 
-.PGT_Background div.bg-grey > div:last-child{
+.Background div.bg-grey > div:last-child{
   margin-bottom: 0px;
 }
 
-.PGT_Background div.bg-grey.vertical > div{
+.Background div.bg-grey.vertical > div{
   margin-bottom: 0px;
 }
 
-.PGT_Background div.bg-grey.quad > div:nth-child(3){
+.Background div.bg-grey.quad > div:nth-child(3){
   margin-bottom: 0px;
 }

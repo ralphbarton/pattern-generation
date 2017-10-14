@@ -32,7 +32,7 @@ function WgButton2(props) {
 // Additional sub-component of <WgButtonExpanding> defined below..
 
 import rightArrow from './../asset/right-arrow-80.png';
-import withClickOut from './../withClickOut';
+import withClickOut from './../HOC/withClickOut';
 
 function Popout_for_ButtonExpanding(props){    
     return (

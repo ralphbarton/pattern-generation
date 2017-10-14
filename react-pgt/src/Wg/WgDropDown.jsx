@@ -33,7 +33,7 @@ function Nc_WgDropDown(props){
 }
 
 
-import withClickOut from './../withClickOut';
+import withClickOut from './../HOC/withClickOut';
 const WgDropDown = withClickOut(Nc_WgDropDown);
 
 

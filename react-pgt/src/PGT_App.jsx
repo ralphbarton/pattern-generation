@@ -13,7 +13,7 @@ import {CfunSampleData} from './DatH/SampleData_Cfun';
 
 //Custom Components
 import Toolbox from './Toolbox';
-import PGT_Background from './PGT_Background';
+import Background from './Back/Background';
 import ToastManager from './ToastManager';
 
 class PGT_App extends React.PureComponent {
@@ -91,7 +91,7 @@ class PGT_App extends React.PureComponent {
 	return (
 	    <div className="PGT_App">
 	      {/* 1. Backgrounds */}
-	      <PGT_Background
+	      <Background
 		 PGTobjARRAYS={this.state.PGTobjARRAYS}
 		 onPGTobjARRAYSChange={this.handleDataChange}
 		 UIState={this.state.UI}
