@@ -33,8 +33,8 @@ class Drawing extends React.PureComponent {
 	return (
 	    <div className="Drawing">
 	      <img src={ path+gallery_files.fullsize_img[0] } alt=""/>
-	      <textarea>{aspect[0]}</textarea>
-	      <textarea>{aspect[1]}</textarea>
+	      <textarea value={aspect[0]} readOnly={true}/>
+	      <textarea value={aspect[1]} readOnly={true}/>
 	    </div>
 	);
     }
