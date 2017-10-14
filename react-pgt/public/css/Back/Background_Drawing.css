@@ -7,3 +7,61 @@
 .Background_Drawing img{
   max-width: 400px;
 }
+
+.Background_Drawing.chooser{
+  height: inherit;
+  width: inherit;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.Background_Drawing.chooser > div{
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 10px 20px;
+}
+
+.Background_Drawing.chooser > div:hover{
+  background-color: rgb(225, 239, 245);
+}
+
+.Background_Drawing.chooser img{
+  width: 250px;
+  border: 1px solid black;
+  border-radius: 6px;
+    transition: transform 0.1s;
+  vertical-align: text-top;
+}
+
+.Background_Drawing.chooser > div:hover img{
+  transform: scale(1.03);
+}
+
+.Background_Drawing.chooser .text{
+  padding: 30px 10px;
+    display: flex;
+  flex-flow: column nowrap;
+}
+
+.Background_Drawing.chooser .text > div{
+  padding: 6px 0px;
+}
+
+.Background_Drawing.chooser .name{
+  font-size: 28px;
+}
+
+.Background_Drawing.chooser .date{
+  color: #AAA;
+  font-weight: bold;
+}
+
+.Background_Drawing.chooser .aspect{
+  margin-top: 40px;
+  color: #777;
+  font-size: 11px;
+}
+
+.Background_Drawing.chooser .aspect span{
+  color: black;
+}
