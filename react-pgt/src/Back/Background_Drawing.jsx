@@ -1,6 +1,7 @@
 import React from 'react';
 var _ = require('lodash');
 
+import ImgFiles_util  from './plain-js/ImgFiles_util.js';
 import gallery_files from './plain-js/gallery-files.js';
 
 import Background_Drawing_ControlsBox from './Background_Drawing_ControlsBox';
@@ -9,12 +10,12 @@ import Background_Drawing_Chooser from './Background_Drawing_Chooser';
 
 class Background_Drawing extends React.PureComponent {
 
-    constructor() {
-	super();
+    constructor(props) {
+	super(props);
 	this.state = {
-	    selection: "139-01" // null
+	    selection: null
 	};
-
+	
 	//copy-pasted...
 	this.dict_fullsize = {};
 	const TS = this;
@@ -29,12 +30,23 @@ class Background_Drawing extends React.PureComponent {
 	});
 
 	this.setDrawing = this.setDrawing.bind(this);
+
+	// Code for testing only.
+	// to accelerate testing...
+	setTimeout( ()=>{
+	    this.setDrawing("139-01");
+	}, 0);
     }
 
     setDrawing(imgKey){
 	this.setState({
 	    selection: imgKey
 	});
+
+	const aspect = imgKey !== null ? ImgFiles_util.getAspect(imgKey) : null;
+
+	//this will call setState() in the parent
+	this.props.setAspect(aspect);
     }
     
     render() {

@@ -9,9 +9,17 @@
 .Background div.bg-grey > div{
   display: inline-block;
   margin: 20px;
+  position: relative;
+}
+
+.Background div.bg-grey .constrain{
+  outline: 1px dashed rgba(0,0,0,0.3);
+}
+
+.Background div.bg-grey .page{
+  position: absolute;
   box-shadow: 0px 0px 4px 2px black;
   background: white;
-  position: relative;
 }
 
 

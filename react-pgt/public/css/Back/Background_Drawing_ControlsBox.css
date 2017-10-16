@@ -1,6 +1,7 @@
 /* Background_Drawing_ControlsBox.css */
 
 .Background_Drawing_ControlsBox{
+  z-index: 1;
   position: absolute;
   left: 50%;
   top: 10px;

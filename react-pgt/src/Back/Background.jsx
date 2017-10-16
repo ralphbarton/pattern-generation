@@ -13,8 +13,10 @@ class PaneContent extends React.PureComponent {
 	if(this.props.n === 2){ // drawing
 	    return (
 	    	<Background_Drawing
-		   dims={this.props.dims}/>
-		  );
+		   dims={this.props.dims}
+		   setAspect={this.props.setAspect}
+		   />
+	    );
 		  
 	}else if(this.props.n === 1){ // synthesised content...
 
@@ -69,6 +71,58 @@ class PaneContent extends React.PureComponent {
 
 
 class Background extends React.PureComponent {
+
+    constructor() {
+	super();
+	this.state = {
+	    aspect: null
+	};
+	
+	this.setAspect = this.setAspect.bind(this);
+	this.renderWrappedPane = this.renderWrappedPane.bind(this);
+    }
+
+    setAspect(v){
+	this.setState({
+	    aspect: v
+	});
+    }
+
+    renderWrappedPane(n, dims){
+	const a = this.state.aspect;
+	const constrain = a !== null;
+
+	let dims2 = dims;
+	if(constrain){
+	    const r = a[0] / a[1]; // width as a fraction of height
+	    dims2 = {
+		width:  Math.min(dims.width,  Math.floor(dims.height*r)),
+		height: Math.min(dims.height, Math.floor(dims.width/r))
+	    };
+
+	    //achieve centering best via inline style too
+	    if(dims2.height !== dims.height){
+		dims2.top = (dims.height - dims2.height) / 2;
+	    }else{
+		dims2.left = (dims.width - dims2.width) / 2;
+	    }
+	}
+
+	return (
+	    <div className={constrain?"constrain":""} style={dims} key={n}>
+	      <div className="page" style={dims2}>
+
+		<PaneContent
+		   {...this.props}
+		   n={n}
+		   dims={dims2}
+		   setAspect={this.setAspect}/>
+
+	      </div>
+	    </div>
+	);
+
+    }
     
     render() {
 
@@ -101,16 +155,14 @@ class Background extends React.PureComponent {
 		      );
 
 		  }else if(opts_UI.mode === 1){ // 1 - split screen, halves vertical divide
+
+
 		      return(
 			  <div className="bg-grey vertical" style={dims}>
 
 			    {
 				[1,2].map(n=>{
-				    return(
-					<div style={dims_vert2} key={n}>
-					  <PaneContent n={n} dims={dims_vert2} {...this.props}/>
-					</div>
-				    );
+				    return this.renderWrappedPane(n, dims_vert2);
 				})
 			    }
 			    
@@ -123,11 +175,7 @@ class Background extends React.PureComponent {
 
 			    {
 				[1,2].map(n=>{
-				    return(
-					<div style={dims_hori2} key={n}>
-					  <PaneContent n={n} dims={dims_hori2} {...this.props}/>
-					</div>
-				    );
+				    return this.renderWrappedPane(n, dims_hori2);
 				})
 			    }
 			    
@@ -140,11 +188,7 @@ class Background extends React.PureComponent {
 
 			    {
 				[1, 2, 3, 4].map(n=>{
-				    return(
-					<div style={dims_quad} key={n}>
-					  <PaneContent n={n} dims={dims_quad} {...this.props}/>
-					</div>
-				    );
+				    return this.renderWrappedPane(n, dims_quad);
 				})
 			    }
 			    
