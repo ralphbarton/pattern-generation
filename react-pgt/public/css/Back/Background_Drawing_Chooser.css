@@ -1,0 +1,60 @@
+/* Background_Drawing_Chooser.css */
+
+.Background_Drawing_Chooser{
+    position: absolute;
+    height: inherit;
+    width: inherit;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.Background_Drawing_Chooser > div{
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 10px 20px;
+}
+
+.Background_Drawing_Chooser > div:hover{
+    background-color: rgb(225, 239, 245);
+}
+
+.Background_Drawing_Chooser img{
+    width: 250px;
+    border: 1px solid black;
+    border-radius: 6px;
+    transition: transform 0.1s;
+    vertical-align: text-top;
+}
+
+.Background_Drawing_Chooser > div:hover img{
+    transform: scale(1.03);
+}
+
+.Background_Drawing_Chooser .text{
+    padding: 30px 10px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.Background_Drawing_Chooser .text > div{
+    padding: 6px 0px;
+}
+
+.Background_Drawing_Chooser .name{
+    font-size: 28px;
+}
+
+.Background_Drawing_Chooser .date{
+    color: #AAA;
+    font-weight: bold;
+}
+
+.Background_Drawing_Chooser .aspect{
+    margin-top: 40px;
+    color: #777;
+    font-size: 11px;
+}
+
+.Background_Drawing_Chooser .aspect span{
+    color: black;
+}

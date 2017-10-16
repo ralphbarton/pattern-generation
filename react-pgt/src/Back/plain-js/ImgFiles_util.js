@@ -1,6 +1,6 @@
 var _ = require('lodash');
 
-import gallery_files from './gallery-files.js';
+//import gallery_files from './gallery-files.js';
 import gallery_text  from './gallery-text.js';
 
 var ImgFiles_util = {
