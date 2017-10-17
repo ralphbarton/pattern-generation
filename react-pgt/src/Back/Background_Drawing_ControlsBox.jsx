@@ -2,6 +2,7 @@ import React from 'react';
 
 import Img_threeSquare from './asset/three-square.png';
 import Img_iconPlay from './asset/icon-play.png';
+import Img_iconMagnify from './asset/icon-magnify.png';
 
 class Background_Drawing_ControlsBox extends React.PureComponent {
 
@@ -13,6 +14,7 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
     }
     
     render() {
+	const imgKey = this.props.selectedDrawing;
  	return (
 	      <div className="Background_Drawing_ControlsBox">
 		<div className="A">
@@ -21,7 +23,7 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 		  </button>
 		</div>
 		<div className="B">
-		  <div className="name">{this.props.selectedDrawing}</div>
+		  <div className="name">{imgKey}</div>
 		  <div className="more"
 		       onClick={()=>{
 			   this.setState({
@@ -29,12 +31,26 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 			   });
 		    }}
 		       >more images</div>
+		  <div className="magnify">
+		    <img src={Img_iconMagnify}
+			 onClick={()=>{console.log("magnify click...");}}
+			 alt={""} />
+		  </div>
 		  <div className="buttons">
-		    <button>1</button>
-		    <button>2</button>
-		    <button>3</button>
-		    <button>4</button>
-		    <button>5</button>
+		    {
+			[1,2,3,4,5].map( n => {
+			    const N = this.props.dict_fullsize[imgKey].length;
+			    const J = N>=5 ? Math.round((N-1)*(n-1)/4) : (n-1); // generates an approximate series...
+			    return (
+				<button
+				   key={n}
+				   className={J>=N ? "disabled" : ""}//there may be fewer than 5 progress photos...
+				   onClick={this.props.setDrawing.bind(null, imgKey, J)}
+				  >{n}</button>
+			    );
+
+			})
+		    }
 		  </div>
 		</div>
 		<div className="A">
