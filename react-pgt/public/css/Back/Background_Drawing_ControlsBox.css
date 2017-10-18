@@ -8,8 +8,8 @@
     transform: translateX(-50%);
     background-color: black;
     border-radius: 7px;
-    color: lightgray;
-    opacity: 0;
+    color: #BBB;
+    opacity: 1;
     transition: opacity 0.2s;
     padding: 10px;
     display: flex;
@@ -42,6 +42,13 @@
     border-color: #BBB;
 }
 
+.Background_Drawing_ControlsBox button.sel{
+    background-color: lightsteelblue;
+    color: black;
+    border-color: white;
+    font-weight: bold;
+}
+
 .Background_Drawing_ControlsBox img{
     opacity: 0.7;
     transition: all 0.2s;
@@ -55,6 +62,14 @@
     height: 50px;
 }
 
+.Background_Drawing_ControlsBox .A button{
+    padding: 10px;
+    height: 72px;
+}
+
+
+
+
 .Background_Drawing_ControlsBox .B{
     display: flex;
     flex-flow: row wrap;
@@ -67,13 +82,20 @@
     font-size: 28px;
 }
 
-.Background_Drawing_ControlsBox .B .more{
+.Background_Drawing_ControlsBox .B .actLink{
     font-size: 13px;
-    width: 50px;
-    text-align: center;
     text-decoration: underline;
     color: #AAA;
     cursor: pointer;
+}
+
+.Background_Drawing_ControlsBox .B .actLink:hover{
+    color: #a8e5ff;
+}
+
+.Background_Drawing_ControlsBox .B .more{
+    width: 50px;
+    text-align: center;
 }
 
 .Background_Drawing_ControlsBox .B .more.disabled{
@@ -81,8 +103,6 @@
     pointer-events: none;
     
 }
-
-
 
 .Background_Drawing_ControlsBox .B .magnify img{
     margin-left: 5px;
@@ -93,10 +113,6 @@
     opacity: 1;
 }
 
-.Background_Drawing_ControlsBox .B .more:hover{
-    color: #a8e5ff;
-}
-
 .Background_Drawing_ControlsBox .B .buttons{
     flex: 1 100%;
     display: flex;
@@ -104,14 +120,47 @@
     justify-content: space-around;
 }
 
-
-.Background_Drawing_ControlsBox .A button{
-    padding: 10px;
-    height: 72px;
+.Background_Drawing_ControlsBox .B .extra{
+    flex: 1 100%;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
 }
 
+.Background_Drawing_ControlsBox .B .extra .C1{
+    margin-left: 12px;
+}
+
+.Background_Drawing_ControlsBox .B .extra .date{
+    font-size: 14px;
+}
+
+.Background_Drawing_ControlsBox .B .extra .dims{
+    color: #888;
+    font-weight: bold;
+        font-size: 11px;
+}
+
+.Background_Drawing_ControlsBox .B .extra .C2{
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+}
 
 .Background_Drawing_ControlsBox .D{
     margin-top: 6px;
     flex: 1 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.Background_Drawing_ControlsBox .D .contain-buttons{
+    width: 286px;
+}
+
+.Background_Drawing_ControlsBox .D button{
+    margin: 2px;
+    width: 22px;
+    padding: 2px 0;
+    padding-right: 1px;
 }
