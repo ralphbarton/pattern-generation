@@ -7,6 +7,7 @@ import gallery_files from './plain-js/gallery-files.js';
 import Background_Drawing_ControlsBox from './Background_Drawing_ControlsBox';
 import Background_Drawing_Chooser from './Background_Drawing_Chooser';
 
+import {WgFadeTransition} from '../Wg/WgTransition';
 
 class Background_Drawing extends React.PureComponent {
 
@@ -35,7 +36,7 @@ class Background_Drawing extends React.PureComponent {
 	// Code for testing only.
 	// to accelerate testing...
 	setTimeout( ()=>{
-	    this.setDrawing("139-01");
+	    this.setDrawing("139-03");
 	}, 0);
     }
 
@@ -75,6 +76,13 @@ class Background_Drawing extends React.PureComponent {
 	    // which photo of that drawing
 	    const ImgSet = this.dict_fullsize[imgKey];
 	    const imgIdx = this.state.img_index === null ? (ImgSet.length-1) : this.state.img_index;
+
+	    //hold memory of previous image, to allow fade-between transition effect...
+
+	    if(this.imgHistoryKey === undefined){
+		this.imgHistoryKey = 0;
+	    }
+	    this.imgHistoryKey++;
 	    
  	    return (
 		<div className="Background_Drawing">
@@ -84,8 +92,11 @@ class Background_Drawing extends React.PureComponent {
 		     selectedDrawing={imgKey}
 		     dict_fullsize={this.dict_fullsize}
 		     />
-		  
-		  <img src={ path_L + ImgSet[imgIdx] } alt=""/>
+		  <div className="mainImgContainer">
+		    <WgFadeTransition speed={1}>		  
+		      <img src={ path_L + ImgSet[imgIdx] } alt="" id={imgIdx} key={this.imgHistoryKey}/>
+		    </WgFadeTransition>
+		  </div>
 		</div>
 	    );
 

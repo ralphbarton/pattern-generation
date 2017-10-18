@@ -15,6 +15,7 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
     
     render() {
 	const imgKey = this.props.selectedDrawing;
+	const N = this.props.dict_fullsize[imgKey].length;
  	return (
 	      <div className="Background_Drawing_ControlsBox">
 		<div className="A">
@@ -24,22 +25,21 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 		</div>
 		<div className="B">
 		  <div className="name">{imgKey}</div>
-		  <div className="more"
-		       onClick={()=>{
-			   this.setState({
-			       expanded: true
-			   });
-		    }}
-		       >more images</div>
 		  <div className="magnify">
 		    <img src={Img_iconMagnify}
 			 onClick={()=>{console.log("magnify click...");}}
 			 alt={""} />
 		  </div>
+		  <div className={"more" + (N<5 ? " disabled" : "")}
+		       onClick={()=>{
+			   this.setState({
+			       expanded: true
+			   });
+		    }}
+		    >more images</div>
 		  <div className="buttons">
 		    {
 			[1,2,3,4,5].map( n => {
-			    const N = this.props.dict_fullsize[imgKey].length;
 			    const J = N>=5 ? Math.round((N-1)*(n-1)/4) : (n-1); // generates an approximate series...
 			    return (
 				<button

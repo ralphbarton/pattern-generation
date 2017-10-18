@@ -1,7 +1,7 @@
 /* Background_Drawing_ControlsBox.css */
 
 .Background_Drawing_ControlsBox{
-    z-index: 1;
+    z-index: 2;
     position: absolute;
     left: 50%;
     top: 10px;
@@ -28,6 +28,12 @@
     border-radius: 4px;
     color: lightgray;
     transition: all 0.2s;
+}
+
+.Background_Drawing_ControlsBox button.disabled{
+    background: #444;
+    color: #777;
+    pointer-events: none;
 }
 
 .Background_Drawing_ControlsBox button:hover{
@@ -70,9 +76,16 @@
     cursor: pointer;
 }
 
+.Background_Drawing_ControlsBox .B .more.disabled{
+    opacity: 0;
+    pointer-events: none;
+    
+}
+
 
 
 .Background_Drawing_ControlsBox .B .magnify img{
+    margin-left: 5px;
     height: 32px;
 }
 
@@ -90,11 +103,6 @@
     flex-flow: row nowrap;
     justify-content: space-around;
 }
-
-.Background_Drawing_ControlsBox .B .buttons button.disabled{
-    background: grey;
-}
-
 
 
 .Background_Drawing_ControlsBox .A button{
