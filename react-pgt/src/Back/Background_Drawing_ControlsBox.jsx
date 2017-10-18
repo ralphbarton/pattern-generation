@@ -32,68 +32,68 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 		  <img src={Img_iconPlay} alt={""} />
 		</button>
 	      </div>
+
+
+	      { !this.state.expanded &&
 	      <div className="B">
-		<div className="name">{imgKey}</div>
-		<div className="magnify">
-		  <img src={Img_iconMagnify}
-		       onClick={()=>{console.log("magnify click...");}}
-		    alt={""} />
+		<div className="name">{imgKey}</div>		
+
+		<div className={"actLink more" + (N<5 ? " disabled" : "")}
+						      onClick={()=>{
+							  this.setState({
+							      expanded: true
+							  });
+		     }}>
+		  more...
 		</div>
+
+		<div className="buttons">
+		  {
+		      [1,2,3,4,5].map( n => {
+			  const J = N>=5 ? Math.round((N-1)*(n-1)/4) : (n-1); // generates an approximate series...
+			  return (
+			      <button
+				 key={n}
+				 //there may be fewer than 5 progress photos...
+				 className={(J>=N ? "disabled" : "") + (J===imgIdx ? " sel" : "")}
+				onClick={this.props.setDrawing.bind(null, imgKey, J)}
+				>{n}</button>
+			  );
+
+		      })
+		  }
+	        </div>
+	      </div>
+	      }
 		
-		
-		{ !this.state.expanded &&		  		  
+		{ this.state.expanded &&
+		<div className="B">
+		  <div className="name">{imgKey}</div>
+
+		  <div className="C1">
+		    <div className="date">{ImgFiles_util.getDetails(imgKey)["completion_date"]}</div>
+		    <div className="dims">{ImgFiles_util.getDetails(imgKey)["dimentions"]}</div>
+		  </div>
+
 		  <div className={"actLink more" + (N<5 ? " disabled" : "")}
-		       onClick={()=>{
-			   this.setState({
-			       expanded: true
-			   });
+							onClick={()=>{
+							    console.log("speed change");
 		       }}>
-		    more...
+		    fast slow
 		  </div>
-		}
 
-		{ this.state.expanded &&		  		  
-		  <div className={"actLink more" + (N<5 ? " disabled" : "")}
-		       onClick={()=>{
-			   console.log("speed change");
-		       }}>
-			fast slow
+		  <div className="magnify">
+		    <img src={Img_iconMagnify}
+			 onClick={()=>{console.log("magnify click...");}}
+		      alt={""} />
 		  </div>
-		}
 
-		  
-		{ !this.state.expanded &&		  
-		  <div className="buttons">
-		    {
-			[1,2,3,4,5].map( n => {
-			    const J = N>=5 ? Math.round((N-1)*(n-1)/4) : (n-1); // generates an approximate series...
-			    return (
-				<button
-				   key={n}
-				   //there may be fewer than 5 progress photos...
-				   className={(J>=N ? "disabled" : "") + (J===imgIdx ? " sel" : "")}
-				   onClick={this.props.setDrawing.bind(null, imgKey, J)}
-				  >{n}</button>
-			    );
-
-			})
-		    }
-		  </div>
-		}
-
-	        { this.state.expanded &&		  
-		  <div className="extra">
-		    <div className="C1">
-		      <div className="date">{ImgFiles_util.getDetails(imgKey)["completion_date"]}</div>
-		      <div className="dims">{ImgFiles_util.getDetails(imgKey)["dimentions"]}</div>
-		    </div>
-		    <div className="C2">
-		      <div className="actLink comments">comments</div>
-		    </div>
-		  </div>
+		  <div className="actLink description">description</div>
+		</div>
 		}
 	    
-		</div>
+
+
 		<div className="A">
 		  <button onClick={this.props.setDrawing.bind(null,null)}>
 		    <img src={Img_threeSquare} alt={""} />
