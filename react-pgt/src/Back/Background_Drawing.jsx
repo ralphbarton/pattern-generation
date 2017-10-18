@@ -36,7 +36,7 @@ class Background_Drawing extends React.PureComponent {
 	// Code for testing only.
 	// to accelerate testing...
 	setTimeout( ()=>{
-	    this.setDrawing("139-03");
+//	    this.setDrawing("139-03");
 	}, 0);
     }
 

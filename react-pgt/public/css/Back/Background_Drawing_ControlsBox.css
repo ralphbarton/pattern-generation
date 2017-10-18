@@ -9,7 +9,7 @@
     background-color: black;
     border-radius: 7px;
     color: lightgray;
-    opacity: 0.9;
+    opacity: 0;
     transition: opacity 0.2s;
     padding: 10px;
     display: flex;

@@ -10,10 +10,10 @@
 }
 
 .Toolbox{
-    z-index: 1;
+    z-index: 3;
     position: absolute;
-    top: 90px;
-    left: 300px;
+    top: 545px;
+    left: 8px;
     transition: width 0.7s, height 0.7s;
     -webkit-user-select: none;
        -moz-user-select: none;
