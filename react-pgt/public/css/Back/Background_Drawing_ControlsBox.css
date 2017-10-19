@@ -1,5 +1,8 @@
 /* Background_Drawing_ControlsBox.css */
 
+
+/* 1. main outer box */
+
 .Background_Drawing_ControlsBox{
     z-index: 2;
     position: absolute;
@@ -21,6 +24,11 @@
     opacity: 0.9;
 }
 
+
+
+
+/* 2. general purpose components */
+
 .Background_Drawing_ControlsBox button{
     border: 1px solid gray;
     padding: 2px 10px;
@@ -31,8 +39,8 @@
 }
 
 .Background_Drawing_ControlsBox button.disabled{
-    background: #444;
-    color: #777;
+    background: #555;
+    opacity: 0.4;
     pointer-events: none;
 }
 
@@ -62,13 +70,56 @@
     height: 50px;
 }
 
+
+
+.Background_Drawing_ControlsBox .actLink{
+    font-size: 13px;
+    text-decoration: underline;
+    color: #AAA;
+    cursor: pointer;
+}
+
+.Background_Drawing_ControlsBox .actLink:hover{
+    color: #a8e5ff;
+}
+
+
+.Background_Drawing_ControlsBox .WgSlider .rc-slider-rail {
+    border: 1px solid #333;
+    background-color: #111;
+}
+
+.Background_Drawing_ControlsBox .WgSlider .rc-slider-handle{
+    border: 1px solid #777;
+    background-color: #333;
+}
+
+
+.Background_Drawing_ControlsBox .WgSlider .rc-slider-handle:hover{
+    background: rgba(111, 209, 251, 0.55);
+    border-color: #DDD;
+}
+
+
+
+
+
+
+
+
+/* 3. class = "A" */
 .Background_Drawing_ControlsBox .A button{
     padding: 10px;
     height: 72px;
 }
 
+.Background_Drawing_ControlsBox .A.play button{
+    width: 72px;
+}
 
 
+
+/* 4. class = "B" (minimised) */
 
 .Background_Drawing_ControlsBox .B{
     display: flex;
@@ -82,35 +133,8 @@
     font-size: 28px;
 }
 
-.Background_Drawing_ControlsBox .B .actLink{
-    font-size: 13px;
-    text-decoration: underline;
-    color: #AAA;
-    cursor: pointer;
-}
-
-.Background_Drawing_ControlsBox .B .actLink:hover{
-    color: #a8e5ff;
-}
-
 .Background_Drawing_ControlsBox .B .more{
-    width: 50px;
-    text-align: center;
-}
-
-.Background_Drawing_ControlsBox .B .more.disabled{
-    opacity: 0;
-    pointer-events: none;
-    
-}
-
-.Background_Drawing_ControlsBox .B .magnify img{
-    margin-left: 5px;
-    height: 32px;
-}
-
-.Background_Drawing_ControlsBox .B .magnify:hover img{
-    opacity: 1;
+    margin-top: 7px;
 }
 
 .Background_Drawing_ControlsBox .B .buttons{
@@ -120,32 +144,71 @@
     justify-content: space-around;
 }
 
-.Background_Drawing_ControlsBox .B .extra{
-    flex: 1 100%;
-    font-size: 12px;
-    display: flex;
-    justify-content: space-between;
+
+
+
+/* 5. class = "B" (expanded) */
+
+.Background_Drawing_ControlsBox .B .C1{
+    margin-top: 2px;
+    margin-left: 4px;
 }
 
-.Background_Drawing_ControlsBox .B .extra .C1{
-    margin-left: 12px;
+.Background_Drawing_ControlsBox .B .C1 .date{
+    font-size: 13px;
 }
 
-.Background_Drawing_ControlsBox .B .extra .date{
-    font-size: 14px;
-}
-
-.Background_Drawing_ControlsBox .B .extra .dims{
+.Background_Drawing_ControlsBox .B .C1 .dims{
     color: #888;
     font-weight: bold;
-        font-size: 11px;
+    font-size: 11px;
 }
 
-.Background_Drawing_ControlsBox .B .extra .C2{
+.Background_Drawing_ControlsBox .B .speed{
     display: flex;
-    flex-flow: column;
-    justify-content: flex-end;
+    flex-flow: column nowrap;
+    align-items: flex-end;
+    width: 37px;
 }
+
+.Background_Drawing_ControlsBox .B .speed span{
+      color: white;
+ font-weight: bold;   
+}
+
+.Background_Drawing_ControlsBox .B .speed .actLink{
+    display: inline-block;
+}
+
+.Background_Drawing_ControlsBox .B .description{
+    margin-top: 3px;
+    margin-left: 10px;
+    text-align: center;
+    width: 70px;
+}
+
+
+
+
+
+
+.Background_Drawing_ControlsBox .B .magnify img{
+    height: 32px;
+}
+
+.Background_Drawing_ControlsBox .B .magnify:hover img{
+    opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+
 
 .Background_Drawing_ControlsBox .D{
     margin-top: 6px;
@@ -163,4 +226,14 @@
     width: 22px;
     padding: 2px 0;
     padding-right: 1px;
+}
+
+.Background_Drawing_ControlsBox .D .description{
+    margin: 4px 12px;
+    font-size: 12px;
+    height: 100px;
+    overflow-y: scroll;
+    border: 3px inset #333;
+    background: #333;
+    color: #DDD;
 }
