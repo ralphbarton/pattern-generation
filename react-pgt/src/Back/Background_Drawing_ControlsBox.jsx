@@ -11,6 +11,8 @@ import Img_iconMagnifyPlus  from './asset/icon-magnify-plus.png';
 import Img_iconMagnifyMinus from './asset/icon-magnify-minus.png';
 import Img_iconMagnifyNone  from './asset/icon-magnify-none.png';
 
+import WgSmartInput from '../Wg/WgSmartInput';
+
 class Background_Drawing_ControlsBox extends React.PureComponent {
 
     constructor() {
@@ -19,7 +21,6 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 	    expanded: false,
 	    description: false,
 	    magnifier: false,
-	    magnification: 100,
 	    isFast: true,
 	    playing: false
 	};
@@ -130,15 +131,19 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 		  {/* 0=unmagnified, 1=Magnfied+expanded state, 2=magnified, contracted state*/}
 		  <img src={
 		             [Img_iconMagnifyPlus, Img_iconMagnifyMinus, Img_iconMagnifyNone]
-		             [this.state.magnification>100 ? (this.state.magnifier?1:2) : 0]// eslint-disable-line
+		             [this.props.zoom > 1 ? (this.state.magnifier?1:2) : 0]// eslint-disable-line
 			   }
 		       onClick={()=>{
-			   const isMagnif = this.state.magnification > 100;
 			   this.setState({
-			       magnifier: !this.state.magnifier,
-			       //so no change if already magnified, but magnify controls contracted
-			       magnification: (isMagnif ? (this.state.magnifier ? 100 : this.state.magnification) : 200)
+			       magnifier: !this.state.magnifier
 			   });
+
+			   const isZoomed = this.props.zoom > 1;
+			   //so no change if already magnified, but magnify controls contracted
+			   if((!isZoomed) || this.state.magnifier){
+			       this.props.setZoom( isZoomed ? 1 : 2 );
+			   }
+
 			   console.log("magnify click...");
 		       }}
 		       alt={""} />
@@ -176,15 +181,30 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 		}
 	        {
 		  this.state.magnifier &&
-		  <WgSlider
-		    min={100}
-		    max={600}
-		    value={this.state.magnification}
-		    onChange={ v => {
-			this.setState({magnification: v});
-		    }}
-		  />
+		  <div className="D">
+		    <WgSlider
+		      min={1}
+		      max={6}
+		      step={0.01}// 1%
+		      value={this.props.zoom}
+		      onChange={ v => {
+		 	this.props.setZoom(v);
+		      }}
+			/>
+
+		    <WgSmartInput
+		      className="plain-cell s"
+		      value={this.props.zoom*100}
+		      dataUnit="percent"
+		      min={100}
+		      max={600}
+		      onChange={ v => {
+		 	  this.props.setZoom(v/100);
+		      }}
+			/>
+		  </div>
 		}
+	    
 	        {
 		    this.state.description &&
 			<div className="D">

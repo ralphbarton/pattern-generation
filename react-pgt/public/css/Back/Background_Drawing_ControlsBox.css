@@ -16,7 +16,7 @@
     transition: opacity 0.2s;
     padding: 10px;
     display: flex;
-    width: 300px;
+    width: 310px;
     flex-flow: row wrap;
 }
 

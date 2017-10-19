@@ -9,13 +9,16 @@ import Background_Drawing_Chooser from './Background_Drawing_Chooser';
 
 import {WgFadeTransition} from '../Wg/WgTransition';
 
+import Draggable from 'react-draggable';
+
 class Background_Drawing extends React.PureComponent {
 
     constructor(props) {
 	super(props);
 	this.state = {
 	    selection: null, // this is the code (a string) for the drawing selected e.g. "139-01"
-	    img_index: null // which "progress photo" (they're in an ordered array)...
+	    img_index: null, // which "progress photo" (they're in an ordered array)...
+	    zoom: 1
 	};
 	
 	//copy-pasted...
@@ -32,6 +35,7 @@ class Background_Drawing extends React.PureComponent {
 	});
 
 	this.setDrawing = this.setDrawing.bind(this);
+	this.setZoom    = this.setZoom.bind(this);
 
 	// Code for testing only.
 	// to accelerate testing...
@@ -51,6 +55,38 @@ class Background_Drawing extends React.PureComponent {
 	//this will call setState() in the parent
 	this.props.setAspect(aspect);
     }
+
+    setZoom(v){
+	this.setState({
+	    zoom: v
+	});
+    }
+
+
+
+    // HACKY:
+    // as a side effect, this compares this state with prev state and sets some hidden state...
+    shouldComponentUpdate(nextProps, nextState){
+
+	//hold memory of previous image, to allow fade-between transition effect...
+	if(this.imgHistoryKey === undefined){
+	    this.imgHistoryKey = 0;
+	}
+
+
+	//conditional so as to not use fade effect when just changing zoom on same image
+	if((this.state.selection !== nextState.selection) || (this.state.img_index !== nextState.img_index)){
+	    this.imgHistoryKey++;
+
+	    // If changing to a different drawing, reset zoom...
+	    if(this.state.selection !== nextState.selection){
+		this.setZoom(1);
+	    }
+	}
+	
+	return true;
+    }
+    
     
     render() {
 
@@ -77,12 +113,14 @@ class Background_Drawing extends React.PureComponent {
 	    const ImgSet = this.dict_fullsize[imgKey];
 	    const imgIdx = this.state.img_index === null ? (ImgSet.length-1) : this.state.img_index;
 
-	    //hold memory of previous image, to allow fade-between transition effect...
-
-	    if(this.imgHistoryKey === undefined){
-		this.imgHistoryKey = 0;
-	    }
-	    this.imgHistoryKey++;
+	    console.log(
+{
+		         left:   (this.state.zoom - 1) * this.props.dims.width,
+		         top:    (this.state.zoom - 1) * this.props.dims.height,
+		         right:  (this.state.zoom - 1) * this.props.dims.width,
+		         bottom: (this.state.zoom - 1) * this.props.dims.height
+		     }
+	    );
 	    
  	    return (
 		<div className="Background_Drawing">
@@ -92,12 +130,48 @@ class Background_Drawing extends React.PureComponent {
 		     selectedImgKey={imgKey}
 		     selectedImgIdx={imgIdx}
 		     dict_fullsize={this.dict_fullsize}
+		     setZoom={this.setZoom}
+		     zoom={this.state.zoom}
 		     />
+
+		  <Draggable
+		     disabled={this.state.zoom === 1}
+		     position={this.state.zoom === 1 ? {x:0, y:0} : undefined}
+		     bounds={{/*
+		         left:   (this.state.zoom - 1) * this.props.dims.width,
+		         top:    (this.state.zoom - 1) * this.props.dims.height,
+		         right:  (this.state.zoom - 1) * this.props.dims.width,
+		         bottom: (this.state.zoom - 1) * this.props.dims.height
+			       */
+			 ///////
+			 /// here, we need to factor in that applying a scale transform will expand the image about its centre
+			 left:   100,
+		         top:    100,
+		         right:  1000,
+		         bottom: 1000
+		     }}
+		     >
 		  <div className="mainImgContainer">
-		    <WgFadeTransition speed={1}>		  
-		      <img src={ path_L + ImgSet[imgIdx] } alt="" id={imgIdx} key={this.imgHistoryKey}/>
-		    </WgFadeTransition>
+
+
+		      <WgFadeTransition speed={1}>		  
+
+			<img src={ path_L + ImgSet[imgIdx] }
+			     key={this.imgHistoryKey}
+			     alt=""
+			     style={{
+				 ..._.pick(this.props.dims, ["width", "height"]),//drop "left" "top" etc
+				 transform: `scale(${this.state.zoom})`
+			     }}
+			     onMouseDown={(event) => { if(event.preventDefault) {event.preventDefault();}}}
+			     />
+
+
+		      </WgFadeTransition>
 		  </div>
+
+		  </Draggable>
+		  
 		</div>
 	    );
 
