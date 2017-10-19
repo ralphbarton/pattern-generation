@@ -112,15 +112,6 @@ class Background_Drawing extends React.PureComponent {
 	    // which photo of that drawing
 	    const ImgSet = this.dict_fullsize[imgKey];
 	    const imgIdx = this.state.img_index === null ? (ImgSet.length-1) : this.state.img_index;
-
-	    console.log(
-{
-		         left:   (this.state.zoom - 1) * this.props.dims.width,
-		         top:    (this.state.zoom - 1) * this.props.dims.height,
-		         right:  (this.state.zoom - 1) * this.props.dims.width,
-		         bottom: (this.state.zoom - 1) * this.props.dims.height
-		     }
-	    );
 	    
  	    return (
 		<div className="Background_Drawing">
@@ -137,18 +128,11 @@ class Background_Drawing extends React.PureComponent {
 		  <Draggable
 		     disabled={this.state.zoom === 1}
 		     position={this.state.zoom === 1 ? {x:0, y:0} : undefined}
-		     bounds={{/*
-		         left:   (this.state.zoom - 1) * this.props.dims.width,
-		         top:    (this.state.zoom - 1) * this.props.dims.height,
-		         right:  (this.state.zoom - 1) * this.props.dims.width,
-		         bottom: (this.state.zoom - 1) * this.props.dims.height
-			       */
-			 ///////
-			 /// here, we need to factor in that applying a scale transform will expand the image about its centre
-			 left:   100,
-		         top:    100,
-		         right:  1000,
-		         bottom: 1000
+		     bounds={{
+		         left:   -((this.state.zoom/2)- 0.5) * this.props.dims.width,
+		         top:    -((this.state.zoom/2)- 0.5) * this.props.dims.height,
+		         right:   ((this.state.zoom/2)- 0.5) * this.props.dims.width,
+		         bottom:  ((this.state.zoom/2)- 0.5) * this.props.dims.height
 		     }}
 		     >
 		  <div className="mainImgContainer">
