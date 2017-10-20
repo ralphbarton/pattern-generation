@@ -14,6 +14,7 @@ class PaneContent extends React.PureComponent {
 	    return (
 	    	<Background_Drawing
 		   dims={this.props.dims}
+		   outerWidth={this.props.outerWidth}
 		   setAspect={this.props.setAspect}
 		   />
 	    );
@@ -116,6 +117,7 @@ class Background extends React.PureComponent {
 		   {...this.props}
 		   n={n}
 		   dims={dims2}
+		   outerWidth={dims.width}
 		   setAspect={this.setAspect}/>
 
 	      </div>

@@ -116,45 +116,53 @@ class Background_Drawing extends React.PureComponent {
  	    return (
 		<div className="Background_Drawing">
 
-		  <Background_Drawing_ControlsBox
-		     setDrawing={this.setDrawing}
-		     selectedImgKey={imgKey}
-		     selectedImgIdx={imgIdx}
-		     dict_fullsize={this.dict_fullsize}
-		     setZoom={this.setZoom}
-		     zoom={this.state.zoom}
-		     />
-
-		  <Draggable
-		     disabled={this.state.zoom === 1}
-		     position={this.state.zoom === 1 ? {x:0, y:0} : undefined}
-		     bounds={{
-		         left:   -((this.state.zoom/2)- 0.5) * this.props.dims.width,
-		         top:    -((this.state.zoom/2)- 0.5) * this.props.dims.height,
-		         right:   ((this.state.zoom/2)- 0.5) * this.props.dims.width,
-		         bottom:  ((this.state.zoom/2)- 0.5) * this.props.dims.height
-		     }}
-		     >
-		  <div className="mainImgContainer">
-
-
-		      <WgFadeTransition speed={1}>		  
-
-			<img src={ path_L + ImgSet[imgIdx] }
-			     key={this.imgHistoryKey}
-			     alt=""
-			     style={{
-				 ..._.pick(this.props.dims, ["width", "height"]),//drop "left" "top" etc
-				 transform: `scale(${this.state.zoom})`
-			     }}
-			     onMouseDown={(event) => { if(event.preventDefault) {event.preventDefault();}}}
-			     />
-
-
-		      </WgFadeTransition>
+		  <div className="contain-ControlsBox"
+		       style={{
+			   width: this.props.outerWidth,
+			   left: -(this.props.outerWidth-this.props.dims.width)/2
+			   
+		       }}
+		       >
+		    <Background_Drawing_ControlsBox
+		       setDrawing={this.setDrawing}
+		       selectedImgKey={imgKey}
+		       selectedImgIdx={imgIdx}
+		       dict_fullsize={this.dict_fullsize}
+		       setZoom={this.setZoom}
+		       zoom={this.state.zoom}
+		       />
 		  </div>
 
-		  </Draggable>
+		  <div className="mainImgContainer">
+
+		    <Draggable
+		       disabled={this.state.zoom === 1}
+		       position={this.state.zoom === 1 ? {x:0, y:0} : undefined}
+		       bounds={{
+		           left:   -((this.state.zoom/2)- 0.5) * this.props.dims.width,
+		           top:    -((this.state.zoom/2)- 0.5) * this.props.dims.height,
+		           right:   ((this.state.zoom/2)- 0.5) * this.props.dims.width,
+		           bottom:  ((this.state.zoom/2)- 0.5) * this.props.dims.height
+		       }}
+		       >
+		      <div className="dragImgContainer">
+
+			<WgFadeTransition speed={1}>		  
+			  <img src={ path_L + ImgSet[imgIdx] }
+			       key={this.imgHistoryKey}
+			       alt=""
+			       style={{
+				   ..._.pick(this.props.dims, ["width", "height"]),//drop "left" "top" etc
+				   transform: `scale(${this.state.zoom})`
+			       }}
+			       onMouseDown={(event) => { if(event.preventDefault) {event.preventDefault();}}}
+			    />
+			</WgFadeTransition>
+
+		      </div>
+		    </Draggable>
+
+		  </div>
 		  
 		</div>
 	    );

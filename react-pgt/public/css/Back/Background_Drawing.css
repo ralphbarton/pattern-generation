@@ -4,11 +4,22 @@
     position: absolute;
     height: inherit;
     width: inherit;
+}
+
+.Background_Drawing .contain-ControlsBox{
+    position: absolute;
+    height: inherit;
+    overflow: hidden;
+}
+
+.Background_Drawing .mainImgContainer{
+    height: inherit;
+    width: inherit;
     overflow: hidden;
 }
 
 
-.Background_Drawing .mainImgContainer img{
+.Background_Drawing .dragImgContainer img{
     position: absolute;
     z-index: 1;
 }
