@@ -11,6 +11,10 @@ import Img_iconMagnifyPlus  from './asset/icon-magnify-plus.png';
 import Img_iconMagnifyMinus from './asset/icon-magnify-minus.png';
 import Img_iconMagnifyNone  from './asset/icon-magnify-none.png';
 
+import Img_iconLock  from './asset/icon-lock.png';
+import Img_iconUnlock  from './asset/icon-unlock.png';
+import Img_iconFullscreen  from './asset/icon-fullscreen.png';
+
 import WgSmartInput from '../Wg/WgSmartInput';
 
 class Background_Drawing_ControlsBox extends React.PureComponent {
@@ -22,7 +26,9 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 	    description: false,
 	    magnifier: false,
 	    isFast: true,
-	    playing: false
+	    playing: false,
+	    lock: false,
+	    hidden: true
 	};
     }
     
@@ -35,23 +41,44 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 	
  	return (
 	    <div className="Background_Drawing_ControlsBox"
-		 onMouseLeave={()=>{
+		 onMouseEnter={()=>{
 		     this.setState({
-			 expanded: false,
-			 description: false, // re-hide description
-			 magnifier: false // re-hide magnifier
+			 hidden: false
 		     });
-	      }}>
-	      <div className="A play">
-		<button
-		   onClick={()=>{
-		       this.setState({
-			   playing: !this.state.playing
-		       });
-		  }}>
-		  <img src={this.state.playing ? Img_iconPause : Img_iconPlay} alt={""} />
-		</button>
-	      </div>
+		     if(this.contractAll_TOid){
+			 clearTimeout(this.contractAll_TOid);
+			 this.contractAll_TOid = null;
+		     }
+	         }}
+		 onMouseLeave={()=>{
+		     if(!this.state.lock){
+
+			 this.setState({
+			     hidden: true
+			 });
+
+			 this.contractAll_TOid = setTimeout(()=>{
+			     this.setState({
+				 expanded: false, // revert to simpler version of the toolbox
+				 description: false, // re-hide description
+				 magnifier: false // re-hide magnifier
+			     });
+			     this.contractAll_TOid = null;
+			 }, 6000);
+		     }		     
+	          }}
+		 >
+	      <div className={"box"+(this.state.hidden?" hidden":"")}>
+		<div className="A play">
+		  <button
+		     onClick={()=>{
+			 this.setState({
+			     playing: !this.state.playing
+			 });
+		    }}>
+		    <img src={this.state.playing ? Img_iconPause : Img_iconPlay} alt={""} />
+		  </button>
+		</div>
 
 
 	      { !this.state.expanded &&
@@ -119,13 +146,6 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 
 		  </div>
 
-		  <div className="actLink description"
-		       onClick={()=>{
-			   this.setState({description: !this.state.description});
-		       }}>
-		  {this.state.description?"hide":"show"} description
-		  </div>
-
 		  <div className="magnify">
 
 		  {/* 0=unmagnified, 1=Magnfied+expanded state, 2=magnified, contracted state*/}
@@ -143,11 +163,35 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 			   if((!isZoomed) || this.state.magnifier){
 			       this.props.setZoom( isZoomed ? 1 : 2 );
 			   }
-
-			   console.log("magnify click...");
 		       }}
 		       alt={""} />
 		  </div>
+
+		  <div className="actLink description"
+		       onClick={()=>{
+			   this.setState({description: !this.state.description});
+		       }}>
+		  {this.state.description?"hide":"show"} description
+		  </div>
+		  
+		  <div className="littleicons">
+		  <img src={this.state.lock ? Img_iconLock : Img_iconUnlock} alt={""}
+		       className="padlock"
+		       onClick={()=>{
+			   this.setState({
+			       lock: !this.state.lock
+			   });
+		       }}
+		  />
+		  <img src={Img_iconFullscreen} alt={""}
+		       className={"maxSize"+(this.props.zoom > 1?"":" disabled")}
+		       onClick={()=>{
+			   this.setState({
+			       maxSize: true
+			   });
+		       }}
+		  />
+		  </div>		  
 
 		  </div>
 		}
@@ -216,7 +260,8 @@ class Background_Drawing_ControlsBox extends React.PureComponent {
 
 
 	    
-	      </div>
+	    </div>
+	  </div>
 	);
     }
     

@@ -2,17 +2,21 @@
 
 
 /* 1. main outer box */
-
 .Background_Drawing_ControlsBox{
     z-index: 2;
+    width: inherit;
     position: absolute;
-    left: 50%;
-    top: 10px;
-    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    padding-bottom:30px;
+}
+
+.Background_Drawing_ControlsBox .box{
+    margin-top: 10px;
     background-color: black;
     border-radius: 7px;
     color: #BBB;
-    opacity: 1;
+    opacity: 0.9;
     transition: opacity 0.2s;
     padding: 10px;
     display: flex;
@@ -20,11 +24,9 @@
     flex-flow: row wrap;
 }
 
-.Background_Drawing_ControlsBox:hover{
-    opacity: 0.9;
+.Background_Drawing_ControlsBox .box.hidden{
+    opacity: 0;
 }
-
-
 
 
 /* 2. general purpose components */
@@ -60,6 +62,10 @@
 .Background_Drawing_ControlsBox img{
     opacity: 0.7;
     transition: all 0.2s;
+}
+
+.Background_Drawing_ControlsBox img.disabled{
+    opacity: 0.2;
 }
 
 .Background_Drawing_ControlsBox button:hover img{
@@ -180,19 +186,12 @@
     display: inline-block;
 }
 
-.Background_Drawing_ControlsBox .B .description{
-    margin-top: 3px;
-    margin-left: 10px;
-    text-align: center;
-    width: 70px;
-}
-
-
 
 
 
 
 .Background_Drawing_ControlsBox .B .magnify img{
+    margin-left: 14px;
     height: 32px;
 }
 
@@ -200,11 +199,26 @@
     opacity: 1;
 }
 
+.Background_Drawing_ControlsBox .B .description{
+    margin-top: 3px;
+    text-align: center;
+    width: 70px;
+}
 
 
 
+.Background_Drawing_ControlsBox .B .littleicons{
+    width: 20px;
+    text-align: center;
+}
 
+.Background_Drawing_ControlsBox .B .littleicons img{
+    height: 16px;
+}
 
+.Background_Drawing_ControlsBox .B .littleicons img:not(.disabled):hover{
+    opacity: 1;
+}
 
 
 
