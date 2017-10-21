@@ -5,9 +5,42 @@ const MotfSampleData = {
 	    name: "Molecule",
 	    uid: 0,
 	    Params: {
-		linked: [1,2,3],
-		random: [4,5,6],
-		random_free: [],
+		linked: [
+		    {
+			id: 0,
+			name: "LP01",
+			min: 30,
+			max: 75
+		    },
+		    {
+			id: 1,
+			name: "LP02",
+			min: 5,
+			max: 14
+		    },
+		    {
+			id: 2,
+			name: "LP03",
+			min: 30,
+			max: 40
+		    }
+		],
+		random: [
+		    {
+			id: 0,
+			name: "RP01",
+			min: 50,
+			max: 75    
+		    }
+		],
+		random_free: [
+		    {
+			id: 0,
+			name: "rP01",
+			min: 125,
+			max: 150   
+		    }
+		],
 		"CP_picks": []
 	    },
 	    /*

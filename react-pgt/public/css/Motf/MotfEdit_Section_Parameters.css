@@ -22,7 +22,6 @@
     height: 150px;
 }
 
-
 .MainTab_MotfEdit .parameters .col-1{
     width: 85px;
 }
@@ -30,6 +29,23 @@
 .MainTab_MotfEdit .parameters th{
     padding: 0px 10px;
 }
+
+.MainTab_MotfEdit .parameters .WgTable td{
+    padding: 0px;
+    text-align: left;
+}
+
+.MainTab_MotfEdit .parameters .WgTable .col-1 input.blue-cell{
+    width: 99px;
+}
+
+.MainTab_MotfEdit .parameters .WgTable .col-2 input.blue-cell,
+.MainTab_MotfEdit .parameters .WgTable .col-3 input.blue-cell{
+    width: 38px;
+}
+
+
+
 
 
 .MainTab_MotfEdit .parameters .parametersButtons{
