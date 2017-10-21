@@ -1,6 +1,8 @@
 import React from 'react';
 
+import WgBoxie from '../Wg/WgBoxie';
 import WgTable from '../Wg/WgTable';
+import {WgButton} from '../Wg/WgButton';
 
 
 class MotfEdit_Section_Parameters extends React.PureComponent {
@@ -9,28 +11,56 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
 	return ([
 	    {
 		heading: "Identifier",
-		renderCellContents: (param, i)=>{return "c1";}
+		renderCellContents: (param, i)=>{return "A-"+param;}
 	    },{
 		heading: "Min",
-		renderCellContents: (param, i)=>{return "c2";}
+		renderCellContents: (param, i)=>{return "B-"+param;}
 	    },{
 		heading: "Max",
-		renderCellContents: (param, i)=>{return "c3";}
+		renderCellContents: (param, i)=>{return "C-"+param;}
 	    }
 	]);
     }
     
     render(){
+
+	const Params = this.props.Motf.Params;
+	//this.props.handleEditingMotfChange
+
 	return (
-		<div className="parameters">
-		  <WgTable
+	    <WgBoxie className="parameters" name="Parameters">
+
+	      <WgTable
 		     selectedRowIndex={0}
 		     onRowSelectedChange={()=>{}}
-		     rowRenderingData={[ [], [], [], []]}
+		     rowRenderingData={Params.random}
 		     columnsRendering={this.MotfEdit_params_WgTableColumns()}
 		    />
 
+		<div className="rightSection">
+		  <div className="parametersButtons">
+
+		    <WgButton
+		       name="Delete"
+		       buttonStyle={"small"}
+		       />
+		    <WgButton
+		       name="New Linked Parameter"
+		       buttonStyle={"small"}
+		       />
+		    <WgButton
+		       name="New Random Parameter (instance)"
+		       buttonStyle={"small"}
+		       />
+		    <WgButton
+		       name="New Random Parameter (free)"
+		       buttonStyle={"small"}
+		       />
+
+		  </div>
 		</div>
+		
+	    </WgBoxie>
 	);
     }
 }

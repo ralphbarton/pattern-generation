@@ -175,6 +175,7 @@ class MainTab_MotfEdit extends React.PureComponent {
 		{/* >> Parameters */}
 		<MotfEdit_Section_Parameters
 		   Motf={this.state.Motf}
+		   handleEditingMotfChange={this.handleEditingMotfChange}
 		   />
 
 		

@@ -40,7 +40,7 @@ class Background_Drawing extends React.PureComponent {
 	// Code for testing only.
 	// to accelerate testing...
 	setTimeout( ()=>{
-	    this.setDrawing("139-03");
+	    this.setDrawing("146-04");
 	}, 0);
     }
 
@@ -112,7 +112,8 @@ class Background_Drawing extends React.PureComponent {
 	    // which photo of that drawing
 	    const ImgSet = this.dict_fullsize[imgKey];
 	    const imgIdx = this.state.img_index === null ? (ImgSet.length-1) : this.state.img_index;
-	    
+
+	    const s = new Date();
  	    return (
 		<div className="Background_Drawing">
 
@@ -156,6 +157,7 @@ class Background_Drawing extends React.PureComponent {
 				   transform: `scale(${this.state.zoom})`
 			       }}
 			       onMouseDown={(event) => { if(event.preventDefault) {event.preventDefault();}}}
+			       onLoad={()=>{console.log("imgLoad, took:", (new Date() - s));}}
 			    />
 			</WgFadeTransition>
 

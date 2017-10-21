@@ -14,7 +14,7 @@ class MainTab_Opts extends React.PureComponent {
 	     2 - split screen, halves horizontal divide
 	     3 - split screen, quarters
 	     */
-	    mode: {$set: 1}
+	    mode: {$set: 0}
 	});
     }
     

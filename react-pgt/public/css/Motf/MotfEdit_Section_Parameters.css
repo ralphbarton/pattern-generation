@@ -2,14 +2,24 @@
 
 .MainTab_MotfEdit .parameters{
     flex: 1 auto;
+    margin: 4px 6px;
+    margin-bottom: 0px;
 }
+
+.MainTab_MotfEdit .parameters .contents{
+    display: flex;
+}
+
+
+
+
 
 .MainTab_MotfEdit .parameters .WgTable{
     margin-bottom: 0px;
 }
 
 .MainTab_MotfEdit .parameters tbody{
-    height: 180px;
+    height: 150px;
 }
 
 
@@ -19,4 +29,16 @@
 
 .MainTab_MotfEdit .parameters th{
     padding: 0px 10px;
+}
+
+
+.MainTab_MotfEdit .parameters .parametersButtons{
+    position: absolute;
+    bottom: 10px;
+}
+
+.MainTab_MotfEdit .parameters .parametersButtons button{
+    text-align: left;
+    width: 217px;
+    margin: 2px;
 }

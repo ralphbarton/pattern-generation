@@ -5,8 +5,9 @@ const MotfSampleData = {
 	    name: "Molecule",
 	    uid: 0,
 	    Params: {
-		"links": [],
-		"random": [],
+		linked: [1,2,3],
+		random: [4,5,6],
+		random_free: [],
 		"CP_picks": []
 	    },
 	    /*
@@ -52,8 +53,9 @@ const MotfSampleData = {
 	    name: "Tetris went home",
 	    uid: 1,
 	    Params: {
-		"links": [],
-		"random": [],
+		linked: [],
+		random: [],
+		random_free: [],
 		"CP_picks": []
 	    },
 	    objectOrigin: "TL1",
@@ -195,8 +197,9 @@ const MotfSampleData = {
 	    name: "Atom",
 	    uid: 7,
 	    "Params": {
-		"links": [],
-		"random": [],
+		linked: [],
+		random: [],
+		random_free: [],
 		"CP_picks": []
 	    },
 	    objectOrigin: "TL1",
