@@ -8,6 +8,9 @@ import {fabric}  from 'fabric';
 
 import Motf_lists from './Motf_lists';
 
+// for demo below
+//import TextureImg from '../../asset/texture.png';
+
 //query split this file up??
 
 
@@ -114,6 +117,17 @@ var Motf_util = {
 
 	    // Filter the props object, using Lodash pick
 	    new_shape = new fabric[ShapeDetails.fabricKey]( _.pick(props, validKeys) );
+
+	    /*
+	      //demo code for adding applying a background pattern in Fabric JS
+
+	    fabric.util.loadImage(TextureImg, function(img) {
+		new_shape.set('fill', new fabric.Pattern({
+		    source: img,
+		    repeat: "repeat"
+		}));
+	    });
+	    */
 
 	    /*
 	      // I have not re-integrated this logic...
