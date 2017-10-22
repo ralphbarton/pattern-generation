@@ -55,6 +55,9 @@ class Background_Patt extends React.PureComponent {
 
 	    
 	}
+
+
+	// 3. generate the pattern SVG
 	
 	// signature:     putPatternSVG: function(svg_el, Pointset, Motif, motif_props)
 	Patt_util.putPatternSVG(this.svgElement, Pointset, Motf, motif_props);

@@ -151,7 +151,7 @@ class Background extends React.PureComponent {
 	    <div className="Background">
 	      {( ()=>{
 
-		  if(opts_UI.mode === 0){ // 0 - fullscreen
+		  if(opts_UI.mode === 0 || (!opts_UI.mode) ){ // 0 - fullscreen - for now, also a fallback...
 		      return(
 			  <PaneContent n={1} dims={dims} {...this.props}/> // forward ALL props...
 		      );

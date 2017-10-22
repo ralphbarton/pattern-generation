@@ -21,7 +21,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 2,//default Tab selection /* 0-cpot, 1-cfun, 2-motf, 8-Opt*/
+	    selectedTabIndex: 6,//default Tab selection /* 0-cpot, 1-cfun, 2-motf, 6-patt, 7-Opt*/
 	    tabsEnabled: true
 	};
     }
@@ -150,15 +150,7 @@ class Toolbox extends React.PureComponent {
 				  );
 			      }
 
-			  },{// Tab 8 - Examples
-			      name: "Examples",
-			      renderJSX: ()=>{
-				  return(
-				      <span> Examples JSX to go here... </span>
-				  );
-			      }
-
-			  },{// Tab 9 - Options
+			  },{// Tab 8 - Options
 			      name: "Options",
 			      renderJSX: ()=>{
 				  return(
@@ -166,14 +158,6 @@ class Toolbox extends React.PureComponent {
 					 UI={this.props.UIState['opts']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"opts": $chg});}}
 					 />
-				  );
-			      }
-
-			  },{// Tab 10 - Tutorial
-			      name: "Tutorial",
-			      renderJSX: ()=>{
-				  return(
-				      <span> Tutorial JSX to go here... </span>
 				  );
 			      }
 			  }

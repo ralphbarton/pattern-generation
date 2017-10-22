@@ -49,7 +49,42 @@ var Motf_util = {
 	};
     },
 
+    
+    parseMotifElement: function(format, Element){
 
+	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: Element.shape} );
+
+	if(format === 'fabric'){ // "properties object" for Fabric
+
+	    // for any shape
+	    
+	    // Every Fabric key (of the Element) is the string used as its DatH_Key
+	    const validKeys = ShapeDetails.ObjectFabricProperties.map( o =>{return o.DatH_Key ;} );
+
+	    // Filter the Element object for valid props, using Lodash pick
+	    return _.pick(Element, validKeys);
+
+
+	}else if(format === 'svg'){ // "properties object" for SVG
+
+	    // mutate...
+	    // 1. svg object "attributes" defined the geometry
+	    var Attrs = _.pick(Element, ["cx", "cy", "rx", "ry", "transform"]);
+
+	    // 2. svg object "styles" defined the colour, border etc.
+	    var Styles = _.pick(Element, ["fill", "stroke", "stroke-width"]);
+
+	    return {
+		attrs: Attrs,
+		styles: Styles
+	    };
+	    
+	}else{
+	    console.error("parseMotifElement() was required to convert to an unknown format");
+	}
+    },
+
+    
     putMotifSVG: function(svg_el, Motif, options){
 
 	const d3_svg = select(svg_el);
@@ -104,19 +139,20 @@ var Motf_util = {
 
 
     // generate Fabric object from object saved in DatH
-    Fabric_AddShape: function(canvas, props){
+    Fabric_AddShape: function(canvas, Element){
 
-	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: props.shape} );
+	/*
+	  Port more of the logic here into the other function, "parseMotifElement()" ?
+	 */
+	
+	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: Element.shape} );
 	var new_shape = undefined;
 	
 	if(ShapeDetails.fabricKey){ // test if this shape has a Fabric key stored with...
+
 	    // its a native Fabric shape
-
-	    // Every Fabric key is the string used as its DatH_Keys
-	    const validKeys = ShapeDetails.ObjectFabricProperties.map( o =>{return o.DatH_Key ;} );
-
-	    // Filter the props object, using Lodash pick
-	    new_shape = new fabric[ShapeDetails.fabricKey]( _.pick(props, validKeys) );
+	    const rendering_props = this.parseMotifElement("fabric", Element);
+	    new_shape = new fabric[ShapeDetails.fabricKey]( rendering_props );
 
 	    /*
 	      //demo code for adding applying a background pattern in Fabric JS
@@ -129,10 +165,12 @@ var Motf_util = {
 	    });
 	    */
 
+//	    new_shape.set('top', Math.random()*200);
+	    
 	    /*
 	      // I have not re-integrated this logic...
-	      stroke: (props.strokeWidth !== undefined) ? props.stroke : null, //Fabric assumes strokeWidth 1 if stroke supplied
-	      strokeWidth: props.strokeWidth || null,// undefined causes problems but null OK!
+	      stroke: (Element.strokeWidth !== undefined) ? Element.stroke : null, //Fabric assumes strokeWidth 1 if stroke supplied
+	      strokeWidth: Element.strokeWidth || null,// undefined causes problems but null OK!
 	     */
 	    
 	}else{
@@ -141,8 +179,8 @@ var Motf_util = {
 /*
 
   //   Hexagon...
-	    var W1 = 0.5 * props.width;
-	    var W2 = 0.5 * props.height / 0.866;
+	    var W1 = 0.5 * Element.width;
+	    var W2 = 0.5 * Element.height / 0.866;
 	    var Wm = Math.min(W1, W2);
 	    var Wh = Wm * 0.866;
 
@@ -159,16 +197,16 @@ var Motf_util = {
 		    OC(0.5*Wm, 2*Wh),
 		    OC(0, Wh)
 		], {
-		    left: props.left,
-		    top: props.top,
-		    fill: props.fill
+		    left: Element.left,
+		    top: Element.top,
+		    fill: Element.fill
 		}
 	    );
 */	    
 	}
 
 	//Not done by the Fabric Contructor: set UID according to value provided.
-	new_shape.PGTuid = props.PGTuid;	
+	new_shape.PGTuid = Element.PGTuid;	
 	canvas.add(new_shape);
     },
 

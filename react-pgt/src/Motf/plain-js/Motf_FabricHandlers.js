@@ -216,10 +216,9 @@ var Motf_FabricHandlers = {
 	const originProps = Motf_lists.objectOrigins[Motf.objectOrigin];
 	
 	// 3. (re-)add all the objects
-	_.forEach(Motf.Elements, function(Properties, index) { // (value, key)
-	    // '_.assign' - Lodash Docs: This method mutates object - does this alter the Motf object, then??
-	    _.assign(Properties, originProps);
-	    Motf_util.Fabric_AddShape(canvas, Properties);        // Add to Fabric Canvas
+	_.forEach(Motf.Elements, function(Element, index) { // (value, key)
+	    const Element_2 = _.assign( _.clone(Element), originProps);//add the Object Origins props for Fabric...
+	    Motf_util.Fabric_AddShape(canvas, Element_2);        // Add to Fabric Canvas
 	});
 
 	// 4. set the correct canvas selection	
