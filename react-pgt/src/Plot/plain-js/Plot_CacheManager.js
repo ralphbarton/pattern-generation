@@ -10,53 +10,118 @@ var Plot_CacheManager = {
     },
 
 
-    plot_index: null,
-    resolution_pass: null,
+    
+
 
     Start: function(args){
 
 	this.setCache = args.setPlotCache;
-	this.plot_index = 0;
-	this.resolution_pass = 0;
 
 	Plot_RenderManager.init({
 	    onRenderComplete: this.handleRenderComplete.bind(this),
 	    onStatsComplete: this.handleStatsComplete.bind(this)
 	});
-	
-
 
 
 	
+	// start the recursive chain...
+	_.assign(this.render_specification, {
+	    plot_index: 0,
+	    resolution_pass: 0
+	});
+	this.launchRender();
+	
+    },
+
+
+    render_specification: {
+	// fixed
+	useWorker:          true,  // initial v.fast render without worker???
+	workerRequestToken: 99, // does this server a purpose
+	intermediateRender: false, /////////////////////SURELY this needs to be removed as a function??
+	colouringFunction:  2,// always generate a heatmap version... // this.plotUIState.colouringFunction
+
+	// varying
+	Plot:               null,
+	width:              null,
+	height:             null,
+	resolution:         null,
+
+	// other
+	plot_index:         null,
+	resolution_pass:    null,
+	splitMode:          null
     },
     
     launchRender: function(){
 
-	/*
-	Plot_RenderManager.render({
-	    useWorker: true,
-	    workerRequestToken: (this.state.workerRequestToken), //deleted the +1, used if State not yet updated
-	    Plot: Plot,
-	    width: this.winW,
-	    height: this.winH,
-	    intermediateRender: true,
-	    resolution: plotUIState.plotResolution,
-	    colouringFunction: plotUIState.colouringFunction
-	});*/
+	const index = this.render_specification.plot_index;
+	
+	//set latest values
+	_.assign(this.render_specification, {
+	    Plot:       this.plotArray[index],
+	    width:      this.paneCfg.paneDims.width,
+	    height:     this.paneCfg.paneDims.height,
+	    resolution: this.plotUIState.plotResolution,
+	    splitMode:  this.paneCfg.splitMode
+	});
+	
+	Plot_RenderManager.render(this.render_specification);
 	
     },
 
 
     handleRenderComplete: function(msg){
 
+	const uid       = this.render_specification.Plot.uid;
+	const splitMode = this.render_specification.splitMode;
+	
+	if(! this.cacheCurrent[uid]){
+	    //create new fields
+	    console.log("new");
+	    this.setCache({
+		$set: {
+		    [uid]: {
+
+			render_specification: this.render_specification, // this is not quite right...
+			ImgData: {
+			    [splitMode]: {				
+				greyscale: msg.ImageData_grey,
+				heatmap:   msg.ImageData_heatmap
+			    }
+			}
+		    }
+		}
+	    });
+
+	}else{
+	    //update without overwrite
+	    console.log("ovr");
+	    this.setCache({
+		[uid]: {
+		    render_specification: {$set: this.render_specification}, // this is not quite right...
+		    ImgData: {
+			[splitMode]: {
+			    $set: {
+				greyscale: msg.ImageData_grey,
+				heatmap:   msg.ImageData_heatmap
+			    }
+			}
+		    }
+		}
+	    });
+	}
+	
+
     },
 
     //handler for when worker coughs up the stats...
     handleStatsComplete: function(msg){
+	/*
 	if(msg.workerRequestToken !== this.state.workerRequestToken){return;}
 	this.props.setPlotUIState({
 	    stats_obj: {$set: msg.stats_obj}
-	});
+	});*/
     },
     
 
@@ -68,6 +133,7 @@ var Plot_CacheManager = {
 	this.plotArray = data.plotArray;
 	this.plotUIState = data.plotUIState;
 	this.paneCfg = data.paneCfg;
+	this.cacheCurrent = data.cacheCurrent;
     }
     
 };

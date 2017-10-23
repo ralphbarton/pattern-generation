@@ -125,14 +125,16 @@ class PGT_App extends React.PureComponent {
 		Plot_CacheManager.newData({
 		    plotArray: this.state.PGTobjARRAYS["plot"],
 		    plotUIState: this.state.UI["plot"],
-		    paneCfg: data //this.state.DensityImgCache.paneCfg (not ready yet...)
+		    paneCfg: data, //this.state.DensityImgCache.paneCfg (not ready yet...)
+		    cacheCurrent: this.state.DensityImgCache["plot"]
 		});
 
 		// 
 		Plot_CacheManager.Start({
 		    setPlotCache: $update => {
+			const oldCache = this.state.DensityImgCache;
 			this.setState({
-			    UI: update(this.latestUI, $update)
+			    DensityImgCache: update(oldCache, {plot: $update})
 			});
 		    }
 		});
