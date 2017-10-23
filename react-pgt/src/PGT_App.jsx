@@ -117,8 +117,30 @@ class PGT_App extends React.PureComponent {
 	    this.setState({
 		DensityImgCache: {paneCfg: {$set: data}}
 	    });
+
+	    // Start the Plot_CacheManager, and send data to it... if not already running.
+	    if(!Plot_CacheManager.isRunning()){
+
+		// 1. pass in everything...
+		Plot_CacheManager.newData({
+		    plotArray: this.state.PGTobjARRAYS["plot"],
+		    plotUIState: this.state.UI["plot"],
+		    paneCfg: data //this.state.DensityImgCache.paneCfg (not ready yet...)
+		});
+
+		// 
+		Plot_CacheManager.Start({
+		    setPlotCache: $update => {
+			this.setState({
+			    UI: update(this.latestUI, $update)
+			});
+		    }
+		});
+
+	    }
 	}
 
+	
     }
     
     handleToastMsg(toastDetailsObj){
@@ -135,9 +157,8 @@ class PGT_App extends React.PureComponent {
 	      {/* 1. Backgrounds */}
 	      <Background
 		 PGTobjARRAYS={this.state.PGTobjARRAYS}
-		 onPGTobjARRAYSChange={this.handlePGTobjARRAYSChange} // this will soon be GONE (plots uses, saturation vals)! 
 		 UIState={this.state.UI}
-		 onUIStateChange={this.handleUIStateChange} // this will soon be GONE (plots uses, timings/stats )! 
+		 PlotImgCache={this.state.DensityImgCache["plot"]}
 		 onPaneConfigChange={this.handlePlotCacheChange.bind(null,"paneCfg")}
 		 />
 	      

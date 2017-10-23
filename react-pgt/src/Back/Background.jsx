@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Background_Grid from '../Grid/Background_Grid';
-import Background_Plot from '../Plot/Background_Plot';
+import Background_Plot2 from '../Plot/Background_Plot2';
 import Background_Patt from '../Patt/Background_Patt';
 
 import Background_Drawing from './Background_Drawing';
@@ -38,12 +38,11 @@ class PaneContent extends React.PureComponent {
 		  //CONDITIONALLY RENDER PLOT BACKGROUND COMPONENT...
 		  (this.props.UIState['plot'].selectedRowIndex !== undefined) &&
 			  
-			  <Background_Plot
+			  <Background_Plot2
 				 dims={this.props.dims}
 				 plotArray={this.props.PGTobjARRAYS['plot']}
-				 onPlotArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "plot")} // to delete..
 				 plotUIState={this.props.UIState['plot']}
-				 setPlotUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}} // to delete..
+				 PlotImgCache={this.props.PlotImgCache}
 				/>
 	      }
 
