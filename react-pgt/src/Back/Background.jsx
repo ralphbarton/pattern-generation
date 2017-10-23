@@ -41,9 +41,9 @@ class PaneContent extends React.PureComponent {
 			  <Background_Plot
 				 dims={this.props.dims}
 				 plotArray={this.props.PGTobjARRAYS['plot']}
-				 onPlotArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "plot")}
+				 onPlotArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "plot")} // to delete..
 				 plotUIState={this.props.UIState['plot']}
-				 setPlotUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
+				 setPlotUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}} // to delete..
 				/>
 	      }
 
@@ -56,7 +56,6 @@ class PaneContent extends React.PureComponent {
 				 pattArray={this.props.PGTobjARRAYS['patt']}
 				 PGTobjARRAYS={this.props.PGTobjARRAYS} // this is a superset of the data passed above...
 				 pattUIState={this.props.UIState['patt']}
-				 setPattUIState={($chg)=>{this.props.onUIStateChange({"patt": $chg});}}
 				/>
 	      }
 
@@ -108,6 +107,8 @@ class Background extends React.PureComponent {
 	    }
 	}
 
+	this.cfg.paneDimsAR = dims2;
+	
 	return (
 	    <div className={constrain?"constrain":""} style={dims} key={n}>
 	      <div className="page" style={dims2}>
@@ -125,10 +126,21 @@ class Background extends React.PureComponent {
 
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+
+	// positive selection props which are bound functions will be a different object each time
+	const c1 = nextProps.PGTobjARRAYS  !== this.props.PGTobjARRAYS;
+	const c2 = nextProps.UIState       !== this.props.UIState;
+
+	//also, any state change
+	const c3 = nextState !== this.state;
+	
+	return c1 || c2 || c3;
+    }
 
     componentDidUpdate(){
 	// "this.cfg" - the screen configuration...
-	console.log(this.cfg);
+	this.props.onPaneConfigChange(this.cfg);
     }
     
     render() {
@@ -172,6 +184,8 @@ class Background extends React.PureComponent {
 		paneIDs: [1,2,3,4]
 	    };
 	}
+	
+	this.cfg.dims = dims;
 	const S = this.cfg;
 
 	

@@ -16,6 +16,10 @@ import Toolbox from './Toolbox';
 import Background from './Back/Background';
 import ToastManager from './ToastManager';
 
+//Other utilities...
+import Plot_CacheManager from './Plot/plain-js/Plot_CacheManager';
+
+
 class PGT_App extends React.PureComponent {
 
     constructor() {
@@ -38,6 +42,7 @@ class PGT_App extends React.PureComponent {
 		"opts": {}
 	    },
 	    DensityImgCache: {
+		"paneCfg": {},
 		"plot": {},
 		"pain": {}
 	    }
@@ -49,12 +54,12 @@ class PGT_App extends React.PureComponent {
 	// directly also works...
 	this.handleUIStateChange = this.handleUIStateChange.bind(this);
 	this.handlePGTobjARRAYSChange = this.handlePGTobjARRAYSChange.bind(this);
+	this.handlePlotCacheChange = this.handlePlotCacheChange.bind(this);
 	this.handleToastMsg = this.handleToastMsg.bind(this);
     }
 
     handlePGTobjARRAYSChange(dataCategory, changeType, details){
 	// dataCategory is the string "cpot", "grid", "plot" etc...
-	console.log(dataCategory);
 
 	const oldArrs = this.state.PGTobjARRAYS;
 
@@ -75,7 +80,7 @@ class PGT_App extends React.PureComponent {
 	 Responses to events can seem to fail to occur in the Software.
 
 	 This is due to the fact that 'this.state' only consolidates (i.e. actually changes) when the the component,
-	 updates, so after the first call (within a response to handling one single event) state state information
+	 updates, so after the first call (within a response to handling one single event) stale state information
 	 starts to be used.
 
 	 to get round this, I am declaring some new 'member data' for the component/class, 'latestUI'. This will
@@ -88,6 +93,34 @@ class PGT_App extends React.PureComponent {
 	});
     }
 
+    handlePlotCacheChange(event, data){
+
+
+	if(event === "paneCfg"){
+	    /*
+	     data={
+	       splitMode
+	       paneDims
+	       dims
+	       paneDimsAR
+	     }
+
+	     if data["dims"] is changed, this is a window resize, scrap everything.
+
+	     if data["splitMode"] is changed, a different pane config is selected right now, keep the old data
+	     in this case, use paneDimsAR.
+
+	     However, if data["paneDimsAR"] is different for the same data["splitMode"], scrap everthing? (different Drawing)
+
+	     */
+	    
+	    this.setState({
+		DensityImgCache: {paneCfg: {$set: data}}
+	    });
+	}
+
+    }
+    
     handleToastMsg(toastDetailsObj){
 	const count = this.state.toastCount || 0;
 	this.setState({
@@ -102,9 +135,10 @@ class PGT_App extends React.PureComponent {
 	      {/* 1. Backgrounds */}
 	      <Background
 		 PGTobjARRAYS={this.state.PGTobjARRAYS}
-		 onPGTobjARRAYSChange={this.handlePGTobjARRAYSChange}
+		 onPGTobjARRAYSChange={this.handlePGTobjARRAYSChange} // this will soon be GONE (plots uses, saturation vals)! 
 		 UIState={this.state.UI}
-		 onUIStateChange={this.handleUIStateChange}
+		 onUIStateChange={this.handleUIStateChange} // this will soon be GONE (plots uses, timings/stats )! 
+		 onPaneConfigChange={this.handlePlotCacheChange.bind(null,"paneCfg")}
 		 />
 	      
 	      {/* 2. Floating (draggable) Toolbox */}
