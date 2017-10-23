@@ -140,24 +140,25 @@ var Motf_lists = {
     ObjectProperties:[
 	// 1. Placement & Size
 	{
-	    shortName: "x",
-	    isFabricKey: true,
 	    DatH_Key: "left",
-	    manditory: true,
+	    shortName: "x",
 	    type: "number",
-	    unit: "pixels"
-	},
-	{
-	    shortName: "y",
+	    unit: "pixels",
 	    isFabricKey: true,
-	    DatH_Key: "top",
-	    type: "number",
-	    unit: "pixels"
+	    manditory: true
+
 	},
 	{
+	    DatH_Key: "top",
+	    shortName: "y",
+	    type: "number",
+	    unit: "pixels",
+	    isFabricKey: true
+	},
+	{
+	    DatH_Key: "width",
 	    shortName: "width",
 	    isFabricKey: true,
-	    DatH_Key: "width",
 	    type: "number",
 	    unit: "pixels"
 	},

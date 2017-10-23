@@ -36,19 +36,28 @@ class PGT_App extends React.PureComponent {
 		"motf": {},
 		"patt": {},
 		"opts": {}
+	    },
+	    DensityImgCache: {
+		"plot": {},
+		"pain": {}
 	    }
 	};
+
 	this.latestUI = this.state.UI;
 
 	// these declarations seem to be recommended in React examples, but passing the bound function as a prop
 	// directly also works...
 	this.handleUIStateChange = this.handleUIStateChange.bind(this);
-	this.handleDataChange = this.handleDataChange.bind(this);
+	this.handlePGTobjARRAYSChange = this.handlePGTobjARRAYSChange.bind(this);
 	this.handleToastMsg = this.handleToastMsg.bind(this);
     }
 
-    handleDataChange(dataCategory, changeType, details){
+    handlePGTobjARRAYSChange(dataCategory, changeType, details){
+	// dataCategory is the string "cpot", "grid", "plot" etc...
+	console.log(dataCategory);
+
 	const oldArrs = this.state.PGTobjARRAYS;
+
 	// This function call returns an updated Array...
 	const dataUpdate = DatH.immutUpdateAllArrays(oldArrs, dataCategory, changeType, details);
 	this.setState({
@@ -93,7 +102,7 @@ class PGT_App extends React.PureComponent {
 	      {/* 1. Backgrounds */}
 	      <Background
 		 PGTobjARRAYS={this.state.PGTobjARRAYS}
-		 onPGTobjARRAYSChange={this.handleDataChange}
+		 onPGTobjARRAYSChange={this.handlePGTobjARRAYSChange}
 		 UIState={this.state.UI}
 		 onUIStateChange={this.handleUIStateChange}
 		 />
@@ -101,7 +110,7 @@ class PGT_App extends React.PureComponent {
 	      {/* 2. Floating (draggable) Toolbox */}
 	      <Toolbox
 		 PGTobjARRAYS={this.state.PGTobjARRAYS}
-		 onPGTobjARRAYSChange={this.handleDataChange}
+		 onPGTobjARRAYSChange={this.handlePGTobjARRAYSChange}
 		 UIState={this.state.UI}
 		 onUIStateChange={this.handleUIStateChange}
 		 onToastMsg={this.handleToastMsg}

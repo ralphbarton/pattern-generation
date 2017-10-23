@@ -55,7 +55,6 @@ class PaneContent extends React.PureComponent {
 				 dims={this.props.dims}
 				 pattArray={this.props.PGTobjARRAYS['patt']}
 				 PGTobjARRAYS={this.props.PGTobjARRAYS} // this is a superset of the data passed above...
-				 onPattArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "patt")}
 				 pattUIState={this.props.UIState['patt']}
 				 setPattUIState={($chg)=>{this.props.onUIStateChange({"patt": $chg});}}
 				/>
@@ -125,6 +124,12 @@ class Background extends React.PureComponent {
 	);
 
     }
+
+
+    componentDidUpdate(){
+	// "this.cfg" - the screen configuration...
+	console.log(this.cfg);
+    }
     
     render() {
 
@@ -142,63 +147,52 @@ class Background extends React.PureComponent {
 	const winHhalfM = Math.floor(winHM/2 - M);
 	
 	const dims = {width: winW, height: winH};
+	
+	if(opts_UI.mode === 0 || (!opts_UI.mode) ){// 0 - fullscreen - also a fallback if no mode set...
+	    this.cfg = {
+		splitMode: "single",
+		paneDims: dims
+	    };
+	}else if(opts_UI.mode === 1){ // 1 - split screen, halves vertical divide
+	    this.cfg = {
+		splitMode: "vertical",
+		paneDims: {width: winWhalfM, height: winHM},
+		paneIDs: [1,2]
+	    };
+	}else if(opts_UI.mode === 2){ // 2 - split screen, halves horizontal divide
+	    this.cfg = {
+		splitMode: "horizontal",
+		paneDims: {width: winWM, height: winHhalfM},
+		paneIDs: [1,2]
+	    };
+	}else{ // 3 - split screen, quarters
+	    this.cfg = {
+		splitMode: "quad",
+		paneDims: {width: winWhalfM, height: winHhalfM},
+		paneIDs: [1,2,3,4]
+	    };
+	}
+	const S = this.cfg;
 
-	const dims_vert2 = {width: winWhalfM, height: winHM};
-	const dims_hori2 = {width: winWM, height: winHhalfM};
-	const dims_quad = {width: winWhalfM, height: winHhalfM};
 	
 	return (
 	    <div className="Background">
-	      {( ()=>{
 
-		  if(opts_UI.mode === 0 || (!opts_UI.mode) ){ // 0 - fullscreen - for now, also a fallback...
-		      return(
-			  <PaneContent n={1} dims={dims} {...this.props}/> // forward ALL props...
-		      );
+	      {
+		  S.splitMode === "single" &&
+		      <PaneContent n={1} dims={dims} {...this.props}/> // forward ALL props...
+	      }
 
-		  }else if(opts_UI.mode === 1){ // 1 - split screen, halves vertical divide
-
-
-		      return(
-			  <div className="bg-grey vertical" style={dims}>
-
-			    {
-				[1,2].map(n=>{
-				    return this.renderWrappedPane(n, dims_vert2);
+	      {
+		  S.splitMode !== "single" &&
+		      <div className={"bg-grey "+S.splitMode} style={dims}>
+		 	    {
+				S.paneIDs.map(n => {
+				    return this.renderWrappedPane(n, S.paneDims);
 				})
 			    }
-			    
-			  </div>
-		      );
-
-		  }else if(opts_UI.mode === 2){ // 2 - split screen, halves horizontal divide
-		      return(
-			  <div className="bg-grey horizontal" style={dims}>
-
-			    {
-				[1,2].map(n=>{
-				    return this.renderWrappedPane(n, dims_hori2);
-				})
-			    }
-			    
-			  </div>
-		      );
-
-		  }else{ // 3 - split screen, quarters
-		      return(
-			  <div className="bg-grey quad" style={dims}>
-
-			    {
-				[1, 2, 3, 4].map(n=>{
-				    return this.renderWrappedPane(n, dims_quad);
-				})
-			    }
-			    
-			  </div>
-		      );
-		  }
-
-	      } )()}
+		      </div>
+	      }
 
 	    </div>
 	);
