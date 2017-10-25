@@ -23,16 +23,13 @@ onmessage = function(msg) {
 
     // now command the latest requested job to happen very shortly
     // the timout provides opportunity for it to be cancelled, if a more up-to-date request exists later in the queue
-
-    
     largeJobTimeoutID = setTimeout(function(){
 
 	const winW = msg.data.width;
 	const winH = msg.data.height
 	const Plot = msg.data.Plot;
-	const cell_size = msg.data.resolution;//this.CellSizes[this.wcx.res];
+	const cell_size = msg.data.resolution;
 	
-	const token = msg.data.workerRequestToken;
 	const heatmap = msg.data.colouringFunction === 2 ? heatmapLookup : null;
 
 	const RenderResult = Plot_render.GenerateImageData(Plot, winW, winH, cell_size, heatmap);
@@ -40,13 +37,13 @@ onmessage = function(msg) {
 	    ImageData_grey: RenderResult.ImageData_grey,
 	    ImageData_heatmap: RenderResult.ImageData_heatmap,
 	    RenderScale: RenderResult.RenderScale, // this obj holds the numeric values for black, white
-	    workerRequestToken: token
+	    requestObject: msg.data
 	});
 
 	const stats_obj = Plot_render.getLastStatistics();
 	postMessage({
 	    stats_obj: stats_obj,
-	    workerRequestToken: token
+	    requestObject: msg.data
 	});
 
     }, 5);// 5 milliseconds...

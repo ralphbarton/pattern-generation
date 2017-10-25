@@ -12,12 +12,9 @@ class Background_Plot2 extends React.PureComponent {
 	
 	// extract the correct ImgData from the cache...
 	const plotUid = plotUIState.selectionUid;
-	const colouringFunction = plotUIState.colouringFunction;
+	const colour = plotUIState.colouringFunction === 2 ? "heatmap" : "greyscale";
 
-
-
-	const uid = 0;
-	const ImgData = this.props.PlotImgCache[uid].ImgData.single.greyscale;
+	const ImgData = this.props.PlotImgCache[plotUid].ImgData.single[colour];
 	
 	const ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(ImgData, 0, 0);

@@ -43,7 +43,7 @@ class PGT_App extends React.PureComponent {
 	    },
 	    DensityImgCache: {
 		"paneCfg": {},
-		"plot": {},
+		"plot": {k: "v"}, //even though UIDs are all integer, I want this to be an object
 		"pain": {}
 	    }
 	};
@@ -113,9 +113,10 @@ class PGT_App extends React.PureComponent {
 	     However, if data["paneDimsAR"] is different for the same data["splitMode"], scrap everthing? (different Drawing)
 
 	     */
-	    
+
+	    const newCache = update(this.state.DensityImgCache, {paneCfg: {$set: data}});
 	    this.setState({
-		DensityImgCache: {paneCfg: {$set: data}}
+		DensityImgCache: newCache
 	    });
 
 	    // Start the Plot_CacheManager, and send data to it... if not already running.
@@ -128,14 +129,16 @@ class PGT_App extends React.PureComponent {
 		    paneCfg: data, //this.state.DensityImgCache.paneCfg (not ready yet...)
 		    cacheCurrent: this.state.DensityImgCache["plot"]
 		});
-
-		// 
+		
 		Plot_CacheManager.Start({
 		    setPlotCache: $update => {
 			const oldCache = this.state.DensityImgCache;
+			const newCache = update(oldCache, {plot: $update});
+
 			this.setState({
-			    DensityImgCache: update(oldCache, {plot: $update})
+			    DensityImgCache: newCache
 			});
+			return newCache;
 		    }
 		});
 

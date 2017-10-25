@@ -4,9 +4,9 @@ import Plot_RenderManager from './Plot_RenderManager';
 
 var Plot_CacheManager = {
 
-    
+    running: false,
     isRunning: function(){
-
+	return this.running;
     },
 
 
@@ -29,8 +29,10 @@ var Plot_CacheManager = {
 	    plot_index: 0,
 	    resolution_pass: 0
 	});
+
+	console.log("Plot_CacheManager.Start()");
 	this.launchRender();
-	
+	this.running = true;
     },
 
 
@@ -55,19 +57,37 @@ var Plot_CacheManager = {
     
     launchRender: function(){
 
-	const index = this.render_specification.plot_index;
+	var moreWorkFound = false;
+	const cache = this.cacheCurrent;
 	
-	//set latest values
-	_.assign(this.render_specification, {
-	    Plot:       this.plotArray[index],
-	    width:      this.paneCfg.paneDims.width,
-	    height:     this.paneCfg.paneDims.height,
-	    resolution: this.plotUIState.plotResolution,
-	    splitMode:  this.paneCfg.splitMode
-	});
-	
-	Plot_RenderManager.render(this.render_specification);
-	
+	// 1. decide what to render...
+	for(var i = 0; i<this.plotArray.length; i++){
+
+	    const Plot = this.plotArray[i];
+
+	    //Test: is there NOTHING in the cache for that particular Plot...
+	    if( !cache || !cache["plot"][Plot.uid]){
+
+		//set latest values
+		_.assign(this.render_specification, {
+		    Plot:       Plot,
+		    width:      this.paneCfg.paneDims.width,
+		    height:     this.paneCfg.paneDims.height,
+		    resolution: 5,// do it fast... //this.plotUIState.plotResolution,
+		    splitMode:  this.paneCfg.splitMode
+		});
+		moreWorkFound = true;
+		break;
+	    }
+	}
+
+	// 2. Command render, in a separate thread...
+	if(moreWorkFound){
+	    Plot_RenderManager.render(this.render_specification);	
+	}else{
+	    console.log("all cached rendering up to date...");
+	    this.running = false;
+	}
     },
 
 
@@ -75,14 +95,15 @@ var Plot_CacheManager = {
 
 	const uid       = this.render_specification.Plot.uid;
 	const splitMode = this.render_specification.splitMode;
-	
-	if(! this.cacheCurrent[uid]){
-	    //create new fields
-	    console.log("new");
-	    this.setCache({
-		$set: {
-		    [uid]: {
 
+	const cache = this.cacheCurrent || {plot: null};
+	
+	if( !cache || !cache["plot"] || !cache["plot"][uid]){
+	    //create new fields
+	    console.log("storing cache data for a previously un-cached render...", uid);
+	    this.cacheCurrent = this.setCache({
+		[uid]: {
+		    $set: {
 			render_specification: this.render_specification, // this is not quite right...
 			ImgData: {
 			    [splitMode]: {				
@@ -96,8 +117,8 @@ var Plot_CacheManager = {
 
 	}else{
 	    //update without overwrite
-	    console.log("ovr");
-	    this.setCache({
+	    console.log("cache update commanded...");
+	    this.cacheCurrent = this.setCache({
 		[uid]: {
 		    render_specification: {$set: this.render_specification}, // this is not quite right...
 		    ImgData: {
@@ -111,7 +132,6 @@ var Plot_CacheManager = {
 		}
 	    });
 	}
-	
 
     },
 
@@ -122,6 +142,9 @@ var Plot_CacheManager = {
 	this.props.setPlotUIState({
 	    stats_obj: {$set: msg.stats_obj}
 	});*/
+
+	//recursive call...
+	this.launchRender();
     },
     
 
@@ -133,7 +156,6 @@ var Plot_CacheManager = {
 	this.plotArray = data.plotArray;
 	this.plotUIState = data.plotUIState;
 	this.paneCfg = data.paneCfg;
-	this.cacheCurrent = data.cacheCurrent;
     }
     
 };
