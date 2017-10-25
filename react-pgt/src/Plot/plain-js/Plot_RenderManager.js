@@ -6,6 +6,18 @@ import tinycolor from 'tinycolor2';
 var _ = require('lodash');
 
 
+/*
+ /// intermediate resolution rules...
+
+	    if(finRes === 1){cell_size = 3;}
+	    else if(finRes === 2){cell_size = 5;}
+	    else if(finRes === 3){cell_size = 10;}
+	    else if(finRes < 10){cell_size = 15;}
+	    else {pass =1;}
+
+*/
+
+
 
 var Plot_RenderManager = {
     

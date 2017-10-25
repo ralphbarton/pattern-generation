@@ -4,8 +4,7 @@ importScripts("Plot_render_pub.js");
 
 
 var heatmapLookup = undefined;
-
-var largeJobTimeoutID = undefined;
+var renderJobTimeoutID = undefined;
 
 onmessage = function(msg) {
 
@@ -18,42 +17,29 @@ onmessage = function(msg) {
     }
 
     //clear any previously set job...
-    if(largeJobTimeoutID !== undefined){
-	clearTimeout(largeJobTimeoutID)
+    if(renderJobTimeoutID !== undefined){
+	clearTimeout(renderJobTimeoutID)
     }
 
     // now command the latest requested job to happen very shortly
     // the timout provides opportunity for it to be cancelled, if a more up-to-date request exists later in the queue
 
-    var pass = 0;
     
-    const JobFunction = function(){
+    largeJobTimeoutID = setTimeout(function(){
 
 	const winW = msg.data.width;
 	const winH = msg.data.height
 	const Plot = msg.data.Plot;
-	let cell_size = msg.data.resolution;//this.CellSizes[this.wcx.res];
-
-	//logic to return an 'IntermediateRender' at lower detail (faster)
-	if(msg.data.intermediateRender && pass === 0){
-	    const finRes = msg.data.resolution;
-	    if(finRes === 1){cell_size = 3;}
-	    else if(finRes === 2){cell_size = 5;}
-	    else if(finRes === 3){cell_size = 10;}
-	    else if(finRes < 10){cell_size = 15;}
-	    else {pass =1;}
-	}
+	const cell_size = msg.data.resolution;//this.CellSizes[this.wcx.res];
 	
 	const token = msg.data.workerRequestToken;
 	const heatmap = msg.data.colouringFunction === 2 ? heatmapLookup : null;
 
-	
 	const RenderResult = Plot_render.GenerateImageData(Plot, winW, winH, cell_size, heatmap);
 	postMessage({
 	    ImageData_grey: RenderResult.ImageData_grey,
 	    ImageData_heatmap: RenderResult.ImageData_heatmap,
 	    RenderScale: RenderResult.RenderScale, // this obj holds the numeric values for black, white
-	    finalPass: pass === 1,
 	    workerRequestToken: token
 	});
 
@@ -63,14 +49,6 @@ onmessage = function(msg) {
 	    workerRequestToken: token
 	});
 
-	// cancellable recursive call for second pass
-	if(pass === 0){
-	    pass = 1;
-	    largeJobTimeoutID = setTimeout(JobFunction, 5);
-	}
-
-    };
-
-    largeJobTimeoutID = setTimeout(JobFunction, 5);// 5 milliseconds...
+    }, 5);// 5 milliseconds...
 
 }
