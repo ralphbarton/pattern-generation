@@ -49,6 +49,7 @@ class PGT_App extends React.PureComponent {
 	};
 
 	this.latestUI = this.state.UI;
+	this.latestCache = this.state.DensityImgCache;
 
 	// these declarations seem to be recommended in React examples, but passing the bound function as a prop
 	// directly also works...
@@ -114,9 +115,9 @@ class PGT_App extends React.PureComponent {
 
 	     */
 
-	    const newCache = update(this.state.DensityImgCache, {paneCfg: {$set: data}});
+	    this.latestCache = update(this.latestCache, {paneCfg: {$set: data}});
 	    this.setState({
-		DensityImgCache: newCache
+		DensityImgCache: this.latestCache
 	    });
 
 	    // Start the Plot_CacheManager, and send data to it... if not already running.
@@ -126,19 +127,16 @@ class PGT_App extends React.PureComponent {
 		Plot_CacheManager.newData({
 		    plotArray: this.state.PGTobjARRAYS["plot"],
 		    plotUIState: this.state.UI["plot"],
-		    paneCfg: data, //this.state.DensityImgCache.paneCfg (not ready yet...)
-		    cacheCurrent: this.state.DensityImgCache["plot"]
+		    paneCfg: data //this.state.DensityImgCache.paneCfg (not ready yet...)
 		});
 		
 		Plot_CacheManager.Start({
 		    setPlotCache: $update => {
-			const oldCache = this.state.DensityImgCache;
-			const newCache = update(oldCache, {plot: $update});
-
+			this.latestCache = update(this.latestCache, {plot: $update});
 			this.setState({
-			    DensityImgCache: newCache
+			    DensityImgCache: this.latestCache
 			});
-			return newCache;
+			return this.latestCache["plot"];
 		    }
 		});
 
