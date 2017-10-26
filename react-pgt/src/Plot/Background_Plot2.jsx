@@ -10,11 +10,14 @@ class Background_Plot2 extends React.PureComponent {
 	const plotUIState = this.props.plotUIState;
 	if(!plotUIState.previewActive){return;}
 	
-	// extract the correct ImgData from the cache...
+	// get UI variables relating to what should be shown...
 	const plotUid = plotUIState.selectionUid;
 	const colour = plotUIState.colouringFunction === 2 ? "heatmap" : "greyscale";
 
-	const ImgData = this.props.PlotImgCache[plotUid].ImgData.single[colour];
+	// extract the correct ImgData from the cache...
+	const Cached4Plot = this.props.PlotImgCache[plotUid];
+	if(!Cached4Plot){return;} // nothing cached yet!
+	const ImgData = Cached4Plot.ImgData.single[colour];
 	
 	const ctx = this.canvasElement.getContext('2d');
 	ctx.putImageData(ImgData, 0, 0);
@@ -26,6 +29,22 @@ class Background_Plot2 extends React.PureComponent {
 
     componentDidMount(){
 	this.imgDataToCanvas();
+    }
+
+
+    shouldComponentUpdate(nextProps){
+
+	const plotUid = this.props.plotUIState.selectionUid;
+
+	// don't respond to changes in 'props.dims'. Impacts of this will be secondary
+	// don't respond to changes in 'props.plotArray'. Impacts of this will be secondary
+	const c1 = nextProps.plotUIState  !== this.props.plotUIState;
+	const c2 = nextProps.PlotImgCache[plotUid] !== this.props.PlotImgCache[plotUid];
+
+	// the cache may contain a blank...
+	const c3 = nextProps.PlotImgCache[plotUid].Plot !== null;
+	
+	return (c1 || c2) && c3;
     }
     
     render() {
@@ -49,7 +68,7 @@ class Background_Plot2 extends React.PureComponent {
 		/>
 		{/*
 		<Pointset_render
-		   points={this.points}
+'		   points={this.points}
 		   hide={plotUIState.pointsQuantity === 0}
 		   colouring={plotUIState.colouringFunction}
 		   />

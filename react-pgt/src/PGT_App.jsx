@@ -120,17 +120,10 @@ class PGT_App extends React.PureComponent {
 		DensityImgCache: this.latestCache
 	    });
 
-	    // Start the Plot_CacheManager, and send data to it... if not already running.
-	    if(!Plot_CacheManager.isRunning()){
-
-		// 1. pass in everything...
-		Plot_CacheManager.newData({
-		    plotArray: this.state.PGTobjARRAYS["plot"],
-		    plotUIState: this.state.UI["plot"],
-		    paneCfg: data //this.state.DensityImgCache.paneCfg (not ready yet...)
-		});
+	    // 1. Initiate Plot_CacheManager if not done already
+	    if(!Plot_CacheManager.isInitiated()){
 		
-		Plot_CacheManager.Start({
+		Plot_CacheManager.init({
 		    setPlotCache: $update => {
 			this.latestCache = update(this.latestCache, {plot: $update});
 			this.setState({
@@ -140,8 +133,16 @@ class PGT_App extends React.PureComponent {
 		    }
 		});
 
-	    }
+	    }	    
+
 	}
+
+	// 2. send latest data to Plot_CacheManager
+	Plot_CacheManager.newData({
+	    plotArray: this.state.PGTobjARRAYS["plot"],
+	    plotUIState: this.state.UI["plot"],
+	    paneCfg: data //this.state.DensityImgCache.paneCfg (not ready yet...)
+	});
 
 	
     }

@@ -130,11 +130,12 @@ class Background extends React.PureComponent {
 	// positive selection props which are bound functions will be a different object each time
 	const c1 = nextProps.PGTobjARRAYS  !== this.props.PGTobjARRAYS;
 	const c2 = nextProps.UIState       !== this.props.UIState;
+	const c3 = nextProps.PlotImgCache  !== this.props.PlotImgCache;
 
 	//also, any state change
-	const c3 = nextState !== this.state;
+	const c4 = nextState !== this.state;
 	
-	return c1 || c2 || c3;
+	return c1 || c2 || c3 || c4;
     }
 
     componentDidUpdate(){
