@@ -50,7 +50,7 @@ var Plot_CacheManager = {
 	
 	// 1. decide what to render...
 
-	// Test A: is there NOTHING in the cache for any Plot?
+	// Test A: is there NOTHING in the cache? Check all Plots
 	for(var i = 0; i < this.plotArray.length; i++){
 
 	    const Plot = this.plotArray[i];
@@ -129,7 +129,13 @@ var Plot_CacheManager = {
 
     handleRenderComplete: function(msg){
 
-	const uid          = msg.requestObject.Plot.uid;
+	const Plot             = msg.requestObject.Plot;
+	const uid              = Plot.uid;
+	const PlotLatestVer    = _.find(this.plotArray, {uid: uid} );
+
+	// unfortunately, I have had to resort to deep comparison here...
+	if( !_.isEqual(PlotLatestVer, Plot) ){return;}//msg data may already be obselete...
+	
 	const splitMode    = msg.requestObject.paneCfg.splitMode;
 	const renderedDims = msg.requestObject.paneCfg.paneDimsAR;
 	const duration_ms  = new Date() - msg.requestObject.t_start;
@@ -163,18 +169,27 @@ var Plot_CacheManager = {
     //handler for when worker coughs up the stats...
     handleStatsComplete: function(msg){
 
-	const uid          = msg.requestObject.Plot.uid;
-	const splitMode    = msg.requestObject.paneCfg.splitMode;
-	
-	this.plotCache = this.setPlotCache({
-	    [uid]: {
-		ImgData: {
-		    [splitMode]: {			
-			render_stats: {$set: msg.stats_obj}
+	const Plot             = msg.requestObject.Plot;
+	const uid              = Plot.uid;
+	const PlotLatestVer    = _.find(this.plotArray, {uid: uid} );
+
+	// recieved data may already be obselete
+	// unfortunately, I have had to resort to deep comparison here...
+	if( _.isEqual(PlotLatestVer, Plot) ){
+
+	    const splitMode    = msg.requestObject.paneCfg.splitMode;
+	    
+	    this.plotCache = this.setPlotCache({
+		[uid]: {
+		    ImgData: {
+			[splitMode]: {			
+			    render_stats: {$set: msg.stats_obj}
+			}
 		    }
 		}
-	    }
-	});
+	    });
+
+	}
 	
 	//recursive call...
 	this.launchRender();
@@ -190,7 +205,9 @@ var Plot_CacheManager = {
 	if(!this.initiated){return;}
 	this.plotCache = this.setPlotCache({k: {$set: "v"}}); // dummy call is to get the cache
 	
-	// iterate through the new Plot Array provided.
+	// 1. Is any cache data invalid following this update?
+
+	// iterate through the new Plot Array provided and wipe cache as necessary
 	for(var i = 0; i < data.plotArray.length; i++){
 
 	    // get the Plot of the same UID in the old Array
@@ -198,7 +215,8 @@ var Plot_CacheManager = {
 	    const uid     = newPlot.uid;
 	    const oldPlot = _.find(this.plotArray, {uid: uid} );
 
-	    // if there is change, wipe the cache
+	    // WIPE THE CACHE if plot is changed
+
 	    if(!this.plotCache[uid] || newPlot !== oldPlot){
 
 		// this guarentees a placeholder object is at that UID. Ensure object writing to specific keys works
@@ -209,13 +227,42 @@ var Plot_CacheManager = {
 	    }
 	}
 
+	// 2. Record locally the new values
 	this.plotCache = this.setPlotCache({k: {$set: "v"}}); // another dummy call. Get the refreshed cache
 	
 	this.plotArray = data.plotArray;
 	this.plotUIState = data.plotUIState;
 	this.paneCfg = data.paneCfg;
 
-	// If the cycle had ended, restart it.
+
+	// 3. Immediately generate the selected plot at lowest resolution, in this thread
+
+	const selectedPlotUid = this.plotUIState.selectionUid;
+	const selectedPlot    = _.find(this.plotArray, {uid: selectedPlotUid} );
+	const Cached4Plot     = this.plotCache[selectedPlotUid];
+	const renderDims      = this.paneCfg.paneDimsAR || this.paneCfg.paneDims;
+
+	if( !Cached4Plot.Plot ){
+
+	    const renderRequestObj = {
+		useWorker:         false,
+		Plot:              selectedPlot,
+		width:             renderDims.width,
+		height:            renderDims.height,
+		resolution:        40, // - this seems a reasonable crude level of detail for the basic plot
+		colouringFunction: 2,
+
+		//extra
+		paneCfg: this.paneCfg
+	    };
+
+	    const msg = Plot_RenderManager.render(renderRequestObj);
+	    msg.requestObject = renderRequestObj;
+	    this.handleRenderComplete(msg);
+	    
+	}
+	
+	// 4. if the cycle had ended, restart it now.
 	if(!this.running){
 	    this.launchRender();
 	    this.running = true;

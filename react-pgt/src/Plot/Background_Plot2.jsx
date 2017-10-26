@@ -16,7 +16,6 @@ class Background_Plot2 extends React.PureComponent {
 
 	// extract the correct ImgData from the cache...
 	const Cached4Plot = this.props.PlotImgCache[plotUid];
-	if(!Cached4Plot){return;} // nothing cached yet!
 	const ImgData = Cached4Plot.ImgData.single[colour];
 	
 	const ctx = this.canvasElement.getContext('2d');
