@@ -69,6 +69,12 @@ class PGT_App extends React.PureComponent {
 	this.setState({
 	    PGTobjARRAYS: dataUpdate.newArrays
 	});
+
+	
+	setTimeout( ()=>{ // defer, to allow state update
+	    this.handlePlotCacheChange(); // PGT object ARRAYS Change *may* affect Plots cache
+	}, 0);
+
 	return dataUpdate.newPGTobjUid;
     }
 
@@ -92,6 +98,10 @@ class PGT_App extends React.PureComponent {
 	this.setState({
 	    UI: this.latestUI
 	});
+
+	setTimeout( ()=>{ // defer, to allow state update
+	    this.handlePlotCacheChange(); // UI state change *may* affect Plots cache
+	}, 0);
     }
 
     handlePlotCacheChange(event, data){

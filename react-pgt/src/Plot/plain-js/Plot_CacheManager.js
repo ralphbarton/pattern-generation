@@ -24,7 +24,7 @@ var Plot_CacheManager = {
     },
 
   
-    launchRender: function(){
+    launchRenderChain: function(){
 
 	const renderDims  = this.paneCfg.paneDimsAR || this.paneCfg.paneDims;		
 	const renderRequestObj = {
@@ -121,8 +121,8 @@ var Plot_CacheManager = {
 	if(moreWorkFound){
 	    Plot_RenderManager.render(renderRequestObj);	
 	}else{
-	    console.log("all cached rendering up to date...");
 	    this.running = false;
+	    console.log("'launchRenderChain()' call with all rendering up to date. this.running=", this.running);
 	}
     },
 
@@ -191,20 +191,19 @@ var Plot_CacheManager = {
 
 	}
 	
-	//recursive call...
-	this.launchRender();
+	// unconditional recursive call...
+	this.launchRenderChain();
     },
     
 
     paneCfg: null,
     plotArray: null,
     plotUIState: null,
-
     newData: function(data){
-
+	
 	if(!this.initiated){return;}
 	this.plotCache = this.setPlotCache({k: {$set: "v"}}); // dummy call is to get the cache
-	
+
 	// 1. Is any cache data invalid following this update?
 
 	// iterate through the new Plot Array provided and wipe cache as necessary
@@ -232,7 +231,8 @@ var Plot_CacheManager = {
 	
 	this.plotArray = data.plotArray;
 	this.plotUIState = data.plotUIState;
-	this.paneCfg = data.paneCfg;
+	this.paneCfg = data.paneCfg || this.paneCfg; // I don't know why "data.paneCfg" can sometimes be undefined,
+	// but in this cases don't use it!
 
 
 	// 3. Immediately generate the selected plot at lowest resolution, in this thread
@@ -264,8 +264,8 @@ var Plot_CacheManager = {
 	
 	// 4. if the cycle had ended, restart it now.
 	if(!this.running){
-	    this.launchRender();
 	    this.running = true;
+	    this.launchRenderChain();
 	}
     }
     

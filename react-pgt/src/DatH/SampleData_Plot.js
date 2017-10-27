@@ -22,7 +22,7 @@ const PlotSampleData = {
 		val_max: 0,
 		val_mid: 0
 	    }
-	},
+	},/*
 	{
 	    formula: "z^7",
 	    uid: 1,
@@ -122,7 +122,7 @@ const PlotSampleData = {
 		Lo: -2.6137607705103667,
 		Hi: 2.6140055063175542
 	    }
-	},
+	},*/
 	{
 	    formula: "-z*log(3z^109+5z^4)+z*log(2z^104-5z^4)",
 	    uid: 8,
