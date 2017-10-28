@@ -25,15 +25,33 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
 		let v2;
 		if(key==="min" || key==="max"){
 		    v2 = Math[key](v, param[oKey]);
+		    if(isNaN(v2)){v2=0;}
 		}
 		handleEditingMotfChange(
-		    {Params: {linked: {[i]: {[key]: {$set: (limit ? v2 : v)}}}}}
+		    {Params: {[i]: {[key]: {$set: (limit ? v2 : v)}}}}
 		);
 	    };
 	};
 
 	return ([
 	    {
+		heading: "Type",
+		renderCellContents: (param, i)=>{
+		    const pType = (()=>{
+			if (param.type === "link")  {return "link"}
+			if (param.type === "random"){return "R"}
+			if (param.type === "random_free"){return "R-f"}
+			if (param.type === "cpot_pick"){return "CPP"}
+			return "unk";
+		    })();
+		    return (
+			<div className={pType} onClick={null}
+			     >
+			  {pType}
+			</div>
+		    );
+		}
+	    },{
 		heading: "Identifier",
 		renderCellContents: (param, i)=>{
 		    return (
@@ -73,7 +91,6 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
     render(){
 
 	const Params = this.props.Motf.Params;
-//	const AllParams = _.flatten([Params.linked, Params.random, Params.random_free]);
 
 	return (
 	    <WgBoxie className="parameters" name="Parameters">
@@ -81,7 +98,7 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
 	      <WgTable
 		 selectedRowIndex={this.state.rowSelected}
 		 onRowSelectedChange={ i => {this.setState({rowSelected: i});}}
-		 rowRenderingData={Params.linked}
+		 rowRenderingData={Params}
 		 columnsRendering={this.MotfEdit_params_WgTableColumns()}
 		/>
 
@@ -93,30 +110,30 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
 		       buttonStyle={"small"}
 		       onClick={()=>{
 			   this.props.handleEditingMotfChange({
-			       Params: {linked: {$splice: [[this.state.rowSelected, 1]]}}
+			       Params: {$splice: [[this.state.rowSelected, 1]]}
 			   });
 		       }}
 		       />
 		    <WgButton
-		       name="New Linked Parameter"
+		       name="New Linked Param"
 		       buttonStyle={"small"}
 		       onClick={()=>{
 			   this.props.handleEditingMotfChange({
-			       Params: {linked: {$push: [{
+			       Params: {$push: [{
 				       id: 99,/////////////////////////sort this...
 				       name: "LP--",
 				       min: 0,
 				       max: 100    
-			       }]}}
+			       }]}
 			   });
 		       }}
 		       />
 		    <WgButton
-		       name="New Random Parameter (instance)"
+		       name="New Random Param (inst.)"
 		       buttonStyle={"small"}
 		       />
 		    <WgButton
-		       name="New Random Parameter (free)"
+		       name="New Random Param (free)"
 		       buttonStyle={"small"}
 		       />
 
