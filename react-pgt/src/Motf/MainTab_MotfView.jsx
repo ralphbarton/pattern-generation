@@ -28,7 +28,7 @@ class MainTab_MotfView extends React.PureComponent {
 	this.WgTableThumbSVG_ElemRefs={};
 
 	//hop straight into "Edit mode".
-//	setTimeout(this.handleSetEditMode.bind(this, true), 100);
+	setTimeout(this.handleSetEditMode.bind(this, true), 100);
 
     }
 

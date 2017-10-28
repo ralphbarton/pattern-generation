@@ -73,32 +73,46 @@ class MotfEdit_Section_Properties_mElementExpanded_TableOneRow extends React.Pur
 	const extraClass = this.state.propJustChanged[index] ? " recent-change" : "";
 	const propValue = this.extractPropVal(index);
 	return [
-	    (<td className={"prop"+extraClass} key={DatH_Key+"prop"}>{shortName}</td>),
-	    (<td className={"valu"+extraClass} key={DatH_Key+"valu"}>
-	     {
-		 PropertyDetails && PropertyDetails.type === "number" && <input
-		 value={propValue} 
-		 onChange={event => {
-		     const newNumericVal = Number(event.target.value);
-		     this.props.modifyElem(DatH_Key, newNumericVal);
-		 }}
-	      />}
-	     {
-		 PropertyDetails && PropertyDetails.type === "colour" && <MotfEdit_Section_Properties_mElem_ColPick
-		 color={propValue}
-		 onColourChange={this.props.modifyElem.bind(null, DatH_Key)}
+		<td className={"prop"+extraClass} key={DatH_Key+"prop"}>{shortName}</td>,
+	        <td className={"valu"+extraClass} key={DatH_Key+"valu"}>
+		  {
+		 PropertyDetails && PropertyDetails.type === "number" &&
+		     <input value={propValue} 
+
+				/* this handler should be quite clever. It should only cause a local change
+				   (i.e. to state of this <_TableOneRow> component unless a valid string is present)
+				 valid strings would start with '=' or be Numeric
+				 
+				 */
+			    onChange={event => {
+				const rawStr = event.target.value;
+				this.props.modifyElem(DatH_Key, rawStr);
+			    }}
+			    onBlur={event => {
+				const rawStr = event.target.value;
+				const cellContents = rawStr[0] === '=' ? rawStr : Number(rawStr);
+				this.props.modifyElem(DatH_Key, cellContents);
+			    }}
 		     />
-	     }
-	     </td>),
-	    (<td className={"more"+extraClass} key={DatH_Key+"more"}>
-	     {
-		 PropertyDetails && <MotfEdit_Section_Properties_mElem_Dropdown
-		 value={propValue}
-		 PropertyDetails={PropertyDetails}
-		 modifyElem={this.props.modifyElem}
+		  }
+		  {
+		 PropertyDetails && PropertyDetails.type === "colour" &&
+		     <MotfEdit_Section_Properties_mElem_ColPick
+		          color={propValue}
+		          onColourChange={this.props.modifyElem.bind(null, DatH_Key)}
 		     />
-	     }
-	     </td>)
+		  }
+		</td>,
+	        <td className={"more"+extraClass} key={DatH_Key+"more"}>
+		  {
+		 PropertyDetails &&
+		     <MotfEdit_Section_Properties_mElem_Dropdown
+		          value={propValue}
+		          PropertyDetails={PropertyDetails}
+		          modifyElem={this.props.modifyElem}
+		     />
+		  }
+		</td>
 	];
     }
 

@@ -6,7 +6,9 @@ import tinycolor from 'tinycolor2';
 
 import {fabric}  from 'fabric';
 
+import Motf_paramEval from './Motf_paramEval';
 import Motf_lists from './Motf_lists';
+
 
 // for demo below
 //import TextureImg from '../../asset/texture.png';
@@ -61,9 +63,12 @@ var Motf_util = {
 		}));
 	    });
 	    */
-    
-    parseMotifElement: function(format, Element, options){
 
+    
+    parseMotifElement: function(format, bareElement, options){
+
+	// "bareElement" has formula not numbers for some props (maybe)
+	const Element = Motf_paramEval.evaluateMotifElement(bareElement);
 	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: Element.shape} );
 
 	if(format === 'fabric'){ // "properties object" for Fabric
