@@ -71,11 +71,13 @@ var Motf_util = {
 	    // 1. get Attrs
 	    // "attributes" of svg object defined the geometry
 
+	    // put the origin in the middle of the Image (other ways to do this in an SVG?)
+	    // I don't think this is a final solution, below...
 	    const elementLeft = Element["left"] - (options.originZero ? 200 : 0);
 	    const elementTop  = Element["top"]  - (options.originZero ? 200 : 0);
 
 	    const elementTransformAttr = Element.angle ?
-		  {"transform": `rotate(${ Element.angle }, ${ Element.x }, ${ Element.y })`} : {};
+		  {"transform": `rotate(${ Element.angle }, ${ elementLeft }, ${ elementTop })`} : {};
 	    
 	    const Attrs = (()=>{
 		if (Element.shape === "obj-rectangle"){
@@ -91,8 +93,8 @@ var Motf_util = {
 		if (Element.shape === "obj-ellipse"){
 		    return _.assign({},
 				    { // src 1
-					"cx": elementLeft,
-					"cy": elementTop
+					"cx": elementLeft + Element["rx"],
+					"cy": elementTop + Element["ry"]
 				    },
 				    _.pick(Element, ["rx", "ry"]), // src 2
 				    elementTransformAttr // src 3
@@ -125,19 +127,19 @@ var Motf_util = {
 
 	const d3_svg = select(svg_el);
 	d3_svg.selectAll("*").remove();
-
+	
 	// Iterate over the shapes of the Motif (its Elements)
-	_.forEach(Motif.Elements, function(Element){
-
+	Motif.Elements.forEach( Element => {
+	    
 	    // 1. convert the details of this shape to SVG format
 	    const rendering_props = this.parseMotifElement('svg', Element, options);
-
+	    
 	    // 2. append a new SVG element accordingly
 	    d3_svg
 		.append(rendering_props.name)
 		.attr("class","some-obj")
-		.attrs( rendering_props.Attrs)
-		.styles( rendering_props.Styles );
+		.attrs( rendering_props.attrs)
+		.styles( rendering_props.styles );
 	    	    
 	});
 	

@@ -45,7 +45,8 @@ var Plot_CacheManager = {
 
 	
 	const splitMode   = this.paneCfg.splitMode;
-	const UIResolution = this.plotUIState.plotResolution;//todo: move "resolution" from UI to per-Plot property
+	//use a resolution of 1-pixel if no valid value is retrieved.
+	const UIResolution = this.plotUIState.plotResolution || 1;//todo: move "resolution" from UI to per-Plot property
 	let moreWorkFound = false;
 	
 	// 1. decide what to render...
@@ -241,8 +242,8 @@ var Plot_CacheManager = {
 	const selectedPlot    = _.find(this.plotArray, {uid: selectedPlotUid} );
 	const Cached4Plot     = this.plotCache[selectedPlotUid];
 	const renderDims      = this.paneCfg.paneDimsAR || this.paneCfg.paneDims;
-
-	if( !Cached4Plot.Plot ){
+	
+	if( (selectedPlotUid !== undefined) && (!Cached4Plot.Plot) ){
 
 	    const renderRequestObj = {
 		useWorker:         false,
