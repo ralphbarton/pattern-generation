@@ -21,7 +21,7 @@ class Toolbox extends React.PureComponent {
 	super();
 	this.state = {
 	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 4, // default Tab selection /* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
+	    selectedTabIndex: 2, // default Tab selection /* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
 	    tabsEnabled: true
 	};
     }

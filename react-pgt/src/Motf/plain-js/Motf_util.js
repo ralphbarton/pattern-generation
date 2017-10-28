@@ -50,7 +50,7 @@ var Motf_util = {
     },
 
     
-    parseMotifElement: function(format, Element){
+    parseMotifElement: function(format, Element, options){
 
 	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: Element.shape} );
 
@@ -67,14 +67,50 @@ var Motf_util = {
 
 	}else if(format === 'svg'){ // "properties object" for SVG
 
-	    // mutate...
-	    // 1. svg object "attributes" defined the geometry
-	    var Attrs = _.pick(Element, ["cx", "cy", "rx", "ry", "transform"]);
 
-	    // 2. svg object "styles" defined the colour, border etc.
-	    var Styles = _.pick(Element, ["fill", "stroke", "stroke-width"]);
+	    // 1. get Attrs
+	    // "attributes" of svg object defined the geometry
+
+	    const elementLeft = Element["left"] - (options.originZero ? 200 : 0);
+	    const elementTop  = Element["top"]  - (options.originZero ? 200 : 0);
+
+	    const elementTransformAttr = Element.angle ?
+		  {"transform": `rotate(${ Element.angle }, ${ Element.x }, ${ Element.y })`} : {};
+	    
+	    const Attrs = (()=>{
+		if (Element.shape === "obj-rectangle"){
+		    return _.assign({},
+				    { // src 1
+					"x": elementLeft,
+					"y": elementTop
+				    },
+				    _.pick(Element, ["width", "height"]), // src 2
+				    elementTransformAttr // src 3
+				   );
+		}
+		if (Element.shape === "obj-ellipse"){
+		    return _.assign({},
+				    { // src 1
+					"cx": elementLeft,
+					"cy": elementTop
+				    },
+				    _.pick(Element, ["rx", "ry"]), // src 2
+				    elementTransformAttr // src 3
+				   );
+		}
+		console.error("parseMotifElement() encountered unknown Element type (parse for SVG)");
+	    })();
+
+	    // 1. get Styles
+	    // "styles" of svg object defined colour, border etc.
+
+	    var Styles = {
+		..._.pick(Element, ["fill", "stroke"]),
+		"stroke-width": Element["strokeWidth"] || 0 // take a 0 value if undefined
+	    };
 
 	    return {
+		name: Element.shape === "obj-ellipse" ? "ellipse" : "rect", // not very general
 		attrs: Attrs,
 		styles: Styles
 	    };
@@ -91,6 +127,24 @@ var Motf_util = {
 	d3_svg.selectAll("*").remove();
 
 	// Iterate over the shapes of the Motif (its Elements)
+	_.forEach(Motif.Elements, function(Element){
+
+	    // 1. convert the details of this shape to SVG format
+	    const rendering_props = this.parseMotifElement('svg', Element, options);
+
+	    // 2. append a new SVG element accordingly
+	    d3_svg
+		.append(rendering_props.name)
+		.attr("class","some-obj")
+		.attrs( rendering_props.Attrs)
+		.styles( rendering_props.Styles );
+	    	    
+	});
+	
+
+	
+
+/*
 	_.forEach(Motif.Elements, function(E, key) {//E is element properties object
 
 	    // This is a hack...
@@ -132,7 +186,7 @@ var Motf_util = {
 
 	    }	    
 	    
-	});
+	});*/
 
 	
     },

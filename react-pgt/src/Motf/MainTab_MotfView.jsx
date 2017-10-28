@@ -8,9 +8,8 @@ import {WgButton} from '../Wg/WgButton';
 import WgBoxie from '../Wg/WgBoxie';
 
 /*
- import WgTabbedBoxie from '../Wg/WgTabbedBoxie';
  import WgActionLink from '../Wg/WgActionLink';
- */
+*/
 
 import Motf_util from './plain-js/Motf_util';
 import MainTab_MotfEdit from './MainTab_MotfEdit';
@@ -29,13 +28,7 @@ class MainTab_MotfView extends React.PureComponent {
 	this.WgTableThumbSVG_ElemRefs={};
 
 	//hop straight into "Edit mode".
-
-	const x = this.handleSetEditMode.bind(this, true);
-	setTimeout(function(){
-	    x();
-	}, 400);
-
-
+//	setTimeout(this.handleSetEditMode.bind(this, true), 100);
 
     }
 
