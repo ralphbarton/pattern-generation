@@ -74,7 +74,7 @@
 /* Rules Here related to Tables and table content */
 
 .MotfEdit_Section_Properties_mElemExpanded div.headedTable{
-    color: #777;
+    color: #888;
 }
 
 .MotfEdit_Section_Properties_mElemExpanded div.headedTable span{
@@ -186,14 +186,13 @@ div.WgSlide400-leave.WgSlide400-leave-active {
     width: 136px;
     height: 12px;
     font-size: 11px;
-    color: #777;
+    color: #888;
     background: #f9f9f9;
     transition: all 0.2s;
 }
 
-.MotfEdit_Section_Properties_mElemExpanded td.valu.recent-change > input{
-    color: #b20000;
-    background-color: #fff8a7;
+.MotfEdit_Section_Properties_mElemExpanded td.valu.formula > input{
+    color: #6e31bf;
 }
 
 .MotfEdit_Section_Properties_mElemExpanded td.valu > input:hover{
@@ -207,4 +206,17 @@ div.WgSlide400-leave.WgSlide400-leave-active {
     box-shadow: 0px 0px 3px 2px rgba(128, 177, 239, 0.65);
     color: black;
     z-index: 1; /* this this only relative to parent/siblings??*/
+}
+
+.MotfEdit_Section_Properties_mElemExpanded td.valu.recent-change > input{
+    color: #b20000;
+    background-color: #fff8a7;
+}
+
+.MotfEdit_Section_Properties_mElemExpanded td.valu.error > input{
+    color: red;
+}
+
+.MotfEdit_Section_Properties_mElemExpanded td.valu.error > input:focus{
+    box-shadow: 0px 0px 3px 2px #b20000;
 }

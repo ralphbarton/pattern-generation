@@ -66,8 +66,8 @@ const MotfSampleData = {
 		    "top": 83,
 		    "fill": "rgba(244, 200, 24, 0.69)",
 		    "stroke": null,
-		    "rx": 45,
-		    "ry": 41,
+		    "rx": "=90/2",
+		    "ry": "=5^2+12",
 		    "PGTuid": 3
 		},
 		{

@@ -14,7 +14,9 @@ var Motf_paramEval = {
 	    var usrFn = math.compile(formulaStr);
 	}
 	catch (syntaxError){
+	    var fail = true;
 	    console.log("syntaxError"/*, syntaxError*/);
+	    console.log(formulaStr);
 	}
 
 	// 2. evaluate
@@ -22,12 +24,15 @@ var Motf_paramEval = {
 	    var result = usrFn.eval({x:0, y:0});
 	}
 	catch (evaluationError){
-	    var fail = true;
+	    fail = true;
 	    console.log("evaluationError"/*, evaluationError*/);
 	}
 
 //	console.log(`formulaString ${formulaStr} gave ${result}`);
-	return fail ? 0 : result;
+	return {
+	    err: fail,//error flag
+	    r: fail ? 0 : result
+	};
 
     },
     
@@ -38,7 +43,7 @@ var Motf_paramEval = {
 	    const applyFormulaEval = PropertyDetails && PropertyDetails.type === "number" && value[0] === '=';
 
 	    //console.log(key, value, PropertyDetails);
-	    return applyFormulaEval ? this.numberFromFormula(value) : value;
+	    return applyFormulaEval ? this.numberFromFormula(value).r : value;
 	});
     }
 
