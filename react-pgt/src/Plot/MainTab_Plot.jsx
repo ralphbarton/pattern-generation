@@ -124,6 +124,7 @@ class MainTab_Plot extends React.PureComponent {
 			   Plot={plot}
 			   colouringFunction={this.props.UI.colouringFunction}		   
 			   size={55}
+			   PlotImgCache={this.props.PlotImgCache}
 			   />
 		    );}
 	    },

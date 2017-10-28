@@ -166,6 +166,7 @@ class MainTab_Patt extends React.PureComponent {
 				  <Plot_Canvas
 				     Plot={hoverPlot}
 				     size={220}
+				     PlotImgCache={this.props.DensityImgCache["plot"]}
 				     />
 				</div>
 			    );

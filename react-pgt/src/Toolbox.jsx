@@ -124,6 +124,7 @@ class Toolbox extends React.PureComponent {
 					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "plot")}
 					 UI={this.props.UIState['plot']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"plot": $chg});}}
+					 PlotImgCache={this.props.DensityImgCache["plot"]}
 					/>
 				  );
 			      }
@@ -146,7 +147,8 @@ class Toolbox extends React.PureComponent {
 					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, "patt")}
 					 UI={this.props.UIState['patt']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"patt": $chg});}}
-					 />
+					 DensityImgCache={this.props.DensityImgCache}
+					/>
 				  );
 			      }
 

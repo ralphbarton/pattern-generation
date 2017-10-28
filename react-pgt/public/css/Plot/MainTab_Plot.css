@@ -47,6 +47,11 @@
 
 .MainTab_Plot .WgTable td.col-3{
   padding: 1px;
+  width: 55px;
+  /*center the thumb inside its cell <td>*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
   
 

@@ -183,6 +183,7 @@ class PGT_App extends React.PureComponent {
 		 UIState={this.state.UI}
 		 onUIStateChange={this.handleUIStateChange}
 		 onToastMsg={this.handleToastMsg}
+		 DensityImgCache={this.state.DensityImgCache}
 		 />
 	      <ToastManager
 		 latestToast={this.state.latestToast}
