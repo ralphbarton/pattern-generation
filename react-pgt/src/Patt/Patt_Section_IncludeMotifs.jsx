@@ -28,8 +28,8 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 	return ([
 	    {
 		heading: "Motifs",
-		renderCellContents: (m_set, i, rowIsSelected) => {
-		    const Motf = _.find(this.props.MotfArray, {uid: m_set.uid} );//extract motif from the list, by UID
+		renderCellContents: (motf_i_sProps, i, rowIsSelected) => {
+		    const Motf = _.find(this.props.MotfArray, {uid: motf_i_sProps.uid} );//extract motif from the list, by UID
 		    return (
 			<div>
 			  <Motf_SVG size={45} motf={Motf}/>
@@ -57,7 +57,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 
 	//the Motif selected in the WgTable
 	const rowIdx = this.state.selectedRowIndex;
-	const motf_i_sProps = Patt.Motif_set[rowIdx];
+	const motf_i_sProps = Patt.Motif_set[rowIdx];// 'static props'
 	const Motf_i = rowIdx !== undefined ? _.find(this.props.MotfArray, {uid: motf_i_sProps.uid}) : undefined;
 	
 	const remaining_MotfArray = this.props.MotfArray.filter( motf => {

@@ -24,11 +24,9 @@ var Motf_util = {
 
 	return {
 	    name: "New Motif",
-	    Params: {
-		"links": [],
-		"random": [],
-		"CP_picks": []
-	    },
+	    // uid is added separately
+	    Params: [],
+	    objectOrigin: "TL1",
 	    Elements: [
 		_.assign(
 		    {

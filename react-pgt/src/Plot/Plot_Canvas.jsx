@@ -3,7 +3,7 @@ import React from 'react';
 /* I am ignoring the Plot_RenderManager.init() function, which I am assuming is called by something else and the
 imported object below is shared. This does imply implicit communication between Components which is I guess an antipattern...
 */
-import Plot_RenderManager from './plain-js/Plot_RenderManager';
+//import Plot_RenderManager from './plain-js/Plot_RenderManager';
 
 
 class Plot_Canvas extends React.PureComponent {

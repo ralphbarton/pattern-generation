@@ -1,5 +1,5 @@
 import React from 'react';
-//var _ = require('lodash');
+var _ = require('lodash');
 
 import WgBoxie from '../Wg/WgBoxie';
 import WgTable from '../Wg/WgTable';
@@ -22,7 +22,7 @@ class Patt_Section_Linking extends React.PureComponent {
 		heading: "Motif",
 		renderCellContents: (param, i)=>{
 		    return (
-			"Gringot"
+			<div>{param.mName}</div>
 		    );
 		}
 	    },
@@ -30,7 +30,7 @@ class Patt_Section_Linking extends React.PureComponent {
 		heading: "Parameter name",
 		renderCellContents: (param, i)=>{
 		    return (
-			"abc"
+			param.name
 		    );
 		}
 	    },
@@ -52,22 +52,35 @@ class Patt_Section_Linking extends React.PureComponent {
     }
     
     render(){
+
+	const Patt = this.props.Patt_i;
+
+	// for each Motif, filter to its linked params and list them
+	const LnParams = _.flatten(Patt.Motif_set.map( motf_i_sProps => {
+	    const Motf = _.find(this.props.MotfArray, {uid: motf_i_sProps.uid});
+	    const m_LnParams = _.filter(Motf.Params , {type: 0});
+	    _.each(m_LnParams, o=>{o.mName = Motf.name;});//assign motif name
+	    return _.filter(Motf.Params , {type: 0});
+	}));
+
+	//Todo - now compare "LnParams" with "Patt.links". The latter is a subset, depending on how many are assigned
+	
 	return (
 	    <WgBoxie className="Patt_Section_Linking" name="Motif Linking" >
 
 	      <div>
-		4 linked parameter(s) assigned
+		{0} linked parameter(s) assigned
 	      </div>
 
 	      <div>
-		2 linked parameter(s) unassigned
+		{LnParams.length} linked parameter(s) unassigned
 	      </div>
 
 	      <div>
 		<WgTable
 		   selectedRowIndex={this.state.rowSelected}
 		   onRowSelectedChange={ i => {this.setState({rowSelected: i});}}
-		   rowRenderingData={[1,2,3,4]}
+		   rowRenderingData={LnParams}
 		   columnsRendering={this.WgTableColumns()}
 		  />
 

@@ -13,11 +13,21 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
 	this.state = {
 	    rowSelected: 0
 	};
+
+	this.pTypes = [
+	    "link", // 0 - link
+	    "R",    // 1 - random
+	    "R-f",  // 2 - random_free
+	    "CPP",  // 3 - cpot_pick
+	    "C-ln"  // 4 - linked colour
+	];
     }
 
     MotfEdit_params_WgTableColumns(){
 
 	const handleEditingMotfChange = this.props.handleEditingMotfChange;
+	const Params = this.props.Motf.Params;
+
 	const hofSetMinMax = function(param, i, key, limit){
 	    const oKey = key === "min" ? "max" : "min";
 	    return function(event){
@@ -37,15 +47,17 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
 	    {
 		heading: "Type",
 		renderCellContents: (param, i)=>{
-		    const pType = (()=>{
-			if (param.type === "link")  {return "link"}
-			if (param.type === "random"){return "R"}
-			if (param.type === "random_free"){return "R-f"}
-			if (param.type === "cpot_pick"){return "CPP"}
-			return "unk";
-		    })();
+		    const pType = this.pTypes[param.type];
 		    return (
-			<div className={pType} onClick={null}
+			<div className={pType}
+			     onClick={()=>{
+				 const new_type = param.type >= 4 ? 0 : (param.type+1);
+				 this.props.handleEditingMotfChange({
+				     Params: {
+					 [_.findIndex(Params, {id: param.id})]: {
+					     type: {$set: new_type}}
+				     }});
+			     }}
 			     >
 			  {pType}
 			</div>
@@ -104,7 +116,7 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
 
 		<div className="rightSection">
 		  <div className="parametersButtons">
-
+		    
 		    <WgButton
 		       name="Delete"
 		       buttonStyle={"small"}
@@ -113,30 +125,29 @@ class MotfEdit_Section_Parameters extends React.PureComponent {
 			       Params: {$splice: [[this.state.rowSelected, 1]]}
 			   });
 		       }}
-		       />
+		     />
+
+		    
 		    <WgButton
-		       name="New Linked Param"
+		       name="New"
 		       buttonStyle={"small"}
 		       onClick={()=>{
+			   const hi_param = _.maxBy(Params, 'id');
+			   const new_id = hi_param !== undefined ? (hi_param.id + 1) : 0;
 			   this.props.handleEditingMotfChange({
-			       Params: {$push: [{
-				       id: 99,/////////////////////////sort this...
+			       Params: {
+				   $push: [{
+				       id: new_id,
+				       type: 0, //link
 				       name: "LP--",
 				       min: 0,
 				       max: 100    
-			       }]}
+				   }]
+			       }
 			   });
 		       }}
-		       />
-		    <WgButton
-		       name="New Random Param (inst.)"
-		       buttonStyle={"small"}
-		       />
-		    <WgButton
-		       name="New Random Param (free)"
-		       buttonStyle={"small"}
-		       />
-
+		     />
+		      
 		  </div>
 		</div>
 		

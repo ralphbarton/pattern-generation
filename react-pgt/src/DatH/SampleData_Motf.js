@@ -4,38 +4,45 @@ const MotfSampleData = {
 	{// 1st dummy motif...
 	    name: "Molecule",
 	    uid: 0,
+	    /*
+	      enumeration for parameter types:
+	      0 - link
+	      1 - random
+	      2 - random_free
+	      3 - cpot_pick
+	     */
 	    Params: [
 		{
 		    id: 0,
-		    type: "link",
+		    type: 0, //link
 		    name: "LP01",
 		    min: 30,
 		    max: 75
 		},
 		{
 		    id: 1,
-		    type: "link",
+		    type: 0, //link
 		    name: "LP02",
 		    min: 5,
 		    max: 14
 		},
 		{
 		    id: 2,
-		    type: "random",
+		    type: 1, //random
 		    name: "LP03",
 		    min: 30,
 		    max: 40
 		},
 		{
 		    id: 3,
-		    type: "random_free",
+		    type: 2, //random_free
 		    name: "LP03",
 		    min: 30,
 		    max: 40
 		},
 		{
 		    id: 4,
-		    type: "cpot_pick",
+		    type: 3, //cpot pick
 		    name: "CP01",
 		    min: "--",
 		    max: "--"
@@ -83,12 +90,15 @@ const MotfSampleData = {
 	{// 2nd dummy motif...
 	    name: "Tetris went home",
 	    uid: 1,
-	    Params: {
-		linked: [],
-		random: [],
-		random_free: [],
-		"CP_picks": []
-	    },
+	    Params: [
+		{
+		    id: 0,
+		    type: 0, //link
+		    name: "LP-dog",
+		    min: 30,
+		    max: 75
+		}
+	    ],
 	    objectOrigin: "TL1",
 	    Elements: [
 		{
@@ -145,73 +155,10 @@ const MotfSampleData = {
 	    ]
 	},
 	{
-	    name: "New Mtf 1",
-	    uid: 2,
-	    "Elements": [
-		{
-		    "shape": "obj-ellipse",
-		    "left": 0,
-		    "top": 0,
-		    "fill": "#91637c",
-		    "stroke": null,
-		    "PGTuid": 0,
-		    "rx": 200,
-		    "ry": 200
-		}
-	    ]
-	},
-	{
-	    name: "New Mtf 3",
-	    uid: 3,
-	    "Elements": [
-		{
-		    "shape": "obj-ellipse",
-		    "left": 0,
-		    "top": 0,
-		    "fill": "#3f3684",
-		    "stroke": null,
-		    "PGTuid": 0,
-		    "rx": 200,
-		    "ry": 200
-		}
-	    ]
-	},
-	{
-	    name: "New Mtf 4",
-	    uid: 4,
-	    "Elements": [
-		{
-		    "shape": "obj-ellipse",
-		    "left": 0,
-		    "top": 0,
-		    "fill": "#797344",
-		    "stroke": null,
-		    "PGTuid": 0,
-		    "rx": 200,
-		    "ry": 200
-		}
-	    ]
-	},
-	{
-	    name: "New Mtf 4",
-	    uid: 5,
-	    "Elements": [
-		{
-		    "shape": "obj-ellipse",
-		    "left": 0,
-		    "top": 0,
-		    "fill": "#99286d",
-		    "stroke": null,
-		    "PGTuid": 0,
-		    "rx": 200,
-		    "ry": 200
-		}
-	    ]
-	},
-	{
 	    name: "Square Leaf",
-	    uid: 6,
-	    "Elements": [
+	    uid: 2,
+	    Params: [],
+	    Elements: [
 		{
 		    "shape": "obj-rectangle",
 		    "left": 50,
@@ -226,15 +173,10 @@ const MotfSampleData = {
 	},
 	{
 	    name: "Atom",
-	    uid: 7,
-	    "Params": {
-		linked: [],
-		random: [],
-		random_free: [],
-		"CP_picks": []
-	    },
+	    uid: 3,
+	    Params: [],
 	    objectOrigin: "TL1",
-	    "Elements": [
+	    Elements: [
 		{
 		    "left": 24,
 		    "top": 163,

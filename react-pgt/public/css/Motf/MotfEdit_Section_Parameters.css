@@ -40,11 +40,11 @@
 }
 
 .MainTab_MotfEdit .parameters .col-2{
-    width: 100px;
+    width: 120px;
 }
 
 .MainTab_MotfEdit .parameters .WgTable .col-2 input.blue-cell{
-    width: 98px;
+    width: 118px;
 }
 
 .MainTab_MotfEdit .parameters .col-3{
@@ -70,7 +70,6 @@
 }
 
 .MainTab_MotfEdit .parameters .parametersButtons button{
-    text-align: left;
-    width: 177px;
+    width: 75px;
     margin: 2px;
 }
