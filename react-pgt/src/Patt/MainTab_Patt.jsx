@@ -3,7 +3,6 @@ var _ = require('lodash');
 
 import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
-import WgBoxie from '../Wg/WgBoxie';
 import WgActionLink from '../Wg/WgActionLink';
 
 import Patt_util from './plain-js/Patt_util';
@@ -11,6 +10,7 @@ import Patt_util from './plain-js/Patt_util';
 import Patt_Section_IncludeMotifs from './Patt_Section_IncludeMotifs';
 import Patt_Section_PatternDrive from './Patt_Section_PatternDrive';
 import Patt_Section_PlacementIntensity from './Patt_Section_PlacementIntensity';
+import Patt_Section_Linking from './Patt_Section_Linking';
 
 import Plot_Canvas from '../Plot/Plot_Canvas';
 import Grid_d3draw from '../Grid/plain-js/Grid_d3draw';
@@ -153,11 +153,15 @@ class MainTab_Patt extends React.PureComponent {
 		    (()=>{
 			if(this.state.rightSideSpace === 0){ // Motif Linking Boxie
 
-			    return(
-				<WgBoxie className="motifLinking" name="Motif Linking" >
-				  efg
-				</WgBoxie>
+			    return (
+				<Patt_Section_Linking
+				   Patt_i={Patt_i}
+				   patt_selectedIndex={this.props.UI.selectedRowIndex}
+				   handleModifySelPatt={this.props.fn.handleModifySelPGTobj}
+				   MotfArray={this.props.PGTobjARRAYS["motf"]}
+				   />
 			    );
+			    
 			}else if(this.state.rightSideSpace === 1){ // Large "Plot Preview" thumbnail
 
 			    const hoverPlot = _.find(this.props.PGTobjARRAYS["plot"], {uid: this.state.pDrive_thumb_uid} );

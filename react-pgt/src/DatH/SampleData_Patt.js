@@ -11,7 +11,14 @@ const PattSampleData = {
 		opacity: 0.9
 	    }],
 	    type: "grid",
-	    pdrive_uid: 0
+	    pdrive_uid: 0,
+	    links: [
+		{
+		    motf: 2, // uid
+		    parameter: 3, //uid
+		    value: 3
+		}
+	    ]
 	},
 	{
 	    name: "Bubbles",

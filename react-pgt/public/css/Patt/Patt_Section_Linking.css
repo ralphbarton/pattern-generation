@@ -1,0 +1,34 @@
+/* Patt_Section_Linking.css */
+
+.Patt_Section_Linking .contents{
+    font-size: 12px;
+}
+
+
+.Patt_Section_Linking .WgTable{
+    margin: 2px;
+    margin-top: 10px;
+    border-width: 2px;
+    font-size: 12px;
+    text-align: left;
+}
+
+.Patt_Section_Linking .WgTable tbody{
+    height: 120px;
+}
+
+.Patt_Section_Linking .WgTable .col-1{
+    width: 140px;
+}
+
+
+
+.MainTab_MotfEdit .parameters .WgTable td{
+    padding: 0px;
+    text-align: left;
+}
+
+
+.MainTab_MotfEdit .parameters .col-1{
+    width: 40px;
+}
