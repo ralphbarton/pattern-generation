@@ -93,10 +93,17 @@ const MotfSampleData = {
 	    Params: [
 		{
 		    id: 0,
-		    type: 0, //link
-		    name: "LP-dog",
-		    min: 30,
-		    max: 75
+		    type: 1, //random
+		    name: "RPpink",
+		    min: 120,
+		    max: 30
+		},
+		{
+		    id: 1,
+		    type: 0, //random
+		    name: "LPnone",
+		    min: 120,
+		    max: 30
 		}
 	    ],
 	    objectOrigin: "TL1",
@@ -125,8 +132,8 @@ const MotfSampleData = {
 		    "shape": "obj-rectangle",
 		    "left": 200,
 		    "top": 200,
-		    "width": 75,
-		    "height": 75,
+		    "width": "=150/2",
+		    "height": "=RPpink",
 		    "fill": "rgba(244, 24, 105, 0.50)",
 		    "stroke": "rgba(0, 0, 0, 1.00)",
 		    "PGTuid": 7

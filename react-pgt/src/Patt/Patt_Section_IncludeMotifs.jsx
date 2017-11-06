@@ -35,9 +35,16 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 			  <Motf_SVG size={45} motf={Motf}/>
 			  <span>{Motf.name}</span>
 			  <WgDustbin onClick={()=>{
+				// if the list has had length 1 (it will now be zero) enforce nothing selected
+				// does this actually do anything? Why is state unchanged upon the following render() call?
+				if(this.props.Patt_i.Motif_set.length === 1){
+				    this.setState({selectedRowIndex: undefined});
+				}
+				// remove the Motif from the list
 				this.props.handleModifySelPatt({
 				    Motif_set: {$splice: [[i, 1]]}
 				});
+
 			    }} />
 			</div>
 		    );
@@ -56,7 +63,7 @@ class Patt_Section_IncludeMotifs extends React.PureComponent {
 	const Patt = this.props.Patt_i;
 
 	//the Motif selected in the WgTable
-	const rowIdx = this.state.selectedRowIndex;
+	const rowIdx = Patt.Motif_set.length > 0 ? this.state.selectedRowIndex : undefined;
 	const motf_i_sProps = Patt.Motif_set[rowIdx];// 'static props'
 	const Motf_i = rowIdx !== undefined ? _.find(this.props.MotfArray, {uid: motf_i_sProps.uid}) : undefined;
 	

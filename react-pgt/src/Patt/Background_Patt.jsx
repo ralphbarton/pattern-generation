@@ -21,7 +21,11 @@ class Background_Patt extends React.PureComponent {
 	// 1. find the motif
 	const Patt = this.props.pattArray[pattUIState.selectedRowIndex];
 
-	const motif_props = Patt.Motif_set[0]; // take only the first item of the motifs set...
+	if(Patt.Motif_set.length < 1){return;} // No motifs included in the pattern? Abort
+
+	const motif_props = Patt.Motif_set[0]; /* take only the first item of the motifs set.
+						this is a simplified functionality temporary workaround.
+						*/
 
 	const Motf = _.find(this.props.PGTobjARRAYS["motf"], {uid: motif_props.uid} );//extract motif from the list, by UID
 

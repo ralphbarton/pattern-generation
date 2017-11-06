@@ -59,8 +59,9 @@ class Patt_Section_Linking extends React.PureComponent {
 	const LnParams = _.flatten(Patt.Motif_set.map( motf_i_sProps => {
 	    const Motf = _.find(this.props.MotfArray, {uid: motf_i_sProps.uid});
 	    const m_LnParams = _.filter(Motf.Params , {type: 0});
-	    _.each(m_LnParams, o=>{o.mName = Motf.name;});//assign motif name
-	    return _.filter(Motf.Params , {type: 0});
+
+	    // return array of clones in which a mName (Motif Name) property is set - don't mutate.
+	    return _.map( m_LnParams, o=>{return _.set( _.clone(o), 'mName', Motf.name);});
 	}));
 
 	//Todo - now compare "LnParams" with "Patt.links". The latter is a subset, depending on how many are assigned
