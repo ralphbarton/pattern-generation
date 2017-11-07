@@ -18,7 +18,7 @@ var Patt_util = {
 	};
     },
 
-    putPatternSVG: function(svg_el, Pointset, Motif, motif_props){
+    putPatternSVG: function(svg_el, Pointset, Motif, motif_props, PlotImgCache){
 
 	const d3_svg = select(svg_el);
 	d3_svg.selectAll("*").remove();
@@ -29,7 +29,15 @@ var Patt_util = {
 	_.each(Pointset, p => {
 
 	    var svg_Grp = d3_svg.append("g");
-	    Motf_util.putMotifSVG(svg_Grp.node(), Motif);
+
+	    /*
+	      todo: the work can happen here to extract the values from the motif
+	     */
+	    const LinkedParamValues = {
+		abc: PlotImgCache //not like this...
+	    };
+	    
+	    Motf_util.putMotifSVG(svg_Grp.node(), Motif, LinkedParamValues);
 
 	    //the point object is just {x:123, y:456}
 	    svg_Grp

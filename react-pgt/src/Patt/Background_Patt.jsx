@@ -63,9 +63,31 @@ class Background_Patt extends React.PureComponent {
 
 	// 3. generate the pattern SVG
 	
-	// signature:     putPatternSVG: function(svg_el, Pointset, Motif, motif_props)
-	Patt_util.putPatternSVG(this.svgElement, Pointset, Motf, motif_props);
+	// signature:     putPatternSVG: function(svg_el, Pointset, Motif, motif_props, PlotImgCache)
+	// (pass entire plot cache into the pattern renderer - there could be all sorts of links)
+	Patt_util.putPatternSVG(this.svgElement, Pointset, Motf, motif_props, this.props.PlotImgCache);
     }
+
+
+    shouldComponentUpdate(nextProps){
+
+	/*
+	 Only respond to change in these 3 props. Even this may trigger too many rerenders.
+	 This is ignoring changes in the plots cache
+	 - "dims"
+	 - "PGTobjARRAYS"
+	 - "pattUIState"
+	 */
+
+	// the 'dims' prop keeps changing when it shouldn't. Investigate...
+
+	//	const c1 = nextProps.dims          !== this.props.dims;
+	const c2 = nextProps.PGTobjARRAYS  !== this.props.PGTobjARRAYS;
+	const c3 = nextProps.pattUIState   !== this.props.pattUIState;
+	
+	return /*c1 ||*/ c2 || c3;
+    }
+
     
     render() {
 	/*

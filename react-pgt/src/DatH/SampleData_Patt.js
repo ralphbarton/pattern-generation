@@ -2,6 +2,32 @@ const PattSampleData = {
 
     arr: [
 	{
+	    name: "Bubbles",
+	    uid: 1,
+	    Motif_set: [
+		{
+		    uid: 0,
+		    scale: 0.21,
+		    angle: 0,
+		    opacity: 0.33
+		}
+	    ],
+	    type: "grid",//	    type: "plot",
+	    pdrive_uid: 1,
+	    /*plot_ops: {
+		qty: 100,
+		prom: 4
+		}*/
+	    links: [
+		{
+		    motf: 0, // uid
+		    parameter: 0, //uid
+		    type: "plot", // necessary? it could also be a density painting...
+		    target_uid: 8 // uid of the plot (in this case)
+		}
+	    ]
+	},
+	{
 	    name: "Playpen",
 	    uid: 0,
 	    Motif_set: [{
@@ -19,24 +45,6 @@ const PattSampleData = {
 		    value: 3
 		}
 	    ]
-	},
-	{
-	    name: "Bubbles",
-	    uid: 1,
-	    Motif_set: [
-		{
-		    uid: 3,
-		    scale: 0.21,
-		    angle: 0,
-		    opacity: 0.33
-		}
-	    ],
-	    type: "plot",
-	    pdrive_uid: 2,
-	    plot_ops: {
-		qty: 100,
-		prom: 4
-	    }
 	},
 	{
 	    name: "Frog Goat",

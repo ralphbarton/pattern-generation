@@ -181,7 +181,7 @@ var Motf_util = {
     },
 
     
-    putMotifSVG: function(svg_el, Motif){
+    putMotifSVG: function(svg_el, Motif, LinkedParamValues){ //final parameter is optional
 
 	const d3_svg = select(svg_el);
 	d3_svg.selectAll("*").remove();
@@ -190,6 +190,9 @@ var Motf_util = {
 	Motif.Elements.forEach( Element => {
 	    
 	    // 1. convert the details of this shape to SVG format
+
+	    // will need to pass in 'LinkedParamValues'
+
 	    const rendering_props = this.parseMotifElement('svg', Element, Motif.Params);
 	    
 	    // 2. append a new SVG element accordingly
