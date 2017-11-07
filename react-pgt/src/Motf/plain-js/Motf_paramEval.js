@@ -5,7 +5,7 @@ import Motf_lists from './Motf_lists';
 
 var Motf_paramEval = {
 
-    numberFromFormula: function(formulaString){
+    numberFromFormula: function(formulaString, random_Params){
 
 	const formulaStr = formulaString.split('=')[1];
 	
@@ -21,7 +21,15 @@ var Motf_paramEval = {
 
 	// 2. evaluate
 	try{
-	    var result = usrFn.eval({x:0, y:0});
+
+	    //converting an array into an object, by mutating an empty object
+	    const param_KVPs = {};
+	    random_Params.forEach( P => {
+		param_KVPs[P.name] = P.min + Math.random() * (P.max-P.min);
+	    });
+	    
+	    var result = usrFn.eval(param_KVPs);
+	    
 	}
 	catch (evaluationError){
 	    fail = true;
@@ -36,14 +44,22 @@ var Motf_paramEval = {
 
     },
     
-    evaluateMotifElement: function(Element){
+    evaluateMotifElement: function(Element, mParams){
+
+	/*
+	  // SOME WORK HERE IS NEEDED TO EVALUATE ONE-TIME (colour, dimention) values for this motif instance
+
+	  */
+	const random_Params = _.filter(mParams , {type: 1});
+
+	
+	// "mapValues()" - for an Object (rather than Array): keeping same keys, convert values.
 	return _.mapValues(Element, (value, key) =>{
 
 	    const PropertyDetails = _.find(Motf_lists.ObjectProperties, {DatH_Key: key} );
 	    const applyFormulaEval = PropertyDetails && PropertyDetails.type === "number" && value[0] === '=';
 
-	    //console.log(key, value, PropertyDetails);
-	    return applyFormulaEval ? this.numberFromFormula(value).r : value;
+	    return applyFormulaEval ? this.numberFromFormula(value, random_Params).r : value;
 	});
     }
 

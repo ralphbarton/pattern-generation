@@ -65,10 +65,10 @@ var Motf_util = {
 	    */
 
     
-    parseMotifElement: function(format, bareElement){
+    parseMotifElement: function(format, bareElement, mParams){
 
 	// "bareElement" has formula not numbers for some props (maybe)
-	const Element = Motf_paramEval.evaluateMotifElement(bareElement);
+	const Element = Motf_paramEval.evaluateMotifElement(bareElement, mParams);
 	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: Element.shape} );
 
 	if(format === 'fabric'){ // "properties object" for Fabric
@@ -190,7 +190,7 @@ var Motf_util = {
 	Motif.Elements.forEach( Element => {
 	    
 	    // 1. convert the details of this shape to SVG format
-	    const rendering_props = this.parseMotifElement('svg', Element);
+	    const rendering_props = this.parseMotifElement('svg', Element, Motif.Params);
 	    
 	    // 2. append a new SVG element accordingly
 	    d3_svg

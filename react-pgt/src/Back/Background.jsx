@@ -55,7 +55,8 @@ class PaneContent extends React.PureComponent {
 				 pattArray={this.props.PGTobjARRAYS['patt']}
 				 PGTobjARRAYS={this.props.PGTobjARRAYS} // this is a superset of the data passed above...
 				 pattUIState={this.props.UIState['patt']}
-				/>
+				 PlotImgCache={this.props.PlotImgCache}
+				 />
 	      }
 
 		</div>
