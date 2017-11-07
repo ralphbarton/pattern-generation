@@ -21,7 +21,9 @@ var Motf_util = {
     newRandomMotif: function(){
 	
 	const isCircle = Math.random() > 0.5;	// 50% chance of circle; 50% chance of rectangle...
-
+	const radius = 200;
+	const sqSide = 300;
+	
 	return {
 	    name: "New Motif",
 	    // uid is added separately
@@ -31,19 +33,19 @@ var Motf_util = {
 		_.assign(
 		    {
 			"shape": isCircle ? "obj-ellipse" : "obj-rectangle",
-			"left": isCircle ? 0 : 50,
-			"top": isCircle ? 0 : 50,
+			"left": isCircle ? -radius : -sqSide/2,
+			"top": isCircle ? -radius : -sqSide/2,
 			"fill": tinycolor.random().toHexString(),
 			"stroke": null,
 			"PGTuid": 0
 		    },
 		    isCircle ?
 			{
-			    "rx": 200,
-			    "ry": 200
+			    "rx": radius,
+			    "ry": radius
 			} : {
-			    "width":  300,
-			    "height": 300
+			    "width":  sqSide,
+			    "height": sqSide
 			}
 
 		)
@@ -63,7 +65,7 @@ var Motf_util = {
 	    */
 
     
-    parseMotifElement: function(format, bareElement, options){
+    parseMotifElement: function(format, bareElement){
 
 	// "bareElement" has formula not numbers for some props (maybe)
 	const Element = Motf_paramEval.evaluateMotifElement(bareElement);
@@ -85,9 +87,14 @@ var Motf_util = {
 	     */
 		
 		// Filter the Element object for valid props, using Lodash pick
+		const Properties = _.pick(Element, validKeys);
+
+		//mutate the object of picked properties, adjusting for the coordinate system of the fabric canvas
+		_.assign(Properties, {left: Properties["left"]+200, top: Properties["top"]+200});
+		
 		return {
 		    name: ShapeDetails.fabricKey,
-		    Properties: _.pick(Element, validKeys)
+		    properties: Properties
 		};
 	    
 	    }else{ // A shape for which key "fabricKey" is null a 'non-native Fabric shape' (e.g. hexagon)
@@ -127,20 +134,15 @@ var Motf_util = {
 	    // 1. get Attrs
 	    // "attributes" of svg object defined the geometry
 
-	    // put the origin in the middle of the Image (other ways to do this in an SVG?)
-	    // I don't think this is a final solution, below...
-	    const elementLeft = Element["left"] - (options.originZero ? 200 : 0);
-	    const elementTop  = Element["top"]  - (options.originZero ? 200 : 0);
-
 	    const elementTransformAttr = Element.angle ?
-		  {"transform": `rotate(${ Element.angle }, ${ elementLeft }, ${ elementTop })`} : {};
+		  {"transform": `rotate(${ Element.angle }, ${ Element["left"] }, ${ Element["top"] })`} : {};
 	    
 	    const Attrs = (()=>{
 		if (Element.shape === "obj-rectangle"){
 		    return _.assign({},
 				    { // src 1
-					"x": elementLeft,
-					"y": elementTop
+					"x": Element["left"],
+					"y": Element["top"]
 				    },
 				    _.pick(Element, ["width", "height"]), // src 2
 				    elementTransformAttr // src 3
@@ -149,8 +151,8 @@ var Motf_util = {
 		if (Element.shape === "obj-ellipse"){
 		    return _.assign({},
 				    { // src 1
-					"cx": elementLeft + Element["rx"],
-					"cy": elementTop + Element["ry"]
+					"cx": Element["left"] + Element["rx"],
+					"cy": Element["top"] + Element["ry"]
 				    },
 				    _.pick(Element, ["rx", "ry"]), // src 2
 				    elementTransformAttr // src 3
@@ -179,7 +181,7 @@ var Motf_util = {
     },
 
     
-    putMotifSVG: function(svg_el, Motif, options){
+    putMotifSVG: function(svg_el, Motif){
 
 	const d3_svg = select(svg_el);
 	d3_svg.selectAll("*").remove();
@@ -188,7 +190,7 @@ var Motf_util = {
 	Motif.Elements.forEach( Element => {
 	    
 	    // 1. convert the details of this shape to SVG format
-	    const rendering_props = this.parseMotifElement('svg', Element, options);
+	    const rendering_props = this.parseMotifElement('svg', Element);
 	    
 	    // 2. append a new SVG element accordingly
 	    d3_svg
@@ -204,7 +206,7 @@ var Motf_util = {
     // generate Fabric object from object saved in DatH
     Fabric_AddShape: function(canvas, Element){
 	const rendering_props = this.parseMotifElement("fabric", Element);
-	const new_shape = new fabric[ rendering_props.name ]( rendering_props.Properties );
+	const new_shape = new fabric[ rendering_props.name ]( rendering_props.properties );
 	new_shape.PGTuid = Element.PGTuid; //Not (obviously) done by the Fabric Contructor: setting UID
 	canvas.add(new_shape);
     },
@@ -229,12 +231,14 @@ var Motf_util = {
 	DatH_Elem = _.mapValues(DatH_Elem, v=>{return isNaN(v) ? v : _.round(v,1)}); // any numbers rounded to 1 d.p.
 	
 	// set some props manually...
-	DatH_Elem["shape"] = ShapeDetails.DatH_name;
-	DatH_Elem["PGTuid"] = fObj.PGTuid;
+	_.assign(DatH_Elem, {
+	    shape: ShapeDetails.DatH_name,
+	    PGTuid: fObj.PGTuid,
+	    // convert from fabric coordinates to standard coordinates
+	    left: (DatH_Elem.left - 200),
+	    top: (DatH_Elem.top - 200)
+	});
 
-	//I also want to Round some props. how do we manage that (numeric ones only...) (map and filter functions...)
-//	const Rnd = function (x){return _.round(x, 1);};
-	
 	return DatH_Elem;		
     },
 

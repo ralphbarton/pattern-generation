@@ -57,8 +57,8 @@ const MotfSampleData = {
 	    Elements: [
 		{
 		    "shape": "obj-ellipse",
-		    "left": 100,
-		    "top": 100,
+		    "left": -100,
+		    "top": -100,
 		    "fill": "rgba(48, 162, 7, 0.86)",
 		    "stroke": null,
 		    "rx": 100,
@@ -67,8 +67,8 @@ const MotfSampleData = {
 		},
 		{
 		    "shape": "obj-ellipse",
-		    "left": 83,
-		    "top": 83,
+		    "left": -117,
+		    "top": -117,
 		    "fill": "rgba(244, 200, 24, 0.69)",
 		    "stroke": null,
 		    "rx": "=90/2",
@@ -77,8 +77,8 @@ const MotfSampleData = {
 		},
 		{
 		    "shape": "obj-ellipse",
-		    "left": 218,
-		    "top": 212,
+		    "left": 18,
+		    "top": 12,
 		    "fill": "rgba(244, 200, 24, 0.69)",
 		    "stroke": null,
 		    "rx": 48,
@@ -110,8 +110,8 @@ const MotfSampleData = {
 	    Elements: [
 		{
 		    "shape": "obj-rectangle",
-		    "left": 125,
-		    "top": 125,
+		    "left": -75,
+		    "top": -75,
 		    "width": 75,
 		    "height": 75,
 		    "fill": "rgba(244, 200, 24, 0.69)",
@@ -120,8 +120,8 @@ const MotfSampleData = {
 		},
 		{
 		    "shape": "obj-rectangle",
-		    "left": 200,
-		    "top": 150,
+		    "left": 0,
+		    "top": -50,
 		    "width": 50,
 		    "height": 50,
 		    "fill": "rgba(24, 244, 31, 0.69)",
@@ -130,8 +130,8 @@ const MotfSampleData = {
 		},
 		{
 		    "shape": "obj-rectangle",
-		    "left": 200,
-		    "top": 200,
+		    "left": 0,
+		    "top": 0,
 		    "width": "=150/2",
 		    "height": "=RPpink",
 		    "fill": "rgba(244, 24, 105, 0.50)",
@@ -140,8 +140,8 @@ const MotfSampleData = {
 		},
 		{
 		    "shape": "obj-rectangle",
-		    "left": 150,
-		    "top": 200,
+		    "left": -50,
+		    "top": 0,
 		    "width": 50,
 		    "height": 50,
 		    "fill": "rgba(24, 83, 244, 0.50)",
@@ -150,8 +150,8 @@ const MotfSampleData = {
 		},
 		{
 		    "shape": "obj-rectangle",
-		    "left": 250,
-		    "top": 125,
+		    "left": 50,
+		    "top": -75,
 		    "width": 25,
 		    "height": 75,
 		    "fill": "rgba(24, 83, 244, 0.04)",
@@ -168,8 +168,8 @@ const MotfSampleData = {
 	    Elements: [
 		{
 		    "shape": "obj-rectangle",
-		    "left": 50,
-		    "top": 50,
+		    "left": -150,
+		    "top": -150,
 		    "fill": "#a3d583",
 		    "stroke": null,
 		    "PGTuid": 0,
@@ -185,8 +185,8 @@ const MotfSampleData = {
 	    objectOrigin: "TL1",
 	    Elements: [
 		{
-		    "left": 24,
-		    "top": 163,
+		    "left": -176,
+		    "top": -37,
 		    "shape": "obj-ellipse",
 		    "fill": "hsla(182, 69.55%, 46%, 0.38)",
 		    "stroke": "rgba(195, 3, 54, 1.00)",
@@ -196,8 +196,8 @@ const MotfSampleData = {
 		    "PGTuid": 1
 		},
 		{
-		    "left": 73.8,
-		    "top": 318.6,
+		    "left": -126,
+		    "top": 118.6,
 		    "shape": "obj-ellipse",
 		    "fill": "hsla(108, 69.55%, 46%, 0.46)",
 		    "stroke": "rgba(195, 3, 54, 1.00)",
@@ -208,8 +208,8 @@ const MotfSampleData = {
 		    "angle": 306.8
 		},
 		{
-		    "left": 142.2,
-		    "top": 30.8,
+		    "left": -58,
+		    "top": -169,
 		    "shape": "obj-ellipse",
 		    "fill": "rgba(37, 206, 122, 0.46)",
 		    "stroke": "rgba(195, 3, 54, 1.00)",

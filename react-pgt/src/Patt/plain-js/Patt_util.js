@@ -25,6 +25,19 @@ var Patt_util = {
 
 	if(!Pointset){return;}// passing a null pointset will trigger svg clear only
 	
+	// An approach that does not use the svg <use> element - there's going to be lots more repetition in the SVG
+	_.each(Pointset, p => {
+
+	    var svg_Grp = d3_svg.append("g");
+	    Motf_util.putMotifSVG(svg_Grp.node(), Motif);
+
+	    //the point object is just {x:123, y:456}
+	    svg_Grp
+		.attr("transform", `translate(${p.x} ${p.y}) rotate(${motif_props.angle}) scale(${motif_props.scale})`)
+		.attr("opacity", motif_props.opacity);
+	});
+
+	/*
 	// create a <defs> element in the SVG, contatining one group element... 
 	const mID = 34;
 	var svg_sub_el = d3_svg.append("defs").attr("class", "pattern_pid").append("g").attr("id", mID).node();
@@ -44,6 +57,7 @@ var Patt_util = {
 		return "translate("+d.x+" "+d.y+") rotate(" + motif_props.angle + ") scale(" + motif_props.scale + ")";
 	    })
 	    .attr("opacity", motif_props.opacity);
+	*/
     }
 }
 

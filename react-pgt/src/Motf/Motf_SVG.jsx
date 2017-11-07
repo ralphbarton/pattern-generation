@@ -24,7 +24,7 @@ class Motf_SVG extends React.PureComponent {
 		   className={"motf-thumb uid-" + this.props.motf.uid}
 		   width={side_length}
 		   height={side_length}
-		   viewBox={"0 0 400 400"}
+		   viewBox={"-200 -200 400 400"}
 		   ref={ (el) => {this.svg_el = el;}}
 		  />
 	    );
