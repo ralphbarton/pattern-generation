@@ -65,10 +65,10 @@ var Motf_util = {
 	    */
 
     
-    parseMotifElement: function(format, bareElement, mParams){
+    parseMotifElement: function(format, bareElement, paramData){
 
 	// "bareElement" has formula not numbers for some props (maybe)
-	const Element = Motf_paramEval.evaluateMotifElement(bareElement, mParams);
+	const Element = paramData ? Motf_paramEval.evaluateMotifElement(bareElement, paramData) : bareElement;
 	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: Element.shape} );
 
 	if(format === 'fabric'){ // "properties object" for Fabric
@@ -181,7 +181,7 @@ var Motf_util = {
     },
 
     
-    putMotifSVG: function(svg_el, Motif, LinkedParamValues){ //final parameter is optional
+    putMotifSVG: function(svg_el, Motif, readyEvaluatedParams){ //final parameter is optional
 
 	const d3_svg = select(svg_el);
 	d3_svg.selectAll("*").remove();
@@ -192,8 +192,8 @@ var Motf_util = {
 	    // 1. convert the details of this shape to SVG format
 
 	    // will need to pass in 'LinkedParamValues'
-
-	    const rendering_props = this.parseMotifElement('svg', Element, Motif.Params);
+	    const paramData = {mParams: Motif.Params, readyEvaluatedParams: readyEvaluatedParams};
+	    const rendering_props = this.parseMotifElement('svg', Element, paramData);
 	    
 	    // 2. append a new SVG element accordingly
 	    d3_svg

@@ -16,16 +16,16 @@ const MotfSampleData = {
 		    id: 0,
 		    type: 0, //link
 		    name: "LP01",
-		    min: 30,
-		    max: 75
-		},
+		    min: 80,
+		    max: 160
+		},/*
 		{
 		    id: 1,
 		    type: 0, //link
 		    name: "LP02",
 		    min: 5,
 		    max: 14
-		},
+		},*/
 		{
 		    id: 2,
 		    type: 1, //random
@@ -45,7 +45,7 @@ const MotfSampleData = {
 		    type: 3, //cpot pick
 		    name: "CP01",
 		    min: "--",
-		    max: "--"
+		     max: "--"
 		}
 	    ],
 	    /*
@@ -71,8 +71,8 @@ const MotfSampleData = {
 		    "top": -117,
 		    "fill": "rgba(244, 200, 24, 0.69)",
 		    "stroke": null,
-		    "rx": "=90/2",
-		    "ry": "=5^2+12",
+		    "rx": "=LP01",
+		    "ry": "=LP01",
 		    "PGTuid": 3
 		},
 		{
