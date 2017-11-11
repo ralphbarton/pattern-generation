@@ -85,8 +85,15 @@ class Background_Patt extends React.PureComponent {
 	//	const c1 = nextProps.dims          !== this.props.dims;
 	const c2 = nextProps.PGTobjARRAYS  !== this.props.PGTobjARRAYS;
 	const c3 = nextProps.pattUIState   !== this.props.pattUIState;
+
+
+	const tabIdx = nextProps.ToolboxUIState.selectedTabIndex;
+	const c4 =    this.props.ToolboxUIState.selectedTabIndex === tabIdx;
+
+	/* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
+	const en = (tabIdx === 2) || (tabIdx === 6); // only updates when certain tabs selected...
 	
-	return /*c1 ||*/ c2 || c3;
+	return /*c1 ||*/ (c2 || c3 || c4) && en;
     }
 
     

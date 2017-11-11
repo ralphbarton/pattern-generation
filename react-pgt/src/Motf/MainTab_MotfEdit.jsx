@@ -247,11 +247,17 @@ class MainTab_MotfEdit extends React.PureComponent {
 		     onClick={this.props.onCloseEditingMode.bind()}
 		     />
 		  <WgButton
+		     name="Apply"
+		     onClick={()=>{
+			 this.props.onSaveEdits(this.state.Motf);
+		     }}
+		    />
+		  <WgButton
 		     name="Done"
 		     onClick={()=>{
 			 this.props.onSaveEdits(this.state.Motf);
 			 this.props.onCloseEditingMode();
-		    }}
+		     }}
 		    />
 		</div>
 
