@@ -17,28 +17,33 @@ import MainTab_Opts from './Opts/MainTab_Opts';
 
 class Toolbox extends React.PureComponent {
 
-    constructor() {
-	super();
-	this.state = {
-	    toolboxSize: 1, /*options ae 1,2,3*/
-	    selectedTabIndex: 6, // default Tab selection /* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
-	    tabsEnabled: true
-	};
-    }
-    
+    //I'm using a pattern where I parent state upon component first mount........
+    componentDidMount(){
+	if (this.props.UIState.Toolbox.selectedTabIndex !== undefined){return;}
+
+	// Initial state below:
+	this.props.onUIStateChange({Toolbox: {
+	    $set:{
+		toolboxSize: 1, /*options ae 1,2,3*/
+		selectedTabIndex: 6, // default Tab selection /* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
+		tabsEnabled: true // the tab-strip becomes 'disabled' when in a sub-menu of a tab
+	    }
+	}});
+    }    
     
     handleToolboxSizeChange(newSize){
-	this.setState({
-	    toolboxSize: newSize,
-	    tabsEnabled: (newSize === 1) /* There may be other conditions for disabling main strip...*/
-	});
+	this.props.onUIStateChange({Toolbox: {
+	    toolboxSize: {$set: newSize},
+	    tabsEnabled: {$set: (newSize === 1)} /* There may be other conditions for disabling main strip...*/
+	}});
     }
 
     
     render() {
-	const toolboxDivClasses = "BeigeWindow Toolbox size-" + this.state.toolboxSize;
+	//sacraficial first render for default state
+	if (this.props.UIState.Toolbox.selectedTabIndex === undefined){return null;}
 
-
+	const toolboxDivClasses = "BeigeWindow Toolbox size-" + this.props.UIState.Toolbox.toolboxSize;
 
 	return (
 	    <Draggable handle=".handle">
@@ -51,17 +56,17 @@ class Toolbox extends React.PureComponent {
 		
 		<WgTabbedSection
 		   className="main"
-		   enabled={this.state.tabsEnabled}
-		   tabSelectedIndex={this.state.selectedTabIndex}
+		   enabled={this.props.UIState.Toolbox.tabsEnabled}
+		   tabSelectedIndex={this.props.UIState.Toolbox.selectedTabIndex}
 		   // The function below is worth rewriting for every component instance
 		   // it sets the specific state variable associated with the tab choice
 		   onTabClick={ new_i => {
-		       if (new_i === this.state.selectedTabIndex){return;}
-		       this.setState({
-			   selectedTabIndex: new_i
-		       });
+		       if (new_i === this.props.UIState.Toolbox.selectedTabIndex){return;}
+		       this.props.onUIStateChange({Toolbox: {
+			   selectedTabIndex: {$set: new_i}
+		       }});
 		   }}
-		  items={
+		   items={
 		      [
 			  {// Tab 1 - Colour Pots
 			      name: "Colour Pots",

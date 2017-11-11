@@ -34,6 +34,7 @@ class PGT_App extends React.PureComponent {
 		"cfun": CfunSampleData.arr
 	    },
 	    UI: {
+		Toolbox: {},
 		"cpot": {},
 		"grid": {},
 		"plot": {},
