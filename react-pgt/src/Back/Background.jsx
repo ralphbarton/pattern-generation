@@ -93,20 +93,26 @@ class Background extends React.PureComponent {
 	const a = this.state.aspect;
 	const constrain = a !== null;
 
+	const opts_UI = this.props.UIState['opts'];
+	const fixedDims = opts_UI.isFixedDims ? opts_UI.fixedDims : {width: Infinity, height: Infinity};
+	
 	let dims2 = dims;
 	if(constrain){
 	    const r = a[0] / a[1]; // width as a fraction of height
 	    dims2 = {
-		width:  Math.min(dims.width,  Math.floor(dims.height*r)),
-		height: Math.min(dims.height, Math.floor(dims.width/r))
+		width:  Math.min(dims.width,  Math.floor(dims.height*r), fixedDims.width),
+		height: Math.min(dims.height, Math.floor(dims.width/r),  fixedDims.height)
 	    };
 
 	    //achieve centering best via inline style too
-	    if(dims2.height !== dims.height){
-		dims2.top = (dims.height - dims2.height) / 2;
-	    }else{
+	    if(dims2.width !== dims.width){
 		dims2.left = (dims.width - dims2.width) / 2;
 	    }
+
+	    if(dims2.height !== dims.height){
+		dims2.top = (dims.height - dims2.height) / 2;
+	    }
+
 	}
 
 	this.cfg.paneDimsAR = dims2;
