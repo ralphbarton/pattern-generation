@@ -2,13 +2,59 @@
 
 .MainTab_Opts{
   padding: 5px;
+  flex: 1 auto;
+  display: flex;
+}
+
+.MainTab_Opts > div{
+  display: flex;
+  flex-flow: column;
+}
+
+.MainTab_Opts .column1{
+  min-width: 220px;
+}
+
+.MainTab_Opts .column2{
+  margin-left: 8px;
+  flex: 1 auto;
 }
 
 .MainTab_Opts .WgBoxie .contents{
   padding: 4px;
 }
 
+.MainTab_Opts .WgBoxie:last-child{
+  margin-top: 6px;
+}
+
+
 label{
   display: block;
   font-size: 14px;
+}
+
+.MainTab_Opts .fixedDimentions{
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.MainTab_Opts .fixedDimentions .WHInputs{
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-around;
+}
+
+
+.MainTab_Opts .WgBoxie.jsonExport textarea{
+  margin: 6px;
+  min-width: 430px;
+  min-height: 170px;
+  background-color: #eee;
+  font-size: 10px;
+}
+
+.MainTab_Opts .WgBoxie.more .contents{
+  font-size: 11px;
+  opacity: 0.7;
 }
