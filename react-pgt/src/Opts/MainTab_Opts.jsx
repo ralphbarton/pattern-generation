@@ -4,6 +4,9 @@ import WgBoxie from '../Wg/WgBoxie';
 import WgSmartInput from '../Wg/WgSmartInput';
 import {WgMutexActionLink, WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 
+import MotfEdit_Section_Properties_mElem_ColPick from '../Motf/MotfEdit_Section_Properties_mElem_ColPick';
+
+
 class MainTab_Opts extends React.PureComponent {
 
     componentDidMount(){
@@ -16,7 +19,11 @@ class MainTab_Opts extends React.PureComponent {
 	     2 - split screen, halves horizontal divide
 	     3 - split screen, quarters
 	     */
-	    mode: {$set: 0}
+	    mode: {$set: 0},
+	    isFixedDims: {$set: false},
+	    fixedDims: {$set: {width: 200, height: 200}},//dummy values
+	    bgColour: {$set: 'white'},
+	    exportPGTkey: {$set: 'cpot'}
 	});
     }
     
@@ -25,6 +32,8 @@ class MainTab_Opts extends React.PureComponent {
 	if (UI.mode === undefined){return null;}//sacraficial first render for default state
 	const setUI = (k,v) => {return this.props.setPGTtabUIState.bind(this, {[k]: {$set: v}});};
 	const noOp = ()=>{};
+
+	const actualDims = this.props.paneCfg.paneDimsAR || this.props.paneCfg.paneDims || {};
 	
 	return (
 	    <div className="MainTab_Opts">
@@ -57,44 +66,64 @@ class MainTab_Opts extends React.PureComponent {
 		  <div className="fixedDimentions">
 
 		    <WgMut2WayActionLink
-		       name="Set fixed pane dimentions"
-		       variableName="isFixedDimentions"
-		       value={/*UI.fixedDimentions*/ null}
-		       hofCB={/*setUI*/ ()=>{}}/>		  
+		       name="Pane dimentions"
+		       variableName="isFixedDims"
+		       value={UI.isFixedDims}
+		       actionNames={["auto", "custom"]}
+		       hofCB={ (k,v) => {
+			   const $chg = {
+			       isFixedDims: {$set: v},
+			       fixedDims: {$set: v ? actualDims : null}
+			   };
+			   return this.props.setPGTtabUIState.bind(this, $chg);
+		       }}
+		      />  
 
-
-		      <div className="WHInputs">
-			<span className="widthInput">
-			  
-			  Width:&nbsp;
-			  <WgSmartInput
-			     className="plain-cell s"
-			     value={null}
-			     dataUnit="dimentionless"
-			     step={1}
-			     onChange={(value)=>{}}
-			    />
-			</span>
-
-			<span className="heightInput">
-			  Height:&nbsp;
-			  <WgSmartInput
-			     className="plain-cell s"
-			     value={null}
-			     dataUnit="dimentionless"
-			     step={1}
-			     onChange={(value)=>{}}
-			    />
-			    
-			</span>
+		    { !UI.isFixedDims &&
+			<div className="paneWH">
+			      <span>Width: <span>{ actualDims.width } px</span></span>
+			      <span>Height: <span>{actualDims.height} px</span></span>
+			</div>
+		    }
+		    
+		    { UI.isFixedDims &&
+		      <div className="paneWH">
+			{
+			    ['width', 'height'].map( str => {
+				const Str = str.charAt(0).toUpperCase() + str.slice(1);
+				return (
+				    <span key={str}>			  
+				      {Str}:&nbsp;
+				      <WgSmartInput
+					 className="plain-cell s"
+					 value={UI.fixedDims[str]}
+					 dataUnit="pixels"
+					 step={1}
+					 onChange={(value)=>{
+					     this.props.setPGTtabUIState({fixedDims: {[str]: {$set: value}}});
+					}}
+					/>
+				    </span>
+				);
+			    })
+			}
 		      </div>
-		  </div>
-
+		    }
+	    
+		</div>
+		
 		</WgBoxie>
 
 
 		<WgBoxie className="solidBackground" name="Solid Background" >
-		  ** colour picker here... **
+		  <div>
+		    <MotfEdit_Section_Properties_mElem_ColPick
+	                 color={UI.bgColour}
+	                 onColourChange={ colour => {
+			     this.props.setPGTtabUIState({bgColour: {$set: colour}});
+			 }}
+		     />
+		  </div>
 		</WgBoxie>
 
 	      </div>
@@ -109,30 +138,15 @@ class MainTab_Opts extends React.PureComponent {
 		     name="Show data held for:"
 		     className="intervalUnit"
 		     equityTestingForEnabled={{
-			 currentValue: 2,
-			 representedValuesArray: [0, 1, 2, 3, 4]
+			 currentValue: UI.exportPGTkey,
+			 representedValuesArray: ['cpot','motf','grid','plot','patt']
 		     }}
-		     actions={[
-			 {
-			     name: "cpots",
-			     cb: ()=>{}
-			 },{
-			     name: "motfs",
-			     cb: ()=>{}
-			 },{
-			     name: "grids",
-			     cb: ()=>{}
-			 },{
-			     name: "plots",
-			     cb: ()=>{}
-			 },{
-			     name: "patts",
-			     cb: ()=>{}
-			 }
-		    ]}
+		     actions={['cpot','motf','grid','plot','patt'].map( str => {
+			 return {name: str+'s', cb: setUI('exportPGTkey', str)};
+		      })}
 		    />
 
-		    <textarea value={"text content here json json etc..."} readOnly={true}/>
+		    <textarea value={JSON.stringify(this.props.PGTobjARRAYS[UI.exportPGTkey], null, 2)} readOnly={true}/>
 
 		</WgBoxie>
 

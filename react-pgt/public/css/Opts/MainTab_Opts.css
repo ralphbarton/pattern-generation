@@ -39,11 +39,42 @@ label{
   margin-top: 10px;
 }
 
-.MainTab_Opts .fixedDimentions .WHInputs{
+.MainTab_Opts .fixedDimentions .paneWH{
   margin-top: 5px;
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  height: 30px;
 }
+
+.MainTab_Opts .fixedDimentions .paneWH > span > span{
+  font-weight: bold;
+    font-size: 14px;
+    color: #809db3;
+}
+
+.MainTab_Opts .fixedDimentions .paneWH input{
+  width: 55px;
+}
+
+
+.MainTab_Opts .solidBackground .contents > div{
+  margin-left: 20px;
+  background-color: white;
+  border: 2px inset #DBD1AB;
+  width: 160px;
+  height: 30px;
+  position: relative;
+}
+
+.MainTab_Opts .solidBackground .MotfEdit_Section_Properties_mElem_ColPick{
+  top: 8px;
+  left: 45px;
+}
+
+
+
+
 
 
 .MainTab_Opts .WgBoxie.jsonExport textarea{

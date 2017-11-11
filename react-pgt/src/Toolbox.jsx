@@ -159,7 +159,9 @@ class Toolbox extends React.PureComponent {
 				      <MainTab_Opts
 					 UI={this.props.UIState['opts']}
 					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"opts": $chg});}}
-					 />
+					 PGTobjARRAYS={this.props.PGTobjARRAYS}// for export feature...
+					 paneCfg={this.props.DensityImgCache.paneCfg}
+					/>
 				  );
 			      }
 			  }

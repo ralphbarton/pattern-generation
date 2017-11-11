@@ -1,4 +1,5 @@
 import React from 'react';
+var _ = require('lodash');
 
 import Background_Grid from '../Grid/Background_Grid';
 import Background_Plot2 from '../Plot/Background_Plot2';
@@ -22,7 +23,8 @@ class PaneContent extends React.PureComponent {
 	}else if(this.props.n === 1){ // synthesised content...
 
 	    return (
-		<div className="Background">
+		<div className="PaneContent"
+		     style={_.assign({backgroundColor: this.props.UIState['opts'].bgColour}, this.props.dims)} >
 	      {
 		  //CONDITIONALLY RENDER GRID BACKGROUND COMPONENT...
 		  (this.props.UIState['grid'].selectedRowIndex !== undefined) &&
@@ -195,7 +197,7 @@ class Background extends React.PureComponent {
 
 	      {
 		  S.splitMode === "single" &&
-		      <PaneContent n={1} dims={dims} {...this.props}/> // forward ALL props...
+		      <PaneContent n={1} dims={dims} {...this.props} /> // forward ALL props...
 	      }
 
 	      {
