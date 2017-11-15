@@ -2,12 +2,30 @@ const CfunSampleData = {
 
     arr: [
 	{
-	    Name: "My Colouring Function 1",
+	    name: "Sunset",
 	    uid: 0,
+	    stops: [
+		{
+		    colour: 0,
+		    position: 1,
+		}
+	    ],
+	    reps: [],
 	},
 	{
-	    Name: "My Second cFun",
+	    name: "Tropical",
 	    uid: 1,
+	    stops: [
+		{
+		    colour: 0,
+		    position: 1,
+		}
+	    ],
+	    reps: [],
+	},
+	{
+	    name: "My 3rd cFun",
+	    uid: 2,
 	}
     ]
 };

@@ -123,7 +123,7 @@ var Plot_CacheManager = {
 	    Plot_RenderManager.render(renderRequestObj);	
 	}else{
 	    this.running = false;
-	    console.log("'launchRenderChain()' call with all rendering up to date. this.running=", this.running);
+//	    console.log("'launchRenderChain()' call with all rendering up to date. this.running=", this.running);
 	}
     },
 
@@ -141,7 +141,7 @@ var Plot_CacheManager = {
 	const renderedDims = msg.requestObject.paneCfg.paneDimsAR;
 	const duration_ms  = new Date() - msg.requestObject.t_start;
 
-	console.log(`Completed uid:${uid}, res:${msg.requestObject.resolution}`);
+//	console.log(`Completed uid:${uid}, res:${msg.requestObject.resolution}`);
 	
 	this.plotCache = this.setPlotCache({
 	    [uid]: {

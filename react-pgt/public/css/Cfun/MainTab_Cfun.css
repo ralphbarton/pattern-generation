@@ -1,0 +1,10 @@
+/* MainTab_Cfun.css */
+
+
+.MainTab_Cfun .strip {
+  width: 500px;
+  height: 30px;
+  background-color: black;
+  opacity: 0.4;
+  margin: 5px;
+}

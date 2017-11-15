@@ -27,15 +27,16 @@ class PGT_App extends React.PureComponent {
 	this.state = {
 	    PGTobjARRAYS: {
 		"cpot": CpotSampleData.arr,
+		"cfun": CfunSampleData.arr,
 		"grid": GridSampleData.arr,
 		"plot": PlotSampleData.arr,
 		"motf": MotfSampleData.arr,
-		"patt": PattSampleData.arr,
-		"cfun": CfunSampleData.arr
+		"patt": PattSampleData.arr
 	    },
 	    UI: {
 		Toolbox: {},
 		"cpot": {},
+		"cfun": {},
 		"grid": {},
 		"plot": {},
 		"motf": {},

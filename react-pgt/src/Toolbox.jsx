@@ -8,6 +8,7 @@ import Draggable from 'react-draggable';
 import WgTabbedSection from './Wg/WgTabbedSection';
 
 import MainTab_CpotView from './Cpot/MainTab_CpotView';
+import MainTab_Cfun from './Cfun/MainTab_Cfun';
 import MainTab_Grid from './Grid/MainTab_Grid';
 import MainTab_Plot from './Plot/MainTab_Plot';
 import MainTab_MotfView from './Motf/MainTab_MotfView';
@@ -25,7 +26,7 @@ class Toolbox extends React.PureComponent {
 	this.props.onUIStateChange({Toolbox: {
 	    $set:{
 		toolboxSize: 1, /*options ae 1,2,3*/
-		selectedTabIndex: 6, // default Tab selection /* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
+		selectedTabIndex: 1, // default Tab selection /* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
 		tabsEnabled: true // the tab-strip becomes 'disabled' when in a sub-menu of a tab
 	    }
 	}});
@@ -87,8 +88,12 @@ class Toolbox extends React.PureComponent {
 			      name: "Colouring Functions",
 			      renderJSX: ()=>{
 				  return(
-				      // Colouring Functions
-				      <span> ere...  </span>
+				      <MainTab_Cfun
+					 PGTobjArray={this.props.PGTobjARRAYS['cfun']}
+					 onPGTobjArrayChange={this.props.onPGTobjARRAYSChange.bind(null, 'cfun')}
+					 UI={this.props.UIState['cfun']}
+					 setPGTtabUIState={($chg)=>{this.props.onUIStateChange({"cfun": $chg});}}
+					/>
 				  );
 			      }
 
