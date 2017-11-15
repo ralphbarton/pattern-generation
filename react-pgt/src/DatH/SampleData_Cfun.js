@@ -6,8 +6,12 @@ const CfunSampleData = {
 	    uid: 0,
 	    stops: [
 		{
-		    colour: 0,
-		    position: 1,
+		    colour: "rgba(255, 0, 0, 0.8)",
+		    position: 0,
+		},
+		{
+		    colour: "rgba(255, 255, 0, 0.5)",
+		    position: 100,
 		}
 	    ],
 	    reps: [],
@@ -17,15 +21,15 @@ const CfunSampleData = {
 	    uid: 1,
 	    stops: [
 		{
-		    colour: 0,
-		    position: 1,
+		    colour: "rgba(255, 0, 128, 0.8)",
+		    position: 0,
+		},
+		{
+		    colour: "rgba(80, 170, 0, 0.1)",
+		    position: 100,
 		}
 	    ],
 	    reps: [],
-	},
-	{
-	    name: "My 3rd cFun",
-	    uid: 2,
 	}
     ]
 };

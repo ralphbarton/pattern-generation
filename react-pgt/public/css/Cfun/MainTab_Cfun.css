@@ -1,10 +1,134 @@
 /* MainTab_Cfun.css */
 
 
-.MainTab_Cfun .strip {
-  width: 500px;
-  height: 30px;
-  background-color: black;
-  opacity: 0.4;
-  margin: 5px;
+
+
+/* 1. Table listing */
+
+.MainTab_Cfun .WgTable tbody{
+    height: 225px;
+}
+
+.MainTab_Cfun .WgTable .col-1{
+    width: 18px;
+}
+
+.MainTab_Cfun .WgTable th.col-2{
+    width: 90px;
+}
+
+.MainTab_Cfun .WgTable .col-2{
+    padding: 0px;
+    padding-right: 1px;
+}
+
+.MainTab_Cfun .WgTable input.blue-cell{
+    width: 84px;
+}
+
+.MainTab_Cfun .WgTable th.col-3{
+    width: 90px;
+}
+
+.MainTab_Cfun .WgTable td.col-3{
+    padding: 1px;
+}
+
+.MainTab_Cfun .chequer{
+    background-color: white;
+}
+
+.MainTab_Cfun .prev {
+    width: 75px;
+    height: 19px;
+}
+
+
+
+
+
+
+
+
+/* 2. High-level arrangement */
+
+.MainTab_Cfun {
+    flex: 1 auto;
+    display: flex;
+}
+
+.MainTab_Cfun .column1{
+    text-align: right;
+}
+
+.MainTab_Cfun .column2 {
+    flex: 1 auto;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+
+
+
+
+
+/* 3. Upper Controls Strip */
+.MainTab_Cfun .column2 .upperControls{
+    text-align: right;
+    margin: 6px;
+    margin-top: 2px;
+}
+
+.MainTab_Cfun .column2 .WgDropDown{
+    margin-left: 10px;
+}
+
+.MainTab_Cfun .column2 .WgDropDown .dropbtn{
+    width: 100px;
+}
+
+
+/* 4. Interactive Block */
+.MainTab_Cfun .interactiveCfun{
+    flex: 1 auto;
+    position: relative;
+}
+
+.MainTab_Cfun .interactiveCfun .chequer{
+    position: absolute;
+    top: 45px;
+    left: 4px;
+
+}
+
+.MainTab_Cfun .interactiveCfun .strip {
+    width: 460px;
+    height: 50px;
+    box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
+}
+
+.MainTab_Cfun .interactiveCfun .stopsContainer{
+    position: absolute;
+    top: 90px;
+    left: -2px;
+}
+
+.MainTab_Cfun .interactiveCfun .stopsContainer > div{
+    position: absolute;
+}
+
+.MainTab_Cfun .interactiveCfun .stopsContainer img{
+    height: 45px;
+}
+
+
+
+
+
+
+/* 5. Lower Boxie */
+.MainTab_Cfun .WgBoxie.colourStop{
+    max-height: 100px;
+    margin-right: 6px;
+    margin-bottom: 6px;
 }

@@ -15,7 +15,7 @@ class MainTab_CpotView extends React.PureComponent {
 	};
 
 	//hop straight into "Edit mode".
-	setTimeout(this.handleSetEditMode.bind(this, true), 40);
+//	setTimeout(this.handleSetEditMode.bind(this, true), 40);
 
     }
 
