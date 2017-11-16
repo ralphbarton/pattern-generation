@@ -88,28 +88,40 @@
 }
 
 
+.MainTab_Cfun .column2 .upperControls .button{
+   margin-top: 6px;
+}
+
+
+
+
+
+
+
+
+
+
 /* 4. Interactive Block */
 .MainTab_Cfun .interactiveCfun{
     flex: 1 auto;
     position: relative;
+    margin-top: 20px;
 }
 
 .MainTab_Cfun .interactiveCfun .chequer{
     position: absolute;
-    top: 45px;
     left: 4px;
 
 }
 
 .MainTab_Cfun .interactiveCfun .strip {
-    width: 460px;
     height: 50px;
     box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
 }
 
 .MainTab_Cfun .interactiveCfun .stopsContainer{
     position: absolute;
-    top: 90px;
+    top: 45px;
     left: -2px;
 }
 

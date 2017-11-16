@@ -3,16 +3,17 @@ var _ = require('lodash');
 
 import Draggable from 'react-draggable';
 
-// generic project widgets
-
+// Wg (widgets)
 import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
 import {WgDropDown} from '../Wg/WgDropDown';
 import WgBoxie from '../Wg/WgBoxie';
+import WgActionLink from '../Wg/WgActionLink';
 
+// specific code import
 import Cfun_util from './plain-js/Cfun_util';
 
-
+// assets
 import imgUpArrow   from './asset/Arrow_up.png';
 
 
@@ -61,6 +62,8 @@ class MainTab_Cfun extends React.PureComponent {
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
 	const Cfun_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
 
+	const strip_WidthPx = 468;
+	
 	return (
 
 	    <div className="MainTab_Cfun">
@@ -108,6 +111,12 @@ class MainTab_Cfun extends React.PureComponent {
 		{/* 2.1  Upper Controls */}
 		<div className="upperControls">
 
+		  <WgActionLink
+		     name={"Evenly space stops"}
+		     onClick={null}
+		     enabled={true}/* code a function to test for this*/
+		     />
+		  
 		  <WgDropDown
 		     name={false?"Opacity Separated":"Opacity Combined"}
 		     className="opacitySeparated"
@@ -128,6 +137,12 @@ class MainTab_Cfun extends React.PureComponent {
 		     ddStyle="plain">
 		    Content within Popout goes here...
 		  </WgDropDown>
+
+		  <WgButton
+		     name="Add Stop"
+		     buttonStyle={"small"}
+		     onClick={this.props.fn.handleDuplicateSelPGTobj}
+		     />
 		  
 		</div>
 
@@ -135,26 +150,35 @@ class MainTab_Cfun extends React.PureComponent {
 		{/* 2.2  Interactive Cfun */}
 		<div className="interactiveCfun">
 		  <div className="chequer">
-		    <div className="strip" style={Cfun_util.cssGradient(Cfun_i)}/>
+		    <div className="strip" style={ _.assign({width: strip_WidthPx}, Cfun_util.cssGradient(Cfun_i)) }/>
 		  </div>
 
 		  <div className="stopsContainer">
 		    {
-			[1,2,3,4].map( J=>{
-			return (
-			    <Draggable
-			       key={J}
-			       bounds={{left: 0, top: 0, right: 400, bottom: 0}}
-			       >
-			      <div>
-				<img src={imgUpArrow}
-				     //prevents firefox drag effect
-				     onMouseDown={(event) => {if(event.preventDefault) {event.preventDefault();}}}
-				  alt=""/>
-			      </div>
-			    </Draggable>
-
-			);
+			Cfun_i.stops.map( (stop, i) => {
+			    const posn = strip_WidthPx * stop.position/100;
+			    return (
+				<Draggable
+				   key={i} // this is going to fail when stops swap positions...
+				   bounds={{left: 0, top: 0, right: strip_WidthPx, bottom: 0}}
+				   position={{x: posn, y: 0}}
+				   onDrag={(e, data) => {
+				       const pc_posn = 100 * data.x/strip_WidthPx;
+				       this.props.fn.handleModifySelPGTobj({
+					   stops: {
+					       [i]: {position: {$set: pc_posn}}
+					   }
+				       });
+				   }}
+				   >
+				  <div>
+				    <img src={imgUpArrow}
+					 //prevents firefox drag effect
+					 onMouseDown={(event) => {if(event.preventDefault) {event.preventDefault();}}}
+				      alt=""/>
+				  </div>
+				</Draggable>
+			    );
 			})
 		    }
 
