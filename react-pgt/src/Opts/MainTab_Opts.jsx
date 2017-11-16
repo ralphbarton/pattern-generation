@@ -139,9 +139,9 @@ class MainTab_Opts extends React.PureComponent {
 		     className="intervalUnit"
 		     equityTestingForEnabled={{
 			 currentValue: UI.exportPGTkey,
-			 representedValuesArray: ['cpot','motf','grid','plot','patt']
+			 representedValuesArray: ['cpot','cfun','motf','grid','plot','patt']
 		     }}
-		     actions={['cpot','motf','grid','plot','patt'].map( str => {
+	             actions={['cpot','cfun','motf','grid','plot','patt'].map( str => {
 			 return {name: str+'s', cb: setUI('exportPGTkey', str)};
 		      })}
 		    />

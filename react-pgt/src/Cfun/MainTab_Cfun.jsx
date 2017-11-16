@@ -61,7 +61,8 @@ class MainTab_Cfun extends React.PureComponent {
 
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
 	const Cfun_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
-
+	const Stops = Cfun_i.stops;
+	
 	const strip_WidthPx = 468;
 	
 	return (
@@ -114,10 +115,10 @@ class MainTab_Cfun extends React.PureComponent {
 		  <WgActionLink
 		     name={"Evenly space stops"}
 		     onClick={ () => {
-			 const qty_stops = Cfun_i.stops.length;
+			 const qty_stops = Stops.length;
 
 			 const $update = {};
-			 _.each(Cfun_i.stops, (stop, i) => {
+			 _.each(Stops, (stop, i) => {
 			     $update[i] = {position: {$set: 100 * i / (qty_stops-1)}};
 			 });
 			 
@@ -154,24 +155,32 @@ class MainTab_Cfun extends React.PureComponent {
 		     buttonStyle={"small"}
 		     onClick={ () => {
 
-			 const new_posn = 50;
-			 const k = "position";
+			 // 1. decide index at to inject the new stop, so that it splits the biggest space
+			 let i_mg = 0;//
+			 let max_gap = 0;
 
-			 const new_stopsArr = _.clone(Cfun_i.stops);
-			 new_stopsArr.push({
-			     colour: "rgba(0, 0, 0, 0.8)",
-			     position: 50
+			 _.each(Stops, (stop, i)=>{
+			     if(i===0){return;}
+
+			     const gap = stop.position - Stops[i-1].position;
+			     if(gap > max_gap){
+				 i_mg = i;
+				 max_gap = gap;	 
+			     }
 			 });
+
+			 // 2. calc actual % position, and immutably splice it in...
+			 const new_posn = i_mg === 0 ? 50 : _.mean([Stops[i_mg-1].position, Stops[i_mg].position ]);
+
+			 const newStop = {
+			     colour: "#000",
+			     position: new_posn
+			 };
 			 
-			 new_stopsArr.sort( (a,b) => {
-			     if (a[k] < b[k]) {return -1;}
-			     if (a[k] > b[k]) {return 1;}
-			     return 0;
-			  });
-
 			 this.props.fn.handleModifySelPGTobj({
-			     stops: {$set: new_stopsArr}
+			     stops: {$splice: [[i_mg, 0, newStop]]}
 			 });
+
 		     }}
 		     />
 		  
@@ -186,7 +195,7 @@ class MainTab_Cfun extends React.PureComponent {
 
 		  <div className="stopsContainer">
 		    {
-			Cfun_i.stops.map( (stop, i) => {
+			Stops.map( (stop, i) => {
 			    const posn = strip_WidthPx * stop.position/100;
 			    return (
 				<Draggable
@@ -194,12 +203,40 @@ class MainTab_Cfun extends React.PureComponent {
 				   bounds={{left: 0, top: 0, right: strip_WidthPx, bottom: 0}}
 				   position={{x: posn, y: 0}}
 				   onDrag={(e, data) => {
+
+				       // 1. decide whether it has swapped position in the stops array
 				       const pc_posn = 100 * data.x/strip_WidthPx;
-				       this.props.fn.handleModifySelPGTobj({
-					   stops: {
-					       [i]: {position: {$set: pc_posn}}
-					   }
-				       });
+
+				       const swap_down = i > 0              ? (pc_posn < Stops[i-1].position) : false;
+				       const swap_up   = i < Stops.length-1 ? (pc_posn > Stops[i+1].position) : false;
+
+				       const swap = swap_down || swap_up;
+
+				       // Crude way to handle cases where swap has occured: immutably rewrite whole stops array.
+				       if(swap){
+
+					   const new_stopsArr = _.clone(Stops);
+					   new_stopsArr[i].position = pc_posn;
+					   
+					   const k = "position";
+					   new_stopsArr.sort( (a,b) => {
+					       if (a[k] < b[k]) {return -1;}
+					       if (a[k] > b[k]) {return 1;}
+					       return 0;
+					   });
+					   
+					   this.props.fn.handleModifySelPGTobj({
+					       stops: {$set: new_stopsArr}
+					   });
+
+					}else{ //manage position change in the normal way
+					    this.props.fn.handleModifySelPGTobj({
+						stops: {
+						    [i]: {position: {$set: pc_posn}}
+						}
+					    });
+
+					}
 				   }}
 				   >
 				  <div>
