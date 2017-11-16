@@ -113,7 +113,18 @@ class MainTab_Cfun extends React.PureComponent {
 
 		  <WgActionLink
 		     name={"Evenly space stops"}
-		     onClick={null}
+		     onClick={ () => {
+			 const qty_stops = Cfun_i.stops.length;
+
+			 const $update = {};
+			 _.each(Cfun_i.stops, (stop, i) => {
+			     $update[i] = {position: {$set: 100 * i / (qty_stops-1)}};
+			 });
+			 
+			 this.props.fn.handleModifySelPGTobj({
+			     stops: $update
+			 });
+		    }}
 		     enabled={true}/* code a function to test for this*/
 		     />
 		  
@@ -141,7 +152,27 @@ class MainTab_Cfun extends React.PureComponent {
 		  <WgButton
 		     name="Add Stop"
 		     buttonStyle={"small"}
-		     onClick={this.props.fn.handleDuplicateSelPGTobj}
+		     onClick={ () => {
+
+			 const new_posn = 50;
+			 const k = "position";
+
+			 const new_stopsArr = _.clone(Cfun_i.stops);
+			 new_stopsArr.push({
+			     colour: "rgba(0, 0, 0, 0.8)",
+			     position: 50
+			 });
+			 
+			 new_stopsArr.sort( (a,b) => {
+			     if (a[k] < b[k]) {return -1;}
+			     if (a[k] > b[k]) {return 1;}
+			     return 0;
+			  });
+
+			 this.props.fn.handleModifySelPGTobj({
+			     stops: {$set: new_stopsArr}
+			 });
+		     }}
 		     />
 		  
 		</div>
