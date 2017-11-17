@@ -1,6 +1,8 @@
 import React from 'react';
 var _ = require('lodash');
 
+import tinycolor from 'tinycolor2'; // remove colour transparency...
+
 // Wg (widgets)
 import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
@@ -16,12 +18,19 @@ import Cfun_Section_InteractiveStrip from './Cfun_Section_InteractiveStrip';
 
 
 class MainTab_Cfun extends React.PureComponent {
-
+    
     componentDidMount(){
 	// this function call sets "UI.selectedRowIndex" (needed for table) - even if an empty object is passed
 	this.props.fn.defaultUIStateConfiguration({
-	    /* previewActive: true */
+	    stopSelected: undefined
 	});
+    }
+
+    componentWillReceiveProps(nextProps){
+	const rowSelectedChg = nextProps.UI.selectedRowIndex !== this.props.UI.selectedRowIndex;
+	if(rowSelectedChg){
+	    this.props.fn.handleUIStateChange("stopSelected", undefined);
+	}
     }
     
     cfun_WgTableColumns(){
@@ -62,6 +71,9 @@ class MainTab_Cfun extends React.PureComponent {
 	const UpdateSelectedCfun = this.props.fn.handleModifySelPGTobj;
 	const Cfun_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
 	const Stops = Cfun_i.stops;
+
+	const stopSel = this.props.UI.stopSelected;
+	const Stop_i = stopSel !== undefined ? Stops[stopSel] : null;
 	
 	return (
 
@@ -189,13 +201,41 @@ class MainTab_Cfun extends React.PureComponent {
 		<Cfun_Section_InteractiveStrip
 		   Cfun_i={Cfun_i}
 		   UpdateSelectedCfun={UpdateSelectedCfun}
+		   UI={this.props.UI}
+		   handleUIStateChange={this.props.fn.handleUIStateChange}
 		   />
+
+
 		
+
 		{/* 2.3  Colour-Stop controls */}		
 		<WgBoxie className="colourStop" name="Colour Stop">
-		  Colour sun and other stuff here
+
+		  {Stop_i !== null &&
+		  <div>
+		    
+		    <div
+		       className="colour-sun s"
+		       style={{backgroundColor: tinycolor(Stop_i.colour).toHexString()}}
+		       onClick={/*this.hofHandleShowPicker(true)*/ null}
+		       />
+
+		    <WgButton
+		       name="Delete"
+		       buttonStyle={"small"}
+		       onClick={/*this.props.fn.handleDeleteSelPGTobj*/null}
+		       />
+
+		  </div>
+		  }
+
 		</WgBoxie>
 
+
+
+
+
+		
 	      </div>
 	      
 	    </div>

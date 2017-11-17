@@ -2,6 +2,7 @@ import React from 'react';
 var _ = require('lodash');
 
 import Draggable from 'react-draggable';
+import tinycolor from 'tinycolor2'; // remove colour transparency...
 
 // specific code import
 import Cfun_util from './plain-js/Cfun_util';
@@ -32,6 +33,7 @@ class Cfun_Section_InteractiveStrip extends React.PureComponent {
 		    {
 			Stops.map( (stop, i) => {
 			    const posn = strip_WidthPx * stop.position/100;
+			    const col_opaque = tinycolor(stop.colour).toHexString();
 			    return (
 				<Draggable
 				   key={i} // this is going to fail when stops swap positions...
@@ -72,14 +74,18 @@ class Cfun_Section_InteractiveStrip extends React.PureComponent {
 					    });
 
 					}
-				   }}
-				   >
-				  <div>
-				    <img src={imgUpArrow}
-					 //prevents firefox drag effect
-					 onMouseDown={(event) => {if(event.preventDefault) {event.preventDefault();}}}
-				      alt=""/>
-				  </div>
+				      }}
+				      >
+				      <div className={this.props.UI.stopSelected===i?"selected":""}
+					   onClick={ ()=>{
+					       this.props.handleUIStateChange("stopSelected", i);
+					}}>
+					<img src={imgUpArrow}
+					     //prevents firefox drag effect
+					     onMouseDown={(event) => {if(event.preventDefault) {event.preventDefault();}}}
+					  alt=""/>
+					  <div className="spot" style={{backgroundColor: col_opaque}}/>
+				      </div>
 				</Draggable>
 			    );
 			})

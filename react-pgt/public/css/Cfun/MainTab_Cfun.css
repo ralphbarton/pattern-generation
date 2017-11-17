@@ -113,3 +113,11 @@
     margin-right: 6px;
     margin-bottom: 6px;
 }
+
+.MainTab_Cfun .colour-sun{
+    margin-left: 20px;
+    margin-top: 7px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}

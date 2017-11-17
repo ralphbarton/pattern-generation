@@ -26,8 +26,38 @@
 
 .Cfun_Section_InteractiveStrip .stopsContainer > div{
     position: absolute;
+    height: 48px;
+    width: 15px;
 }
 
 .Cfun_Section_InteractiveStrip .stopsContainer img{
-    height: 45px;
+        transition: all 0.1s;
+    position: absolute;
+    height: 35px;
+    opacity: 0.5;
+}
+
+
+.Cfun_Section_InteractiveStrip .stopsContainer > div.selected img{
+    opacity: 1;
+}
+
+.Cfun_Section_InteractiveStrip .stopsContainer .spot{
+    transition: transform 0.1s;
+    position: absolute;
+    top: 30px;
+    left: -2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.6);
+}
+
+.Cfun_Section_InteractiveStrip .stopsContainer > div:hover .spot{
+    transform: scale(1.4);
+}
+
+.Cfun_Section_InteractiveStrip .stopsContainer > div.selected .spot{
+    transform: scale(1.4);
+    box-shadow: 0px 0px 2px 1.5px rgba(0,0,0,1);
 }
