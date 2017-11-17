@@ -1,0 +1,33 @@
+/* Cfun_Section_InteractiveStrip.css */
+
+
+.Cfun_Section_InteractiveStrip{
+    flex: 1 auto;
+    position: relative;
+    margin-top: 20px;
+}
+
+.Cfun_Section_InteractiveStrip .chequer{
+    position: absolute;
+    left: 4px;
+
+}
+
+.Cfun_Section_InteractiveStrip .strip {
+    height: 50px;
+    box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
+}
+
+.Cfun_Section_InteractiveStrip .stopsContainer{
+    position: absolute;
+    top: 45px;
+    left: -2px;
+}
+
+.Cfun_Section_InteractiveStrip .stopsContainer > div{
+    position: absolute;
+}
+
+.Cfun_Section_InteractiveStrip .stopsContainer img{
+    height: 45px;
+}

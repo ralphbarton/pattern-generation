@@ -101,37 +101,6 @@
 
 
 
-/* 4. Interactive Block */
-.MainTab_Cfun .interactiveCfun{
-    flex: 1 auto;
-    position: relative;
-    margin-top: 20px;
-}
-
-.MainTab_Cfun .interactiveCfun .chequer{
-    position: absolute;
-    left: 4px;
-
-}
-
-.MainTab_Cfun .interactiveCfun .strip {
-    height: 50px;
-    box-shadow: 0px 0px 7px 1px rgba(0,0,0,1);
-}
-
-.MainTab_Cfun .interactiveCfun .stopsContainer{
-    position: absolute;
-    top: 45px;
-    left: -2px;
-}
-
-.MainTab_Cfun .interactiveCfun .stopsContainer > div{
-    position: absolute;
-}
-
-.MainTab_Cfun .interactiveCfun .stopsContainer img{
-    height: 45px;
-}
 
 
 

@@ -1,8 +1,6 @@
 import React from 'react';
 var _ = require('lodash');
 
-import Draggable from 'react-draggable';
-
 // Wg (widgets)
 import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
@@ -13,8 +11,8 @@ import WgActionLink from '../Wg/WgActionLink';
 // specific code import
 import Cfun_util from './plain-js/Cfun_util';
 
-// assets
-import imgUpArrow   from './asset/Arrow_up.png';
+// Components of the cfun tab...
+import Cfun_Section_InteractiveStrip from './Cfun_Section_InteractiveStrip';
 
 
 class MainTab_Cfun extends React.PureComponent {
@@ -60,10 +58,10 @@ class MainTab_Cfun extends React.PureComponent {
     render() {
 
 	if(this.props.UI.selectedRowIndex === undefined){return null;}
+
+	const UpdateSelectedCfun = this.props.fn.handleModifySelPGTobj;
 	const Cfun_i = this.props.PGTobjArray[this.props.UI.selectedRowIndex];
 	const Stops = Cfun_i.stops;
-	
-	const strip_WidthPx = 468;
 	
 	return (
 
@@ -122,7 +120,7 @@ class MainTab_Cfun extends React.PureComponent {
 			     $update[i] = {position: {$set: 100 * i / (qty_stops-1)}};
 			 });
 			 
-			 this.props.fn.handleModifySelPGTobj({
+			 UpdateSelectedCfun({
 			     stops: $update
 			 });
 		    }}
@@ -177,7 +175,7 @@ class MainTab_Cfun extends React.PureComponent {
 			     position: new_posn
 			 };
 			 
-			 this.props.fn.handleModifySelPGTobj({
+			 UpdateSelectedCfun({
 			     stops: {$splice: [[i_mg, 0, newStop]]}
 			 });
 
@@ -188,72 +186,10 @@ class MainTab_Cfun extends React.PureComponent {
 
 
 		{/* 2.2  Interactive Cfun */}
-		<div className="interactiveCfun">
-		  <div className="chequer">
-		    <div className="strip" style={ _.assign({width: strip_WidthPx}, Cfun_util.cssGradient(Cfun_i)) }/>
-		  </div>
-
-		  <div className="stopsContainer">
-		    {
-			Stops.map( (stop, i) => {
-			    const posn = strip_WidthPx * stop.position/100;
-			    return (
-				<Draggable
-				   key={i} // this is going to fail when stops swap positions...
-				   bounds={{left: 0, top: 0, right: strip_WidthPx, bottom: 0}}
-				   position={{x: posn, y: 0}}
-				   onDrag={(e, data) => {
-
-				       // 1. decide whether it has swapped position in the stops array
-				       const pc_posn = 100 * data.x/strip_WidthPx;
-
-				       const swap_down = i > 0              ? (pc_posn < Stops[i-1].position) : false;
-				       const swap_up   = i < Stops.length-1 ? (pc_posn > Stops[i+1].position) : false;
-
-				       const swap = swap_down || swap_up;
-
-				       // Crude way to handle cases where swap has occured: immutably rewrite whole stops array.
-				       if(swap){
-
-					   const new_stopsArr = _.clone(Stops);
-					   new_stopsArr[i].position = pc_posn;
-					   
-					   const k = "position";
-					   new_stopsArr.sort( (a,b) => {
-					       if (a[k] < b[k]) {return -1;}
-					       if (a[k] > b[k]) {return 1;}
-					       return 0;
-					   });
-					   
-					   this.props.fn.handleModifySelPGTobj({
-					       stops: {$set: new_stopsArr}
-					   });
-
-					}else{ //manage position change in the normal way
-					    this.props.fn.handleModifySelPGTobj({
-						stops: {
-						    [i]: {position: {$set: pc_posn}}
-						}
-					    });
-
-					}
-				   }}
-				   >
-				  <div>
-				    <img src={imgUpArrow}
-					 //prevents firefox drag effect
-					 onMouseDown={(event) => {if(event.preventDefault) {event.preventDefault();}}}
-				      alt=""/>
-				  </div>
-				</Draggable>
-			    );
-			})
-		    }
-
-		  </div>
-
-		</div>
-
+		<Cfun_Section_InteractiveStrip
+		   Cfun_i={Cfun_i}
+		   UpdateSelectedCfun={UpdateSelectedCfun}
+		   />
 		
 		{/* 2.3  Colour-Stop controls */}		
 		<WgBoxie className="colourStop" name="Colour Stop">
