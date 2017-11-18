@@ -3,19 +3,25 @@
 
 .Cfun_Section_UpperControls{
     text-align: right;
-    margin: 6px;
     margin-top: 2px;
+    min-height: 50px;
 }
 
 .Cfun_Section_UpperControls .WgDropDown{
-    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .Cfun_Section_UpperControls .WgDropDown .dropbtn{
-    width: 100px;
+    width: 117px;
+}
+
+.Cfun_Section_UpperControls .action-link{
+    position: absolute;
+    top: 30px;
 }
 
 
 .Cfun_Section_UpperControls .button{
    margin-top: 6px;
+   margin-right: 10px;
 }

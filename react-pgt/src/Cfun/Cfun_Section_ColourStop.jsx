@@ -1,8 +1,6 @@
 import React from 'react';
 //var _ = require('lodash');
 
-import tinycolor from 'tinycolor2'; // remove colour transparency...
-
 import WgBoxie from '../Wg/WgBoxie';
 import {WgButton} from '../Wg/WgButton';
 import {WgDropDown} from '../Wg/WgDropDown';

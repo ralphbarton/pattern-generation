@@ -40,7 +40,7 @@ class Cfun_Section_UpperControls extends React.PureComponent {
 		</WgDropDown>
 
 		<WgDropDown
-		   name="Gradation"
+		   name="Gradation (set all)"
 		   className="gradation"
 		   ddStyle="plain">
 		  Content within Popout goes here...

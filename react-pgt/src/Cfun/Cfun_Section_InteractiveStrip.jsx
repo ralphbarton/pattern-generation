@@ -20,7 +20,7 @@ class Cfun_Section_InteractiveStrip extends React.PureComponent {
 	const Cfun_i = this.props.Cfun_i;
 	const Stops = Cfun_i.stops;
 
-	const strip_WidthPx = 468;
+	const strip_WidthPx = 458;
 	
 	return (
 
@@ -79,6 +79,9 @@ class Cfun_Section_InteractiveStrip extends React.PureComponent {
 				      <div className={this.props.UI.stopSelected===i?"selected":""}
 					   onClick={ ()=>{
 					       this.props.handleUIStateChange("stopSelected", i);
+
+					       //this doesn't change the colour in the picker...
+					       this.props.handleUIStateChange("pickerActive", true);
 					}}>
 					<img src={imgUpArrow}
 					     //prevents firefox drag effect

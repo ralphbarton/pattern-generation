@@ -40,7 +40,7 @@ to this component*/
     right: 10px;
 }
 
-.Cfun_Section_ColourStop.WgBoxie .WgMutexActionLink{
+.Cfun_Section_ColourStop.WgBoxie .WgMutexActionLink.isBlock{
     position: absolute;
     top: 45px;
     right: 10px;
