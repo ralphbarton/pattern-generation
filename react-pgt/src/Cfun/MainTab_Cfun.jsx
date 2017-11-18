@@ -39,7 +39,7 @@ class MainTab_Cfun extends React.PureComponent {
 	const TS = this;
 	return function (){
 	    TS.props.setPGTtabUIState({
-		BGrins: {$set: value}
+		BGrins: {[subkey]: {$set: value}}
 	    });
 	};
     };

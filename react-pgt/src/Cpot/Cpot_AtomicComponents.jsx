@@ -84,7 +84,7 @@ function WgAlphaSwatch(props) {
 	const high_alpha = tinycolor({h: R.h2, s: R.s2, l: R.l2, a: R.a3}).toRgbString();
 	const low_alpha  = tinycolor({h: R.h2, s: R.s2, l: R.l2, a: R.a1}).toRgbString();
 	return (
-	    <div className="WgAlphaSwatch">
+	    <div className="WgAlphaSwatch" onClick={props.onClick}>
 	      <div className="chequer"/>
 	      <div className="swatch n1" style={{backgroundColor: high_alpha}} />
 	      <div className="swatch n2" style={{backgroundColor: low_alpha }} />
@@ -92,7 +92,7 @@ function WgAlphaSwatch(props) {
 	);
     default:
 	return (
-	    <div className="WgAlphaSwatch">
+	    <div className="WgAlphaSwatch" onClick={ props.onClick}>
 	      <div className="chequer"/>
 	      <div className="swatch n" style={{backgroundColor: props.colourString}} />
 	    </div>

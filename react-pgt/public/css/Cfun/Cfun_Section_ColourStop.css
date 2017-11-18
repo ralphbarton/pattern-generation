@@ -7,13 +7,53 @@
     margin-bottom: 6px;
 }
 
-.Cfun_Section_ColourStop .colour-sun{
-    margin-left: 20px;
-    margin-top: 7px;
-    width: 60px;
+
+/* some of these styling properties of WgAlphaSwatch really should be general
+to this component*/
+
+.Cfun_Section_ColourStop.WgBoxie .WgAlphaSwatch{
+    margin: 10px;
+    background-color: white;
+    width: 100px;
     height: 60px;
-    border-radius: 30px;
+    position: relative;
 }
+
+.Cfun_Section_ColourStop.WgBoxie .WgAlphaSwatch .chequer{
+    position: absolute;
+    right: 0px;
+    width: 48px;
+    height: 58px;
+}
+
+.Cfun_Section_ColourStop.WgBoxie .WgAlphaSwatch .swatch{
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    width: 80px;
+    height: 30px;
+}
+
+.Cfun_Section_ColourStop.WgBoxie .button.deleteStop{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+}
+
+.Cfun_Section_ColourStop.WgBoxie .WgMutexActionLink{
+    position: absolute;
+    top: 45px;
+    right: 10px;
+}
+
+.Cfun_Section_ColourStop.WgBoxie .WgDropDown.chooseCpot{
+    position: absolute;
+    top: 45px;
+    right: 200px;
+}
+
+
+
 
 .Cfun_Section_ColourStop .pickerWindow{
     position: absolute;

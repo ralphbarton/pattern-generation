@@ -5,13 +5,28 @@ import tinycolor from 'tinycolor2'; // remove colour transparency...
 
 import WgBoxie from '../Wg/WgBoxie';
 import {WgButton} from '../Wg/WgButton';
-//import {WgDropDown} from '../Wg/WgDropDown';
+import {WgDropDown} from '../Wg/WgDropDown';
+import {WgMut2WayActionLink} from '../Wg/WgMutexActionLink';
 
 import WgBGrinsColourPicker from '../Wg/WgBGrinsColourPicker';
-
+import {WgAlphaSwatch} from '../Cpot/Cpot_AtomicComponents.jsx'; // this is now more of a generic component...
 
 class Cfun_Section_ColourStop extends React.PureComponent {
 
+    constructor() {
+	super();
+	this.updateSelectedStop = this.updateSelectedStop.bind(this);
+    }
+
+    updateSelectedStop($chg){
+	const stopSel = this.props.UI.stopSelected;
+	this.props.UpdateSelectedCfun({
+	    stops: {
+		[stopSel]: $chg
+	    }
+	});
+    }
+    
         
     render() {
 
@@ -21,39 +36,51 @@ class Cfun_Section_ColourStop extends React.PureComponent {
 	return (
 	    <WgBoxie className="Cfun_Section_ColourStop" name="Colour Stop">
 
-	      <div>
-		
-		<div
-		   className="colour-sun s"
-		   style={{backgroundColor: tinycolor(Stop_i.colour).toHexString()}}
-		   onClick={()=>{
-		       this.props.handleUIStateChange("pickerActive", true);
-		   }}
-		   />
+	      <WgAlphaSwatch
+		 type="solid" // this is as opposed to a colour range...
+		 colourString={Stop_i.colour}
+		 onClick={()=>{
+		     this.props.handleUIStateChange("pickerActive", true);
+		}}
+		/>
 
-		<WgButton
-		   name="Delete"
-		   buttonStyle={"small"}
-		   onClick={/*this.props.fn.handleDeleteSelPGTobj*/null}
-		   />
+		<WgDropDown
+		   name="Choose Cpot..."
+		   className="chooseCpot"
+		   ddStyle="plain">
+		  cpot selection jsx...
+		</WgDropDown>
 
-	      </div>
+		<WgMut2WayActionLink
+		   name="Gradation"
+		   variableName="isBlock"
+		   value={Stop_i.isBlock}
+		   actionNames={["smooth", "stripe"]}
+		   hofCB={ (k,v) => { return this.updateSelectedStop.bind(null, {isBlock: {$set: v}}); }}
+		  />  
+		  
+		  <WgButton
+		     name="Delete"
+		     className="deleteStop"
+		     buttonStyle={"small"}
+		     onClick={ () => {
+			 this.props.UpdateSelectedCfun({
+			     stops: {$splice: [[stopSel, 1]]}
+			 });
+		    }}
+		    />
 
 
 	      {this.props.UI.pickerActive &&
 		  <WgBGrinsColourPicker
 			 color={Stop_i.colour}
 			 onChange={ col_tiny => {
-			     this.props.UpdateSelectedCfun({
-				 stops: {
-				     [stopSel]: {colour: {$set: col_tiny.toRgbString()}}
-				 }
-			     });
+			     this.updateSelectedStop({colour: {$set: col_tiny.toRgbString()}});
 			 }}
 			 UI={this.props.UI.BGrins}
 			 hofHandleUIchange_BGrins={this.props.hofSetUI_BGrins}
-			 hofHandleShowPicker={ ()=>{
-			     return this.props.handleUIStateChange.bind(null, "pickerActive");
+			 hofHandleShowPicker={ visi => {
+			     return this.props.handleUIStateChange.bind(null, "pickerActive", visi);
 			 }} // handle click of "OK"
 		   />
 	      }
