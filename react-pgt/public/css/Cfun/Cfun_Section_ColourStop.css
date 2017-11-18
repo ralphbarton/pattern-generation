@@ -14,3 +14,9 @@
     height: 60px;
     border-radius: 30px;
 }
+
+.Cfun_Section_ColourStop .pickerWindow{
+    position: absolute;
+    left: 496px;
+    top: -265px;
+}

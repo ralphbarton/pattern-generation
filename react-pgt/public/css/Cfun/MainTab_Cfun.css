@@ -2,7 +2,6 @@
 
 
 
-
 /* 1. Table listing */
 
 .MainTab_Cfun .WgTable tbody{
@@ -50,7 +49,7 @@
 
 
 
-/* 2. High-level arrangement */
+/* 2. Overall arrangement */
 
 .MainTab_Cfun {
     flex: 1 auto;
@@ -66,26 +65,3 @@
     display: flex;
     flex-flow: column nowrap;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

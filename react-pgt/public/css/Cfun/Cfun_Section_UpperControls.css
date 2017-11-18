@@ -1,21 +1,21 @@
 /* Cfun_Section_UpperControls.css */
 
 
-.MainTab_Cfun .column2 .upperControls{
+.Cfun_Section_UpperControls{
     text-align: right;
     margin: 6px;
     margin-top: 2px;
 }
 
-.MainTab_Cfun .column2 .WgDropDown{
+.Cfun_Section_UpperControls .WgDropDown{
     margin-left: 10px;
 }
 
-.MainTab_Cfun .column2 .WgDropDown .dropbtn{
+.Cfun_Section_UpperControls .WgDropDown .dropbtn{
     width: 100px;
 }
 
 
-.MainTab_Cfun .column2 .upperControls .button{
+.Cfun_Section_UpperControls .button{
    margin-top: 6px;
 }

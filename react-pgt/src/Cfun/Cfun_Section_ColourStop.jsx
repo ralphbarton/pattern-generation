@@ -5,30 +5,30 @@ import tinycolor from 'tinycolor2'; // remove colour transparency...
 
 import WgBoxie from '../Wg/WgBoxie';
 import {WgButton} from '../Wg/WgButton';
-import {WgDropDown} from '../Wg/WgDropDown';
+//import {WgDropDown} from '../Wg/WgDropDown';
 
 import WgBGrinsColourPicker from '../Wg/WgBGrinsColourPicker';
 
 
 class Cfun_Section_ColourStop extends React.PureComponent {
 
-    
-    
+        
     render() {
 
-	const Stop_i = this.props.Stop_i;
-
+	const stopSel = this.props.UI.stopSelected;
+	const Stop_i = stopSel !== undefined ? this.props.Cfun_i.stops[stopSel] : null;
 	
 	return (
 	    <WgBoxie className="Cfun_Section_ColourStop" name="Colour Stop">
-
 
 	      <div>
 		
 		<div
 		   className="colour-sun s"
 		   style={{backgroundColor: tinycolor(Stop_i.colour).toHexString()}}
-		   onClick={/*this.hofHandleShowPicker(true)*/ null}
+		   onClick={()=>{
+		       this.props.handleUIStateChange("pickerActive", true);
+		   }}
 		   />
 
 		<WgButton
@@ -44,20 +44,17 @@ class Cfun_Section_ColourStop extends React.PureComponent {
 		  <WgBGrinsColourPicker
 			 color={Stop_i.colour}
 			 onChange={ col_tiny => {
-			     
-			     /*
-			      // set the underlying object
-			      const colStr = col_tiny.toRgbString();
-			      this.props.handleEditingCpotSelItemChange(
-			      {range: {
-			      $set: Cpot_util.range_set(colStr, hslaRange)
-			      }}
-			      );*/
-			     
+			     this.props.UpdateSelectedCfun({
+				 stops: {
+				     [stopSel]: {colour: {$set: col_tiny.toRgbString()}}
+				 }
+			     });
 			 }}
-			UI={this.props.UI.BGrins}
-			hofHandleUIchange_BGrins={this.props.hofHandleUIchange_BGrins}
-			hofHandleShowPicker={this.hofHandleShowPicker} // handle click of "OK"
+			 UI={this.props.UI.BGrins}
+			 hofHandleUIchange_BGrins={this.props.hofSetUI_BGrins}
+			 hofHandleShowPicker={ ()=>{
+			     return this.props.handleUIStateChange.bind(null, "pickerActive");
+			 }} // handle click of "OK"
 		   />
 	      }
 
