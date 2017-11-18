@@ -1,8 +1,6 @@
 import React from 'react';
 var _ = require('lodash');
 
-import tinycolor from 'tinycolor2'; // remove colour transparency...
-
 // Wg (widgets)
 import WgTable from '../Wg/WgTable';
 import {WgButton} from '../Wg/WgButton';
@@ -14,7 +12,10 @@ import WgActionLink from '../Wg/WgActionLink';
 import Cfun_util from './plain-js/Cfun_util';
 
 // Components of the cfun tab...
+import Cfun_Section_UpperControls from './Cfun_Section_UpperControls';
 import Cfun_Section_InteractiveStrip from './Cfun_Section_InteractiveStrip';
+import Cfun_Section_ColourStop from './Cfun_Section_ColourStop';
+import Cfun_Section_Repetition from './Cfun_Section_Repetition';
 
 
 class MainTab_Cfun extends React.PureComponent {
@@ -22,7 +23,12 @@ class MainTab_Cfun extends React.PureComponent {
     componentDidMount(){
 	// this function call sets "UI.selectedRowIndex" (needed for table) - even if an empty object is passed
 	this.props.fn.defaultUIStateConfiguration({
-	    stopSelected: undefined
+	    stopSelected: undefined,
+	    pickerActive: false,
+	    BGrins: {
+		LargeSize: false,
+		ColStrFormat: "hex3" /* values: "hex3", "rgb", "hsl" */
+	    }
 	});
     }
 
@@ -208,32 +214,14 @@ class MainTab_Cfun extends React.PureComponent {
 
 		
 
-		{/* 2.3  Colour-Stop controls */}		
-		<WgBoxie className="colourStop" name="Colour Stop">
-
-		  {Stop_i !== null &&
-		  <div>
-		    
-		    <div
-		       className="colour-sun s"
-		       style={{backgroundColor: tinycolor(Stop_i.colour).toHexString()}}
-		       onClick={/*this.hofHandleShowPicker(true)*/ null}
-		       />
-
-		    <WgButton
-		       name="Delete"
-		       buttonStyle={"small"}
-		       onClick={/*this.props.fn.handleDeleteSelPGTobj*/null}
-		       />
-
-		  </div>
-		  }
-
-		</WgBoxie>
-
-
-
-
+		{/* 2.3 Beneath "Interactive Cfun".... Colour-Stop controls - or somthing else...... */}
+		{ Stop_i !== null &&
+		    <Cfun_Section_ColourStop
+			   Stop_i={Stop_i}
+			   UI={this.props.UI}
+			   handleUIStateChange={this.props.fn.handleUIStateChange}
+			   />
+		}
 
 		
 	      </div>

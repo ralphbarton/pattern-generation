@@ -72,25 +72,6 @@
 
 
 
-/* 3. Upper Controls Strip */
-.MainTab_Cfun .column2 .upperControls{
-    text-align: right;
-    margin: 6px;
-    margin-top: 2px;
-}
-
-.MainTab_Cfun .column2 .WgDropDown{
-    margin-left: 10px;
-}
-
-.MainTab_Cfun .column2 .WgDropDown .dropbtn{
-    width: 100px;
-}
-
-
-.MainTab_Cfun .column2 .upperControls .button{
-   margin-top: 6px;
-}
 
 
 
@@ -107,17 +88,4 @@
 
 
 
-/* 5. Lower Boxie */
-.MainTab_Cfun .WgBoxie.colourStop{
-    max-height: 100px;
-    margin-right: 6px;
-    margin-bottom: 6px;
-}
 
-.MainTab_Cfun .colour-sun{
-    margin-left: 20px;
-    margin-top: 7px;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
-}

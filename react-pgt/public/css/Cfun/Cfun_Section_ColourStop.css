@@ -1,0 +1,16 @@
+/* Cfun_Section_ColourStop.css */
+
+
+.Cfun_Section_ColourStop.WgBoxie{
+    max-height: 100px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+}
+
+.Cfun_Section_ColourStop .colour-sun{
+    margin-left: 20px;
+    margin-top: 7px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
