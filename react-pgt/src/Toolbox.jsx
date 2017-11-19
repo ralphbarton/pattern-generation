@@ -26,7 +26,7 @@ class Toolbox extends React.PureComponent {
 	this.props.onUIStateChange({Toolbox: {
 	    $set:{
 		toolboxSize: 1, /*options ae 1,2,3*/
-		selectedTabIndex: 1, // default Tab selection /* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
+		selectedTabIndex: 6, // default Tab selection /* 0-cpot, 1-cfun, 2-motf, 4-plot, 6-patt, 7-Opt*/
 		tabsEnabled: true // the tab-strip becomes 'disabled' when in a sub-menu of a tab
 	    }
 	}});

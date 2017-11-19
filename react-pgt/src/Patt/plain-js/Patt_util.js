@@ -46,10 +46,11 @@ var Patt_util = {
 	
 	return _.map( Motf_link_Params, mlp => {
 
-	    const Patt_lp = _.find(PattLinks, {motf: Motif.uid, parameter: mlp.id} );
-	    if(!Patt_lp){
-		console.error(`Failed to find linked parameter id=${mlp.id} of Motif name=${Motif.name} in: `, PattLinks);
-	    }
+	    const Patt_lp = _.find(PattLinks, {motf: Motif.uid, parameter: mlp.id} ) || {};
+
+	    /* in case where there is nothing in Patt corresponding with a Motif param, 
+	       'type' and 'target_uid' attributes will be undefined (taken from an empty object)
+	    */
 	    
 	    return {
 		name: mlp.name, // parameter's name within the motif (will appear in formula strings)
