@@ -218,7 +218,10 @@ var Motf_FabricHandlers = {
 	// 3. (re-)add all the objects
 	_.forEach(Motf.Elements, function(Element, index) { // (value, key)
 	    const Element_2 = _.assign( _.clone(Element), originProps);//add the Object Origins props for Fabric...
-	    Motf_util.Fabric_AddShape(canvas, Element_2);        // Add to Fabric Canvas
+
+	    // in case mElement is parameterised, the full Motif-level parameter set must be passed.
+	    // as a basic solution, average parameter value will get used.
+	    Motf_util.Fabric_AddShape(canvas, Element_2, Motf.Params);        // Add to Fabric Canvas
 	});
 
 	// 4. set the correct canvas selection	

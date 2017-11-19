@@ -6,13 +6,11 @@ import Motf_util from './plain-js/Motf_util';
 class Motf_SVG extends React.PureComponent {
 
     componentDidUpdate(){
-	const originZero = !!this.props.transform;
-	Motf_util.putMotifSVG(this.svg_el, this.props.motf, {originZero: originZero});// put content in SVG element
+	Motf_util.putMotifSVG(this.svg_el, this.props.motf);// put content in SVG element
     }
 
     componentDidMount(){
-	const originZero = !!this.props.transform;
-	Motf_util.putMotifSVG(this.svg_el, this.props.motf, {originZero: originZero});// put content in SVG element
+	Motf_util.putMotifSVG(this.svg_el, this.props.motf);// put content in SVG element
     }
     
     render(){

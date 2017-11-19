@@ -5,7 +5,7 @@ import Motf_lists from './Motf_lists';
 
 var Motf_paramEval = {
 
-    numberFromFormula: function(formulaString, random_Params, evaldParams){
+    numberFromFormula: function(formulaString, paramData){
 
 	const formulaStr = formulaString.split('=')[1];
 	
@@ -19,23 +19,47 @@ var Motf_paramEval = {
 	    console.log(formulaStr);
 	}
 
+	const getV = (P,r) => {return P.min + r * (P.max-P.min);}
+
 	// 2. evaluate
 	try{
 
 	    //converting an array into an object, by mutating an empty object
-	    const param_KVPs = {};
-	    random_Params.forEach( P => {
-		param_KVPs[P.name] = P.min + Math.random() * (P.max-P.min);
-	    });
-
-	    const allParams = _.assign(param_KVPs, evaldParams);
+	    /* the array of parameters is an array of things looking like this:
+		{
+		    id: 2,
+		    type: 1, //random
+		    name: "LP03",
+		    min: 30,
+		    max: 40
+		}
+	     */
 	    
+	    const param_KVPs = {};
+	    let allParams;
+	    
+	    if(paramData.useAve){
+		paramData.mParams.forEach( P => {
+		    param_KVPs[P.name] = getV(P, 0.5);
+		});
+
+		allParams = param_KVPs;
+		
+	    }else{
+		paramData.random_Params.forEach( P => {
+		    param_KVPs[P.name] = getV(P, Math.random());
+		});
+
+		allParams = _.assign(param_KVPs, paramData.evaldParams);
+	    }
+
+
 	    var result = usrFn.eval( allParams );
 	    
 	}
 	catch (evaluationError){
 	    fail = true;
-	    console.log("evaluationError"/*, evaluationError*/);
+	    console.log("evaluationError" /*, evaluationError*/);
 	}
 
 //	console.log(`formulaString ${formulaStr} gave ${result}`);
@@ -51,9 +75,14 @@ var Motf_paramEval = {
 	/*
 	   // SOME WORK HERE IS NEEDED TO EVALUATE ONE-TIME (colour, dimention) values for this motif instance
 	*/
+
+	const paramData_flt = {
+	    mParams: paramData.mParams,
+	    random_Params: _.filter(paramData.mParams , {type: 1}),
+	    evaldParams: paramData.readyEvaluatedParams,
+	    useAve: paramData.useParamAverage || false
+	};
 	
-	const random_Params = _.filter(paramData.mParams , {type: 1});
-	const evaldParams = paramData.readyEvaluatedParams;
 	
 	// "mapValues()" - for an Object (rather than Array): keeping same keys, convert values.
 	return _.mapValues(Element, (value, key) =>{
@@ -62,7 +91,7 @@ var Motf_paramEval = {
 	    const applyFormulaEval = PropertyDetails && PropertyDetails.type === "number" && value[0] === '=';
 
 	    // was the Property of the Element a formula that needed evaluation?
-	    return applyFormulaEval ? this.numberFromFormula(value, random_Params, evaldParams).r : value;
+	    return applyFormulaEval ? this.numberFromFormula(value, paramData_flt).r : value;
 	});
     }
 

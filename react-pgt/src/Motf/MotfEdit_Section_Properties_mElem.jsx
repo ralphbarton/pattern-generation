@@ -75,8 +75,10 @@ class MotfEdit_Section_Properties_mElementExpanded_TableOneRow extends React.Pur
 	const propValue = this.extractPropVal(index);
 
 	const isNumericTypeProp = PropertyDetails && PropertyDetails.type === "number";
-	const isFormula = isNumericTypeProp && propValue!==undefined && propValue[0]==='='; 
-	const isError = isFormula ? Motf_paramEval.numberFromFormula(propValue).err : isNaN(propValue);
+	const isFormula = isNumericTypeProp && propValue!==undefined && propValue[0]==='=';
+
+	/* todo: pass the parameters list...*/
+	const isError = isFormula ? Motf_paramEval.numberFromFormula(propValue, {MotfParams: {}}).err : isNaN(propValue);
 	const inputExtraClass = (isFormula?" formula":"") + (isError?" error":"");
 	return [
 		<td className={"prop"+extraClass} key={DatH_Key+"prop"}>{shortName}</td>,

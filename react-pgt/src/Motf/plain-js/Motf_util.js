@@ -67,8 +67,12 @@ var Motf_util = {
     
     parseMotifElement: function(format, bareElement, paramData){
 
+	// paramData is an {}. It may or may not have property "readyEvaluatedParams"
+
+	// Reduce all property values to numbers
 	// "bareElement" has formula not numbers for some props (maybe)
-	const Element = paramData ? Motf_paramEval.evaluateMotifElement(bareElement, paramData) : bareElement;
+	const Element = Motf_paramEval.evaluateMotifElement(bareElement, paramData);
+
 	const ShapeDetails = _.find(Motf_lists.ObjectTypes, {DatH_name: Element.shape} );
 
 	if(format === 'fabric'){ // "properties object" for Fabric
@@ -181,7 +185,8 @@ var Motf_util = {
     },
 
     
-    putMotifSVG: function(svg_el, Motif, readyEvaluatedParams){ //final parameter is optional
+    //if (optional) final parameter provided, "useParamAverage" will not apply
+    putMotifSVG: function(svg_el, Motif, readyEvaluatedParams){
 
 	const d3_svg = select(svg_el);
 	d3_svg.selectAll("*").remove();
@@ -191,8 +196,11 @@ var Motf_util = {
 	    
 	    // 1. convert the details of this shape to SVG format
 
-	    // will need to pass in 'LinkedParamValues'
-	    const paramData = {mParams: Motif.Params, readyEvaluatedParams: readyEvaluatedParams};
+	    // 'readyEvaluatedParams' holds the Linked Param Values (this values are obtained earlier in the chain)
+	    const rEP = readyEvaluatedParams
+	    const paramData = rEP ? {readyEvaluatedParams: rEP} : {useParamAverage: true};
+	    paramData.mParams = Motif.Params;
+	    
 	    const rendering_props = this.parseMotifElement('svg', Element, paramData);
 	    
 	    // 2. append a new SVG element accordingly
@@ -207,8 +215,11 @@ var Motf_util = {
 
 
     // generate Fabric object from object saved in DatH
-    Fabric_AddShape: function(canvas, Element){
-	const rendering_props = this.parseMotifElement("fabric", Element);
+    Fabric_AddShape: function(canvas, Element, mParams){
+
+	const paramData = {mParams: mParams, useParamAverage: true};
+	
+	const rendering_props = this.parseMotifElement("fabric", Element, paramData);
 	const new_shape = new fabric[ rendering_props.name ]( rendering_props.properties );
 	new_shape.PGTuid = Element.PGTuid; //Not (obviously) done by the Fabric Contructor: setting UID
 	canvas.add(new_shape);
