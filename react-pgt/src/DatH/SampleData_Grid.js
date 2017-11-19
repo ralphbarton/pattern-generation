@@ -60,6 +60,26 @@ const GridSampleData = {
 		    angle: 30
 		}
 	    ],
+	},
+	{
+	    name: "Square-150px",
+	    uid: 3,
+	    type: "std",
+	    n_dimentions: 2,
+	    line_sets: [
+		{
+		    spacing: 150,
+		    spacing_unit: "pixels",
+		    shift: 0,
+		    angle: 0
+		},
+		{
+		    spacing: 150,
+		    spacing_unit: "pixels",
+		    shift: 0,
+		    angle: 90
+		}
+	    ]
 	}
     ]
 

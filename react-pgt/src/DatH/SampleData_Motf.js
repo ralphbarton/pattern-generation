@@ -220,6 +220,217 @@ const MotfSampleData = {
 		    "angle": 60.2
 		}
 	    ]
+	},
+	{
+	    name: "Bright Heap",
+	    uid: 4,
+	    Params: [
+		{
+		    id: 0,
+		    type: 1,
+		    name: "red",
+		    min: -200,
+		    max: 70
+		},
+		{
+		    id: 2,
+		    type: 1,
+		    name: "yell",
+		    min: -200,
+		    max: -50
+		},
+		{
+		    id: 4,
+		    type: 1,
+		    name: "purp_ang",
+		    min: -180,
+		    max: 180
+		},
+		{
+		    id: 5,
+		    type: 1,
+		    name: "purp",
+		    min: -20,
+		    max: 20
+		},
+		{
+		    id: 6,
+		    type: 1,
+		    name: "green",
+		    min: -200,
+		    max: 25
+		}
+	    ],
+	    objectOrigin: "TL1",
+	    Elements: [
+		{
+		    left: "=yell",
+		    top: "=yell",
+		    rx: 125,
+		    ry: 125,
+		    angle: 0,
+		    fill: "yellow",
+		    stroke: "hsla(0, 100.00%, 1.76%, 0.35)",
+		    strokeWidth: 1,
+		    strokeDashArray: 0,
+		    opacity: 1,
+		    originX: "left",
+		    originY: "top",
+		    shape: "obj-ellipse",
+		    PGTuid: 0
+		},
+		{
+		    left: "=red",
+		    top: "=red",
+		    rx: 70,
+		    ry: 70,
+		    angle: 0,
+		    fill: "hsla(10, 90.00%, 52.22%, 1.00)",
+		    stroke: "hsla(0, 100.00%, 1.76%, 0.35)",
+		    strokeWidth: 1,
+		    strokeDashArray: 0,
+		    opacity: 1,
+		    originX: "left",
+		    originY: "top",
+		    shape: "obj-ellipse",
+		    PGTuid: 1
+		},
+		{
+		    left: "=green",
+		    top: "=green",
+		    width: 180,
+		    height: 180,
+		    angle: 0,
+		    fill: "hsla(162, 100.00%, 37.78%, 1.00)",
+		    stroke: "hsla(0, 100.00%, 2.78%, 0.41)",
+		    strokeWidth: 1,
+		    strokeDashArray: 0,
+		    opacity: 1,
+		    originX: "left",
+		    originY: "top",
+		    shape: "obj-rectangle",
+		    PGTuid: 2
+		},
+		{
+		    left: "=purp",
+		    top: "=purp",
+		    width: 350,
+		    height: 30,
+		    angle: "=purp_ang",
+		    fill: "hsla(289, 80.20%, 52.78%, 1.00)",
+		    stroke: "hsla(0, 100.00%, 1.76%, 0.53)",
+		    strokeWidth: 1,
+		    strokeDashArray: 0,
+		    opacity: 1,
+		    originX: "left",
+		    originY: "top",
+		    shape: "obj-rectangle",
+		    PGTuid: 3
+		}
+	    ]
+	},
+	{
+	    "name": "4-circ-tile",
+	    "uid": 5,
+	    "Params": [
+		{
+		    "id": 0,
+		    "type": 1,
+		    "name": "R",
+		    "min": 74,
+		    "max": 76
+		},
+		{
+		    "id": 1,
+		    "type": 1,
+		    "name": "D",
+		    "min": 9,
+		    "max": 13
+		}
+	    ],
+	    "objectOrigin": "TL1",
+	    "Elements": [
+		{
+		    "left": -200,
+		    "top": -200,
+		    "width": 400,
+		    "height": 400,
+		    "angle": 0,
+		    "fill": "hsla(51, 67.78%, 82.22%, 1.00)",
+		    "stroke": 0,
+		    "strokeWidth": 1,
+		    "strokeDashArray": 0,
+		    "opacity": 1,
+		    "originX": "left",
+		    "originY": "top",
+		    "shape": "obj-rectangle",
+		    "PGTuid": 0,
+		},
+		{
+		    "left": "=-2*R-D",
+		    "top": "=-2*R-D",
+		    "rx": "=R",
+		    "ry": "=R",
+		    "angle": 0,
+		    "fill": "rgb(240, 209, 71)",
+		    "stroke": "red",
+		    "strokeWidth": 0,
+		    "strokeDashArray": 0,
+		    "opacity": 1,
+		    "originX": "left",
+		    "originY": "top",
+		    "shape": "obj-ellipse",
+		    "PGTuid": 2,
+		},
+		{
+		    "left": "=-2*R-D",
+		    "top": "=D",
+		    "rx": "=R",
+		    "ry": "=R",
+		    "angle": 0,
+		    "fill": "rgb(240, 209, 71)",
+		    "stroke": "red",
+		    "strokeWidth": 0,
+		    "strokeDashArray": 0,
+		    "opacity": 1,
+		    "originX": "left",
+		    "originY": "top",
+		    "shape": "obj-ellipse",
+		    "PGTuid": 5,
+		},
+		{
+		    "left": "=D",
+		    "top": "=-2*R-D",
+		    "rx": "=R",
+		    "ry": "=R",
+		    "angle": 0,
+		    "fill": "rgb(240, 209, 71)",
+		    "stroke": "red",
+		    "strokeWidth": 0,
+		    "strokeDashArray": 0,
+		    "opacity": 1,
+		    "originX": "left",
+		    "originY": "top",
+		    "shape": "obj-ellipse",
+		    "PGTuid": 4,
+		},
+		{
+		    "left": "=D",
+		    "top": "=D",
+		    "rx": "=R",
+		    "ry": "=R",
+		    "angle": 0,
+		    "fill": "rgb(240, 209, 71)",
+		    "stroke": "red",
+		    "strokeWidth": 0,
+		    "strokeDashArray": 0,
+		    "opacity": 1,
+		    "originX": "left",
+		    "originY": "top",
+		    "shape": "obj-ellipse",
+		    "PGTuid": 3,
+		}
+	    ]
 	}
     ]
 

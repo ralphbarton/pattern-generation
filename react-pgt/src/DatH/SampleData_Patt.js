@@ -2,8 +2,37 @@ const PattSampleData = {
 
     arr: [
 	{
-	    name: "Bubbles",
+	    name: "Emulate-1",
+	    uid: 0,
+	    Motif_set: [
+		{
+		    uid: 4,
+		    scale: 0.18,
+		    angle: 0,
+		    opacity: 1
+		}
+	    ],
+	    type: "grid",
+	    pdrive_uid: 3,
+	    links: [] // no links here
+	},
+	{
+	    name: "Emulate-2",
 	    uid: 1,
+	    Motif_set: [
+		{
+		    uid: 5,
+		    scale: 0.296,
+		    angle: 0,
+		    opacity: 1
+		}
+	    ],
+	    type: "grid",
+	    pdrive_uid: 1
+	},
+	{
+	    name: "Bubbles",
+	    uid: 2,
 	    Motif_set: [
 		{
 		    uid: 0,
@@ -29,7 +58,7 @@ const PattSampleData = {
 	},
 	{
 	    name: "Playpen",
-	    uid: 0,
+	    uid: 3,
 	    Motif_set: [{
 		uid: 1,
 		scale: 0.65,
@@ -48,7 +77,7 @@ const PattSampleData = {
 	},
 	{
 	    name: "Frog Goat",
-	    uid: 2,
+	    uid: 4,
 	    Motif_set: [],
 	    type: undefined,
 	    pdrive_uid: undefined
