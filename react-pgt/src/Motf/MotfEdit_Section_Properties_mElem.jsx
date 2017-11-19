@@ -77,8 +77,13 @@ class MotfEdit_Section_Properties_mElementExpanded_TableOneRow extends React.Pur
 	const isNumericTypeProp = PropertyDetails && PropertyDetails.type === "number";
 	const isFormula = isNumericTypeProp && propValue!==undefined && propValue[0]==='=';
 
-	/* todo: pass the parameters list...*/
-	const isError = isFormula ? Motf_paramEval.numberFromFormula(propValue, {MotfParams: {}}).err : isNaN(propValue);
+	/* no parameters actually passed here.
+	 Thus, formulae that do involve named parameters will shows as being errors (dispite not necessarily being broken). 
+	 ToDo: somewhere upstream of this component, get kv-pairs for all parameters of the containting Motif so formula
+	 can be validated by math js (via Motf_paramEval.numberFromFormula)
+	 */
+	const paramData = {useAve: true, mParams: []}; 
+	const isError = isFormula ? Motf_paramEval.numberFromFormula(propValue, paramData).err : isNaN(propValue);
 	const inputExtraClass = (isFormula?" formula":"") + (isError?" error":"");
 	return [
 		<td className={"prop"+extraClass} key={DatH_Key+"prop"}>{shortName}</td>,
