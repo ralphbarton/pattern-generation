@@ -6,6 +6,11 @@ import WgTable from '../Wg/WgTable';
 import {WgDropDown} from '../Wg/WgDropDown';
 import {WgButton} from '../Wg/WgButton';
 
+import Patt_util from './plain-js/Patt_util';
+
+import Plot_Canvas from '../Plot/Plot_Canvas';
+
+
 class Patt_Section_Linking extends React.PureComponent {
 
     constructor() {
@@ -37,9 +42,23 @@ class Patt_Section_Linking extends React.PureComponent {
 	    {
 		heading: "assigned",
 		renderCellContents: (param, i)=>{
-		    return (
-			"123"
-		    );
+
+		    // todo: density paintings too.
+		    if(param.type === "plot"){
+			const Plot = _.find(this.props.PlotArray, {uid: param.target_uid});			
+			console.log(">>", param.target_uid, this.props.PlotArray, Plot);
+			return (
+			    <Plot_Canvas
+			       Plot={Plot}
+			       size={55}
+			       PlotImgCache={this.props.PlotImgCache}
+			       />
+			);
+		    }else{
+			return (
+			    <div>not plot</div>
+			);
+		    }
 		}
 	    }
 	]);
@@ -56,32 +75,36 @@ class Patt_Section_Linking extends React.PureComponent {
 	const Patt = this.props.Patt_i;
 
 	// for each Motif, filter to its linked params and list them
-	const LnParams = _.flatten(Patt.Motif_set.map( motf_i_sProps => {
-	    const Motf = _.find(this.props.MotfArray, {uid: motf_i_sProps.uid});
-	    const m_LnParams = _.filter(Motf.Params , {type: 0});
+	const AllMotifsConnectedLinks = _.flatten(Patt.Motif_set.map( motf_i_sProps => {
 
-	    // return array of clones in which a mName (Motif Name) property is set - don't mutate.
-	    return _.map( m_LnParams, o=>{return _.set( _.clone(o), 'mName', Motf.name);});
+	    const Motf = _.find(this.props.MotfArray, {uid: motf_i_sProps.uid});
+
+	    //  mName (Motif Name) property is set in returned objects
+	    const MotifConnectedLinks = Patt_util.connectMotifLinksToPatt(Motf, Patt.links);
+
+	    return MotifConnectedLinks;
 	}));
 
-	//Todo - now compare "LnParams" with "Patt.links". The latter is a subset, depending on how many are assigned
+	const AllMotifsUnassignedLinks = _.filter(AllMotifsConnectedLinks, {target_uid: undefined});
+	const qty_unassigned = AllMotifsUnassignedLinks.length;
+	const qty_assigned = AllMotifsConnectedLinks.length - qty_unassigned;
 	
 	return (
 	    <WgBoxie className="Patt_Section_Linking" name="Motif Linking" >
 
 	      <div>
-		{0} linked parameter(s) assigned
+		{qty_assigned} linked parameter(s) assigned
 	      </div>
 
 	      <div>
-		{LnParams.length} linked parameter(s) unassigned
+		{qty_unassigned} linked parameter(s) unassigned
 	      </div>
 
 	      <div>
 		<WgTable
 		   selectedRowIndex={this.state.rowSelected}
 		   onRowSelectedChange={ i => {this.setState({rowSelected: i});}}
-		   rowRenderingData={LnParams}
+		   rowRenderingData={AllMotifsConnectedLinks}
 		   columnsRendering={this.WgTableColumns()}
 		  />
 

@@ -159,6 +159,8 @@ class MainTab_Patt extends React.PureComponent {
 				   patt_selectedIndex={this.props.UI.selectedRowIndex}
 				   handleModifySelPatt={this.props.fn.handleModifySelPGTobj}
 				   MotfArray={this.props.PGTobjARRAYS["motf"]}
+				   PlotArray={this.props.PGTobjARRAYS["plot"]}
+				   PlotImgCache={this.props.DensityImgCache["plot"]}
 				   />
 			    );
 			    

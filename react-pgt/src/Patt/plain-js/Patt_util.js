@@ -54,6 +54,7 @@ var Patt_util = {
 	    
 	    return {
 		name: mlp.name, // parameter's name within the motif (will appear in formula strings)
+		mName: Motif.name,
 		min: mlp.min,
 		max: mlp.max,
 		type: Patt_lp.type, 
